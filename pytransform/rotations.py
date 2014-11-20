@@ -4,7 +4,12 @@ from mpl_toolkits.mplot3d import Axes3D
 from numpy.testing import assert_array_almost_equal
 
 
-def matrix_from_axis_angle(a):
+unitx = np.array([1.0, 0.0, 0.0])
+unity = np.array([0.0, 1.0, 0.0])
+unitz = np.array([0.0, 0.0, 1.0])
+
+
+def matrix_from_angle_axis(a):
     ua = a / np.linalg.norm(a)
     theta, ux, uy, uz = ua
     cost = np.cos(theta)
@@ -16,7 +21,7 @@ def matrix_from_axis_angle(a):
                    ux * uz * costi + uy * sint],
                   [uy * ux * costi + uz * sint,
                    uy * uy * costi + cost,
-                   uy * uz * costi + ux * sint],
+                   uy * uz * costi - ux * sint],
                   [uz * ux * costi - uy * sint,
                    uz * uy * costi + ux * sint,
                    uz * uz * costi + cost],
@@ -89,6 +94,15 @@ def matrix_from_euler_zyx(e):
     Qx = matrix_from_angle(0, alpha)
     R = Qz.dot(Qy).dot(Qx)
     return R
+
+
+def quaternion_from_angle_axis(a):
+    ua = a / np.linalg.norm(a)
+    theta = ua[0]
+    q = np.empty(4)
+    q[0] = np.cos(theta / 2)
+    q[1:] = np.sin(theta / 2) * ua[1:]
+    return q
 
 
 def check_rotation_matrix(R):
