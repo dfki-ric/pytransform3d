@@ -9,7 +9,7 @@ def random_vector(random_state=np.random.RandomState(0)):
 
 
 def random_angle_axis(random_state=np.random.RandomState(0)):
-    angle = 2 * np.pi * random_state.rand()
+    angle = np.pi * random_state.rand()
     a = np.array([0, 0, 0, angle])
     a[:3] = random_state.rand(3)
     a[:3] /= np.linalg.norm(a[:3])
@@ -40,6 +40,19 @@ def test_conversions_axis_angle_quaternion():
 
         q2 = quaternion_from_axis_angle(a2)
         assert_array_almost_equal(q, q2)
+
+
+def test_conversions_matrix_axis_angle():
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        a = random_angle_axis(random_state)
+        R = matrix_from_axis_angle(a)
+
+        a2 = axis_angle_from_matrix(R)
+        assert_array_almost_equal(a, a2)
+
+        R2 = matrix_from_axis_angle(a2)
+        assert_array_almost_equal(R, R2)
 
 
 def test_interpolate_axis_angle():

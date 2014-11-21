@@ -25,25 +25,37 @@ def norm_vector(v):
     return v / np.linalg.norm(v)
 
 
+def cross_product_matrix(v):
+    return np.array([[  0.0, -v[2],  v[1]],
+                     [ v[2],   0.0, -v[0]],
+                     [-v[1],  v[0],  0.0]])
+
+
 def matrix_from_axis_angle(a):
-    ua = a.copy()
-    ua[:3] /= np.linalg.norm(ua)
+    """Exponential map or Rodrigues' formula."""
+    e = norm_vector(a[:3])
+    theta = a[3]
 
-    ux, uy, uz, theta = ua
-    cost = np.cos(theta)
-    costi = 1.0 - cost
-    sint = np.sin(theta)
+    R = (np.eye(3) * np.cos(theta) +
+         (1.0 - np.cos(theta)) * e[:, np.newaxis].dot(e[np.newaxis, :]) +
+         cross_product_matrix(e) * np.sin(theta))
 
-    R = np.array([[ux * ux * costi + cost,
-                   ux * uy * costi - uz * sint,
-                   ux * uz * costi + uy * sint],
-                  [uy * ux * costi + uz * sint,
-                   uy * uy * costi + cost,
-                   uy * uz * costi - ux * sint],
-                  [uz * ux * costi - uy * sint,
-                   uz * uy * costi + ux * sint,
-                   uz * uz * costi + cost],
+    #"""
+    ux, uy, uz = e
+    c = np.cos(theta)
+    s = np.sin(theta)
+    ci = 1.0 - c
+    R = np.array([[ci * ux * ux + c,
+                   ci * ux * uy - uz * s,
+                   ci * ux * uz + uy * s],
+                  [ci * uy * ux + uz * s,
+                   ci * uy * uy + c,
+                   ci * uy * uz - ux * s],
+                  [ci * uz * ux - uy * s,
+                   ci * uz * uy + ux * s,
+                   ci * uz * uz + c],
                   ])
+    #"""
     return R
 
 
@@ -112,6 +124,24 @@ def matrix_from_euler_zyx(e):
     Qx = matrix_from_angle(0, alpha)
     R = Qz.dot(Qy).dot(Qx)
     return R
+
+
+def axis_angle_from_matrix(R):
+    """Logarithmic map.
+
+    The angle of the axis-angle representation is constrained to [0, pi) so
+    that the mapping is unique.
+    """
+    if np.all(R == np.eye(3)):
+        return np.zeros(4)
+    else:
+        a = np.empty(4)
+        a[3] = np.arccos((np.trace(R) - 1.0) / 2.0)
+        r = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
+        a[:3] = r / (2.0 * np.sin(a[3]))
+        if a[3] >= np.pi:
+            raise Exception("Angle must be within [0, pi) but is %g" % a[3])
+        return a
 
 
 def axis_angle_from_quaternion(q):
