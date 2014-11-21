@@ -10,7 +10,9 @@ unitz = np.array([0.0, 0.0, 1.0])
 
 
 def matrix_from_angle_axis(a):
-    ua = a / np.linalg.norm(a)
+    ua = a.copy()
+    ua[1:] /= np.linalg.norm(ua)
+
     theta, ux, uy, uz = ua
     cost = np.cos(theta)
     costi = 1.0 - cost
@@ -97,7 +99,9 @@ def matrix_from_euler_zyx(e):
 
 
 def quaternion_from_angle_axis(a):
-    ua = a / np.linalg.norm(a)
+    ua = a.copy()
+    ua[1:] /= np.linalg.norm(ua)
+
     theta = ua[0]
     q = np.empty(4)
     q[0] = np.cos(theta / 2)
