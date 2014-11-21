@@ -9,7 +9,7 @@ velocity = None
 last_R = None
 
 
-def update_lines(step, start, end, n_frames, rot, profile):
+def update_lines(step, start, end, n_frames, rot, profile, slerp=True):
     global velocity
     global last_R
 
@@ -19,10 +19,20 @@ def update_lines(step, start, end, n_frames, rot, profile):
 
     if step <= n_frames / 2:
         t = step / float(n_frames / 2 - 1)
-        q = start + t * (end - start)
+        w1, w2 = 1 - t, t
+        if slerp:
+            omega = np.arccos(start.dot(end))
+            w1 = np.sin((1 - t) * omega) / np.sin(omega)
+            w2 = np.sin(t * omega) / np.sin(omega)
+        q = w1 * start + w2 * end
     else:
         t = (step - n_frames / 2) / float(n_frames / 2 - 1)
-        q = end + t * (start - end)
+        w1, w2 = 1 - t, t
+        if slerp:
+            omega = np.arccos(start.dot(end))
+            w1 = np.sin((1 - t) * omega) / np.sin(omega)
+            w2 = np.sin(t * omega) / np.sin(omega)
+        q = w1 * end + w2 * start
 
     print step, t, start, end, q
     R = matrix_from_quaternion(q)

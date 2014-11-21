@@ -109,6 +109,19 @@ def quaternion_from_angle_axis(a):
     return q
 
 
+def q_conj(q):
+    conj = q.copy()
+    conj[1:] *= -1
+    return coj
+
+
+def q_prod(q1, q2):
+    return np.array([q1[0] * q2[0] - q1[1] * q2[1] - q1[2] * q2[2] - q1[3] * q2[3],
+                     q1[0] * q2[1] + q1[1] * q2[0] + q1[2] * q2[3] + q1[3] * q2[2],
+                     q1[0] * q2[2] - q1[1] * q2[3] + q1[2] * q2[0] + q1[3] * q2[1],
+                     q1[0] * q2[3] + q1[1] * q2[2] - q1[2] * q2[1] + q1[3] * q2[0]])
+
+
 def check_rotation_matrix(R):
     assert_array_almost_equal(np.dot(R, R.T), np.eye(3))
     assert_array_almost_equal(np.linalg.det(R), 1.0)
