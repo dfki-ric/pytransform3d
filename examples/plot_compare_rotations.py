@@ -36,12 +36,12 @@ if __name__ == "__main__":
 
     p = np.array([1.0, -1.0, -1.0])
     e = [unitx, unity, unitz][axis]
-    a = np.hstack(((angle,), e))
-    R = matrix_from_angle_axis(a)
+    a = np.hstack((e, (angle,)))
+    R = matrix_from_axis_angle(a)
     plot_basis(ax, R, p)
 
     p = np.array([-1.0, -1.0, -1.0])
-    q = quaternion_from_angle_axis(a)
+    q = quaternion_from_axis_angle(a)
     R = matrix_from_quaternion(q)
     plot_basis(ax, R, p)
 
