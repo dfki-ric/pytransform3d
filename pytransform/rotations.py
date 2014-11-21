@@ -9,6 +9,22 @@ unity = np.array([0.0, 1.0, 0.0])
 unitz = np.array([0.0, 0.0, 1.0])
 
 
+def perpendicular_to_vectors(a, b):
+    return np.cross(a, b)
+
+
+def angle_between_vectors(a, b):
+    # Numerically stable:
+    return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
+    # Faster:
+    #cos = np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+    #return np.arccos(cos)
+
+
+def norm_vector(v):
+    return v / np.linalg.norm(v)
+
+
 def matrix_from_axis_angle(a):
     ua = a.copy()
     ua[:3] /= np.linalg.norm(ua)
@@ -96,6 +112,17 @@ def matrix_from_euler_zyx(e):
     Qx = matrix_from_angle(0, alpha)
     R = Qz.dot(Qy).dot(Qx)
     return R
+
+
+def axis_angle_from_quaternion(q):
+    p = q[1:]
+    p_norm = np.linalg.norm(p)
+    if p_norm < np.finfo(float).eps:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+    else:
+        axis = p / p_norm
+        angle = (2.0 * np.arccos(q[0]),)
+        return np.hstack((axis, angle))
 
 
 def quaternion_from_axis_angle(a):

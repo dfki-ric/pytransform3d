@@ -9,7 +9,7 @@ velocity = None
 last_R = None
 
 
-def update_lines(step, start, end, n_frames, rot, profile, slerp=True):
+def update_lines(step, start, end, n_frames, rot, profile):
     global velocity
     global last_R
 
@@ -20,23 +20,16 @@ def update_lines(step, start, end, n_frames, rot, profile, slerp=True):
     if step <= n_frames / 2:
         t = step / float(n_frames / 2 - 1)
         w1, w2 = 1 - t, t
-        if slerp:
-            omega = np.arccos(start.dot(end))
-            w1 = np.sin((1 - t) * omega) / np.sin(omega)
-            w2 = np.sin(t * omega) / np.sin(omega)
         q = w1 * start + w2 * end
     else:
         t = (step - n_frames / 2) / float(n_frames / 2 - 1)
         w1, w2 = 1 - t, t
-        if slerp:
-            omega = np.arccos(start.dot(end))
-            w1 = np.sin((1 - t) * omega) / np.sin(omega)
-            w2 = np.sin(t * omega) / np.sin(omega)
         q = w1 * end + w2 * start
 
     print step, t, start, end, q
     R = matrix_from_quaternion(q)
 
+    # Draw new frame
     rot[0].set_data([0, R[0, 0]], [0, R[1, 0]])
     rot[0].set_3d_properties([0, R[2, 0]])
 
@@ -46,13 +39,14 @@ def update_lines(step, start, end, n_frames, rot, profile, slerp=True):
     rot[2].set_data([0, R[0, 2]], [0, R[1, 2]])
     rot[2].set_3d_properties([0, R[2, 2]])
 
+    # Update vector in frame
     test = R.dot(np.ones(3) / np.sqrt(3.0))
     rot[3].set_data([test[0] / 2.0, test[0]], [test[1] / 2.0, test[1]])
     rot[3].set_3d_properties([test[2] / 2.0, test[2]])
 
     velocity.append(np.linalg.norm(R - last_R))
     last_R = R
-    profile.set_data(np.linspace(0, 1, len(velocity)), velocity)
+    profile.set_data(np.linspace(0, 1, n_frames)[:len(velocity)], velocity)
 
     return rot
 
@@ -60,13 +54,13 @@ def update_lines(step, start, end, n_frames, rot, profile, slerp=True):
 if __name__ == "__main__":
     # Generate random start and goal
     np.random.seed(3)
-    start = np.array([np.pi, 0, 0, 0])
-    start[1:] = np.random.randn(3)
-    start = quaternion_from_angle_axis(start)
-    end = np.array([np.pi, 0, 0, 0])
-    end[1:] = np.random.randn(3)
-    end = quaternion_from_angle_axis(end)
-    n_frames = 100
+    start = np.array([0, 0, 0, np.pi])
+    start[:3] = np.random.randn(3)
+    start = quaternion_from_axis_angle(start)
+    end = np.array([0, 0, 0, np.pi])
+    end[:3] = np.random.randn(3)
+    end = quaternion_from_axis_angle(end)
+    n_frames = 200
 
     fig = plt.figure(figsize=(15, 5))
 
@@ -78,10 +72,27 @@ if __name__ == "__main__":
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
 
+    Rs = matrix_from_quaternion(start)
+    Re = matrix_from_quaternion(end)
+
     rot = [ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],
            ax.plot([0, 0], [0, 1], [0, 0], c="g", lw=3)[0],
            ax.plot([0, 0], [0, 0], [0, 1], c="b", lw=3)[0],
-           ax.plot([0, 1], [0, 1], [0, 1], c="gray", lw=3)[0]]
+           ax.plot([0, 1], [0, 1], [0, 1], c="gray", lw=3)[0],
+
+           ax.plot([0, Rs[0, 0]], [0, Rs[1, 0]], [0, Rs[2, 0]], c="r", lw=3,
+                   alpha=0.5)[0],
+           ax.plot([0, Rs[0, 1]], [0, Rs[1, 1]], [0, Rs[2, 1]], c="g", lw=3,
+                   alpha=0.5)[0],
+           ax.plot([0, Rs[0, 2]], [0, Rs[1, 2]], [0, Rs[2, 2]], c="b", lw=3,
+                   alpha=0.5)[0],
+
+           ax.plot([0, Re[0, 0]], [0, Re[1, 0]], [0, Re[2, 0]], c="orange",
+                   lw=3, alpha=0.5)[0],
+           ax.plot([0, Re[0, 1]], [0, Re[1, 1]], [0, Re[2, 1]], c="turquoise",
+                    lw=3, alpha=0.5)[0],
+           ax.plot([0, Re[0, 2]], [0, Re[1, 2]], [0, Re[2, 2]], c="violet",
+                    lw=3, alpha=0.5)[0],]
 
     ax = fig.add_subplot(122)
     ax.set_xlim((0, 1))
