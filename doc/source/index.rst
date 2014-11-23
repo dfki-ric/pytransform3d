@@ -36,6 +36,9 @@ Orientation
 
 There are multiple competing representations for rotations and orientations.
 
+.. plot:: ../../examples/plot_compare_rotations.py
+    :include-source:
+
 ---------------
 Rotation Matrix
 ---------------
@@ -100,6 +103,7 @@ Here, we can see orientation represented by the rotation matrix
     \end{array} \right)
 
 .. plot::
+    :include-source:
 
     from pytransform.rotations import plot_basis
     plot_basis()
@@ -128,17 +132,8 @@ Axis-Angle
 
 Each rotation can be represented by a single rotation around one axis.
 
-.. plot::
-
-    import numpy as np
-    from pytransform.rotations import random_axis_angle, matrix_from_axis_angle, plot_basis, plot_axis_angle
-    original = random_axis_angle(np.random.RandomState(5))
-    ax = plot_axis_angle(a=original)
-    for fraction in np.linspace(0, 1, 50):
-        a = original.copy()
-        a[-1] = fraction * original[-1]
-        R = matrix_from_axis_angle(a)
-        plot_basis(ax, R, alpha=0.2)
+.. plot:: ../../examples/plot_axis_angle.py
+    :include-source:
 
 The axis can be represented as a three-dimensional unit vector and the angle
 by a scalar:
@@ -172,6 +167,9 @@ A complete rotation can be split into three rotations around basis vectors.
 
     There are 24 different conventions for defining euler angles. We will
     only use the XYZ convention and the ZYX convention.
+
+.. plot:: ../../examples/plot_euler_angles.py
+    :include-source:
 
 **Pros**
 
