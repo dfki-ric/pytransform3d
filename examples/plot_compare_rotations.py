@@ -39,6 +39,7 @@ if __name__ == "__main__":
     a = np.hstack((e, (angle,)))
     R = matrix_from_axis_angle(a)
     plot_basis(ax, R, p)
+    plot_axis_angle(ax, a, p, s=0.5)
 
     p = np.array([-1.0, -1.0, -1.0])
     q = quaternion_from_axis_angle(a)

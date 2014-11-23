@@ -9,6 +9,22 @@ unity = np.array([0.0, 1.0, 0.0])
 unitz = np.array([0.0, 0.0, 1.0])
 
 
+def norm_vector(v):
+    """Normalize vector."""
+    return v / np.linalg.norm(v)
+
+
+def random_axis_angle(random_state=np.random.RandomState(0)):
+    angle = np.pi * random_state.rand()
+    a = np.array([0, 0, 0, angle])
+    a[:3] = norm_vector(random_state.rand(3))
+    return a
+
+
+def random_quaternion(random_state=np.random.RandomState(0)):
+    return norm_vector(random_state.rand(4))
+
+
 def perpendicular_to_vectors(a, b):
     return np.cross(a, b)
 
@@ -19,10 +35,6 @@ def angle_between_vectors(a, b):
     # Faster:
     #cos = np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
     #return np.arccos(cos)
-
-
-def norm_vector(v):
-    return v / np.linalg.norm(v)
 
 
 def cross_product_matrix(v):
@@ -155,6 +167,28 @@ def axis_angle_from_quaternion(q):
         return np.hstack((axis, angle))
 
 
+def axis_angle_slerp(start, end, t):
+    omega = angle_between_vectors(start[:3], end[:3])
+    w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
+    w2 = np.sin(t * omega) / np.sin(omega)
+    w1 = np.array([w1, w1, w1, (1.0 - t)])
+    w2 = np.array([w2, w2, w2, t])
+    return w1 * start + w2 * end
+
+
+def quaternion_from_matrix(R):
+    """
+
+    When computing a quaternion from the rotation matrix there is a sign ambiguity: q and -q represent the same rotation.
+    """
+    q = np.empty(4)
+    q[0] = 0.5 * np.sqrt(1.0 + np.trace(R))
+    q[1] = 0.25 / q[0] * (R[2, 1] - R[1, 2])
+    q[2] = 0.25 / q[0] * (R[0, 2] - R[2, 0])
+    q[3] = 0.25 / q[0] * (R[1, 0] - R[0, 1])
+    return q
+
+
 def quaternion_from_axis_angle(a):
     ua = a.copy()
     ua[:3] /= np.linalg.norm(ua)
@@ -184,11 +218,16 @@ def check_rotation_matrix(R):
     assert_array_almost_equal(np.linalg.det(R), 1.0)
 
 
-def plot_basis(ax, R, p=None, s=1.0, **kwargs):
+def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1,
+               **kwargs):
     if ax is None:
-        plt.subplot(111, projection="3d", aspect="equal")
-    if p is None:
-        p = np.zeros(3)
+        ax = plt.subplot(111, projection="3d", aspect="equal")
+        ax.set_xlim((-ax_s, ax_s))
+        ax.set_ylim((-ax_s, ax_s))
+        ax.set_zlim((-ax_s, ax_s))
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Z")
 
     ax.plot([p[0], p[0] + s * R[0, 0]],
             [p[1], p[1] + s * R[1, 0]],
@@ -199,5 +238,38 @@ def plot_basis(ax, R, p=None, s=1.0, **kwargs):
     ax.plot([p[0], p[0] + s * R[0, 2]],
             [p[1], p[1] + s * R[1, 2]],
             [p[2], p[2] + s * R[2, 2]], color="b", lw=3, **kwargs)
+
+    return ax
+
+
+def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3),
+                    s=1.0, ax_s=1, **kwargs):
+    if ax is None:
+        ax = plt.subplot(111, projection="3d", aspect="equal")
+        ax.set_xlim((-ax_s, ax_s))
+        ax.set_ylim((-ax_s, ax_s))
+        ax.set_zlim((-ax_s, ax_s))
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Z")
+
+    ax.plot([p[0], p[0] + s * a[0]],
+            [p[1], p[1] + s * a[1]],
+            [p[2], p[2] + s * a[2]], color="k", lw=3, **kwargs)
+
+    if np.abs(a[0]) <= np.finfo(float).eps:
+        p1 = unitx
+    else:
+        p1 = perpendicular_to_vectors(unity, a[:3])
+
+    p2 = perpendicular_to_vectors(a[:3], p1)
+    omega = angle_between_vectors(p1, p2)
+    arc = np.empty((100, 3))
+    for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, 100)):
+        w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
+        w2 = np.sin(t * omega) / np.sin(omega)
+        arc[i] = p + 0.5 * s * a[:3] + s * w1 * p1 + s * w2 * p2
+    ax.plot(arc[:, 0], arc[:, 1], arc[:, 2], color="k", lw=3, **kwargs)
+    ax.scatter(arc[0, 0], arc[0, 1], arc[0, 2], color="k", lw=3, **kwargs)
 
     return ax

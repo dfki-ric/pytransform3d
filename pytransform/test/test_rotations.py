@@ -8,14 +8,6 @@ def random_vector(random_state=np.random.RandomState(0)):
     return random_state.rand(3)
 
 
-def random_angle_axis(random_state=np.random.RandomState(0)):
-    angle = np.pi * random_state.rand()
-    a = np.array([0, 0, 0, angle])
-    a[:3] = random_state.rand(3)
-    a[:3] /= np.linalg.norm(a[:3])
-    return a
-
-
 def test_perpendicular_to_vectors():
     random_state = np.random.RandomState(0)
     a = norm_vector(random_vector(random_state))
@@ -29,23 +21,10 @@ def test_perpendicular_to_vectors():
     assert_array_almost_equal(perpendicular_to_vectors(c, a), b)
 
 
-def test_conversions_axis_angle_quaternion():
-    random_state = np.random.RandomState(0)
-    for _ in range(5):
-        a = random_angle_axis(random_state)
-        q = quaternion_from_axis_angle(a)
-
-        a2 = axis_angle_from_quaternion(q)
-        assert_array_almost_equal(a, a2)
-
-        q2 = quaternion_from_axis_angle(a2)
-        assert_array_almost_equal(q, q2)
-
-
 def test_conversions_matrix_axis_angle():
     random_state = np.random.RandomState(0)
     for _ in range(5):
-        a = random_angle_axis(random_state)
+        a = random_axis_angle(random_state)
         R = matrix_from_axis_angle(a)
 
         a2 = axis_angle_from_matrix(R)
@@ -55,15 +34,40 @@ def test_conversions_matrix_axis_angle():
         assert_array_almost_equal(R, R2)
 
 
+def test_conversions_matrix_quaternion():
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        q = random_quaternion(random_state)
+        R = matrix_from_quaternion(q)
+
+        q2 = quaternion_from_matrix(R)
+        assert_array_almost_equal(q, q2)
+
+        R2 = matrix_from_quaternion(q2)
+        assert_array_almost_equal(R, R2)
+
+
+def test_conversions_axis_angle_quaternion():
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        a = random_axis_angle(random_state)
+        q = quaternion_from_axis_angle(a)
+
+        a2 = axis_angle_from_quaternion(q)
+        assert_array_almost_equal(a, a2)
+
+        q2 = quaternion_from_axis_angle(a2)
+        assert_array_almost_equal(q, q2)
+
+
 def test_interpolate_axis_angle():
     n_steps = 10
     random_state = np.random.RandomState(1)
-    a1 = random_angle_axis(random_state)
-    a2 = random_angle_axis(random_state)
+    a1 = random_axis_angle(random_state)
+    a2 = random_axis_angle(random_state)
 
-    traj = [(1 - t) * a1 + t * a2 for t in np.linspace(0, 1, n_steps)]
-    for i in range(n_steps):
-        traj[i][:3] /= np.linalg.norm(traj[i][:3])
+    omega = angle_between_vectors(a1[:3], a2[:3])
+    traj = [axis_angle_slerp(a1, a2, t) for t in np.linspace(0, 1, n_steps)]
 
     axis = norm_vector(perpendicular_to_vectors(a1[:3], a2[:3]))
     angle = angle_between_vectors(a1[:3], a2[:3])
@@ -73,13 +77,5 @@ def test_interpolate_axis_angle():
         intaxis = matrix_from_axis_angle(inta).dot(a1[:3])
         intangle = (1 - t) * a1[3] + t * a2[3]
         traj2.append(np.hstack((intaxis, (intangle,))))
-    print inta
-    print a1, "--->", a2
-    print "==="
-    print a1
-    for t in range(n_steps):
-        print "===", t
-        print traj[t]
-        print traj2[t]
-        print "==="
-    print a2
+
+    assert_array_almost_equal(traj, traj2)

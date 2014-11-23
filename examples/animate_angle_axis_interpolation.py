@@ -14,15 +14,6 @@ def interpolate_linear(start, end, t):
     return (1 - t) * start + t * end
 
 
-def interpolate_slerp(start, end, t):
-    omega = angle_between_vectors(start[:3], end[:3])
-    w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
-    w2 = np.sin(t * omega) / np.sin(omega)
-    w1 = np.array([w1, w1, w1, (1.0 - t)])
-    w2 = np.array([w2, w2, w2, t])
-    return w1 * start + w2 * end
-
-
 def update_lines(step, start, end, n_frames, rot, profile):
     global velocity
     global last_a
@@ -33,7 +24,7 @@ def update_lines(step, start, end, n_frames, rot, profile):
 
     if step <= n_frames / 2:
         t = step / float(n_frames / 2 - 1)
-        a = interpolate_slerp(start, end, t)
+        a = axis_angle_slerp(start, end, t)
     else:
         t = (step - n_frames / 2) / float(n_frames / 2 - 1)
         a = interpolate_linear(end, start, t)
