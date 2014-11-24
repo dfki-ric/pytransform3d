@@ -9,6 +9,10 @@ velocity = None
 last_R = None
 
 
+def interpolate_linear(start, end, t):
+    return (1 - t) * start + t * end
+
+
 def update_lines(step, start, end, n_frames, rot, profile):
     global velocity
     global last_R
@@ -19,12 +23,10 @@ def update_lines(step, start, end, n_frames, rot, profile):
 
     if step <= n_frames / 2:
         t = step / float(n_frames / 2 - 1)
-        w1, w2 = 1 - t, t
-        q = w1 * start + w2 * end
+        q = quaternion_slerp(start, end, t)
     else:
         t = (step - n_frames / 2) / float(n_frames / 2 - 1)
-        w1, w2 = 1 - t, t
-        q = w1 * end + w2 * start
+        q = interpolate_linear(end, start, t)
 
     print step, t, start, end, q
     R = matrix_from_quaternion(q)

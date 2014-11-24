@@ -64,12 +64,14 @@ def test_conversions_matrix_axis_angle():
     for _ in range(5):
         a = random_axis_angle(random_state)
         R = matrix_from_axis_angle(a)
+        assert_rotation_matrix(R)
 
         a2 = axis_angle_from_matrix(R)
         assert_array_almost_equal(a, a2)
 
         R2 = matrix_from_axis_angle(a2)
         assert_array_almost_equal(R, R2)
+        assert_rotation_matrix(R2)
 
 
 def test_conversions_matrix_quaternion():
@@ -78,12 +80,14 @@ def test_conversions_matrix_quaternion():
     for _ in range(5):
         q = random_quaternion(random_state)
         R = matrix_from_quaternion(q)
+        assert_rotation_matrix(R)
 
         q2 = quaternion_from_matrix(R)
         assert_quaternion_equal(q, q2)
 
         R2 = matrix_from_quaternion(q2)
         assert_array_almost_equal(R, R2)
+        assert_rotation_matrix(R2)
 
 
 def test_conversions_axis_angle_quaternion():
@@ -107,7 +111,6 @@ def test_interpolate_axis_angle():
     a1 = random_axis_angle(random_state)
     a2 = random_axis_angle(random_state)
 
-    omega = angle_between_vectors(a1[:3], a2[:3])
     traj = [axis_angle_slerp(a1, a2, t) for t in np.linspace(0, 1, n_steps)]
 
     axis = norm_vector(perpendicular_to_vectors(a1[:3], a2[:3]))
@@ -120,6 +123,23 @@ def test_interpolate_axis_angle():
         traj2.append(np.hstack((intaxis, (intangle,))))
 
     assert_array_almost_equal(traj, traj2)
+
+
+def test_interpolate_quaternion():
+    """Test interpolation between two quaternions with slerp."""
+    n_steps = 10
+    random_state = np.random.RandomState(0)
+    a1 = random_axis_angle(random_state)
+    a2 = random_axis_angle(random_state)
+    q1 = quaternion_from_axis_angle(a1)
+    q2 = quaternion_from_axis_angle(a2)
+
+    traj_q = [quaternion_slerp(q1, q2, t) for t in np.linspace(0, 1, n_steps)]
+    traj_R = [matrix_from_quaternion(q) for q in traj_q]
+    R_diff = np.diff(traj_R, axis=0)
+    R_diff_norms = [np.linalg.norm(Rd) for Rd in R_diff]
+    assert_array_almost_equal(R_diff_norms,
+                              R_diff_norms[0] * np.ones(n_steps - 1))
 
 
 def test_concatenate_quaternions():

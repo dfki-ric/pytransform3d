@@ -50,11 +50,11 @@ def angle_between_vectors(a, b, fast=False):
 
     Parameters
     ----------
-    a : array-like, shape (3,)
-        3d vector
+    a : array-like, shape (n,)
+        nd vector
 
-    b : array-like, shape (3,)
-        3d vector
+    b : array-like, shape (n,)
+        nd vector
 
     fast : bool, optional (default: False)
         Use fast implementation instead of numerically stable solution
@@ -64,7 +64,7 @@ def angle_between_vectors(a, b, fast=False):
     angle : float
         Angle between a and b
     """
-    if fast:
+    if len(a) != 3 or fast:
         return np.arccos(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
     else:
         return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
@@ -304,12 +304,20 @@ def matrix_from_euler_zyx(e):
 
 
 def axis_angle_from_matrix(R):
-    """TODO document me
+    """Compute axis-angle from rotation matrix.
 
-    Logarithmic map.
+    This operation is called logarithmic map.
 
-    The angle of the axis-angle representation is constrained to [0, pi) so
-    that the mapping is unique.
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Returns
+    -------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
+        constrained to [0, pi) so that the mapping is unique.
     """
     if np.all(R == np.eye(3)):
         return np.zeros(4)
@@ -324,7 +332,19 @@ def axis_angle_from_matrix(R):
 
 
 def axis_angle_from_quaternion(q):
-    """TODO document me"""
+    """Compute axis-angle from quaternion.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
+        constrained to [0, pi) so that the mapping is unique.
+    """
     p = q[1:]
     p_norm = np.linalg.norm(p)
     if p_norm < np.finfo(float).eps:
@@ -335,21 +355,23 @@ def axis_angle_from_quaternion(q):
         return np.hstack((axis, angle))
 
 
-def axis_angle_slerp(start, end, t):
-    """TODO document me"""
-    omega = angle_between_vectors(start[:3], end[:3])
-    w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
-    w2 = np.sin(t * omega) / np.sin(omega)
-    w1 = np.array([w1, w1, w1, (1.0 - t)])
-    w2 = np.array([w2, w2, w2, t])
-    return w1 * start + w2 * end
-
-
 def quaternion_from_matrix(R):
-    """TODO document me
+    """Compute quaternion from rotation matrix.
 
-    When computing a quaternion from the rotation matrix there is a sign
-    ambiguity: q and -q represent the same rotation.
+    .. warning::
+
+        When computing a quaternion from the rotation matrix there is a sign
+        ambiguity: q and -q represent the same rotation.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Returns
+    -------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
     """
     q = np.empty(4)
     q[0] = 0.5 * np.sqrt(1.0 + np.trace(R))
@@ -360,7 +382,18 @@ def quaternion_from_matrix(R):
 
 
 def quaternion_from_axis_angle(a):
-    """TODO document me"""
+    """Compute quaternion from axis-angle.
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+    """
     theta = a[3]
     u = norm_vector(a[:3])
 
@@ -392,33 +425,76 @@ def concatenate_quaternions(q1, q2):
     return q12
 
 
-def q_inv(q):
-    """TODO document me"""
-    q = q.copy()
-    q[1:] = norm_vector(q[1:])
-    return q_conj(q)
-
-
-def q_conj(q):
-    """TODO document me"""
-    conj = q.copy()
-    conj[1:] *= -1
-    return conj
-
-
-def q_prod(q1, q2):
-    """TODO document me"""
-    return np.array([
-        q1[0] * q2[0] - q1[1] * q2[1] - q1[2] * q2[2] - q1[3] * q2[3],
-        q1[0] * q2[1] + q1[1] * q2[0] + q1[2] * q2[3] + q1[3] * q2[2],
-        q1[0] * q2[2] - q1[1] * q2[3] + q1[2] * q2[0] + q1[3] * q2[1],
-        q1[0] * q2[3] + q1[1] * q2[2] - q1[2] * q2[1] + q1[3] * q2[0]])
-
-
 def q_prod_vector(q, v):
-    """TODO document me"""
+    """Apply rotation represented by a quaternion to a vector.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    v : array-like, shape (3,)
+        3d vector
+
+    Returns
+    -------
+    w : array-like, shape (3,)
+        3d vector
+    """
     t = 2 * np.cross(q[1:], v)
     return v + q[0] * t + np.cross(q[1:], t)
+
+
+def axis_angle_slerp(start, end, t):
+    """Spherical linear interpolation.
+
+    Parameters
+    ----------
+    start : array-like, shape (4,)
+        Start axis of rotation and rotation angle: (x, y, z, angle)
+
+    end : array-like, shape (4,)
+        Goal axis of rotation and rotation angle: (x, y, z, angle)
+
+    t : float in [0, 1]
+        Position between start and goal
+
+    Returns
+    -------
+    a : array-like, shape (4,)
+        Interpolated axis of rotation and rotation angle: (x, y, z, angle)
+    """
+    omega = angle_between_vectors(start[:3], end[:3])
+    w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
+    w2 = np.sin(t * omega) / np.sin(omega)
+    w1 = np.array([w1, w1, w1, (1.0 - t)])
+    w2 = np.array([w2, w2, w2, t])
+    return w1 * start + w2 * end
+
+
+def quaternion_slerp(start, end, t):
+    """Spherical linear interpolation.
+
+    Parameters
+    ----------
+    start : array-like, shape (4,)
+        Start unit quaternion to represent rotation: (w, x, y, z)
+
+    end : array-like, shape (4,)
+        End unit quaternion to represent rotation: (w, x, y, z)
+
+    t : float in [0, 1]
+        Position between start and goal
+
+    Returns
+    -------
+    q : array-like, shape (4,)
+        Interpolated unit quaternion to represent rotation: (w, x, y, z)
+    """
+    omega = angle_between_vectors(start, end)
+    w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
+    w2 = np.sin(t * omega) / np.sin(omega)
+    return w1 * start + w2 * end
 
 
 def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
@@ -445,23 +521,12 @@ def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
         Additional arguments for the plotting functions, e.g. alpha
     """
     if ax is None:
-        ax = plt.subplot(111, projection="3d", aspect="equal")
-        ax.set_xlim((-ax_s, ax_s))
-        ax.set_ylim((-ax_s, ax_s))
-        ax.set_zlim((-ax_s, ax_s))
-        ax.set_xlabel("X")
-        ax.set_ylabel("Y")
-        ax.set_zlabel("Z")
+        ax = _make_new_axis(ax_s)
 
-    ax.plot([p[0], p[0] + s * R[0, 0]],
-            [p[1], p[1] + s * R[1, 0]],
-            [p[2], p[2] + s * R[2, 0]], color="r", lw=3, **kwargs)
-    ax.plot([p[0], p[0] + s * R[0, 1]],
-            [p[1], p[1] + s * R[1, 1]],
-            [p[2], p[2] + s * R[2, 1]], color="g", lw=3, **kwargs)
-    ax.plot([p[0], p[0] + s * R[0, 2]],
-            [p[1], p[1] + s * R[1, 2]],
-            [p[2], p[2] + s * R[2, 2]], color="b", lw=3, **kwargs)
+    for d, c in enumerate(["r", "g", "b"]):
+        ax.plot([p[0], p[0] + s * R[0, d]],
+                [p[1], p[1] + s * R[1, d]],
+                [p[2], p[2] + s * R[2, d]], color=c, lw=3, **kwargs)
 
     return ax
 
@@ -491,40 +556,40 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3),
         Additional arguments for the plotting functions, e.g. alpha
     """
     if ax is None:
-        ax = plt.subplot(111, projection="3d", aspect="equal")
-        ax.set_xlim((-ax_s, ax_s))
-        ax.set_ylim((-ax_s, ax_s))
-        ax.set_zlim((-ax_s, ax_s))
-        ax.set_xlabel("X")
-        ax.set_ylabel("Y")
-        ax.set_zlabel("Z")
+        ax = _make_new_axis(ax_s)
 
     ax.plot([p[0], p[0] + 0.9 * s * a[0]],
             [p[1], p[1] + 0.9 * s * a[1]],
             [p[2], p[2] + 0.9 * s * a[2]], color="k", lw=3, **kwargs)
-    arrow = Arrow3D([p[0] + s * a[0], p[0] + 1.1 * s * a[0]],
-                    [p[1] + s * a[1], p[1] + 1.1 * s * a[1]],
-                    [p[2] + s * a[2], p[2] + 1.1 * s * a[2]],
-                    mutation_scale=20, lw=1, arrowstyle="-|>", color="k")
-    ax.add_artist(arrow)
+    ax.add_artist(Arrow3D([p[0] + s * a[0], p[0] + 1.1 * s * a[0]],
+                          [p[1] + s * a[1], p[1] + 1.1 * s * a[1]],
+                          [p[2] + s * a[2], p[2] + 1.1 * s * a[2]],
+                          mutation_scale=20, lw=1, arrowstyle="-|>", color="k"))
 
-    if np.abs(a[0]) <= np.finfo(float).eps:
-        p1 = unitx
-    else:
-        p1 = perpendicular_to_vectors(unity, a[:3])
-
+    p1 = (unitx if np.abs(a[0]) <= np.finfo(float).eps else
+          perpendicular_to_vectors(unity, a[:3]))
     p2 = perpendicular_to_vectors(a[:3], p1)
-    omega = angle_between_vectors(p1, p2)
+
+    om = angle_between_vectors(p1, p2)
     arc = np.empty((100, 3))
     for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, 100)):
-        w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
-        w2 = np.sin(t * omega) / np.sin(omega)
-        arc[i] = p + 0.5 * s * a[:3] + s * w1 * p1 + s * w2 * p2
+        w = np.array([np.sin((1.0 - t) * om), np.sin(t * om)]) / np.sin(om)
+        arc[i] = p + 0.5 * s * a[:3] + s * w[0] * p1 + s * w[1] * p2
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
-    arrow = Arrow3D(arc[-2:, 0], arc[-2:, 1], arc[-2:, 2],
-                    mutation_scale=20, lw=1, arrowstyle="-|>", color="k")
-    ax.add_artist(arrow)
+    ax.add_artist(Arrow3D(arc[-2:, 0], arc[-2:, 1], arc[-2:, 2],
+                          mutation_scale=20, lw=1, arrowstyle="-|>", color="k"))
 
+    return ax
+
+
+def _make_new_axis(ax_s):
+    ax = plt.subplot(111, projection="3d", aspect="equal")
+    ax.set_xlim((-ax_s, ax_s))
+    ax.set_ylim((-ax_s, ax_s))
+    ax.set_zlim((-ax_s, ax_s))
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.set_zlabel("Z")
     return ax
 
 
