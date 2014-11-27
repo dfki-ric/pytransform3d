@@ -14,11 +14,18 @@ def invert_transform(A2B):
     return inv
 
 
-def translate_transform(A2B, pB):
+def translate_transform(A2B, p):
     """TODO document me"""
     A2B = A2B.copy()
-    l = len(pB)
-    A2B[:l, -1] = pB
+    l = len(p)
+    A2B[:l, -1] = p
+    return A2B
+
+
+def rotate_transform(A2B, R):
+    """TODO document me"""
+    A2B = A2B.copy()
+    A2B[:3, :3] = R
     return A2B
 
 
