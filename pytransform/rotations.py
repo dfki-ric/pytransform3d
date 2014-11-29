@@ -303,6 +303,42 @@ def matrix_from_euler_zyx(e):
     return R
 
 
+def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
+    """Compute rotation matrix from another representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    e_xyz : array-like, shape (3,)
+        Angles for rotation around x-, y'-, and z''-axes
+
+    e_zyx : array-like, shape (3,)
+        Angles for rotation around z-, y'-, and x''-axes
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    # TODO test
+    if R is not None:
+        return R
+    if a is not None:
+        return matrix_from_axis_angle(a)
+    if q is not None:
+        return matrix_from_quaternion(q)
+    if e_xyz is not None:
+        return matrix_from_euler_xyz(e_xyz)
+    if e_zyx is not None:
+        return matrix_from_euler_zyx(e_zyx)
+    raise ValueError("Cannot compute rotation matrix from no rotation.")
+
+
 def axis_angle_from_matrix(R):
     """Compute axis-angle from rotation matrix.
 

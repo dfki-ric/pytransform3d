@@ -22,8 +22,8 @@ world_grid_y = np.vstack(
 world_grid = np.vstack((world_grid_x, world_grid_y))
 
 
-cam2world = rotate_transform(np.eye(4), matrix_from_euler_xyz([np.pi / 8, 0, 0]))
-cam2world = translate_transform(cam2world, [0, -1, 0.5])
+cam2world = transform_from(matrix_from_euler_xyz([np.pi / 8, 0, 0]),
+                           [0, -1, 0.5])
 size_image = np.array([640, 480])
 center_image = size_image / 2
 focal_length = 100.0
