@@ -35,6 +35,8 @@ def sensor2img(P_sensor, sensor_size, image_size, image_center=None):
     if image_center is None:
         image_center = np.asarray(image_size) / 2
     P_img += np.asarray(image_center)
+    # y-axis of image goes from top to bottom
+    P_img[:, 1] = image_size[1] - P_img[:, 1]
     return P_img
 
 

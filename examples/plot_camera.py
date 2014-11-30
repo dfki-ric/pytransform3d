@@ -35,7 +35,7 @@ for p in world_grid[::10]:
 ax = plt.subplot(122, aspect="equal")
 plt.xlim(0, image_size[0])
 plt.ylim(0, image_size[1])
-plt.scatter(image_grid[:, 0], image_grid[:, 1])
-plt.scatter(image_grid[-1, 0], image_grid[-1, 1], color="r")
+plt.scatter(image_grid[:, 0], -(image_grid[:, 1] - image_size[1]))
+plt.scatter(image_grid[-1, 0], -(image_grid[-1, 1] - image_size[1]), color="r")
 
 plt.show()
