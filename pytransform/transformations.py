@@ -7,11 +7,7 @@ def invert_transform(A2B):
     if A2B.shape != (4, 4):
         raise ValueError("Transformation must have shape (4, 4) but has %s"
                          % A2B.shape)
-    inv = np.empty((4, 4))
-    inv[-1, :] = np.array([0, 0, 0, 1])
-    inv[:3, :3] = A2B[:3, :3].T
-    inv[:3, -1] = -A2B[:3, -1]
-    return inv
+    return np.linalg.inv(A2B)
 
 
 def transform_from(R, p):
