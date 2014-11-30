@@ -22,7 +22,7 @@ def make_world_grid(n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5),
 
 def cam2sensor(P_cam, focal_length, kappa=0.0):
     """TODO document me"""
-    P_sensor = P_cam[:, :2] / np.abs(P_cam[:, 2, np.newaxis])
+    P_sensor = P_cam[:, :2] / -P_cam[:, 2, np.newaxis]
     for n in range(P_sensor.shape[0]):
         P_sensor[n] *= 1.0 / (1.0 + kappa * np.linalg.norm(P_sensor[n]) ** 2)
     P_sensor *= focal_length

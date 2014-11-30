@@ -20,7 +20,7 @@ ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 
 cam_grid = make_world_grid(n_points_per_line=21) - np.array([0, 0, 2, 0])
-img_grid = -cam_grid * focal_length
+img_grid = cam_grid * focal_length
 
 c = np.arange(len(cam_grid))
 ax.scatter(cam_grid[:, 0], cam_grid[:, 1], cam_grid[:, 2], c=c)
@@ -31,7 +31,7 @@ sensor_grid = cam2sensor(cam_grid, focal_length)
 img_grid = sensor2img(sensor_grid, sensor_size, image_size)
 ax = plt.subplot(122, aspect="equal")
 ax.set_title("Grid in 2D image coordinate system")
-ax.scatter(img_grid[:, 0], img_grid[:, 1], c=c)
+ax.scatter(img_grid[:, 0], image_size[1] - img_grid[:, 1], c=c)
 ax.set_xlim((0, image_size[0]))
 ax.set_ylim((0, image_size[1]))
 
