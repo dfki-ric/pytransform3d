@@ -1,3 +1,14 @@
+"""
+============
+Euler Angles
+============
+
+Any rotation can be represented by three consecutive rotations about three
+basis vectors. Here we use either the x-y-z convention or the z-y-x convention.
+"""
+print(__doc__)
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
