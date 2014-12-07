@@ -1,3 +1,18 @@
+"""
+===========================================
+Interpolate Between Quaternion Orientations
+===========================================
+
+We can interpolate between two orientations that are represented by quaternions
+either linearly or with slerp (**s**pherical **l**inear int**erp**olation).
+Here we compare both methods and measure the angular velocity between two
+successive steps. We can see that linear interpolation results in a
+non-constant angular velocity. Usually it is a better idea to interpolate with
+slerp.
+"""
+print(__doc__)
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
@@ -28,7 +43,6 @@ def update_lines(step, start, end, n_frames, rot, profile):
         t = (step - n_frames / 2) / float(n_frames / 2 - 1)
         q = interpolate_linear(end, start, t)
 
-    print step, t, start, end, q
     R = matrix_from_quaternion(q)
 
     # Draw new frame
