@@ -1,3 +1,16 @@
+"""
+================
+Camera Transform
+================
+
+We can see the camera frame and the world frame. There is a grid of points from
+which we know the world coordinates. If we know the location and orientation of
+the camera in the world, we can easily compute the location of the points on
+the image.
+"""
+print(__doc__)
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform.rotations import *
@@ -5,7 +18,7 @@ from pytransform.transformations import *
 from pytransform.camera import *
 
 
-cam2world = transform_from(matrix_from_euler_xyz([0.35 * np.pi, 0, 0]),
+cam2world = transform_from(matrix_from_euler_xyz([1.4 * np.pi, 0, 0]),
                            [0, -1, 0.5])
 focal_length = 0.0036
 sensor_size = (0.00367, 0.00274)
@@ -25,17 +38,19 @@ ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 plot_transform(ax)
 plot_transform(ax, A2B=cam2world)
+ax.set_title("Camera and world frames")
 ax.scatter(world_grid[:, 0], world_grid[:, 1], world_grid[:, 2])
 ax.scatter(world_grid[-1, 0], world_grid[-1, 1], world_grid[-1, 2], color="r")
 for p in world_grid[::10]:
     ax.plot([p[0], cam2world[0, 3]],
             [p[1], cam2world[1, 3]],
-            [p[2], cam2world[2, 3]], alpha=0.2)
+            [p[2], cam2world[2, 3]], c="k", alpha=0.2, lw=2)
 
 ax = plt.subplot(122, aspect="equal")
-plt.xlim(0, image_size[0])
-plt.ylim(0, image_size[1])
-plt.scatter(image_grid[:, 0], -(image_grid[:, 1] - image_size[1]))
-plt.scatter(image_grid[-1, 0], -(image_grid[-1, 1] - image_size[1]), color="r")
+ax.set_title("Camera image")
+ax.set_xlim(0, image_size[0])
+ax.set_ylim(0, image_size[1])
+ax.scatter(image_grid[:, 0], -(image_grid[:, 1] - image_size[1]))
+ax.scatter(image_grid[-1, 0], -(image_grid[-1, 1] - image_size[1]), color="r")
 
 plt.show()

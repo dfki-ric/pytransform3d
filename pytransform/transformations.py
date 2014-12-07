@@ -17,19 +17,21 @@ def transform_from(R, p):
     return A2B
 
 
-def translate_transform(A2B, p):
+def translate_transform(A2B, p, out=None):
     """TODO document me"""
-    A2B = A2B.copy()
+    if out is None:
+        out = A2B.copy()
     l = len(p)
-    A2B[:l, -1] = p
-    return A2B
+    out[:l, -1] = p
+    return out
 
 
-def rotate_transform(A2B, R):
+def rotate_transform(A2B, R, out=None):
     """TODO document me"""
-    A2B = A2B.copy()
-    A2B[:3, :3] = R
-    return A2B
+    if out is None:
+        out = A2B.copy()
+    out[:3, :3] = R
+    return out
 
 
 def vector_to_point(v):
