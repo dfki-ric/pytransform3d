@@ -127,11 +127,12 @@ def random_quaternion(random_state=np.random.RandomState(0)):
 def cross_product_matrix(v):
     """Generate the cross-product matrix of a vector.
 
-    The cross-product matrix :math:`\boldsymbol{V}` satisfies the equation
+    The cross-product matrix :math:`\\boldsymbol{V}` satisfies the equation
 
     .. math::
 
-        \boldsymbol{V} \boldsymbol{w} = \boldsymbol{v} \times \boldsymbol{w}
+        \\boldsymbol{V} \\boldsymbol{w} = \\boldsymbol{v} \\times
+        \\boldsymbol{w}
 
     Parameters
     ----------
@@ -560,11 +561,11 @@ def quaternion_dist(q1, q2):
 
     .. math::
 
-        d(q_1, q_2) = \begin{cases}
-                      2 || \log(q_1 * \overline{q_2})||,
-                        q_1 * \overline{q_2}) \neq (-1, 0, 0, 0)\\
-                      2 \pi, \text{ otherwise}
-                      \end{cases}
+        d(q_1, q_2) = \\begin{cases}
+                      2 || \\log(q_1 * \\overline{q_2})||, \\quad
+                        q_1 * \\overline{q_2} \\neq (-1, 0, 0, 0)\\\\
+                      2 \\pi, \\text{ otherwise}
+                      \\end{cases}
 
 
     Parameters
@@ -699,7 +700,7 @@ def assert_quaternion_equal(q1, q2, *args, **kwargs):
 def assert_rotation_matrix(R, *args, **kwargs):
     """Raise an assertion if a matrix is not a rotation matrix.
 
-    The two properties :math:`\boldsymbol{I} = \boldsymbol{R R}^T` and
+    The two properties :math:`\\boldsymbol{I} = \\boldsymbol{R R}^T` and
     :math:`det(R) = 1` will be checked. See
     numpy.testing.assert_array_almost_equal for a more detailed documentation
     of the other parameters.
