@@ -485,6 +485,22 @@ def q_prod_vector(q, v):
     return v + q[0] * t + np.cross(q[1:], t)
 
 
+def q_conj(q):
+    """Conjugate of quaternion.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    q_c : array-like, shape (4,)
+        Conjugate (w, -x, -y, -z)
+    """
+    return np.array([q[0], -q[1], -q[2], -q[3]])
+
+
 def axis_angle_slerp(start, end, t):
     """Spherical linear interpolation.
 
@@ -535,6 +551,40 @@ def quaternion_slerp(start, end, t):
     w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
     w2 = np.sin(t * omega) / np.sin(omega)
     return w1 * start + w2 * end
+
+
+def quaternion_dist(q1, q2):
+    """Compute distance between two quaternions.
+
+    We use the angular metric of :math:`S^3`, which is defined as
+
+    .. math::
+
+        d(q_1, q_2) = \begin{cases}
+                      2 || \log(q_1 * \overline{q_2})||,
+                        q_1 * \overline{q_2}) \neq (-1, 0, 0, 0)\\
+                      2 \pi, \text{ otherwise}
+                      \end{cases}
+
+
+    Parameters
+    ----------
+    q1 : array-like, shape (4,)
+        First quaternion
+
+    q2 : array-like, shape (4,)
+        Second quaternion
+
+    Returns
+    -------
+    dist : float
+        Distance between q1 and q2
+    """
+    q12c = concatenate_quaternions(q1, q_conj(q2))
+    if np.any(q12c != np.array([1, 0, 0, 0])):
+        return axis_angle_from_quaternion(q12c)[-1]
+    else:
+        return 2.0 * np.pi
 
 
 def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):

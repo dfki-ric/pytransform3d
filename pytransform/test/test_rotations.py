@@ -169,3 +169,35 @@ def test_quaternion_rotation():
         vR = np.dot(R, v)
         vq = q_prod_vector(q, v)
         assert_array_almost_equal(vR, vq)
+
+
+def test_quaternion_conjugate():
+    """Test quaternion conjugate."""
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        q = quaternion_from_axis_angle(random_axis_angle(random_state))
+        v = random_vector(random_state)
+        vq = q_prod_vector(q, v)
+        vq2 = concatenate_quaternions(concatenate_quaternions(
+            q, np.hstack(([0], v))), q_conj(q))[1:]
+        assert_array_almost_equal(vq, vq2)
+
+
+def test_quaternion_dist():
+    """Test angular metric of quaternions."""
+    random_state = np.random.RandomState(0)
+
+    for _ in range(5):
+        q1 = quaternion_from_axis_angle(random_axis_angle(random_state))
+        q2 = quaternion_from_axis_angle(random_axis_angle(random_state))
+        q1_to_q1 = quaternion_dist(q1, q1)
+        if q1_to_q1 > np.pi:
+            q1_to_q1 = 2.0 * np.pi - q1_to_q1
+        assert_almost_equal(q1_to_q1, 0.0)
+        q2_to_q2 = quaternion_dist(q2, q2)
+        if q2_to_q2 > np.pi:
+            q2_to_q2 = 2.0 * np.pi - q2_to_q2
+        assert_almost_equal(q2_to_q2, 0.0)
+        q1_to_q2 = quaternion_dist(q1, q2)
+        q2_to_q1 = quaternion_dist(q2, q1)
+        assert_almost_equal(q1_to_q2, q2_to_q1)
