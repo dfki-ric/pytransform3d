@@ -1,0 +1,14 @@
+# Top level.
+include *.txt
+include *.rst
+
+# Non-python files.
+recursive-include sphinx_bootstrap_theme *
+recursive-exclude bootstrap *
+
+# Extraneous files.
+global-exclude .DS_Store
+global-exclude *.pyc
+exclude bootstrap
+exclude demo
+exclude fabfile.py
