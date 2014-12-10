@@ -370,6 +370,8 @@ def axis_angle_from_matrix(R):
 def axis_angle_from_quaternion(q):
     """Compute axis-angle from quaternion.
 
+    This operation is called logarithmic map.
+
     Parameters
     ----------
     q : array-like, shape (4,)
@@ -419,6 +421,8 @@ def quaternion_from_matrix(R):
 
 def quaternion_from_axis_angle(a):
     """Compute quaternion from axis-angle.
+
+    This operation is called exponential map.
 
     Parameters
     ----------

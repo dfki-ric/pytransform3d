@@ -34,7 +34,12 @@ to represent a vector from frame B to frame C expressed in frame A.
 Orientation
 ===========
 
-There are multiple competing representations for rotations and orientations.
+The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`.
+The minimum number of components that are required to describe any rotation
+from :math:`SO(3)` is 3. However, there is no representation that is
+non-redundant, continuous and free of singularities. We will now take a closer
+look at competing representations of rotations and the orientations they can
+describe.
 
 .. plot:: ../../examples/plot_compare_rotations.py
     :include-source:
@@ -184,8 +189,8 @@ A complete rotation can be split into three rotations around basis vectors.
 Quaternions
 -----------
 
-Quaternions can be used to represent orientations. They use an encoding
-based on the rotation axis and angle.
+The unit quaternion space :math:`S^3` can be used to represent orientations.
+To do that, we use an encoding based on the rotation axis and angle.
 
 A rotation quaternion is a four-dimensional unit vector (versor)
 
