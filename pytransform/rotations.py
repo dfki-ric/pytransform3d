@@ -309,6 +309,9 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
 
     Parameters
     ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
     a : array-like, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle)
 
