@@ -43,19 +43,42 @@ def make_world_grid(n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5),
     world_grid : array-like, shape (2 * n_lines * n_points_per_line, 4)
         Grid as homogenous coordinate vectors
     """
-    world_grid_x = np.vstack(
-        [np.array([np.linspace(xlim[0], xlim[1], n_points_per_line),
-                   np.linspace(y, y, n_points_per_line),
-                   np.zeros(n_points_per_line),
-                   np.ones(n_points_per_line)]).T
-         for y in np.linspace(ylim[0], ylim[1], n_lines)])
-    world_grid_y = np.vstack(
-        [np.array([np.linspace(x, x, n_points_per_line),
-                   np.linspace(ylim[0], ylim[1], n_points_per_line),
-                   np.zeros(n_points_per_line),
-                   np.ones(n_points_per_line)]).T
-         for x in np.linspace(xlim[0], xlim[1], n_lines)])
+    world_grid_x = np.vstack([make_world_line([xlim[0], y], [xlim[1], y],
+                                              n_points_per_line)
+                              for y in np.linspace(ylim[0], ylim[1], n_lines)])
+    world_grid_y = np.vstack([make_world_line([x, ylim[0]], [x, ylim[1]],
+                                              n_points_per_line)
+                              for x in np.linspace(xlim[0], xlim[1], n_lines)])
     return np.vstack((world_grid_x, world_grid_y))
+
+
+def make_world_line(p1, p2, n_points):
+    """Generate line in world coordinate frame.
+
+    Parameters
+    ----------
+    p1 : array-like, shape (2 or 3,)
+        Start point of the line
+
+    p2 : array-like, shape (2 or 3,)
+        End point of the line
+
+    n_points : int
+        Number of points
+
+    Returns
+    -------
+    line : array-like, shape (n_points, 4)
+        Samples from line in world frame
+    """
+    if len(p1) == 2:
+        p1 = [p1[0], p1[1], 0]
+    if len(p2) == 2:
+        p2 = [p2[0], p2[1], 0]
+    return np.array([np.linspace(p1[0], p2[0], n_points),
+                     np.linspace(p1[1], p2[1], n_points),
+                     np.linspace(p1[2], p2[2], n_points),
+                     np.ones(n_points)]).T
 
 
 def cam2sensor(P_cam, focal_length, kappa=0.0):

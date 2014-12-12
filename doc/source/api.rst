@@ -80,6 +80,7 @@ You can search for specific modules, classes or functions in the
    :template: function.rst
 
    ~pytransform.camera.make_world_grid
+   ~pytransform.camera.make_world_line
    ~pytransform.camera.cam2sensor
    ~pytransform.camera.sensor2img
    ~pytransform.camera.world2image
