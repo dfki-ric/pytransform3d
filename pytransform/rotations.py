@@ -30,6 +30,42 @@ def norm_vector(v):
         return v / norm
 
 
+def norm_axis_angle(a):
+    """Normalize axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle). The length
+        of the axis vector is 1 and the angle is in [0, pi). No rotation
+        is represented by [1, 0, 0, 0].
+    """
+    angle = a[3]
+    norm = np.linalg.norm(a[:3])
+    if angle % np.pi == 0.0 or norm == 0.0:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    res = np.empty(4)
+    res[:3] = a[:3] / norm
+
+    while angle < 0.0:
+        angle += 2.0 * np.pi
+    while angle >= np.pi:
+        angle -= 2.0 * np.pi
+    if angle < 0.0:
+        angle = np.pi - np.abs(angle)
+        res[:3] *= -1
+
+    res[3] = angle
+
+    return res
+
+
 def perpendicular_to_vectors(a, b):
     """Compute perpendicular vector to two other vectors.
 
@@ -739,6 +775,20 @@ def _make_new_axis(ax_s):
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
     return ax
+
+
+def assert_axis_angle_equal(a1, a2, *args, **kwargs):
+    """Raise an assertion if two axis-angle are not approximately equal.
+
+    Usually we assume that the rotation axis is normalized to length 1 and
+    the angle is within [0, pi). However, this function ignores these
+    constraints and will normalize the representations before comparison.
+    See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+    """
+    a1 = norm_axis_angle(a1)
+    a2 = norm_axis_angle(a2)
+    assert_array_almost_equal(a1, a2, *args, **kwargs)
 
 
 def assert_quaternion_equal(q1, q2, *args, **kwargs):

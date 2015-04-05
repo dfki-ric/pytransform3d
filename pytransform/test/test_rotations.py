@@ -19,6 +19,20 @@ def test_norm_zero_vector():
     assert_true(np.isfinite(np.linalg.norm(normalized)))
 
 
+def test_norm_axis_angle():
+    """Test normalization of angle-axis representation."""
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        a = random_axis_angle(random_state)
+        angle = random_state.uniform(-20.0, -10.0 + 2.0 * np.pi)
+        a[3] = angle
+        n = norm_axis_angle(a)
+        for angle_offset in np.arange(0.0, 10.1 * np.pi, 2.0 * np.pi):
+            a[3] = angle + angle_offset
+            n2 = norm_axis_angle(a)
+            assert_array_almost_equal(n, n2)
+
+
 def test_perpendicular_to_vectors():
     """Test function to compute perpendicular to vectors."""
     random_state = np.random.RandomState(0)
