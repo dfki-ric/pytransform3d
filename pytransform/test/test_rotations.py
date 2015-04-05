@@ -75,6 +75,23 @@ def test_conversions_matrix_euler_xyz():
         assert_array_almost_equal(euler_xyz, euler_xyz2)
 
 
+def test_conversions_matrix_euler_zyx():
+    """Test conversions between rotation matrix and zyx Euler angles."""
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        a = random_axis_angle(random_state)
+        R = matrix_from_axis_angle(a)
+        assert_rotation_matrix(R)
+
+        euler_zyx = euler_zyx_from_matrix(R)
+        R2 = matrix_from_euler_zyx(euler_zyx)
+        assert_array_almost_equal(R, R2)
+        assert_rotation_matrix(R2)
+
+        euler_zyx2 = euler_zyx_from_matrix(R2)
+        assert_array_almost_equal(euler_zyx, euler_zyx2)
+
+
 def test_conversions_matrix_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
     random_state = np.random.RandomState(0)

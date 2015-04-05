@@ -368,6 +368,31 @@ def euler_xyz_from_matrix(R):
         # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
 
 
+def euler_zyx_from_matrix(R):
+    """Compute zyx Euler angles from rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Returns
+    -------
+    e_zyx : array-like, shape (3,)
+        Angles for rotation around z-, y'-, and x''-axes
+    """
+    if np.abs(R[0, 2]) != 1.0:
+        # NOTE: There are two solutions: angle2 and pi - angle2!
+        angle2 = np.arcsin(-R[2, 0])
+        angle3 = np.arctan2(R[2, 1] / np.cos(angle2), R[2, 2] / np.cos(angle2))
+        angle1 = np.arctan2(R[1, 0] / np.cos(angle2), R[0, 0] / np.cos(angle2))
+        return np.array([angle1, angle2, angle3])
+    else:
+        raise NotImplementedError("Gimbal lock! This is note implemented.")
+        # TODO implement gimbal lock fix based on
+        # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
+
+
 def axis_angle_from_matrix(R):
     """Compute axis-angle from rotation matrix.
 
