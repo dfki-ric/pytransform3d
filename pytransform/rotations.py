@@ -204,10 +204,8 @@ def matrix_from_axis_angle(a):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
-    e = norm_vector(a[:3])
-    theta = a[3]
-
-    ux, uy, uz = e
+    a = norm_axis_angle(a)
+    ux, uy, uz, theta = a
     c = np.cos(theta)
     s = np.sin(theta)
     ci = 1.0 - c
@@ -224,8 +222,8 @@ def matrix_from_axis_angle(a):
 
     # This is equivalent to
     # R = (np.eye(3) * np.cos(theta) +
-    #      (1.0 - np.cos(theta)) * e[:, np.newaxis].dot(e[np.newaxis, :]) +
-    #      cross_product_matrix(e) * np.sin(theta))
+    #      (1.0 - np.cos(theta)) * a[:3, np.newaxis].dot(a[np.newaxis, :3]) +
+    #      cross_product_matrix(a[:3]) * np.sin(theta))
 
     return R
 

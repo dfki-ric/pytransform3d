@@ -128,6 +128,21 @@ def test_conversions_matrix_axis_angle():
         assert_rotation_matrix(R2)
 
 
+def test_conversions_matrix_axis_angle_continuous():
+    """Test continuous conversions between rotation matrix and axis-angle."""
+    for angle in np.arange(3.1, 3.2, 0.01):
+        a = np.array([1.0, 0.0, 0.0, angle])
+        R = matrix_from_axis_angle(a)
+        assert_rotation_matrix(R)
+
+        a2 = axis_angle_from_matrix(R)
+        assert_axis_angle_equal(a, a2)
+
+        R2 = matrix_from_axis_angle(a2)
+        assert_array_almost_equal(R, R2)
+        assert_rotation_matrix(R2)
+
+
 def test_conversions_matrix_quaternion():
     """Test conversions between rotation matrix and quaternion."""
     random_state = np.random.RandomState(0)
