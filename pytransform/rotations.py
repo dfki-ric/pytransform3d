@@ -21,9 +21,13 @@ def norm_vector(v):
     Returns
     -------
     u : array-like, shape (n,)
-        nd unit vector
+        nd unit vector with norm 1 or the zero vector
     """
-    return v / np.linalg.norm(v)
+    norm = np.linalg.norm(v)
+    if norm == 0.0:
+        return v
+    else:
+        return v / norm
 
 
 def perpendicular_to_vectors(a, b):
@@ -410,7 +414,7 @@ def axis_angle_from_matrix(R):
         constrained to [0, pi) so that the mapping is unique.
     """
     if np.all(R == np.eye(3)):
-        return np.zeros(4)
+        return np.array([1.0, 0.0, 0.0, 0.0])
     else:
         a = np.empty(4)
         a[3] = np.arccos((np.trace(R) - 1.0) / 2.0)

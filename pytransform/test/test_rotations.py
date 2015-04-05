@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_almost_equal
+from nose.tools import assert_almost_equal, assert_true
 from pytransform.rotations import *
 
 
@@ -11,6 +11,12 @@ def test_norm_vector():
         v = random_vector(random_state, n)
         u = norm_vector(v)
         assert_almost_equal(np.linalg.norm(u), 1)
+
+
+def test_norm_zero_vector():
+    """Test normalization of zero vector."""
+    normalized = norm_vector(np.zeros(3))
+    assert_true(np.isfinite(np.linalg.norm(normalized)))
 
 
 def test_perpendicular_to_vectors():
