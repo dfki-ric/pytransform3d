@@ -287,15 +287,15 @@ def matrix_from_angle(basis, angle):
 
     if basis == 0:
         R = np.array([[1.0, 0.0, 0.0],
-                      [0.0,   c,  -s],
-                      [0.0,   s,   c]])
+                      [0.0,   c,   s],
+                      [0.0,  -s,   c]])
     elif basis == 1:
-        R = np.array([[  c, 0.0,   s],
+        R = np.array([[  c, 0.0,  -s],
                       [0.0, 1.0, 0.0],
-                      [ -s, 0.0,   c]])
+                      [  s, 0.0,   c]])
     elif basis == 2:
-        R = np.array([[  c,  -s, 0.0],
-                      [  s,   c, 0.0],
+        R = np.array([[  c,   s, 0.0],
+                      [ -s,   c, 0.0],
                       [0.0, 0.0, 1.0]])
     else:
         raise ValueError("Basis must be in [0, 1, 2]")
@@ -403,9 +403,9 @@ def euler_xyz_from_matrix(R):
     """
     if np.abs(R[0, 2]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
-        angle2 = np.arcsin(R[0, 2])
-        angle1 = np.arctan2(-R[1, 2] / np.cos(angle2), R[2, 2] / np.cos(angle2))
-        angle3 = np.arctan2(-R[0, 1] / np.cos(angle2), R[0, 0] / np.cos(angle2))
+        angle2 = np.arcsin(-R[0, 2])
+        angle1 = np.arctan2(R[1, 2] / np.cos(angle2), R[2, 2] / np.cos(angle2))
+        angle3 = np.arctan2(R[0, 1] / np.cos(angle2), R[0, 0] / np.cos(angle2))
         return np.array([angle1, angle2, angle3])
     else:
         raise NotImplementedError("Gimbal lock! This is note implemented.")
@@ -428,9 +428,9 @@ def euler_zyx_from_matrix(R):
     """
     if np.abs(R[0, 2]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
-        angle2 = np.arcsin(-R[2, 0])
-        angle3 = np.arctan2(R[2, 1] / np.cos(angle2), R[2, 2] / np.cos(angle2))
-        angle1 = np.arctan2(R[1, 0] / np.cos(angle2), R[0, 0] / np.cos(angle2))
+        angle2 = np.arcsin(R[2, 0])
+        angle3 = np.arctan2(-R[2, 1] / np.cos(angle2), R[2, 2] / np.cos(angle2))
+        angle1 = np.arctan2(-R[1, 0] / np.cos(angle2), R[0, 0] / np.cos(angle2))
         return np.array([angle1, angle2, angle3])
     else:
         raise NotImplementedError("Gimbal lock! This is note implemented.")

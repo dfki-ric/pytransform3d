@@ -78,6 +78,40 @@ def test_cross_product_matrix():
         assert_array_almost_equal(r1, r2)
 
 
+def test_matrix_from_angle():
+    """Sanity checks for rotation around basis vectors."""
+    caught_error = False
+    try:
+        matrix_from_angle(-1, 0)
+    except ValueError:
+        caught_error = True
+    finally:
+        assert_true(caught_error)
+
+    caught_error = False
+    try:
+        matrix_from_angle(3, 0)
+    except ValueError:
+        caught_error = True
+    finally:
+        assert_true(caught_error)
+
+    R = matrix_from_angle(0, -0.5 * np.pi)
+    assert_array_almost_equal(R, np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]]))
+    R = matrix_from_angle(0, 0.5 * np.pi)
+    assert_array_almost_equal(R, np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]]))
+
+    R = matrix_from_angle(1, -0.5 * np.pi)
+    assert_array_almost_equal(R, np.array([[0, 0, 1], [0, 1, 0], [-1, 0, 0]]))
+    R = matrix_from_angle(1, 0.5 * np.pi)
+    assert_array_almost_equal(R, np.array([[0, 0, -1], [0, 1, 0], [1, 0, 0]]))
+
+    R = matrix_from_angle(2, -0.5 * np.pi)
+    assert_array_almost_equal(R, np.array([[0, -1, 0], [1, 0, 0], [0, 0, 1]]))
+    R = matrix_from_angle(2, 0.5 * np.pi)
+    assert_array_almost_equal(R, np.array([[0, 1, 0], [-1, 0, 0], [0, 0, 1]]))
+
+
 def test_conversions_matrix_euler_xyz():
     """Test conversions between rotation matrix and xyz Euler angles."""
     random_state = np.random.RandomState(0)
