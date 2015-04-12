@@ -11,14 +11,39 @@ def invert_transform(A2B):
 
 
 def transform_from(R, p):
-    """TODO document me"""
+    """Make transformation from rotation matrix and translation.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    p : array-like, shape (3,)
+        Translation
+
+    Returns
+    -------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+    """
     A2B = rotate_transform(np.eye(4), R)
     A2B = translate_transform(A2B, p)
     return A2B
 
 
 def translate_transform(A2B, p, out=None):
-    """TODO document me"""
+    """Translate transform.
+
+    Parameters
+    ----------
+    p : array-like, shape (3,)
+        Translation
+
+    Returns
+    -------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+    """
     if out is None:
         out = A2B.copy()
     l = len(p)
@@ -27,7 +52,18 @@ def translate_transform(A2B, p, out=None):
 
 
 def rotate_transform(A2B, R, out=None):
-    """TODO document me"""
+    """Rotate transform.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Returns
+    -------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+    """
     if out is None:
         out = A2B.copy()
     out[:3, :3] = R
@@ -39,13 +75,13 @@ def vector_to_point(v):
     return np.hstack((v, 1))
 
 
-def transform(A2B, PB):
+def transform(A2B, PA):
     """TODO document me"""
-    PB = np.asarray(PB)
-    if PB.ndim == 1:
-        return np.dot(A2B, PB)
-    elif PB.ndim == 2:
-        return np.dot(PB, A2B.T)
+    PA = np.asarray(PA)
+    if PA.ndim == 1:
+        return np.dot(A2B, PA)
+    elif PA.ndim == 2:
+        return np.dot(PA, A2B.T)
     else:
         raise ValueError("Cannot transform array with more than 2 dimensions")
 
