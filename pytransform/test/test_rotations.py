@@ -148,6 +148,14 @@ def test_conversions_matrix_euler_zyx():
 
 def test_conversions_matrix_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
+    R = np.eye(3)
+    a = axis_angle_from_matrix(R)
+    assert_array_almost_equal(a, np.array([1, 0, 0, 0]))
+
+    R = matrix_from_euler_xyz(np.array([np.pi, np.pi, 0.0]))
+    a = axis_angle_from_matrix(R)
+    assert_array_almost_equal(a, np.array([1, 0, 0, 0]))
+
     random_state = np.random.RandomState(0)
     for _ in range(5):
         a = random_axis_angle(random_state)
@@ -179,6 +187,10 @@ def test_conversions_matrix_axis_angle_continuous():
 
 def test_conversions_matrix_quaternion():
     """Test conversions between rotation matrix and quaternion."""
+    R = np.eye(3)
+    a = axis_angle_from_matrix(R)
+    assert_array_almost_equal(a, np.array([1, 0, 0, 0]))
+
     random_state = np.random.RandomState(0)
     for _ in range(5):
         q = random_quaternion(random_state)
@@ -195,6 +207,10 @@ def test_conversions_matrix_quaternion():
 
 def test_conversions_axis_angle_quaternion():
     """Test conversions between axis-angle and quaternion."""
+    q = np.array([1, 0, 0, 0])
+    a = axis_angle_from_quaternion(q)
+    assert_array_almost_equal(a, np.array([1, 0, 0, 0]))
+
     random_state = np.random.RandomState(0)
     for _ in range(5):
         a = random_axis_angle(random_state)
@@ -205,6 +221,37 @@ def test_conversions_axis_angle_quaternion():
 
         q2 = quaternion_from_axis_angle(a2)
         assert_quaternion_equal(q, q2)
+
+
+def test_conversions_to_matrix():
+    """Test conversions to rotation matrix."""
+    R = np.eye(3)
+    R2R = matrix_from(R=R)
+    assert_array_almost_equal(R2R, R)
+
+    a = np.array([1, 0, 0, 0])
+    a2R = matrix_from(a=a)
+    assert_array_almost_equal(a2R, R)
+
+    q = np.array([1, 0, 0, 0])
+    q2R = matrix_from(q=q)
+    assert_array_almost_equal(q2R, R)
+
+    e_xyz = np.array([0, 0, 0])
+    e_xyz2R = matrix_from(e_xyz=e_xyz)
+    assert_array_almost_equal(e_xyz2R, R)
+
+    e_zyx = np.array([0, 0, 0])
+    e_zyx2R = matrix_from(e_zyx=e_zyx)
+    assert_array_almost_equal(e_zyx2R, R)
+
+    caught_error = False
+    try:
+        n2R = matrix_from()
+    except ValueError:
+        caught_error = True
+    finally:
+        assert_true(caught_error)
 
 
 def test_interpolate_axis_angle():
