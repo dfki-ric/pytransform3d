@@ -20,6 +20,7 @@ You can search for specific modules, classes or functions in the
    :template: function.rst
 
    ~pytransform.rotations.norm_vector
+   ~pytransform.rotations.norm_axis_angle
    ~pytransform.rotations.perpendicular_to_vectors
    ~pytransform.rotations.angle_between_vectors
    ~pytransform.rotations.random_vector
@@ -32,6 +33,8 @@ You can search for specific modules, classes or functions in the
    ~pytransform.rotations.matrix_from_euler_xyz
    ~pytransform.rotations.matrix_from_euler_zyx
    ~pytransform.rotations.matrix_from
+   ~pytransform.rotations.euler_xyz_from_matrix
+   ~pytransform.rotations.euler_zyx_from_matrix
    ~pytransform.rotations.axis_angle_from_matrix
    ~pytransform.rotations.axis_angle_from_quaternion
    ~pytransform.rotations.quaternion_from_matrix
@@ -44,6 +47,7 @@ You can search for specific modules, classes or functions in the
    ~pytransform.rotations.quaternion_dist
    ~pytransform.rotations.plot_basis
    ~pytransform.rotations.plot_axis_angle
+   ~pytransform.rotations.assert_axis_angle_equal
    ~pytransform.rotations.assert_quaternion_equal
    ~pytransform.rotations.assert_rotation_matrix
 
