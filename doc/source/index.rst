@@ -28,7 +28,7 @@ to represent a vector from frame B to frame C expressed in frame A.
 
 **References**
 
-* http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
+* http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf (blog address http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly is outdated)
 
 
 ===========
