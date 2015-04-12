@@ -111,7 +111,9 @@ def angle_between_vectors(a, b, fast=False):
 
 
 def random_vector(random_state=np.random.RandomState(0), n=3):
-    """Generate random axis-angle.
+    """Generate an nd vector with normally distributed components.
+
+    Each component will be sampled from :math:`\mathcal{N}(\mu=0, \sigma=1)`.
 
     Parameters
     ----------
@@ -124,13 +126,18 @@ def random_vector(random_state=np.random.RandomState(0), n=3):
     Returns
     -------
     v : array-like, shape (n,)
-        3d vector
+        Random vector
     """
     return random_state.randn(n)
 
 
 def random_axis_angle(random_state=np.random.RandomState(0)):
     """Generate random axis-angle.
+
+    The angle will be sampled uniformly from the interval :math:`[0, \pi)`
+    and each component of the rotation axis will be sampled from
+    :math:`\mathcal{N}(\mu=0, \sigma=1)` and than the axis will be normalized
+    to length 1.
 
     Parameters
     ----------
