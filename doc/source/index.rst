@@ -45,6 +45,13 @@ describe.
 .. plot:: ../../examples/plot_compare_rotations.py
     :include-source:
 
+Here is an overview of the representations and the conversions between them
+that are available in pytransform.
+
+.. image:: _static/rotations.svg
+   :alt: Rotations
+   :align: center
+
 ---------------
 Rotation Matrix
 ---------------
