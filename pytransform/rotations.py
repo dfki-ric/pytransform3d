@@ -47,7 +47,7 @@ def norm_axis_angle(a):
     """
     angle = a[3]
     norm = np.linalg.norm(a[:3])
-    if angle % np.pi == 0.0 or norm == 0.0:  # TODO angle % np.pi is not correctly handled
+    if angle == 0.0 or norm == 0.0:
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     res = np.empty(4)
@@ -55,7 +55,7 @@ def norm_axis_angle(a):
 
     while angle < 0.0:
         angle += 2.0 * np.pi
-    while angle >= np.pi:
+    while angle > np.pi:
         angle -= 2.0 * np.pi
     if angle < 0.0:
         angle = np.pi - np.abs(angle)

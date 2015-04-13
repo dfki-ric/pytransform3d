@@ -21,6 +21,18 @@ def test_norm_zero_vector():
 
 def test_norm_axis_angle():
     """Test normalization of angle-axis representation."""
+    a = np.array([1.0, 0.0, 0.0, np.pi])
+    n = norm_axis_angle(a)
+    assert_array_almost_equal(a, n)
+
+    a = np.array([0.0, 1.0, 0.0, np.pi])
+    n = norm_axis_angle(a)
+    assert_array_almost_equal(a, n)
+
+    a = np.array([0.0, 0.0, 1.0, np.pi])
+    n = norm_axis_angle(a)
+    assert_array_almost_equal(a, n)
+
     random_state = np.random.RandomState(0)
     for _ in range(5):
         a = random_axis_angle(random_state)
