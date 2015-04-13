@@ -132,13 +132,21 @@ def test_conversions_matrix_euler_xyz():
         R = matrix_from_axis_angle(a)
         assert_rotation_matrix(R)
 
-        euler_xyz = euler_xyz_from_matrix(R)
-        R2 = matrix_from_euler_xyz(euler_xyz)
+        e_xyz = euler_xyz_from_matrix(R)
+        R2 = matrix_from_euler_xyz(e_xyz)
         assert_array_almost_equal(R, R2)
         assert_rotation_matrix(R2)
 
-        euler_xyz2 = euler_xyz_from_matrix(R2)
-        assert_array_almost_equal(euler_xyz, euler_xyz2)
+        e_xyz2 = euler_xyz_from_matrix(R2)
+        assert_array_almost_equal(e_xyz, e_xyz2)
+
+    # Gimbal lock
+    e_xyz = random_state.rand(3)
+    e_xyz[1] = np.pi / 2.0
+    R = matrix_from_euler_xyz(e_xyz)
+    e_xyz2 = euler_xyz_from_matrix(R)
+    assert_almost_equal(e_xyz2[1], np.pi / 2.0)
+    assert_almost_equal(e_xyz2[0] + e_xyz2[2], e_xyz[0] + e_xyz[2])
 
 
 def test_conversions_matrix_euler_zyx():
@@ -149,13 +157,21 @@ def test_conversions_matrix_euler_zyx():
         R = matrix_from_axis_angle(a)
         assert_rotation_matrix(R)
 
-        euler_zyx = euler_zyx_from_matrix(R)
-        R2 = matrix_from_euler_zyx(euler_zyx)
+        e_zyx = euler_zyx_from_matrix(R)
+        R2 = matrix_from_euler_zyx(e_zyx)
         assert_array_almost_equal(R, R2)
         assert_rotation_matrix(R2)
 
-        euler_zyx2 = euler_zyx_from_matrix(R2)
-        assert_array_almost_equal(euler_zyx, euler_zyx2)
+        e_zyx2 = euler_zyx_from_matrix(R2)
+        assert_array_almost_equal(e_zyx, e_zyx2)
+
+    # Gimbal lock
+    e_zyx = random_state.rand(3)
+    e_zyx[1] = np.pi / 2.0
+    R = matrix_from_euler_zyx(e_zyx)
+    e_zyx2 = euler_zyx_from_matrix(R)
+    assert_almost_equal(e_zyx2[1], np.pi / 2.0)
+    assert_almost_equal(e_zyx2[0] + e_zyx2[2], e_zyx[0] + e_zyx[2])
 
 
 def test_conversions_matrix_axis_angle():
