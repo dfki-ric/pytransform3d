@@ -154,7 +154,15 @@ def test_conversions_matrix_axis_angle():
 
     R = matrix_from_euler_xyz(np.array([np.pi, np.pi, 0.0]))
     a = axis_angle_from_matrix(R)
-    assert_array_almost_equal(a, np.array([1, 0, 0, 0]))
+    assert_array_almost_equal(a, np.array([0, 0, 1, np.pi]))
+
+    R = matrix_from_euler_xyz(np.array([np.pi, 0.0, np.pi]))
+    a = axis_angle_from_matrix(R)
+    assert_array_almost_equal(a, np.array([0, 1, 0, np.pi]))
+
+    R = matrix_from_euler_xyz(np.array([0.0, np.pi, np.pi]))
+    a = axis_angle_from_matrix(R)
+    assert_array_almost_equal(a, np.array([1, 0, 0, np.pi]))
 
     random_state = np.random.RandomState(0)
     for _ in range(5):

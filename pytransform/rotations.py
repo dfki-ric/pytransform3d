@@ -47,7 +47,7 @@ def norm_axis_angle(a):
     """
     angle = a[3]
     norm = np.linalg.norm(a[:3])
-    if angle % np.pi == 0.0 or norm == 0.0:
+    if angle % np.pi == 0.0 or norm == 0.0:  # TODO angle % np.pi is not correctly handled
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     res = np.empty(4)
@@ -452,18 +452,24 @@ def axis_angle_from_matrix(R):
     -------
     a : array-like, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
-        constrained to [0, pi) so that the mapping is unique.
+        constrained to [0, pi].
     """
-    if np.all(R == np.eye(3)):
+    angle = np.arccos((np.trace(R) - 1.0) / 2.0)
+
+    if angle == 0.0:
         return np.array([1.0, 0.0, 0.0, 0.0])
+
+    r = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
+
+    a = np.empty(4)
+    if angle == np.pi:
+        a[:3] = 0.0
+        axis = np.argmax(np.abs(r))
+        a[axis] = 1.0
     else:
-        a = np.empty(4)
-        a[3] = np.arccos((np.trace(R) - 1.0) / 2.0)
-        r = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
-        a[:3] = r / (2.0 * np.sin(a[3]))
-        if a[3] >= np.pi:
-            raise Exception("Angle must be within [0, pi) but is %g" % a[3])
-        return a
+        a[:3] = r / (2.0 * np.sin(angle))
+    a[3] = angle
+    return a
 
 
 def axis_angle_from_quaternion(q):
