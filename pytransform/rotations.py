@@ -426,7 +426,7 @@ def euler_zyx_from_matrix(R):
     e_zyx : array-like, shape (3,)
         Angles for rotation around z-, y'-, and x''-axes
     """
-    if np.abs(R[0, 2]) != 1.0:
+    if np.abs(R[2, 0]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
         angle2 = np.arcsin(R[2, 0])
         angle3 = np.arctan2(-R[2, 1] / np.cos(angle2), R[2, 2] / np.cos(angle2))
