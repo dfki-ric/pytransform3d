@@ -438,6 +438,26 @@ def euler_zyx_from_matrix(R):
         # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
 
 
+def axis_angle_3_from_axis_angle(aa):
+    """Computes a 3-dimensional axis-angle vector from a 4-dimensional one.
+       This is done by encoding the angle as the length of the vector
+
+    Parameters
+    ----------
+    aa : array-like, shape(4,)
+
+    Returns
+    -------
+    a3 : array-like, shape(3,)
+        [x, y, z] is the rotation axis
+        norm([x, y, z]) is the rotation angle
+    """
+    angle = aa[-1]
+    if angle == 0:
+       return np.zeros(3)
+    vec = aa[0:3]
+    return vec/np.linalg.norm(vec) * angle
+
 def axis_angle_from_matrix(R):
     """Compute axis-angle from rotation matrix.
 
@@ -691,6 +711,27 @@ def quaternion_dist(q1, q2):
     else:
         return 2.0 * np.pi
 
+def quaternion_diff(q1, q2):
+    """Computes the rotation in angle-axis format that rotates q1 into q2
+
+    .. math::
+        d(q_1, q_2 = 2 \log(q_2 * \overline{q_1})
+
+    Parameters
+    ----------
+    q1: array-like, shape(4,)
+        First quaternion
+
+    q2: array-line, shape(4,)
+        Second quaternion
+
+    Returns
+    ------
+    diff: array-like, shape(4,)
+          The rotation in angle-axis format that rotates q1 into q2
+    """
+    q2q1c = concatenate_quaternions(q2, q_conj(q1))
+    return axis_angle_from_quaternion(q2q1c)
 
 def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
     """Plot basis of a rotation matrix.
