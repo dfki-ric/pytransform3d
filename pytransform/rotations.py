@@ -438,26 +438,6 @@ def euler_zyx_from_matrix(R):
         # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
 
 
-def axis_angle_3_from_axis_angle(aa):
-    """Computes a 3-dimensional axis-angle vector from a 4-dimensional one.
-       This is done by encoding the angle as the length of the vector
-
-    Parameters
-    ----------
-    aa : array-like, shape(4,)
-
-    Returns
-    -------
-    a3 : array-like, shape(3,)
-        [x, y, z] is the rotation axis
-        norm([x, y, z]) is the rotation angle
-    """
-    angle = aa[-1]
-    if angle == 0:
-       return np.zeros(3)
-    vec = aa[0:3]
-    return vec/np.linalg.norm(vec) * angle
-
 def axis_angle_from_matrix(R):
     """Compute axis-angle from rotation matrix.
 
@@ -516,6 +496,31 @@ def axis_angle_from_quaternion(q):
         axis = p / p_norm
         angle = (2.0 * np.arccos(q[0]),)
         return np.hstack((axis, angle))
+
+
+def compact_axis_angle(a):
+    """Compute 3-dimensional axis-angle from a 4-dimensional one.
+
+    In a 3-dimensional axis-angle, the 4th dimension (the rotation) is
+    represented by the norm of the rotation axis vector, which means
+    we transform :math:`\left( \boldsymbol{\hat{e}}, \theta \right)` to
+    :math:`\theta \boldsymbol{\hat{e}}`.
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle).
+
+    Returns
+    -------
+    a : array-like, shape (3,)
+        Compact representation of axis of rotation and rotation angle. a is
+        the rotation axis and np.linalg.norm(a) is the rotation angle.
+    """
+    angle = a[3]
+    if angle == 0.0:
+       return np.zeros(3)
+    return a[:3] / np.linalg.norm(a[:3]) * angle
 
 
 def quaternion_from_matrix(R):
