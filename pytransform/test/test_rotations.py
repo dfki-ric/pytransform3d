@@ -401,3 +401,18 @@ def test_quaternion_dist():
         q1_to_q2 = quaternion_dist(q1, q2)
         q2_to_q1 = quaternion_dist(q2, q1)
         assert_almost_equal(q1_to_q2, q2_to_q1)
+
+
+def test_quaternion_diff():
+    """Test difference of quaternions."""
+    random_state = np.random.RandomState(0)
+
+    for _ in range(5):
+        q1 = quaternion_from_axis_angle(random_axis_angle(random_state))
+        q2 = quaternion_from_axis_angle(random_axis_angle(random_state))
+        dist = quaternion_dist(q1, q2)
+        a_diff = quaternion_diff(q1, q2)          # q1 - q2
+        assert_almost_equal(dist, a_diff[3])
+        q_diff = quaternion_from_axis_angle(a_diff)
+        q3 = concatenate_quaternions(q_diff, q2)  # q1 - q2 + q2
+        assert_quaternion_equal(q1, q3)
