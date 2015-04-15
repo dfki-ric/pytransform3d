@@ -122,7 +122,7 @@ def transform(A2B, PA):
         raise ValueError("Cannot transform array with more than 2 dimensions")
 
 
-def plot_transform(ax=None, A2B=np.eye(4), s=1.0, ax_s=1, **kwargs):
+def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, **kwargs):
     """Plot transform.
 
     Parameters
@@ -142,4 +142,6 @@ def plot_transform(ax=None, A2B=np.eye(4), s=1.0, ax_s=1, **kwargs):
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha
     """
+    if A2B is None:
+        A2B = np.eye(4)
     return plot_basis(ax, A2B[:3, :3], A2B[:3, 3], s, ax_s, **kwargs)

@@ -740,7 +740,7 @@ def quaternion_diff(q1, q2):
     return axis_angle_from_quaternion(q1q2c)
 
 
-def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
+def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
     """Plot basis of a rotation matrix.
 
     Parameters
@@ -766,6 +766,9 @@ def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
     if ax is None:
         ax = _make_new_axis(ax_s)
 
+    if R is None:
+        R = np.eye(3)
+
     for d, c in enumerate(["r", "g", "b"]):
         ax.plot([p[0], p[0] + s * R[0, d]],
                 [p[1], p[1] + s * R[1, d]],
@@ -774,8 +777,8 @@ def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
     return ax
 
 
-def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3),
-                    s=1.0, ax_s=1, **kwargs):
+def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
+                    ax_s=1, **kwargs):
     """Plot rotation axis and angle.
 
     Parameters
