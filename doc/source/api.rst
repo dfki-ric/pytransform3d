@@ -15,6 +15,9 @@ You can search for specific modules, classes or functions in the
     :no-members:
     :no-inherited-members:
 
+Utility Functions
+-----------------
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
@@ -27,19 +30,59 @@ You can search for specific modules, classes or functions in the
    ~pytransform.rotations.random_axis_angle
    ~pytransform.rotations.random_quaternion
    ~pytransform.rotations.cross_product_matrix
+
+Conversions to Rotation Matrix
+------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform.rotations.matrix_from_axis_angle
    ~pytransform.rotations.matrix_from_quaternion
    ~pytransform.rotations.matrix_from_angle
    ~pytransform.rotations.matrix_from_euler_xyz
    ~pytransform.rotations.matrix_from_euler_zyx
    ~pytransform.rotations.matrix_from
+
+Conversions to Euler Angles
+---------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform.rotations.euler_xyz_from_matrix
    ~pytransform.rotations.euler_zyx_from_matrix
+
+Conversions to Axis-Angle
+-------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform.rotations.axis_angle_from_matrix
    ~pytransform.rotations.axis_angle_from_quaternion
    ~pytransform.rotations.compact_axis_angle
+
+Conversions to Quaternion
+-------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform.rotations.quaternion_from_matrix
    ~pytransform.rotations.quaternion_from_axis_angle
+
+Quaternion and Axis-Angle Operations
+------------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform.rotations.concatenate_quaternions
    ~pytransform.rotations.q_prod_vector
    ~pytransform.rotations.q_conj
@@ -47,8 +90,24 @@ You can search for specific modules, classes or functions in the
    ~pytransform.rotations.quaternion_slerp
    ~pytransform.rotations.quaternion_dist
    ~pytransform.rotations.quaternion_diff
+
+Plotting
+--------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform.rotations.plot_basis
    ~pytransform.rotations.plot_axis_angle
+
+Testing
+-------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform.rotations.assert_axis_angle_equal
    ~pytransform.rotations.assert_quaternion_equal
    ~pytransform.rotations.assert_rotation_matrix
