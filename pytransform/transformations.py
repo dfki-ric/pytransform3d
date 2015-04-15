@@ -3,7 +3,18 @@ from .rotations import plot_basis
 
 
 def invert_transform(A2B):
-    """TODO document me"""
+    """Invert transform.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    B2A : array-like, shape (4, 4)
+        Transform from frame B to frame A
+    """
     if A2B.shape != (4, 4):
         raise ValueError("Transformation must have shape (4, 4) but has %s"
                          % A2B.shape)
