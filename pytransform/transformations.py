@@ -98,7 +98,21 @@ def vector_to_point(v):
 
 
 def transform(A2B, PA):
-    """TODO document me"""
+    """Transform point or list of points.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    PA : array-like, shape (4,) or (n_points, 4)
+        Point or points in frame A
+
+    Returns
+    -------
+    PB : array-like, shape (4,) or (n_points, 4)
+        Point or points in frame B
+    """
     PA = np.asarray(PA)
     if PA.ndim == 1:
         return np.dot(A2B, PA)
