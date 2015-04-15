@@ -123,5 +123,23 @@ def transform(A2B, PA):
 
 
 def plot_transform(ax=None, A2B=np.eye(4), s=1.0, ax_s=1, **kwargs):
-    """TODO document me"""
+    """Plot transform.
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis, optional (default: None)
+        If the axis is None, a new 3d axis will be created
+
+    A2B : array-like, shape (4, 4), optional (default: I)
+        Transform from frame A to frame B
+
+    s : float, optional (default: 1)
+        Scaling of the axis and angle that will be drawn
+
+    ax_s : float, optional (default: 1)
+        Scaling of the new matplotlib 3d axis
+
+    kwargs : dict, optional (default: {})
+        Additional arguments for the plotting functions, e.g. alpha
+    """
     return plot_basis(ax, A2B[:3, :3], A2B[:3, 3], s, ax_s, **kwargs)
