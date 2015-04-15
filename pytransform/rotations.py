@@ -716,27 +716,30 @@ def quaternion_dist(q1, q2):
     else:
         return 2.0 * np.pi
 
+
 def quaternion_diff(q1, q2):
-    """Computes the rotation in angle-axis format that rotates q1 into q2
+    """Computes the rotation in angle-axis format that rotates q2 into q1.
 
     .. math::
-        d(q_1, q_2 = 2 \log(q_2 * \overline{q_1})
+
+        \omega = 2 \log (q_1 * \overline{q_2})
 
     Parameters
     ----------
-    q1: array-like, shape(4,)
+    q1 : array-like, shape (4,)
         First quaternion
 
-    q2: array-line, shape(4,)
+    q2 : array-line, shape (4,)
         Second quaternion
 
     Returns
-    ------
-    diff: array-like, shape(4,)
-          The rotation in angle-axis format that rotates q1 into q2
+    -------
+    a : array-like, shape (4,)
+        The rotation in angle-axis format that rotates q2 into q1
     """
-    q2q1c = concatenate_quaternions(q2, q_conj(q1))
-    return axis_angle_from_quaternion(q2q1c)
+    q1q2c = concatenate_quaternions(q1, q_conj(q2))
+    return axis_angle_from_quaternion(q1q2c)
+
 
 def plot_basis(ax=None, R=np.eye(3), p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
     """Plot basis of a rotation matrix.
