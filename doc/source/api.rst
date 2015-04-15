@@ -37,6 +37,7 @@ You can search for specific modules, classes or functions in the
    ~pytransform.rotations.euler_zyx_from_matrix
    ~pytransform.rotations.axis_angle_from_matrix
    ~pytransform.rotations.axis_angle_from_quaternion
+   ~pytransform.rotations.compact_axis_angle
    ~pytransform.rotations.quaternion_from_matrix
    ~pytransform.rotations.quaternion_from_axis_angle
    ~pytransform.rotations.concatenate_quaternions
@@ -45,6 +46,7 @@ You can search for specific modules, classes or functions in the
    ~pytransform.rotations.axis_angle_slerp
    ~pytransform.rotations.quaternion_slerp
    ~pytransform.rotations.quaternion_dist
+   ~pytransform.rotations.quaternion_diff
    ~pytransform.rotations.plot_basis
    ~pytransform.rotations.plot_axis_angle
    ~pytransform.rotations.assert_axis_angle_equal
