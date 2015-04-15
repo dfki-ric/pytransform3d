@@ -696,7 +696,6 @@ def quaternion_dist(q1, q2):
                       2 \\pi, \\text{ otherwise}
                       \\end{cases}
 
-
     Parameters
     ----------
     q1 : array-like, shape (4,)
