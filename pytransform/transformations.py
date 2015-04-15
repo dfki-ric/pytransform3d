@@ -82,7 +82,18 @@ def rotate_transform(A2B, R, out=None):
 
 
 def vector_to_point(v):
-    """TODO document me"""
+    """Convert 3D vector to position.
+
+    Parameters
+    ----------
+    v : array-like, shape (3,)
+        3D vector
+
+    Returns
+    -------
+    p : array-like, shape (4,)
+        Point vector with 1 as last element
+    """
     return np.hstack((v, 1))
 
 
