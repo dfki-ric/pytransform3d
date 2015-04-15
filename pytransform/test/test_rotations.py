@@ -259,6 +259,20 @@ def test_conversions_axis_angle_quaternion():
         assert_quaternion_equal(q, q2)
 
 
+def test_compact_axis_angle():
+    """Test conversion to compact axis-angle representation."""
+    a = np.array([1.0, 0.0, 0.0, 0.0])
+    ca = compact_axis_angle(a)
+    assert_array_almost_equal(ca, np.zeros(3))
+
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        a = random_axis_angle(random_state)
+        ca = compact_axis_angle(a)
+        assert_array_almost_equal(norm_vector(ca), a[:3])
+        assert_almost_equal(np.linalg.norm(ca), a[3])
+
+
 def test_conversions_to_matrix():
     """Test conversions to rotation matrix."""
     R = np.eye(3)
