@@ -804,13 +804,10 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
     if ax is None:
         ax = _make_new_axis(ax_s)
 
-    ax.plot([p[0], p[0] + 0.9 * s * a[0]],
-            [p[1], p[1] + 0.9 * s * a[1]],
-            [p[2], p[2] + 0.9 * s * a[2]], color="k", lw=3, **kwargs)
-    ax.add_artist(Arrow3D([p[0] + s * a[0], p[0] + 1.1 * s * a[0]],
-                          [p[1] + s * a[1], p[1] + 1.1 * s * a[1]],
-                          [p[2] + s * a[2], p[2] + 1.1 * s * a[2]],
-                          mutation_scale=20, lw=1, arrowstyle="-|>", color="k"))
+    ax.add_artist(Arrow3D([p[0], p[0] + s * a[0]],
+                          [p[1], p[1] + s * a[1]],
+                          [p[2], p[2] + s * a[2]],
+                          mutation_scale=20, lw=3, arrowstyle="-|>", color="k"))
 
     p1 = (unitx if np.abs(a[0]) <= np.finfo(float).eps else
           perpendicular_to_vectors(unity, a[:3]))
@@ -820,10 +817,16 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
     arc = np.empty((100, 3))
     for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, 100)):
         w = np.array([np.sin((1.0 - t) * om), np.sin(t * om)]) / np.sin(om)
-        arc[i] = p + 0.5 * s * a[:3] + s * w[0] * p1 + s * w[1] * p2
+        arc[i] = p + 0.5 * s * a[:3] + 0.5 * s * w[0] * p1 + 0.5 * s * w[1] * p2
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
-    ax.add_artist(Arrow3D(arc[-2:, 0], arc[-2:, 1], arc[-2:, 2],
-                          mutation_scale=20, lw=1, arrowstyle="-|>", color="k"))
+    arrow_coords = np.vstack((arc[-1], arc[-1] + 20 * (arc[-1] - arc[-3]))).T
+    arrow = Arrow3D(arrow_coords[0], arrow_coords[1], arrow_coords[2],
+                    mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
+    ax.add_artist(arrow)
+
+    for i in [0, -1]:
+        arc_bound = np.vstack((p + 0.5 * s * a[:3], arc[i])).T
+        ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k")
 
     return ax
 
