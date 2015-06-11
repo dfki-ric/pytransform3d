@@ -17,7 +17,7 @@ def invert_transform(A2B):
     """
     if A2B.shape != (4, 4):
         raise ValueError("Transformation must have shape (4, 4) but has %s"
-                         % A2B.shape)
+                         % str(A2B.shape))
     return np.linalg.inv(A2B)
 
 
