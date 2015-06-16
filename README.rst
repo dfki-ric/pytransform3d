@@ -23,8 +23,3 @@ Tests
 You can use nosetests to run the tests of this project in the root directory::
 
     nosetests
-
-Version Control
----------------
-
-Git is used for version control.
