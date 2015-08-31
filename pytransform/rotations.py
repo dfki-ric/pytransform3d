@@ -86,7 +86,7 @@ def perpendicular_to_vectors(a, b):
 
 
 def angle_between_vectors(a, b, fast=False):
-    """Compute angle between to vectors.
+    """Compute angle between two vectors.
 
     Parameters
     ----------
