@@ -833,7 +833,7 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
 
 def _make_new_axis(ax_s):
     ax = plt.subplot(111, projection="3d", aspect="equal")
-    plt.setp(xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
+    plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
              xlabel="X", ylabel="Y", zlabel="Z")
     return ax
 
