@@ -129,6 +129,7 @@ Testing
    ~pytransform.transformations.translate_transform
    ~pytransform.transformations.rotate_transform
    ~pytransform.transformations.vector_to_point
+   ~pytransform.transformations.concat
    ~pytransform.transformations.transform
    ~pytransform.transformations.plot_transform
 

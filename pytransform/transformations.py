@@ -97,6 +97,20 @@ def vector_to_point(v):
     return np.hstack((v, 1))
 
 
+def concat(A2B, B2C):
+    """Concatenate transforms.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    A2B : array-like, shape (4, 4)
+        Transform from frame B to frame C
+    """
+    return B2C.dot(A2B)
+
+
 def transform(A2B, PA):
     """Transform point or list of points.
 
