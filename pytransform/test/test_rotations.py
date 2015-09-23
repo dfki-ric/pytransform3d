@@ -241,6 +241,27 @@ def test_conversions_matrix_quaternion():
         assert_rotation_matrix(R2)
 
 
+def test_quaternion_from_matrix_180():
+    """Test for bug in conversion from 180 degree rotations."""
+    a = np.array([1.0, 0.0, 0.0, np.pi])
+    q = quaternion_from_axis_angle(a)
+    R = matrix_from_axis_angle(a)
+    q_from_R = quaternion_from_matrix(R)
+    assert_array_almost_equal(q, q_from_R)
+
+    a = np.array([0.0, 1.0, 0.0, np.pi])
+    q = quaternion_from_axis_angle(a)
+    R = matrix_from_axis_angle(a)
+    q_from_R = quaternion_from_matrix(R)
+    assert_array_almost_equal(q, q_from_R)
+
+    a = np.array([0.0, 0.0, 1.0, np.pi])
+    q = quaternion_from_axis_angle(a)
+    R = matrix_from_axis_angle(a)
+    q_from_R = quaternion_from_matrix(R)
+    assert_array_almost_equal(q, q_from_R)
+
+
 def test_conversions_axis_angle_quaternion():
     """Test conversions between axis-angle and quaternion."""
     q = np.array([1, 0, 0, 0])
