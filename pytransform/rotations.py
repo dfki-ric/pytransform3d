@@ -408,7 +408,7 @@ def euler_xyz_from_matrix(R):
         angle3 = np.arctan2(R[0, 1] / np.cos(angle2), R[0, 0] / np.cos(angle2))
         return np.array([angle1, angle2, angle3])
     else:
-        raise NotImplementedError("Gimbal lock! This is note implemented.")
+        raise NotImplementedError("Gimbal lock! This is not implemented.")
         # TODO implement gimbal lock fix based on
         # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
 
@@ -433,7 +433,7 @@ def euler_zyx_from_matrix(R):
         angle1 = np.arctan2(-R[1, 0] / np.cos(angle2), R[0, 0] / np.cos(angle2))
         return np.array([angle1, angle2, angle3])
     else:
-        raise NotImplementedError("Gimbal lock! This is note implemented.")
+        raise NotImplementedError("Gimbal lock! This is not implemented.")
         # TODO implement gimbal lock fix based on
         # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
 
