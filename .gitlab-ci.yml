@@ -1,6 +1,5 @@
 before_script:
-  - sudo apt-get update -qq
-  - sudo apt-get install python-pip python-numpy python-nose python-matplotlib
+  - pip install numpy matplotlib nose
 
 stages:
   - test
