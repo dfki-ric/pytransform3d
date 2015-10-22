@@ -1,0 +1,16 @@
+before_script:
+  - sudo apt-get update -qq
+  - sudo apt-get install python-pip python-numpy python-nose python-matplotlib
+
+stages:
+  - test
+
+nosetests:
+  stage: test
+  script:
+    - nosetests -sv --with-coverage
+
+sphinxdoc:
+  stage: test
+  script:
+    - cd doc; make html
