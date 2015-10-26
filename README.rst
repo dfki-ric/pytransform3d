@@ -1,7 +1,7 @@
 pytransform
 ===========
 
-![build status](https://git.hb.dfki.de/ci/projects/1/status.png?ref=master)](https://git.hb.dfki.de/ci/projects/1?ref=master)
+<a href='https://git.hb.dfki.de/ci/projects/1?ref=master'><img src='https://git.hb.dfki.de/ci/projects/1/status.png?ref=master' /></a>
 
 Installation
 ------------
