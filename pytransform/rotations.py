@@ -269,6 +269,11 @@ def matrix_from_quaternion(q):
 def matrix_from_angle(basis, angle):
     """Compute rotation matrix from rotation around basis vector.
 
+    The combined rotation matrices are either extrinsic and can be used with
+    pre-multiplied column vectors or they are intrinsic and can be used with
+    post-multiplied row vectors. We use a right-hand system with right-hand
+    rotations.
+
     Parameters
     ----------
     basis : int from [0, 1, 2]
@@ -406,11 +411,16 @@ def euler_xyz_from_matrix(R):
         angle2 = np.arcsin(-R[0, 2])
         angle1 = np.arctan2(R[1, 2] / np.cos(angle2), R[2, 2] / np.cos(angle2))
         angle3 = np.arctan2(R[0, 1] / np.cos(angle2), R[0, 0] / np.cos(angle2))
-        return np.array([angle1, angle2, angle3])
     else:
-        raise NotImplementedError("Gimbal lock! This is not implemented.")
-        # TODO implement gimbal lock fix based on
-        # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
+        if R[0, 2] == 1.0:
+            angle3 = 0.0
+            angle2 = -np.pi / 2.0
+            angle1 = np.arctan2(-R[1, 0], -R[2, 0])
+        else:
+            angle3 = 0.0
+            angle2 = np.pi / 2.0
+            angle1 = np.arctan2(R[1, 0], R[2, 0])
+    return np.array([angle1, angle2, angle3])
 
 
 def euler_zyx_from_matrix(R):
@@ -431,11 +441,16 @@ def euler_zyx_from_matrix(R):
         angle2 = np.arcsin(R[2, 0])
         angle3 = np.arctan2(-R[2, 1] / np.cos(angle2), R[2, 2] / np.cos(angle2))
         angle1 = np.arctan2(-R[1, 0] / np.cos(angle2), R[0, 0] / np.cos(angle2))
-        return np.array([angle1, angle2, angle3])
     else:
-        raise NotImplementedError("Gimbal lock! This is not implemented.")
-        # TODO implement gimbal lock fix based on
-        # http://staff.city.ac.uk/~sbbh653/publications/euler.pdf
+        if R[2, 0] == 1.0:
+            angle3 = 0.0
+            angle2 = np.pi / 2.0
+            angle1 = np.arctan2(R[0, 1], -R[0, 2])
+        else:
+            angle3 = 0.0
+            angle2 = -np.pi / 2.0
+            angle1 = np.arctan2(R[0, 1], R[0, 2])
+    return np.array([angle1, angle2, angle3])
 
 
 def axis_angle_from_matrix(R):
