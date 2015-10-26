@@ -1,7 +1,7 @@
 before_script:
   - virtualenv pytransform_env
   - source pytransform_env/bin/activate
-  - pip install numpy nose sphinx matplotlib
+  - pip install numpy nose coverage sphinx matplotlib
 
 stages:
   - test
