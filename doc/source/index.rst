@@ -82,9 +82,9 @@ We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
 .. warning::
 
     There are two different conventions on how to use rotation matrices to
-    apply a rotation. They can either be multiplied from the left side to
-    a vector or from the right side. Here, **we will assume that rotation
-    matrices are multiplied from the left side**.
+    apply a rotation to a vector. We can either (pre-)multiply a column vector
+    from a left side or we can (post-)multiply a row vector from the right side.
+    We will use the **post-multiplication** convention.
 
 This means that we rotate a point :math:`_B\boldsymbol{p}` by
 
@@ -94,7 +94,7 @@ This means that we rotate a point :math:`_B\boldsymbol{p}` by
 
 This is called **linear map**.
 
-We can see that each column of such a rotation matrix is a basis vector
+We can see that *each column* of such a rotation matrix is a basis vector
 of frame :math:`A` with respect to frame :math:`B`.
 
 We can plot the basis vectors of an orientation to visualize it.

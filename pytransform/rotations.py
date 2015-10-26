@@ -285,7 +285,7 @@ def matrix_from_angle(basis, angle):
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
     """
     c = np.cos(angle)
     s = np.sin(angle)
@@ -316,14 +316,16 @@ def matrix_from_euler_xyz(e):
     Parameters
     ----------
     e : array-like, shape (3,)
-        Angles for rotation around x-, y'-, and z''-axes
+        Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
 
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
     """
     alpha, beta, gamma = e
+    # We use intrinsic rotations and generate a rotation matrix that can be
+    # used to post-multiply row vectors
     Qx = matrix_from_angle(0, alpha)
     Qy = matrix_from_angle(1, beta)
     Qz = matrix_from_angle(2, gamma)
@@ -339,14 +341,16 @@ def matrix_from_euler_zyx(e):
     Parameters
     ----------
     e : array-like, shape (3,)
-        Angles for rotation around z-, y'-, and x''-axes
+        Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
 
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
     """
     gamma, beta, alpha = e
+    # We use intrinsic rotations and generate a rotation matrix that can be
+    # used to post-multiply row vectors
     Qz = matrix_from_angle(2, gamma)
     Qy = matrix_from_angle(1, beta)
     Qx = matrix_from_angle(0, alpha)
@@ -360,7 +364,7 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
 
     a : array-like, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle)
@@ -369,15 +373,15 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
         Unit quaternion to represent rotation: (w, x, y, z)
 
     e_xyz : array-like, shape (3,)
-        Angles for rotation around x-, y'-, and z''-axes
+        Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
 
     e_zyx : array-like, shape (3,)
-        Angles for rotation around z-, y'-, and x''-axes
+        Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
 
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
     """
     # TODO test
     if R is not None:
@@ -399,12 +403,12 @@ def euler_xyz_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
 
     Returns
     -------
     e_xyz : array-like, shape (3,)
-        Angles for rotation around x-, y'-, and z''-axes
+        Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
     """
     if np.abs(R[0, 2]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
@@ -429,12 +433,12 @@ def euler_zyx_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
 
     Returns
     -------
     e_zyx : array-like, shape (3,)
-        Angles for rotation around z-, y'-, and x''-axes
+        Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
     """
     if np.abs(R[2, 0]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
@@ -461,7 +465,7 @@ def axis_angle_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
 
     Returns
     -------
@@ -549,7 +553,7 @@ def quaternion_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Rotation matrix (can be used to rotate post-multiplied row vectors)
 
     Returns
     -------
