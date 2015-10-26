@@ -10,8 +10,4 @@ nosetests:
   stage: test
   script:
     - nosetests -sv --with-coverage
-
-sphinxdoc:
-  stage: test
-  script:
     - cd doc; make html
