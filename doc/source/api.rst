@@ -23,6 +23,7 @@ Utility Functions
    :template: function.rst
 
    ~pytransform.rotations.norm_vector
+   ~pytransform.rotations.norm_angle
    ~pytransform.rotations.norm_axis_angle
    ~pytransform.rotations.perpendicular_to_vectors
    ~pytransform.rotations.angle_between_vectors
@@ -110,6 +111,8 @@ Testing
 
    ~pytransform.rotations.assert_axis_angle_equal
    ~pytransform.rotations.assert_quaternion_equal
+   ~pytransform.rotations.assert_euler_xyz_equal
+   ~pytransform.rotations.assert_euler_zyx_equal
    ~pytransform.rotations.assert_rotation_matrix
 
 
