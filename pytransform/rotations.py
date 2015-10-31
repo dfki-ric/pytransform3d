@@ -27,7 +27,24 @@ def norm_vector(v):
     if norm == 0.0:
         return v
     else:
-        return v / norm
+        return np.asarray(v) / norm
+
+
+def norm_angle(a):
+    """Normalize angle to (-pi, pi].
+
+    Parameters
+    ----------
+    a : float or array-like, shape (n,)
+        Angle(s)
+
+    Returns
+    -------
+    a_norm : float or array-like, shape (n,)
+        Normalized angle(s)
+    """
+    # Source of the solution: http://stackoverflow.com/a/32266181
+    return -((np.pi - np.asarray(a)) % (2.0 * np.pi ) - np.pi)
 
 
 def norm_axis_angle(a):

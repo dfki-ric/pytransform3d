@@ -19,6 +19,18 @@ def test_norm_zero_vector():
     assert_true(np.isfinite(np.linalg.norm(normalized)))
 
 
+def test_norm_angle():
+    """Test normalization of angle."""
+    random_state = np.random.RandomState(0)
+    a_norm = random_state.uniform(-np.pi, np.pi, size=(100,))
+    for b in np.linspace(-10.0 * np.pi, 10.0 * np.pi, 11):
+        a = a_norm + b
+        assert_array_almost_equal(norm_angle(a), a_norm)
+
+    assert_almost_equal(norm_angle(-np.pi), np.pi)
+    assert_almost_equal(norm_angle(np.pi), np.pi)
+
+
 def test_norm_axis_angle():
     """Test normalization of angle-axis representation."""
     a = np.array([1.0, 0.0, 0.0, np.pi])
