@@ -13,6 +13,6 @@ if __name__ == "__main__":
           url='https://git.hb.dfki.de/besman/pytransform',
           description='Conversions between various transformation '
                       'representations',
-          long_description=open('README.rst').read(),
+          long_description=open('README.md').read(),
           license='New BSD',
           packages=['pytransform'],)
