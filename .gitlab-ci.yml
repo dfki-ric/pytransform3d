@@ -17,7 +17,7 @@ ubuntu-tests:
 windows-tests:
   stage: test
   script:
-    - pytransform_env\Scripts\activate.bat
+    - call pytransform_env\Scripts\activate.bat
     - pip install numpy nose coverage sphinx matplotlib
     - nosetests -sv --with-coverage
     - cd doc; make.bat html
