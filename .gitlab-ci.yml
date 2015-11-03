@@ -14,7 +14,9 @@ ubuntu-tests:
 
 windows-tests:
   stage: test
-  script:  # We don't set up any environment here, because we have anaconda
+  script:
+    # We don't set up any environment here, because we have anaconda and
+    # we assume that 'coverage' is installed
     - nosetests -sv --with-coverage
     - cd doc
     - make.bat html
