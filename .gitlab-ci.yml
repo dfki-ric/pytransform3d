@@ -16,6 +16,7 @@ windows-tests:
   stage: test
   script:  # We don't set up any environment here, because we have anaconda
     - nosetests -sv --with-coverage
-    - cd doc; make.bat html
+    - cd doc
+    - make.bat html
   tags:
     - windows-server-2008
