@@ -1,12 +1,10 @@
-before_script:
-  - virtualenv pytransform_env
-
 stages:
   - test
 
 ubuntu-tests:
   stage: test
   script:
+    - virtualenv pytransform_env
     - source pytransform_env/bin/activate
     - pip install numpy nose coverage sphinx matplotlib
     - nosetests -sv --with-coverage
@@ -16,9 +14,7 @@ ubuntu-tests:
 
 windows-tests:
   stage: test
-  script:
-    - call pytransform_env\Scripts\activate.bat
-    - pip install numpy nose coverage sphinx matplotlib
+  script:  # We don't set up any environment here, because we have anaconda
     - nosetests -sv --with-coverage
     - cd doc; make.bat html
   tags:
