@@ -591,6 +591,8 @@ def quaternion_from_matrix(R):
         elif R[0, 0] == -1.0 and R[1, 1] == -1.0 and R[2, 2] == 1.0:
             q[3] = 1.0
             q[1] = q[2] = 0.0
+        else:
+            raise ValueError("Not a valid rotation matrix")
     else:
         q[1] = 0.25 / q[0] * (R[2, 1] - R[1, 2])
         q[2] = 0.25 / q[0] * (R[0, 2] - R[2, 0])

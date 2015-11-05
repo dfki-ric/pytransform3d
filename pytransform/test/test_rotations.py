@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_almost_equal, assert_true
+from nose.tools import assert_almost_equal, assert_true, assert_raises_regexp
 from pytransform.rotations import *
 
 
@@ -104,21 +104,10 @@ def test_cross_product_matrix():
 
 def test_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
-    caught_error = False
-    try:
-        matrix_from_angle(-1, 0)
-    except ValueError:
-        caught_error = True
-    finally:
-        assert_true(caught_error)
-
-    caught_error = False
-    try:
-        matrix_from_angle(3, 0)
-    except ValueError:
-        caught_error = True
-    finally:
-        assert_true(caught_error)
+    assert_raises_regexp(ValueError, "Basis must be in", matrix_from_angle,
+                         -1, 0)
+    assert_raises_regexp(ValueError, "Basis must be in", matrix_from_angle,
+                         3, 0)
 
     R = matrix_from_angle(0, -0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]]))
@@ -283,6 +272,13 @@ def test_quaternion_from_matrix_180():
     q_from_R = quaternion_from_matrix(R)
     assert_array_almost_equal(q, q_from_R)
 
+    R = np.array(
+        [[0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, -1.0]])
+    assert_raises_regexp(
+        ValueError, "Not a valid rotation matrix", quaternion_from_matrix, R)
+
 
 def test_conversions_axis_angle_quaternion():
     """Test conversions between axis-angle and quaternion."""
@@ -338,13 +334,7 @@ def test_conversions_to_matrix():
     e_zyx2R = matrix_from(e_zyx=e_zyx)
     assert_array_almost_equal(e_zyx2R, R)
 
-    caught_error = False
-    try:
-        n2R = matrix_from()
-    except ValueError:
-        caught_error = True
-    finally:
-        assert_true(caught_error)
+    assert_raises_regexp(ValueError, "no rotation", matrix_from)
 
 
 def test_interpolate_axis_angle():
