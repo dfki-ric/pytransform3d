@@ -155,6 +155,11 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, **kwargs):
 
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
     """
     if A2B is None:
         A2B = np.eye(4)

@@ -1,7 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from .plot_utils import Arrow3D
+from .plot_utils import Arrow3D, make_3d_axis
 from numpy.testing import assert_array_almost_equal
 
 
@@ -809,9 +808,14 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
 
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
     """
     if ax is None:
-        ax = _make_new_axis(ax_s)
+        ax = make_3d_axis(ax_s)
 
     if R is None:
         R = np.eye(3)
@@ -847,9 +851,14 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
 
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
     """
     if ax is None:
-        ax = _make_new_axis(ax_s)
+        ax = make_3d_axis(ax_s)
 
     ax.add_artist(Arrow3D([p[0], p[0] + s * a[0]],
                           [p[1], p[1] + s * a[1]],
@@ -875,13 +884,6 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
         arc_bound = np.vstack((p + 0.5 * s * a[:3], arc[i])).T
         ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k")
 
-    return ax
-
-
-def _make_new_axis(ax_s):
-    ax = plt.subplot(111, projection="3d", aspect="equal")
-    plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
-             xlabel="X", ylabel="Y", zlabel="Z")
     return ax
 
 
