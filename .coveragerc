@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = pytransform
+omit =
+    */setup.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def plot
