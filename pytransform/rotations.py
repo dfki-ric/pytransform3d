@@ -43,7 +43,7 @@ def norm_angle(a):
         Normalized angle(s)
     """
     # Source of the solution: http://stackoverflow.com/a/32266181
-    return -((np.pi - np.asarray(a)) % (2.0 * np.pi ) - np.pi)
+    return -((np.pi - np.asarray(a)) % (2.0 * np.pi) - np.pi)
 
 
 def norm_axis_angle(a):
@@ -121,7 +121,8 @@ def angle_between_vectors(a, b, fast=False):
         Angle between a and b
     """
     if len(a) != 3 or fast:
-        return np.arccos(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+        return np.arccos(np.dot(a, b) /
+                         (np.linalg.norm(a) * np.linalg.norm(b)))
     else:
         return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
 
@@ -207,9 +208,9 @@ def cross_product_matrix(v):
     V : array-like, shape (3, 3)
         Cross-product matrix
     """
-    return np.array([[  0.0, -v[2],  v[1]],
-                     [ v[2],   0.0, -v[0]],
-                     [-v[1],  v[0],  0.0]])
+    return np.array([[0.0, -v[2], v[1]],
+                     [v[2], 0.0, -v[0]],
+                     [-v[1], v[0], 0.0]])
 
 
 def matrix_from_axis_angle(a):
@@ -276,9 +277,9 @@ def matrix_from_quaternion(q):
     yw = 2.0 * y * w
     zw = 2.0 * z * w
 
-    R = np.array([[1.0 - y2 - z2,       xy - zw,       xz + yw],
-                  [      xy + zw, 1.0 - x2 - z2,       yz - xw],
-                  [      xz - yw,       yz + xw, 1.0 - x2 - y2]])
+    R = np.array([[1.0 - y2 - z2, xy - zw, xz + yw],
+                  [xy + zw, 1.0 - x2 - z2, yz - xw],
+                  [xz - yw, yz + xw, 1.0 - x2 - y2]])
     return R
 
 
@@ -308,15 +309,15 @@ def matrix_from_angle(basis, angle):
 
     if basis == 0:
         R = np.array([[1.0, 0.0, 0.0],
-                      [0.0,   c,   s],
-                      [0.0,  -s,   c]])
+                      [0.0, c, s],
+                      [0.0, -s, c]])
     elif basis == 1:
-        R = np.array([[  c, 0.0,  -s],
+        R = np.array([[c, 0.0, -s],
                       [0.0, 1.0, 0.0],
-                      [  s, 0.0,   c]])
+                      [s, 0.0, c]])
     elif basis == 2:
-        R = np.array([[  c,   s, 0.0],
-                      [ -s,   c, 0.0],
+        R = np.array([[c, s, 0.0],
+                      [-s, c, 0.0],
                       [0.0, 0.0, 1.0]])
     else:
         raise ValueError("Basis must be in [0, 1, 2]")
@@ -459,8 +460,10 @@ def euler_zyx_from_matrix(R):
     if np.abs(R[2, 0]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
         angle2 = np.arcsin(R[2, 0])
-        angle3 = np.arctan2(-R[2, 1] / np.cos(angle2), R[2, 2] / np.cos(angle2))
-        angle1 = np.arctan2(-R[1, 0] / np.cos(angle2), R[0, 0] / np.cos(angle2))
+        angle3 = np.arctan2(-R[2, 1] / np.cos(angle2),
+                            R[2, 2] / np.cos(angle2))
+        angle1 = np.arctan2(-R[1, 0] / np.cos(angle2),
+                            R[0, 0] / np.cos(angle2))
     else:
         if R[2, 0] == 1.0:
             angle3 = 0.0
@@ -554,7 +557,7 @@ def compact_axis_angle(a):
     """
     angle = a[3]
     if angle == 0.0:
-       return np.zeros(3)
+        return np.zeros(3)
     return a[:3] / np.linalg.norm(a[:3]) * angle
 
 
@@ -860,10 +863,11 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    ax.add_artist(Arrow3D([p[0], p[0] + s * a[0]],
-                          [p[1], p[1] + s * a[1]],
-                          [p[2], p[2] + s * a[2]],
-                          mutation_scale=20, lw=3, arrowstyle="-|>", color="k"))
+    ax.add_artist(Arrow3D(
+        [p[0], p[0] + s * a[0]],
+        [p[1], p[1] + s * a[1]],
+        [p[2], p[2] + s * a[2]],
+        mutation_scale=20, lw=3, arrowstyle="-|>", color="k"))
 
     p1 = (unitx if np.abs(a[0]) <= np.finfo(float).eps else
           perpendicular_to_vectors(unity, a[:3]))
@@ -873,7 +877,7 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
     arc = np.empty((100, 3))
     for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, 100)):
         w = np.array([np.sin((1.0 - t) * om), np.sin(t * om)]) / np.sin(om)
-        arc[i] = p + 0.5 * s * a[:3] + 0.5 * s * w[0] * p1 + 0.5 * s * w[1] * p2
+        arc[i] = p + 0.5 * s * (a[:3] + w[0] * p1 + w[1] * p2)
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
     arrow_coords = np.vstack((arc[-1], arc[-1] + 20 * (arc[-1] - arc[-3]))).T
     arrow = Arrow3D(arrow_coords[0], arrow_coords[1], arrow_coords[2],
