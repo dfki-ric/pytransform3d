@@ -954,5 +954,5 @@ def assert_rotation_matrix(R, *args, **kwargs):
     numpy.testing.assert_array_almost_equal for a more detailed documentation
     of the other parameters.
     """
-    assert_array_almost_equal(np.dot(R, R.T), np.eye(3))
-    assert_array_almost_equal(np.linalg.det(R), 1.0)
+    assert_array_almost_equal(np.dot(R, R.T), np.eye(3), *args, **kwargs)
+    assert_array_almost_equal(np.linalg.det(R), 1.0, *args, **kwargs)

@@ -1,6 +1,7 @@
 import numpy as np
 from pytransform.transformations import (transform_from, invert_transform,
-                                         vector_to_point, concat, transform)
+                                         vector_to_point, concat, transform,
+                                         assert_transform)
 from pytransform.rotations import matrix_from, random_axis_angle, random_vector
 from nose.tools import assert_true
 from numpy.testing import assert_array_almost_equal
@@ -36,6 +37,7 @@ def test_vector_to_point():
     R = matrix_from(a=random_axis_angle(random_state))
     p = random_vector(random_state)
     A2B = transform_from(R, p)
+    assert_transform(A2B)
     pB = transform(A2B, pA)
 
 
@@ -46,12 +48,15 @@ def test_concat():
         R = matrix_from(a=random_axis_angle(random_state))
         p = random_vector(random_state)
         A2B = transform_from(R, p)
+        assert_transform(A2B)
 
         R = matrix_from(a=random_axis_angle(random_state))
         p = random_vector(random_state)
         B2C = transform_from(R, p)
+        assert_transform(B2C)
 
         A2C = concat(A2B, B2C)
+        assert_transform(A2C)
 
         p_A = np.array([0.3, -0.2, 0.9, 1.0])
         p_C = transform(A2C, p_A)

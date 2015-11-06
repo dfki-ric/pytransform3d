@@ -1,5 +1,6 @@
 import numpy as np
-from .rotations import plot_basis
+from .rotations import plot_basis, assert_rotation_matrix
+from numpy.testing import assert_array_almost_equal
 
 
 def invert_transform(A2B):
@@ -164,3 +165,14 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, **kwargs):
     if A2B is None:
         A2B = np.eye(4)
     return plot_basis(ax, A2B[:3, :3], A2B[:3, 3], s, ax_s, **kwargs)
+
+
+def assert_transform(A2B, *args, **kwargs):
+    """Raise an assertion if the transform is not a homogeneous matrix.
+
+    See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+    """
+    assert_rotation_matrix(A2B[:3, :3], *args, **kwargs)
+    assert_array_almost_equal(A2B[3], np.array([0.0, 0.0, 0.0, 1.0]),
+                              *args, **kwargs)
