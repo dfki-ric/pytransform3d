@@ -27,3 +27,16 @@ def test_request_inverse_transform():
     B2A = tm.get_transform("B", "A")
     B2A_2 = invert_transform(A2B)
     assert_array_almost_equal(B2A, B2A_2)
+
+
+def test_request_concatenated_transform():
+    """Request a concatenated transform from the transform manager."""
+    A2B = np.eye(4)
+    translate_transform(A2B, np.array([0.3, 0.5, -0.1]))
+    B2C = np.eye(4)
+    translate_transform(B2C, np.array([0.1, 0.9, -0.8]))
+
+    tm = TransformManager()
+    tm.add_transform("A", "B", A2B)
+    tm.add_transform("B", "C", B2C)
+    A2C = tm.get_transform("A", "C")
