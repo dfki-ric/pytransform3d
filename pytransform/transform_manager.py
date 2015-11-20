@@ -4,16 +4,40 @@ from .transformations import invert_transform, concat
 
 
 class TransformManager(object):
-    """TODO document me"""
+    """Manages transforms between frames.
+
+    This is a simplified version of `ROS tf <http://wiki.ros.org/tf>`_ that
+    ignores the temporal aspect. A user can register transforms. The shortest
+    path between all frames will be computed internally which enables us to
+    provide transforms for any connected frames.
+    """
     def __init__(self):
         self.transforms = {}
         self.nodes = []
         self.i = []
         self.j = []
-        self.predecessors = np.zeros((0, 0))
 
     def add_transform(self, from_frame, to_frame, A2B):
-        """TODO document me"""
+        """Register a transform.
+
+        Parameters
+        ----------
+        from_frame : string
+            Name of the frame for which the transform is added in the to_frame
+            coordinate system
+
+        to_frame : string
+            Name of the frame in which the transform is defined
+
+        A2B : array-like, shape (4, 4)
+            Homogeneous matrix that represents the transform from 'from_frame'
+            to 'to_frame'
+
+        Returns
+        -------
+        self : TransformManager
+            This object for chaining
+        """
         if from_frame not in self.nodes:
             self.nodes.append(from_frame)
         if to_frame not in self.nodes:
@@ -31,21 +55,39 @@ class TransformManager(object):
         return self
 
     def get_transform(self, from_frame, to_frame):
-        """TODO document me"""
+        """Request a transform.
+
+        Parameters
+        ----------
+        from_frame : string
+            Name of the frame for which the transform is requested in the
+            to_frame coordinate system
+
+        to_frame : string
+            Name of the frame in which the transform is defined
+
+        Returns
+        -------
+        A2B : array-like, shape (4, 4)
+            Homogeneous matrix that represents the transform from 'from_frame'
+            to 'to_frame'
+        """
+        if from_frame not in self.nodes:
+            raise KeyError("Unknown frame '%s'" % from_frame)
+        if to_frame not in self.nodes:
+            raise KeyError("Unknown frame '%s'" % to_frame)
+
         if (from_frame, to_frame) in self.transforms:
             return self.transforms[(from_frame, to_frame)]
         elif (to_frame, from_frame) in self.transforms:
             return invert_transform(self.transforms[(to_frame, from_frame)])
         else:
-            if from_frame not in self.nodes:
-                raise KeyError("Unknown frame '%s'" % from_frame)
-            if to_frame not in self.nodes:
-                raise KeyError("Unknown frame '%s'" % to_frame)
             i = self.nodes.index(from_frame)
             j = self.nodes.index(to_frame)
             if not np.isfinite(self.dist[i, j]):
                 raise KeyError("Cannot compute path from frame '%s' to "
                                "frame '%s'." % (from_frame, to_frame))
+
             k = i
             path = []
             while k != -9999:
