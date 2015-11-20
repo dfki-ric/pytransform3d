@@ -3,19 +3,14 @@ from pytransform.transformations import (transform_from, invert_transform,
                                          vector_to_point, concat, transform,
                                          assert_transform)
 from pytransform.rotations import matrix_from, random_axis_angle, random_vector
-from nose.tools import assert_true
+from nose.tools import assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 
 
 def test_invert_transform():
     """Test inversion of transformations."""
-    caught_error = False
-    try:
-        invert_transform(np.eye(3))
-    except ValueError:
-        caught_error = True
-    finally:
-        assert_true(caught_error)
+    assert_raises_regexp(ValueError, "must have shape",
+                         invert_transform, np.eye(3))
 
     random_state = np.random.RandomState(0)
     for _ in range(5):
@@ -85,10 +80,6 @@ def test_transform():
     p1B = transform(A2B, PA[1])
     assert_array_almost_equal(PB, np.array([p0B, p1B]))
 
-    caught_error = False
-    try:
-        transform(A2B, np.zeros((2, 2, 4)))
-    except ValueError:
-        caught_error = True
-    finally:
-        assert_true(caught_error)
+    assert_raises_regexp(
+        ValueError, "Cannot transform array with more than 2 dimensions",
+        transform, A2B, np.zeros((2, 2, 4)))
