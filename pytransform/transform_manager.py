@@ -5,12 +5,18 @@ from .transformations import (check_transform, invert_transform, concat,
 
 
 class TransformManager(object):
-    """Manages transforms between frames.
+    """Manage transforms between frames.
 
     This is a simplified version of `ROS tf <http://wiki.ros.org/tf>`_ that
     ignores the temporal aspect. A user can register transforms. The shortest
     path between all frames will be computed internally which enables us to
     provide transforms for any connected frames.
+
+    Suppose we know the transforms A2B, D2C, and B2C. The transform manager can
+    compute any transform between the frames A, B, C and D. For example, you
+    can request the transform that represents frame D in frame A. The transform
+    manager will automatically concatenate the transform D2C, C2B, and B2A,
+    where C2B and B2A are obtained by inverting B2C and A2B respectively.
     """
     def __init__(self):
         self.transforms = {}

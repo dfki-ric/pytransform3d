@@ -151,7 +151,6 @@ Testing
    ~pytransform.transformations.assert_transform
 
 
-
 :mod:`pytransform.transform_manager`: TransformManager
 ======================================================
 
