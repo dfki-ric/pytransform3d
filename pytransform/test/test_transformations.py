@@ -1,7 +1,7 @@
 import numpy as np
-from pytransform.transformations import (transform_from, invert_transform,
-                                         vector_to_point, concat, transform,
-                                         assert_transform)
+from pytransform.transformations import (random_transform, transform_from,
+                                         invert_transform, vector_to_point,
+                                         concat, transform, assert_transform)
 from pytransform.rotations import matrix_from, random_axis_angle, random_vector
 from nose.tools import assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
@@ -40,14 +40,10 @@ def test_concat():
     """Test concatenation of transforms."""
     random_state = np.random.RandomState(0)
     for _ in range(5):
-        R = matrix_from(a=random_axis_angle(random_state))
-        p = random_vector(random_state)
-        A2B = transform_from(R, p)
+        A2B = random_transform(random_state)
         assert_transform(A2B)
 
-        R = matrix_from(a=random_axis_angle(random_state))
-        p = random_vector(random_state)
-        B2C = transform_from(R, p)
+        B2C = random_transform(random_state)
         assert_transform(B2C)
 
         A2C = concat(A2B, B2C)
@@ -71,9 +67,7 @@ def test_transform():
                    [2, 3, 4, 1]])
 
     random_state = np.random.RandomState(0)
-    R = matrix_from(a=random_axis_angle(random_state))
-    p = random_vector(random_state)
-    A2B = transform_from(R, p)
+    A2B = random_transform(random_state)
 
     PB = transform(A2B, PA)
     p0B = transform(A2B, PA[0])
