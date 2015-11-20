@@ -33,6 +33,7 @@ def test_request_inverse_transform():
 
 def test_request_concatenated_transform():
     """Request a concatenated transform from the transform manager."""
+    # TODO make more random transforms
     A2B = np.eye(4)
     translate_transform(A2B, np.array([0.3, 0.5, -0.1]))
     B2C = np.eye(4)
@@ -55,6 +56,10 @@ def test_request_concatenated_transform():
 
     F2B = tm.get_transform("F", "B")
     assert_array_almost_equal(F2B, concat(invert_transform(A2F), A2B))
+
+    assert_raises_regexp(KeyError, "Unknown frame", tm.get_transform, "A", "G")
+
+    assert_raises_regexp(KeyError, "Unknown frame", tm.get_transform, "G", "D")
 
     assert_raises_regexp(KeyError, "Cannot compute path", tm.get_transform,
                          "A", "D")
