@@ -136,6 +136,7 @@ Testing
    ~pytransform.transformations.concat
    ~pytransform.transformations.transform
    ~pytransform.transformations.plot_transform
+   ~pytransform.transformations.assert_transform
 
 
 :mod:`pytransform.camera`: Camera
