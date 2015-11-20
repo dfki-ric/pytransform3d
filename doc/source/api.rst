@@ -127,8 +127,9 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.transformations.invert_transform
    ~pytransform.transformations.transform_from
+   ~pytransform.transformations.random_transform
+   ~pytransform.transformations.invert_transform
    ~pytransform.transformations.translate_transform
    ~pytransform.transformations.rotate_transform
    ~pytransform.transformations.vector_to_point

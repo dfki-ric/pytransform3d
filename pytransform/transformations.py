@@ -1,25 +1,8 @@
 import numpy as np
-from .rotations import plot_basis, assert_rotation_matrix
+from .rotations import (random_quaternion, random_vector,
+                        matrix_from_quaternion, plot_basis,
+                        assert_rotation_matrix)
 from numpy.testing import assert_array_almost_equal
-
-
-def invert_transform(A2B):
-    """Invert transform.
-
-    Parameters
-    ----------
-    A2B : array-like, shape (4, 4)
-        Transform from frame A to frame B
-
-    Returns
-    -------
-    B2A : array-like, shape (4, 4)
-        Transform from frame B to frame A
-    """
-    if A2B.shape != (4, 4):
-        raise ValueError("Transformation must have shape (4, 4) but has %s"
-                         % str(A2B.shape))
-    return np.linalg.inv(A2B)
 
 
 def transform_from(R, p):
@@ -41,6 +24,47 @@ def transform_from(R, p):
     A2B = rotate_transform(np.eye(4), R)
     A2B = translate_transform(A2B, p)
     return A2B
+
+
+def random_transform(random_state=np.random.RandomState(0)):
+    """Generate an random transform.
+
+    Each component of the translation will be sampled from
+    :math:`\mathcal{N}(\mu=0, \sigma=1)`.
+
+    Parameters
+    ----------
+    random_state : np.random.RandomState, optional (default: random seed 0)
+        Random number generator
+
+    Returns
+    -------
+    A2B : array-like, shape (4, 4)
+        Random transform from frame A to frame B
+    """
+    q = random_quaternion(random_state)
+    R = matrix_from_quaternion(q)
+    p = random_vector(random_state, n=3)
+    return transform_from(R=R, p=p)
+
+
+def invert_transform(A2B):
+    """Invert transform.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    B2A : array-like, shape (4, 4)
+        Transform from frame B to frame A
+    """
+    if A2B.shape != (4, 4):
+        raise ValueError("Transformation must have shape (4, 4) but has %s"
+                         % str(A2B.shape))
+    return np.linalg.inv(A2B)
 
 
 def translate_transform(A2B, p, out=None):

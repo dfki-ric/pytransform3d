@@ -1,5 +1,5 @@
 import numpy as np
-from pytransform.transformations import (invert_transform, translate_transform,
+from pytransform.transformations import (random_transform, invert_transform,
                                          concat)
 from pytransform.transform_manager import TransformManager
 from numpy.testing import assert_array_almost_equal
@@ -8,7 +8,8 @@ from nose.tools import assert_raises_regexp
 
 def test_request_added_transform():
     """Request an added transform from the transform manager."""
-    A2B = np.eye(4)
+    random_state = np.random.RandomState(0)
+    A2B = random_transform(random_state)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -18,8 +19,8 @@ def test_request_added_transform():
 
 def test_request_inverse_transform():
     """Request an inverse transform from the transform manager."""
-    A2B = np.eye(4)
-    translate_transform(A2B, np.array([0.3, 0.5, -0.1]))
+    random_state = np.random.RandomState(0)
+    A2B = random_transform(random_state)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -33,8 +34,9 @@ def test_request_inverse_transform():
 
 def test_transform_not_added():
     """Test request for transforms that have not been added."""
-    A2B = np.eye(4)
-    C2D = np.eye(4)
+    random_state = np.random.RandomState(0)
+    A2B = random_transform(random_state)
+    C2D = random_transform(random_state)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -48,13 +50,10 @@ def test_transform_not_added():
 
 def test_request_concatenated_transform():
     """Request a concatenated transform from the transform manager."""
-    # TODO make more random transforms
-    A2B = np.eye(4)
-    translate_transform(A2B, np.array([0.3, 0.5, -0.1]))
-    B2C = np.eye(4)
-    translate_transform(B2C, np.array([0.1, 0.9, -0.8]))
-    F2A = np.eye(4)
-    translate_transform(F2A, np.array([0.1, -0.9, 0.8]))
+    random_state = np.random.RandomState(0)
+    A2B = random_transform(random_state)
+    B2C = random_transform(random_state)
+    F2A = random_transform(random_state)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
