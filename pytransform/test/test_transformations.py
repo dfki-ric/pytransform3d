@@ -11,7 +11,9 @@ from numpy.testing import assert_array_almost_equal
 def test_check_transform():
     """Test input validation for transformation matrix."""
     A2B = np.eye(3)
-    assert_raises_regexp(ValueError, "shape \(3, 3\)", check_transform, A2B)
+    assert_raises_regexp(
+        ValueError, "Expected homogeneous transformation matrix with shape",
+        check_transform, A2B)
 
     A2B = np.eye(4, dtype=int)
     A2B = check_transform(A2B)

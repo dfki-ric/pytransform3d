@@ -121,7 +121,7 @@ def test_check_matrix():
 
     R = np.eye(4)
     assert_raises_regexp(
-        ValueError, "Expected rotation matrix with shape \(3, 3\).*",
+        ValueError, "Expected rotation matrix with shape",
         check_matrix, R)
 
     R = np.array([[1, 0, 0], [0, 1, 0], [0, 0.1, 1]])
@@ -152,10 +152,10 @@ def test_check_axis_angle():
     assert_greater(np.pi, a2[3])
 
     assert_raises_regexp(
-        ValueError, "Expected axis and angle in array with shape \(4,\)",
+        ValueError, "Expected axis and angle in array with shape",
         check_axis_angle, np.zeros(3))
     assert_raises_regexp(
-        ValueError, "Expected axis and angle in array with shape \(4,\)",
+        ValueError, "Expected axis and angle in array with shape",
         check_axis_angle, np.zeros((3, 3)))
 
 
@@ -172,9 +172,9 @@ def test_check_quaternion():
     q = check_quaternion(q)
     assert_almost_equal(np.linalg.norm(q), 1.0)
 
-    assert_raises_regexp(ValueError, "Expected quaternion with shape \(4,\)",
+    assert_raises_regexp(ValueError, "Expected quaternion with shape",
                          check_quaternion, np.zeros(3))
-    assert_raises_regexp(ValueError, "Expected quaternion with shape \(4,\)",
+    assert_raises_regexp(ValueError, "Expected quaternion with shape",
                          check_quaternion, np.zeros((3, 3)))
 
 
