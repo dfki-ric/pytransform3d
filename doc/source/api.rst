@@ -41,6 +41,7 @@ Input Validation Functions
 
    ~pytransform.rotations.check_matrix
    ~pytransform.rotations.check_axis_angle
+   ~pytransform.rotations.check_quaternion
 
 Conversions to Rotation Matrix
 ------------------------------

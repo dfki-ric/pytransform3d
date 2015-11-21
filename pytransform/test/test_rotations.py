@@ -152,6 +152,20 @@ def test_check_axis_angle():
     assert_greater(np.pi, a2[3])
 
 
+def test_check_quaternion():
+    """Test input validation for quaternion representation."""
+    q_list = [1, 0, 0, 0]
+    q = check_quaternion(q_list)
+    assert_array_almost_equal(q_list, q)
+    assert_equal(type(q), np.ndarray)
+    assert_equal(q.dtype, np.float)
+
+    random_state = np.random.RandomState(0)
+    q = random_state.randn()
+    q = check_quaternion(q)
+    assert_almost_equal(np.linalg.norm(q), 1.0)
+
+
 def test_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
     assert_raises_regexp(ValueError, "Basis must be in", matrix_from_angle,
@@ -458,7 +472,7 @@ def test_quaternion_conjugate():
     """Test quaternion conjugate."""
     random_state = np.random.RandomState(0)
     for _ in range(5):
-        q = quaternion_from_axis_angle(random_axis_angle(random_state))
+        q = random_quaternion(random_state)
         v = random_vector(random_state)
         vq = q_prod_vector(q, v)
         vq2 = concatenate_quaternions(concatenate_quaternions(

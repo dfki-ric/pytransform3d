@@ -255,6 +255,23 @@ def check_axis_angle(a):
     return norm_axis_angle(a)
 
 
+def check_quaternion(q):
+    """Input validation of quaternion representation.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    q : array-like, shape (4,)
+        Validated unit quaternion to represent rotation: (w, x, y, z)
+    """
+    q = np.asarray(q, dtype=np.float)
+    return norm_vector(q)
+
+
 def matrix_from_axis_angle(a):
     """Compute rotation matrix from axis-angle.
 
@@ -307,6 +324,7 @@ def matrix_from_quaternion(q):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
+    q = check_quaternion(q)
     uq = norm_vector(q)
     w, x, y, z = uq
     x2 = 2.0 * x * x
@@ -571,6 +589,7 @@ def axis_angle_from_quaternion(q):
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi) so that the mapping is unique.
     """
+    q = check_quaternion(q)
     p = q[1:]
     p_norm = np.linalg.norm(p)
     if p_norm < np.finfo(float).eps:
@@ -707,6 +726,7 @@ def q_prod_vector(q, v):
     w : array-like, shape (3,)
         3d vector
     """
+    q = check_quaternion(q)
     t = 2 * np.cross(q[1:], v)
     return v + q[0] * t + np.cross(q[1:], t)
 
@@ -726,6 +746,7 @@ def q_conj(q):
     q_c : array-like, shape (4,)
         Conjugate (w, -x, -y, -z)
     """
+    q = check_quaternion(q)
     return np.array([q[0], -q[1], -q[2], -q[3]])
 
 
@@ -777,6 +798,8 @@ def quaternion_slerp(start, end, t):
     q : array-like, shape (4,)
         Interpolated unit quaternion to represent rotation: (w, x, y, z)
     """
+    start = check_quaternion(start)
+    end = check_quaternion(end)
     omega = angle_between_vectors(start, end)
     w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
     w2 = np.sin(t * omega) / np.sin(omega)
@@ -809,6 +832,8 @@ def quaternion_dist(q1, q2):
     dist : float
         Distance between q1 and q2
     """
+    q1 = check_quaternion(q1)
+    q2 = check_quaternion(q2)
     q12c = concatenate_quaternions(q1, q_conj(q2))
     if np.any(q12c != np.array([1, 0, 0, 0])):
         return axis_angle_from_quaternion(q12c)[-1]
@@ -836,6 +861,8 @@ def quaternion_diff(q1, q2):
     a : array-like, shape (4,)
         The rotation in angle-axis format that rotates q2 into q1
     """
+    q1 = check_quaternion(q1)
+    q2 = check_quaternion(q2)
     q1q2c = concatenate_quaternions(q1, q_conj(q2))
     return axis_angle_from_quaternion(q1q2c)
 
@@ -911,6 +938,7 @@ def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
     ax : Matplotlib 3d axis
         New or old axis
     """
+    a = check_axis_angle(a)
     if ax is None:
         ax = make_3d_axis(ax_s)
 
