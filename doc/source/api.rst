@@ -40,6 +40,7 @@ Input Validation Functions
    :template: function.rst
 
    ~pytransform.rotations.check_matrix
+   ~pytransform.rotations.check_axis_angle
 
 Conversions to Rotation Matrix
 ------------------------------

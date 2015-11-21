@@ -74,8 +74,8 @@ def norm_axis_angle(a):
     while angle > np.pi:
         angle -= 2.0 * np.pi
     if angle < 0.0:
-        angle = np.pi - np.abs(angle)
-        res[:3] *= -1
+        angle *= -1.0
+        res[:3] *= -1.0
 
     res[3] = angle
 
@@ -238,6 +238,23 @@ def check_matrix(R):
     return R
 
 
+def check_axis_angle(a):
+    """Input validation of axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Validated axis of rotation and rotation angle: (x, y, z, angle)
+    """
+    a = np.asarray(a, dtype=np.float)
+    return norm_axis_angle(a)
+
+
 def matrix_from_axis_angle(a):
     """Compute rotation matrix from axis-angle.
 
@@ -253,7 +270,7 @@ def matrix_from_axis_angle(a):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
-    a = norm_axis_angle(a)
+    a = check_axis_angle(a)
     ux, uy, uz, theta = a
     c = np.cos(theta)
     s = np.sin(theta)
@@ -643,12 +660,12 @@ def quaternion_from_axis_angle(a):
     q : array-like, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
+    a = check_axis_angle(a)
     theta = a[3]
-    u = norm_vector(a[:3])
 
     q = np.empty(4)
     q[0] = np.cos(theta / 2)
-    q[1:] = np.sin(theta / 2) * u
+    q[1:] = np.sin(theta / 2) * a[:3]
     return q
 
 
@@ -697,6 +714,8 @@ def q_prod_vector(q, v):
 def q_conj(q):
     """Conjugate of quaternion.
 
+    The conjugate represents the inverted rotation.
+
     Parameters
     ----------
     q : array-like, shape (4,)
@@ -729,6 +748,8 @@ def axis_angle_slerp(start, end, t):
     a : array-like, shape (4,)
         Interpolated axis of rotation and rotation angle: (x, y, z, angle)
     """
+    start = check_axis_angle(start)
+    end = check_axis_angle(end)
     omega = angle_between_vectors(start[:3], end[:3])
     w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
     w2 = np.sin(t * omega) / np.sin(omega)

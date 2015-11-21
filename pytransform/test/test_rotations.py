@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 from nose.tools import (assert_almost_equal, assert_equal, assert_true,
-                        assert_raises_regexp)
+                        assert_greater, assert_raises_regexp)
 from pytransform.rotations import *
 
 
@@ -131,6 +131,25 @@ def test_check_matrix():
     R = np.array([[1, 0, 1e-16], [0, 1, 0], [0, 0, 1]])
     R2 = check_matrix(R)
     assert_array_equal(R, R2)
+
+
+def test_check_axis_angle():
+    """Test input validation for axis-angle representation."""
+    a_list = [1, 0, 0, 0]
+    a = check_axis_angle(a_list)
+    assert_array_almost_equal(a_list, a)
+    assert_equal(type(a), np.ndarray)
+    assert_equal(a.dtype, np.float)
+
+    random_state = np.random.RandomState(0)
+    a = np.empty(4)
+    a[:3] = random_vector(random_state, 3)
+    a[3] = random_state.randn() * 4.0 * np.pi
+    a2 = check_axis_angle(a)
+    assert_axis_angle_equal(a, a2)
+    assert_almost_equal(np.linalg.norm(a2[:3]), 1.0)
+    assert_greater(a2[3], 0)
+    assert_greater(np.pi, a2[3])
 
 
 def test_matrix_from_angle():
@@ -472,8 +491,8 @@ def test_quaternion_diff():
     random_state = np.random.RandomState(0)
 
     for _ in range(5):
-        q1 = quaternion_from_axis_angle(random_axis_angle(random_state))
-        q2 = quaternion_from_axis_angle(random_axis_angle(random_state))
+        q1 = random_quaternion(random_state)
+        q2 = random_quaternion(random_state)
         dist = quaternion_dist(q1, q2)
         a_diff = quaternion_diff(q1, q2)          # q1 - q2
         assert_almost_equal(dist, a_diff[3])
