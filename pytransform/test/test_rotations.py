@@ -151,6 +151,13 @@ def test_check_axis_angle():
     assert_greater(a2[3], 0)
     assert_greater(np.pi, a2[3])
 
+    assert_raises_regexp(
+        ValueError, "Expected axis and angle in array with shape \(4,\)",
+        check_axis_angle, np.zeros(3))
+    assert_raises_regexp(
+        ValueError, "Expected axis and angle in array with shape \(4,\)",
+        check_axis_angle, np.zeros((3, 3)))
+
 
 def test_check_quaternion():
     """Test input validation for quaternion representation."""
@@ -161,9 +168,14 @@ def test_check_quaternion():
     assert_equal(q.dtype, np.float)
 
     random_state = np.random.RandomState(0)
-    q = random_state.randn()
+    q = random_state.randn(4)
     q = check_quaternion(q)
     assert_almost_equal(np.linalg.norm(q), 1.0)
+
+    assert_raises_regexp(ValueError, "Expected quaternion with shape \(4,\)",
+                         check_quaternion, np.zeros(3))
+    assert_raises_regexp(ValueError, "Expected quaternion with shape \(4,\)",
+                         check_quaternion, np.zeros((3, 3)))
 
 
 def test_matrix_from_angle():

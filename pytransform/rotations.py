@@ -252,6 +252,9 @@ def check_axis_angle(a):
         Validated axis of rotation and rotation angle: (x, y, z, angle)
     """
     a = np.asarray(a, dtype=np.float)
+    if a.ndim != 1 or a.shape[0] != 4:
+        raise ValueError("Expected axis and angle in array with shape (4,), "
+                         "got array-like object with shape %s" % (a.shape,))
     return norm_axis_angle(a)
 
 
@@ -269,6 +272,9 @@ def check_quaternion(q):
         Validated unit quaternion to represent rotation: (w, x, y, z)
     """
     q = np.asarray(q, dtype=np.float)
+    if q.ndim != 1 or q.shape[0] != 4:
+        raise ValueError("Expected quaternion with shape (4,), got "
+                         "array-like object with shape %s" % (q.shape,))
     return norm_vector(q)
 
 
