@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.sparse as sp
-from .transformations import invert_transform, concat
+from .transformations import check_transform, invert_transform, concat
 
 
 class TransformManager(object):
@@ -38,6 +38,7 @@ class TransformManager(object):
         self : TransformManager
             This object for chaining
         """
+        A2B = check_transform(A2B)
         if from_frame not in self.nodes:
             self.nodes.append(from_frame)
         if to_frame not in self.nodes:

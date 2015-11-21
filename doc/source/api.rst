@@ -138,6 +138,7 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform.transformations.check_transform
    ~pytransform.transformations.transform_from
    ~pytransform.transformations.random_transform
    ~pytransform.transformations.invert_transform

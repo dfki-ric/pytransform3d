@@ -1,17 +1,39 @@
 import numpy as np
 from pytransform.transformations import (random_transform, transform_from,
                                          invert_transform, vector_to_point,
-                                         concat, transform, assert_transform)
+                                         concat, transform, assert_transform,
+                                         check_transform)
 from pytransform.rotations import matrix_from, random_axis_angle, random_vector
-from nose.tools import assert_raises_regexp
+from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
+
+
+def test_check_transform():
+    """Test input validation for transformation matrix."""
+    A2B = np.eye(3)
+    assert_raises_regexp(ValueError, "shape \(3, 3\)", check_transform, A2B)
+
+    A2B = np.eye(4, dtype=int)
+    A2B = check_transform(A2B)
+    assert_equal(type(A2B), np.ndarray)
+    assert_equal(A2B.dtype, np.float)
+
+    A2B[:3, :3] = np.array([[1, 1, 1], [0, 0, 0], [2, 2, 2]])
+    assert_raises_regexp(ValueError, "rotation matrix", check_transform, A2B)
+
+    A2B = np.eye(4)
+    A2B[3, :] = np.array([0.1, 0.0, 0.0, 1.0])
+    assert_raises_regexp(ValueError, "homogeneous transformation matrix",
+                         check_transform, A2B)
+
+    random_state = np.random.RandomState(0)
+    A2B = random_transform(random_state)
+    A2B2 = check_transform(A2B)
+    assert_array_almost_equal(A2B, A2B2)
 
 
 def test_invert_transform():
     """Test inversion of transformations."""
-    assert_raises_regexp(ValueError, "must have shape",
-                         invert_transform, np.eye(3))
-
     random_state = np.random.RandomState(0)
     for _ in range(5):
         R = matrix_from(a=random_axis_angle(random_state))
