@@ -213,6 +213,31 @@ def cross_product_matrix(v):
                      [-v[1], v[0], 0.0]])
 
 
+def check_matrix(R):
+    """Input validation of a rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Validated rotation matrix
+    """
+    R = np.asarray(R, dtype=np.float)
+    if R.ndim != 2 or R.shape[0] != 3 or R.shape[1] != 3:
+        raise ValueError("Expected rotation matrix with shape (3, 3), got "
+                         "array-like object with shape %s" % (R.shape,))
+    RRT = np.dot(R, R.T)
+    if not np.allclose(RRT, np.eye(3)):
+        raise ValueError("Expected rotation matrix, but it failed the test "
+                         "for inversion by transposition. np.dot(R, R.T) "
+                         "gives %r" % RRT)
+    return R
+
+
 def matrix_from_axis_angle(a):
     """Compute rotation matrix from axis-angle.
 
@@ -427,6 +452,7 @@ def euler_xyz_from_matrix(R):
     e_xyz : array-like, shape (3,)
         Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
     """
+    R = check_matrix(R)
     if np.abs(R[0, 2]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
         angle2 = np.arcsin(-R[0, 2])
@@ -457,6 +483,7 @@ def euler_zyx_from_matrix(R):
     e_zyx : array-like, shape (3,)
         Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
     """
+    R = check_matrix(R)
     if np.abs(R[2, 0]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
         angle2 = np.arcsin(R[2, 0])
@@ -492,6 +519,7 @@ def axis_angle_from_matrix(R):
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
+    R = check_matrix(R)
     angle = np.arccos((np.trace(R) - 1.0) / 2.0)
 
     if angle == 0.0:

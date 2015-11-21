@@ -1,6 +1,7 @@
 import numpy as np
-from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_almost_equal, assert_true, assert_raises_regexp
+from numpy.testing import assert_array_almost_equal, assert_array_equal
+from nose.tools import (assert_almost_equal, assert_equal, assert_true,
+                        assert_raises_regexp)
 from pytransform.rotations import *
 
 
@@ -100,6 +101,36 @@ def test_cross_product_matrix():
         r1 = np.cross(v, w)
         r2 = np.dot(V, w)
         assert_array_almost_equal(r1, r2)
+
+
+def test_check_matrix():
+    """Test input validation for rotation matrix."""
+    R_list = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    R = check_matrix(R_list)
+    assert_equal(type(R), np.ndarray)
+    assert_equal(R.dtype, np.float)
+
+    R_int_array = np.eye(3, dtype=np.int)
+    R = check_matrix(R_int_array)
+    assert_equal(type(R), np.ndarray)
+    assert_equal(R.dtype, np.float)
+
+    R_array = np.eye(3)
+    R = check_matrix(R_array)
+    assert_array_equal(R_array, R)
+
+    R = np.eye(4)
+    assert_raises_regexp(
+        ValueError, "Expected rotation matrix with shape \(3, 3\).*",
+        check_matrix, R)
+
+    R = np.array([[1, 0, 0], [0, 1, 0], [0, 0.1, 1]])
+    assert_raises_regexp(
+        ValueError, "inversion by transposition", check_matrix, R)
+
+    R = np.array([[1, 0, 1e-16], [0, 1, 0], [0, 0, 1]])
+    R2 = check_matrix(R)
+    assert_array_equal(R, R2)
 
 
 def test_matrix_from_angle():

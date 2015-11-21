@@ -32,6 +32,15 @@ Utility Functions
    ~pytransform.rotations.random_quaternion
    ~pytransform.rotations.cross_product_matrix
 
+Input Validation Functions
+--------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform.rotations.check_matrix
+
 Conversions to Rotation Matrix
 ------------------------------
 
