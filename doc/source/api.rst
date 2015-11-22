@@ -151,6 +151,21 @@ Testing
    ~pytransform.transformations.assert_transform
 
 
+
+:mod:`pytransform.transform_manager`: TransformManager
+======================================================
+
+.. automodule:: pytransform.transform_manager
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform.transform_manager.TransformManager
+
+
 :mod:`pytransform.camera`: Camera
 =================================
 

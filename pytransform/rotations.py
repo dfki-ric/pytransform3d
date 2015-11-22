@@ -8,6 +8,13 @@ unitx = np.array([1.0, 0.0, 0.0])
 unity = np.array([0.0, 1.0, 0.0])
 unitz = np.array([0.0, 0.0, 1.0])
 
+R_id = np.eye(3)
+a_id = np.array([1.0, 0.0, 0.0, 0.0])
+q_id = np.array([1.0, 0.0, 0.0, 0.0])
+e_xyz_id = np.array([0.0, 0.0, 0.0])
+e_zyx_id = np.array([0.0, 0.0, 0.0])
+p0 = np.array([0.0, 0.0, 0.0])
+
 
 def norm_vector(v):
     """Normalize vector.
@@ -915,8 +922,7 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
     return ax
 
 
-def plot_axis_angle(ax=None, a=np.array([1, 0, 0, 0]), p=np.zeros(3), s=1.0,
-                    ax_s=1, **kwargs):
+def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
     """Plot rotation axis and angle.
 
     Parameters

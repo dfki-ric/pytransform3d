@@ -525,3 +525,11 @@ def test_quaternion_diff():
         q_diff = quaternion_from_axis_angle(a_diff)
         q3 = concatenate_quaternions(q_diff, q2)  # q1 - q2 + q2
         assert_quaternion_equal(q1, q3)
+
+
+def test_id_rot():
+    """Test equivalence of constants that represent no rotation."""
+    assert_array_almost_equal(R_id, matrix_from_axis_angle(a_id))
+    assert_array_almost_equal(R_id, matrix_from_quaternion(q_id))
+    assert_array_almost_equal(R_id, matrix_from_euler_xyz(e_xyz_id))
+    assert_array_almost_equal(R_id, matrix_from_euler_zyx(e_zyx_id))
