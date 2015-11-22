@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.sparse as sp
-from .transformations import check_transform, invert_transform, concat
+from .transformations import (check_transform, invert_transform, concat,
+                              plot_transform)
 
 
 class TransformManager(object):
@@ -99,3 +100,42 @@ class TransformManager(object):
             for from_f, to_f in zip(path[:-1], path[1:]):
                 A2B = concat(A2B, self.get_transform(from_f, to_f))
             return A2B
+
+    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, **kwargs):
+        """Plot all frames in a given reference frame.
+
+        Note that frames that cannot be connected to the reference frame are
+        omitted.
+
+        Parameters
+        ----------
+        frame : string
+            Reference frame
+
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        s : float, optional (default: 1)
+            Scaling of the axis and angle that will be drawn
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        kwargs : dict, optional (default: {})
+            Additional arguments for the plotting functions, e.g. alpha
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        if frame not in self.nodes:
+            raise KeyError("Unknown frame '%s'" % from_frame)
+
+        for node in self.nodes:
+            try:
+                node2frame = self.get_transform(node, frame)
+                ax = plot_transform(ax, node2frame, s, ax_s, node, **kwargs)
+            except KeyError:
+                pass  # Frame is not connected to the reference frame
+        return ax

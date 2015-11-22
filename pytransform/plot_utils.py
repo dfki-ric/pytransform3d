@@ -15,7 +15,7 @@ class Arrow3D(FancyArrowPatch):  # http://stackoverflow.com/a/11156353/915743
         FancyArrowPatch.draw(self, renderer)
 
 
-def make_3d_axis(ax_s):
+def make_3d_axis(ax_s, pos=111):
     """Generate new 3D axis.
 
     Parameters
@@ -23,12 +23,15 @@ def make_3d_axis(ax_s):
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
 
+    pos : int, optional (default: 111)
+        Position indicator (nrows, ncols, plot_number)
+
     Returns
     -------
     ax : Matplotlib 3d axis
         New axis
     """
-    ax = plt.subplot(111, projection="3d", aspect="equal")
+    ax = plt.subplot(pos, projection="3d", aspect="equal")
     plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
              xlabel="X", ylabel="Y", zlabel="Z")
     return ax

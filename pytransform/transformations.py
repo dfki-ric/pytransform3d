@@ -195,7 +195,7 @@ def transform(A2B, PA):
         raise ValueError("Cannot transform array with more than 2 dimensions")
 
 
-def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, **kwargs):
+def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):
     """Plot transform.
 
     Parameters
@@ -212,6 +212,9 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, **kwargs):
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
 
+    name : string, optional (default: None)
+        Name of the frame, will be used for annotation
+
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha
 
@@ -223,7 +226,18 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, **kwargs):
     if A2B is None:
         A2B = np.eye(4)
     A2B = check_transform(A2B)
-    return plot_basis(ax, A2B[:3, :3], A2B[:3, 3], s, ax_s, **kwargs)
+
+    R = A2B[:3, :3]
+    p = A2B[:3, 3]
+    ax = plot_basis(ax, R, p, s, ax_s, **kwargs)
+
+    if name is not None:
+        label_pos = p + 0.5 * s * (R[:, 0] + R[:, 1] + R[:, 2])
+        ax.plot([p[0], label_pos[0]], [p[1], label_pos[1]],
+                [p[2], label_pos[2]], color="k")
+        ax.text(label_pos[0], label_pos[1], label_pos[2], name)
+
+    return ax
 
 
 def assert_transform(A2B, *args, **kwargs):
