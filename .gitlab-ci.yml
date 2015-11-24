@@ -12,7 +12,7 @@ ubuntu-tests:
   tags:
     - ubuntu14.04
 
-windows-tests:
+windows-python2-tests:
   stage: test
   script:
     # We don't set up any environment here, because we have anaconda and
@@ -21,4 +21,15 @@ windows-tests:
     - cd doc
     - make.bat html
   tags:
-    - windows-server-2008
+    - windows-server-2008,python2.7
+
+windows-python3-tests:
+  stage: test
+  script:
+    # We don't set up any environment here, because we have anaconda and
+    # we assume that 'coverage' is installed
+    - nosetests -sv --with-coverage
+    - cd doc
+    - make.bat html
+  tags:
+    - windows-server-2008,python3.5
