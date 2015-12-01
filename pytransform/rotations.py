@@ -265,7 +265,7 @@ def check_axis_angle(a):
     return norm_axis_angle(a)
 
 
-def check_quaternion(q):
+def check_quaternion(q, unit=True):
     """Input validation of quaternion representation.
 
     Parameters
@@ -273,16 +273,22 @@ def check_quaternion(q):
     q : array-like, shape (4,)
         Quaternion to represent rotation: (w, x, y, z)
 
+    unit : bool, optional (default: True)
+        Normalize the quaternion so that it is a unit quaternion
+
     Returns
     -------
     q : array-like, shape (4,)
-        Validated unit quaternion to represent rotation: (w, x, y, z)
+        Validated quaternion to represent rotation: (w, x, y, z)
     """
     q = np.asarray(q, dtype=np.float)
     if q.ndim != 1 or q.shape[0] != 4:
         raise ValueError("Expected quaternion with shape (4,), got "
                          "array-like object with shape %s" % (q.shape,))
-    return norm_vector(q)
+    if unit:
+        return norm_vector(q)
+    else:
+        return q
 
 
 def matrix_from_axis_angle(a):
@@ -717,6 +723,8 @@ def concatenate_quaternions(q1, q2):
     q12 : array-like, shape (4,)
         Quaternion that represents the concatenated rotation q1 * q2
     """
+    q1 = check_quaternion(q1, unit=False)
+    q2 = check_quaternion(q2, unit=False)
     q12 = np.empty(4)
     q12[0] = q1[0] * q2[0] - np.dot(q1[1:], q2[1:])
     q12[1:] = q1[0] * q2[1:] + q2[0] * q1[1:] + np.cross(q1[1:], q2[1:])

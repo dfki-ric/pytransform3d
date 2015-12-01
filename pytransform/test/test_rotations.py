@@ -177,6 +177,10 @@ def test_check_quaternion():
     assert_raises_regexp(ValueError, "Expected quaternion with shape",
                          check_quaternion, np.zeros((3, 3)))
 
+    q = np.array([0.0, 1.2, 0.0, 0.0])
+    q2 = check_quaternion(q, unit=False)
+    assert_array_almost_equal(q, q2)
+
 
 def test_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
@@ -453,6 +457,13 @@ def test_interpolate_quaternion():
 
 def test_concatenate_quaternions():
     """Test concatenation of to quaternions."""
+    # Until ea9adc5, this combination of a list and a numpy array raised
+    # a ValueError:
+    q1 = [1, 0, 0, 0]
+    q2 = np.array([0, 0, 0, 1])
+    q12 = concatenate_quaternions(q1, q2)
+    assert_array_almost_equal(q12, np.array([0, 0, 0, 1]))
+
     random_state = np.random.RandomState(0)
     for _ in range(5):
         q1 = quaternion_from_axis_angle(random_axis_angle(random_state))
