@@ -151,6 +151,20 @@ Testing
    ~pytransform.transformations.assert_transform
 
 
+:mod:`pytransform.trajectories`: Trajectories
+=============================================
+
+.. automodule:: pytransform.trajectories
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform.trajectories.matrices_from_pos_quat
+
+
 :mod:`pytransform.transform_manager`: TransformManager
 ======================================================
 
