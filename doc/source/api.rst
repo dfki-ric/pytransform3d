@@ -147,6 +147,7 @@ Testing
    ~pytransform.transformations.vector_to_point
    ~pytransform.transformations.concat
    ~pytransform.transformations.transform
+   ~pytransform.transformations.scale_transform
    ~pytransform.transformations.plot_transform
    ~pytransform.transformations.assert_transform
 

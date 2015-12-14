@@ -1,9 +1,11 @@
 import numpy as np
 from pytransform.transformations import (random_transform, transform_from,
                                          invert_transform, vector_to_point,
-                                         concat, transform, assert_transform,
-                                         check_transform)
-from pytransform.rotations import matrix_from, random_axis_angle, random_vector
+                                         concat, transform, scale_transform,
+                                         assert_transform, check_transform)
+from pytransform.rotations import (matrix_from, random_axis_angle,
+                                   random_vector, matrix_from_angle,
+                                   axis_angle_from_matrix)
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 
@@ -87,6 +89,7 @@ def test_concat():
 
 
 def test_transform():
+    """Test transformation of points."""
     PA = np.array([[1, 2, 3, 1],
                    [2, 3, 4, 1]])
 
@@ -101,3 +104,29 @@ def test_transform():
     assert_raises_regexp(
         ValueError, "Cannot transform array with more than 2 dimensions",
         transform, A2B, np.zeros((2, 2, 4)))
+
+
+def test_scale_transform():
+    """Test scaling of transforms."""
+    random_state = np.random.RandomState(0)
+    A2B = random_transform(random_state)
+
+    A2B_scaled1 = scale_transform(A2B, s_xt=0.5, s_yt=0.5, s_zt=0.5)
+    A2B_scaled2 = scale_transform(A2B, s_t=0.5)
+    assert_array_almost_equal(A2B_scaled1, A2B_scaled2)
+
+    A2B_scaled1 = scale_transform(A2B, s_xt=0.5, s_yt=0.5, s_zt=0.5, s_r=0.5)
+    A2B_scaled2 = scale_transform(A2B, s_t=0.5, s_r=0.5)
+    A2B_scaled3 = scale_transform(A2B, s_d=0.5)
+    assert_array_almost_equal(A2B_scaled1, A2B_scaled2)
+    assert_array_almost_equal(A2B_scaled1, A2B_scaled3)
+
+    A2B_scaled = scale_transform(A2B, s_xr=0.0)
+    a_scaled = axis_angle_from_matrix(A2B_scaled[:3, :3])
+    assert_array_almost_equal(a_scaled[0], 0.0)
+    A2B_scaled = scale_transform(A2B, s_yr=0.0)
+    a_scaled = axis_angle_from_matrix(A2B_scaled[:3, :3])
+    assert_array_almost_equal(a_scaled[1], 0.0)
+    A2B_scaled = scale_transform(A2B, s_zr=0.0)
+    a_scaled = axis_angle_from_matrix(A2B_scaled[:3, :3])
+    assert_array_almost_equal(a_scaled[2], 0.0)

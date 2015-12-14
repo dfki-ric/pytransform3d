@@ -1,7 +1,8 @@
 import numpy as np
 from .rotations import (random_quaternion, random_vector,
                         matrix_from_quaternion, plot_basis,
-                        assert_rotation_matrix, check_matrix)
+                        assert_rotation_matrix, check_matrix, norm_vector,
+                        axis_angle_from_matrix, matrix_from_axis_angle)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -193,6 +194,70 @@ def transform(A2B, PA):
         return np.dot(PA, A2B.T)
     else:
         raise ValueError("Cannot transform array with more than 2 dimensions")
+
+
+def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
+                    s_xt=1.0, s_yt=1.0, s_zt=1.0, s_t=1.0, s_d=1.0):
+    """Scale a transform from A to reference frame B.
+
+    See algorithm 10 from "Analytic Approaches for Design and Operation of
+    Haptic Human-Machine Interfaces" (Bertold Bongardt).
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    s_xr : float, optional (default: 1)
+        Scaling of x-component of the rotation axis
+
+    s_yr : float, optional (default: 1)
+        Scaling of y-component of the rotation axis
+
+    s_zr : float, optional (default: 1)
+        Scaling of z-component of the rotation axis
+
+    s_r : float, optional (default: 1)
+        Scaling of the rotation
+
+    s_xt : float, optional (default: 1)
+        Scaling of z-component of the translation
+
+    s_yt : float, optional (default: 1)
+        Scaling of z-component of the translation
+
+    s_zt : float, optional (default: 1)
+        Scaling of z-component of the translation
+
+    s_t : float, optional (default: 1)
+        Scaling of the translation
+
+    s_d : float, optional (default: 1)
+        Scaling of the whole transform (displacement)
+
+    Returns
+    -------
+    A2B_scaled
+        Scaled transform from frame A to frame B (actually this is a transform
+        from A to another frame C)
+    """
+    A2B = check_transform(A2B)
+    A2B_scaled = np.eye(4)
+
+    R = A2B[:3, :3]
+    t = A2B[:3, 3]
+
+    S_t = np.array([s_xt, s_yt, s_zt])
+    A2B_scaled[:3, 3] = s_d * s_t * S_t * t
+
+    a = axis_angle_from_matrix(R)
+    a_new = np.empty(4)
+    a_new[3] = s_d * s_r * a[3]
+    S_r = np.array([s_xr, s_yr, s_zr])
+    a_new[:3] = norm_vector(S_r * a[:3])
+    A2B_scaled[:3, :3] = matrix_from_axis_angle(a_new)
+
+    return A2B_scaled
 
 
 def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):
