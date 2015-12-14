@@ -579,14 +579,14 @@ def axis_angle_from_matrix(R):
     if angle == 0.0:
         return np.array([1.0, 0.0, 0.0, 0.0])
 
-    r = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
-
     a = np.empty(4)
     if angle == np.pi:
-        a[:3] = 0.0
-        axis = np.argmax(np.abs(r))
-        a[axis] = 1.0
+        # We omit taking the the square root of the result because it has
+        # only components which are 0 or 1 anyway
+        a[:3] = 0.5 * (np.diag(R) + 1.0)
     else:
+        r = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
+        # The norm of r is 2.0 * np.sin(angle)
         a[:3] = r / (2.0 * np.sin(angle))
     a[3] = angle
     return a
