@@ -662,24 +662,36 @@ def quaternion_from_matrix(R):
     q : array-like, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
+    R = check_matrix(R)
     q = np.empty(4)
-    q[0] = 0.5 * np.sqrt(1.0 + np.trace(R))
-    if q[0] == 0.0:
-        if R[0, 0] == 1.0 and R[1, 1] == -1.0 and R[2, 2] == -1.0:
-            q[1] = 1.0
-            q[2] = q[3] = 0.0
-        elif R[0, 0] == -1.0 and R[1, 1] == 1.0 and R[2, 2] == -1.0:
-            q[2] = 1.0
-            q[1] = q[3] = 0.0
-        elif R[0, 0] == -1.0 and R[1, 1] == -1.0 and R[2, 2] == 1.0:
-            q[3] = 1.0
-            q[1] = q[2] = 0.0
-        else:
-            raise ValueError("Not a valid rotation matrix")
+
+    # Source: http://www.euclideanspace.com/maths/geometry/rotations/
+    #             conversions/matrixToQuaternion/
+    sqrt_trace = np.sqrt(1.0 + np.trace(R))
+    if sqrt_trace > 0.0:
+        q[0] = 0.5 * sqrt_trace
+        q[1] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
+        q[2] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
+        q[3] = 0.5 / sqrt_trace * (R[1, 0] - R[0, 1])
     else:
-        q[1] = 0.25 / q[0] * (R[2, 1] - R[1, 2])
-        q[2] = 0.25 / q[0] * (R[0, 2] - R[2, 0])
-        q[3] = 0.25 / q[0] * (R[1, 0] - R[0, 1])
+        if R[0, 0] > R[1, 1] and R[0, 0] > R[2, 2]:
+            sqrt_trace = np.sqrt(1.0 + R[0, 0] - R[1, 1] - R[2, 2])
+            q[0] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
+            q[1] = 0.5 * sqrt_trace
+            q[2] = 0.5 / sqrt_trace * (R[1, 0] - R[0, 1])
+            q[3] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
+        elif R[1, 1] > R[2, 2]:
+            sqrt_trace = np.sqrt(1.0 + R[1, 1] - R[0, 0] - R[2, 2])
+            q[0] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
+            q[1] = 0.5 / sqrt_trace * (R[1, 0] - R[0, 1])
+            q[2] = 0.5 * sqrt_trace
+            q[3] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
+        else:
+            sqrt_trace = np.sqrt(1.0 + R[2, 2] - R[0, 0] - R[1, 1])
+            q[0] = 0.5 / sqrt_trace * (R[1, 0] - R[0, 1])
+            q[1] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
+            q[2] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
+            q[3] = 0.5 * sqrt_trace
     return q
 
 

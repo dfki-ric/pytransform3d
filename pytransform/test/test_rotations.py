@@ -357,7 +357,13 @@ def test_quaternion_from_matrix_180():
          [0.0, 0.0, 0.0],
          [0.0, 0.0, -1.0]])
     assert_raises_regexp(
-        ValueError, "Not a valid rotation matrix", quaternion_from_matrix, R)
+        ValueError, "Expected rotation matrix", quaternion_from_matrix, R)
+
+    R = np.array(
+        [[-1.0, 0.0, 0.0],
+         [0.0, 0.00000001, 1.0],
+         [0.0, 1.0, -0.00000001]])
+    q_from_R = quaternion_from_matrix(R)
 
 
 def test_conversions_axis_angle_quaternion():
