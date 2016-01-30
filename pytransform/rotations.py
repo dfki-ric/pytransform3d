@@ -783,6 +783,11 @@ def q_conj(q):
     return np.array([q[0], -q[1], -q[2], -q[3]])
 
 
+def _slerp_weights(angle, t):
+    return (np.sin((1.0 - t) * angle) / np.sin(angle),
+            np.sin(t * angle) / np.sin(angle))
+
+
 def axis_angle_slerp(start, end, t):
     """Spherical linear interpolation.
 
@@ -804,9 +809,8 @@ def axis_angle_slerp(start, end, t):
     """
     start = check_axis_angle(start)
     end = check_axis_angle(end)
-    omega = angle_between_vectors(start[:3], end[:3])
-    w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
-    w2 = np.sin(t * omega) / np.sin(omega)
+    angle = angle_between_vectors(start[:3], end[:3])
+    w1, w2 = _slerp_weights(angle, t)
     w1 = np.array([w1, w1, w1, (1.0 - t)])
     w2 = np.array([w2, w2, w2, t])
     return w1 * start + w2 * end
@@ -833,9 +837,8 @@ def quaternion_slerp(start, end, t):
     """
     start = check_quaternion(start)
     end = check_quaternion(end)
-    omega = angle_between_vectors(start, end)
-    w1 = np.sin((1.0 - t) * omega) / np.sin(omega)
-    w2 = np.sin(t * omega) / np.sin(omega)
+    angle = angle_between_vectors(start, end)
+    w1, w2 = _slerp_weights(angle, t)
     return w1 * start + w2 * end
 
 
@@ -984,11 +987,11 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
           perpendicular_to_vectors(unity, a[:3]))
     p2 = perpendicular_to_vectors(a[:3], p1)
 
-    om = angle_between_vectors(p1, p2)
+    angle_p1p2 = angle_between_vectors(p1, p2)
     arc = np.empty((100, 3))
     for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, 100)):
-        w = np.array([np.sin((1.0 - t) * om), np.sin(t * om)]) / np.sin(om)
-        arc[i] = p + 0.5 * s * (a[:3] + w[0] * p1 + w[1] * p2)
+        w1, w2 = _slerp_weights(angle_p1p2, t)
+        arc[i] = p + 0.5 * s * (a[:3] + w1 * p1 + w2 * p2)
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
     arrow_coords = np.vstack((arc[-1], arc[-1] + 20 * (arc[-1] - arc[-3]))).T
     arrow = Arrow3D(arrow_coords[0], arrow_coords[1], arrow_coords[2],
