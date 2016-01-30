@@ -96,16 +96,22 @@ class TransformManager(object):
                 raise KeyError("Cannot compute path from frame '%s' to "
                                "frame '%s'." % (from_frame, to_frame))
 
-            k = i
-            path = []
-            while k != -9999:
-                path.append(self.nodes[k])
-                k = self.predecessors[j, k]
+            path = self._shortest_path(i, j)
+            return self._path_transform(path)
 
-            A2B = np.eye(4)
-            for from_f, to_f in zip(path[:-1], path[1:]):
-                A2B = concat(A2B, self.get_transform(from_f, to_f))
-            return A2B
+    def _shortest_path(self, i, j):
+        path = []
+        k = i
+        while k != -9999:
+            path.append(self.nodes[k])
+            k = self.predecessors[j, k]
+        return path
+
+    def _path_transform(self, path):
+        A2B = np.eye(4)
+        for from_f, to_f in zip(path[:-1], path[1:]):
+            A2B = concat(A2B, self.get_transform(from_f, to_f))
+        return A2B
 
     def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, **kwargs):
         """Plot all frames in a given reference frame.
