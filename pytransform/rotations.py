@@ -977,11 +977,12 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    ax.add_artist(Arrow3D(
+    axis_arrow = Arrow3D(
         [p[0], p[0] + s * a[0]],
         [p[1], p[1] + s * a[1]],
         [p[2], p[2] + s * a[2]],
-        mutation_scale=20, lw=3, arrowstyle="-|>", color="k"))
+        mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
+    ax.add_artist(axis_arrow)
 
     p1 = (unitx if np.abs(a[0]) <= np.finfo(float).eps else
           perpendicular_to_vectors(unity, a[:3]))
@@ -993,10 +994,12 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
         w1, w2 = _slerp_weights(angle_p1p2, t)
         arc[i] = p + 0.5 * s * (a[:3] + w1 * p1 + w2 * p2)
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
+
     arrow_coords = np.vstack((arc[-1], arc[-1] + 20 * (arc[-1] - arc[-3]))).T
-    arrow = Arrow3D(arrow_coords[0], arrow_coords[1], arrow_coords[2],
-                    mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
-    ax.add_artist(arrow)
+    angle_arrow = Arrow3D(
+        arrow_coords[0], arrow_coords[1], arrow_coords[2],
+        mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
+    ax.add_artist(angle_arrow)
 
     for i in [0, -1]:
         arc_bound = np.vstack((p + 0.5 * s * a[:3], arc[i])).T
