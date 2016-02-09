@@ -666,8 +666,9 @@ def quaternion_from_matrix(R):
     q = np.empty(4)
 
     # Source: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
-    sqrt_trace = np.sqrt(1.0 + np.trace(R))
-    if sqrt_trace > eps:
+    trace = np.trace(R)
+    if trace > 0.0:
+        sqrt_trace = np.sqrt(1.0 + trace)
         q[0] = 0.5 * sqrt_trace
         q[1] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
         q[2] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
