@@ -371,6 +371,18 @@ def test_quaternion_from_matrix_180():
     q_from_R = quaternion_from_matrix(R)
 
 
+def test_quaternion_from_matrix_180_not_axis_aligned():
+    """Test for bug in rotation by 180 degrees around arbitrary axes."""
+    random_state = np.random.RandomState(0)
+    for i in range(10):
+        a = random_axis_angle(random_state)
+        a[3] = np.pi
+        q = quaternion_from_axis_angle(a)
+        R = matrix_from_axis_angle(a)
+        q_from_R = quaternion_from_matrix(R)
+        assert_quaternion_equal(q, q_from_R)
+
+
 def test_conversions_axis_angle_quaternion():
     """Test conversions between axis-angle and quaternion."""
     q = np.array([1, 0, 0, 0])

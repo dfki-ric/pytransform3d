@@ -665,10 +665,9 @@ def quaternion_from_matrix(R):
     R = check_matrix(R)
     q = np.empty(4)
 
-    # Source: http://www.euclideanspace.com/maths/geometry/rotations/
-    #             conversions/matrixToQuaternion/
+    # Source: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
     sqrt_trace = np.sqrt(1.0 + np.trace(R))
-    if sqrt_trace > 0.0:
+    if sqrt_trace > eps:
         q[0] = 0.5 * sqrt_trace
         q[1] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
         q[2] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
@@ -678,19 +677,19 @@ def quaternion_from_matrix(R):
             sqrt_trace = np.sqrt(1.0 + R[0, 0] - R[1, 1] - R[2, 2])
             q[0] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
             q[1] = 0.5 * sqrt_trace
-            q[2] = 0.5 / sqrt_trace * (R[1, 0] - R[0, 1])
-            q[3] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
+            q[2] = 0.5 / sqrt_trace * (R[1, 0] + R[0, 1])
+            q[3] = 0.5 / sqrt_trace * (R[0, 2] + R[2, 0])
         elif R[1, 1] > R[2, 2]:
             sqrt_trace = np.sqrt(1.0 + R[1, 1] - R[0, 0] - R[2, 2])
             q[0] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
-            q[1] = 0.5 / sqrt_trace * (R[1, 0] - R[0, 1])
+            q[1] = 0.5 / sqrt_trace * (R[1, 0] + R[0, 1])
             q[2] = 0.5 * sqrt_trace
-            q[3] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
+            q[3] = 0.5 / sqrt_trace * (R[2, 1] + R[1, 2])
         else:
             sqrt_trace = np.sqrt(1.0 + R[2, 2] - R[0, 0] - R[1, 1])
             q[0] = 0.5 / sqrt_trace * (R[1, 0] - R[0, 1])
-            q[1] = 0.5 / sqrt_trace * (R[0, 2] - R[2, 0])
-            q[2] = 0.5 / sqrt_trace * (R[2, 1] - R[1, 2])
+            q[1] = 0.5 / sqrt_trace * (R[0, 2] + R[2, 0])
+            q[2] = 0.5 / sqrt_trace * (R[2, 1] + R[1, 2])
             q[3] = 0.5 * sqrt_trace
     return q
 
