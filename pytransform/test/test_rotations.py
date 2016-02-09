@@ -479,7 +479,7 @@ def test_interpolate_quaternion():
 
 
 def test_concatenate_quaternions():
-    """Test concatenation of to quaternions."""
+    """Test concatenation of two quaternions."""
     # Until ea9adc5, this combination of a list and a numpy array raised
     # a ValueError:
     q1 = [1, 0, 0, 0]
