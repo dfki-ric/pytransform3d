@@ -283,6 +283,11 @@ def test_conversions_matrix_axis_angle():
     a = axis_angle_from_matrix(R)
     assert_array_almost_equal(a, np.array([1, 0, 0, np.pi]))
 
+    a = np.array([np.sqrt(0.5), np.sqrt(0.5), 0.0, np.pi])
+    R = matrix_from_axis_angle(a)
+    a2 = axis_angle_from_matrix(R)
+    assert_array_almost_equal(a2, a)
+
     random_state = np.random.RandomState(0)
     for _ in range(5):
         a = random_axis_angle(random_state)

@@ -15,6 +15,8 @@ e_xyz_id = np.array([0.0, 0.0, 0.0])
 e_zyx_id = np.array([0.0, 0.0, 0.0])
 p0 = np.array([0.0, 0.0, 0.0])
 
+eps = 1e-7
+
 
 def norm_vector(v):
     """Normalize vector.
@@ -580,10 +582,8 @@ def axis_angle_from_matrix(R):
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     a = np.empty(4)
-    if angle == np.pi:
-        # We omit taking the the square root of the result because it has
-        # only components which are 0 or 1 anyway
-        a[:3] = 0.5 * (np.diag(R) + 1.0)
+    if abs(angle - np.pi) < eps:
+        a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0))
     else:
         r = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
         # The norm of r is 2.0 * np.sin(angle)
