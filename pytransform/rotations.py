@@ -849,11 +849,7 @@ def quaternion_dist(q1, q2):
 
     .. math::
 
-        d(q_1, q_2) = \\begin{cases}
-                      2 || \\log(q_1 * \\overline{q_2})||, \\quad
-                        q_1 * \\overline{q_2} \\neq (-1, 0, 0, 0)\\\\
-                      2 \\pi, \\text{ otherwise}
-                      \\end{cases}
+        d(q_1, q_2) = || \\log(q_1 * \\overline{q_2})||
 
     Parameters
     ----------
@@ -871,10 +867,7 @@ def quaternion_dist(q1, q2):
     q1 = check_quaternion(q1)
     q2 = check_quaternion(q2)
     q12c = concatenate_quaternions(q1, q_conj(q2))
-    if np.any(q12c != np.array([-1, 0, 0, 0])):
-        return axis_angle_from_quaternion(q12c)[-1]
-    else:
-        return 2.0 * np.pi
+    return axis_angle_from_quaternion(q12c)[-1]
 
 
 def quaternion_diff(q1, q2):

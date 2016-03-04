@@ -540,6 +540,18 @@ def test_quaternion_dist():
         q1_to_q2 = quaternion_dist(q1, q2)
         q2_to_q1 = quaternion_dist(q2, q1)
         assert_almost_equal(q1_to_q2, q2_to_q1)
+        assert_greater(2.0 * np.pi, q1_to_q2)
+
+
+def test_quaternion_dist_for_identical_rotations():
+    """Test angular metric of quaternions q and -q."""
+    random_state = np.random.RandomState(0)
+
+    for _ in range(5):
+        q = quaternion_from_axis_angle(random_axis_angle(random_state))
+        assert_array_almost_equal(matrix_from_quaternion(q),
+                                  matrix_from_quaternion(-q))
+        assert_equal(quaternion_dist(q, -q), 0.0)
 
 
 def test_quaternion_diff():
