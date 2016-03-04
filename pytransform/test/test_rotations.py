@@ -534,12 +534,8 @@ def test_quaternion_dist():
         q1 = quaternion_from_axis_angle(random_axis_angle(random_state))
         q2 = quaternion_from_axis_angle(random_axis_angle(random_state))
         q1_to_q1 = quaternion_dist(q1, q1)
-        if q1_to_q1 > np.pi:
-            q1_to_q1 = 2.0 * np.pi - q1_to_q1
         assert_almost_equal(q1_to_q1, 0.0)
         q2_to_q2 = quaternion_dist(q2, q2)
-        if q2_to_q2 > np.pi:
-            q2_to_q2 = 2.0 * np.pi - q2_to_q2
         assert_almost_equal(q2_to_q2, 0.0)
         q1_to_q2 = quaternion_dist(q1, q2)
         q2_to_q1 = quaternion_dist(q2, q1)

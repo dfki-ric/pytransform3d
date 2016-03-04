@@ -871,7 +871,7 @@ def quaternion_dist(q1, q2):
     q1 = check_quaternion(q1)
     q2 = check_quaternion(q2)
     q12c = concatenate_quaternions(q1, q_conj(q2))
-    if np.any(q12c != np.array([1, 0, 0, 0])):
+    if np.any(q12c != np.array([-1, 0, 0, 0])):
         return axis_angle_from_quaternion(q12c)[-1]
     else:
         return 2.0 * np.pi
