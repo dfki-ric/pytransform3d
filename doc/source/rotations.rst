@@ -190,6 +190,11 @@ A rotation quaternion is a four-dimensional unit vector (versor)
     sometimes the last element of the versor. We will always use the first
     element to store the scalar component.
 
+.. warning::
+
+    The unit quaternions :math:`\boldsymbol{\hat{q}}` and
+    :math:`-\boldsymbol{\hat{q}}` represent exactly the same rotation.
+
 **Pros**
 
 * More compact than the matrix representation and less susceptible to
@@ -204,3 +209,5 @@ A rotation quaternion is a four-dimensional unit vector (versor)
 **Cons**
 
 * The representation is not straightforward to interpret
+* There are always two unit quaternions that represent exactly the same
+  rotation
