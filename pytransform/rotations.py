@@ -932,9 +932,13 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
         R = np.eye(3)
 
     for d, c in enumerate(["r", "g", "b"]):
+        if "lw" not in kwargs:
+            kwargs["lw"] = 3
+        if "c" in kwargs:
+            kwargs.pop("c")
         ax.plot([p[0], p[0] + s * R[0, d]],
                 [p[1], p[1] + s * R[1, d]],
-                [p[2], p[2] + s * R[2, d]], color=c, lw=3, **kwargs)
+                [p[2], p[2] + s * R[2, d]], color=c, **kwargs)
 
     return ax
 

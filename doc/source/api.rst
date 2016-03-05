@@ -164,6 +164,7 @@ Testing
    :template: function.rst
 
    ~pytransform.trajectories.matrices_from_pos_quat
+   ~pytransform.trajectories.plot_trajectory
 
 
 :mod:`pytransform.transform_manager`: TransformManager
