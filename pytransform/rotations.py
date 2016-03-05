@@ -1,5 +1,4 @@
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 from .plot_utils import Arrow3D, make_3d_axis
 from numpy.testing import assert_array_almost_equal
 
@@ -913,7 +912,7 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
         Offset from the origin
 
     s : float, optional (default: 1)
-        Scaling of the axis and angle that will be drawn
+        Scaling of the frame that will be drawn
 
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
