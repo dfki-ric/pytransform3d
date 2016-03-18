@@ -3,7 +3,7 @@ from pytransform.transformations import (random_transform, invert_transform,
                                          concat)
 from pytransform.transform_manager import TransformManager
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_raises_regexp
+from nose.tools import assert_raises_regexp, assert_equal
 
 
 def test_request_added_transform():
@@ -70,3 +70,20 @@ def test_request_concatenated_transform():
 
     F2B = tm.get_transform("F", "B")
     assert_array_almost_equal(F2B, concat(F2A, A2B))
+
+
+def test_update_transform():
+    """Update an existing transform."""
+    random_state = np.random.RandomState(0)
+    A2B1 = random_transform(random_state)
+    A2B2 = random_transform(random_state)
+
+    tm = TransformManager()
+    tm.add_transform("A", "B", A2B1)
+    tm.add_transform("A", "B", A2B2)
+    A2B = tm.get_transform("A", "B")
+
+    # Hack: test depends on internal member
+    assert_array_almost_equal(A2B, A2B2)
+    assert_equal(len(tm.i), 1)
+    assert_equal(len(tm.j), 1)

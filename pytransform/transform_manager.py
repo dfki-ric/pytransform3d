@@ -50,8 +50,11 @@ class TransformManager(object):
             self.nodes.append(from_frame)
         if to_frame not in self.nodes:
             self.nodes.append(to_frame)
-        self.i.append(self.nodes.index(from_frame))
-        self.j.append(self.nodes.index(to_frame))
+
+        if (from_frame, to_frame) not in self.transforms:
+            self.i.append(self.nodes.index(from_frame))
+            self.j.append(self.nodes.index(to_frame))
+
         self.transforms[(from_frame, to_frame)] = A2B
 
         n_nodes = len(self.nodes)
