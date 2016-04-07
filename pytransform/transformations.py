@@ -1,8 +1,9 @@
 import numpy as np
 from .rotations import (random_quaternion, random_vector,
-                        matrix_from_quaternion, plot_basis,
-                        assert_rotation_matrix, check_matrix, norm_vector,
-                        axis_angle_from_matrix, matrix_from_axis_angle)
+                        matrix_from_quaternion, quaternion_from_matrix,
+                        plot_basis, assert_rotation_matrix, check_matrix,
+                        norm_vector, axis_angle_from_matrix,
+                        matrix_from_axis_angle)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -29,6 +30,27 @@ def check_transform(A2B):
         raise ValueError("Excpected homogeneous transformation matrix with "
                          "[0, 0, 0, 1] at the bottom, got %r" % A2B)
     return A2B
+
+
+def check_pq(pq):
+    """Input validation for position and orientation quaternion.
+
+    Parameters
+    ----------
+    pq : array-like, shape (7,)
+        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+
+    Returns
+    -------
+    pq : array, shape (7,)
+        Validated position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+    """
+    pq = np.asarray(pq, dtype=np.float)
+    if pq.ndim != 1 or pq.shape[0] != 7:
+        raise ValueError("Expected position and orientation quaternion in a "
+                         "1D array, got array-like object with shape %s"
+                         % (pq.shape,))
+    return pq
 
 
 def transform_from(R, p):
@@ -258,6 +280,40 @@ def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
     A2B_scaled[:3, :3] = matrix_from_axis_angle(a_new)
 
     return A2B_scaled
+
+
+def pq_from_transform(A2B):
+    """Conversion from homogeneous matrix to position and quaternion.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    pq : array-like, shape (7,)
+        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+    """
+    A2B = check_transform(A2B)
+    return np.hstack((A2B[:3, 3], quaternion_from_matrix(A2B[:3, :3])))
+
+
+def transform_from_pq(pq):
+    """Conversion from position and quaternion to homogeneous matrix.
+
+    Parameters
+    ----------
+    pq : array-like, shape (7,)
+        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+
+    Returns
+    -------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+    """
+    pq = check_pq(pq)
+    return transform_from(matrix_from_quaternion(pq[3:]), pq[:3])
 
 
 def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):

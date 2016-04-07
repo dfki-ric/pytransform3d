@@ -2,10 +2,11 @@ import numpy as np
 from pytransform.transformations import (random_transform, transform_from,
                                          invert_transform, vector_to_point,
                                          concat, transform, scale_transform,
-                                         assert_transform, check_transform)
+                                         assert_transform, check_transform,
+                                         check_pq, pq_from_transform,
+                                         transform_from_pq)
 from pytransform.rotations import (matrix_from, random_axis_angle,
-                                   random_vector, matrix_from_angle,
-                                   axis_angle_from_matrix)
+                                   random_vector, axis_angle_from_matrix)
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 
@@ -34,6 +35,21 @@ def test_check_transform():
     A2B = random_transform(random_state)
     A2B2 = check_transform(A2B)
     assert_array_almost_equal(A2B, A2B2)
+
+
+def test_check_pq():
+    """Test input validation for position and orientation quaternion."""
+    q = np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0])
+    q2 = check_pq(q)
+    assert_array_almost_equal(q, q2)
+
+    q = [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
+    q2 = check_pq(q)
+    assert_array_almost_equal(q, q2)
+    assert_equal(len(q), q2.shape[0])
+
+    A2B = np.eye(4)
+    assert_raises_regexp(ValueError, "position and orientation quaternion")
 
 
 def test_invert_transform():
@@ -130,3 +146,17 @@ def test_scale_transform():
     A2B_scaled = scale_transform(A2B, s_zr=0.0)
     a_scaled = axis_angle_from_matrix(A2B_scaled[:3, :3])
     assert_array_almost_equal(a_scaled[2], 0.0)
+
+
+def test_pq_from_transform():
+    """Test conversion from homogeneous matrix to position and quaternion."""
+    A2B = np.eye(4)
+    pq = pq_from_transform(A2B)
+    assert_array_almost_equal(pq, np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]))
+
+
+def test_transform_from_pq():
+    """Test conversion from position and quaternion to homogeneous matrix."""
+    pq = np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0])
+    A2B = transform_from_pq(pq)
+    assert_array_almost_equal(A2B, np.eye(4))

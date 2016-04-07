@@ -139,6 +139,7 @@ Testing
    :template: function.rst
 
    ~pytransform.transformations.check_transform
+   ~pytransform.transformations.check_pq
    ~pytransform.transformations.transform_from
    ~pytransform.transformations.random_transform
    ~pytransform.transformations.invert_transform
@@ -150,6 +151,8 @@ Testing
    ~pytransform.transformations.scale_transform
    ~pytransform.transformations.plot_transform
    ~pytransform.transformations.assert_transform
+   ~pytransform.transformations.pq_from_transform
+   ~pytransform.transformations.transform_from_pq
 
 
 :mod:`pytransform.trajectories`: Trajectories
