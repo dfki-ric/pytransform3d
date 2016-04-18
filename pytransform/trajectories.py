@@ -27,8 +27,7 @@ def matrices_from_pos_quat(P):
     return H
 
 
-def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10,
-                    s=1.0, ax_s=1, **kwargs):
+def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
     """Plot pose trajectory.
 
     Parameters
