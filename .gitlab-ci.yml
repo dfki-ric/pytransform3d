@@ -1,20 +1,23 @@
+# We assume that all dependencies are installed.
+
 stages:
   - test
 
-ubuntu-tests:
+ubuntu-python2-tests:
   stage: test
   script:
-    - virtualenv pytransform_env
-    - source pytransform_env/bin/activate
-    - pip install numpy scipy nose coverage sphinx matplotlib
     - nosetests -sv --with-coverage
     - cd doc; make html
   tags:
-    - ubuntu14.04
+    - ubuntu14.04,python2.7
 
-
-# We don't set up any environment on windows machines, because we have
-# anaconda and we assume that 'coverage' is installed
+ubuntu-python3-tests:
+  stage: test
+  script:
+    - nosetests -sv --with-coverage
+    - cd doc; make html
+  tags:
+    - ubuntu14.04,python3.4
 
 windows-python2-tests:
   stage: test
