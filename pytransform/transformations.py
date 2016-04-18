@@ -113,7 +113,7 @@ def invert_transform(A2B):
     return np.linalg.inv(A2B)
 
 
-def translate_transform(A2B, p, out=None):
+def translate_transform(A2B, p):
     """Translate transform.
 
     Parameters
@@ -130,14 +130,13 @@ def translate_transform(A2B, p, out=None):
         Transform from frame A to frame B
     """
     A2B = check_transform(A2B)
-    if out is None:
-        out = A2B.copy()
+    out = A2B.copy()
     l = len(p)
     out[:l, -1] = p
     return out
 
 
-def rotate_transform(A2B, R, out=None):
+def rotate_transform(A2B, R):
     """Rotate transform.
 
     Parameters
@@ -154,8 +153,7 @@ def rotate_transform(A2B, R, out=None):
         Transform from frame A to frame B
     """
     A2B = check_transform(A2B)
-    if out is None:
-        out = A2B.copy()
+    out = A2B.copy()
     out[:3, :3] = R
     return out
 
