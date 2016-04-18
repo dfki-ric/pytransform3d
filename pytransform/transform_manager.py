@@ -61,7 +61,8 @@ class TransformManager(object):
         con = sp.csr_matrix((np.zeros(len(self.i)), (self.i, self.j)),
                             shape=(n_nodes, n_nodes))
         self.dist, self.predecessors = sp.csgraph.shortest_path(
-            con, unweighted=True, return_predecessors=True, directed=False)
+            con, unweighted=True, directed=False, method="D",
+            return_predecessors=True)
 
         return self
 
