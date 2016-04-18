@@ -14,7 +14,7 @@ ubuntu-python2-tests:
 ubuntu-python3-tests:
   stage: test
   script:
-    - nosetests -sv --with-coverage
+    - nosetests3 -sv --with-coverage
     - cd doc; make html
   tags:
     - ubuntu14.04,python3.4
