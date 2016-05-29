@@ -1,3 +1,4 @@
+"""Rotations in three dimensions."""
 import numpy as np
 from .plot_utils import Arrow3D, make_3d_axis
 from numpy.testing import assert_array_almost_equal
@@ -872,7 +873,7 @@ def quaternion_dist(q1, q2):
 
 
 def quaternion_diff(q1, q2):
-    """Computes the rotation in angle-axis format that rotates q2 into q1.
+    """Compute the rotation in angle-axis format that rotates q2 into q1.
 
     .. math::
 
