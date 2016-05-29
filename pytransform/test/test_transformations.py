@@ -49,7 +49,11 @@ def test_check_pq():
     assert_equal(len(q), q2.shape[0])
 
     A2B = np.eye(4)
-    assert_raises_regexp(ValueError, "position and orientation quaternion")
+    assert_raises_regexp(ValueError, "position and orientation quaternion",
+                         check_pq, A2B)
+    q = np.zeros(8)
+    assert_raises_regexp(ValueError, "position and orientation quaternion",
+                         check_pq, q)
 
 
 def test_invert_transform():
