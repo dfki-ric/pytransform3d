@@ -84,7 +84,20 @@ def make_world_line(p1, p2, n_points):
 def cam2sensor(P_cam, focal_length, kappa=0.0):
     """Project points from 3D camera coordinate system to sensor plane.
 
-    TODO document me
+    Parameters
+    ----------
+    P_cam : array-like, shape (n_points, 3)
+        Points in camera coordinates
+
+    focal_length : float
+        Focal length of the camera
+
+    kappa : float, optional (default: 0)
+        TODO document
+
+    Returns
+    -------
+    P_sensor : array-like, shape (n_points, 2)
     """
     P_sensor = P_cam[:, :2] / P_cam[:, 2, np.newaxis]
     for n in range(P_sensor.shape[0]):
@@ -96,7 +109,24 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
 def sensor2img(P_sensor, sensor_size, image_size, image_center=None):
     """Project points from 2D sensor plane to image coordinate system.
 
-    TODO document me
+    Parameters
+    ----------
+    P_sensor : array-like, shape (n_points, 2)
+        Points on camera sensor
+
+    sensor_size : array-like, shape (2,)
+        Size of the sensor array
+
+    image_size : array-like, shape (2,)
+        Size of the camera image
+
+    image_center : array-like, shape (2,), optional (default: image_size / 2)
+        Center of the image
+
+    Returns
+    -------
+    P_img : array-like, shape (n_points, 2)
+        Points on image
     """
     P_img = np.asarray(image_size) * P_sensor / np.asarray(sensor_size)
     if image_center is None:
@@ -109,7 +139,30 @@ def world2image(P_world, cam2world, sensor_size, image_size, focal_length,
                 image_center=None, kappa=0.0):
     """Project points from 3D world coordinate system to 2D image.
 
-    TODO document me
+    Parameters
+    ----------
+    P_world : array-like, shape (n_points, 4)
+        Points in world coordinates
+
+    sensor_size : array-like, shape (2,)
+        Size of the sensor array
+
+    image_size : array-like, shape (2,)
+        Size of the camera image
+
+    focal_length : float
+        Focal length of the camera
+
+    image_center : array-like, shape (2,), optional (default: image_size / 2)
+        Center of the image
+
+    kappa : float, optional (default: 0)
+        TODO document
+
+    Returns
+    -------
+    P_img : array-like, shape (n_points, 2)
+        Points on image
     """
     world2cam = invert_transform(cam2world)
     P_cam = transform(world2cam, P_world)
