@@ -27,6 +27,7 @@ pytransform covers the following groups of transformations.
    :maxdepth: 2
 
    rotations
+   transform_manager
    api
 
 Notation
