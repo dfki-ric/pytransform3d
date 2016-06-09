@@ -98,16 +98,20 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
     Returns
     -------
     P_sensor : array-like, shape (n_points, 2)
+        Points on the sensor plane. The result for points that are behind the
+        camera will be a vector of nans.
     """
     n_points, n_dims = P_cam.shape
     if n_dims != 3 and n_dims != 4:
         raise ValueError("Expected 3- or 4-dimensional points, got %d "
                          "dimensions" % n_dims)
+    if focal_length <= 0.0:
+        raise ValueError("Focal length must be greater than 0.")
 
     P_sensor = np.empty((n_points, 2))
     ahead = P_cam[:, 2] > 0.0
-    behind = np.logical_not(ahead)
     P_sensor[ahead] = P_cam[ahead, :2] / P_cam[ahead, 2, np.newaxis]
+    behind = np.logical_not(ahead)
     P_sensor[behind] = np.nan
 
     for n in range(P_sensor.shape[0]):
