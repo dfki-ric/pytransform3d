@@ -86,7 +86,7 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
 
     Parameters
     ----------
-    P_cam : array-like, shape (n_points, 3)
+    P_cam : array-like, shape (n_points, 3 or 4)
         Points in camera coordinates
 
     focal_length : float
@@ -99,7 +99,17 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
     -------
     P_sensor : array-like, shape (n_points, 2)
     """
-    P_sensor = P_cam[:, :2] / P_cam[:, 2, np.newaxis]
+    n_points, n_dims = P_cam.shape
+    if n_dims != 3 and n_dims != 4:
+        raise ValueError("Expected 3- or 4-dimensional points, got %d "
+                         "dimensions" % n_dims)
+
+    P_sensor = np.empty((n_points, 2))
+    ahead = P_cam[:, 2] > 0.0
+    behind = np.logical_not(ahead)
+    P_sensor[ahead] = P_cam[ahead, :2] / P_cam[ahead, 2, np.newaxis]
+    P_sensor[behind] = np.nan
+
     for n in range(P_sensor.shape[0]):
         P_sensor[n] *= 1.0 / (1.0 + kappa * np.linalg.norm(P_sensor[n]) ** 2)
     P_sensor *= focal_length

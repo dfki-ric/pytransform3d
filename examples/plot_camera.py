@@ -13,13 +13,13 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.rotations import *
-from pytransform.transformations import *
-from pytransform.camera import *
+from pytransform.rotations import matrix_from_euler_xyz
+from pytransform.transformations import transform_from, plot_transform
+from pytransform.camera import make_world_grid, world2image
 
 
-cam2world = transform_from(matrix_from_euler_xyz([1.4 * np.pi, 0, 0]),
-                           [0, -1, 0.5])
+cam2world = transform_from(matrix_from_euler_xyz([np.pi - 1, 0.2, 0.2]),
+                           [0.2, -1, 0.5])
 focal_length = 0.0036
 sensor_size = (0.00367, 0.00274)
 image_size = (640, 480)

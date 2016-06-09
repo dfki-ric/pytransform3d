@@ -12,9 +12,8 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.transformations import *
-from pytransform.rotations import *
-from pytransform.camera import *
+from pytransform.transformations import plot_transform
+from pytransform.camera import make_world_grid, cam2sensor, sensor2img
 
 
 focal_length = 0.2
@@ -31,7 +30,7 @@ ax.set_xlabel("X")
 ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 
-cam_grid = make_world_grid(n_points_per_line=21) - np.array([0, 0, -2, 0])
+cam_grid = make_world_grid(n_points_per_line=11) - np.array([0, 0, -2, 0])
 img_grid = cam_grid * focal_length
 
 c = np.arange(len(cam_grid))
