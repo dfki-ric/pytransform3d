@@ -99,6 +99,17 @@ by applying the rotation
 
     \boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.
 
+.. warning::
+
+    There are two different conventions on how to concatenate rotation
+    matrices. Suppose we have a rotation matrix :math:`R` and another matrix
+    :math:`R'` with which we would like to rotate :math:`R`. We can multiply
+    :math:`R \cdot R'` or :math:`R' \cdot R`. The first option
+    :math:`R \cdot R'` means that the rotation :math:`R'` is applied in the
+    local coordinate frame defined by :math:`R`. The second option
+    :math:`R' \cdot R` is equivalent to rotating :math:`R` in the global
+    coordinate system.
+
 **Pros**
 
 * It is easy to apply rotations on point vectors
