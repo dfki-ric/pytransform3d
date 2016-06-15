@@ -207,6 +207,9 @@ def cross_product_matrix(v):
         \\boldsymbol{V} \\boldsymbol{w} = \\boldsymbol{v} \\times
         \\boldsymbol{w}
 
+    It is a skew-symmetric (antisymmetric) matrix, i.e.
+    :math:`-\\boldsymbol{V} = \\boldsymbol{V}^T`.
+
     Parameters
     ----------
     v : array-like, shape (3,)
