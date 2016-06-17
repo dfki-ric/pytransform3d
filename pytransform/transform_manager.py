@@ -146,7 +146,7 @@ class TransformManager(object):
             New or old axis
         """
         if frame not in self.nodes:
-            raise KeyError("Unknown frame '%s'" % from_frame)
+            raise KeyError("Unknown frame '%s'" % frame)
 
         for node in self.nodes:
             try:
