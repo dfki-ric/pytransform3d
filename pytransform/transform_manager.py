@@ -117,7 +117,7 @@ class TransformManager(object):
             A2B = concat(A2B, self.get_transform(from_f, to_f))
         return A2B
 
-    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, **kwargs):
+    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True, **kwargs):
         """Plot all frames in a given reference frame.
 
         Note that frames that cannot be connected to the reference frame are
@@ -137,6 +137,9 @@ class TransformManager(object):
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
 
+        show_name : bool, optional (default: True)
+            Print node names
+
         kwargs : dict, optional (default: {})
             Additional arguments for the plotting functions, e.g. alpha
 
@@ -151,7 +154,8 @@ class TransformManager(object):
         for node in self.nodes:
             try:
                 node2frame = self.get_transform(node, frame)
-                ax = plot_transform(ax, node2frame, s, ax_s, node, **kwargs)
+                name = node if show_name else None
+                ax = plot_transform(ax, node2frame, s, ax_s, name, **kwargs)
             except KeyError:
                 pass  # Frame is not connected to the reference frame
         return ax
