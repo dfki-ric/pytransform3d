@@ -16,6 +16,7 @@ KUKA_LWR_URDF = """
   <link name="kuka_link_5" />
   <link name="kuka_link_6" />
   <link name="kuka_link_7" />
+  <link name="kuka_tcp" />
 
   <joint name="kuka_joint_1" type="revolute">
     <parent link="kuka_link_0"/>
@@ -65,6 +66,13 @@ KUKA_LWR_URDF = """
     <origin rpy="-1.57079632679 3.14159265359 0" xyz="0 0.081 0"/>
     <axis xyz="0 0 1"/>
   </joint>
+
+  <joint name="kuka_joint_tcp" type="fixed">
+    <parent link="kuka_link_7"/>
+    <child link="kuka_tcp"/>
+    <origin rpy="0 0 0" xyz="0 0 0.05"/>
+    <axis xyz="0 0 1"/>
+  </joint>
 </robot>
 """
 
@@ -77,11 +85,38 @@ def test_creates_tm():
 def test_ee_frame():
     tm = TransformManager()
     load_urdf(KUKA_LWR_URDF, tm)
-    link7_to_link0 = tm.get_transform("kuka_link_0", "kuka_link_7")
+    link7_to_link0 = tm.get_transform("kuka_link_7", "kuka_link_0")
     assert_array_almost_equal(
         link7_to_link0,
         np.array([[1, 0, 0, 0],
                   [0, 1, 0, 0],
-                  [0, 0, 1, -1.261],
+                  [0, 0, 1, 1.261],
+                  [0, 0, 0, 1]])
+    )
+
+
+def test_joint_angles():
+    tm = load_urdf(KUKA_LWR_URDF)
+    for i in range(1, 8):
+        tm.set_joint("kuka_joint_%d" % i, 0.1 * i)
+    link7_to_link0 = tm.get_transform("kuka_link_7", "kuka_link_0")
+    assert_array_almost_equal(
+        link7_to_link0,
+        np.array([[-0.037301, -0.977762, 0.206374, 0.03205],
+                  [0.946649, 0.031578, 0.320715, -0.018747],
+                  [-0.3201, 0.207327, 0.92442, 1.23715],
+                  [0., 0., 0., 1.]])
+    )
+
+
+def test_fixed_joint():
+    tm = TransformManager()
+    load_urdf(KUKA_LWR_URDF, tm)
+    tcp_to_link0 = tm.get_transform("kuka_tcp", "kuka_link_0")
+    assert_array_almost_equal(
+        tcp_to_link0,
+        np.array([[1, 0, 0, 0],
+                  [0, 1, 0, 0],
+                  [0, 0, 1, 1.311],
                   [0, 0, 0, 1]])
     )

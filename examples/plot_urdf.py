@@ -66,5 +66,8 @@ KUKA_LWR_URDF = """
 """
 
 tm = load_urdf(KUKA_LWR_URDF)
+for i in range(1, 8):
+    tm.set_joint("kuka_joint_%d" % i, 1.0)
 tm.plot_frames_in("kuka_lwr", s=0.05, show_name=True)
+print tm.get_transform("kuka_link_7", "kuka_link_0")
 plt.show()
