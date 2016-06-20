@@ -1,8 +1,8 @@
 import numpy as np
 from pytransform.transform_manager import TransformManager
-from pytransform.urdf import load_urdf
+from pytransform.urdf import load_urdf, UrdfException
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_is_instance
+from nose.tools import assert_is_instance, assert_raises
 
 
 KUKA_LWR_URDF = """
@@ -77,9 +77,188 @@ KUKA_LWR_URDF = """
 """
 
 
+def test_missing_robot_tag():
+    assert_raises(UrdfException, load_urdf, "")
+
+
+def test_missing_robot_name():
+    assert_raises(UrdfException, load_urdf, "<robot/>")
+
+
 def test_creates_tm():
-    tm = load_urdf("<robot/>")
+    tm = load_urdf("<robot name=\"robot_name\"/>")
     assert_is_instance(tm, TransformManager)
+
+
+def test_missing_link_name():
+    assert_raises(UrdfException, load_urdf,
+                  "<robot name=\"robot_name\"><link/></robot>")
+
+
+def test_missing_joint_name():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint>
+        <parent link="link0"/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_missing_parent():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0">
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_missing_child():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0">
+        <parent link="link0"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_missing_parent_link_name():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0">
+        <parent/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_missing_child_link_name():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0">
+        <parent link="link0"/>
+        <child/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_reference_to_unknown_child():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <joint name="joint0">
+        <parent link="link0"/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_reference_to_unknown_parent():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link1"/>
+    <joint name="joint0">
+        <parent link="link0"/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_missing_joint_type():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0">
+        <parent link="link0"/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, load_urdf, urdf)
+
+
+def test_without_origin():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0" type="fixed">
+        <parent link="link0"/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    tm = load_urdf(urdf)
+    link1_to_link0 = tm.get_transform("link1", "link0")
+    assert_array_almost_equal(link1_to_link0, np.eye(4))
+
+
+def test_with_empty_origin():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0" type="fixed">
+        <parent link="link0"/>
+        <child link="link1"/>
+        <origin/>
+    </joint>
+    </robot>
+    """
+    tm = load_urdf(urdf)
+    link1_to_link0 = tm.get_transform("link1", "link0")
+    assert_array_almost_equal(link1_to_link0, np.eye(4))
+
+
+def test_with_empty_axis():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0" type="revolute">
+        <parent link="link0"/>
+        <child link="link1"/>
+        <origin/>
+        <axis/>
+    </joint>
+    </robot>
+    """
+    tm = load_urdf(urdf)
+    tm.set_joint("joint0", np.pi)
+    link1_to_link0 = tm.get_transform("link1", "link0")
+    assert_array_almost_equal(
+        link1_to_link0,
+        np.array([[1, 0, 0, 0],
+                  [0, -1, 0, 0],
+                  [0, 0, -1, 0],
+                  [0, 0, 0, 1]])
+    )
 
 
 def test_ee_frame():
