@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from pytransform.urdf import load_urdf
+from pytransform.urdf import UrdfTransformManager
 
 
 KUKA_LWR_URDF = """
@@ -65,7 +65,8 @@ KUKA_LWR_URDF = """
 </robot>
 """
 
-tm = load_urdf(KUKA_LWR_URDF)
+tm = UrdfTransformManager()
+tm.load_urdf(KUKA_LWR_URDF)
 for i in range(1, 8):
     tm.set_joint("kuka_joint_%d" % i, 1.0)
 tm.plot_frames_in("kuka_lwr", s=0.05, show_name=True)
