@@ -45,6 +45,16 @@ Note that
 * :math:`\boldsymbol R^T = \boldsymbol R^{-1}`
 * :math:`det(\boldsymbol R) = 1`
 
+.. warning::
+
+    There are two conventions on how to interpret rotation matrices. We use
+    the alibi convention. The alibi convention assumes that the reference
+    coordinate system is fixed and we rotate vectors or points in it with
+    the rotation matrix. Another convention is the alias convention. With
+    the alias convention we assume that a rotation matrix defines how the
+    reference coordinate system is rotated. We can easily convert rotation
+    matrices between the two conventions by transposing them.
+
 We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
 :math:`_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}` from frame :math:`B` to frame
 :math:`A`.
