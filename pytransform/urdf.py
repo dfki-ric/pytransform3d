@@ -2,7 +2,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat
-from .rotations import matrix_from_axis_angle
+from .rotations import matrix_from_euler_xyz, matrix_from_axis_angle
 
 
 class UrdfTransformManager(TransformManager):
@@ -148,7 +148,15 @@ class UrdfTransformManager(TransformManager):
                 translation = np.fromstring(origin["xyz"], sep=" ")
             if origin.has_attr("rpy"):
                 roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
-                rotation = _matrix_from_rpy(roll_pitch_yaw)
+                # URDF and KDL use the alias convention for rotation matrices
+                # instead of alibi convention. That means the reference frame
+                # is rotated by the rotation matrix and not the point. To
+                # convert the defined rotation to the alibi convention we must
+                # invert (transpose) the matrix.
+                # For more details on how the URDF parser handles the
+                # conversion from Euler angles, see this blog post:
+                # https://orbitalstation.wordpress.com/tag/quaternion/
+                rotation = matrix_from_euler_xyz(roll_pitch_yaw).T
         node.A2B = transform_from(rotation, translation)
 
         node.joint_axis = np.array([1, 0, 0])
@@ -174,20 +182,3 @@ class Node(object):
 
 class UrdfException(Exception):
     pass
-
-
-def _matrix_from_rpy(rpy):
-    """Rotation matrix from fixed axis roll, pitch and yaw angles."""
-    roll, pitch, yaw = rpy
-    ca1 = np.cos(yaw)
-    sa1 = np.sin(yaw)
-    cb1 = np.cos(pitch)
-    sb1 = np.sin(pitch)
-    cc1 = np.cos(roll)
-    sc1 = np.sin(roll)
-    R = np.array([
-        [ca1 * cb1, ca1 * sb1 * sc1 - sa1 * cc1, ca1 * sb1 * cc1 + sa1 * sc1],
-        [sa1 * cb1, sa1 * sb1 * sc1 + ca1 * cc1, sa1 * sb1 * cc1 - ca1 * sc1],
-        [-sb1, cb1 * sc1, cb1 * cc1]
-    ])
-    return R

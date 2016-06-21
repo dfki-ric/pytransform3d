@@ -373,7 +373,10 @@ def matrix_from_angle(basis, angle):
     The combined rotation matrices are either extrinsic and can be used with
     pre-multiplied column vectors or they are intrinsic and can be used with
     post-multiplied row vectors. We use a right-hand system with right-hand
-    rotations.
+    rotations. We use the alibi convention. That means we use the rotation
+    matrix to rotate a vector directly. In contrast, the alias convention
+    defines a rotation of the reference coordinate system. You can derive
+    the alias rotation matrix by transposing a rotation matrix.
 
     Parameters
     ----------
