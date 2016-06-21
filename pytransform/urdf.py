@@ -132,6 +132,10 @@ class UrdfTransformManager(TransformManager):
         node.joint_type = joint["type"]
         node.base = parent_name
 
+        if node.joint_type in ["planar", "floating", "continuous",
+                               "prismatic"]:
+            raise UrdfException("Unsupported joint type '%s'" % node.joint_type)
+
         origin = joint.find("origin")
         translation = np.zeros(3)
         rotation = np.eye(3)
