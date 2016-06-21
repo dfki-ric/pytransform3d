@@ -184,6 +184,20 @@ Testing
    ~pytransform.transform_manager.TransformManager
 
 
+:mod:`pytransform.urdf`: URDF
+=============================
+
+.. automodule:: pytransform.urdf
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform.urdf.UrdfTransformManager
+
+
 :mod:`pytransform.camera`: Camera
 =================================
 

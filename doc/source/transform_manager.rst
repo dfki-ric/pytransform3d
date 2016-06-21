@@ -10,3 +10,11 @@ end-effector in the object's frame so that we can control it.
 
 .. plot:: ../../examples/plot_transform_manager.py
     :include-source:
+
+A subclass of the transformation manager is the
+:class:`~pytransform.urdf.UrdfTransformManager` which can be used to load
+robot definitions from URDF files. An example with a simple robot can be seen
+in the following example.
+
+.. plot:: ../../examples/plot_urdf.py
+    :include-source:

@@ -6,7 +6,17 @@ from .rotations import matrix_from_euler_xyz, matrix_from_axis_angle
 
 
 class UrdfTransformManager(TransformManager):
-    """Transformation manager that includes joints that can be moved."""
+    """Transformation manager that can load URDF files.
+
+    URDF is the `Unified Robot Description Format <http://wiki.ros.org/urdf>`_.
+    URDF allows to define joints between links that can be rotated about one
+    axis. This transformation manager allows to set the joint angles after
+    joints have been added or loaded from an URDF.
+
+    .. warning::
+
+        Note that this module requires the Python package beautifulsoup4.
+    """
     def __init__(self):
         super(UrdfTransformManager, self).__init__()
         self.default_transformations = {}
