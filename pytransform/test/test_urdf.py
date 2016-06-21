@@ -316,3 +316,9 @@ def test_fixed_joint():
                   [0, 0, 1, 1.174],
                   [0, 0, 0, 1]])
     )
+
+
+def test_unknown_joint():
+    tm = UrdfTransformManager()
+    tm.load_urdf(COMPI_URDF)
+    assert_raises(KeyError, tm.set_joint, "unknown_joint", 0)

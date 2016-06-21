@@ -19,9 +19,9 @@ class UrdfTransformManager(TransformManager):
     """
     def __init__(self):
         super(UrdfTransformManager, self).__init__()
-        self.default_transformations = {}
+        self._joints = {}
 
-    def add_joint(self, joint_name, from_frame, to_frame, A2B, axis):
+    def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis):
         """Add joint.
 
         Parameters
@@ -35,15 +35,14 @@ class UrdfTransformManager(TransformManager):
         to_frame : string
             Parent link of the joint
 
-        A2B : array-like, shape (4, 4)
+        child2parent : array-like, shape (4, 4)
             Transformation from child to parent
 
         axis : array-like, shape (3,)
             Rotation axis of the joint (defined in the child frame)
         """
-        self.add_transform(from_frame, to_frame, A2B)
-        self.default_transformations[joint_name] = (from_frame, to_frame, A2B,
-                                                    axis)
+        self.add_transform(from_frame, to_frame, child2parent)
+        self._joints[joint_name] = from_frame, to_frame, child2parent, axis
 
     def set_joint(self, joint_name, angle):
         """Set joint angle.
@@ -56,10 +55,12 @@ class UrdfTransformManager(TransformManager):
         angle : float
             Joint angle in radians
         """
-        from_frame, to_frame, A2B, axis = self.default_transformations[joint_name]
+        if joint_name not in self._joints:
+            raise KeyError("Joint '%s' is not known" % joint_name)
+        from_frame, to_frame, child2parent, axis = self._joints[joint_name]
         joint_rotation = matrix_from_axis_angle(np.hstack((axis, [angle])))
         joint2A = transform_from(joint_rotation, np.zeros(3))
-        self.add_transform(from_frame, to_frame, concat(joint2A, A2B))
+        self.add_transform(from_frame, to_frame, concat(joint2A, child2parent))
 
 
     def load_urdf(self, urdf_xml):
@@ -84,7 +85,7 @@ class UrdfTransformManager(TransformManager):
         nodes = {}
         for link in robot.findAll("link"):
             node = self._parse_link(link, robot_name)
-            nodes[node.name] = node
+            nodes[node.child] = node
 
         for joint in robot.findAll("joint"):
             if not joint.has_attr("name"):
@@ -123,10 +124,10 @@ class UrdfTransformManager(TransformManager):
 
         for node in nodes.values():
             if node.joint_type == "revolute":
-                self.add_joint(node.joint_name, node.name, node.base, node.A2B,
-                               node.joint_axis)
+                self.add_joint(node.joint_name, node.child, node.parent,
+                               node.child2parent, node.joint_axis)
             else:
-                self.add_transform(node.name, node.base, node.A2B)
+                self.add_transform(node.child, node.parent, node.child2parent)
 
 
     def _parse_link(self, link, robot_name):
@@ -140,7 +141,7 @@ class UrdfTransformManager(TransformManager):
         """Update node with joint."""
         node.joint_name = joint["name"]
         node.joint_type = joint["type"]
-        node.base = parent_name
+        node.parent = parent_name
 
         if node.joint_type in ["planar", "floating", "continuous",
                                "prismatic"]:
@@ -167,7 +168,7 @@ class UrdfTransformManager(TransformManager):
                 # conversion from Euler angles, see this blog post:
                 # https://orbitalstation.wordpress.com/tag/quaternion/
                 rotation = matrix_from_euler_xyz(roll_pitch_yaw).T
-        node.A2B = transform_from(rotation, translation)
+        node.child2parent = transform_from(rotation, translation)
 
         node.joint_axis = np.array([1, 0, 0])
         if node.joint_type == "revolute":
@@ -181,10 +182,10 @@ class Node(object):
 
     This class is only required temporarily while we parse the URDF.
     """
-    def __init__(self, name, base):
-        self.name = name
-        self.base = base
-        self.A2B = np.eye(4)
+    def __init__(self, child, parent):
+        self.child = child
+        self.parent = parent
+        self.child2parent = np.eye(4)
         self.joint_name = None
         self.joint_axis = None
         self.joint_type = "fixed"
