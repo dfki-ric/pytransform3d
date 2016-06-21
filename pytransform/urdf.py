@@ -134,7 +134,11 @@ class UrdfTransformManager(TransformManager):
 
         if node.joint_type in ["planar", "floating", "continuous",
                                "prismatic"]:
-            raise UrdfException("Unsupported joint type '%s'" % node.joint_type)
+            raise UrdfException("Unsupported joint type '%s'"
+                                % node.joint_type)
+        elif node.joint_type not in ["revolute", "fixed"]:
+            raise UrdfException("Joint type '%s' is not allowed in a URDF "
+                                "document." % node.joint_type)
 
         origin = joint.find("origin")
         translation = np.zeros(3)

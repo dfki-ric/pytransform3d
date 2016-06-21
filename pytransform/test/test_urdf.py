@@ -233,6 +233,34 @@ def test_with_empty_origin():
     assert_array_almost_equal(link1_to_link0, np.eye(4))
 
 
+def test_unsupported_joint_type():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0" type="prismatic">
+        <parent link="link0"/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+
+
+def test_unknown_joint_type():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1"/>
+    <joint name="joint0" type="does_not_exist">
+        <parent link="link0"/>
+        <child link="link1"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+
+
 def test_with_empty_axis():
     urdf = """
     <robot name="robot_name">
