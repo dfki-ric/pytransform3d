@@ -171,8 +171,11 @@ A complete rotation can be split into three rotations around basis vectors.
 
 .. warning::
 
-    There are 24 different conventions for defining euler angles. We will
-    only use the XYZ convention and the ZYX convention.
+    There are 24 different conventions for defining euler angles. There are
+    12 different valid ways to sequence rotation axes that can be interpreted
+    as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
+    XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
+    ZYX convention with intrinsic rotations.
 
 .. plot:: ../../examples/plot_euler_angles.py
     :include-source:
