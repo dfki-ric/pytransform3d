@@ -105,8 +105,8 @@ class UrdfTransformManager(TransformManager):
                                     % joint_name)
             parent_name = parent["link"]
             if parent_name not in nodes:
-                raise UrdfException("Parent link '%s' of joint '%s' is not defined."
-                                    % (parent_name, joint_name))
+                raise UrdfException("Parent link '%s' of joint '%s' is not "
+                                    "defined." % (parent_name, joint_name))
 
             child = joint.find("child")
             if child is None:
@@ -117,8 +117,8 @@ class UrdfTransformManager(TransformManager):
                                     % joint_name)
             child_name = child["link"]
             if child_name not in nodes:
-                raise UrdfException("Child link '%s' of joint '%s' is not defined."
-                                    % (child_name, joint_name))
+                raise UrdfException("Child link '%s' of joint '%s' is not "
+                                    "defined." % (child_name, joint_name))
 
             self._parse_joint(joint, nodes[child_name], parent_name)
 
@@ -181,6 +181,34 @@ class Node(object):
     """Node from URDF file.
 
     This class is only required temporarily while we parse the URDF.
+
+    Parameters
+    ----------
+    child : string
+        Name of the child
+
+    parent : string
+        Name of the parent frame
+
+    Attributes
+    ----------
+    child : string
+        Name of the child
+
+    parent : string
+        Name of the parent frame
+
+    child2parent : array-like, shape (4, 4)
+        Transformation from child to parent
+
+    joint_name : string
+        Name of the joint that defines the transformation
+
+    joint_axis : array-like, shape (3,)
+        Rotation axis of the joint (defined in the child frame)
+
+    joint_type : string
+        Either 'fixed' or 'revolute'
     """
     def __init__(self, child, parent):
         self.child = child
@@ -192,4 +220,5 @@ class Node(object):
 
 
 class UrdfException(Exception):
+    """Exception while parsing URDF files."""
     pass
