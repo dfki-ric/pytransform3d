@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 import scipy.sparse as sp
 from .transformations import (check_transform, invert_transform, concat,
@@ -117,7 +118,7 @@ class TransformManager(object):
             A2B = concat(A2B, self.get_transform(from_f, to_f))
         return A2B
 
-    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True, **kwargs):
+    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True, whitelist=None, **kwargs):
         """Plot all frames in a given reference frame.
 
         Note that frames that cannot be connected to the reference frame are
@@ -140,6 +141,9 @@ class TransformManager(object):
         show_name : bool, optional (default: True)
             Print node names
 
+        whitelist : list, optional (default: None)
+            Frames that must be plotted
+
         kwargs : dict, optional (default: {})
             Additional arguments for the plotting functions, e.g. alpha
 
@@ -151,7 +155,16 @@ class TransformManager(object):
         if frame not in self.nodes:
             raise KeyError("Unknown frame '%s'" % frame)
 
-        for node in self.nodes:
+        nodes = set(self.nodes)
+        if whitelist is not None:
+            whitelist = set(whitelist)
+            nodes = nodes.intersection(whitelist)
+            nonwhitlisted_nodes = whitelist.difference(nodes)
+            if nonwhitlisted_nodes:
+                warnings.warn("Whitelist contains unknown nodes: '%s'"
+                              % nonwhitlisted_nodes)
+
+        for node in nodes:
             try:
                 node2frame = self.get_transform(node, frame)
                 name = node if show_name else None
