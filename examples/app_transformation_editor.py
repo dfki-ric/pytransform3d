@@ -28,7 +28,7 @@ tm.add_transform(
     )
 )
 
-te = TransformationEditor(tm, "world")
+te = TransformationEditor(tm, "world", s=0.3)
 te.show()
 print("tree to world:")
 print(te.transform_manager.get_transform("tree", "world"))

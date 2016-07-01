@@ -18,8 +18,8 @@ from .transformations import transform_from
 
 class TransformationEditor(QtGui.QMainWindow):
     def __init__(self, transform_manager, frame, xlim=(-1.0, 1.0),
-                 ylim=(-1.0, 1.0), zlim=(-1.0, 1.0), figsize=(10, 10), dpi=200,
-                 parent=None):
+                 ylim=(-1.0, 1.0), zlim=(-1.0, 1.0), s=1.0, figsize=(10, 10),
+                 dpi=100, parent=None):
         self.app = QtGui.QApplication(sys.argv)
         locale = QtCore.QLocale.system().name()
         qt_translator = QtCore.QTranslator()
@@ -33,6 +33,7 @@ class TransformationEditor(QtGui.QMainWindow):
         self.xlim = xlim
         self.ylim = ylim
         self.zlim = zlim
+        self.s = s
         self.figsize = figsize
         self.dpi = dpi
 
@@ -165,7 +166,11 @@ class TransformationEditor(QtGui.QMainWindow):
         self.axis.set_xlim(self.xlim)
         self.axis.set_ylim(self.ylim)
         self.axis.set_zlim(self.zlim)
-        self.transform_manager.plot_frames_in(self.frame, ax=self.axis)
+
+        p = self.transform_manager.get_transform(self.node, self.frame)[:3, 3]
+        self.axis.scatter(p[0], p[1], p[2], s=100)
+        self.transform_manager.plot_frames_in(self.frame, ax=self.axis,
+                                              s=self.s)
         self.canvas.draw()
 
     def show(self):
