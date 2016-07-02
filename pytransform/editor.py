@@ -77,12 +77,13 @@ class TransformEditor(QtGui.QMainWindow):
         self.dpi = dpi
 
         self.slider_limits = [xlim, ylim, zlim,
-                              (-np.pi, np.pi), (-np.pi, np.pi), (-np.pi, np.pi)]
+                              (-np.pi, np.pi), (-0.5 * np.pi, 0.5 * np.pi),
+                              (-np.pi, np.pi)]
 
         self.n_slider_steps = 1000
 
         self.setWindowTitle("Transformation Editor")
-        self.dim_labels = ["x", "y", "z", "alpha", "beta", "gamma"]
+        self.dim_labels = ["x", "y", "z", "X", "Y'", "Z''"]
         self.axis = None
 
         self._create_main_frame()
@@ -121,15 +122,23 @@ class TransformEditor(QtGui.QMainWindow):
         for i in range(len(self.dim_labels)):
             self.sliders.append(QtGui.QSlider(QtCore.Qt.Horizontal))
             self.sliders[i].setRange(0, self.n_slider_steps)
-            self.states.append(QtGui.QLabel("0"))
-            self.connect(self.sliders[i], QtCore.SIGNAL("valueChanged(int)"),
+            self.connect(self.sliders[i],
+                         QtCore.SIGNAL("valueChanged(int)"),
+                         partial(self._on_slide, i))
+            self.states.append(QtGui.QLineEdit("0"))
+            self.connect(self.states[i],
+                         QtCore.SIGNAL("textEdited(const QString&)"),
                          partial(self._on_slide, i))
 
         slider_group = QtGui.QGridLayout()
+        slider_group.addWidget(QtGui.QLabel("Position"),
+                               0, 0, 1, 3, QtCore.Qt.AlignCenter)
+        slider_group.addWidget(QtGui.QLabel("Orientation (Euler angles)"),
+                               0, 3, 1, 3, QtCore.Qt.AlignCenter)
         for i, slider in enumerate(self.sliders):
-            slider_group.addWidget(QtGui.QLabel(self.dim_labels[i]), 0, 1 + i)
-            slider_group.addWidget(slider, 1, 1 + i)
-            slider_group.addWidget(self.states[i], 2, 1 + i)
+            slider_group.addWidget(QtGui.QLabel(self.dim_labels[i]), 1, i)
+            slider_group.addWidget(slider, 2, i)
+            slider_group.addWidget(self.states[i], 3, i)
         slider_groupbox = QtGui.QGroupBox("Transformation in frame '%s'"
                                           % self.frame)
         slider_groupbox.setLayout(slider_group)
@@ -164,6 +173,7 @@ class TransformEditor(QtGui.QMainWindow):
         R = node2frame[:3, :3]
         e = euler_xyz_from_matrix(R)
         pose = np.hstack((p, e))
+
         for dim in range(6):
             self.states[dim].setText("%f" % pose[dim])
 
@@ -200,16 +210,19 @@ class TransformEditor(QtGui.QMainWindow):
         else:
             elev, azim = self.axis.elev, self.axis.azim
             self.fig.delaxes(self.axis)
+
         self.axis = self.fig.add_subplot(111, projection="3d")
         self.axis.view_init(elev, azim)
+
         self.axis.set_xlim(self.xlim)
         self.axis.set_ylim(self.ylim)
         self.axis.set_zlim(self.zlim)
 
         p = self.transform_manager.get_transform(self.node, self.frame)[:3, 3]
         self.axis.scatter(p[0], p[1], p[2], s=100)
-        self.transform_manager.plot_frames_in(self.frame, ax=self.axis,
-                                              s=self.s)
+        self.transform_manager.plot_frames_in(
+            self.frame, ax=self.axis, s=self.s)
+
         self.canvas.draw()
 
     def show(self):
