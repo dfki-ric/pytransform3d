@@ -16,7 +16,7 @@ from .rotations import matrix_from_euler_xyz, euler_xyz_from_matrix
 from .transformations import transform_from
 
 
-class TransformationEditor(QtGui.QMainWindow):
+class TransformEditor(QtGui.QMainWindow):
     """GUI to edit transformations.
 
     Parameters
@@ -50,6 +50,11 @@ class TransformationEditor(QtGui.QMainWindow):
 
     parent : QtGui.QWidget, optional (default: None)
         Parent widget.
+
+    Attributes
+    ----------
+    transform_manager : TransformManager
+        Result, all frames are expressed in the base frame
     """
     def __init__(self, transform_manager, frame, xlim=(-1.0, 1.0),
                  ylim=(-1.0, 1.0), zlim=(-1.0, 1.0), s=1.0, figsize=(10, 10),
@@ -60,7 +65,7 @@ class TransformationEditor(QtGui.QMainWindow):
         if qt_translator.load("qt_" + locale):
             self.app.installTranslator(qt_translator)
 
-        super(TransformationEditor, self).__init__(parent)
+        super(TransformEditor, self).__init__(parent)
         self.transform_manager = self._init_transform_manager(
             transform_manager, frame)
         self.frame = frame
@@ -208,5 +213,5 @@ class TransformationEditor(QtGui.QMainWindow):
         self.canvas.draw()
 
     def show(self):
-        super(TransformationEditor, self).show()
+        super(TransformEditor, self).show()
         self.app.exec_()

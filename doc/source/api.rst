@@ -184,6 +184,20 @@ Testing
    ~pytransform.transform_manager.TransformManager
 
 
+:mod:`pytransform.editor`: TransformEditor
+======================================================
+
+.. automodule:: pytransform.editor
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform.editor.TransformEditor
+
+
 :mod:`pytransform.urdf`: URDF
 =============================
 

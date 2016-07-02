@@ -6,7 +6,7 @@ Transformation Editor
 The transformation editor can be used to manipulate transformations.
 """
 from pytransform.transform_manager import TransformManager
-from pytransform.editor import TransformationEditor
+from pytransform.editor import TransformEditor
 from pytransform.transformations import transform_from
 from pytransform.rotations import matrix_from_euler_xyz
 
@@ -28,7 +28,7 @@ tm.add_transform(
     )
 )
 
-te = TransformationEditor(tm, "world", s=0.3)
+te = TransformEditor(tm, "world", s=0.3)
 te.show()
 print("tree to world:")
 print(te.transform_manager.get_transform("tree", "world"))
