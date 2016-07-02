@@ -17,6 +17,40 @@ from .transformations import transform_from
 
 
 class TransformationEditor(QtGui.QMainWindow):
+    """GUI to edit transformations.
+
+    Parameters
+    ----------
+    transform_manager : TransformManager
+        All nodes that are reachable from the base frame will be editable
+
+    frame : string
+        Name of the base frame
+
+    xlim : tuple, optional (-1, 1)
+        Lower and upper limit for the x position. Defines the range of the plot
+        and the range of the slider.
+
+    ylim : tuple, optional (-1, 1)
+        Lower and upper limit for the y position. Defines the range of the plot
+        and the range of the slider.
+
+    zlim : tuple, optional (-1, 1)
+        Lower and upper limit for the z position. Defines the range of the plot
+        and the range of the slider.
+
+    s : float, optional (default: 1)
+        Scaling of the axis and angle that will be drawn
+
+    figsize : tuple of integers, optional (default: (10, 10))
+        Width, height in inches.
+
+    dpi : integer, optional (default: 100)
+        Resolution of the figure.
+
+    parent : QtGui.QWidget, optional (default: None)
+        Parent widget.
+    """
     def __init__(self, transform_manager, frame, xlim=(-1.0, 1.0),
                  ylim=(-1.0, 1.0), zlim=(-1.0, 1.0), s=1.0, figsize=(10, 10),
                  dpi=100, parent=None):
