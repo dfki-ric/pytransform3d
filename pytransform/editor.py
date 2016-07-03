@@ -1,5 +1,6 @@
 import sys
 from functools import partial
+from contextlib import contextmanager
 try:
     import PyQt4.QtCore as QtCore
     import PyQt4.QtGui as QtGui
@@ -14,6 +15,16 @@ import numpy as np
 from .transform_manager import TransformManager
 from .rotations import matrix_from_euler_xyz, euler_xyz_from_matrix
 from .transformations import transform_from
+
+
+@contextmanager
+def _block_signals(qobject):
+    """Block signals of a QObject in this context."""
+    signals_blocked = qobject.blockSignals(True)
+    try:
+        yield qobject
+    finally:
+        qobject.blockSignals(signals_blocked)
 
 
 class TransformEditor(QtGui.QMainWindow):
@@ -87,6 +98,7 @@ class TransformEditor(QtGui.QMainWindow):
                                if node != self.frame][0])
 
     def _init_transform_manager(self, transform_manager, frame):
+        """Transform all nodes into the reference frame."""
         tm = TransformManager()
         if frame not in transform_manager.nodes:
             raise KeyError("Unknown frame '%s'" % frame)
@@ -101,18 +113,41 @@ class TransformEditor(QtGui.QMainWindow):
         return tm
 
     def _create_main_frame(self):
+        """Create main frame and layout."""
         self.main_frame = QtGui.QWidget()
 
-        plot = QtGui.QWidget()
-        canvas_group = QtGui.QGridLayout()
-        self.fig = Figure(self.figsize, dpi=self.dpi)
-        self.canvas = FigureCanvas(self.fig)
-        self.canvas.setParent(self.main_frame)
-        canvas_group.addWidget(self.canvas, 1, 0)
-        mpl_toolbar = NavigationToolbar(self.canvas, self.main_frame)
-        canvas_group.addWidget(mpl_toolbar, 2, 0)
-        plot.setLayout(canvas_group)
+        plot = self._create_plot()
+        slider_groupbox = self._create_sliders()
 
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(slider_groupbox)
+        hbox.addStretch(1)
+
+        frame_selection = self._create_frame_selector()
+
+        vbox = QtGui.QVBoxLayout()
+        vbox.addLayout(hbox)
+        vbox.addWidget(frame_selection)
+        vbox.addWidget(plot)
+
+        main_layout = QtGui.QHBoxLayout()
+        main_layout.addLayout(vbox)
+
+        self.main_frame.setLayout(main_layout)
+        self.setCentralWidget(self.main_frame)
+        self.setGeometry(0, 0, 500, 600)
+
+    def _create_frame_selector(self):
+        frame_selection = QtGui.QComboBox()
+        for node in self.transform_manager.nodes:
+            if node != self.frame:
+                frame_selection.addItem(node)
+        self.connect(frame_selection,
+                     QtCore.SIGNAL("activated(const QString&)"),
+                     self._on_node_changed)
+        return frame_selection
+
+    def _create_sliders(self):
         self.sliders = []
         self.spinboxes = []
         for i in range(len(self.dim_labels)):
@@ -128,8 +163,7 @@ class TransformEditor(QtGui.QMainWindow):
             self.spinboxes.append(spinbox)
             self.connect(self.spinboxes[i],
                          QtCore.SIGNAL("valueChanged(double)"),
-                         partial(self._on_edited, i))
-
+                         partial(self._on_pos_edited, i))
         slider_group = QtGui.QGridLayout()
         slider_group.addWidget(QtGui.QLabel("Position"),
                                0, 0, 1, 3, QtCore.Qt.AlignCenter)
@@ -142,31 +176,23 @@ class TransformEditor(QtGui.QMainWindow):
         slider_groupbox = QtGui.QGroupBox("Transformation in frame '%s'"
                                           % self.frame)
         slider_groupbox.setLayout(slider_group)
+        return slider_groupbox
 
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(slider_groupbox)
-        hbox.addStretch(1)
-
-        frame_selection = QtGui.QComboBox()
-        for node in self.transform_manager.nodes:
-            if node != self.frame:
-                frame_selection.addItem(node)
-        self.connect(frame_selection, QtCore.SIGNAL("activated(const QString&)"),
-                     self._on_node_changed)
-
-        vbox = QtGui.QVBoxLayout()
-        vbox.addLayout(hbox)
-        vbox.addWidget(frame_selection)
-        vbox.addWidget(plot)
-
-        main_layout = QtGui.QHBoxLayout()
-        main_layout.addLayout(vbox)
-
-        self.main_frame.setLayout(main_layout)
-        self.setCentralWidget(self.main_frame)
-        self.setGeometry(0, 0, 500, 600)
+    def _create_plot(self):
+        plot = QtGui.QWidget()
+        canvas_group = QtGui.QGridLayout()
+        self.fig = Figure(self.figsize, dpi=self.dpi)
+        self.fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
+        self.canvas = FigureCanvas(self.fig)
+        self.canvas.setParent(self.main_frame)
+        canvas_group.addWidget(self.canvas, 1, 0)
+        mpl_toolbar = NavigationToolbar(self.canvas, self.main_frame)
+        canvas_group.addWidget(mpl_toolbar, 2, 0)
+        plot.setLayout(canvas_group)
+        return plot
 
     def _on_node_changed(self, node):
+        """Slot: manipulatable node has changed."""
         self.node = str(node)
         pose = self._get_pose()
 
@@ -177,14 +203,20 @@ class TransformEditor(QtGui.QMainWindow):
 
         self._plot()
 
-    def _on_edited(self, dim, pos):
+    def _on_pos_edited(self, dim, pos):
+        """Slot: value in spinbox changed."""
         pose = self._get_pose()
         pose[dim] = pos
+        node2frame = transform_from(matrix_from_euler_xyz(pose[3:]), pose[:3])
+        self.transform_manager.add_transform(self.node, self.frame, node2frame)
         for i in range(6):
             pos = self._pos_to_slider_pos(i, pose[i])
-            self.sliders[i].setValue(pos)
+            with _block_signals(self.sliders[i]) as slider:
+                slider.setValue(pos)
+        self._plot()
 
     def _on_slide(self, dim, step):
+        """Slot: slider position changed."""
         pose = self._get_pose()
         v = self._slider_pos_to_pos(dim, step)
         pose[dim] = v
@@ -195,6 +227,7 @@ class TransformEditor(QtGui.QMainWindow):
         self._plot()
 
     def _get_pose(self):
+        """Get position and rotation as Euler angles."""
         node2frame = self.transform_manager.get_transform(
             self.node, self.frame)
         p = node2frame[:3, 3]
@@ -203,6 +236,7 @@ class TransformEditor(QtGui.QMainWindow):
         return np.hstack((p, e))
 
     def _pos_to_slider_pos(self, dim, pos):
+        """Compute slider position from value."""
         m = self.slider_limits[dim][0]
         r = self.slider_limits[dim][1] - m
         slider_pos = int((pos - m) / r * self.n_slider_steps)
@@ -210,6 +244,7 @@ class TransformEditor(QtGui.QMainWindow):
         return slider_pos
 
     def _slider_pos_to_pos(self, dim, slider_pos):
+        """Create value from slider position."""
         m = self.slider_limits[dim][0]
         r = self.slider_limits[dim][1] - m
         return m + r * float(slider_pos) / float(self.n_slider_steps)
