@@ -200,7 +200,7 @@ class TransformEditor(QtGui.QMainWindow):
         super(TransformEditor, self).__init__(parent)
         self.transform_manager = self._init_transform_manager(
             transform_manager, base_frame)
-        self.frame = base_frame
+        self.base_frame = base_frame
         self.xlim = xlim
         self.ylim = ylim
         self.zlim = zlim
@@ -214,7 +214,7 @@ class TransformEditor(QtGui.QMainWindow):
 
         self._create_main_frame()
         self._on_node_changed([node for node in self.transform_manager.nodes
-                               if node != self.frame][0])
+                               if node != self.base_frame][0])
 
     def _init_transform_manager(self, transform_manager, frame):
         """Transform all nodes into the reference frame."""
@@ -235,8 +235,8 @@ class TransformEditor(QtGui.QMainWindow):
         """Create main frame and layout."""
         self.main_frame = QtGui.QWidget()
 
-        self.frame_editor = PositionEulerEditor(self.frame, self.xlim, self.ylim,
-                                                self.zlim)
+        self.frame_editor = PositionEulerEditor(
+            self.base_frame, self.xlim, self.ylim, self.zlim)
         self.connect(self.frame_editor, QtCore.SIGNAL("frameChanged()"),
                      self._on_update)
 
@@ -259,7 +259,7 @@ class TransformEditor(QtGui.QMainWindow):
     def _create_frame_selector(self):
         frame_selection = QtGui.QComboBox()
         for node in self.transform_manager.nodes:
-            if node != self.frame:
+            if node != self.base_frame:
                 frame_selection.addItem(node)
         self.connect(frame_selection,
                      QtCore.SIGNAL("activated(const QString&)"),
@@ -282,14 +282,14 @@ class TransformEditor(QtGui.QMainWindow):
     def _on_node_changed(self, node):
         """Slot: manipulatable node changed."""
         self.node = str(node)
-        A2B = self.transform_manager.get_transform(self.node, self.frame)
+        A2B = self.transform_manager.get_transform(self.node, self.base_frame)
         self.frame_editor.set_frame(A2B)
         self._plot()
 
     def _on_update(self):
         """Slot: transformation changed."""
         self.transform_manager.add_transform(
-            self.node, self.frame, self.frame_editor.A2B)
+            self.node, self.base_frame, self.frame_editor.A2B)
         self._plot()
 
     def _plot(self):
@@ -307,10 +307,11 @@ class TransformEditor(QtGui.QMainWindow):
         self.axis.set_ylim(self.ylim)
         self.axis.set_zlim(self.zlim)
 
-        p = self.transform_manager.get_transform(self.node, self.frame)[:3, 3]
+        p = self.transform_manager.get_transform(
+            self.node, self.base_frame)[:3, 3]
         self.axis.scatter(p[0], p[1], p[2], s=100)
         self.transform_manager.plot_frames_in(
-            self.frame, ax=self.axis, s=self.s)
+            self.base_frame, ax=self.axis, s=self.s)
 
         self.canvas.draw()
 
