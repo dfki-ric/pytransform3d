@@ -1,3 +1,6 @@
+import os
+import pickle
+import tempfile
 import numpy as np
 from pytransform.transformations import (random_transform, invert_transform,
                                          concat)
@@ -87,3 +90,24 @@ def test_update_transform():
     assert_array_almost_equal(A2B, A2B2)
     assert_equal(len(tm.i), 1)
     assert_equal(len(tm.j), 1)
+
+
+def test_pickle():
+    """Test if a transform manager can be pickled."""
+    random_state = np.random.RandomState(1)
+    A2B1 = random_transform(random_state)
+    A2B2 = random_transform(random_state)
+    tm = TransformManager()
+    tm.add_transform("A", "B", A2B1)
+    tm.add_transform("A", "B", A2B2)
+    A2B = tm.get_transform("A", "B")
+
+    _, filename = tempfile.mkstemp(".pickle")
+    try:
+        pickle.dump(tm, open(filename, "w"))
+        tm2 = pickle.load(open(filename, "r"))
+    finally:
+        if os.path.exists(filename):
+            os.remove(filename)
+    A2B2 = tm2.get_transform("A", "B")
+    assert_array_almost_equal(A2B, A2B2)
