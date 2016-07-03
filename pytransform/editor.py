@@ -60,10 +60,6 @@ class TransformEditor(QtGui.QMainWindow):
                  ylim=(-1.0, 1.0), zlim=(-1.0, 1.0), s=1.0, figsize=(10, 10),
                  dpi=100, parent=None):
         self.app = QtGui.QApplication(sys.argv)
-        locale = QtCore.QLocale.system().name()
-        qt_translator = QtCore.QTranslator()
-        if qt_translator.load("qt_" + locale):
-            self.app.installTranslator(qt_translator)
 
         super(TransformEditor, self).__init__(parent)
         self.transform_manager = self._init_transform_manager(
@@ -118,17 +114,21 @@ class TransformEditor(QtGui.QMainWindow):
         plot.setLayout(canvas_group)
 
         self.sliders = []
-        self.states = []
+        self.spinboxes = []
         for i in range(len(self.dim_labels)):
             self.sliders.append(QtGui.QSlider(QtCore.Qt.Horizontal))
             self.sliders[i].setRange(0, self.n_slider_steps)
             self.connect(self.sliders[i],
                          QtCore.SIGNAL("valueChanged(int)"),
                          partial(self._on_slide, i))
-            self.states.append(QtGui.QLineEdit("0"))
-            self.connect(self.states[i],
-                         QtCore.SIGNAL("textEdited(const QString&)"),
-                         partial(self._on_slide, i))
+            spinbox = QtGui.QDoubleSpinBox()
+            spinbox.setRange(*self.slider_limits[i])
+            spinbox.setDecimals(4)
+            spinbox.setSingleStep(0.0001)
+            self.spinboxes.append(spinbox)
+            self.connect(self.spinboxes[i],
+                         QtCore.SIGNAL("valueChanged(double)"),
+                         partial(self._on_edited, i))
 
         slider_group = QtGui.QGridLayout()
         slider_group.addWidget(QtGui.QLabel("Position"),
@@ -138,7 +138,7 @@ class TransformEditor(QtGui.QMainWindow):
         for i, slider in enumerate(self.sliders):
             slider_group.addWidget(QtGui.QLabel(self.dim_labels[i]), 1, i)
             slider_group.addWidget(slider, 2, i)
-            slider_group.addWidget(self.states[i], 3, i)
+            slider_group.addWidget(self.spinboxes[i], 3, i)
         slider_groupbox = QtGui.QGroupBox("Transformation in frame '%s'"
                                           % self.frame)
         slider_groupbox.setLayout(slider_group)
@@ -168,41 +168,51 @@ class TransformEditor(QtGui.QMainWindow):
 
     def _on_node_changed(self, node):
         self.node = str(node)
-        node2frame = self.transform_manager.get_transform(self.node, self.frame)
-        p = node2frame[:3, 3]
-        R = node2frame[:3, :3]
-        e = euler_xyz_from_matrix(R)
-        pose = np.hstack((p, e))
+        pose = self._get_pose()
 
-        for dim in range(6):
-            self.states[dim].setText("%f" % pose[dim])
-
-        for dim in range(6):
-            m = self.slider_limits[dim][0]
-            r = self.slider_limits[dim][1] - self.slider_limits[dim][0]
-            pos = int((pose[dim] - m) / r * self.n_slider_steps)
-            self.sliders[dim].setValue(pos)
+        for i in range(6):
+            pos = self._pos_to_slider_pos(i, pose[i])
+            self.sliders[i].setValue(pos)
+            self.spinboxes[i].setValue(pose[i])
 
         self._plot()
+
+    def _on_edited(self, dim, pos):
+        pose = self._get_pose()
+        pose[dim] = pos
+        for i in range(6):
+            pos = self._pos_to_slider_pos(i, pose[i])
+            self.sliders[i].setValue(pos)
 
     def _on_slide(self, dim, step):
-        node2frame = self.transform_manager.get_transform(self.node, self.frame)
-        R = node2frame[:3, :3]
-        e = euler_xyz_from_matrix(R)
-        p = node2frame[:3, 3]
-
-        m = self.slider_limits[dim][0]
-        r = self.slider_limits[dim][1] - self.slider_limits[dim][0]
-        v = m + r * float(step) / float(self.n_slider_steps)
-        if dim < 3:
-            p[dim] = v
-        else:
-            e[dim - 3] = v
-        node2frame = transform_from(matrix_from_euler_xyz(e), p)
+        pose = self._get_pose()
+        v = self._slider_pos_to_pos(dim, step)
+        pose[dim] = v
+        node2frame = transform_from(matrix_from_euler_xyz(pose[3:]), pose[:3])
         self.transform_manager.add_transform(self.node, self.frame, node2frame)
-        self.states[dim].setText("%f" % v)
+        self.spinboxes[dim].setValue(v)
 
         self._plot()
+
+    def _get_pose(self):
+        node2frame = self.transform_manager.get_transform(
+            self.node, self.frame)
+        p = node2frame[:3, 3]
+        R = node2frame[:3, :3]
+        e = euler_xyz_from_matrix(R)
+        return np.hstack((p, e))
+
+    def _pos_to_slider_pos(self, dim, pos):
+        m = self.slider_limits[dim][0]
+        r = self.slider_limits[dim][1] - m
+        slider_pos = int((pos - m) / r * self.n_slider_steps)
+        slider_pos = np.clip(slider_pos, 0, self.n_slider_steps)
+        return slider_pos
+
+    def _slider_pos_to_pos(self, dim, slider_pos):
+        m = self.slider_limits[dim][0]
+        r = self.slider_limits[dim][1] - m
+        return m + r * float(slider_pos) / float(self.n_slider_steps)
 
     def _plot(self):
         if self.axis is None:
