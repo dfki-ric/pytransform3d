@@ -110,7 +110,7 @@ def test_pickle():
         if os.path.exists(filename):
             try:
                 os.remove(filename)
-            except IOError:
+            except WindowsError:
                 pass  # workaround for permission problem on Windows
     A2B2 = tm2.get_transform("A", "B")
     assert_array_almost_equal(A2B, A2B2)
