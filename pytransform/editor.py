@@ -5,8 +5,8 @@ try:
     import PyQt4.QtCore as QtCore
     import PyQt4.QtGui as QtGui
 except ImportError as e:
-    print("Please install PyQt4")
-    raise e
+    import warnings
+    warnings.warn("Cannot import PyQt4. TransformEditor won't be available.")
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
