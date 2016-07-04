@@ -3,15 +3,25 @@
 <a href="https://git.hb.dfki.de/ci/projects/1?ref=master">
 <img src="https://git.hb.dfki.de/ci/projects/1/status.png?ref=master" /></a>
 
-A Python library for transformations in three dimensions. The library focuses
-on readability and debugging, not on computational efficiency. If you want to
-have an efficient implementation of some function from the library you can
-easily extract the relevant code and implement it more efficiently in a
-language of your choice.
+A Python library for transformations in three dimensions. It makes conversions
+between rotation and transformation conventions as easy as possible. The
+library focuses on readability and debugging, not on computational efficiency.
+If you want to have an efficient implementation of some function from the
+library you can easily extract the relevant code and implement it more
+efficiently in a language of your choice.
 
 pytransform relies on NumPy for linear algebra and on Matplotlib to offer
-plotting functionalities. Some modules require SciPy for more complicated
-algorithms.
+plotting functionalities.
+
+In addition, pytransform offers...
+
+* the TransformManager which manages complex chains of transformations
+* the TransformEditor which allows to modify transformations graphically
+  (requires PyQt4)
+* the UrdfTransformManager which is able to load transformations from
+  [URDF](http://wiki.ros.org/urdf) files (requires beautifulsoup4)
+
+All of these tools can be easily integrated in any Python program.
 
 ## Installation
 
