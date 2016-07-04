@@ -73,6 +73,9 @@ class UrdfTransformManager(TransformManager):
         """
         urdf = BeautifulSoup(urdf_xml, "xml")
 
+        # URDF XML schema:
+        # https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd
+
         robot = urdf.find("robot")
         if robot is None:
             raise UrdfException("Robot tag is missing.")
@@ -134,8 +137,22 @@ class UrdfTransformManager(TransformManager):
         """Make node from link."""
         if not link.has_attr("name"):
             raise UrdfException("Link name is missing.")
+        self._parse_link_children(link, "visual")
+        self._parse_link_children(link, "collision")
         return Node(link["name"], robot_name)
 
+    def _parse_link_children(self, link, child_type):
+        """Parse collision objects or visuals."""
+        children = link.findAll(child_type)
+        if not children:
+            return
+        for i, child in enumerate(children):
+            if child.has_attr("name"):
+                name = child["name"]
+            else:
+                name = "%s/%s_%s" % (link["name"], child_type, i)
+            child2link = self._parse_origin(child)
+            self.add_transform(name, link["name"], child2link)
 
     def _parse_joint(self, joint, node, parent_name):
         """Update node with joint."""
@@ -151,7 +168,17 @@ class UrdfTransformManager(TransformManager):
             raise UrdfException("Joint type '%s' is not allowed in a URDF "
                                 "document." % node.joint_type)
 
-        origin = joint.find("origin")
+        node.child2parent = self._parse_origin(joint)
+
+        node.joint_axis = np.array([1, 0, 0])
+        if node.joint_type == "revolute":
+            axis = joint.find("axis")
+            if axis is not None and axis.has_attr("xyz"):
+                node.joint_axis = np.fromstring(axis["xyz"], sep=" ")
+
+    def _parse_origin(self, entry):
+        """Parse transformation."""
+        origin = entry.find("origin")
         translation = np.zeros(3)
         rotation = np.eye(3)
         if origin is not None:
@@ -168,13 +195,7 @@ class UrdfTransformManager(TransformManager):
                 # conversion from Euler angles, see this blog post:
                 # https://orbitalstation.wordpress.com/tag/quaternion/
                 rotation = matrix_from_euler_xyz(roll_pitch_yaw).T
-        node.child2parent = transform_from(rotation, translation)
-
-        node.joint_axis = np.array([1, 0, 0])
-        if node.joint_type == "revolute":
-            axis = joint.find("axis")
-            if axis is not None and axis.has_attr("xyz"):
-                node.joint_axis = np.fromstring(axis["xyz"], sep=" ")
+        return transform_from(rotation, translation)
 
 
 class Node(object):

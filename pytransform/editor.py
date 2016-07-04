@@ -154,6 +154,10 @@ try:
     class TransformEditor(QtGui.QMainWindow):
         """GUI to edit transformations.
 
+        .. warning::
+
+            Note that this module requires PyQt4.
+
         Parameters
         ----------
         transform_manager : TransformManager

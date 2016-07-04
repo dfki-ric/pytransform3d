@@ -1,5 +1,6 @@
 import numpy as np
 from pytransform.urdf import UrdfTransformManager, UrdfException
+from pytransform.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
 from nose.tools import assert_raises
 
@@ -322,3 +323,58 @@ def test_unknown_joint():
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
     assert_raises(KeyError, tm.set_joint, "unknown_joint", 0)
+
+
+def test_visual():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1">
+        <visual name="link1_visual">
+            <origin xyz="0 0 1"/>
+        </visual>
+    </link>
+    <joint name="joint0" type="fixed">
+        <parent link="link0"/>
+        <child link="link1"/>
+        <origin xyz="0 1 0"/>
+    </joint>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+    link1_to_link0 = tm.get_transform("link1", "link0")
+    expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 1, 0]))
+    assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
+
+    link1_to_link0 = tm.get_transform("link1_visual", "link0")
+    expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 1, 1]))
+    assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
+
+
+def test_collision():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1">
+        <collision>
+            <origin xyz="0 0 1"/>
+        </collision>
+    </link>
+    <joint name="joint0" type="fixed">
+        <parent link="link0"/>
+        <child link="link1"/>
+        <origin xyz="0 0 1"/>
+    </joint>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    link1_to_link0 = tm.get_transform("link1", "link0")
+    expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 0, 1]))
+    assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
+
+    link1_to_link0 = tm.get_transform("link1/collision_0", "link0")
+    expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 0, 2]))
+    assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
