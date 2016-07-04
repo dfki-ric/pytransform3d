@@ -104,8 +104,8 @@ def test_pickle():
 
     _, filename = tempfile.mkstemp(".pickle")
     try:
-        pickle.dump(tm, open(filename, "w"))
-        tm2 = pickle.load(open(filename, "r"))
+        pickle.dump(tm, open(filename, "wb"))
+        tm2 = pickle.load(open(filename, "rb"))
     finally:
         if os.path.exists(filename):
             os.remove(filename)
