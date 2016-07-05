@@ -1,8 +1,9 @@
 import numpy as np
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
-from .transformations import transform_from, concat
+from .transformations import transform_from, concat, transform
 from .rotations import matrix_from_euler_xyz, matrix_from_axis_angle
+from .plot_utils import make_3d_axis
 
 
 class UrdfTransformManager(TransformManager):
@@ -20,6 +21,8 @@ class UrdfTransformManager(TransformManager):
     def __init__(self):
         super(UrdfTransformManager, self).__init__()
         self._joints = {}
+        self.collision_objects = []
+        self.visuals = []
 
     def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis):
         """Add joint.
@@ -61,7 +64,6 @@ class UrdfTransformManager(TransformManager):
         joint_rotation = matrix_from_axis_angle(np.hstack((axis, [angle])))
         joint2A = transform_from(joint_rotation, np.zeros(3))
         self.add_transform(from_frame, to_frame, concat(joint2A, child2parent))
-
 
     def load_urdf(self, urdf_xml):
         """Load URDF file into transformation manager.
@@ -132,20 +134,18 @@ class UrdfTransformManager(TransformManager):
             else:
                 self.add_transform(node.child, node.parent, node.child2parent)
 
-
     def _parse_link(self, link, robot_name):
         """Make node from link."""
         if not link.has_attr("name"):
             raise UrdfException("Link name is missing.")
-        self._parse_link_children(link, "visual")
-        self._parse_link_children(link, "collision")
+        self.visuals = self._parse_link_children(link, "visual")
+        self.collision_objects = self._parse_link_children(link, "collision")
         return Node(link["name"], robot_name)
 
     def _parse_link_children(self, link, child_type):
         """Parse collision objects or visuals."""
         children = link.findAll(child_type)
-        if not children:
-            return
+        shape_objects = []
         for i, child in enumerate(children):
             if child.has_attr("name"):
                 name = child["name"]
@@ -153,6 +153,23 @@ class UrdfTransformManager(TransformManager):
                 name = "%s/%s_%s" % (link["name"], child_type, i)
             child2link = self._parse_origin(child)
             self.add_transform(name, link["name"], child2link)
+            shape_objects.extend(self._parse_geometry(child, name))
+        return shape_objects
+
+    def _parse_geometry(self, child, name):
+        geometry = child.find("geometry")
+        if geometry is None:
+            raise UrdfException("Missing geometry tag in link '%s'" % name)
+        result = []
+        # meshes are not supported
+        for shape_type in ["box", "cylinder", "sphere"]:
+            shapes = geometry.findAll(shape_type)
+            Cls = shape_classes[shape_type]
+            for shape in shapes:
+                shape_object = Cls(name)
+                shape_object.parse(shape)
+                result.append(shape_object)
+        return result
 
     def _parse_joint(self, joint, node, parent_name):
         """Update node with joint."""
@@ -197,6 +214,21 @@ class UrdfTransformManager(TransformManager):
                 rotation = matrix_from_euler_xyz(roll_pitch_yaw).T
         return transform_from(rotation, translation)
 
+    def plot_visuals(self, frame, ax=None, ax_s=1):
+        """TODO document me"""
+        self._plot_objects(self.visuals, frame, ax, ax_s)
+
+    def plot_collision_objects(self, frame, ax=None, ax_s=1):
+        """TODO document me"""
+        self._plot_objects(self.collision_objects, frame, ax, ax_s)
+
+    def _plot_objects(self, objects, frame, ax=None, ax_s=1):
+        """TODO document me"""
+        if ax is None:
+            ax = make_3d_axis(ax_s)
+        for obj in objects:
+            ax = obj.plot(self, frame, ax)
+
 
 class Node(object):
     """Node from URDF file.
@@ -238,6 +270,108 @@ class Node(object):
         self.joint_name = None
         self.joint_axis = None
         self.joint_type = "fixed"
+
+
+class Box(object):
+    def __init__(self, frame):
+        self.frame = frame
+
+    def parse(self, box):
+        self.size = np.zeros(3)
+        if box.has_attr("size"):
+            self.size = np.fromstring(box["size"], sep=" ")
+
+    def plot(self, tm, frame, ax=None, color="k"):
+        A2B = tm.get_transform(self.frame, frame)
+
+        corners = np.array([
+            [0, 0, 0],
+            [0, 0, 1],
+            [0, 1, 0],
+            [0, 1, 1],
+            [1, 0, 0],
+            [1, 0, 1],
+            [1, 1, 0],
+            [1, 1, 1]
+        ]) * self.size
+        corners = transform(
+            A2B, np.hstack((corners, np.ones((len(corners), 1)))))[:, :3]
+
+        for i, j in [(0, 1), (0, 2), (1, 3), (2, 3),
+                     (4, 5), (4, 6), (5, 7), (6, 7),
+                     (0, 4), (1, 5), (2, 6), (3, 7)]:
+            ax.plot([corners[i, 0], corners[j, 0]],
+                    [corners[i, 1], corners[j, 1]],
+                    [corners[i, 2], corners[j, 2]], c=color)
+
+        return ax
+
+
+class Sphere(object):
+    def __init__(self, frame):
+        self.frame = frame
+
+    def parse(self, sphere):
+        if not sphere.has_attr("radius"):
+            raise UrdfException("Sphere has no radius.")
+        self.radius = float(sphere["radius"])
+
+    def plot(self, tm, frame, ax=None, color="k"):
+        center = tm.get_transform(self.frame, frame)[:3, 3]
+        phi, theta = np.mgrid[0.0:np.pi:30j, 0.0:2.0 * np.pi:30j]
+        x = center[0] + self.radius * np.sin(phi) * np.cos(theta)
+        y = center[1] + self.radius * np.sin(phi) * np.sin(theta)
+        z = center[2] + self.radius * np.cos(phi)
+        ax.plot_surface(x, y, z, rstride=5, cstride=5, color=color,
+                        alpha=0.1, linewidth=0)
+        ax.plot_wireframe(x, y, z, rstride=20, cstride=20, color=color,
+                          alpha=0.1)
+
+        return ax
+
+
+class Cylinder(object):
+    def __init__(self, frame):
+        self.frame = frame
+
+    def parse(self, cylinder):
+        if not cylinder.has_attr("radius"):
+            raise UrdfException("Sphere has no radius.")
+        self.radius = float(cylinder["radius"])
+        if not cylinder.has_attr("length"):
+            raise UrdfException("Sphere has no length.")
+        self.length = float(cylinder["length"])
+
+    def plot(self, tm, frame, ax=None, color="k"):
+        A2B = tm.get_transform(self.frame, frame)
+
+        axis_start = A2B.dot(np.array([0, 0, -0.5 * self.length, 1]))[:3]
+        axis_end = A2B.dot(np.array([0, 0, 0.5 * self.length, 1]))[:3]
+        axis = axis_end - axis_start
+        axis /= self.length
+
+        not_axis = np.array([1, 0, 0])
+        if (axis == not_axis).all():
+            not_axis = np.array([0, 1, 0])
+
+        n1 = np.cross(axis, not_axis)
+        n1 /= np.linalg.norm(n1)
+        n2 = np.cross(axis, n1)
+
+        t = np.linspace(0, self.length, 100)
+        theta = np.linspace(0, 2 * np.pi, 100)
+        t, theta = np.meshgrid(t, theta)
+        X, Y, Z = [axis_start[i] + axis[i] * t +
+                   self.radius * np.sin(theta) * n1[i] +
+                   self.radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+        ax.plot_surface(X, Y, Z, alpha=0.2)
+
+        return ax
+
+
+shape_classes = {"box": Box,
+                 "sphere": Sphere,
+                 "cylinder": Cylinder}
 
 
 class UrdfException(Exception):

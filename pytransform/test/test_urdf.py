@@ -332,6 +332,7 @@ def test_visual():
     <link name="link1">
         <visual name="link1_visual">
             <origin xyz="0 0 1"/>
+            <geometry/>
         </visual>
     </link>
     <joint name="joint0" type="fixed">
@@ -359,6 +360,7 @@ def test_collision():
     <link name="link1">
         <collision>
             <origin xyz="0 0 1"/>
+            <geometry/>
         </collision>
     </link>
     <joint name="joint0" type="fixed">
