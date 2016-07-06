@@ -215,19 +215,81 @@ class UrdfTransformManager(TransformManager):
         return transform_from(rotation, translation)
 
     def plot_visuals(self, frame, ax=None, ax_s=1):
-        """TODO document me"""
-        self._plot_objects(self.visuals, frame, ax, ax_s)
+        """Plot all visuals in a given reference frame.
+
+        Visuals can be boxes, spheres, or cylinders. Note that visuals that
+        cannot be connected to the reference frame are omitted.
+
+        Parameters
+        ----------
+        frame : string
+            Reference frame
+
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        return self._plot_objects(self.visuals, frame, ax, ax_s)
 
     def plot_collision_objects(self, frame, ax=None, ax_s=1):
-        """TODO document me"""
-        self._plot_objects(self.collision_objects, frame, ax, ax_s)
+        """Plot all collision objects in a given reference frame.
+
+        Collision objects can be boxes, spheres, or cylinders. Note that
+        collision objects that cannot be connected to the reference frame are
+        omitted.
+
+        Parameters
+        ----------
+        frame : string
+            Reference frame
+
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        return self._plot_objects(self.collision_objects, frame, ax, ax_s)
 
     def _plot_objects(self, objects, frame, ax=None, ax_s=1):
-        """TODO document me"""
+        """Plot all objects in a given reference frame.
+
+        Objects can be boxes, spheres, or cylinders. Note that objects that
+        cannot be connected to the reference frame are omitted.
+
+        Parameters
+        ----------
+        frame : string
+            Reference frame
+
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
         if ax is None:
             ax = make_3d_axis(ax_s)
         for obj in objects:
             ax = obj.plot(self, frame, ax)
+        return ax
 
 
 class Node(object):
