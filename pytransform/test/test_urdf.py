@@ -2,7 +2,7 @@ import numpy as np
 from pytransform.urdf import UrdfTransformManager, UrdfException
 from pytransform.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_raises
+from nose.tools import assert_raises, assert_equal
 
 
 COMPI_URDF = """
@@ -325,6 +325,25 @@ def test_unknown_joint():
     assert_raises(KeyError, tm.set_joint, "unknown_joint", 0)
 
 
+def test_visual_without_geometry():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1">
+        <visual name="link1_visual">
+            <origin xyz="0 0 1"/>
+        </visual>
+    </link>
+    <joint name="joint0" type="fixed">
+        <parent link="link0"/>
+        <child link="link1"/>
+        <origin xyz="0 1 0"/>
+    </joint>
+    </robot>
+    """
+    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+
+
 def test_visual():
     urdf = """
     <robot name="robot_name">
@@ -380,3 +399,133 @@ def test_collision():
     link1_to_link0 = tm.get_transform("link1/collision_0", "link0")
     expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 0, 2]))
     assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
+
+
+def test_collision_box():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <box size="2 3 4"/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    assert_equal(len(tm.collision_objects), 1)
+    assert_array_almost_equal(tm.collision_objects[0].size,
+                              np.array([2, 3, 4]))
+
+
+def test_collision_box_without_size():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <box/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    assert_equal(len(tm.collision_objects), 1)
+    assert_array_almost_equal(tm.collision_objects[0].size, np.zeros(3))
+
+
+def test_collision_sphere():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <sphere radius="0.123"/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    assert_equal(len(tm.collision_objects), 1)
+    assert_equal(tm.collision_objects[0].radius, 0.123)
+
+
+def test_collision_sphere_without_radius():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <sphere/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+
+
+def test_collision_cylinder():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <cylinder radius="0.123" length="1.234"/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    assert_equal(len(tm.collision_objects), 1)
+    assert_equal(tm.collision_objects[0].radius, 0.123)
+    assert_equal(tm.collision_objects[0].length, 1.234)
+
+
+def test_collision_cylinder_without_radius():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <cylinder length="1.234"/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+
+
+def test_collision_cylinder_without_length():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <cylinder radius="0.123"/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
