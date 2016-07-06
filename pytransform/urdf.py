@@ -348,7 +348,7 @@ class Box(object):
         if box.has_attr("size"):
             self.size = np.fromstring(box["size"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, color="k"):
+    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
 
         corners = np.array([
@@ -384,16 +384,17 @@ class Sphere(object):
             raise UrdfException("Sphere has no radius.")
         self.radius = float(sphere["radius"])
 
-    def plot(self, tm, frame, ax=None, color="k"):
+    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         center = tm.get_transform(self.frame, frame)[:3, 3]
-        phi, theta = np.mgrid[0.0:np.pi:30j, 0.0:2.0 * np.pi:30j]
+        phi, theta = np.mgrid[0.0:np.pi:100j, 0.0:2.0 * np.pi:100j]
         x = center[0] + self.radius * np.sin(phi) * np.cos(theta)
         y = center[1] + self.radius * np.sin(phi) * np.sin(theta)
         z = center[2] + self.radius * np.cos(phi)
-        ax.plot_surface(x, y, z, rstride=5, cstride=5, color=color,
-                        alpha=0.1, linewidth=0)
-        ax.plot_wireframe(x, y, z, rstride=5, cstride=5, color=color,
-                          alpha=0.1)
+
+        if wireframe:
+            ax.plot_wireframe(x, y, z, rstride=10, cstride=10, color=color)
+        else:
+            ax.plot_surface(x, y, z, color=color, alpha=0.2, linewidth=0)
 
         return ax
 
@@ -410,7 +411,7 @@ class Cylinder(object):
             raise UrdfException("Cylinder has no length.")
         self.length = float(cylinder["length"])
 
-    def plot(self, tm, frame, ax=None, color="k"):
+    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
 
         axis_start = A2B.dot(np.array([0, 0, -0.5 * self.length, 1]))[:3]
@@ -432,7 +433,11 @@ class Cylinder(object):
         X, Y, Z = [axis_start[i] + axis[i] * t +
                    self.radius * np.sin(theta) * n1[i] +
                    self.radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
-        ax.plot_surface(X, Y, Z, alpha=0.2, color=color)
+
+        if wireframe:
+            ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, color=color)
+        else:
+            ax.plot_surface(X, Y, Z, color=color, alpha=0.2, linewidth=0)
 
         return ax
 
