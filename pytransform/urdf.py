@@ -157,6 +157,10 @@ class UrdfTransformManager(TransformManager):
         return shape_objects
 
     def _parse_geometry(self, child, name):
+        """Parse geometric primitives (box, cylinder, sphere).
+
+        Meshes are not supported!
+        """
         geometry = child.find("geometry")
         if geometry is None:
             raise UrdfException("Missing geometry tag in link '%s'" % name)
