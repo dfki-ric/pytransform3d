@@ -18,3 +18,9 @@ in the following example.
 
 .. plot:: ../../examples/plot_urdf.py
     :include-source:
+
+The same class can be used to display primitive collision objects (no meshes)
+or visuals from URDF files:
+
+.. plot:: ../../examples/plot_collision_objects.py
+    :include-source:

@@ -386,7 +386,7 @@ class Sphere(object):
         z = center[2] + self.radius * np.cos(phi)
         ax.plot_surface(x, y, z, rstride=5, cstride=5, color=color,
                         alpha=0.1, linewidth=0)
-        ax.plot_wireframe(x, y, z, rstride=20, cstride=20, color=color,
+        ax.plot_wireframe(x, y, z, rstride=5, cstride=5, color=color,
                           alpha=0.1)
 
         return ax
@@ -426,7 +426,7 @@ class Cylinder(object):
         X, Y, Z = [axis_start[i] + axis[i] * t +
                    self.radius * np.sin(theta) * n1[i] +
                    self.radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
-        ax.plot_surface(X, Y, Z, alpha=0.2)
+        ax.plot_surface(X, Y, Z, alpha=0.2, color=color)
 
         return ax
 
