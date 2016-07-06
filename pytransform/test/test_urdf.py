@@ -529,3 +529,57 @@ def test_collision_cylinder_without_length():
     </robot>
     """
     assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+
+
+def test_multiple_collision_objects():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <sphere radius="0.123"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="link1">
+        <collision>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <sphere radius="0.234"/>
+            </geometry>
+        </collision>
+    </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    assert_equal(len(tm.collision_objects), 2)
+
+
+def test_multiple_visuals():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0">
+        <visual>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <sphere radius="0.123"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="link1">
+        <visual>
+            <origin xyz="0 0 1"/>
+            <geometry>
+                <sphere radius="0.234"/>
+            </geometry>
+        </visual>
+    </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    assert_equal(len(tm.visuals), 2)

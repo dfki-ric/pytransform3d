@@ -138,8 +138,9 @@ class UrdfTransformManager(TransformManager):
         """Make node from link."""
         if not link.has_attr("name"):
             raise UrdfException("Link name is missing.")
-        self.visuals = self._parse_link_children(link, "visual")
-        self.collision_objects = self._parse_link_children(link, "collision")
+        self.visuals.extend(self._parse_link_children(link, "visual"))
+        self.collision_objects.extend(
+            self._parse_link_children(link, "collision"))
         return Node(link["name"], robot_name)
 
     def _parse_link_children(self, link, child_type):
@@ -359,7 +360,8 @@ class Box(object):
             [1, 0, 1],
             [1, 1, 0],
             [1, 1, 1]
-        ]) * self.size
+        ])
+        corners = (corners - 0.5) * self.size
         corners = transform(
             A2B, np.hstack((corners, np.ones((len(corners), 1)))))[:, :3]
 
@@ -402,10 +404,10 @@ class Cylinder(object):
 
     def parse(self, cylinder):
         if not cylinder.has_attr("radius"):
-            raise UrdfException("Sphere has no radius.")
+            raise UrdfException("Cylinder has no radius.")
         self.radius = float(cylinder["radius"])
         if not cylinder.has_attr("length"):
-            raise UrdfException("Sphere has no length.")
+            raise UrdfException("Cylinder has no length.")
         self.length = float(cylinder["length"])
 
     def plot(self, tm, frame, ax=None, color="k"):
