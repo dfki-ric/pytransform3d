@@ -1,4 +1,4 @@
-"""Rotations in three dimensions."""
+"""Rotations in three dimensions - SO(3)."""
 import numpy as np
 from .plot_utils import Arrow3D, make_3d_axis
 from numpy.testing import assert_array_almost_equal

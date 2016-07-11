@@ -1,3 +1,4 @@
+"""Trajectories in three dimensions (position and orientation)."""
 import numpy as np
 from .plot_utils import Arrow3D, make_3d_axis
 from .rotations import matrix_from_quaternion, plot_basis

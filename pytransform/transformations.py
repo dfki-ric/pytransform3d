@@ -1,3 +1,4 @@
+"""Transformations in three dimensions - SE(3)."""
 import numpy as np
 from .rotations import (random_quaternion, random_vector,
                         matrix_from_quaternion, quaternion_from_matrix,

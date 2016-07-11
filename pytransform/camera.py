@@ -1,3 +1,4 @@
+"""Transformations related to cameras."""
 import numpy as np
 from .transformations import invert_transform, transform
 

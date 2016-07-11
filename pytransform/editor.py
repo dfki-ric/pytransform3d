@@ -1,3 +1,4 @@
+"""Modify transformations visually."""
 try:
     import PyQt4.QtCore as QtCore
     import PyQt4.QtGui as QtGui
