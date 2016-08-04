@@ -25,7 +25,8 @@ class UrdfTransformManager(TransformManager):
         self.collision_objects = []
         self.visuals = []
 
-    def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis):
+    def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis,
+                  limits=(float("-inf"), float("inf"))):
         """Add joint.
 
         Parameters
@@ -44,12 +45,18 @@ class UrdfTransformManager(TransformManager):
 
         axis : array-like, shape (3,)
             Rotation axis of the joint (defined in the child frame)
+
+        limits : pair of float, optional (default: (-inf, inf))
+            Lower and upper joint angle limit
         """
         self.add_transform(from_frame, to_frame, child2parent)
-        self._joints[joint_name] = from_frame, to_frame, child2parent, axis
+        self._joints[joint_name] = (from_frame, to_frame, child2parent, axis,
+                                    limits)
 
     def set_joint(self, joint_name, angle):
         """Set joint angle.
+
+        Note that joint angles are clipped to their limits.
 
         Parameters
         ----------
@@ -61,7 +68,8 @@ class UrdfTransformManager(TransformManager):
         """
         if joint_name not in self._joints:
             raise KeyError("Joint '%s' is not known" % joint_name)
-        from_frame, to_frame, child2parent, axis = self._joints[joint_name]
+        from_frame, to_frame, child2parent, axis, limits = self._joints[joint_name]
+        angle = np.clip(angle, limits[0], limits[1])
         joint_rotation = matrix_from_axis_angle(np.hstack((axis, [angle])))
         joint2A = transform_from(joint_rotation, np.zeros(3))
         self.add_transform(from_frame, to_frame, concat(joint2A, child2parent))
@@ -131,7 +139,7 @@ class UrdfTransformManager(TransformManager):
         for node in nodes.values():
             if node.joint_type == "revolute":
                 self.add_joint(node.joint_name, node.child, node.parent,
-                               node.child2parent, node.joint_axis)
+                               node.child2parent, node.joint_axis, node.limits)
             else:
                 self.add_transform(node.child, node.parent, node.child2parent)
 
@@ -199,6 +207,8 @@ class UrdfTransformManager(TransformManager):
             if axis is not None and axis.has_attr("xyz"):
                 node.joint_axis = np.fromstring(axis["xyz"], sep=" ")
 
+        node.limits = self._parse_limits(joint)
+
     def _parse_origin(self, entry):
         """Parse transformation."""
         origin = entry.find("origin")
@@ -219,6 +229,17 @@ class UrdfTransformManager(TransformManager):
                 # https://orbitalstation.wordpress.com/tag/quaternion/
                 rotation = matrix_from_euler_xyz(roll_pitch_yaw).T
         return transform_from(rotation, translation)
+
+    def _parse_limits(self, joint):
+        """Parse joint limits."""
+        limit = joint.find("limit")
+        lower, upper = float("-inf"), float("inf")
+        if limit is not None:
+            if limit.has_attr("lower"):
+                lower = float(limit["lower"])
+            if limit.has_attr("upper"):
+                upper = float(limit["upper"])
+        return lower, upper
 
     def plot_visuals(self, frame, ax=None, ax_s=1):
         """Plot all visuals in a given reference frame.
@@ -330,6 +351,9 @@ class Node(object):
 
     joint_type : string
         Either 'fixed' or 'revolute'
+
+    limits : pair of float
+        Lower and upper joint angle limit
     """
     def __init__(self, child, parent):
         self.child = child
@@ -338,6 +362,7 @@ class Node(object):
         self.joint_name = None
         self.joint_axis = None
         self.joint_type = "fixed"
+        self.limits = float("-inf"), float("inf")
 
 
 class Box(object):
