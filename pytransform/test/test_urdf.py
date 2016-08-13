@@ -30,6 +30,7 @@ COMPI_URDF = """
       <parent link="link1"/>
       <child link="link2"/>
       <axis xyz="0 0 -1.0"/>
+      <limit lower="-1"/>
     </joint>
 
     <joint name="joint3" type="revolute">
@@ -37,6 +38,7 @@ COMPI_URDF = """
       <parent link="link2"/>
       <child link="link3"/>
       <axis xyz="0 0 -1.0"/>
+      <limit upper="1"/>
     </joint>
 
     <joint name="joint4" type="revolute">
@@ -310,6 +312,17 @@ def test_joint_angles():
 def test_joint_limits():
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
+
+    assert_raises(KeyError, tm.get_joint_limits, "unknown_joint")
+    assert_array_almost_equal(tm.get_joint_limits("joint1"), (-1, 1))
+    assert_array_almost_equal(tm.get_joint_limits("joint2"), (-1, np.inf))
+    assert_array_almost_equal(tm.get_joint_limits("joint3"), (-np.inf, 1))
+
+
+def test_joint_limit_clipping():
+    tm = UrdfTransformManager()
+    tm.load_urdf(COMPI_URDF)
+
     tm.set_joint("joint1", 2.0)
     link7_to_linkmount = tm.get_transform("link6", "linkmount")
     assert_array_almost_equal(
@@ -319,6 +332,7 @@ def test_joint_limits():
                   [0, 0, 1, 1.124],
                   [0, 0, 0, 1]])
     )
+
     tm.set_joint("joint1", -2.0)
     link7_to_linkmount = tm.get_transform("link6", "linkmount")
     assert_array_almost_equal(

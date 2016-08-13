@@ -18,6 +18,10 @@ class UrdfTransformManager(TransformManager):
     .. warning::
 
         Note that this module requires the Python package beautifulsoup4.
+
+    .. note::
+
+        Joint angles must be given in radians.
     """
     def __init__(self):
         super(UrdfTransformManager, self).__init__()
@@ -73,6 +77,23 @@ class UrdfTransformManager(TransformManager):
         joint_rotation = matrix_from_axis_angle(np.hstack((axis, [angle])))
         joint2A = transform_from(joint_rotation, np.zeros(3))
         self.add_transform(from_frame, to_frame, concat(joint2A, child2parent))
+
+    def get_joint_limits(self, joint_name):
+        """Get limits of a joint.
+
+        Parameters
+        ----------
+        joint_name : string
+            Name of the joint
+
+        Returns
+        -------
+        limits : pair of float
+            Lower and upper joint angle limit
+        """
+        if joint_name not in self._joints:
+            raise KeyError("Joint '%s' is not known" % joint_name)
+        return self._joints[joint_name][4]
 
     def load_urdf(self, urdf_xml):
         """Load URDF file into transformation manager.
