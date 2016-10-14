@@ -80,6 +80,7 @@ for name, angle in zip(joint_names, joint_angles):
     tm.set_joint(name, angle)
 ax = tm.plot_frames_in("compi", whitelist=["link%d" % d for d in range(1, 7)],
                        s=0.05, show_name=True)
+ax = tm.plot_connections_in("compi", ax=ax)
 ax.set_xlim((-0.2, 0.8))
 ax.set_ylim((-0.5, 0.5))
 ax.set_zlim((-0.2, 0.8))

@@ -4,6 +4,7 @@ import numpy as np
 import scipy.sparse as sp
 from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
+from .plot_utils import make_3d_axis
 
 
 class TransformManager(object):
@@ -134,7 +135,7 @@ class TransformManager(object):
             If the axis is None, a new 3d axis will be created
 
         s : float, optional (default: 1)
-            Scaling of the axis and angle that will be drawn
+            Scaling of the frame that will be drawn
 
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
@@ -156,14 +157,7 @@ class TransformManager(object):
         if frame not in self.nodes:
             raise KeyError("Unknown frame '%s'" % frame)
 
-        nodes = set(self.nodes)
-        if whitelist is not None:
-            whitelist = set(whitelist)
-            nodes = nodes.intersection(whitelist)
-            nonwhitlisted_nodes = whitelist.difference(nodes)
-            if nonwhitlisted_nodes:
-                warnings.warn("Whitelist contains unknown nodes: '%s'"
-                              % nonwhitlisted_nodes)
+        nodes = self._whitelisted_nodes(whitelist)
 
         for node in nodes:
             try:
@@ -173,3 +167,90 @@ class TransformManager(object):
             except KeyError:
                 pass  # Frame is not connected to the reference frame
         return ax
+
+    def plot_connections_in(self, frame, ax=None, ax_s=1, whitelist=None,
+                            **kwargs):
+        """Plot direct frame connections in a given reference frame.
+
+        A line between each pair of frames for which a direct transformation
+        is known will be plotted. Direct means that either A2B or B2A has been
+        added to the transform manager.
+
+        Note that frames that cannot be connected to the reference frame are
+        omitted.
+
+        Parameters
+        ----------
+        frame : string
+            Reference frame
+
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        whitelist : list, optional (default: None)
+            Both frames of a connection must be in the whitelist to plot the
+            connection
+
+        kwargs : dict, optional (default: {})
+            Additional arguments for the plotting functions, e.g. alpha
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        if frame not in self.nodes:
+            raise KeyError("Unknown frame '%s'" % frame)
+
+        if ax is None:
+            ax = make_3d_axis(ax_s)
+
+        nodes = self._whitelisted_nodes(whitelist)
+
+        if "c" not in kwargs and "color" not in kwargs:
+            kwargs["color"] = "black"
+
+        for frame_names, transform in self.transforms.items():
+            from_frame, to_frame = frame_names
+            if from_frame in nodes and to_frame in nodes:
+                try:
+                    from2ref = self.get_transform(from_frame, frame)
+                    to2ref = self.get_transform(to_frame, frame)
+                    ax.plot(
+                        (from2ref[0, 3], to2ref[0, 3]),
+                        (from2ref[1, 3], to2ref[1, 3]),
+                        (from2ref[2, 3], to2ref[2, 3]),
+                        **kwargs
+                    )
+                except KeyError:
+                    pass  # Frame is not connected to the reference frame
+
+        return ax
+
+    def _whitelisted_nodes(self, whitelist):
+        """Get whitelisted nodes.
+
+        A warning will be printed if an unknown node is in the whitelist.
+
+        Parameters
+        ----------
+        whitelist : list or None
+            Whitelist of frames
+
+        Returns
+        -------
+        nodes : set
+            Existing whitelisted nodes
+        """
+        nodes = set(self.nodes)
+        if whitelist is not None:
+            whitelist = set(whitelist)
+            nodes = nodes.intersection(whitelist)
+            nonwhitlisted_nodes = whitelist.difference(nodes)
+            if nonwhitlisted_nodes:
+                warnings.warn("Whitelist contains unknown nodes: '%s'"
+                              % nonwhitlisted_nodes)
+        return nodes
