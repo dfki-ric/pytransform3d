@@ -95,12 +95,9 @@ def test_update_transform():
 def test_pickle():
     """Test if a transform manager can be pickled."""
     random_state = np.random.RandomState(1)
-    A2B1 = random_transform(random_state)
-    A2B2 = random_transform(random_state)
+    A2B = random_transform(random_state)
     tm = TransformManager()
-    tm.add_transform("A", "B", A2B1)
-    tm.add_transform("A", "B", A2B2)
-    A2B = tm.get_transform("A", "B")
+    tm.add_transform("A", "B", A2B)
 
     _, filename = tempfile.mkstemp(".pickle")
     try:
@@ -119,12 +116,9 @@ def test_pickle():
 def test_whitelist():
     """Test correct handling of whitelists for plotting."""
     random_state = np.random.RandomState(2)
-    A2B1 = random_transform(random_state)
-    A2B2 = random_transform(random_state)
+    A2B = random_transform(random_state)
     tm = TransformManager()
-    tm.add_transform("A", "B", A2B1)
-    tm.add_transform("A", "B", A2B2)
-    A2B = tm.get_transform("A", "B")
+    tm.add_transform("A", "B", A2B)
 
     nodes = tm._whitelisted_nodes(None)
     assert_equal(set(["A", "B"]), nodes)
