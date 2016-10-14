@@ -168,8 +168,7 @@ class TransformManager(object):
                 pass  # Frame is not connected to the reference frame
         return ax
 
-    def plot_connections_in(self, frame, ax=None, ax_s=1, whitelist=None,
-                            **kwargs):
+    def plot_connections_in(self, frame, ax=None, ax_s=1, whitelist=None, **kwargs):
         """Plot direct frame connections in a given reference frame.
 
         A line between each pair of frames for which a direct transformation
@@ -233,7 +232,7 @@ class TransformManager(object):
     def _whitelisted_nodes(self, whitelist):
         """Get whitelisted nodes.
 
-        A warning will be printed if an unknown node is in the whitelist.
+        A KeyError will be raised if an unknown node is in the whitelist.
 
         Parameters
         ----------
@@ -251,6 +250,6 @@ class TransformManager(object):
             nodes = nodes.intersection(whitelist)
             nonwhitlisted_nodes = whitelist.difference(nodes)
             if nonwhitlisted_nodes:
-                warnings.warn("Whitelist contains unknown nodes: '%s'"
-                              % nonwhitlisted_nodes)
+                raise KeyError("Whitelist contains unknown nodes: '%s'"
+                               % nonwhitlisted_nodes)
         return nodes
