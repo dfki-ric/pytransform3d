@@ -20,6 +20,11 @@ class TransformManager(object):
     can request the transform that represents frame D in frame A. The transform
     manager will automatically concatenate the transform D2C, C2B, and B2A,
     where C2B and B2A are obtained by inverting B2C and A2B respectively.
+
+    It is possible to introduce inconsistencies in the transform manager.
+    Adding A2B and B2A with inconsistent values will result in an invalid
+    state because inconsistencies will not be checked. It seems to be trivial
+    in this simple case but can be computationally complex for large graphs.
     """
     def __init__(self):
         self.transforms = {}
