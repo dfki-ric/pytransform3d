@@ -6,7 +6,8 @@ from pytransform.transformations import (random_transform, invert_transform,
                                          concat)
 from pytransform.transform_manager import TransformManager
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_raises_regexp, assert_equal
+from nose.tools import (assert_raises_regexp, assert_equal, assert_true,
+                        assert_false)
 
 
 def test_request_added_transform():
@@ -125,3 +126,39 @@ def test_whitelist():
     nodes = tm._whitelisted_nodes("A")
     assert_equal(set(["A"]), nodes)
     assert_raises_regexp(KeyError, "unknown nodes", tm._whitelisted_nodes, "C")
+
+
+def test_check_consistency():
+    """Test correct detection of inconsistent graphs."""
+    random_state = np.random.RandomState(2)
+
+    tm = TransformManager()
+
+    A2B = random_transform(random_state)
+    tm.add_transform("A", "B", A2B)
+    B2A = random_transform(random_state)
+    tm.add_transform("B", "A", B2A)
+    assert_false(tm.check_consistency())
+
+    tm = TransformManager()
+
+    A2B = random_transform(random_state)
+    tm.add_transform("A", "B", A2B)
+    assert_true(tm.check_consistency())
+
+    C2D = random_transform(random_state)
+    tm.add_transform("C", "D", C2D)
+    assert_true(tm.check_consistency())
+
+    B2C = random_transform(random_state)
+    tm.add_transform("B", "C", B2C)
+    assert_true(tm.check_consistency())
+
+    A2D_over_path = tm.get_transform("A", "D")
+
+    A2D = random_transform(random_state)
+    tm.add_transform("A", "D", A2D)
+    assert_false(tm.check_consistency())
+
+    tm.add_transform("A", "D", A2D_over_path)
+    assert_true(tm.check_consistency())

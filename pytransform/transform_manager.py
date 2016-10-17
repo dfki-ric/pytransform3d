@@ -21,10 +21,14 @@ class TransformManager(object):
     manager will automatically concatenate the transform D2C, C2B, and B2A,
     where C2B and B2A are obtained by inverting B2C and A2B respectively.
 
-    It is possible to introduce inconsistencies in the transform manager.
-    Adding A2B and B2A with inconsistent values will result in an invalid
-    state because inconsistencies will not be checked. It seems to be trivial
-    in this simple case but can be computationally complex for large graphs.
+    .. warning::
+
+        It is possible to introduce inconsistencies in the transform manager.
+        Adding A2B and B2A with inconsistent values will result in an invalid
+        state because inconsistencies will not be checked. It seems to be
+        trivial in this simple case but can be computationally complex for
+        large graphs. You can check the consistency explicitly with
+        :func:`TransformManager.check_consistency`.
     """
     def __init__(self):
         self.transforms = {}
@@ -258,3 +262,30 @@ class TransformManager(object):
                 raise KeyError("Whitelist contains unknown nodes: '%s'"
                                % nonwhitlisted_nodes)
         return nodes
+
+    def check_consistency(self):
+        """Check consistency of the known transformations.
+
+        The complexity of this is between :math:`O(n^2)` and :math:`O(n^3)`,
+        where :math:`n` is the number of nodes. In graphs where each pair of
+        nodes is directly connected the complexity is :math:`O(n^2)`. In graphs
+        that are actually paths, the complexity is :math:`O(n^3)`.
+
+        Returns
+        -------
+        consistent : bool
+            Is the graph consistent, i.e. is A2B always the same as the inverse
+            of B2A?
+        """
+        consistent = True
+        for n1 in self.nodes:
+            for n2 in self.nodes:
+                try:
+                    n1_to_n2 = self.get_transform(n1, n2)
+                    n2_to_n1 = self.get_transform(n2, n1)
+                    consistent = (consistent and
+                                  np.allclose(n1_to_n2,
+                                              invert_transform(n2_to_n1)))
+                except KeyError:
+                    pass  # Frames are not connected
+        return consistent
