@@ -9,6 +9,8 @@ branches:
     - master
     - /\d+\.\d+\..+/
 install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq liblapack-dev libopenblas-dev
   - pip install numpy scipy lxml bs4 matplotlib coverage
 script: "nosetests -sv ."
 notifications:
