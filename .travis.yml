@@ -4,11 +4,19 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+virtualenv:
+    system_site_packages: true
 branches:
   only:
     - master
     - /\d+\.\d+\..+/
-install: "sudo pip install -r requirements.txt"
+before_install:
+  - SITE_PKG_DIR=$VIRTUAL_ENV/lib/python$TRAVIS_PYTHON_VERSION/site-packages
+  - rm -f $VIRTUAL_ENV/lib/python$TRAVIS_PYTHON_VERSION/no-global-site-packages.txt
+install:
+  - sudo apt-get update -qq
+  - sudo apt-get install python-numpy python-scipy python-matplotlib -qq
+  - sudo pip install lxml bs4
 script: "nosetests -sv ."
 notifications:
   recipients:
