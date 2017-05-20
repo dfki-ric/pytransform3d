@@ -1,7 +1,6 @@
 # pytransform
 
-<a href="https://git.hb.dfki.de/ci/projects/1?ref=master">
-<img src="https://git.hb.dfki.de/ci/projects/1/status.png?ref=master" /></a>
+[![Build Status](https://travis-ci.org/rock-learning/pytransform.svg?branch=master)](https://travis-ci.org/rock-learning/pytransform)
 
 A Python library for transformations in three dimensions. It makes conversions
 between rotation and transformation conventions as easy as possible. The
