@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3D Rotations: SO(3) &#8212; pytransform 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transform Manager" href="transform_manager.html" />
+    <link rel="prev" title="pytransform" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          pytransform</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">3D Rotations: SO(3)</a><ul>
+<li><a class="reference internal" href="#rotation-matrix">Rotation Matrix</a></li>
+<li><a class="reference internal" href="#axis-angle">Axis-Angle</a></li>
+<li><a class="reference internal" href="#euler-angles">Euler Angles</a></li>
+<li><a class="reference internal" href="#quaternions">Quaternions</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="index.html" title="Previous Chapter: pytransform"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; pytransform</span>
+    </a>
+  </li>
+  <li>
+    <a href="transform_manager.html" title="Next Chapter: Transform Manager"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Transform Manager &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="d-rotations-so-3">
+<h1>3D Rotations: SO(3)<a class="headerlink" href="#d-rotations-so-3" title="Permalink to this headline">¶</a></h1>
+<p>The group of all rotations in the 3D Cartesian space is called <span class="math">SO(3)</span>.
+The minimum number of components that are required to describe any rotation
+from <span class="math">SO(3)</span> is 3. However, there is no representation that is
+non-redundant, continuous and free of singularities. We will now take a closer
+look at competing representations of rotations and the orientations they can
+describe.</p>
+<p>Here is an overview of the representations and the conversions between them
+that are available in pytransform.</p>
+<div align="center" class="align-center"><img alt="Rotations" src="_images/rotations.svg" /></div>
+<p>The following example illustrates the usage of pytransform to perform these
+conversions.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">pytransform.rotations</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_basis</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">euler</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">euler</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">euler</span><span class="p">)</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">euler</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">euler</span><span class="p">[</span><span class="mi">2</span> <span class="o">-</span> <span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">(</span><span class="n">euler</span><span class="p">)</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">e</span> <span class="o">=</span> <span class="p">[</span><span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">][</span><span class="n">axis</span><span class="p">]</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="n">angle</span><span class="p">,)))</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">plot_axis_angle</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">quaternion_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./../../examples/plot_compare_rotations.py">Source code</a>, <a class="reference external" href="./../../examples/plot_compare_rotations.png">png</a>, <a class="reference external" href="./../../examples/plot_compare_rotations.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_compare_rotations.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plot_compare_rotations.png" src="_images/plot_compare_rotations.png" />
+</div>
+<div class="section" id="rotation-matrix">
+<h2>Rotation Matrix<a class="headerlink" href="#rotation-matrix" title="Permalink to this headline">¶</a></h2>
+<p>The most practical representation of orientation is a rotation matrix</p>
+<div class="math">
+<p><span class="math">\boldsymbol R =
+\left( \begin{array}{ccc}
+    r_{11} &amp; r_{12} &amp; r_{13}\\
+    r_{21} &amp; r_{22} &amp; r_{23}\\
+    r_{31} &amp; r_{32} &amp; r_{33}\\
+\end{array} \right)</span></p>
+</div><p>Note that</p>
+<ul class="simple">
+<li>this is a non-minimal representation for orientations because we have 9
+values but only 3 degrees of freedom</li>
+<li><span class="math">\boldsymbol R</span> must be orthonormal</li>
+<li><span class="math">\boldsymbol R^T = \boldsymbol R^{-1}</span></li>
+<li><span class="math">det(\boldsymbol R) = 1</span></li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There are two conventions on how to interpret rotation matrices. We use
+the alibi convention. The alibi convention assumes that the reference
+coordinate system is fixed and we rotate vectors or points in it with
+the rotation matrix. Another convention is the alias convention. With
+the alias convention we assume that a rotation matrix defines how the
+reference coordinate system is rotated. We can easily convert rotation
+matrices between the two conventions by transposing them.</p>
+</div>
+<p>We can use a rotation matrix <span class="math">\boldsymbol R_{AB}</span> to transform a point
+<span class="math">_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}</span> from frame <span class="math">B</span> to frame
+<span class="math">A</span>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There are two different conventions on how to use rotation matrices to
+apply a rotation to a vector. We can either (pre-)multiply a column vector
+from a left side or we can (post-)multiply a row vector from the right side.
+We will use the <strong>post-multiplication</strong> convention.</p>
+</div>
+<p>This means that we rotate a point <span class="math">_B\boldsymbol{p}</span> by</p>
+<div class="math">
+<p><span class="math">_A\boldsymbol{p} = \boldsymbol{R}_{ABB} \boldsymbol{p}</span></p>
+</div><p>This is called <strong>linear map</strong>.</p>
+<p>We can see that <em>each column</em> of such a rotation matrix is a basis vector
+of frame <span class="math">A</span> with respect to frame <span class="math">B</span>.</p>
+<p>We can plot the basis vectors of an orientation to visualize it.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When plotting basis vectors it is a convention to use red for the x-axis,
+green for the y-axis and blue for the z-axis (RGB for xyz).</p>
+</div>
+<p>Here, we can see orientation represented by the rotation matrix</p>
+<div class="math">
+<p><span class="math">\boldsymbol R =
+\left( \begin{array}{ccc}
+    1 &amp; 0 &amp; 0\\
+    0 &amp; 1 &amp; 0\\
+    0 &amp; 0 &amp; 1\\
+\end{array} \right)</span></p>
+</div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytransform.rotations</span> <span class="kn">import</span> <span class="n">plot_basis</span>
+<span class="n">plot_basis</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href=".//rotations-1.py">Source code</a>, <a class="reference external" href=".//rotations-1.png">png</a>, <a class="reference external" href=".//rotations-1.hires.png">hires.png</a>, <a class="reference external" href=".//rotations-1.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/rotations-1.png" src="_images/rotations-1.png" />
+</div>
+<p>We can easily chain multiple rotations: we can apply the rotation defined
+by <span class="math">\boldsymbol R_{AB}</span> after the rotation <span class="math">\boldsymbol R_{BC}</span>
+by applying the rotation</p>
+<div class="math">
+<p><span class="math">\boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.</span></p>
+</div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There are two different conventions on how to concatenate rotation
+matrices. Suppose we have a rotation matrix <span class="math">R</span> and another matrix
+<span class="math">R'</span> with which we would like to rotate <span class="math">R</span>. We can multiply
+<span class="math">R \cdot R'</span> or <span class="math">R' \cdot R</span>. The first option
+<span class="math">R \cdot R'</span> means that the rotation <span class="math">R'</span> is applied in the
+local coordinate frame defined by <span class="math">R</span>. The second option
+<span class="math">R' \cdot R</span> is equivalent to rotating <span class="math">R</span> in the global
+coordinate system.</p>
+</div>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>It is easy to apply rotations on point vectors</li>
+<li>Concatenation of rotations is trivial</li>
+<li>You can directly read the basis vectors from the columns</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>We use 9 values for 3 degrees of freedom</li>
+<li>Not every 3x3 matrix is a valid rotation matrix, which means for example
+that we cannot simply apply an optimization algorithm to rotation matrices</li>
+</ul>
+</div>
+<div class="section" id="axis-angle">
+<h2>Axis-Angle<a class="headerlink" href="#axis-angle" title="Permalink to this headline">¶</a></h2>
+<p>Each rotation can be represented by a single rotation around one axis.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">==========</span>
+<span class="sd">Axis-angle</span>
+<span class="sd">==========</span>
+
+<span class="sd">Any rotation can be represented with a single rotation about some axis.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pytransform.rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">random_axis_angle</span><span class="p">,</span> <span class="n">matrix_from_axis_angle</span><span class="p">,</span>
+                                   <span class="n">plot_basis</span><span class="p">,</span> <span class="n">plot_axis_angle</span><span class="p">)</span>
+
+
+<span class="n">original</span> <span class="o">=</span> <span class="n">random_axis_angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">original</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">fraction</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">fraction</span> <span class="o">*</span> <span class="n">original</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./../../examples/plot_axis_angle.py">Source code</a>, <a class="reference external" href="./../../examples/plot_axis_angle.png">png</a>, <a class="reference external" href="./../../examples/plot_axis_angle.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_axis_angle.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plot_axis_angle.png" src="_images/plot_axis_angle.png" />
+</div>
+<p>The axis can be represented as a three-dimensional unit vector and the angle
+by a scalar:</p>
+<div class="math">
+<p><span class="math">\left( \boldsymbol{\hat{e}}, \theta \right) = \left( \left( \begin{array}{c}e_x\\e_y\\e_z\end{array} \right), \theta \right)</span></p>
+</div><p>It is possible to write this in a more compact way as a rotation vector:</p>
+<div class="math">
+<p><span class="math">\boldsymbol{v} = \theta \boldsymbol{\hat{e}}</span></p>
+</div><p><strong>Pros</strong></p>
+<ul class="simple">
+<li>Minimal representation (as rotation vector)</li>
+<li>It is easy to interpret the representation (as axis and angle)</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>Concatenation involves conversion to another representation</li>
+</ul>
+</div>
+<div class="section" id="euler-angles">
+<h2>Euler Angles<a class="headerlink" href="#euler-angles" title="Permalink to this headline">¶</a></h2>
+<p>A complete rotation can be split into three rotations around basis vectors.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There are 24 different conventions for defining euler angles. There are
+12 different valid ways to sequence rotation axes that can be interpreted
+as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
+XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
+ZYX convention with intrinsic rotations.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">============</span>
+<span class="sd">Euler Angles</span>
+<span class="sd">============</span>
+
+<span class="sd">Any rotation can be represented by three consecutive rotations about three</span>
+<span class="sd">basis vectors. Here we use either the x-y-z convention or the z-y-x convention.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">pytransform.rotations</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_basis</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">])</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">])</span>
+<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./../../examples/plot_euler_angles.py">Source code</a>, <a class="reference external" href="./../../examples/plot_euler_angles.png">png</a>, <a class="reference external" href="./../../examples/plot_euler_angles.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_euler_angles.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plot_euler_angles.png" src="_images/plot_euler_angles.png" />
+</div>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>Minimal representation</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>24 different conventions</li>
+<li>Singularities (gimbal lock)</li>
+</ul>
+</div>
+<div class="section" id="quaternions">
+<h2>Quaternions<a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h2>
+<p>The unit quaternion space <span class="math">S^3</span> can be used to represent orientations.
+To do that, we use an encoding based on the rotation axis and angle.</p>
+<p>A rotation quaternion is a four-dimensional unit vector (versor)</p>
+<div class="math">
+<p><span class="math">\boldsymbol{\hat{q}} =
+\left( \begin{array}{c}
+    \cos \frac{\theta}{2}\\
+    e_x \sin \frac{\theta}{2}\\
+    e_y \sin \frac{\theta}{2}\\
+    e_z \sin \frac{\theta}{2}\\
+\end{array} \right)</span></p>
+</div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The scalar component of a quaternion is sometimes the first element and
+sometimes the last element of the versor. We will always use the first
+element to store the scalar component.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The unit quaternions <span class="math">\boldsymbol{\hat{q}}</span> and
+<span class="math">-\boldsymbol{\hat{q}}</span> represent exactly the same rotation.</p>
+</div>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li>More compact than the matrix representation and less susceptible to
+round-off errors</li>
+<li>The quaternion elements vary continuously over the unit sphere in
+<span class="math">\mathbb{R}^4</span> as the orientation changes, avoiding discontinuous
+jumps (inherent to three-dimensional parameterizations)</li>
+<li>Expression of the rotation matrix in terms of quaternion parameters
+involves no trigonometric functions</li>
+<li>Concatenation is simple with the quaternion product</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li>The representation is not straightforward to interpret</li>
+<li>There are always two unit quaternions that represent exactly the same
+rotation</li>
+</ul>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, Alexander Fabisch.<br/>
+      Last updated on Mar 30, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

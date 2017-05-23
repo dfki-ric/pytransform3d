@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Transform Manager &#8212; pytransform 0.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Camera" href="camera.html" />
+    <link rel="prev" title="3D Rotations: SO(3)" href="rotations.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          pytransform</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Transform Manager</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="rotations.html" title="Previous Chapter: 3D Rotations: SO(3)"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 3D Rotations: SO(3)</span>
+    </a>
+  </li>
+  <li>
+    <a href="camera.html" title="Next Chapter: Camera"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Camera &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="transform-manager">
+<h1>Transform Manager<a class="headerlink" href="#transform-manager" title="Permalink to this headline">¶</a></h1>
+<p>It is sometimes very difficult to have an overview of all the transformations
+that are required to obtain one specific transformation. Suppose you have
+a robot with a camera that can observe the robot&#8217;s end-effector and an object
+that we want to manipulate. We would like to know the position of the
+end-effector in the object&#8217;s frame so that we can control it.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">=================</span>
+<span class="sd">Transform Manager</span>
+<span class="sd">=================</span>
+
+<span class="sd">In this example, we will use the transform manager to infer a transformation</span>
+<span class="sd">automatically.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pytransform.rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">random_quaternion</span><span class="p">,</span> <span class="n">matrix_from_euler_xyz</span><span class="p">,</span>
+                                   <span class="n">q_id</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pytransform.transformations</span> <span class="kn">import</span> <span class="n">transform_from_pq</span><span class="p">,</span> <span class="n">transform_from</span>
+<span class="kn">from</span> <span class="nn">pytransform.transform_manager</span> <span class="kn">import</span> <span class="n">TransformManager</span>
+
+
+<span class="n">random_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">ee2robot</span> <span class="o">=</span> <span class="n">transform_from_pq</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">random_quaternion</span><span class="p">(</span><span class="n">random_state</span><span class="p">))))</span>
+<span class="n">cam2robot</span> <span class="o">=</span> <span class="n">transform_from_pq</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]),</span> <span class="n">q_id</span><span class="p">)))</span>
+<span class="n">object2cam</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
+    <span class="n">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]))</span>
+
+<span class="n">tm</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="p">()</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;end-effector&quot;</span><span class="p">,</span> <span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">ee2robot</span><span class="p">)</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;camera&quot;</span><span class="p">,</span> <span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">cam2robot</span><span class="p">)</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;camera&quot;</span><span class="p">,</span> <span class="n">object2cam</span><span class="p">)</span>
+
+<span class="n">ee2object</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="s2">&quot;end-effector&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./../../examples/plot_transform_manager.py">Source code</a>, <a class="reference external" href="./../../examples/plot_transform_manager.png">png</a>, <a class="reference external" href="./../../examples/plot_transform_manager.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_transform_manager.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plot_transform_manager.png" src="_images/plot_transform_manager.png" />
+</div>
+<p>A subclass of the transformation manager is the
+<a class="reference internal" href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager" title="pytransform.urdf.UrdfTransformManager"><code class="xref py py-class docutils literal"><span class="pre">UrdfTransformManager</span></code></a> which can be used to load
+robot definitions from URDF files. An example with a simple robot can be seen
+in the following example.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">===========</span>
+<span class="sd">URDF Joints</span>
+<span class="sd">===========</span>
+
+<span class="sd">This example shows how to load a URDF description of a robot, set some joint</span>
+<span class="sd">angles and display relevant frames.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pytransform.urdf</span> <span class="kn">import</span> <span class="n">UrdfTransformManager</span>
+
+
+<span class="n">COMPI_URDF</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="s2">  &lt;robot name=&quot;compi&quot;&gt;</span>
+<span class="s2">    &lt;link name=&quot;linkmount&quot;/&gt;</span>
+<span class="s2">    &lt;link name=&quot;link1&quot;/&gt;</span>
+<span class="s2">    &lt;link name=&quot;link2&quot;/&gt;</span>
+<span class="s2">    &lt;link name=&quot;link3&quot;/&gt;</span>
+<span class="s2">    &lt;link name=&quot;link4&quot;/&gt;</span>
+<span class="s2">    &lt;link name=&quot;link5&quot;/&gt;</span>
+<span class="s2">    &lt;link name=&quot;link6&quot;/&gt;</span>
+<span class="s2">    &lt;link name=&quot;tcp&quot;/&gt;</span>
+
+<span class="s2">    &lt;joint name=&quot;joint1&quot; type=&quot;revolute&quot;&gt;</span>
+<span class="s2">      &lt;origin xyz=&quot;0 0 0&quot; rpy=&quot;0 0 0&quot;/&gt;</span>
+<span class="s2">      &lt;parent link=&quot;linkmount&quot;/&gt;</span>
+<span class="s2">      &lt;child link=&quot;link1&quot;/&gt;</span>
+<span class="s2">      &lt;axis xyz=&quot;0 0 1.0&quot;/&gt;</span>
+<span class="s2">    &lt;/joint&gt;</span>
+
+<span class="s2">    &lt;joint name=&quot;joint2&quot; type=&quot;revolute&quot;&gt;</span>
+<span class="s2">      &lt;origin xyz=&quot;0 0 0.158&quot; rpy=&quot;1.570796 0 0&quot;/&gt;</span>
+<span class="s2">      &lt;parent link=&quot;link1&quot;/&gt;</span>
+<span class="s2">      &lt;child link=&quot;link2&quot;/&gt;</span>
+<span class="s2">      &lt;axis xyz=&quot;0 0 -1.0&quot;/&gt;</span>
+<span class="s2">    &lt;/joint&gt;</span>
+
+<span class="s2">    &lt;joint name=&quot;joint3&quot; type=&quot;revolute&quot;&gt;</span>
+<span class="s2">      &lt;origin xyz=&quot;0 0.28 0&quot; rpy=&quot;0 0 0&quot;/&gt;</span>
+<span class="s2">      &lt;parent link=&quot;link2&quot;/&gt;</span>
+<span class="s2">      &lt;child link=&quot;link3&quot;/&gt;</span>
+<span class="s2">      &lt;axis xyz=&quot;0 0 -1.0&quot;/&gt;</span>
+<span class="s2">    &lt;/joint&gt;</span>
+
+<span class="s2">    &lt;joint name=&quot;joint4&quot; type=&quot;revolute&quot;&gt;</span>
+<span class="s2">      &lt;origin xyz=&quot;0 0 0&quot; rpy=&quot;-1.570796 0 0&quot;/&gt;</span>
+<span class="s2">      &lt;parent link=&quot;link3&quot;/&gt;</span>
+<span class="s2">      &lt;child link=&quot;link4&quot;/&gt;</span>
+<span class="s2">      &lt;axis xyz=&quot;0 0 1.0&quot;/&gt;</span>
+<span class="s2">    &lt;/joint&gt;</span>
+
+<span class="s2">    &lt;joint name=&quot;joint5&quot; type=&quot;revolute&quot;&gt;</span>
+<span class="s2">      &lt;origin xyz=&quot;0 0 0.34&quot; rpy=&quot;1.570796 0 0&quot;/&gt;</span>
+<span class="s2">      &lt;parent link=&quot;link4&quot;/&gt;</span>
+<span class="s2">      &lt;child link=&quot;link5&quot;/&gt;</span>
+<span class="s2">      &lt;axis xyz=&quot;0 0 -1.0&quot;/&gt;</span>
+<span class="s2">    &lt;/joint&gt;</span>
+
+<span class="s2">    &lt;joint name=&quot;joint6&quot; type=&quot;revolute&quot;&gt;</span>
+<span class="s2">      &lt;origin xyz=&quot;0 0.346 0&quot; rpy=&quot;-1.570796 0 0&quot;/&gt;</span>
+<span class="s2">      &lt;parent link=&quot;link5&quot;/&gt;</span>
+<span class="s2">      &lt;child link=&quot;link6&quot;/&gt;</span>
+<span class="s2">      &lt;axis xyz=&quot;0 0 1.0&quot;/&gt;</span>
+<span class="s2">    &lt;/joint&gt;</span>
+
+<span class="s2">    &lt;joint name=&quot;jointtcp&quot; type=&quot;fixed&quot;&gt;</span>
+<span class="s2">      &lt;origin xyz=&quot;0 0 0.05&quot; rpy=&quot;0 0 0&quot;/&gt;</span>
+<span class="s2">      &lt;parent link=&quot;link6&quot;/&gt;</span>
+<span class="s2">      &lt;child link=&quot;tcp&quot;/&gt;</span>
+<span class="s2">    &lt;/joint&gt;</span>
+<span class="s2">  &lt;/robot&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">tm</span> <span class="o">=</span> <span class="n">UrdfTransformManager</span><span class="p">()</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">load_urdf</span><span class="p">(</span><span class="n">COMPI_URDF</span><span class="p">)</span>
+<span class="n">joint_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;joint</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)]</span>
+<span class="n">joint_angles</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">angle</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">joint_names</span><span class="p">,</span> <span class="n">joint_angles</span><span class="p">):</span>
+    <span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span><span class="p">(</span><span class="s2">&quot;compi&quot;</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;link</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)],</span>
+                       <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">show_name</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">plot_connections_in</span><span class="p">(</span><span class="s2">&quot;compi&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./../../examples/plot_urdf.py">Source code</a>, <a class="reference external" href="./../../examples/plot_urdf.png">png</a>, <a class="reference external" href="./../../examples/plot_urdf.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_urdf.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plot_urdf.png" src="_images/plot_urdf.png" />
+</div>
+<p>The same class can be used to display primitive collision objects (no meshes)
+or visuals from URDF files:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">======================</span>
+<span class="sd">URDF Collision objects</span>
+<span class="sd">======================</span>
+
+<span class="sd">This example shows how to load a URDF description of collision objects and</span>
+<span class="sd">display them.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pytransform.urdf</span> <span class="kn">import</span> <span class="n">UrdfTransformManager</span>
+
+
+<span class="n">URDF</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="s2">  &lt;robot name=&quot;collision&quot;&gt;</span>
+<span class="s2">    &lt;link name=&quot;collision&quot;&gt;</span>
+<span class="s2">      &lt;collision name=&quot;collision_01&quot;&gt;</span>
+<span class="s2">        &lt;origin xyz=&quot;0 0 1&quot; rpy=&quot;1 0 0&quot;/&gt;</span>
+<span class="s2">        &lt;geometry&gt;</span>
+<span class="s2">          &lt;sphere radius=&quot;0.2&quot;/&gt;</span>
+<span class="s2">        &lt;/geometry&gt;</span>
+<span class="s2">      &lt;/collision&gt;</span>
+<span class="s2">      &lt;collision name=&quot;collision_02&quot;&gt;</span>
+<span class="s2">        &lt;origin xyz=&quot;0 0.5 0&quot; rpy=&quot;0 1 0&quot;/&gt;</span>
+<span class="s2">        &lt;geometry&gt;</span>
+<span class="s2">          &lt;cylinder radius=&quot;0.1&quot; length=&quot;2&quot;/&gt;</span>
+<span class="s2">        &lt;/geometry&gt;</span>
+<span class="s2">      &lt;/collision&gt;</span>
+<span class="s2">      &lt;collision name=&quot;collision_03&quot;&gt;</span>
+<span class="s2">        &lt;origin xyz=&quot;-0.5 0 0&quot; rpy=&quot;0 0 1&quot;/&gt;</span>
+<span class="s2">        &lt;geometry&gt;</span>
+<span class="s2">          &lt;box size=&quot;0.3 0.4 0.5&quot;/&gt;</span>
+<span class="s2">        &lt;/geometry&gt;</span>
+<span class="s2">      &lt;/collision&gt;</span>
+<span class="s2">  &lt;/robot&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="n">tm</span> <span class="o">=</span> <span class="n">UrdfTransformManager</span><span class="p">()</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">load_urdf</span><span class="p">(</span><span class="n">URDF</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span><span class="p">(</span><span class="s2">&quot;collision&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">plot_collision_objects</span><span class="p">(</span><span class="s2">&quot;collision&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./../../examples/plot_collision_objects.py">Source code</a>, <a class="reference external" href="./../../examples/plot_collision_objects.png">png</a>, <a class="reference external" href="./../../examples/plot_collision_objects.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_collision_objects.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/plot_collision_objects.png" src="_images/plot_collision_objects.png" />
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, Alexander Fabisch.<br/>
+      Last updated on Mar 30, 2017.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
