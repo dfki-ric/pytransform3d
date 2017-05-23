@@ -30,6 +30,9 @@ Install the package with:
 
 ## Documentation
 
+The API documentation can be found
+[here](https://rock-learning.github.io/pytransform/).
+
 The docmentation of this project can be found in the directory `doc`. To
 build the documentation, run e.g. (on unix):
 
