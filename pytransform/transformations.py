@@ -183,7 +183,7 @@ def concat(A2B, B2C):
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
 
-    A2B : array-like, shape (4, 4)
+    B2C : array-like, shape (4, 4)
         Transform from frame B to frame C
     """
     A2B = check_transform(A2B)
