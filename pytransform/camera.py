@@ -111,7 +111,7 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
 
     P_sensor = np.empty((n_points, 2))
     ahead = P_cam[:, 2] > 0.0
-    P_sensor[ahead] = P_cam[ahead, :2] / P_cam[ahead, 2, np.newaxis]
+    P_sensor[ahead] = P_cam[ahead][:, :2] / P_cam[ahead][:, 2, np.newaxis]
     behind = np.logical_not(ahead)
     P_sensor[behind] = np.nan
 
