@@ -13,6 +13,8 @@ install:
   - sudo apt-get install -qq liblapack-dev libopenblas-dev
   - pip install --upgrade pip
   - pip install --upgrade numpy scipy lxml bs4 matplotlib coverage
+  - python -c "import numpy;print(numpy.__version__)"
+  - python -c "import scipy; print(scipy.__version__)"
 script: "nosetests -sv ."
 notifications:
   recipients:
