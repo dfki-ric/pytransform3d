@@ -2,6 +2,7 @@
 import warnings
 import numpy as np
 import scipy.sparse as sp
+from scipy.sparse import csgraph
 from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
 from .plot_utils import make_3d_axis
@@ -72,7 +73,7 @@ class TransformManager(object):
         n_nodes = len(self.nodes)
         con = sp.csr_matrix((np.zeros(len(self.i)), (self.i, self.j)),
                             shape=(n_nodes, n_nodes))
-        self.dist, self.predecessors = sp.csgraph.shortest_path(
+        self.dist, self.predecessors = csgraph.shortest_path(
             con, unweighted=True, directed=False, method="D",
             return_predecessors=True)
 
