@@ -621,3 +621,33 @@ def test_multiple_visuals():
     tm.load_urdf(urdf)
 
     assert_equal(len(tm.visuals), 2)
+
+
+def test_multiple_parents():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <link name="parent0"/>
+        <link name="parent1"/>
+        <link name="child"/>
+
+        <joint name="joint0" type="revolute">
+            <origin xyz="1 0 0" rpy="0 0 0"/>
+            <parent link="parent0"/>
+            <child link="child"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+        <joint name="joint1" type="revolute">
+            <origin xyz="0 1 0" rpy="0 0 0"/>
+            <parent link="parent1"/>
+            <child link="child"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    p0c = tm.get_transform("parent0", "child")
+    p1c = tm.get_transform("parent1", "child")
+    assert_equal(p0c[0, 3], p1c[1, 3])

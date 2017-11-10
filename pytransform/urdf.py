@@ -117,61 +117,28 @@ class UrdfTransformManager(TransformManager):
 
         robot_name = robot["name"]
 
-        nodes = {}
-        for link in robot.findAll("link"):
-            node = self._parse_link(link, robot_name)
-            nodes[node.child] = node
+        links = [self._parse_link(link) for link in robot.findAll("link")]
+        joints = [self._parse_joint(joint, links)
+                  for joint in robot.findAll("joint")]
 
-        for joint in robot.findAll("joint"):
-            if not joint.has_attr("name"):
-                raise UrdfException("Joint name is missing.")
-            joint_name = joint["name"]
-
-            if not joint.has_attr("type"):
-                raise UrdfException("Joint type is missing in joint '%s'."
-                                    % joint_name)
-
-            parent = joint.find("parent")
-            if parent is None:
-                raise UrdfException("No parent specified in joint '%s'"
-                                    % joint_name)
-            if not parent.has_attr("link"):
-                raise UrdfException("No parent link name given in joint '%s'."
-                                    % joint_name)
-            parent_name = parent["link"]
-            if parent_name not in nodes:
-                raise UrdfException("Parent link '%s' of joint '%s' is not "
-                                    "defined." % (parent_name, joint_name))
-
-            child = joint.find("child")
-            if child is None:
-                raise UrdfException("No child specified in joint '%s'"
-                                    % joint_name)
-            if not child.has_attr("link"):
-                raise UrdfException("No child link name given in joint '%s'."
-                                    % joint_name)
-            child_name = child["link"]
-            if child_name not in nodes:
-                raise UrdfException("Child link '%s' of joint '%s' is not "
-                                    "defined." % (child_name, joint_name))
-
-            self._parse_joint(joint, nodes[child_name], parent_name)
-
-        for node in nodes.values():
-            if node.joint_type == "revolute":
-                self.add_joint(node.joint_name, node.child, node.parent,
-                               node.child2parent, node.joint_axis, node.limits)
+        self.add_transform(links[0], robot_name, np.eye(4))
+        for joint in joints:
+            if joint.joint_type == "revolute":
+                self.add_joint(
+                    joint.joint_name, joint.child, joint.parent,
+                    joint.child2parent, joint.joint_axis, joint.limits)
             else:
-                self.add_transform(node.child, node.parent, node.child2parent)
+                self.add_transform(
+                    joint.child, joint.parent, joint.child2parent)
 
-    def _parse_link(self, link, robot_name):
-        """Make node from link."""
+    def _parse_link(self, link):
+        """Create link."""
         if not link.has_attr("name"):
             raise UrdfException("Link name is missing.")
         self.visuals.extend(self._parse_link_children(link, "visual"))
         self.collision_objects.extend(
             self._parse_link_children(link, "collision"))
-        return Node(link["name"], robot_name)
+        return link["name"]
 
     def _parse_link_children(self, link, child_type):
         """Parse collision objects or visuals."""
@@ -206,29 +173,60 @@ class UrdfTransformManager(TransformManager):
                 result.append(shape_object)
         return result
 
-    def _parse_joint(self, joint, node, parent_name):
-        """Update node with joint."""
-        node.joint_name = joint["name"]
-        node.joint_type = joint["type"]
-        node.parent = parent_name
+    def _parse_joint(self, joint, links):
+        """Create joint object."""
+        j = Joint()
 
-        if node.joint_type in ["planar", "floating", "continuous",
-                               "prismatic"]:
-            raise UrdfException("Unsupported joint type '%s'"
-                                % node.joint_type)
-        elif node.joint_type not in ["revolute", "fixed"]:
+        if not joint.has_attr("name"):
+            raise UrdfException("Joint name is missing.")
+        j.joint_name = joint["name"]
+
+        if not joint.has_attr("type"):
+            raise UrdfException("Joint type is missing in joint '%s'."
+                                % j.joint_name)
+
+        parent = joint.find("parent")
+        if parent is None:
+            raise UrdfException("No parent specified in joint '%s'"
+                                % j.joint_name)
+        if not parent.has_attr("link"):
+            raise UrdfException("No parent link name given in joint '%s'."
+                                % j.joint_name)
+        j.parent = parent["link"]
+        if j.parent not in links:
+            raise UrdfException("Parent link '%s' of joint '%s' is not "
+                                "defined." % (j.parent, j.joint_name))
+
+        child = joint.find("child")
+        if child is None:
+            raise UrdfException("No child specified in joint '%s'"
+                                % j.joint_name)
+        if not child.has_attr("link"):
+            raise UrdfException("No child link name given in joint '%s'."
+                                % j.joint_name)
+        j.child = child["link"]
+        if j.child not in links:
+            raise UrdfException("Child link '%s' of joint '%s' is not "
+                                "defined." % (j.child, j.joint_name))
+
+        j.joint_type = joint["type"]
+
+        if j.joint_type in ["planar", "floating", "continuous", "prismatic"]:
+            raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
+        elif j.joint_type not in ["revolute", "fixed"]:
             raise UrdfException("Joint type '%s' is not allowed in a URDF "
-                                "document." % node.joint_type)
+                                "document." % j.joint_type)
 
-        node.child2parent = self._parse_origin(joint)
+        j.child2parent = self._parse_origin(joint)
 
-        node.joint_axis = np.array([1, 0, 0])
-        if node.joint_type == "revolute":
+        j.joint_axis = np.array([1, 0, 0])
+        if j.joint_type == "revolute":
             axis = joint.find("axis")
             if axis is not None and axis.has_attr("xyz"):
-                node.joint_axis = np.fromstring(axis["xyz"], sep=" ")
+                j.joint_axis = np.fromstring(axis["xyz"], sep=" ")
 
-        node.limits = self._parse_limits(joint)
+        j.limits = self._parse_limits(joint)
+        return j
 
     def _parse_origin(self, entry):
         """Parse transformation."""
@@ -340,8 +338,8 @@ class UrdfTransformManager(TransformManager):
         return ax
 
 
-class Node(object):
-    """Node from URDF file.
+class Joint(object):
+    """Joint from URDF file.
 
     This class is only required temporarily while we parse the URDF.
 
@@ -376,9 +374,9 @@ class Node(object):
     limits : pair of float
         Lower and upper joint angle limit
     """
-    def __init__(self, child, parent):
-        self.child = child
-        self.parent = parent
+    def __init__(self):
+        self.child = None
+        self.parent = None
         self.child2parent = np.eye(4)
         self.joint_name = None
         self.joint_axis = None
