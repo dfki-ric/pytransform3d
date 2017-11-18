@@ -438,7 +438,7 @@ def matrix_from_euler_xyz(e):
 
 
 def matrix_from_euler_zyx(e):
-    """Compute rotation matrix from zyx Euler angles.
+    """Compute rotation matrix from zyx (yaw-pitch-roll) Euler angles.
 
     The zyx convention is usually used for aircraft dynamics.
 
