@@ -39,12 +39,12 @@ def check_pq(pq):
     Parameters
     ----------
     pq : array-like, shape (7,)
-        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
 
     Returns
     -------
     pq : array, shape (7,)
-        Validated position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+        Validated position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
     """
     pq = np.asarray(pq, dtype=np.float)
     if pq.ndim != 1 or pq.shape[0] != 7:
@@ -292,7 +292,7 @@ def pq_from_transform(A2B):
     Returns
     -------
     pq : array-like, shape (7,)
-        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
     """
     A2B = check_transform(A2B)
     return np.hstack((A2B[:3, 3], quaternion_from_matrix(A2B[:3, :3])))
@@ -304,7 +304,7 @@ def transform_from_pq(pq):
     Parameters
     ----------
     pq : array-like, shape (7,)
-        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)
+        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
 
     Returns
     -------
