@@ -725,6 +725,40 @@ def quaternion_from_axis_angle(a):
     return q
 
 
+def quaternion_xyzw_from_wxyz(q_wxyz):
+    """Converts from w, x, y, z to x, y, z, w convention.
+
+    Parameters
+    ----------
+    q_wxyz : array-like, shape (4,)
+        Quaternion with scalar part before vector part
+
+    Returns
+    -------
+    q_xyzw : array-like, shape (4,)
+        Quaternion with scalar part after vector part
+    """
+    q_wxyz = check_quaternion(q_wxyz)
+    return np.array([q_wxyz[1], q_wxyz[2], q_wxyz[3], q_wxyz[0]])
+
+
+def quaternion_wxyz_from_xyzw(q_xyzw):
+    """Converts from x, y, z, w to w, x, y, z convention.
+
+    Parameters
+    ----------
+    q_xyzw : array-like, shape (4,)
+        Quaternion with scalar part after vector part
+
+    Returns
+    -------
+    q_wxyz : array-like, shape (4,)
+        Quaternion with scalar part before vector part
+    """
+    q_xyzw = check_quaternion(q_xyzw)
+    return np.array([q_xyzw[3], q_xyzw[0], q_xyzw[1], q_xyzw[2]])
+
+
 def concatenate_quaternions(q1, q2):
     """Concatenate two quaternions.
 

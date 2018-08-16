@@ -478,6 +478,23 @@ def test_interpolate_quaternion():
                               R_diff_norms[0] * np.ones(n_steps - 1))
 
 
+def test_quaternion_conventions():
+    """Test conversion of quaternion between wxyz and xyzw."""
+    q_wxyz = np.array([1.0, 0.0, 0.0, 0.0])
+    q_xyzw = quaternion_xyzw_from_wxyz(q_wxyz)
+    assert_array_equal(q_xyzw, np.array([0.0, 0.0, 0.0, 1.0]))
+    q_wxyz2 = quaternion_wxyz_from_xyzw(q_xyzw)
+    assert_array_equal(q_wxyz, q_wxyz2)
+
+    random_state = np.random.RandomState(42)
+    q_wxyz_random = random_quaternion(random_state)
+    q_xyzw_random = quaternion_xyzw_from_wxyz(q_wxyz_random)
+    assert_array_equal(q_xyzw_random[:3], q_wxyz_random[1:])
+    assert_equal(q_xyzw_random[3], q_wxyz_random[0])
+    q_wxyz_random2 = quaternion_wxyz_from_xyzw(q_xyzw_random)
+    assert_array_equal(q_wxyz_random, q_wxyz_random2)
+
+
 def test_concatenate_quaternions():
     """Test concatenation of two quaternions."""
     # Until ea9adc5, this combination of a list and a numpy array raised
