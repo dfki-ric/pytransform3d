@@ -373,10 +373,8 @@ def matrix_from_angle(basis, angle):
     The combined rotation matrices are either extrinsic and can be used with
     pre-multiplied column vectors or they are intrinsic and can be used with
     post-multiplied row vectors. We use a right-hand system with right-hand
-    rotations. We use the alibi convention. That means we use the rotation
-    matrix to rotate a vector directly. In contrast, the alias convention
-    defines a rotation of the reference coordinate system. You can derive
-    the alias rotation matrix by transposing a rotation matrix.
+    rotations. We use the passive / alias convention. You can derive the
+    active / alibi rotation matrix by transposing the rotation matrix.
 
     Parameters
     ----------
@@ -389,7 +387,7 @@ def matrix_from_angle(basis, angle):
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
     """
     c = np.cos(angle)
     s = np.sin(angle)
@@ -425,7 +423,7 @@ def matrix_from_euler_xyz(e):
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
     """
     alpha, beta, gamma = e
     # We use intrinsic rotations and generate a rotation matrix that can be
@@ -450,7 +448,7 @@ def matrix_from_euler_zyx(e):
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
     """
     gamma, beta, alpha = e
     # We use intrinsic rotations and generate a rotation matrix that can be
@@ -468,7 +466,7 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
 
     a : array-like, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle)
@@ -485,7 +483,7 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     Returns
     -------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
     """
     # TODO test
     if R is not None:
@@ -507,7 +505,7 @@ def euler_xyz_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
 
     Returns
     -------
@@ -538,7 +536,7 @@ def euler_zyx_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
 
     Returns
     -------
@@ -573,7 +571,7 @@ def axis_angle_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
 
     Returns
     -------
@@ -661,7 +659,7 @@ def quaternion_from_matrix(R):
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix (can be used to rotate post-multiplied row vectors)
+        Rotation matrix
 
     Returns
     -------
