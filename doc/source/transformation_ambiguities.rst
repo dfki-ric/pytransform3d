@@ -5,9 +5,9 @@ Transformation Ambiguities
 There are lots of ambiguities in the world of transformations. We try to
 explain them all here.
 
----------------------------------
-Active vs. Passive Transformation
----------------------------------
+-------------------------------------------------
+Active (Alibi) vs. Passive (Alias) Transformation
+-------------------------------------------------
 
 An active transformation
 
@@ -25,6 +25,30 @@ A passive transformation
 * could be used by physicists and engineers
 
 Another name for passive transformation is alias transformation.
+
+.. raw:: html
+
+    <table>
+    <tr><td>Active</td><td>Passive</td></tr>
+    <tr>
+    <td>
+
+.. plot:: ../../examples/plot_convention_active.py
+    :width: 400px
+
+.. raw:: html
+
+    </td>
+    <td>
+
+.. plot:: ../../examples/plot_convention_active.py
+    :width: 400px
+
+.. raw:: html
+
+    </td>
+    </tr>
+    <table>
 
 -------------------------------------
 Source in Target vs. Source to Target
