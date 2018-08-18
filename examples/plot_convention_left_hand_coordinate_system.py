@@ -6,7 +6,7 @@ from mpl_toolkits.mplot3d import proj3d
 plt.figure()
 ax = plt.subplot(111, projection="3d", aspect="equal")
 plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-1.05, 0.05),
-            xlabel="X", ylabel="Y", zlabel="Z")
+         xlabel="X", ylabel="Y", zlabel="Z")
 
 basis = np.eye(3)
 basis[:, 2] *= -1.0
