@@ -111,6 +111,9 @@ def invert_transform(A2B):
         Transform from frame B to frame A
     """
     A2B = check_transform(A2B)
+    # NOTE there is a faster version:
+    # ( R t )^-1   ( R^T -R^T*t )
+    # ( 0 1 )    = ( 0    1     )
     return np.linalg.inv(A2B)
 
 
