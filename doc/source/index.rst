@@ -28,6 +28,7 @@ pytransform covers the following groups of transformations.
 
    rotations
    transformations
+   transformation_ambiguities
    transform_manager
    camera
    api
