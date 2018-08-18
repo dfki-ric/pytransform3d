@@ -50,6 +50,12 @@ Another name for passive transformation is alias transformation.
     </tr>
     <table>
 
+Reference:
+
+Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
+IEEE Robotics and Automation Magazine.
+PDF: https://core.ac.uk/download/pdf/77055186.pdf.
+
 -------------------------------------
 Source in Target vs. Source to Target
 -------------------------------------
