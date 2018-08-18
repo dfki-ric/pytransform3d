@@ -200,15 +200,27 @@ and target, or parent and child. You can also say it transforms from some
 frame to another frame.
 However, it is not always clear how to interpret the source and the target.
 
+**Source in target:**
 The first option would be to assume that the source is the base frame in
 which we represent the target frame and the transformation gives us the
 translation and rotation to get the location of the target in the source.
+In the illustration below that would mean that the object (target) is
+defined in the camera frame (source) and the camera (target) is defined in
+the body frame (source).
 
+**Source to target:**
 The second option assumes that the transformation transforms data, for example,
-points from the source frame to the target frame.
+points from the source frame to the target frame. In the illustration below
+that would mean we have a transformation to transform points from the
+object frame (source) to the camera frame (target) and a transformation
+to transform points from the camera frame (source) to the body frame (target).
 
 Whenever you hear that there is a transformation from some frame to another
 frame, make sure you understand what is meant.
+
+.. note::
+
+    The default in pytransform is source in target.
 
 .. plot::
 
