@@ -238,13 +238,11 @@ class UrdfTransformManager(TransformManager):
                 translation = np.fromstring(origin["xyz"], sep=" ")
             if origin.has_attr("rpy"):
                 roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
-                # URDF and KDL use the alias convention for rotation matrices
-                # instead of alibi convention. That means the reference frame
-                # is rotated by the rotation matrix and not the point. To
-                # convert the defined rotation to the alibi convention we must
-                # invert (transpose) the matrix.
-                # For more details on how the URDF parser handles the
-                # conversion from Euler angles, see this blog post:
+                # URDF and KDL use the active convention for rotation matrices.
+                # To convert the defined rotation to the passive convention we
+                # must invert (transpose) the matrix. For more details on how
+                # the URDF parser handles the conversion from Euler angles,
+                # see this blog post:
                 # https://orbitalstation.wordpress.com/tag/quaternion/
                 rotation = matrix_from_euler_xyz(roll_pitch_yaw).T
         return transform_from(rotation, translation)

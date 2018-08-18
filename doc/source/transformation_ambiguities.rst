@@ -5,6 +5,82 @@ Transformation Ambiguities
 There are lots of ambiguities in the world of transformations. We try to
 explain them all here.
 
+----------------------------------------------
+Right-handed vs. Left-handed Coordinate System
+----------------------------------------------
+
+We typically use a right-handed coordinate system, that is, the x-, y- and
+z-axis are aligned in a specific way. The name comes from the way how the
+fingers are attached to the human hand. Try to align your thumb with the
+imaginary x-axis, your index finger with the y-axis, and your middle finger
+with the z-axis. It is possible to do this with a right hand in a
+right-handed system and with the left hand in a left-handed system.
+
+.. raw:: html
+
+    <table>
+    <tr><td>Right-handed</td><td>Left-handed</td></tr>
+    <tr>
+    <td>
+
+.. plot::
+    :width: 400px
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import proj3d
+
+
+    plt.figure()
+    ax = plt.subplot(111, projection="3d", aspect="equal")
+    plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-0.05, 1.05),
+            xlabel="X", ylabel="Y", zlabel="Z")
+
+    basis = np.eye(3)
+    for d, c in enumerate(["r", "g", "b"]):
+        ax.plot([0.0, basis[0, d]],
+                [0.0, basis[1, d]],
+                [0.0, basis[2, d]], color=c, lw=5)
+
+    plt.show()
+
+.. raw:: html
+
+    </td>
+    <td>
+
+.. plot::
+    :width: 400px
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import proj3d
+
+
+    plt.figure()
+    ax = plt.subplot(111, projection="3d", aspect="equal")
+    plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-1.05, 0.05),
+            xlabel="X", ylabel="Y", zlabel="Z")
+
+    basis = np.eye(3)
+    basis[:, 2] *= -1.0
+    for d, c in enumerate(["r", "g", "b"]):
+        ax.plot([0.0, basis[0, d]],
+                [0.0, basis[1, d]],
+                [0.0, basis[2, d]], color=c, lw=5)
+
+    plt.show()
+
+.. raw:: html
+
+    </td>
+    </tr>
+    <table>
+
+.. note::
+
+    The default in pytransform is a right-handed coordinate system.
+
 -------------------------------------------------
 Active (Alibi) vs. Passive (Alias) Transformation
 -------------------------------------------------
@@ -251,86 +327,73 @@ frame, make sure you understand what is meant.
     plt.show()
 
 
+----------------------------------------
+Pre-multiply vs. Post-multiply Rotations
+----------------------------------------
+
+The same point can be represented by a column vector :math:`\boldsymbol v` or
+a row vector :math:`\boldsymbol w`. A rotation matrix :math:`\boldsymbol R`
+can be used to rotate the point by pre-multiplying it to the column vector
+:math:`\boldsymbol R \boldsymbol v` or by post-multiplying it to the row
+vector :math:`\boldsymbol w \boldsymbol R`. However, for the same rotation
+matrix, both approaches are inverse:
+:math:`\boldsymbol R^T \boldsymbol v = \boldsymbol w \boldsymbol R`.
+Hence, to achieve the same effect we have to use two different rotation
+matrices depending on how we multiply them to points.
+
+.. note::
+
+    The default in pytransform are pre-multiplied rotation matrices.
+
 --------------------------------
-Right-multiply vs. Left-multiply
+Intrinsic vs. Extrinsic Rotation
 --------------------------------
 
+A similar problem occurs when we want to concatenate rotations:
+suppose we have two rotations matrices :math:`\boldsymbol R` and
+:math:`\boldsymbol R` and we want to concatenate them. We can either
+compute :math:`\boldsymbol R \boldsymbol R'` or
+:math:`\boldsymbol R' \boldsymbol R`. The following equality holds:
+:math:`(\boldsymbol R' \boldsymbol R)^T = \boldsymbol R^T \boldsymbol R'^T`.
 
+:math:`R \cdot R'` means that the rotation :math:`R'` is applied in the
+local coordinate frame defined by :math:`R`. The second option
+:math:`R' \cdot R` is equivalent to rotating :math:`R` in the global
+coordinate system.
 
------------------------
-Intrinsic vs. Extrinsic
------------------------
-
-
-
-----------------------------------------------
-Right-handed vs. Left-handed Coordinate System
-----------------------------------------------
-
-We typically use a right-handed coordinate system, that is, the x-, y- and
-z-axis are aligned in a specific way. The name comes from the way how the
-fingers are attached to the human hand. Try to align your thumb with the
-imaginary x-axis, your index finger with the y-axis, and your middle finger
-with the z-axis. It is possible to do this with a right hand in a
-right-handed system and with the left hand in a left-handed system.
-
-.. raw:: html
-
-    <table>
-    <tr><td>Right-handed</td><td>Left-handed</td></tr>
-    <tr>
-    <td>
+In the following plot you see the original frame in the background.
+The first rotation :math:`R` rotates 45 degrees about the x-axis.
+The result can be seen in the middle. The second rotation :math:`R'`
+rotates 90 degrees about the z-axis. On the left side, we compute
+:math:`R'R`. The result is that the rotation about the z-axis is
+done before the rotation about the x-axis or the rotation about the
+z-axis is an extrinsic rotation because it is applied in the global
+coordinate system. On the right side we see the result of :math:`RR'`.
+The rotation about the z-axis is applied after the rotation about the
+x-axis, hence, it is applied to the local coordinate system. It
+can be called and intrinsic rotation.
 
 .. plot::
-    :width: 400px
 
     import numpy as np
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import proj3d
+    from mpl_toolkits.mplot3d import Axes3D
+    from pytransform.rotations import *
 
 
-    plt.figure()
-    ax = plt.subplot(111, projection="3d", aspect="equal")
-    plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-0.05, 1.05),
-            xlabel="X", ylabel="Y", zlabel="Z")
+    ax = plot_basis(R=np.eye(3), p=np.array([-1.0, 0.0, 0.0]), ax_s=2)
 
-    basis = np.eye(3)
-    for d, c in enumerate(["r", "g", "b"]):
-        ax.plot([0.0, basis[0, d]],
-                [0.0, basis[1, d]],
-                [0.0, basis[2, d]], color=c, lw=5)
+    R1 = matrix_from_angle(0, np.pi / 4.0)
+    R2 = matrix_from_angle(2, np.pi / 2.0)
 
-    plt.show()
+    plot_basis(ax, R1, np.array([1.0, 0.0, 0.0]))
+    plot_basis(ax, R1.dot(R2), np.array([1.0, 1.5, 0.0]))
+    plot_basis(ax, R2.dot(R1), np.array([1.0, -1.5, 0.0]))
 
-.. raw:: html
-
-    </td>
-    <td>
-
-.. plot::
-    :width: 400px
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import proj3d
-
-
-    plt.figure()
-    ax = plt.subplot(111, projection="3d", aspect="equal")
-    plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-1.05, 0.05),
-            xlabel="X", ylabel="Y", zlabel="Z")
-
-    basis = np.eye(3)
-    basis[:, 2] *= -1.0
-    for d, c in enumerate(["r", "g", "b"]):
-        ax.plot([0.0, basis[0, d]],
-                [0.0, basis[1, d]],
-                [0.0, basis[2, d]], color=c, lw=5)
+    ax.view_init(azim=10, elev=25)
 
     plt.show()
 
-.. raw:: html
+.. note::
 
-    </td>
-    </tr>
-    <table>
+    The default in pytransform are intrinsic rotations.
