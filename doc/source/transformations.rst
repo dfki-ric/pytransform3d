@@ -10,7 +10,7 @@ A transformation matrix is a 4x4 matrix of the form
 
 .. math::
 
-    \boldsymbol M =
+    \boldsymbol T =
     \left( \begin{array}{cc}
         \boldsymbol R & \boldsymbol t\\
         \boldsymbol 0 & 1\\
@@ -26,13 +26,17 @@ Position vectors are represented as a column vector
 This will activate the translation part of the transformation in a matrix
 multiplication. When we transform a direction vector, we want to deactivate
 the translation by setting the last component to zero:
-:math:`\left( x,y,z,0 \right)^T`. For example, transforming a position
-vector :math:`p` will give the following result:
+:math:`\left( x,y,z,0 \right)^T`.
+
+We can use a transformation matrix :math:`\boldsymbol T_{AB}` to transform a
+point :math:`\boldsymbol{p}_B := _B\boldsymbol{t}_{BP}` from frame :math:`B`
+to frame :math:`A`. For example, transforming a position vector :math:`p`
+will give the following result:
 
 .. math::
 
-    \boldsymbol M \boldsymbol p =
+    \boldsymbol T_{AB} \boldsymbol p_B =
     \left( \begin{array}{cc}
-        \boldsymbol R \boldsymbol p + \boldsymbol t\\
+        \boldsymbol R \boldsymbol p_B + \boldsymbol t\\
         1\\
     \end{array} \right)

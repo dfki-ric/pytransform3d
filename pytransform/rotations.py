@@ -413,6 +413,8 @@ def matrix_from_angle(basis, angle):
 def matrix_from_euler_xyz(e):
     """Compute rotation matrix from xyz Euler angles.
 
+    Intrinsic rotations are used to create the transformation matrix
+    from three concatenated rotations.
     The xyz convention is usually used in physics and chemistry.
 
     Parameters
@@ -426,8 +428,7 @@ def matrix_from_euler_xyz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    # We use intrinsic rotations and generate a rotation matrix that can be
-    # used to post-multiply row vectors
+    # We use intrinsic rotations
     Qx = matrix_from_angle(0, alpha)
     Qy = matrix_from_angle(1, beta)
     Qz = matrix_from_angle(2, gamma)
@@ -438,6 +439,8 @@ def matrix_from_euler_xyz(e):
 def matrix_from_euler_zyx(e):
     """Compute rotation matrix from zyx (yaw-pitch-roll) Euler angles.
 
+    Intrinsic rotations are used to create the transformation matrix
+    from three concatenated rotations.
     The zyx convention is usually used for aircraft dynamics.
 
     Parameters
@@ -451,8 +454,7 @@ def matrix_from_euler_zyx(e):
         Rotation matrix
     """
     gamma, beta, alpha = e
-    # We use intrinsic rotations and generate a rotation matrix that can be
-    # used to post-multiply row vectors
+    # We use intrinsic rotations
     Qz = matrix_from_angle(2, gamma)
     Qy = matrix_from_angle(1, beta)
     Qx = matrix_from_angle(0, alpha)
@@ -485,7 +487,6 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
-    # TODO test
     if R is not None:
         return R
     if a is not None:

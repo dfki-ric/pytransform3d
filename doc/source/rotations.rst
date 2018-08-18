@@ -48,11 +48,10 @@ Note that
 .. warning::
 
     There are two conventions on how to interpret rotation matrices. We use
-    the alibi convention. The alibi convention assumes that the reference
-    coordinate system is fixed and we rotate vectors or points in it with
-    the rotation matrix. Another convention is the alias convention. With
-    the alias convention we assume that a rotation matrix defines how the
-    reference coordinate system is rotated. We can easily convert rotation
+    the passive convention. The passive convention assumes that the reference
+    coordinate system is changed by the rotation, rotated vectors or points
+    stay at their position and are reinterpreted in the new coordinate system.
+    Another convention is the active convention. We can easily convert rotation
     matrices between the two conventions by transposing them.
 
 We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
@@ -62,9 +61,10 @@ We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
 .. warning::
 
     There are two different conventions on how to use rotation matrices to
-    apply a rotation to a vector. We can either (pre-)multiply a column vector
-    from a left side or we can (post-)multiply a row vector from the right side.
-    We will use the **post-multiplication** convention.
+    apply a rotation to a vector. We can either (pre-)multiply the rotation
+    matrix to a column vector from the left side or we can (post-)multiply it
+    to a row vector from the right side.
+    We will use the **pre-multiplication** convention.
 
 This means that we rotate a point :math:`_B\boldsymbol{p}` by
 
