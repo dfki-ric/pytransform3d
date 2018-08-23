@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>pytransform.rotations.quaternion_dist &#8212; pytransform 0.2 documentation</title>
-    
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -39,7 +35,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -70,6 +66,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a></li>
@@ -136,10 +134,10 @@
 <dt id="pytransform.rotations.quaternion_dist">
 <code class="descclassname">pytransform.rotations.</code><code class="descname">quaternion_dist</code><span class="sig-paren">(</span><em>q1</em>, <em>q2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform/rotations.html#quaternion_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform.rotations.quaternion_dist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute distance between two quaternions.</p>
-<p>We use the angular metric of <span class="math">S^3</span>, which is defined as</p>
+<p>We use the angular metric of <img class="math" src="../_images/math/8c332edb53fac16c46bc01ea2723bee1bd8703f7.png" alt="S^3"/>, which is defined as</p>
 <div class="math">
-<p><span class="math">d(q_1, q_2) = \min(|| \log(q_1 * \overline{q_2})||,
-                    2 \pi - || \log(q_1 * \overline{q_2})||)</span></p>
+<p><img src="../_images/math/4010b29307bb441acfba703321eee8c5c5f5d479.png" alt="d(q_1, q_2) = \min(|| \log(q_1 * \overline{q_2})||,
+                    2 \pi - || \log(q_1 * \overline{q_2})||)"/></p>
 </div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -179,7 +177,7 @@
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Mar 30, 2017.<br/>
+      Last updated on Aug 23, 2018.<br/>
     </p>
   </div>
 </footer>

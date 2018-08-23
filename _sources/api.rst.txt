@@ -87,6 +87,8 @@ Conversions to Quaternion
 
    ~pytransform.rotations.quaternion_from_matrix
    ~pytransform.rotations.quaternion_from_axis_angle
+   ~pytransform.rotations.quaternion_xyzw_from_wxyz
+   ~pytransform.rotations.quaternion_wxyz_from_xyzw
 
 Quaternion and Axis-Angle Operations
 ------------------------------------

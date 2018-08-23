@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>pytransform.urdf &#8212; pytransform 0.2 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -37,7 +33,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -68,6 +64,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
@@ -237,61 +235,28 @@
 
         <span class="n">robot_name</span> <span class="o">=</span> <span class="n">robot</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
-            <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">)</span>
-            <span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">child</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">)]</span>
+        <span class="n">joints</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_joint</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">)]</span>
 
-        <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">joint</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint name is missing.&quot;</span><span class="p">)</span>
-            <span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">joint</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint type is missing in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
-                                    <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
-
-            <span class="n">parent</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;parent&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No parent specified in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
-                                    <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No parent link name given in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
-                                    <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
-            <span class="n">parent_name</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">parent_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Parent link &#39;</span><span class="si">%s</span><span class="s2">&#39; of joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not &quot;</span>
-                                    <span class="s2">&quot;defined.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">parent_name</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">))</span>
-
-            <span class="n">child</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;child&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No child specified in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
-                                    <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No child link name given in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
-                                    <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
-            <span class="n">child_name</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">child_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Child link &#39;</span><span class="si">%s</span><span class="s2">&#39; of joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not &quot;</span>
-                                    <span class="s2">&quot;defined.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">child_name</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">))</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">_parse_joint</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">nodes</span><span class="p">[</span><span class="n">child_name</span><span class="p">],</span> <span class="n">parent_name</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_joint</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">joint_name</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
-                               <span class="n">node</span><span class="o">.</span><span class="n">child2parent</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">joint_axis</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">limits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">joints</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_joint</span><span class="p">(</span>
+                    <span class="n">joint</span><span class="o">.</span><span class="n">joint_name</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
+                    <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_axis</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">limits</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">child2parent</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span>
+                    <span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_parse_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make node from link.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_parse_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create link.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">link</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Link name is missing.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link_children</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s2">&quot;visual&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_parse_link_children</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s2">&quot;collision&quot;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">robot_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_parse_link_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">child_type</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse collision objects or visuals.&quot;&quot;&quot;</span>
@@ -326,29 +291,60 @@
                 <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shape_object</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">_parse_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">parent_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Update node with joint.&quot;&quot;&quot;</span>
-        <span class="n">node</span><span class="o">.</span><span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-        <span class="n">node</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
-        <span class="n">node</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent_name</span>
+    <span class="k">def</span> <span class="nf">_parse_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint</span><span class="p">,</span> <span class="n">links</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create joint object.&quot;&quot;&quot;</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">Joint</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;planar&quot;</span><span class="p">,</span> <span class="s2">&quot;floating&quot;</span><span class="p">,</span> <span class="s2">&quot;continuous&quot;</span><span class="p">,</span>
-                               <span class="s2">&quot;prismatic&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Unsupported joint type &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
-                                <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">joint_type</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;revolute&quot;</span><span class="p">,</span> <span class="s2">&quot;fixed&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">joint</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint name is missing.&quot;</span><span class="p">)</span>
+        <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">joint</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint type is missing in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
+                                <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
+
+        <span class="n">parent</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;parent&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No parent specified in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                                <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No parent link name given in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
+                                <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
+        <span class="n">j</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">parent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Parent link &#39;</span><span class="si">%s</span><span class="s2">&#39; of joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not &quot;</span>
+                                <span class="s2">&quot;defined.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">))</span>
+
+        <span class="n">child</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;child&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No child specified in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                                <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No child link name given in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
+                                <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
+        <span class="n">j</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Child link &#39;</span><span class="si">%s</span><span class="s2">&#39; of joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not &quot;</span>
+                                <span class="s2">&quot;defined.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">))</span>
+
+        <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;planar&quot;</span><span class="p">,</span> <span class="s2">&quot;floating&quot;</span><span class="p">,</span> <span class="s2">&quot;continuous&quot;</span><span class="p">,</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Unsupported joint type &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;revolute&quot;</span><span class="p">,</span> <span class="s2">&quot;fixed&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint type &#39;</span><span class="si">%s</span><span class="s2">&#39; is not allowed in a URDF &quot;</span>
-                                <span class="s2">&quot;document.&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="o">.</span><span class="n">joint_type</span><span class="p">)</span>
+                                <span class="s2">&quot;document.&quot;</span> <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span><span class="p">)</span>
 
-        <span class="n">node</span><span class="o">.</span><span class="n">child2parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_origin</span><span class="p">(</span><span class="n">joint</span><span class="p">)</span>
+        <span class="n">j</span><span class="o">.</span><span class="n">child2parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_origin</span><span class="p">(</span><span class="n">joint</span><span class="p">)</span>
 
-        <span class="n">node</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
+        <span class="n">j</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
             <span class="n">axis</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;axis&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">axis</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">):</span>
-                <span class="n">node</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">axis</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+                <span class="n">j</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">axis</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 
-        <span class="n">node</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_limits</span><span class="p">(</span><span class="n">joint</span><span class="p">)</span>
+        <span class="n">j</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_limits</span><span class="p">(</span><span class="n">joint</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">j</span>
 
     <span class="k">def</span> <span class="nf">_parse_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse transformation.&quot;&quot;&quot;</span>
@@ -360,13 +356,11 @@
                 <span class="n">translation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">origin</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;rpy&quot;</span><span class="p">):</span>
                 <span class="n">roll_pitch_yaw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="s2">&quot;rpy&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-                <span class="c1"># URDF and KDL use the alias convention for rotation matrices</span>
-                <span class="c1"># instead of alibi convention. That means the reference frame</span>
-                <span class="c1"># is rotated by the rotation matrix and not the point. To</span>
-                <span class="c1"># convert the defined rotation to the alibi convention we must</span>
-                <span class="c1"># invert (transpose) the matrix.</span>
-                <span class="c1"># For more details on how the URDF parser handles the</span>
-                <span class="c1"># conversion from Euler angles, see this blog post:</span>
+                <span class="c1"># URDF and KDL use the active convention for rotation matrices.</span>
+                <span class="c1"># To convert the defined rotation to the passive convention we</span>
+                <span class="c1"># must invert (transpose) the matrix. For more details on how</span>
+                <span class="c1"># the URDF parser handles the conversion from Euler angles,</span>
+                <span class="c1"># see this blog post:</span>
                 <span class="c1"># https://orbitalstation.wordpress.com/tag/quaternion/</span>
                 <span class="n">rotation</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">roll_pitch_yaw</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
         <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="n">translation</span><span class="p">)</span>
@@ -460,8 +454,8 @@
         <span class="k">return</span> <span class="n">ax</span></div>
 
 
-<span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Node from URDF file.</span>
+<span class="k">class</span> <span class="nc">Joint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Joint from URDF file.</span>
 
 <span class="sd">    This class is only required temporarily while we parse the URDF.</span>
 
@@ -496,9 +490,9 @@
 <span class="sd">    limits : pair of float</span>
 <span class="sd">        Lower and upper joint angle limit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">child</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">child2parent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">joint_name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="kc">None</span>
@@ -631,7 +625,7 @@
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Mar 30, 2017.<br/>
+      Last updated on Aug 23, 2018.<br/>
     </p>
   </div>
 </footer>

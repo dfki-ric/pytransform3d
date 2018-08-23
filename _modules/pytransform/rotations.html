@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>pytransform.rotations &#8212; pytransform 0.2 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -37,7 +33,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -68,6 +64,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
@@ -493,10 +491,8 @@
 <span class="sd">    The combined rotation matrices are either extrinsic and can be used with</span>
 <span class="sd">    pre-multiplied column vectors or they are intrinsic and can be used with</span>
 <span class="sd">    post-multiplied row vectors. We use a right-hand system with right-hand</span>
-<span class="sd">    rotations. We use the alibi convention. That means we use the rotation</span>
-<span class="sd">    matrix to rotate a vector directly. In contrast, the alias convention</span>
-<span class="sd">    defines a rotation of the reference coordinate system. You can derive</span>
-<span class="sd">    the alias rotation matrix by transposing a rotation matrix.</span>
+<span class="sd">    rotations. We use the passive / alias convention. You can derive the</span>
+<span class="sd">    active / alibi rotation matrix by transposing the rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -509,7 +505,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
@@ -535,6 +531,8 @@
 <div class="viewcode-block" id="matrix_from_euler_xyz"><a class="viewcode-back" href="../../_apidoc/pytransform.rotations.matrix_from_euler_xyz.html#pytransform.rotations.matrix_from_euler_xyz">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute rotation matrix from xyz Euler angles.</span>
 
+<span class="sd">    Intrinsic rotations are used to create the transformation matrix</span>
+<span class="sd">    from three concatenated rotations.</span>
 <span class="sd">    The xyz convention is usually used in physics and chemistry.</span>
 
 <span class="sd">    Parameters</span>
@@ -545,11 +543,10 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
-    <span class="c1"># We use intrinsic rotations and generate a rotation matrix that can be</span>
-    <span class="c1"># used to post-multiply row vectors</span>
+    <span class="c1"># We use intrinsic rotations</span>
     <span class="n">Qx</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
     <span class="n">Qy</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
     <span class="n">Qz</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
@@ -558,8 +555,10 @@
 
 
 <div class="viewcode-block" id="matrix_from_euler_zyx"><a class="viewcode-back" href="../../_apidoc/pytransform.rotations.matrix_from_euler_zyx.html#pytransform.rotations.matrix_from_euler_zyx">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute rotation matrix from zyx Euler angles.</span>
+    <span class="sd">&quot;&quot;&quot;Compute rotation matrix from zyx (yaw-pitch-roll) Euler angles.</span>
 
+<span class="sd">    Intrinsic rotations are used to create the transformation matrix</span>
+<span class="sd">    from three concatenated rotations.</span>
 <span class="sd">    The zyx convention is usually used for aircraft dynamics.</span>
 
 <span class="sd">    Parameters</span>
@@ -570,11 +569,10 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">e</span>
-    <span class="c1"># We use intrinsic rotations and generate a rotation matrix that can be</span>
-    <span class="c1"># used to post-multiply row vectors</span>
+    <span class="c1"># We use intrinsic rotations</span>
     <span class="n">Qz</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
     <span class="n">Qy</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
     <span class="n">Qx</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
@@ -588,7 +586,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 
 <span class="sd">    a : array-like, shape (4,)</span>
 <span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
@@ -605,9 +603,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># TODO test</span>
     <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">R</span>
     <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -627,7 +624,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -658,7 +655,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -693,7 +690,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -781,7 +778,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix (can be used to rotate post-multiplied row vectors)</span>
+<span class="sd">        Rotation matrix</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -843,6 +840,40 @@
     <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">q</span></div>
+
+
+<div class="viewcode-block" id="quaternion_xyzw_from_wxyz"><a class="viewcode-back" href="../../_apidoc/pytransform.rotations.quaternion_xyzw_from_wxyz.html#pytransform.rotations.quaternion_xyzw_from_wxyz">[docs]</a><span class="k">def</span> <span class="nf">quaternion_xyzw_from_wxyz</span><span class="p">(</span><span class="n">q_wxyz</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Converts from w, x, y, z to x, y, z, w convention.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q_wxyz : array-like, shape (4,)</span>
+<span class="sd">        Quaternion with scalar part before vector part</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q_xyzw : array-like, shape (4,)</span>
+<span class="sd">        Quaternion with scalar part after vector part</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q_wxyz</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q_wxyz</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">q_wxyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q_wxyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">q_wxyz</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">q_wxyz</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div>
+
+
+<div class="viewcode-block" id="quaternion_wxyz_from_xyzw"><a class="viewcode-back" href="../../_apidoc/pytransform.rotations.quaternion_wxyz_from_xyzw.html#pytransform.rotations.quaternion_wxyz_from_xyzw">[docs]</a><span class="k">def</span> <span class="nf">quaternion_wxyz_from_xyzw</span><span class="p">(</span><span class="n">q_xyzw</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Converts from x, y, z, w to w, x, y, z convention.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q_xyzw : array-like, shape (4,)</span>
+<span class="sd">        Quaternion with scalar part after vector part</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q_wxyz : array-like, shape (4,)</span>
+<span class="sd">        Quaternion with scalar part before vector part</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q_xyzw</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q_xyzw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">q_xyzw</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">q_xyzw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q_xyzw</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q_xyzw</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span></div>
 
 
 <div class="viewcode-block" id="concatenate_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform.rotations.concatenate_quaternions.html#pytransform.rotations.concatenate_quaternions">[docs]</a><span class="k">def</span> <span class="nf">concatenate_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
@@ -1210,7 +1241,7 @@
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Mar 30, 2017.<br/>
+      Last updated on Aug 23, 2018.<br/>
     </p>
   </div>
 </footer>

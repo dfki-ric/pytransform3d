@@ -1,18 +1,14 @@
 
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Index &#8212; pytransform 0.2 documentation</title>
-    
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -38,7 +34,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -69,6 +65,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
@@ -124,13 +122,19 @@
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
  | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -139,14 +143,18 @@
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="_apidoc/pytransform.transform_manager.TransformManager.html#pytransform.transform_manager.TransformManager.__init__">__init__() (pytransform.transform_manager.TransformManager method)</a>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.__init__">__init__() (pytransform.editor.TransformEditor method)</a>
 
       <ul>
+        <li><a href="_apidoc/pytransform.transform_manager.TransformManager.html#pytransform.transform_manager.TransformManager.__init__">(pytransform.transform_manager.TransformManager method)</a>
+</li>
         <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.__init__">(pytransform.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
@@ -156,6 +164,18 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.acceptDrops">acceptDrops() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.accessibleDescription">accessibleDescription() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.accessibleName">accessibleName() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.actionEvent">actionEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.actions">actions() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.activateWindow">activateWindow() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.add_joint">add_joint() (pytransform.urdf.UrdfTransformManager method)</a>
 </li>
       <li><a href="_apidoc/pytransform.transform_manager.TransformManager.html#pytransform.transform_manager.TransformManager.add_transform">add_transform() (pytransform.transform_manager.TransformManager method)</a>
@@ -164,14 +184,26 @@
         <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.add_transform">(pytransform.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.addAction">addAction() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.addActions">addActions() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.addDockWidget">addDockWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.addToolBar">addToolBar() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.addToolBarBreak">addToolBarBreak() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.adjustSize">adjustSize() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.rotations.angle_between_vectors.html#pytransform.rotations.angle_between_vectors">angle_between_vectors() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.assert_axis_angle_equal.html#pytransform.rotations.assert_axis_angle_equal">assert_axis_angle_equal() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.assert_euler_xyz_equal.html#pytransform.rotations.assert_euler_xyz_equal">assert_euler_xyz_equal() (in module pytransform.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.rotations.assert_euler_zyx_equal.html#pytransform.rotations.assert_euler_zyx_equal">assert_euler_zyx_equal() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.assert_quaternion_equal.html#pytransform.rotations.assert_quaternion_equal">assert_quaternion_equal() (in module pytransform.rotations)</a>
@@ -179,6 +211,8 @@
       <li><a href="_apidoc/pytransform.rotations.assert_rotation_matrix.html#pytransform.rotations.assert_rotation_matrix">assert_rotation_matrix() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.transformations.assert_transform.html#pytransform.transformations.assert_transform">assert_transform() (in module pytransform.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.autoFillBackground">autoFillBackground() (pytransform.editor.TransformEditor method)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.axis_angle_from_matrix.html#pytransform.rotations.axis_angle_from_matrix">axis_angle_from_matrix() (in module pytransform.rotations)</a>
 </li>
@@ -189,10 +223,28 @@
   </ul></td>
 </tr></table>
 
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.backgroundRole">backgroundRole() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.baseSize">baseSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.blockSignals">blockSignals() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.camera.cam2sensor.html#pytransform.camera.cam2sensor">cam2sensor() (in module pytransform.camera)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.centralWidget">centralWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.changeEvent">changeEvent() (pytransform.editor.TransformEditor method)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.check_axis_angle.html#pytransform.rotations.check_axis_angle">check_axis_angle() (in module pytransform.rotations)</a>
 </li>
@@ -206,11 +258,31 @@
 </li>
       <li><a href="_apidoc/pytransform.transformations.check_pq.html#pytransform.transformations.check_pq">check_pq() (in module pytransform.transformations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.rotations.check_quaternion.html#pytransform.rotations.check_quaternion">check_quaternion() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.transformations.check_transform.html#pytransform.transformations.check_transform">check_transform() (in module pytransform.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.childAt">childAt() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.childEvent">childEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.children">children() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.childrenRect">childrenRect() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.childrenRegion">childrenRegion() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.clearFocus">clearFocus() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.clearMask">clearMask() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.close">close() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.closeEvent">closeEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.colorCount">colorCount() (pytransform.editor.TransformEditor method)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.compact_axis_angle.html#pytransform.rotations.compact_axis_angle">compact_axis_angle() (in module pytransform.rotations)</a>
 </li>
@@ -218,7 +290,73 @@
 </li>
       <li><a href="_apidoc/pytransform.rotations.concatenate_quaternions.html#pytransform.rotations.concatenate_quaternions">concatenate_quaternions() (in module pytransform.rotations)</a>
 </li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.connect">connect() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.connectNotify">connectNotify() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.contentsMargins">contentsMargins() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.contentsRect">contentsRect() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.contextMenuEvent">contextMenuEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.contextMenuPolicy">contextMenuPolicy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.corner">corner() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.create">create() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.createPopupMenu">createPopupMenu() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.rotations.cross_product_matrix.html#pytransform.rotations.cross_product_matrix">cross_product_matrix() (in module pytransform.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.cursor">cursor() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.customContextMenuRequested">customContextMenuRequested (pytransform.editor.TransformEditor attribute)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.customEvent">customEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.deleteLater">deleteLater() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.depth">depth() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.destroy">destroy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.destroyed">destroyed (pytransform.editor.TransformEditor attribute)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.devType">devType() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.disconnect">disconnect() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.disconnectNotify">disconnectNotify() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dockOptions">dockOptions() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dockWidgetArea">dockWidgetArea() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.documentMode">documentMode() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dragEnterEvent">dragEnterEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dragLeaveEvent">dragLeaveEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dragMoveEvent">dragMoveEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dropEvent">dropEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dumpObjectInfo">dumpObjectInfo() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dumpObjectTree">dumpObjectTree() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.dynamicPropertyNames">dynamicPropertyNames() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -226,11 +364,69 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="_apidoc/pytransform.rotations.euler_xyz_from_matrix.html#pytransform.rotations.euler_xyz_from_matrix">euler_xyz_from_matrix() (in module pytransform.rotations)</a>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.effectiveWinId">effectiveWinId() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.emit">emit() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.enabledChange">enabledChange() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.ensurePolished">ensurePolished() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.enterEvent">enterEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.rotations.euler_xyz_from_matrix.html#pytransform.rotations.euler_xyz_from_matrix">euler_xyz_from_matrix() (in module pytransform.rotations)</a>
+</li>
       <li><a href="_apidoc/pytransform.rotations.euler_zyx_from_matrix.html#pytransform.rotations.euler_zyx_from_matrix">euler_zyx_from_matrix() (in module pytransform.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.event">event() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.eventFilter">eventFilter() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.find">find() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.findChild">findChild() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.findChildren">findChildren() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusInEvent">focusInEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusNextChild">focusNextChild() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusNextPrevChild">focusNextPrevChild() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusOutEvent">focusOutEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusPolicy">focusPolicy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusPreviousChild">focusPreviousChild() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusProxy">focusProxy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.focusWidget">focusWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.font">font() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.fontChange">fontChange() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.fontInfo">fontInfo() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.fontMetrics">fontMetrics() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.foregroundRole">foregroundRole() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.frameGeometry">frameGeometry() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.frameSize">frameSize() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -238,23 +434,147 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.geometry">geometry() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.get_joint_limits">get_joint_limits() (pytransform.urdf.UrdfTransformManager method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.transform_manager.TransformManager.html#pytransform.transform_manager.TransformManager.get_transform">get_transform() (pytransform.transform_manager.TransformManager method)</a>
 
       <ul>
         <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.get_transform">(pytransform.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.getContentsMargins">getContentsMargins() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.grabGesture">grabGesture() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.grabKeyboard">grabKeyboard() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.grabMouse">grabMouse() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.grabShortcut">grabShortcut() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.graphicsEffect">graphicsEffect() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.graphicsProxyWidget">graphicsProxyWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.handle">handle() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.hasFocus">hasFocus() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.hasMouseTracking">hasMouseTracking() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.height">height() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.heightForWidth">heightForWidth() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.heightMM">heightMM() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.hide">hide() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.hideEvent">hideEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.iconSize">iconSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.iconSizeChanged">iconSizeChanged (pytransform.editor.TransformEditor attribute)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.inherits">inherits() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.inputContext">inputContext() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.inputMethodEvent">inputMethodEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.inputMethodHints">inputMethodHints() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.inputMethodQuery">inputMethodQuery() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.insertAction">insertAction() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.insertActions">insertActions() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.insertToolBar">insertToolBar() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.insertToolBarBreak">insertToolBarBreak() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.installEventFilter">installEventFilter() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.transformations.invert_transform.html#pytransform.transformations.invert_transform">invert_transform() (in module pytransform.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isActiveWindow">isActiveWindow() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isAncestorOf">isAncestorOf() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isAnimated">isAnimated() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isDockNestingEnabled">isDockNestingEnabled() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isEnabled">isEnabled() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isEnabledTo">isEnabledTo() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isEnabledToTLW">isEnabledToTLW() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isFullScreen">isFullScreen() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isHidden">isHidden() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isLeftToRight">isLeftToRight() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isMaximized">isMaximized() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isMinimized">isMinimized() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isModal">isModal() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isRightToLeft">isRightToLeft() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isSeparator">isSeparator() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isTopLevel">isTopLevel() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isVisible">isVisible() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isVisibleTo">isVisibleTo() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isWidgetType">isWidgetType() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isWindow">isWindow() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.isWindowModified">isWindowModified() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.keyboardGrabber">keyboardGrabber() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.keyPressEvent">keyPressEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.keyReleaseEvent">keyReleaseEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.killTimer">killTimer() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -262,7 +582,25 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.languageChange">languageChange() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.layout">layout() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.layoutDirection">layoutDirection() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.leaveEvent">leaveEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.load_urdf">load_urdf() (pytransform.urdf.UrdfTransformManager method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.locale">locale() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.logicalDpiX">logicalDpiX() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.logicalDpiY">logicalDpiY() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.lower">lower() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -274,12 +612,24 @@
 </li>
       <li><a href="_apidoc/pytransform.camera.make_world_line.html#pytransform.camera.make_world_line">make_world_line() (in module pytransform.camera)</a>
 </li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mapFrom">mapFrom() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mapFromGlobal">mapFromGlobal() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mapFromParent">mapFromParent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mapTo">mapTo() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mapToGlobal">mapToGlobal() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mapToParent">mapToParent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mask">mask() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.trajectories.matrices_from_pos_quat.html#pytransform.trajectories.matrices_from_pos_quat">matrices_from_pos_quat() (in module pytransform.trajectories)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.matrix_from.html#pytransform.rotations.matrix_from">matrix_from() (in module pytransform.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.rotations.matrix_from_angle.html#pytransform.rotations.matrix_from_angle">matrix_from_angle() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.matrix_from_axis_angle.html#pytransform.rotations.matrix_from_axis_angle">matrix_from_axis_angle() (in module pytransform.rotations)</a>
@@ -290,12 +640,56 @@
 </li>
       <li><a href="_apidoc/pytransform.rotations.matrix_from_quaternion.html#pytransform.rotations.matrix_from_quaternion">matrix_from_quaternion() (in module pytransform.rotations)</a>
 </li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.maximumHeight">maximumHeight() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.maximumSize">maximumSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.maximumWidth">maximumWidth() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.menuBar">menuBar() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.menuWidget">menuWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.metaObject">metaObject() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.metric">metric() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.minimumHeight">minimumHeight() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.minimumSize">minimumSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.minimumSizeHint">minimumSizeHint() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.minimumWidth">minimumWidth() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mouseDoubleClickEvent">mouseDoubleClickEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mouseGrabber">mouseGrabber() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mouseMoveEvent">mouseMoveEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mousePressEvent">mousePressEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.mouseReleaseEvent">mouseReleaseEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.move">move() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.moveEvent">moveEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.moveToThread">moveToThread() (pytransform.editor.TransformEditor method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.nativeParentWidget">nativeParentWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.nextInFocusChain">nextInFocusChain() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.rotations.norm_angle.html#pytransform.rotations.norm_angle">norm_angle() (in module pytransform.rotations)</a>
 </li>
   </ul></td>
@@ -304,13 +698,49 @@
 </li>
       <li><a href="_apidoc/pytransform.rotations.norm_vector.html#pytransform.rotations.norm_vector">norm_vector() (in module pytransform.rotations)</a>
 </li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.normalGeometry">normalGeometry() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.numColors">numColors() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.objectName">objectName() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.overrideWindowFlags">overrideWindowFlags() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.overrideWindowState">overrideWindowState() (pytransform.editor.TransformEditor method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.paintEngine">paintEngine() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.paintEvent">paintEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.paintingActive">paintingActive() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.palette">palette() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.paletteChange">paletteChange() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.parent">parent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.parentWidget">parentWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.rotations.perpendicular_to_vectors.html#pytransform.rotations.perpendicular_to_vectors">perpendicular_to_vectors() (in module pytransform.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.physicalDpiX">physicalDpiX() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.physicalDpiY">physicalDpiY() (pytransform.editor.TransformEditor method)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.plot_axis_angle.html#pytransform.rotations.plot_axis_angle">plot_axis_angle() (in module pytransform.rotations)</a>
 </li>
@@ -330,15 +760,23 @@
         <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.plot_frames_in">(pytransform.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
-      <li><a href="_apidoc/pytransform.trajectories.plot_trajectory.html#pytransform.trajectories.plot_trajectory">plot_trajectory() (in module pytransform.trajectories)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.trajectories.plot_trajectory.html#pytransform.trajectories.plot_trajectory">plot_trajectory() (in module pytransform.trajectories)</a>
+</li>
       <li><a href="_apidoc/pytransform.transformations.plot_transform.html#pytransform.transformations.plot_transform">plot_transform() (in module pytransform.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.plot_visuals">plot_visuals() (pytransform.urdf.UrdfTransformManager method)</a>
 </li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.pos">pos() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.transformations.pq_from_transform.html#pytransform.transformations.pq_from_transform">pq_from_transform() (in module pytransform.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.previousInFocusChain">previousInFocusChain() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.property">property() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.pyqtConfigure">pyqtConfigure() (pytransform.editor.TransformEditor method)</a>
 </li>
       <li><a href="api.html#module-pytransform.camera">pytransform.camera (module)</a>
 </li>
@@ -366,15 +804,19 @@
 </li>
       <li><a href="_apidoc/pytransform.rotations.quaternion_diff.html#pytransform.rotations.quaternion_diff">quaternion_diff() (in module pytransform.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.rotations.quaternion_dist.html#pytransform.rotations.quaternion_dist">quaternion_dist() (in module pytransform.rotations)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.rotations.quaternion_from_axis_angle.html#pytransform.rotations.quaternion_from_axis_angle">quaternion_from_axis_angle() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.quaternion_from_matrix.html#pytransform.rotations.quaternion_from_matrix">quaternion_from_matrix() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.quaternion_slerp.html#pytransform.rotations.quaternion_slerp">quaternion_slerp() (in module pytransform.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.rotations.quaternion_wxyz_from_xyzw.html#pytransform.rotations.quaternion_wxyz_from_xyzw">quaternion_wxyz_from_xyzw() (in module pytransform.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.rotations.quaternion_xyzw_from_wxyz.html#pytransform.rotations.quaternion_xyzw_from_wxyz">quaternion_xyzw_from_wxyz() (in module pytransform.rotations)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -382,15 +824,53 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.raise_">raise_() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.rotations.random_axis_angle.html#pytransform.rotations.random_axis_angle">random_axis_angle() (in module pytransform.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.random_quaternion.html#pytransform.rotations.random_quaternion">random_quaternion() (in module pytransform.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform.transformations.random_transform.html#pytransform.transformations.random_transform">random_transform() (in module pytransform.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform.rotations.random_vector.html#pytransform.rotations.random_vector">random_vector() (in module pytransform.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.receivers">receivers() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.rect">rect() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.releaseKeyboard">releaseKeyboard() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.releaseMouse">releaseMouse() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.releaseShortcut">releaseShortcut() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.removeAction">removeAction() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.removeDockWidget">removeDockWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.removeEventFilter">removeEventFilter() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.removeToolBar">removeToolBar() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.removeToolBarBreak">removeToolBarBreak() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.render">render() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.repaint">repaint() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.resetInputContext">resetInputContext() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.resize">resize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.resizeEvent">resizeEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.restoreDockWidget">restoreDockWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.restoreGeometry">restoreGeometry() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.restoreState">restoreState() (pytransform.editor.TransformEditor method)</a>
 </li>
       <li><a href="_apidoc/pytransform.transformations.rotate_transform.html#pytransform.transformations.rotate_transform">rotate_transform() (in module pytransform.transformations)</a>
 </li>
@@ -400,13 +880,213 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.saveGeometry">saveGeometry() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.saveState">saveState() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.transformations.scale_transform.html#pytransform.transformations.scale_transform">scale_transform() (in module pytransform.transformations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.scroll">scroll() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.sender">sender() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.senderSignalIndex">senderSignalIndex() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.camera.sensor2img.html#pytransform.camera.sensor2img">sensor2img() (in module pytransform.camera)</a>
 </li>
       <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager.set_joint">set_joint() (pytransform.urdf.UrdfTransformManager method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setAcceptDrops">setAcceptDrops() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setAccessibleDescription">setAccessibleDescription() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setAccessibleName">setAccessibleName() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setAnimated">setAnimated() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setAttribute">setAttribute() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setAutoFillBackground">setAutoFillBackground() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setBackgroundRole">setBackgroundRole() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setBaseSize">setBaseSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setCentralWidget">setCentralWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setContentsMargins">setContentsMargins() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setContextMenuPolicy">setContextMenuPolicy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setCorner">setCorner() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setCursor">setCursor() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setDisabled">setDisabled() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setDockNestingEnabled">setDockNestingEnabled() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setDockOptions">setDockOptions() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setDocumentMode">setDocumentMode() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setEnabled">setEnabled() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setFixedHeight">setFixedHeight() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setFixedSize">setFixedSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setFixedWidth">setFixedWidth() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setFocus">setFocus() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setFocusPolicy">setFocusPolicy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setFocusProxy">setFocusProxy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setFont">setFont() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setForegroundRole">setForegroundRole() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setGeometry">setGeometry() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setGraphicsEffect">setGraphicsEffect() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setHidden">setHidden() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setIconSize">setIconSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setInputContext">setInputContext() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setInputMethodHints">setInputMethodHints() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setLayout">setLayout() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setLayoutDirection">setLayoutDirection() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setLocale">setLocale() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMask">setMask() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMaximumHeight">setMaximumHeight() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMaximumSize">setMaximumSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMaximumWidth">setMaximumWidth() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMenuBar">setMenuBar() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMenuWidget">setMenuWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMinimumHeight">setMinimumHeight() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMinimumSize">setMinimumSize() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMinimumWidth">setMinimumWidth() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setMouseTracking">setMouseTracking() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setObjectName">setObjectName() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setPalette">setPalette() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setParent">setParent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setProperty">setProperty() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setShortcutAutoRepeat">setShortcutAutoRepeat() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setShortcutEnabled">setShortcutEnabled() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setShown">setShown() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setSizeIncrement">setSizeIncrement() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setSizePolicy">setSizePolicy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setStatusBar">setStatusBar() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setStatusTip">setStatusTip() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setStyle">setStyle() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setStyleSheet">setStyleSheet() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setTabOrder">setTabOrder() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setTabPosition">setTabPosition() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setTabShape">setTabShape() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setToolButtonStyle">setToolButtonStyle() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setToolTip">setToolTip() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setUnifiedTitleAndToolBarOnMac">setUnifiedTitleAndToolBarOnMac() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setUpdatesEnabled">setUpdatesEnabled() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setVisible">setVisible() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWhatsThis">setWhatsThis() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowFilePath">setWindowFilePath() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowFlags">setWindowFlags() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowIcon">setWindowIcon() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowIconText">setWindowIconText() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowModality">setWindowModality() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowModified">setWindowModified() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowOpacity">setWindowOpacity() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowRole">setWindowRole() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowState">setWindowState() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.setWindowTitle">setWindowTitle() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.show">show() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.showEvent">showEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.showFullScreen">showFullScreen() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.showMaximized">showMaximized() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.showMinimized">showMinimized() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.showNormal">showNormal() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.signalsBlocked">signalsBlocked() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.size">size() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.sizeHint">sizeHint() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.sizeIncrement">sizeIncrement() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.sizePolicy">sizePolicy() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.splitDockWidget">splitDockWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.stackUnder">stackUnder() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.startTimer">startTimer() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.statusBar">statusBar() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.statusTip">statusTip() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.style">style() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.styleSheet">styleSheet() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -414,19 +1094,55 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.tabifiedDockWidgets">tabifiedDockWidgets() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.tabifyDockWidget">tabifyDockWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.tabletEvent">tabletEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.tabPosition">tabPosition() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.tabShape">tabShape() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.testAttribute">testAttribute() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.thread">thread() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.timerEvent">timerEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.toolBarArea">toolBarArea() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.toolBarBreak">toolBarBreak() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.toolButtonStyle">toolButtonStyle() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.toolButtonStyleChanged">toolButtonStyleChanged (pytransform.editor.TransformEditor attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.toolTip">toolTip() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.topLevelWidget">topLevelWidget() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.tr">tr() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.transformations.transform.html#pytransform.transformations.transform">transform() (in module pytransform.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform.transformations.transform_from.html#pytransform.transformations.transform_from">transform_from() (in module pytransform.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform.transformations.transform_from_pq.html#pytransform.transformations.transform_from_pq">transform_from_pq() (in module pytransform.transformations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor">TransformEditor (in module pytransform.editor)</a>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor">TransformEditor (class in pytransform.editor)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.DockOptions">TransformEditor.DockOptions (class in pytransform.editor)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.RenderFlags">TransformEditor.RenderFlags (class in pytransform.editor)</a>
 </li>
       <li><a href="_apidoc/pytransform.transform_manager.TransformManager.html#pytransform.transform_manager.TransformManager">TransformManager (class in pytransform.transform_manager)</a>
 </li>
       <li><a href="_apidoc/pytransform.transformations.translate_transform.html#pytransform.transformations.translate_transform">translate_transform() (in module pytransform.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.trUtf8">trUtf8() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -434,6 +1150,28 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.underMouse">underMouse() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.ungrabGesture">ungrabGesture() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.unifiedTitleAndToolBarOnMac">unifiedTitleAndToolBarOnMac() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.unsetCursor">unsetCursor() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.unsetLayoutDirection">unsetLayoutDirection() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.unsetLocale">unsetLocale() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.update">update() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.updateGeometry">updateGeometry() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.updateMicroFocus">updateMicroFocus() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.updatesEnabled">updatesEnabled() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.urdf.UrdfTransformManager.html#pytransform.urdf.UrdfTransformManager">UrdfTransformManager (class in pytransform.urdf)</a>
 </li>
   </ul></td>
@@ -445,12 +1183,74 @@
       <li><a href="_apidoc/pytransform.transformations.vector_to_point.html#pytransform.transformations.vector_to_point">vector_to_point() (in module pytransform.transformations)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.visibleRegion">visibleRegion() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.whatsThis">whatsThis() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.wheelEvent">wheelEvent() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.width">width() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.widthMM">widthMM() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.window">window() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowActivationChange">windowActivationChange() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowFilePath">windowFilePath() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowFlags">windowFlags() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowIcon">windowIcon() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowIconText">windowIconText() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowModality">windowModality() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowOpacity">windowOpacity() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowRole">windowRole() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowState">windowState() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowTitle">windowTitle() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.windowType">windowType() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.winId">winId() (pytransform.editor.TransformEditor method)</a>
+</li>
       <li><a href="_apidoc/pytransform.camera.world2image.html#pytransform.camera.world2image">world2image() (in module pytransform.camera)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.x">x() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.x11Info">x11Info() (pytransform.editor.TransformEditor method)</a>
+</li>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.x11PictureHandle">x11PictureHandle() (pytransform.editor.TransformEditor method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor.y">y() (pytransform.editor.TransformEditor method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -469,7 +1269,7 @@
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Mar 30, 2017.<br/>
+      Last updated on Aug 23, 2018.<br/>
     </p>
   </div>
 </footer>

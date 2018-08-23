@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Transformation Ambiguities &#8212; pytransform 0.2 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transform Manager" href="transform_manager.html" />
+    <link rel="prev" title="3D Transformations: SE(3)" href="transformations.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          pytransform</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Transformation Ambiguities</a><ul>
+<li><a class="reference internal" href="#right-handed-vs-left-handed-coordinate-system">Right-handed vs. Left-handed Coordinate System</a></li>
+<li><a class="reference internal" href="#active-alibi-vs-passive-alias-transformation">Active (Alibi) vs. Passive (Alias) Transformation</a></li>
+<li><a class="reference internal" href="#source-in-target-vs-source-to-target">Source in Target vs. Source to Target</a></li>
+<li><a class="reference internal" href="#pre-multiply-vs-post-multiply-rotations">Pre-multiply vs. Post-multiply Rotations</a></li>
+<li><a class="reference internal" href="#intrinsic-vs-extrinsic-rotation">Intrinsic vs. Extrinsic Rotation</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="transformations.html" title="Previous Chapter: 3D Transformations: SE(3)"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 3D Transforma...</span>
+    </a>
+  </li>
+  <li>
+    <a href="transform_manager.html" title="Next Chapter: Transform Manager"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Transform Manager &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="transformation-ambiguities">
+<h1>Transformation Ambiguities<a class="headerlink" href="#transformation-ambiguities" title="Permalink to this headline">¶</a></h1>
+<p>There are lots of ambiguities in the world of transformations. We try to
+explain them all here.</p>
+<div class="section" id="right-handed-vs-left-handed-coordinate-system">
+<h2>Right-handed vs. Left-handed Coordinate System<a class="headerlink" href="#right-handed-vs-left-handed-coordinate-system" title="Permalink to this headline">¶</a></h2>
+<p>We typically use a right-handed coordinate system, that is, the x-, y- and
+z-axis are aligned in a specific way. The name comes from the way how the
+fingers are attached to the human hand. Try to align your thumb with the
+imaginary x-axis, your index finger with the y-axis, and your middle finger
+with the z-axis. It is possible to do this with a right hand in a
+right-handed system and with the left hand in a left-handed system.</p>
+<table>
+<tr><td>Right-handed</td><td>Left-handed</td></tr>
+<tr>
+<td><p>(<a class="reference external" href=".//transformation_ambiguities-1.py">Source code</a>, <a class="reference external" href=".//transformation_ambiguities-1.png">png</a>, <a class="reference external" href=".//transformation_ambiguities-1.hires.png">hires.png</a>, <a class="reference external" href=".//transformation_ambiguities-1.pdf">pdf</a>)</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/transformation_ambiguities-1.png"><img alt="_images/transformation_ambiguities-1.png" src="_images/transformation_ambiguities-1.png" style="width: 400px;" /></a>
+</div>
+</td>
+<td><p>(<a class="reference external" href=".//transformation_ambiguities-2.py">Source code</a>, <a class="reference external" href=".//transformation_ambiguities-2.png">png</a>, <a class="reference external" href=".//transformation_ambiguities-2.hires.png">hires.png</a>, <a class="reference external" href=".//transformation_ambiguities-2.pdf">pdf</a>)</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/transformation_ambiguities-2.png"><img alt="_images/transformation_ambiguities-2.png" src="_images/transformation_ambiguities-2.png" style="width: 400px;" /></a>
+</div>
+</td>
+</tr>
+<table><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The default in pytransform is a right-handed coordinate system.</p>
+</div>
+</div>
+<div class="section" id="active-alibi-vs-passive-alias-transformation">
+<h2>Active (Alibi) vs. Passive (Alias) Transformation<a class="headerlink" href="#active-alibi-vs-passive-alias-transformation" title="Permalink to this headline">¶</a></h2>
+<p>An active transformation</p>
+<ul class="simple">
+<li>changes the physical position of an object</li>
+<li>can be defined in the absence of a coordinate system or does not change the
+current coordinate system</li>
+<li>is used exclusively by mathematicians</li>
+</ul>
+<p>Another name for active transformation is alibi transformation.</p>
+<p>A passive transformation</p>
+<ul class="simple">
+<li>changes the coordinate system in which the object is described</li>
+<li>does not change the object</li>
+<li>could be used by physicists and engineers (e.g. roboticists)</li>
+</ul>
+<p>Another name for passive transformation is alias transformation.</p>
+<p>The following illustration compares the active view with the passive view.
+The position of the data is interpreted in the frame indicated by solid
+axes.
+We use exactly the same transformation matrix in both plots.
+In the active view, we see that the transformation is applied to the data.
+The data is physically moved. The dashed basis represents a frame that is
+moved from the base frame with the same transformation. The data is
+now interpreted in the old frame.
+The the passive we move the frame with the transformation. The data stays
+at its original position but it is interpreted in the new frame.</p>
+<table>
+<tr><td>Active</td><td>Passive</td></tr>
+<tr>
+<td><p>(<a class="reference external" href=".//transformation_ambiguities-3.py">Source code</a>, <a class="reference external" href=".//transformation_ambiguities-3.png">png</a>, <a class="reference external" href=".//transformation_ambiguities-3.hires.png">hires.png</a>, <a class="reference external" href=".//transformation_ambiguities-3.pdf">pdf</a>)</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/transformation_ambiguities-3.png"><img alt="_images/transformation_ambiguities-3.png" src="_images/transformation_ambiguities-3.png" style="width: 400px;" /></a>
+</div>
+</td>
+<td><p>(<a class="reference external" href=".//transformation_ambiguities-4.py">Source code</a>, <a class="reference external" href=".//transformation_ambiguities-4.png">png</a>, <a class="reference external" href=".//transformation_ambiguities-4.hires.png">hires.png</a>, <a class="reference external" href=".//transformation_ambiguities-4.pdf">pdf</a>)</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/transformation_ambiguities-4.png"><img alt="_images/transformation_ambiguities-4.png" src="_images/transformation_ambiguities-4.png" style="width: 400px;" /></a>
+</div>
+</td>
+</tr>
+<table><p>Using the inverse transformation in the active view gives us exactly the same
+solution as the original transformation in the passive view and vice versa.</p>
+<p>It is usually easy to determine whether the active or the passive convention
+is used by taking a look at the rotation matrix: when we rotate
+counter-clockwise by an angle <img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> about the z-axis, the following
+rotation matrix is usually used in an active transformation:</p>
+<div class="math">
+<p><img src="_images/math/c3f81ecc8d567e11c0ba55aa6b46e412937bfb98.png" alt="\left( \begin{array}{ccc}
+    \cos \theta &amp; -\sin \theta &amp; 0 \\
+    \sin \theta &amp; \cos \theta &amp; 0 \\
+    0 &amp; 0 &amp; 1\\
+\end{array} \right)"/></p>
+</div><p>Its transformed version is usually used for a passive transformation:</p>
+<div class="math">
+<p><img src="_images/math/9e12d255ec2172eb0dd4e313f92131187d704677.png" alt="\left( \begin{array}{ccc}
+    \cos \theta &amp; \sin \theta &amp; 0 \\
+    -\sin \theta &amp; \cos \theta &amp; 0 \\
+    0 &amp; 0 &amp; 1\\
+\end{array} \right)"/></p>
+</div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The default in pytransform are passive transformations.</p>
+</div>
+<p>Reference:</p>
+<p>Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
+IEEE Robotics and Automation Magazine.
+PDF: <a class="reference external" href="https://core.ac.uk/download/pdf/77055186.pdf">https://core.ac.uk/download/pdf/77055186.pdf</a>.</p>
+</div>
+<div class="section" id="source-in-target-vs-source-to-target">
+<h2>Source in Target vs. Source to Target<a class="headerlink" href="#source-in-target-vs-source-to-target" title="Permalink to this headline">¶</a></h2>
+<p>A transformations is defined between two frames: source and target, origin
+and target, or parent and child. You can also say it transforms from some
+frame to another frame.
+However, it is not always clear how to interpret the source and the target.</p>
+<p><strong>Source in target:</strong>
+The first option would be to assume that the source is the base frame in
+which we represent the target frame and the transformation gives us the
+translation and rotation to get the location of the target in the source.
+In the illustration below that would mean that the object (target) is
+defined in the camera frame (source) and the camera (target) is defined in
+the body frame (source).</p>
+<p><strong>Source to target:</strong>
+The second option assumes that the transformation transforms data, for example,
+points from the source frame to the target frame. In the illustration below
+that would mean we have a transformation to transform points from the
+object frame (source) to the camera frame (target) and a transformation
+to transform points from the camera frame (source) to the body frame (target).</p>
+<p>Whenever you hear that there is a transformation from some frame to another
+frame, make sure you understand what is meant.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The default in pytransform is source in target.</p>
+</div>
+<p>(<a class="reference external" href=".//transformation_ambiguities-5.py">Source code</a>, <a class="reference external" href=".//transformation_ambiguities-5.png">png</a>, <a class="reference external" href=".//transformation_ambiguities-5.hires.png">hires.png</a>, <a class="reference external" href=".//transformation_ambiguities-5.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/transformation_ambiguities-5.png" src="_images/transformation_ambiguities-5.png" />
+</div>
+</div>
+<div class="section" id="pre-multiply-vs-post-multiply-rotations">
+<h2>Pre-multiply vs. Post-multiply Rotations<a class="headerlink" href="#pre-multiply-vs-post-multiply-rotations" title="Permalink to this headline">¶</a></h2>
+<p>The same point can be represented by a column vector <img class="math" src="_images/math/6d4efa4ca8df51fecdf1e5503121a34d46e1c3b9.png" alt="\boldsymbol v"/> or
+a row vector <img class="math" src="_images/math/5ebb0de865c45051b10552721669d4fe5a669938.png" alt="\boldsymbol w"/>. A rotation matrix <img class="math" src="_images/math/11c5b02a2f44e69c9d010de9e54308eb0e742769.png" alt="\boldsymbol R"/>
+can be used to rotate the point by pre-multiplying it to the column vector
+<img class="math" src="_images/math/3d9240fae31b2b83592035a2019dc041fe2d2bad.png" alt="\boldsymbol R \boldsymbol v"/> or by post-multiplying it to the row
+vector <img class="math" src="_images/math/ee00777a775b2930ab3166c006ebcf12809f42ff.png" alt="\boldsymbol w \boldsymbol R"/>. However, for the same rotation
+matrix, both approaches are inverse:
+<img class="math" src="_images/math/569875d73e8bbd06d75e1569040366c47bee7b8b.png" alt="\boldsymbol R^T \boldsymbol v = \boldsymbol w \boldsymbol R"/>.
+Hence, to achieve the same effect we have to use two different rotation
+matrices depending on how we multiply them to points.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The default in pytransform are pre-multiplied rotation matrices.</p>
+</div>
+</div>
+<div class="section" id="intrinsic-vs-extrinsic-rotation">
+<h2>Intrinsic vs. Extrinsic Rotation<a class="headerlink" href="#intrinsic-vs-extrinsic-rotation" title="Permalink to this headline">¶</a></h2>
+<p>A similar problem occurs when we want to concatenate rotations:
+suppose we have two rotations matrices <img class="math" src="_images/math/11c5b02a2f44e69c9d010de9e54308eb0e742769.png" alt="\boldsymbol R"/> and
+<img class="math" src="_images/math/11c5b02a2f44e69c9d010de9e54308eb0e742769.png" alt="\boldsymbol R"/> and we want to concatenate them. We can either
+compute <img class="math" src="_images/math/966e14b4b224bc8d10293dda5a13ed2ff15013cb.png" alt="\boldsymbol R \boldsymbol R'"/> or
+<img class="math" src="_images/math/0ec5e2f8be0938e835f4d4c72761f1e3d301fc00.png" alt="\boldsymbol R' \boldsymbol R"/>. The following equality holds:
+<img class="math" src="_images/math/80448974558265c909cd051c24f405f730b3962f.png" alt="(\boldsymbol R' \boldsymbol R)^T = \boldsymbol R^T \boldsymbol R'^T"/>.</p>
+<p><img class="math" src="_images/math/db8151a2ad04085c0fffed7fa52408a525ae7e72.png" alt="R \cdot R'"/> means that the rotation <img class="math" src="_images/math/9b784c1724800322156c6955aaa3e47f03d59479.png" alt="R'"/> is applied in the
+local coordinate frame defined by <img class="math" src="_images/math/a00254b18ffa992f0ef19f6e6e095b83c8f85e94.png" alt="R"/>. The second option
+<img class="math" src="_images/math/1597792a60a31060f599911f23f77fcdcbf2d419.png" alt="R' \cdot R"/> is equivalent to rotating <img class="math" src="_images/math/a00254b18ffa992f0ef19f6e6e095b83c8f85e94.png" alt="R"/> in the global
+coordinate system.</p>
+<p>In the following plot you see the original frame in the background.
+The first rotation <img class="math" src="_images/math/a00254b18ffa992f0ef19f6e6e095b83c8f85e94.png" alt="R"/> rotates 45 degrees about the x-axis.
+The result can be seen in the middle. The second rotation <img class="math" src="_images/math/9b784c1724800322156c6955aaa3e47f03d59479.png" alt="R'"/>
+rotates 90 degrees about the z-axis. On the left side, we compute
+<img class="math" src="_images/math/0e9eff2378bff12633b101ca9c975ca4ab6b9a50.png" alt="R'R"/>. The result is that the rotation about the z-axis is
+done before the rotation about the x-axis or the rotation about the
+z-axis is an extrinsic rotation because it is applied in the global
+coordinate system. On the right side we see the result of <img class="math" src="_images/math/3f99b7965764d5da44c1d517221e1db5ced6d8f3.png" alt="RR'"/>.
+The rotation about the z-axis is applied after the rotation about the
+x-axis, hence, it is applied to the local coordinate system. It
+can be called and intrinsic rotation.</p>
+<p>(<a class="reference external" href=".//transformation_ambiguities-6.py">Source code</a>, <a class="reference external" href=".//transformation_ambiguities-6.png">png</a>, <a class="reference external" href=".//transformation_ambiguities-6.hires.png">hires.png</a>, <a class="reference external" href=".//transformation_ambiguities-6.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/transformation_ambiguities-6.png" src="_images/transformation_ambiguities-6.png" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The default in pytransform are intrinsic rotations.</p>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, Alexander Fabisch.<br/>
+      Last updated on Aug 23, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

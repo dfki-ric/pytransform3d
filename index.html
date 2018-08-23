@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>pytransform &#8212; pytransform 0.2 documentation</title>
-    
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -38,7 +34,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -69,6 +65,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
@@ -175,6 +173,15 @@ matrix, translation
 <li class="toctree-l2"><a class="reference internal" href="rotations.html#quaternions">Quaternions</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#right-handed-vs-left-handed-coordinate-system">Right-handed vs. Left-handed Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#active-alibi-vs-passive-alias-transformation">Active (Alibi) vs. Passive (Alias) Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#source-in-target-vs-source-to-target">Source in Target vs. Source to Target</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#pre-multiply-vs-post-multiply-rotations">Pre-multiply vs. Post-multiply Rotations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#intrinsic-vs-extrinsic-rotation">Intrinsic vs. Extrinsic Rotation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
@@ -193,7 +200,7 @@ matrix, translation
 <h2>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h2>
 <p>We will use the notation</p>
 <div class="math">
-<p><span class="math">_A\boldsymbol{t}_{BC}</span></p>
+<p><img src="_images/math/14f9d514ad6b5f491c197cf1df00886754b021cd.png" alt="_A\boldsymbol{t}_{BC}"/></p>
 </div><p>to represent a vector from frame B to frame C expressed in frame A.</p>
 <p><strong>References</strong></p>
 <ul class="simple">
@@ -215,7 +222,7 @@ matrix, translation
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Mar 30, 2017.<br/>
+      Last updated on Aug 23, 2018.<br/>
     </p>
   </div>
 </footer>

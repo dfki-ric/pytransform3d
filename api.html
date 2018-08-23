@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>API &#8212; pytransform 0.2 documentation</title>
-    
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -39,7 +35,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -70,6 +66,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a></li>
@@ -236,7 +234,7 @@
 <td>Compute rotation matrix from xyz Euler angles.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.rotations.matrix_from_euler_zyx.html#pytransform.rotations.matrix_from_euler_zyx" title="pytransform.rotations.matrix_from_euler_zyx"><code class="xref py py-obj docutils literal"><span class="pre">matrix_from_euler_zyx</span></code></a>(e)</td>
-<td>Compute rotation matrix from zyx Euler angles.</td>
+<td>Compute rotation matrix from zyx (yaw-pitch-roll) Euler angles.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.rotations.matrix_from.html#pytransform.rotations.matrix_from" title="pytransform.rotations.matrix_from"><code class="xref py py-obj docutils literal"><span class="pre">matrix_from</span></code></a>([R,&nbsp;a,&nbsp;q,&nbsp;e_xyz,&nbsp;e_zyx])</td>
 <td>Compute rotation matrix from another representation.</td>
@@ -294,6 +292,12 @@
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.rotations.quaternion_from_axis_angle.html#pytransform.rotations.quaternion_from_axis_angle" title="pytransform.rotations.quaternion_from_axis_angle"><code class="xref py py-obj docutils literal"><span class="pre">quaternion_from_axis_angle</span></code></a>(a)</td>
 <td>Compute quaternion from axis-angle.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.rotations.quaternion_xyzw_from_wxyz.html#pytransform.rotations.quaternion_xyzw_from_wxyz" title="pytransform.rotations.quaternion_xyzw_from_wxyz"><code class="xref py py-obj docutils literal"><span class="pre">quaternion_xyzw_from_wxyz</span></code></a>(q_wxyz)</td>
+<td>Converts from w, x, y, z to x, y, z, w convention.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.rotations.quaternion_wxyz_from_xyzw.html#pytransform.rotations.quaternion_wxyz_from_xyzw" title="pytransform.rotations.quaternion_wxyz_from_xyzw"><code class="xref py py-obj docutils literal"><span class="pre">quaternion_wxyz_from_xyzw</span></code></a>(q_xyzw)</td>
+<td>Converts from x, y, z, w to w, x, y, z convention.</td>
 </tr>
 </tbody>
 </table>
@@ -361,10 +365,10 @@
 <tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.rotations.assert_quaternion_equal.html#pytransform.rotations.assert_quaternion_equal" title="pytransform.rotations.assert_quaternion_equal"><code class="xref py py-obj docutils literal"><span class="pre">assert_quaternion_equal</span></code></a>(q1,&nbsp;q2,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Raise an assertion if two quaternions are not approximately equal.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.rotations.assert_euler_xyz_equal.html#pytransform.rotations.assert_euler_xyz_equal" title="pytransform.rotations.assert_euler_xyz_equal"><code class="xref py py-obj docutils literal"><span class="pre">assert_euler_xyz_equal</span></code></a>(e_xyz1,&nbsp;e_xyz2,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.rotations.assert_euler_xyz_equal.html#pytransform.rotations.assert_euler_xyz_equal" title="pytransform.rotations.assert_euler_xyz_equal"><code class="xref py py-obj docutils literal"><span class="pre">assert_euler_xyz_equal</span></code></a>(e_xyz1,&nbsp;e_xyz2,&nbsp;…)</td>
 <td>Raise an assertion if two xyz Euler angles are not approximately equal.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.rotations.assert_euler_zyx_equal.html#pytransform.rotations.assert_euler_zyx_equal" title="pytransform.rotations.assert_euler_zyx_equal"><code class="xref py py-obj docutils literal"><span class="pre">assert_euler_zyx_equal</span></code></a>(e_zyx1,&nbsp;e_zyx2,&nbsp;...)</td>
+<tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.rotations.assert_euler_zyx_equal.html#pytransform.rotations.assert_euler_zyx_equal" title="pytransform.rotations.assert_euler_zyx_equal"><code class="xref py py-obj docutils literal"><span class="pre">assert_euler_zyx_equal</span></code></a>(e_zyx1,&nbsp;e_zyx2,&nbsp;…)</td>
 <td>Raise an assertion if two zyx Euler angles are not approximately equal.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.rotations.assert_rotation_matrix.html#pytransform.rotations.assert_rotation_matrix" title="pytransform.rotations.assert_rotation_matrix"><code class="xref py py-obj docutils literal"><span class="pre">assert_rotation_matrix</span></code></a>(R,&nbsp;*args,&nbsp;**kwargs)</td>
@@ -413,7 +417,7 @@
 <tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.transformations.transform.html#pytransform.transformations.transform" title="pytransform.transformations.transform"><code class="xref py py-obj docutils literal"><span class="pre">transform</span></code></a>(A2B,&nbsp;PA)</td>
 <td>Transform point or list of points.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.transformations.scale_transform.html#pytransform.transformations.scale_transform" title="pytransform.transformations.scale_transform"><code class="xref py py-obj docutils literal"><span class="pre">scale_transform</span></code></a>(A2B[,&nbsp;s_xr,&nbsp;s_yr,&nbsp;s_zr,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.transformations.scale_transform.html#pytransform.transformations.scale_transform" title="pytransform.transformations.scale_transform"><code class="xref py py-obj docutils literal"><span class="pre">scale_transform</span></code></a>(A2B[,&nbsp;s_xr,&nbsp;s_yr,&nbsp;s_zr,&nbsp;…])</td>
 <td>Scale a transform from A to reference frame B.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.transformations.plot_transform.html#pytransform.transformations.plot_transform" title="pytransform.transformations.plot_transform"><code class="xref py py-obj docutils literal"><span class="pre">plot_transform</span></code></a>([ax,&nbsp;A2B,&nbsp;s,&nbsp;ax_s,&nbsp;name])</td>
@@ -443,7 +447,7 @@
 <tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.trajectories.matrices_from_pos_quat.html#pytransform.trajectories.matrices_from_pos_quat" title="pytransform.trajectories.matrices_from_pos_quat"><code class="xref py py-obj docutils literal"><span class="pre">matrices_from_pos_quat</span></code></a>(P)</td>
 <td>Get sequence of homogeneous matrices from positions and quaternions.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.trajectories.plot_trajectory.html#pytransform.trajectories.plot_trajectory" title="pytransform.trajectories.plot_trajectory"><code class="xref py py-obj docutils literal"><span class="pre">plot_trajectory</span></code></a>([ax,&nbsp;P,&nbsp;show_direction,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.trajectories.plot_trajectory.html#pytransform.trajectories.plot_trajectory" title="pytransform.trajectories.plot_trajectory"><code class="xref py py-obj docutils literal"><span class="pre">plot_trajectory</span></code></a>([ax,&nbsp;P,&nbsp;show_direction,&nbsp;…])</td>
 <td>Plot pose trajectory.</td>
 </tr>
 </tbody>
@@ -473,8 +477,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor" title="pytransform.editor.TransformEditor"><code class="xref py py-obj docutils literal"><span class="pre">TransformEditor</span></code></a></td>
-<td></td>
+<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.editor.TransformEditor.html#pytransform.editor.TransformEditor" title="pytransform.editor.TransformEditor"><code class="xref py py-obj docutils literal"><span class="pre">TransformEditor</span></code></a>(transform_manager,&nbsp;base_frame)</td>
+<td>GUI to edit transformations.</td>
 </tr>
 </tbody>
 </table>
@@ -503,7 +507,7 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.camera.make_world_grid.html#pytransform.camera.make_world_grid" title="pytransform.camera.make_world_grid"><code class="xref py py-obj docutils literal"><span class="pre">make_world_grid</span></code></a>([n_lines,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.camera.make_world_grid.html#pytransform.camera.make_world_grid" title="pytransform.camera.make_world_grid"><code class="xref py py-obj docutils literal"><span class="pre">make_world_grid</span></code></a>([n_lines,&nbsp;…])</td>
 <td>Generate grid in world coordinate frame.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.camera.make_world_line.html#pytransform.camera.make_world_line" title="pytransform.camera.make_world_line"><code class="xref py py-obj docutils literal"><span class="pre">make_world_line</span></code></a>(p1,&nbsp;p2,&nbsp;n_points)</td>
@@ -515,7 +519,7 @@
 <tr class="row-even"><td><a class="reference internal" href="_apidoc/pytransform.camera.sensor2img.html#pytransform.camera.sensor2img" title="pytransform.camera.sensor2img"><code class="xref py py-obj docutils literal"><span class="pre">sensor2img</span></code></a>(P_sensor,&nbsp;sensor_size,&nbsp;image_size)</td>
 <td>Project points from 2D sensor plane to image coordinate system.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.camera.world2image.html#pytransform.camera.world2image" title="pytransform.camera.world2image"><code class="xref py py-obj docutils literal"><span class="pre">world2image</span></code></a>(P_world,&nbsp;cam2world,&nbsp;sensor_size,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="_apidoc/pytransform.camera.world2image.html#pytransform.camera.world2image" title="pytransform.camera.world2image"><code class="xref py py-obj docutils literal"><span class="pre">world2image</span></code></a>(P_world,&nbsp;cam2world,&nbsp;sensor_size,&nbsp;…)</td>
 <td>Project points from 3D world coordinate system to 2D image.</td>
 </tr>
 </tbody>
@@ -536,7 +540,7 @@
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Mar 30, 2017.<br/>
+      Last updated on Aug 23, 2018.<br/>
     </p>
   </div>
 </footer>

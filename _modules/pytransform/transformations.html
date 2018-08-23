@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>pytransform.transformations &#8212; pytransform 0.2 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -37,7 +33,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -68,6 +64,8 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
@@ -159,12 +157,12 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pq : array-like, shape (7,)</span>
-<span class="sd">        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)</span>
+<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pq : array, shape (7,)</span>
-<span class="sd">        Validated position and orientation quaternion: (x, y, z, w, vx, vy, vz)</span>
+<span class="sd">        Validated position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pq</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">pq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">7</span><span class="p">:</span>
@@ -231,6 +229,9 @@
 <span class="sd">        Transform from frame B to frame A</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="c1"># NOTE there is a faster version:</span>
+    <span class="c1"># ( R t )^-1   ( R^T -R^T*t )</span>
+    <span class="c1"># ( 0 1 )    = ( 0    1     )</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
 
 
@@ -303,7 +304,7 @@
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame A to frame B</span>
 
-<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">    B2C : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame B to frame C</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
@@ -412,7 +413,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pq : array-like, shape (7,)</span>
-<span class="sd">        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)</span>
+<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">quaternion_from_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])))</span></div>
@@ -424,7 +425,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pq : array-like, shape (7,)</span>
-<span class="sd">        Position and orientation quaternion: (x, y, z, w, vx, vy, vz)</span>
+<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -503,7 +504,7 @@
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Mar 30, 2017.<br/>
+      Last updated on Aug 23, 2018.<br/>
     </p>
   </div>
 </footer>
