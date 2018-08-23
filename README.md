@@ -47,20 +47,20 @@ The HTML documentation is now located at `doc/build/html/index.html`.
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.rotations import (random_quaternion, matrix_from_euler_xyz,
-                                   q_id)
-from pytransform.transformations import transform_from_pq, transform_from
+import pytransform.rotations as pr
+import pytransform.transformations as pt
 from pytransform.transform_manager import TransformManager
 
 
 random_state = np.random.RandomState(0)
 
-ee2robot = transform_from_pq(
-    np.hstack((np.array([0.4, -0.3, 0.5]), random_quaternion(random_state))))
-cam2robot = transform_from_pq(
-    np.hstack((np.array([0.0, 0.0, 0.8]), q_id)))
-object2cam = transform_from(
-    matrix_from_euler_xyz(np.array([0.0, 0.0, 0.5])), np.array([0.5, 0.1, 0.1]))
+ee2robot = pt.transform_from_pq(
+    np.hstack((np.array([0.4, -0.3, 0.5]), pr.random_quaternion(random_state))))
+cam2robot = pt.transform_from_pq(
+    np.hstack((np.array([0.0, 0.0, 0.8]), pr.q_id)))
+object2cam = pt.transform_from(
+    pr.matrix_from_euler_xyz(np.array([0.0, 0.0, 0.5])),
+                             np.array([0.5, 0.1, 0.1]))
 
 tm = TransformManager()
 tm.add_transform("end-effector", "robot", ee2robot)
@@ -75,6 +75,8 @@ ax.set_ylim((-0.5, 0.5))
 ax.set_zlim((0.0, 1.0))
 plt.show()
 ```
+
+![output](https://rock-learning.github.io/pytransform/_images/plot_transform_manager.png)
 
 ## Tests
 
