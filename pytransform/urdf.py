@@ -117,9 +117,10 @@ class UrdfTransformManager(TransformManager):
 
         robot_name = robot["name"]
 
-        links = [self._parse_link(link) for link in robot.findAll("link")]
+        links = [self._parse_link(link) 
+                 for link in robot.findAll("link", recursive=False)]
         joints = [self._parse_joint(joint, links)
-                  for joint in robot.findAll("joint")]
+                  for joint in robot.findAll("joint", recursive=False)]
 
         self.add_transform(links[0], robot_name, np.eye(4))
         for joint in joints:
