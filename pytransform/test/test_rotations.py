@@ -543,6 +543,14 @@ def test_quaternion_conjugate():
         assert_array_almost_equal(vq, vq2)
 
 
+def test_quaternion_invert():
+    """Test unit quaternion inversion with conjugate."""
+    q = np.array([0.58183503, -0.75119889, -0.24622332, 0.19116072])
+    q_inv = q_conj(q)
+    q_q_inv = concatenate_quaternions(q, q_inv)
+    assert_array_almost_equal(q_id, q_q_inv)
+
+
 def test_quaternion_dist():
     """Test angular metric of quaternions."""
     random_state = np.random.RandomState(0)
