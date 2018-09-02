@@ -11,8 +11,9 @@ if __name__ == "__main__":
           author='Alexander Fabisch',
           author_email='afabisch@googlemail.com',
           url='https://git.hb.dfki.de/besman/pytransform',
-          description='Conversions between various transformation '
-                      'representations',
+          description='3D transformations for Python',
           long_description=open('README.md').read(),
           license='New BSD',
-          packages=['pytransform'],)
+          packages=['pytransform'],
+          requires=["numpy", "scipy", "lxml", "bs4"]
+    )
