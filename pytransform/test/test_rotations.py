@@ -337,6 +337,18 @@ def test_conversions_matrix_quaternion():
         assert_rotation_matrix(R2)
 
 
+def test_matrix_from_quaternion_hamilton():
+    """Test if the conversion from quaternion to matrix is Hamiltonian."""
+    q = np.sqrt(0.5) * np.array([1, 0, 0, 1])
+    R = matrix_from_quaternion(q)
+    assert_array_almost_equal(
+        np.array([[0, -1, 0],
+                  [1, 0, 0],
+                  [0, 0, 1]]),
+        R
+    )
+
+
 def test_quaternion_from_matrix_180():
     """Test for bug in conversion from 180 degree rotations."""
     a = np.array([1.0, 0.0, 0.0, np.pi])
@@ -519,6 +531,14 @@ def test_concatenate_quaternions():
         assert_quaternion_equal(q12, q12R)
 
 
+def test_quaternion_hamilton():
+    """Test if quaternion multiplication follows Hamilton's convention."""
+    q_ij = concatenate_quaternions(q_i, q_j)
+    assert_array_equal(q_k, q_ij)
+    q_ijk = concatenate_quaternions(q_ij, q_k)
+    assert_array_equal(-q_id, q_ijk)
+
+
 def test_quaternion_rotation():
     """Test quaternion rotation."""
     random_state = np.random.RandomState(0)
@@ -529,6 +549,19 @@ def test_quaternion_rotation():
         vR = np.dot(R, v)
         vq = q_prod_vector(q, v)
         assert_array_almost_equal(vR, vq)
+
+
+def test_quaternion_rotation_consistent_with_multiplication():
+    """Test if quaternion rotation and multiplication are Hamiltonian."""
+    random_state = np.random.RandomState(1)
+    for _ in range(5):
+        v = random_vector(random_state)
+        q = random_quaternion(random_state)
+        v_im = np.hstack(((0.0,), v))
+        qv_mult = concatenate_quaternions(
+            q, concatenate_quaternions(v_im, q_conj(q)))[1:]
+        qv_rot = q_prod_vector(q, v)
+        assert_array_almost_equal(qv_mult, qv_rot)
 
 
 def test_quaternion_conjugate():

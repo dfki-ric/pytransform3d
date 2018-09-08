@@ -193,14 +193,34 @@ A complete rotation can be split into three rotations around basis vectors.
 Quaternions
 -----------
 
+Quaternions are represented by a scalar / real part :math:`w`
+and an imaginary / vector part
+:math:`x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}`.
+
+.. math::
+
+    \boldsymbol{q} = w + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}
+
+.. warning::
+
+    There are two different quaternion conventions: Hamilton's convention
+    defines :math:`ijk = -1` and the JPL convention (from NASA's Jet Propulsion
+    Laboratory, JPL) defines :math:`ijk = 1`. We use Hamilton's convention.
+
+Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about the
+two conventions and why Hamilton's convention should be used. Section VI A
+gives useful hints to identify which convention is used.
+
 The unit quaternion space :math:`S^3` can be used to represent orientations.
 To do that, we use an encoding based on the rotation axis and angle.
-
 A rotation quaternion is a four-dimensional unit vector (versor)
+:math:`\boldsymbol{\hat{q}}`.
+The following equation describes its relation to axis-axis notation.
 
 .. math::
 
     \boldsymbol{\hat{q}} =
+    \left( \begin{array}{c} w\\ x\\ y\\ z\\ \end{array} \right) =
     \left( \begin{array}{c}
         \cos \frac{\theta}{2}\\
         e_x \sin \frac{\theta}{2}\\
@@ -210,9 +230,9 @@ A rotation quaternion is a four-dimensional unit vector (versor)
 
 .. warning::
 
-    The scalar component of a quaternion is sometimes the first element and
-    sometimes the last element of the versor. We will always use the first
-    element to store the scalar component.
+    The scalar component :math:`w` of a quaternion is sometimes the first
+    element and sometimes the last element of the versor. We will always use
+    the first element to store the scalar component.
 
 .. warning::
 
@@ -228,7 +248,8 @@ A rotation quaternion is a four-dimensional unit vector (versor)
   jumps (inherent to three-dimensional parameterizations)
 * Expression of the rotation matrix in terms of quaternion parameters
   involves no trigonometric functions
-* Concatenation is simple with the quaternion product
+* Concatenation is simple and computationally cheaper with the quaternion
+  product than with rotation matrices
 
 **Cons**
 

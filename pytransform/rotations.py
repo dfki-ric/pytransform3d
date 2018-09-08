@@ -11,6 +11,9 @@ unitz = np.array([0.0, 0.0, 1.0])
 R_id = np.eye(3)
 a_id = np.array([1.0, 0.0, 0.0, 0.0])
 q_id = np.array([1.0, 0.0, 0.0, 0.0])
+q_i = np.array([0.0, 1.0, 0.0, 0.0])
+q_j = np.array([0.0, 0.0, 1.0, 0.0])
+q_k = np.array([0.0, 0.0, 0.0, 1.0])
 e_xyz_id = np.array([0.0, 0.0, 0.0])
 e_zyx_id = np.array([0.0, 0.0, 0.0])
 p0 = np.array([0.0, 0.0, 0.0])
@@ -761,6 +764,8 @@ def quaternion_wxyz_from_xyzw(q_xyzw):
 def concatenate_quaternions(q1, q2):
     """Concatenate two quaternions.
 
+    We use Hamilton's quaternion multiplication.
+
     Parameters
     ----------
     q1 : array-like, shape (4,)
@@ -784,6 +789,8 @@ def concatenate_quaternions(q1, q2):
 
 def q_prod_vector(q, v):
     """Apply rotation represented by a quaternion to a vector.
+
+    We use Hamilton's quaternion multiplication.
 
     Parameters
     ----------

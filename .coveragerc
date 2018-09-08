@@ -7,6 +7,9 @@ omit =
     pytransform/editor.py
 
 [report]
+omit =
+    pytransform/plot_utils.py
+    pytransform/editor.py
 exclude_lines =
     pragma: no cover
     def plot_*
