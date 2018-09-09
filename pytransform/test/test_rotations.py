@@ -551,19 +551,6 @@ def test_quaternion_rotation():
         assert_array_almost_equal(vR, vq)
 
 
-def test_quaternion_rotation_consistent_with_multiplication():
-    """Test if quaternion rotation and multiplication are Hamiltonian."""
-    random_state = np.random.RandomState(1)
-    for _ in range(5):
-        v = random_vector(random_state)
-        q = random_quaternion(random_state)
-        v_im = np.hstack(((0.0,), v))
-        qv_mult = concatenate_quaternions(
-            q, concatenate_quaternions(v_im, q_conj(q)))[1:]
-        qv_rot = q_prod_vector(q, v)
-        assert_array_almost_equal(qv_mult, qv_rot)
-
-
 def test_quaternion_conjugate():
     """Test quaternion conjugate."""
     random_state = np.random.RandomState(0)
@@ -582,6 +569,19 @@ def test_quaternion_invert():
     q_inv = q_conj(q)
     q_q_inv = concatenate_quaternions(q, q_inv)
     assert_array_almost_equal(q_id, q_q_inv)
+
+
+def test_quaternion_rotation_consistent_with_multiplication():
+    """Test if quaternion rotation and multiplication are Hamiltonian."""
+    random_state = np.random.RandomState(1)
+    for _ in range(5):
+        v = random_vector(random_state)
+        q = random_quaternion(random_state)
+        v_im = np.hstack(((0.0,), v))
+        qv_mult = concatenate_quaternions(
+            q, concatenate_quaternions(v_im, q_conj(q)))[1:]
+        qv_rot = q_prod_vector(q, v)
+        assert_array_almost_equal(qv_mult, qv_rot)
 
 
 def test_quaternion_dist():

@@ -1,15 +1,15 @@
 .. _api:
 
-===
-API
-===
+=================
+API Documentation
+=================
 
 You can search for specific modules, classes or functions in the
 :ref:`genindex`.
 
 
-:mod:`pytransform.rotations`: Rotations
-=======================================
+:mod:`pytransform.rotations`
+============================
 
 .. automodule:: pytransform.rotations
     :no-members:
@@ -129,8 +129,8 @@ Testing
    ~pytransform.rotations.assert_rotation_matrix
 
 
-:mod:`pytransform.transformations`: Transformations
-===================================================
+:mod:`pytransform.transformations`
+==================================
 
 .. automodule:: pytransform.transformations
     :no-members:
@@ -157,8 +157,8 @@ Testing
    ~pytransform.transformations.transform_from_pq
 
 
-:mod:`pytransform.trajectories`: Trajectories
-=============================================
+:mod:`pytransform.trajectories`
+===============================
 
 .. automodule:: pytransform.trajectories
     :no-members:
@@ -172,8 +172,8 @@ Testing
    ~pytransform.trajectories.plot_trajectory
 
 
-:mod:`pytransform.transform_manager`: TransformManager
-======================================================
+:mod:`pytransform.transform_manager`
+====================================
 
 .. automodule:: pytransform.transform_manager
     :no-members:
@@ -186,8 +186,8 @@ Testing
    ~pytransform.transform_manager.TransformManager
 
 
-:mod:`pytransform.editor`: TransformEditor
-======================================================
+:mod:`pytransform.editor`
+=========================
 
 .. automodule:: pytransform.editor
     :no-members:
@@ -200,8 +200,8 @@ Testing
    ~pytransform.editor.TransformEditor
 
 
-:mod:`pytransform.urdf`: URDF
-=============================
+:mod:`pytransform.urdf`
+=======================
 
 .. automodule:: pytransform.urdf
     :no-members:
@@ -214,8 +214,8 @@ Testing
    ~pytransform.urdf.UrdfTransformManager
 
 
-:mod:`pytransform.camera`: Camera
-=================================
+:mod:`pytransform.camera`
+=========================
 
 .. automodule:: pytransform.camera
     :no-members:

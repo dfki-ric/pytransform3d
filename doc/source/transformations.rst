@@ -4,9 +4,15 @@
 
 The group of all transformations in the 3D Cartesian space is :math:`SE(3)`.
 Transformations consist of a rotation and a translation. Those can be
-represented in multiple different ways. One of the most convenient ways
-to represent transformations are transformation matrices.
-A transformation matrix is a 4x4 matrix of the form
+represented in multiple different ways.
+
+---------------------
+Transformation Matrix
+---------------------
+
+One of the most convenient ways to represent transformations are
+transformation matrices. A transformation matrix is a 4x4 matrix of
+the form
 
 .. math::
 
@@ -40,3 +46,19 @@ will give the following result:
         \boldsymbol R \boldsymbol p_B + \boldsymbol t\\
         1\\
     \end{array} \right)
+
+-----------------------
+Position and Quaternion
+-----------------------
+
+An alternative to transformation matrices is the representation in a
+7-dimensional vector that consists of the translation and a rotation
+quaternion:
+
+.. math::
+
+    \left( \begin{array}{c}
+        x\\y\\z\\q_w\\q_x\\q_y\\q_z
+    \end{array} \right)
+
+This representation is more compact than a transformation matrix.

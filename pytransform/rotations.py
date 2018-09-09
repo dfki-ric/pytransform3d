@@ -813,7 +813,9 @@ def q_prod_vector(q, v):
 def q_conj(q):
     """Conjugate of quaternion.
 
-    The conjugate represents the inverted rotation.
+    The conjugate of a unit quaternion inverts the rotation represented by
+    this unit quaternion. The conjugate of a quaternion q is often denoted
+    as q*.
 
     Parameters
     ----------

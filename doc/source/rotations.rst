@@ -231,7 +231,7 @@ The following equation describes its relation to axis-axis notation.
 .. warning::
 
     The scalar component :math:`w` of a quaternion is sometimes the first
-    element and sometimes the last element of the versor. We will always use
+    element and sometimes the last element of the versor. We will use
     the first element to store the scalar component.
 
 .. warning::

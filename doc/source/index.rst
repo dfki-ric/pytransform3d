@@ -23,6 +23,10 @@ pytransform covers the following groups of transformations.
 |       | rotation)       |           |                     |
 +-------+-----------------+-----------+---------------------+
 
+-----------------
+Table of Contents
+-----------------
+
 .. toctree::
    :maxdepth: 2
 
@@ -33,8 +37,9 @@ pytransform covers the following groups of transformations.
    camera
    api
 
+--------
 Notation
-========
+--------
 
 We will use the notation
 
@@ -44,6 +49,11 @@ We will use the notation
 
 to represent a vector from frame B to frame C expressed in frame A.
 
-**References**
+----------
+References
+----------
 
-* http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf (blog address http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly is outdated)
+* Representing Robot Pose: The good, the bad, and the ugly (slides): http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf 
+* Representing Robot Pose: The good, the bad, and the ugly (blog): http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
+* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+* Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
