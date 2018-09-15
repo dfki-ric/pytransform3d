@@ -35,6 +35,7 @@ Table of Contents
    transformation_ambiguities
    transform_manager
    camera
+   animations
    api
 
 --------
