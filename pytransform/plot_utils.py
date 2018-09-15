@@ -74,7 +74,7 @@ class Frame(artist.Artist):
             self.label_indicator.set_3d_properties([p[2], label_pos[2]])
 
             self.label_text.set_text(label)
-            self.label_text.set_position(label_pos[0], label_pos[1])
+            self.label_text.set_position([label_pos[0], label_pos[1]])
             self.label_text.set_3d_properties(label_pos[2])
 
     @artist.allow_rasterization
@@ -90,7 +90,7 @@ class Frame(artist.Artist):
             axis.add_line(b)
         if self.draw_label:
             axis.add_line(self.label_indicator)
-            #TODO add text
+            axis._add_text(self.label_text)
 
 
 class Arrow3D(FancyArrowPatch):  # http://stackoverflow.com/a/11156353/915743
