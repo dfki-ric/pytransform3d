@@ -230,3 +230,24 @@ Testing
    ~pytransform.camera.cam2sensor
    ~pytransform.camera.sensor2img
    ~pytransform.camera.world2image
+
+
+:mod:`pytransform.plot_utils`
+=============================
+
+.. automodule:: pytransform.plot_utils
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform.plot_utils.make_3d_axis
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform.plot_utils.Arrow3D
+   ~pytransform.plot_utils.Frame
