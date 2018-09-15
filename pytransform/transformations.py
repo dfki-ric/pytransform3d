@@ -5,6 +5,7 @@ from .rotations import (random_quaternion, random_vector,
                         plot_basis, assert_rotation_matrix, check_matrix,
                         norm_vector, axis_angle_from_matrix,
                         matrix_from_axis_angle)
+from .plot_utils import Frame, make_3d_axis
 from numpy.testing import assert_array_almost_equal
 
 
@@ -346,19 +347,15 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):
     ax : Matplotlib 3d axis
         New or old axis
     """
+    if ax is None:
+        ax = make_3d_axis(ax_s)
+
     if A2B is None:
         A2B = np.eye(4)
     A2B = check_transform(A2B)
 
-    R = A2B[:3, :3]
-    p = A2B[:3, 3]
-    ax = plot_basis(ax, R, p, s, ax_s, **kwargs)
-
-    if name is not None:
-        label_pos = p + 0.5 * s * (R[:, 0] + R[:, 1] + R[:, 2])
-        ax.plot([p[0], label_pos[0]], [p[1], label_pos[1]],
-                [p[2], label_pos[2]], color="k")
-        ax.text(label_pos[0], label_pos[1], label_pos[2], name)
+    frame = Frame(A2B, name, s)
+    frame.add_frame(ax)
 
     return ax
 
