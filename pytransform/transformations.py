@@ -354,7 +354,7 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):
         A2B = np.eye(4)
     A2B = check_transform(A2B)
 
-    frame = Frame(A2B, name, s)
+    frame = Frame(A2B, name, s, **kwargs)
     frame.add_frame(ax)
 
     return ax
