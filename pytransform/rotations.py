@@ -1,6 +1,6 @@
 """Rotations in three dimensions - SO(3)."""
 import numpy as np
-from .plot_utils import Arrow3D, make_3d_axis
+from .plot_utils import Frame, Arrow3D, make_3d_axis
 from numpy.testing import assert_array_almost_equal
 
 
@@ -979,15 +979,14 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
 
     if R is None:
         R = np.eye(3)
+    R = check_matrix(R)
 
-    for d, c in enumerate(["r", "g", "b"]):
-        if "lw" not in kwargs:
-            kwargs["lw"] = 3
-        if "c" in kwargs:
-            kwargs.pop("c")
-        ax.plot([p[0], p[0] + s * R[0, d]],
-                [p[1], p[1] + s * R[1, d]],
-                [p[2], p[2] + s * R[2, d]], color=c, **kwargs)
+    A2B = np.eye(4)
+    A2B[:3, :3] = R
+    A2B[:3, 3] = p
+
+    frame = Frame(A2B, s=s, **kwargs)
+    frame.add_frame(ax)
 
     return ax
 
