@@ -2,7 +2,7 @@
 import numpy as np
 from .rotations import (random_quaternion, random_vector,
                         matrix_from_quaternion, quaternion_from_matrix,
-                        plot_basis, assert_rotation_matrix, check_matrix,
+                        assert_rotation_matrix, check_matrix,
                         norm_vector, axis_angle_from_matrix,
                         matrix_from_axis_angle)
 from .plot_utils import Frame, make_3d_axis
