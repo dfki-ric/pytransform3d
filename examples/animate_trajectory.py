@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
 from pytransform.plot_utils import Trajectory
-from pytransform.rotations import matrix_from_angle, unitx, R_id
+from pytransform.rotations import matrix_from_angle, R_id
 from pytransform.transformations import transform_from, concat
 
 
@@ -23,7 +23,7 @@ def update_trajectory(step, n_frames, trajectory):
     H0 = transform_from(R_id, np.zeros(3))
     H_mod = np.eye(4)
     for i, t in enumerate(np.linspace(0, progress, len(H))):
-        H0[:3, 3] = t * unitx
+        H0[:3, 3] = np.array([t, 0, t])
         H_mod[:3, :3] = matrix_from_angle(2, 8 * np.pi * t)
         H[i] = concat(H0, H_mod)
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     H = np.zeros((100, 4, 4))
     H[:] = np.eye(4)
-    trajectory = Trajectory(H, show_direction=False, s=0.2)
+    trajectory = Trajectory(H, show_direction=False, s=0.2, c="k")
     trajectory.add_trajectory(ax)
 
     anim = animation.FuncAnimation(
