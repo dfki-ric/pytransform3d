@@ -70,12 +70,4 @@ def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10, s=1.0, ax
     trajectory = Trajectory(H, show_direction, n_frames, s)
     trajectory.add_trajectory(ax)
 
-    if show_direction:
-        start = 0.8 * P[0, :3] + 0.2 * P[-1, :3]
-        end = 0.2 * P[0, :3] + 0.8 * P[-1, :3]
-        direction_arrow = Arrow3D(
-            [start[0], end[0]], [start[1], end[1]], [start[2], end[2]],
-            mutation_scale=20, lw=1, arrowstyle="-|>", color="k")
-        ax.add_artist(direction_arrow)
-
     return ax

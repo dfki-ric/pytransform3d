@@ -119,11 +119,16 @@ class Trajectory(artist.Artist):
     def __init__(self, H, show_direction=True, n_frames=10, s=1.0, **kwargs):
         super(Trajectory, self).__init__()
 
+        self.show_direction = show_direction
+
         self.trajectory = Line3D([], [], [], **kwargs)
         self.key_frames = [Frame(np.eye(4), s=s, **kwargs)
                            for _ in range(n_frames)]
 
-        # TODO show_direction
+        if self.show_direction:
+            self.direction_arrow = Arrow3D(
+                [0, 0], [0, 0], [0, 0],
+                mutation_scale=20, lw=1, arrowstyle="-|>", color="k")
 
         self.set_data(H)
 
@@ -144,24 +149,49 @@ class Trajectory(artist.Artist):
         for i, key_frame_idx in enumerate(key_frames_indices):
             self.key_frames[i].set_data(H[key_frame_idx])
 
+        if self.show_direction:
+            start = 0.8 * positions[0] + 0.2 * positions[-1]
+            end = 0.2 * positions[0] + 0.8 * positions[-1]
+            self.direction_arrow.set_data(
+                [start[0], end[0]], [start[1], end[1]], [start[2], end[2]])
+
     @artist.allow_rasterization
     def draw(self, renderer, *args, **kwargs):
         """Draw the artist."""
         self.trajectory.draw(renderer, *args, **kwargs)
         for key_frame in self.key_frames:
             key_frame.draw(renderer, *args, **kwargs)
+        if self.show_direction:
+            self.direction_arrow.draw(renderer)
 
     def add_trajectory(self, axis):
         """Add the trajectory to a 3D axis."""
         axis.add_line(self.trajectory)
         for key_frame in self.key_frames:
             key_frame.add_frame(axis)
+        axis.add_artist(self.direction_arrow)
 
 
 class Arrow3D(FancyArrowPatch):  # http://stackoverflow.com/a/11156353/915743
     """A Matplotlib patch that represents an arrow in 3D."""
     def __init__(self, xs, ys, zs, *args, **kwargs):
         super(Arrow3D, self).__init__((0, 0), (0, 0), *args, **kwargs)
+        self._verts3d = xs, ys, zs
+
+    def set_data(self, xs, ys, zs):
+        """Set the arrow data.
+
+        Parameters
+        ----------
+        xs : iterable
+            List of x positions
+
+        ys : iterable
+            List of y positions
+
+        zs : iterable
+            List of z positions
+        """
         self._verts3d = xs, ys, zs
 
     def draw(self, renderer):
