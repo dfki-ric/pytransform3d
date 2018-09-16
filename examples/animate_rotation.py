@@ -1,7 +1,7 @@
 """
-========
-Rotation
-========
+================
+Animate Rotation
+================
 
 Animates a rotation about the x-axis.
 """
