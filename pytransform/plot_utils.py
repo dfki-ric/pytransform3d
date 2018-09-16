@@ -87,6 +87,7 @@ class Frame(artist.Artist):
         if self.draw_label:
             self.label_indicator.draw(renderer, *args, **kwargs)
             self.label_text.draw(renderer, *args, **kwargs)
+        super(Frame, self).draw(renderer, *args, **kwargs)
 
     def add_frame(self, axis):
         """Add the frame to a 3D axis."""
@@ -163,13 +164,15 @@ class Trajectory(artist.Artist):
             key_frame.draw(renderer, *args, **kwargs)
         if self.show_direction:
             self.direction_arrow.draw(renderer)
+        super(Trajectory, self).draw(renderer, *args, **kwargs)
 
     def add_trajectory(self, axis):
         """Add the trajectory to a 3D axis."""
         axis.add_line(self.trajectory)
         for key_frame in self.key_frames:
             key_frame.add_frame(axis)
-        axis.add_artist(self.direction_arrow)
+        if self.show_direction:
+            axis.add_artist(self.direction_arrow)
 
 
 class Arrow3D(FancyArrowPatch):  # http://stackoverflow.com/a/11156353/915743

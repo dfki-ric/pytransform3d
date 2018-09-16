@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     H = np.zeros((100, 4, 4))
     H[:] = np.eye(4)
-    trajectory = Trajectory(H, show_direction=True, s=0.2)
+    trajectory = Trajectory(H, show_direction=False, s=0.2)
     trajectory.add_trajectory(ax)
 
     anim = animation.FuncAnimation(
