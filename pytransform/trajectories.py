@@ -1,7 +1,7 @@
 """Trajectories in three dimensions (position and orientation)."""
 import numpy as np
-from .plot_utils import Arrow3D, Trajectory, make_3d_axis
-from .rotations import matrix_from_quaternion, plot_basis
+from .plot_utils import Trajectory, make_3d_axis
+from .rotations import matrix_from_quaternion
 
 
 def matrices_from_pos_quat(P):
