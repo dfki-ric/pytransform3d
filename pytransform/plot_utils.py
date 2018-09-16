@@ -1,8 +1,9 @@
 """Utilities for plotting."""
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import artist
 from matplotlib.patches import FancyArrowPatch
-from mpl_toolkits.mplot3d import Axes3D
+#from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d import proj3d
 from mpl_toolkits.mplot3d.art3d import Line3D, Text3D
 
@@ -79,13 +80,13 @@ class Frame(artist.Artist):
             self.label_text.set_3d_properties(label_pos[2])
 
     @artist.allow_rasterization
-    def draw(self, renderer):
+    def draw(self, renderer, *args, **kwargs):
         """Draw the artist."""
         for b in [self.x_axis, self.y_axis, self.z_axis]:
-            b.draw(renderer)
+            b.draw(renderer, *args, **kwargs)
         if self.draw_label:
-            self.label_indicator.draw(renderer)
-            self.label_text.draw(renderer)
+            self.label_indicator.draw(renderer, *args, **kwargs)
+            self.label_text.draw(renderer, *args, **kwargs)
 
     def add_frame(self, axis):
         """Add the frame to a 3D axis."""
@@ -94,6 +95,67 @@ class Frame(artist.Artist):
         if self.draw_label:
             axis.add_line(self.label_indicator)
             axis._add_text(self.label_text)
+
+
+class Trajectory(artist.Artist):
+    """A Matplotlib artist that displays a trajectory.
+
+    Parameters
+    ----------
+    H : array-like, shape (n_steps, 4, 4)
+        Sequence of poses represented by homogeneous matrices
+
+    show_direction : bool, optional (default: True)
+        Plot an arrow to indicate the direction of the trajectory
+
+    n_frames : int, optional (default: 10)
+        Number of frames that should be plotted to indicate the rotation
+
+    s : float, optional (default: 1)
+        Scaling of the frames that will be drawn
+
+    Other arguments are passed onto Line3D.
+    """
+    def __init__(self, H, show_direction=True, n_frames=10, s=1.0, **kwargs):
+        super(Trajectory, self).__init__()
+
+        self.trajectory = Line3D([], [], [], **kwargs)
+        self.key_frames = [Frame(np.eye(4), s=s, **kwargs)
+                           for _ in range(n_frames)]
+
+        # TODO show_direction
+
+        self.set_data(H)
+
+    def set_data(self, H):
+        """Set the trajectory data.
+
+        Parameters
+        ----------
+        H : array-like, shape (n_steps, 4, 4)
+            Sequence of poses represented by homogeneous matrices
+        """
+        positions = H[:, :3, 3]
+        self.trajectory.set_data(positions[:, 0], positions[:, 1])
+        self.trajectory.set_3d_properties(positions[:, 2])
+
+        key_frames_indices = np.linspace(
+            0, len(H) - 1, len(self.key_frames), dtype=np.int)
+        for i, key_frame_idx in enumerate(key_frames_indices):
+            self.key_frames[i].set_data(H[key_frame_idx])
+
+    @artist.allow_rasterization
+    def draw(self, renderer, *args, **kwargs):
+        """Draw the artist."""
+        self.trajectory.draw(renderer, *args, **kwargs)
+        for key_frame in self.key_frames:
+            key_frame.draw(renderer, *args, **kwargs)
+
+    def add_trajectory(self, axis):
+        """Add the trajectory to a 3D axis."""
+        axis.add_line(self.trajectory)
+        for key_frame in self.key_frames:
+            key_frame.add_frame(axis)
 
 
 class Arrow3D(FancyArrowPatch):  # http://stackoverflow.com/a/11156353/915743

@@ -251,3 +251,4 @@ Testing
 
    ~pytransform.plot_utils.Arrow3D
    ~pytransform.plot_utils.Frame
+   ~pytransform.plot_utils.Trajectory

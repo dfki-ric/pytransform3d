@@ -1,6 +1,6 @@
 """Trajectories in three dimensions (position and orientation)."""
 import numpy as np
-from .plot_utils import Arrow3D, make_3d_axis
+from .plot_utils import Arrow3D, Trajectory, make_3d_axis
 from .rotations import matrix_from_quaternion, plot_basis
 
 
@@ -66,11 +66,9 @@ def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10, s=1.0, ax
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    ax.plot(P[:, 0], P[:, 1], P[:, 2], **kwargs)
-
-    key_frames = np.linspace(0, P.shape[0] - 1, n_frames).astype(np.int)
-    for p in P[key_frames]:
-        plot_basis(ax, matrix_from_quaternion(p[3:]), p[:3], s=s, **kwargs)
+    H = matrices_from_pos_quat(P)
+    trajectory = Trajectory(H, show_direction, n_frames, s)
+    trajectory.add_trajectory(ax)
 
     if show_direction:
         start = 0.8 * P[0, :3] + 0.2 * P[-1, :3]
