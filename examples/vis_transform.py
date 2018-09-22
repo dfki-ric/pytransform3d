@@ -1,19 +1,24 @@
 import sys
 import numpy as np
 from PyQt4.QtGui import QApplication
-from PyQt4.QtCore import QThread
+from PyQt4.QtCore import QThread, pyqtSignal
 import pyqtgraph.opengl as gl
 import pytransform.rotations as pr
 import pytransform.transformations as pt
-
-
+# could be moved to library:
 from OpenGL.GL import (
-    glEnable, GL_LINE_SMOOTH, glHint, GL_LINE_SMOOTH_HINT,
-    GL_NICEST, glBegin, GL_LINES, glColor4f, glVertex3f, glLineWidth, glEnd)
-class GLFrameItem(gl.GLGraphicsItem.GLGraphicsItem):
+    glEnable, GL_LINE_SMOOTH, glHint, GL_LINE_SMOOTH_HINT, GL_NICEST, glBegin,
+    GL_LINES, glColor4f, glVertex3f, glLineWidth, glEnd, GL_BLEND, glBlendFunc,
+    GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+from PyQt4.QtGui import QVector3D
+from pyqtgraph.Transform3D import Transform3D
+from pyqtgraph.opengl.GLGraphicsItem import GLGraphicsItem
+
+
+class GLFrameItem(GLGraphicsItem):
     def __init__(self, A2B, s=1.0, lw=1.0, antialias=True,
                  glOptions='translucent'):
-        super(GLFrameItem, self).__init__()
+        GLGraphicsItem.__init__(self)
 
         self.A2B_ = A2B
 
@@ -33,8 +38,8 @@ class GLFrameItem(gl.GLGraphicsItem.GLGraphicsItem):
     def size(self):
         return self.__size[:]
 
-    def set_data(self, A2B):
-        self.A2B_ = A2B
+    def setData(self, *args):
+        self.A2B_ = np.reshape(args, (4, 4))
         self.update()
 
     def paint(self):
@@ -60,25 +65,19 @@ class GLFrameItem(gl.GLGraphicsItem.GLGraphicsItem):
         glEnd()
 
 
-from OpenGL.GL import (GL_BLEND, glBlendFunc, GL_SRC_ALPHA,
-                       GL_ONE_MINUS_SRC_ALPHA)
-from PyQt4.QtGui import QVector3D
-class GLRefItem(gl.GLGraphicsItem.GLGraphicsItem):
-    def __init__(self, size=None, color=None, antialias=True,
-                 glOptions='translucent'):
-        gl.GLGraphicsItem.GLGraphicsItem.__init__(self)
+class GLRefItem(GLGraphicsItem):
+    def __init__(self, transform=None, size=None, antialias=True, glOptions='translucent'):
+        GLGraphicsItem.__init__(self)
         self.setGLOptions(glOptions)
         self.antialias = antialias
+        if transform is not None:
+            self.setTransform(Transform3D(*np.ravel(transform).tolist()))
         if size is None:
             size = QVector3D(20, 20, 1)
         self.setSize(size=size)
         self.setSpacing(1, 1, 1)
 
     def setSize(self, x=None, y=None, z=None, size=None):
-        """
-        Set the size of the axes (in its local coordinate system; this does not affect the transform)
-        Arguments can be x,y,z or size=QVector3D().
-        """
         if size is not None:
             x = size.x()
             y = size.y()
@@ -90,10 +89,6 @@ class GLRefItem(gl.GLGraphicsItem.GLGraphicsItem):
         return self.__size[:]
 
     def setSpacing(self, x=None, y=None, z=None, spacing=None):
-        """
-        Set the spacing between grid lines.
-        Arguments can be x,y,z or spacing=QVector3D().
-        """
         if spacing is not None:
             x = spacing.x()
             y = spacing.y()
@@ -130,58 +125,79 @@ class GLRefItem(gl.GLGraphicsItem.GLGraphicsItem):
         glEnd()
 
 
-class Worker(QThread):
-    def __init__(self, view):
-        super(Worker, self).__init__()
-        self.view = view
+class AnimationThread(QThread):
+    # for each provided transformation we define a new signal
+    new_A = pyqtSignal(
+        float, float, float, float,
+        float, float, float, float,
+        float, float, float, float,
+        float, float, float, float)
+    new_B = pyqtSignal(
+        float, float, float, float,
+        float, float, float, float,
+        float, float, float, float,
+        float, float, float, float)
+
+    def __init__(self):
+        super(AnimationThread, self).__init__()
 
     def __del__(self):
         self.wait()
 
     def run(self):
         i = 1.0
-        frame = GLFrameItem(A2B=np.eye(4))
-        self.view.addItem(frame)
+        cycle_length = 1000.0
         while True:
-            self.msleep(1)
-            t = i / 1000.0
-            A2B = pt.transform_from(
-                R=pr.matrix_from_euler_xyz([t * np.pi * 2.0, 0, 0]),
-                p=np.array([5, 5, 5.0 * np.sin(t)])
+            if i % cycle_length == 0.0:
+                self.msleep(200)
+                i = 0.0
+            t = i / cycle_length * np.pi * 2.0
+
+            A = pt.transform_from(
+                R=pr.matrix_from_angle(0, t),
+                p=np.array([-5.0 * np.sin(t), 5.0 * np.cos(t), 5.0 * np.sin(t)])
             )
-            frame.set_data(A2B)
+            self.new_A.emit(*np.ravel(A).tolist())
+
+            B = pt.transform_from(
+                R=pr.matrix_from_angle(1, t),
+                p=np.array([5.0 * np.cos(t), -5.0 * np.sin(t), 5.0 * np.sin(t)])
+            )
+            self.new_B.emit(*np.ravel(B).tolist())
+
             i += 1.0
 
 
 app = QApplication(sys.argv)
 
 view = gl.GLViewWidget()
-view.opts["distance"] = 20
+view.setCameraPosition(distance=50)
 view.setBackgroundColor(255, 255, 255)
 view.setWindowTitle("Example")
 view.setFixedSize(800, 600)
 view.show()
 
-grid = GLRefItem()
-view.addItem(grid)
+# add grids
+view.addItem(GLRefItem())
+view.addItem(GLRefItem(pt.transform_from(
+    R=pr.matrix_from_angle(0, np.pi / 2.0), p=np.zeros(3))))
+view.addItem(GLRefItem(pt.transform_from(
+    R=pr.matrix_from_angle(1, np.pi / 2.0), p=np.zeros(3))))
 
-from pyqtgraph.Transform3D import Transform3D
-grid = GLRefItem()
-grid_origin = pt.transform_from(
-    R=pr.matrix_from_angle(0, np.pi / 2.0), p=np.zeros(3))
-grid.setTransform(Transform3D(*np.ravel(grid_origin).tolist()))
-view.addItem(grid)
-
-grid = GLRefItem()
-grid_origin = pt.transform_from(
-    R=pr.matrix_from_angle(1, np.pi / 2.0), p=np.zeros(3))
-grid.setTransform(Transform3D(*np.ravel(grid_origin).tolist()))
-view.addItem(grid)
-
-origin = GLFrameItem(np.eye(4), s=10, lw=5.0)
+# add base coordinate system
+origin = GLFrameItem(np.eye(4), s=10, lw=10.0)
 view.addItem(origin)
 
-worker = Worker(view)
+# add frames that will be animated
+animated_frame_A = GLFrameItem(np.eye(4), s=3, lw=3)
+view.addItem(animated_frame_A)
+animated_frame_B = GLFrameItem(np.eye(4), s=3, lw=3)
+view.addItem(animated_frame_B)
+
+worker = AnimationThread()
+# here we connect producer and consumers
+worker.new_A.connect(animated_frame_A.setData)
+worker.new_B.connect(animated_frame_B.setData)
 worker.start()
 
 app.exec_()
