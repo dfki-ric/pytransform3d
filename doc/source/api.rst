@@ -9,7 +9,7 @@ You can search for specific modules, classes or functions in the
 
 
 :mod:`pytransform3d.rotations`
-============================
+==============================
 
 .. automodule:: pytransform3d.rotations
     :no-members:
@@ -130,7 +130,7 @@ Testing
 
 
 :mod:`pytransform3d.transformations`
-==================================
+====================================
 
 .. automodule:: pytransform3d.transformations
     :no-members:
@@ -158,7 +158,7 @@ Testing
 
 
 :mod:`pytransform3d.trajectories`
-===============================
+=================================
 
 .. automodule:: pytransform3d.trajectories
     :no-members:
@@ -173,7 +173,7 @@ Testing
 
 
 :mod:`pytransform3d.transform_manager`
-====================================
+======================================
 
 .. automodule:: pytransform3d.transform_manager
     :no-members:
@@ -187,7 +187,7 @@ Testing
 
 
 :mod:`pytransform3d.editor`
-=========================
+===========================
 
 .. automodule:: pytransform3d.editor
     :no-members:
@@ -201,7 +201,7 @@ Testing
 
 
 :mod:`pytransform3d.urdf`
-=======================
+=========================
 
 .. automodule:: pytransform3d.urdf
     :no-members:
@@ -215,7 +215,7 @@ Testing
 
 
 :mod:`pytransform3d.camera`
-=========================
+===========================
 
 .. automodule:: pytransform3d.camera
     :no-members:
@@ -233,7 +233,7 @@ Testing
 
 
 :mod:`pytransform3d.plot_utils`
-=============================
+===============================
 
 .. automodule:: pytransform3d.plot_utils
     :no-members:

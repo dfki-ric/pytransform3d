@@ -115,9 +115,9 @@ if "%1" == "qthelp" (
 	echo.
 	echo.Build finished; now you can run "qcollectiongenerator" with the ^
 .qhcp project file in %BUILDDIR%/qthelp, like this:
-	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\pytransform.qhcp
+	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\pytransform3d.qhcp
 	echo.To view the help file:
-	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\pytransform.ghc
+	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\pytransform3d.ghc
 	goto end
 )
 

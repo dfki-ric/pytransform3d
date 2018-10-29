@@ -3,7 +3,7 @@
 Pose Trajectory
 ===============
 
-Plotting pose trajectories with pytransform is easy.
+Plotting pose trajectories with pytransform3d is easy.
 """
 print(__doc__)
 

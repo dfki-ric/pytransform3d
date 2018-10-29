@@ -45,7 +45,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            nosetests pytransform
+            nosetests pytransform3d
 
       - store_artifacts:
           path: cover

@@ -1,7 +1,7 @@
-[![Travis Status](https://travis-ci.org/rock-learning/pytransform.svg?branch=master)](https://travis-ci.org/rock-learning/pytransform)
-[![CircleCI Status](https://circleci.com/gh/rock-learning/pytransform/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/pytransform)
+[![Travis Status](https://travis-ci.org/rock-learning/pytransform3d.svg?branch=master)](https://travis-ci.org/rock-learning/pytransform3d)
+[![CircleCI Status](https://circleci.com/gh/rock-learning/pytransform3d/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/pytransform3d)
 
-# pytransform
+# pytransform3d
 
 A Python library for transformations in three dimensions.
 
@@ -40,7 +40,7 @@ software:
 * Visualization: Finally, transformations should be visually verified
   and that should be as easy as possible.
 
-pytransform assists in solving these issues. Its documentation clearly
+pytransform3d assists in solving these issues. Its documentation clearly
 states all of the used conventions, it makes conversions between rotation
 and transformation conventions as easy as possible, it is tightly coupled
 with Matplotlib to quickly visualize (or animate) transformations and it
@@ -48,7 +48,7 @@ is written in Python with few dependencies. Python is a widely adopted
 language. It is used in many domains and supports a wide spectrum of
 communication to other software.
 
-In addition, pytransform offers...
+In addition, pytransform3d offers...
 
 * the TransformManager which manages complex chains of transformations
 * the TransformEditor which allows to modify transformations graphically
@@ -57,7 +57,7 @@ In addition, pytransform offers...
   [URDF](http://wiki.ros.org/urdf) files (additionally requires
   beautifulsoup4)
 
-pytransform is used in various domains, for example:
+pytransform3d is used in various domains, for example:
 
 * specifying motions of a robot
 * learning robot movements from human demonstration
@@ -78,7 +78,7 @@ Install the package with:
 ## Documentation
 
 The API documentation can be found
-[here](https://rock-learning.github.io/pytransform/).
+[here](https://rock-learning.github.io/pytransform3d/).
 
 The docmentation of this project can be found in the directory `doc`.
 Note that currently sphinx 1.6.7 is required to build the documentation.
@@ -98,9 +98,9 @@ This is just one simple example. You can find more examples in the subfolder
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
-import pytransform.rotations as pr
-import pytransform.transformations as pt
-from pytransform.transform_manager import TransformManager
+import pytransform3d.rotations as pr
+import pytransform3d.transformations as pt
+from pytransform3d.transform_manager import TransformManager
 
 
 random_state = np.random.RandomState(0)
@@ -127,7 +127,7 @@ ax.set_zlim((0.0, 1.0))
 plt.show()
 ```
 
-![output](https://rock-learning.github.io/pytransform/_images/plot_transform_manager.png)
+![output](https://rock-learning.github.io/pytransform3d/_images/plot_transform_manager.png)
 
 ## Tests
 
@@ -144,5 +144,5 @@ GUI.
 ## Contributing
 
 If you wish to report bugs, please use the issue tracker at Github.
-If you would like to contribute to pytransform, just open an issue or
+If you would like to contribute to pytransform3d, just open an issue or
 a merge request.
