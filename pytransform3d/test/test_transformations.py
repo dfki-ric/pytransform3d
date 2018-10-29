@@ -1,12 +1,12 @@
 import numpy as np
-from pytransform.transformations import (random_transform, transform_from,
-                                         invert_transform, vector_to_point,
-                                         concat, transform, scale_transform,
-                                         assert_transform, check_transform,
-                                         check_pq, pq_from_transform,
-                                         transform_from_pq)
-from pytransform.rotations import (matrix_from, random_axis_angle,
-                                   random_vector, axis_angle_from_matrix)
+from pytransform3d.transformations import (random_transform, transform_from,
+                                           invert_transform, vector_to_point,
+                                           concat, transform, scale_transform,
+                                           assert_transform, check_transform,
+                                           check_pq, pq_from_transform,
+                                           transform_from_pq)
+from pytransform3d.rotations import (matrix_from, random_axis_angle,
+                                     random_vector, axis_angle_from_matrix)
 from nose.tools import assert_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 

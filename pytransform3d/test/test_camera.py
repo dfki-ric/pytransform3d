@@ -1,8 +1,8 @@
 import numpy as np
-from pytransform.camera import (make_world_line, make_world_grid, cam2sensor,
-                                sensor2img, world2image)
-from pytransform.rotations import matrix_from_euler_xyz
-from pytransform.transformations import transform_from
+from pytransform3d.camera import (make_world_line, make_world_grid, cam2sensor,
+                                  sensor2img, world2image)
+from pytransform3d.rotations import matrix_from_euler_xyz
+from pytransform3d.transformations import transform_from
 from nose.tools import (assert_raises_regexp, assert_false, assert_in,
                         assert_equal)
 from numpy.testing import assert_array_almost_equal

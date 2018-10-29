@@ -12,7 +12,7 @@ print(__doc__)
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from pytransform.rotations import *
+from pytransform3d.rotations import *
 
 
 ax = plot_basis(R=np.eye(3), ax_s=2)

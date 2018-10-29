@@ -3,13 +3,13 @@ branch = True
 source = pytransform
 omit =
     */setup.py
-    pytransform/plot_utils.py
-    pytransform/editor.py
+    pytransform3d/plot_utils.py
+    pytransform3d/editor.py
 
 [report]
 omit =
-    pytransform/plot_utils.py
-    pytransform/editor.py
+    pytransform3d/plot_utils.py
+    pytransform3d/editor.py
 exclude_lines =
     pragma: no cover
     def plot_*

@@ -1,6 +1,6 @@
 import numpy as np
-from pytransform.urdf import UrdfTransformManager, UrdfException
-from pytransform.transformations import transform_from
+from pytransform3d.urdf import UrdfTransformManager, UrdfException
+from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
 from nose.tools import assert_raises, assert_equal
 

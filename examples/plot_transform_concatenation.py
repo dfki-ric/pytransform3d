@@ -12,8 +12,8 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-import pytransform.rotations as pyrot
-import pytransform.transformations as pytr
+import pytransform3d.rotations as pyrot
+import pytransform3d.transformations as pytr
 
 
 p = np.array([0.0, 0.0, -0.5])

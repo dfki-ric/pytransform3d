@@ -12,8 +12,8 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.transformations import plot_transform
-from pytransform.camera import make_world_grid, cam2sensor, sensor2img
+from pytransform3d.transformations import plot_transform
+from pytransform3d.camera import make_world_grid, cam2sensor, sensor2img
 
 
 focal_length = 0.2

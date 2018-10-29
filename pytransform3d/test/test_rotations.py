@@ -2,7 +2,7 @@ import numpy as np
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 from nose.tools import (assert_almost_equal, assert_equal, assert_true,
                         assert_greater, assert_raises_regexp)
-from pytransform.rotations import *
+from pytransform3d.rotations import *
 
 
 def test_norm_vector():

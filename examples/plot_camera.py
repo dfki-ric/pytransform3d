@@ -13,9 +13,9 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.rotations import matrix_from_euler_xyz
-from pytransform.transformations import transform_from, plot_transform
-from pytransform.camera import make_world_grid, world2image
+from pytransform3d.rotations import matrix_from_euler_xyz
+from pytransform3d.transformations import transform_from, plot_transform
+from pytransform3d.camera import make_world_grid, world2image
 
 
 cam2world = transform_from(matrix_from_euler_xyz([np.pi - 1, 0.2, 0.2]),

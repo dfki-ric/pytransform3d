@@ -11,10 +11,10 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.rotations import (random_quaternion, matrix_from_euler_xyz,
-                                   q_id)
-from pytransform.transformations import transform_from_pq, transform_from
-from pytransform.transform_manager import TransformManager
+from pytransform3d.rotations import (random_quaternion, matrix_from_euler_xyz,
+                                     q_id)
+from pytransform3d.transformations import transform_from_pq, transform_from
+from pytransform3d.transform_manager import TransformManager
 
 
 random_state = np.random.RandomState(0)

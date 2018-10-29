@@ -2,9 +2,9 @@ import os
 import pickle
 import tempfile
 import numpy as np
-from pytransform.transformations import (random_transform, invert_transform,
-                                         concat)
-from pytransform.transform_manager import TransformManager
+from pytransform3d.transformations import (random_transform, invert_transform,
+                                           concat)
+from pytransform3d.transform_manager import TransformManager
 from numpy.testing import assert_array_almost_equal
 from nose.tools import (assert_raises_regexp, assert_equal, assert_true,
                         assert_false)

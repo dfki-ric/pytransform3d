@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 from setuptools import setup
-import pytransform
+import pytransform3d
 
 
 if __name__ == "__main__":
     with open("README.md", "r") as f:
         long_description = f.read()
-    setup(name='pytransform',
-          version=pytransform.__version__,
+    setup(name='pytransform3d',
+          version=pytransform3d.__version__,
           author='Alexander Fabisch',
           author_email='afabisch@googlemail.com',
-          url='https://git.hb.dfki.de/besman/pytransform',
+          url='https://github.com/rock-learning/pytransform',
           description='3D transformations for Python',
           long_description=long_description,
           long_description_content_type="text/markdown",
@@ -23,6 +23,6 @@ if __name__ == "__main__":
               "Topic :: Scientific/Engineering :: Visualization",
           ],
           license='New BSD',
-          packages=['pytransform'],
+          packages=['pytransform3d'],
           requires=["numpy", "scipy", "lxml", "bs4"]
-    )
+          )

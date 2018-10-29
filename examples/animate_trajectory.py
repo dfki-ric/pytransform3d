@@ -12,9 +12,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
-from pytransform.plot_utils import Trajectory
-from pytransform.rotations import matrix_from_angle, R_id
-from pytransform.transformations import transform_from, concat
+from pytransform3d.plot_utils import Trajectory
+from pytransform3d.rotations import matrix_from_angle, R_id
+from pytransform3d.transformations import transform_from, concat
 
 
 def update_trajectory(step, n_frames, trajectory):

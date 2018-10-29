@@ -10,8 +10,8 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.rotations import (random_axis_angle, matrix_from_axis_angle,
-                                   plot_basis, plot_axis_angle)
+from pytransform3d.rotations import (random_axis_angle, matrix_from_axis_angle,
+                                     plot_basis, plot_axis_angle)
 
 
 original = random_axis_angle(np.random.RandomState(0))

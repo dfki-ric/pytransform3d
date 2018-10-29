@@ -12,9 +12,9 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.plot_utils import make_3d_axis
-from pytransform.transformations import random_transform
-from pytransform.transform_manager import TransformManager
+from pytransform3d.plot_utils import make_3d_axis
+from pytransform3d.transformations import random_transform
+from pytransform3d.transform_manager import TransformManager
 
 
 random_state = np.random.RandomState(0)

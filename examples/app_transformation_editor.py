@@ -5,10 +5,10 @@ Transformation Editor
 
 The transformation editor can be used to manipulate transformations.
 """
-from pytransform.transform_manager import TransformManager
-from pytransform.editor import TransformEditor
-from pytransform.transformations import transform_from
-from pytransform.rotations import matrix_from_euler_xyz
+from pytransform3d.transform_manager import TransformManager
+from pytransform3d.editor import TransformEditor
+from pytransform3d.transformations import transform_from
+from pytransform3d.rotations import matrix_from_euler_xyz
 
 
 tm = TransformManager()

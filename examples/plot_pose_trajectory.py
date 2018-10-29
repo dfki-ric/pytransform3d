@@ -10,8 +10,8 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform.rotations import q_id, quaternion_slerp
-from pytransform.trajectories import plot_trajectory
+from pytransform3d.rotations import q_id, quaternion_slerp
+from pytransform3d.trajectories import plot_trajectory
 
 
 n_steps = 100

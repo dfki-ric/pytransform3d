@@ -12,8 +12,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
-from pytransform.plot_utils import Frame
-from pytransform.rotations import *
+from pytransform3d.plot_utils import Frame
+from pytransform3d.rotations import *
 
 
 def update_frame(step, n_frames, frame):

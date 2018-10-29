@@ -17,7 +17,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
-from pytransform.rotations import *
+from pytransform3d.rotations import *
 
 
 velocity = None

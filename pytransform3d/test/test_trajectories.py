@@ -1,7 +1,7 @@
 import numpy as np
-from pytransform.trajectories import matrices_from_pos_quat
-from pytransform.rotations import (random_quaternion, quaternion_from_matrix,
-                                   assert_quaternion_equal)
+from pytransform3d.trajectories import matrices_from_pos_quat
+from pytransform3d.rotations import (random_quaternion, quaternion_from_matrix,
+                                     assert_quaternion_equal)
 from numpy.testing import assert_array_almost_equal
 
 
