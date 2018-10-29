@@ -79,7 +79,7 @@ right-handed system and with the left hand in a left-handed system.
 
 .. note::
 
-    The default in pytransform is a right-handed coordinate system.
+    The default in pytransform3d is a right-handed coordinate system.
 
 -------------------------------------------------
 Active (Alibi) vs. Passive (Alias) Transformation
@@ -126,8 +126,8 @@ at its original position but it is interpreted in the new frame.
     import numpy as np
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import proj3d
-    from pytransform.transformations import transform, plot_transform
-    from pytransform.plot_utils import Arrow3D
+    from pytransform3d.transformations import transform, plot_transform
+    from pytransform3d.plot_utils import Arrow3D
 
 
     plt.figure()
@@ -182,8 +182,8 @@ at its original position but it is interpreted in the new frame.
     import numpy as np
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import proj3d
-    from pytransform.transformations import transform, plot_transform
-    from pytransform.plot_utils import Arrow3D
+    from pytransform3d.transformations import transform, plot_transform
+    from pytransform3d.plot_utils import Arrow3D
 
 
     plt.figure()
@@ -259,7 +259,7 @@ Its transformed version is usually used for a passive transformation:
 
 .. note::
 
-    The default in pytransform are passive transformations.
+    The default in pytransform3d are passive transformations.
 
 Reference:
 
@@ -296,15 +296,15 @@ frame, make sure you understand what is meant.
 
 .. note::
 
-    The default in pytransform is source in target.
+    The default in pytransform3d is source in target.
 
 .. plot::
 
     import numpy as np
     import matplotlib.pyplot as plt
-    from pytransform.rotations import random_quaternion, q_id
-    from pytransform.transformations import transform_from_pq
-    from pytransform.transform_manager import TransformManager
+    from pytransform3d.rotations import random_quaternion, q_id
+    from pytransform3d.transformations import transform_from_pq
+    from pytransform3d.transform_manager import TransformManager
 
 
     random_state = np.random.RandomState(0)
@@ -343,7 +343,7 @@ matrices depending on how we multiply them to points.
 
 .. note::
 
-    The default in pytransform are pre-multiplied rotation matrices.
+    The default in pytransform3d are pre-multiplied rotation matrices.
 
 --------------------------------
 Intrinsic vs. Extrinsic Rotation
@@ -378,7 +378,7 @@ can be called and intrinsic rotation.
     import numpy as np
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
-    from pytransform.rotations import *
+    from pytransform3d.rotations import *
 
 
     ax = plot_basis(R=np.eye(3), p=np.array([-1.0, 0.0, 0.0]), ax_s=2)
@@ -396,4 +396,4 @@ can be called and intrinsic rotation.
 
 .. note::
 
-    The default in pytransform are intrinsic rotations.
+    The default in pytransform3d are intrinsic rotations.

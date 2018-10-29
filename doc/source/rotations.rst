@@ -10,13 +10,13 @@ look at competing representations of rotations and the orientations they can
 describe.
 
 Here is an overview of the representations and the conversions between them
-that are available in pytransform.
+that are available in pytransform3d.
 
 .. image:: _static/rotations.svg
    :alt: Rotations
    :align: center
 
-The following example illustrates the usage of pytransform to perform these
+The following example illustrates the usage of pytransform3d to perform these
 conversions.
 
 .. plot:: ../../examples/plot_compare_rotations.py
@@ -98,7 +98,7 @@ Here, we can see orientation represented by the rotation matrix
 .. plot::
     :include-source:
 
-    from pytransform.rotations import plot_basis
+    from pytransform3d.rotations import plot_basis
     plot_basis()
 
 We can easily chain multiple rotations: we can apply the rotation defined

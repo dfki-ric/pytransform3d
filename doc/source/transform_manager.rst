@@ -12,7 +12,7 @@ end-effector in the object's frame so that we can control it.
     :include-source:
 
 A subclass of the transformation manager is the
-:class:`~pytransform.urdf.UrdfTransformManager` which can be used to load
+:class:`~pytransform3d.urdf.UrdfTransformManager` which can be used to load
 robot definitions from URDF files. An example with a simple robot can be seen
 in the following example.
 
