@@ -10,7 +10,7 @@ if __name__ == "__main__":
           version=pytransform3d.__version__,
           author='Alexander Fabisch',
           author_email='afabisch@googlemail.com',
-          url='https://github.com/rock-learning/pytransform',
+          url='https://github.com/rock-learning/pytransform3d',
           description='3D transformations for Python',
           long_description=long_description,
           long_description_content_type="text/markdown",
