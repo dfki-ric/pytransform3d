@@ -23,6 +23,12 @@ In addition, pytransform offers...
 
 All of these tools can be easily integrated in any Python program.
 
+pytransform is used in various domains, for example:
+
+* specifying motions of a robot
+* learning robot movements from human demonstration
+* sensor fusion for human pose estimation
+
 ## Installation
 
 Install the package with:
