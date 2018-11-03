@@ -10,8 +10,6 @@ efficiency.
 If you want to have an efficient implementation of some function from the
 library you can easily extract the relevant code and implement it more
 efficiently in a language of your choice.
-It makes conversions between rotation and transformation conventions as easy
-as possible.
 
 The library integrates well with the
 [scientific Python ecosystem](https://www.scipy-lectures.org/)
@@ -42,11 +40,12 @@ software:
 * Visualization: Finally, transformations should be visually verified
   and that should be as easy as possible.
 pytransform assists in solving these issues. Its documentation clearly
-states all of the used conventions, it has various functions to convert
-between conventions, it is tightly coupled with Matplotlib to quickly
-visualize (or animate) transformations and it is written in Python with
-few dependencies. Python is a widely adopted language. It is used in many
-domains and supports a wide spectrum of communication to other software.
+states all of the used conventions, it makes conversions between rotation
+and transformation conventions as easy as possible, it is tightly coupled
+with Matplotlib to quickly visualize (or animate) transformations and it
+is written in Python with few dependencies. Python is a widely adopted
+language. It is used in many domains and supports a wide spectrum of
+communication to other software.
 
 In addition, pytransform offers...
 
