@@ -39,6 +39,7 @@ software:
   communicate transformations between different systems.
 * Visualization: Finally, transformations should be visually verified
   and that should be as easy as possible.
+
 pytransform assists in solving these issues. Its documentation clearly
 states all of the used conventions, it makes conversions between rotation
 and transformation conventions as easy as possible, it is tightly coupled
