@@ -81,6 +81,7 @@ build the documentation, run e.g. (on unix):
     make html
 
 The HTML documentation is now located at `doc/build/html/index.html`.
+Note that `sphinx` is required to build the documentation.
 
 ## Example
 
@@ -128,5 +129,7 @@ You can use nosetests to run the tests of this project in the root directory:
     nosetests
 
 A coverage report will be located at `cover/index.html`.
+Note that you have to install `nose` to run the tests and `coverage` to obtain
+the code coverage report.
 The branch coverage is currently 100% for code that is not related to the
 GUI.
