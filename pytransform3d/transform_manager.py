@@ -3,6 +3,11 @@ import warnings
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
+try:
+    import pydot
+    pydot_available = True
+except ImportError:
+    pydot_available = False
 from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
 from .plot_utils import make_3d_axis
@@ -290,3 +295,44 @@ class TransformManager(object):
                 except KeyError:
                     pass  # Frames are not connected
         return consistent
+
+    def write_png(self, filename):
+        """Create PNG from dot graph of the transformations.
+
+        Parameters
+        ----------
+        filename : str
+            Name of the output file. Should end with '.png'.
+        """
+        if not pydot_available:
+            raise ImportError("pydot must be installed to use this feature.")
+
+        graph = pydot.Dot(graph_type="graph")
+        frame_color = "#dd3322"
+        connection_color = "#d0d0ff"
+
+        for frame in self.nodes:
+            node = pydot.Node(
+                self.__display_name(frame), style="filled",
+                fillcolor=frame_color, shape="egg")
+            graph.add_node(node)
+        for frames, A2B in self.transforms.items():
+            a, b = frames
+            connection_name = "%s to %s\n%s" % (
+                self.__display_name(a), self.__display_name(b),
+                str(np.round(A2B, 3)))
+            node = pydot.Node(
+                connection_name, style="filled", fillcolor=connection_color,
+                shape="note")
+            graph.add_node(node)
+            a_name = self.__display_name(a)
+            a_edge = pydot.Edge(connection_name, a_name, penwidth=3)
+            graph.add_edge(a_edge)
+            b_name = self.__display_name(b)
+            b_edge = pydot.Edge(connection_name, b_name, penwidth=3)
+            graph.add_edge(b_edge)
+
+        graph.write_png(filename)
+
+    def __display_name(self, name):
+        return name.replace("/", "")
