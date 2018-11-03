@@ -1,7 +1,7 @@
-# pytransform
-
 [![Travis Status](https://travis-ci.org/rock-learning/pytransform.svg?branch=master)](https://travis-ci.org/rock-learning/pytransform)
 [![CircleCI Status](https://circleci.com/gh/rock-learning/pytransform/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/pytransform)
+
+# pytransform
 
 A Python library for transformations in three dimensions.
 
