@@ -139,3 +139,9 @@ Note that you have to install `nose` to run the tests and `coverage` to obtain
 the code coverage report.
 The branch coverage is currently 100% for code that is not related to the
 GUI.
+
+## Contributing
+
+If you wish to report bugs, please use the issue tracker at Github.
+If you would like to contribute to pytransform, just open an issue or
+a merge request.
