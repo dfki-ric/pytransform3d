@@ -65,6 +65,12 @@ pytransform is used in various domains, for example:
 
 ## Installation
 
+Clone the repository and go to the main folder.
+
+Install dependencies with:
+
+    pip install -r requirements.txt
+
 Install the package with:
 
     python setup.py install
