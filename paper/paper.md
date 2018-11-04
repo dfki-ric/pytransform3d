@@ -78,12 +78,36 @@ transformations with a minimal number dependencies.
 
 A simple URDF file loaded with pytransform3d and displayed in Matplotlib.
 
+One of the strengths of pytransform3d in comparison to most other libraries
+is its rigorous approach to testing. Unit tests have 100% branch coverage
+for code that is not related to visualization, there is more test code than
+library code, there are additional examples, and continuous integration
+runs with Python 2.7, 3.4, 3.5, and 3.6. The maintainer ensures that this
+level of quality will not be sacrificed for new features.
+
+There are several similar software packages. ROS tf2 [@Foote2009] is probably
+the most widely used of them. It offers functionality that is similar to
+the TransformManager of pytransform3d, but also considers temporal aspects
+of transformations. It also provides conversions between various conventions
+and visualization can be done with ROS' rviz package.
+EnviRe [@HidalgoCarrio2016] provides similar functionality.
+However, both libraries come with a number of dependencies and require
+complex build tools. Hence, it is not easy to set them up quickly in
+a new environment with minimum impact to the system, while pytransform3d
+is a lightweight library that only requires the basic scientific Python
+software stack that runs on any machine that supports CPython.
+There are other lightweight Python libraries that offer transformations
+and conversions between conventions, for example, transforms3d [@Brett2009]
+and rowan [@Ramasubramani2018], but these do not directly support
+visualization.
+
 ## Research
 
 pytransform3d is used in various domains, for example,
 specifying motions of a robot, learning robot movements from human
 demonstration, and sensor fusion for human pose estimation.
-pytransform3d has been used by @Gutzeit2018.
+pytransform3d has been used by @Gutzeit2018 in the context of
+learning robot behaviors from demonstration.
 
 # Acknowledgements
 
