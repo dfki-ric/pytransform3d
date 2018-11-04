@@ -89,5 +89,9 @@ pytransform3d has been used by @Gutzeit2018.
 
 We would like to thank Manuel Meder and Hendrik Wiese who have given
 valuable feedback as users to improve pytransform3d.
+This work was supported through two grants of the German Federal
+Ministry of Economics and Technology (BMWi, FKZ 50 RA 1216 and FKZ 50 RA 1217)
+and two grants from the European Union's Horizon 2020 research and innovation
+program (723853 and 730014).
 
 # References
