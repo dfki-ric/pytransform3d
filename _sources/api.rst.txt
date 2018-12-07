@@ -1,17 +1,17 @@
 .. _api:
 
-===
-API
-===
+=================
+API Documentation
+=================
 
 You can search for specific modules, classes or functions in the
 :ref:`genindex`.
 
 
-:mod:`pytransform.rotations`: Rotations
-=======================================
+:mod:`pytransform3d.rotations`
+==============================
 
-.. automodule:: pytransform.rotations
+.. automodule:: pytransform3d.rotations
     :no-members:
     :no-inherited-members:
 
@@ -22,15 +22,15 @@ Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.norm_vector
-   ~pytransform.rotations.norm_angle
-   ~pytransform.rotations.norm_axis_angle
-   ~pytransform.rotations.perpendicular_to_vectors
-   ~pytransform.rotations.angle_between_vectors
-   ~pytransform.rotations.random_vector
-   ~pytransform.rotations.random_axis_angle
-   ~pytransform.rotations.random_quaternion
-   ~pytransform.rotations.cross_product_matrix
+   ~pytransform3d.rotations.norm_vector
+   ~pytransform3d.rotations.norm_angle
+   ~pytransform3d.rotations.norm_axis_angle
+   ~pytransform3d.rotations.perpendicular_to_vectors
+   ~pytransform3d.rotations.angle_between_vectors
+   ~pytransform3d.rotations.random_vector
+   ~pytransform3d.rotations.random_axis_angle
+   ~pytransform3d.rotations.random_quaternion
+   ~pytransform3d.rotations.cross_product_matrix
 
 Input Validation Functions
 --------------------------
@@ -39,9 +39,9 @@ Input Validation Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.check_matrix
-   ~pytransform.rotations.check_axis_angle
-   ~pytransform.rotations.check_quaternion
+   ~pytransform3d.rotations.check_matrix
+   ~pytransform3d.rotations.check_axis_angle
+   ~pytransform3d.rotations.check_quaternion
 
 Conversions to Rotation Matrix
 ------------------------------
@@ -50,12 +50,12 @@ Conversions to Rotation Matrix
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.matrix_from_axis_angle
-   ~pytransform.rotations.matrix_from_quaternion
-   ~pytransform.rotations.matrix_from_angle
-   ~pytransform.rotations.matrix_from_euler_xyz
-   ~pytransform.rotations.matrix_from_euler_zyx
-   ~pytransform.rotations.matrix_from
+   ~pytransform3d.rotations.matrix_from_axis_angle
+   ~pytransform3d.rotations.matrix_from_quaternion
+   ~pytransform3d.rotations.matrix_from_angle
+   ~pytransform3d.rotations.matrix_from_euler_xyz
+   ~pytransform3d.rotations.matrix_from_euler_zyx
+   ~pytransform3d.rotations.matrix_from
 
 Conversions to Euler Angles
 ---------------------------
@@ -64,8 +64,8 @@ Conversions to Euler Angles
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.euler_xyz_from_matrix
-   ~pytransform.rotations.euler_zyx_from_matrix
+   ~pytransform3d.rotations.euler_xyz_from_matrix
+   ~pytransform3d.rotations.euler_zyx_from_matrix
 
 Conversions to Axis-Angle
 -------------------------
@@ -74,9 +74,9 @@ Conversions to Axis-Angle
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.axis_angle_from_matrix
-   ~pytransform.rotations.axis_angle_from_quaternion
-   ~pytransform.rotations.compact_axis_angle
+   ~pytransform3d.rotations.axis_angle_from_matrix
+   ~pytransform3d.rotations.axis_angle_from_quaternion
+   ~pytransform3d.rotations.compact_axis_angle
 
 Conversions to Quaternion
 -------------------------
@@ -85,10 +85,10 @@ Conversions to Quaternion
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.quaternion_from_matrix
-   ~pytransform.rotations.quaternion_from_axis_angle
-   ~pytransform.rotations.quaternion_xyzw_from_wxyz
-   ~pytransform.rotations.quaternion_wxyz_from_xyzw
+   ~pytransform3d.rotations.quaternion_from_matrix
+   ~pytransform3d.rotations.quaternion_from_axis_angle
+   ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
+   ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
 
 Quaternion and Axis-Angle Operations
 ------------------------------------
@@ -97,13 +97,13 @@ Quaternion and Axis-Angle Operations
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.concatenate_quaternions
-   ~pytransform.rotations.q_prod_vector
-   ~pytransform.rotations.q_conj
-   ~pytransform.rotations.axis_angle_slerp
-   ~pytransform.rotations.quaternion_slerp
-   ~pytransform.rotations.quaternion_dist
-   ~pytransform.rotations.quaternion_diff
+   ~pytransform3d.rotations.concatenate_quaternions
+   ~pytransform3d.rotations.q_prod_vector
+   ~pytransform3d.rotations.q_conj
+   ~pytransform3d.rotations.axis_angle_slerp
+   ~pytransform3d.rotations.quaternion_slerp
+   ~pytransform3d.rotations.quaternion_dist
+   ~pytransform3d.rotations.quaternion_diff
 
 Plotting
 --------
@@ -112,8 +112,8 @@ Plotting
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.plot_basis
-   ~pytransform.rotations.plot_axis_angle
+   ~pytransform3d.rotations.plot_basis
+   ~pytransform3d.rotations.plot_axis_angle
 
 Testing
 -------
@@ -122,17 +122,17 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.rotations.assert_axis_angle_equal
-   ~pytransform.rotations.assert_quaternion_equal
-   ~pytransform.rotations.assert_euler_xyz_equal
-   ~pytransform.rotations.assert_euler_zyx_equal
-   ~pytransform.rotations.assert_rotation_matrix
+   ~pytransform3d.rotations.assert_axis_angle_equal
+   ~pytransform3d.rotations.assert_quaternion_equal
+   ~pytransform3d.rotations.assert_euler_xyz_equal
+   ~pytransform3d.rotations.assert_euler_zyx_equal
+   ~pytransform3d.rotations.assert_rotation_matrix
 
 
-:mod:`pytransform.transformations`: Transformations
-===================================================
+:mod:`pytransform3d.transformations`
+====================================
 
-.. automodule:: pytransform.transformations
+.. automodule:: pytransform3d.transformations
     :no-members:
     :no-inherited-members:
 
@@ -140,84 +140,27 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.transformations.check_transform
-   ~pytransform.transformations.check_pq
-   ~pytransform.transformations.transform_from
-   ~pytransform.transformations.random_transform
-   ~pytransform.transformations.invert_transform
-   ~pytransform.transformations.translate_transform
-   ~pytransform.transformations.rotate_transform
-   ~pytransform.transformations.vector_to_point
-   ~pytransform.transformations.concat
-   ~pytransform.transformations.transform
-   ~pytransform.transformations.scale_transform
-   ~pytransform.transformations.plot_transform
-   ~pytransform.transformations.assert_transform
-   ~pytransform.transformations.pq_from_transform
-   ~pytransform.transformations.transform_from_pq
+   ~pytransform3d.transformations.check_transform
+   ~pytransform3d.transformations.check_pq
+   ~pytransform3d.transformations.transform_from
+   ~pytransform3d.transformations.random_transform
+   ~pytransform3d.transformations.invert_transform
+   ~pytransform3d.transformations.translate_transform
+   ~pytransform3d.transformations.rotate_transform
+   ~pytransform3d.transformations.vector_to_point
+   ~pytransform3d.transformations.concat
+   ~pytransform3d.transformations.transform
+   ~pytransform3d.transformations.scale_transform
+   ~pytransform3d.transformations.plot_transform
+   ~pytransform3d.transformations.assert_transform
+   ~pytransform3d.transformations.pq_from_transform
+   ~pytransform3d.transformations.transform_from_pq
 
 
-:mod:`pytransform.trajectories`: Trajectories
-=============================================
-
-.. automodule:: pytransform.trajectories
-    :no-members:
-    :no-inherited-members:
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform.trajectories.matrices_from_pos_quat
-   ~pytransform.trajectories.plot_trajectory
-
-
-:mod:`pytransform.transform_manager`: TransformManager
-======================================================
-
-.. automodule:: pytransform.transform_manager
-    :no-members:
-    :no-inherited-members:
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: class.rst
-
-   ~pytransform.transform_manager.TransformManager
-
-
-:mod:`pytransform.editor`: TransformEditor
-======================================================
-
-.. automodule:: pytransform.editor
-    :no-members:
-    :no-inherited-members:
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: class.rst
-
-   ~pytransform.editor.TransformEditor
-
-
-:mod:`pytransform.urdf`: URDF
-=============================
-
-.. automodule:: pytransform.urdf
-    :no-members:
-    :no-inherited-members:
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: class.rst
-
-   ~pytransform.urdf.UrdfTransformManager
-
-
-:mod:`pytransform.camera`: Camera
+:mod:`pytransform3d.trajectories`
 =================================
 
-.. automodule:: pytransform.camera
+.. automodule:: pytransform3d.trajectories
     :no-members:
     :no-inherited-members:
 
@@ -225,8 +168,87 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform.camera.make_world_grid
-   ~pytransform.camera.make_world_line
-   ~pytransform.camera.cam2sensor
-   ~pytransform.camera.sensor2img
-   ~pytransform.camera.world2image
+   ~pytransform3d.trajectories.matrices_from_pos_quat
+   ~pytransform3d.trajectories.plot_trajectory
+
+
+:mod:`pytransform3d.transform_manager`
+======================================
+
+.. automodule:: pytransform3d.transform_manager
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform3d.transform_manager.TransformManager
+
+
+:mod:`pytransform3d.editor`
+===========================
+
+.. automodule:: pytransform3d.editor
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform3d.editor.TransformEditor
+
+
+:mod:`pytransform3d.urdf`
+=========================
+
+.. automodule:: pytransform3d.urdf
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform3d.urdf.UrdfTransformManager
+
+
+:mod:`pytransform3d.camera`
+===========================
+
+.. automodule:: pytransform3d.camera
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.camera.make_world_grid
+   ~pytransform3d.camera.make_world_line
+   ~pytransform3d.camera.cam2sensor
+   ~pytransform3d.camera.sensor2img
+   ~pytransform3d.camera.world2image
+
+
+:mod:`pytransform3d.plot_utils`
+===============================
+
+.. automodule:: pytransform3d.plot_utils
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.plot_utils.make_3d_axis
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform3d.plot_utils.Arrow3D
+   ~pytransform3d.plot_utils.Frame
+   ~pytransform3d.plot_utils.Trajectory

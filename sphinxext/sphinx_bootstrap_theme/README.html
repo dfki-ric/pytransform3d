@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sphinx Bootstrap Theme &#8212; pytransform 0.2 documentation</title>
+    <title>Sphinx Bootstrap Theme &#8212; pytransform3d 1.0 documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -11,7 +11,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2',
+        VERSION:     '1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -45,8 +45,8 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="../../index.html">
-          pytransform</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -68,7 +68,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 </ul>
 </ul>
 </li>
@@ -168,12 +169,12 @@ look at the <a class="reference external" href="http://ryan-roemer.github.com/sp
 <p>Installation from <a class="reference external" href="http://pypi.python.org/pypi/sphinx-bootstrap-theme/">PyPI</a> is fairly straightforward:</p>
 <ol class="arabic">
 <li><p class="first">Install the package:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install sphinx_bootstrap_theme
+<div class="highlight-default"><div class="highlight"><pre>$ pip install sphinx_bootstrap_theme
 </pre></div>
 </div>
 </li>
 <li><p class="first">Edit the “conf.py” configuration file to point to the bootstrap theme:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># At the top.</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="c1"># At the top.</span>
 <span class="kn">import</span> <span class="nn">sphinx_bootstrap_theme</span>
 
 <span class="c1"># ...</span>
@@ -193,7 +194,7 @@ look at the <a class="reference external" href="http://ryan-roemer.github.com/sp
 <h3>Theme Options<a class="headerlink" href="#theme-options" title="Permalink to this headline">¶</a></h3>
 <p>The theme provides many built-in options that can be configured by editing
 your “conf.py” file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># (Optional) Logo. Should be small enough to fit the navbar (ideally 24x24).</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="c1"># (Optional) Logo. Should be small enough to fit the navbar (ideally 24x24).</span>
 <span class="c1"># Path should be relative to the ``_static`` files directory.</span>
 <span class="n">html_logo</span> <span class="o">=</span> <span class="s2">&quot;my_logo.png&quot;</span>
 
@@ -288,16 +289,16 @@ enhancements, such as the <code class="docutils literal"><span class="pre">navba
 content in the navbar.</p>
 <p>Then, create your own “_templates” directory and “layout.html” file (assuming
 you build from a “source” directory):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkdir source/_templates
+<div class="highlight-default"><div class="highlight"><pre>$ mkdir source/_templates
 $ touch source/_templates/layout.html
 </pre></div>
 </div>
 <p>Then, configure your “conf.py”:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">templates_path</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_templates&#39;</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">templates_path</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_templates&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Finally, edit your override file “source/_templates/layout.html”:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
 <span class="p">{</span><span class="o">%</span> <span class="n">extends</span> <span class="s2">&quot;!layout.html&quot;</span> <span class="o">%</span><span class="p">}</span>
 
 <span class="p">{</span><span class="c1"># Add some extra stuff before and use existing with &#39;super()&#39; call. #}</span>
@@ -312,17 +313,17 @@ $ touch source/_templates/layout.html
 <h3>Adding Custom CSS<a class="headerlink" href="#adding-custom-css" title="Permalink to this headline">¶</a></h3>
 <p>Alternately, you could add your own custom static media directory with a CSS
 file to override a style, which in the demo would be something like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkdir source/_static
+<div class="highlight-default"><div class="highlight"><pre>$ mkdir source/_static
 $ touch source/_static/my-styles.css
 </pre></div>
 </div>
 <p>Then, in “conf.py”, edit this line:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">html_static_path</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_static&quot;</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">html_static_path</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_static&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>You will also need the override template “source/_templates/layout.html” file
 configured as above, but with the following code:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
 <span class="p">{</span><span class="o">%</span> <span class="n">extends</span> <span class="s2">&quot;!layout.html&quot;</span> <span class="o">%</span><span class="p">}</span>
 
 <span class="p">{</span><span class="c1"># Custom CSS overrides #}</span>
@@ -331,7 +332,7 @@ configured as above, but with the following code:</p>
 </div>
 <p>Then, in the new file “source/_static/my-styles.css”, add any appropriate
 styling, e.g. a bold background color:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">footer</span> <span class="p">{</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">footer</span> <span class="p">{</span>
   <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
@@ -364,11 +365,11 @@ Sphinx “_static” directory.</p>
 <h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
 <p>Contributions to this project are most welcome. Please make sure that the demo
 site builds cleanly, and looks like what you want. First build the demo:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ fab clean &amp;&amp; fab demo
+<div class="highlight-default"><div class="highlight"><pre>$ fab clean &amp;&amp; fab demo
 </pre></div>
 </div>
 <p>Then, view the site in the development server:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ fab demo_server
+<div class="highlight-default"><div class="highlight"><pre>$ fab demo_server
 </pre></div>
 </div>
 <p>Also, if you are adding a new type of styling or Sphinx or Bootstrap construct,
@@ -395,7 +396,7 @@ please add a usage example to the “Examples” page.</p>
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Aug 23, 2018.<br/>
+      Last updated on Dec 07, 2018.<br/>
     </p>
   </div>
 </footer>

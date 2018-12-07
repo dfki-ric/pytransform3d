@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import proj3d
-from pytransform.transformations import transform, plot_transform
-from pytransform.plot_utils import Arrow3D
+from pytransform3d.transformations import transform, plot_transform
+from pytransform3d.plot_utils import Arrow3D
 
 
 plt.figure()

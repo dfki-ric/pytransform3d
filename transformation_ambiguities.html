@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Transformation Ambiguities &#8212; pytransform 0.2 documentation</title>
+    <title>Transformation Ambiguities &#8212; pytransform3d 1.0 documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -11,7 +11,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2',
+        VERSION:     '1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -47,8 +47,8 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="index.html">
-          pytransform</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -70,7 +70,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
 </ul>
 </ul>
 </li>
@@ -105,7 +106,7 @@
     </a>
   </li>
   <li>
-    <a href="transform_manager.html" title="Next Chapter: Transform Manager"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Transform Manager &raquo;</span>
+    <a href="transform_manager.html" title="Next Chapter: Transform Manager"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Transform Man... &raquo;</span>
     </a>
   </li>
               
@@ -163,7 +164,7 @@ right-handed system and with the left hand in a left-handed system.</p>
 </tr>
 <table><div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The default in pytransform is a right-handed coordinate system.</p>
+<p class="last">The default in pytransform3d is a right-handed coordinate system.</p>
 </div>
 </div>
 <div class="section" id="active-alibi-vs-passive-alias-transformation">
@@ -228,7 +229,7 @@ rotation matrix is usually used in an active transformation:</p>
 \end{array} \right)"/></p>
 </div><div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The default in pytransform are passive transformations.</p>
+<p class="last">The default in pytransform3d are passive transformations.</p>
 </div>
 <p>Reference:</p>
 <p>Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
@@ -258,7 +259,7 @@ to transform points from the camera frame (source) to the body frame (target).</
 frame, make sure you understand what is meant.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The default in pytransform is source in target.</p>
+<p class="last">The default in pytransform3d is source in target.</p>
 </div>
 <p>(<a class="reference external" href=".//transformation_ambiguities-5.py">Source code</a>, <a class="reference external" href=".//transformation_ambiguities-5.png">png</a>, <a class="reference external" href=".//transformation_ambiguities-5.hires.png">hires.png</a>, <a class="reference external" href=".//transformation_ambiguities-5.pdf">pdf</a>)</p>
 <div class="figure">
@@ -278,7 +279,7 @@ Hence, to achieve the same effect we have to use two different rotation
 matrices depending on how we multiply them to points.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The default in pytransform are pre-multiplied rotation matrices.</p>
+<p class="last">The default in pytransform3d are pre-multiplied rotation matrices.</p>
 </div>
 </div>
 <div class="section" id="intrinsic-vs-extrinsic-rotation">
@@ -310,7 +311,7 @@ can be called and intrinsic rotation.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The default in pytransform are intrinsic rotations.</p>
+<p class="last">The default in pytransform3d are intrinsic rotations.</p>
 </div>
 </div>
 </div>
@@ -328,7 +329,7 @@ can be called and intrinsic rotation.</p>
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Aug 23, 2018.<br/>
+      Last updated on Dec 07, 2018.<br/>
     </p>
   </div>
 </footer>

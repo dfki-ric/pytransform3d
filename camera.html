@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Camera &#8212; pytransform 0.2 documentation</title>
+    <title>Camera &#8212; pytransform3d 1.0 documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -11,7 +11,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2',
+        VERSION:     '1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API" href="api.html" />
+    <link rel="next" title="Animations" href="animations.html" />
     <link rel="prev" title="Transform Manager" href="transform_manager.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -47,8 +47,8 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="index.html">
-          pytransform</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.2</b></span>
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -70,7 +70,8 @@
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
 </ul>
 </ul>
 </li>
@@ -94,11 +95,11 @@
               
                 
   <li>
-    <a href="transform_manager.html" title="Previous Chapter: Transform Manager"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Transform Manager</span>
+    <a href="transform_manager.html" title="Previous Chapter: Transform Manager"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; Transform Man...</span>
     </a>
   </li>
   <li>
-    <a href="api.html" title="Next Chapter: API"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">API &raquo;</span>
+    <a href="animations.html" title="Next Chapter: Animations"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Animations &raquo;</span>
     </a>
   </li>
               
@@ -131,8 +132,8 @@
   <div class="section" id="camera">
 <h1>Camera<a class="headerlink" href="#camera" title="Permalink to this headline">¶</a></h1>
 <p>When we know the 3D position of a point in the world we can easily compute
-where we would see it in a camera image. However, we have to know some
-parameters of the camera:</p>
+where we would see it in a camera image with the pinhole camera model.
+However, we have to know some parameters of the camera:</p>
 <ul class="simple">
 <li>camera pose</li>
 <li>focal length <img class="math" src="_images/math/875eb40014526135383caa89fd500ae40a835f56.png" alt="f"/></li>
@@ -141,7 +142,7 @@ parameters of the camera:</p>
 </ul>
 <div align="center" class="align-center"><img alt="Camera" src="_images/camera.svg" /></div>
 <p>The following example shows how a grid is projected on an image.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">================</span>
 <span class="sd">Camera Transform</span>
 <span class="sd">================</span>
@@ -151,14 +152,14 @@ parameters of the camera:</p>
 <span class="sd">the camera in the world, we can easily compute the location of the points on</span>
 <span class="sd">the image.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">__doc__</span><span class="p">)</span>
 
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">pytransform.rotations</span> <span class="kn">import</span> <span class="n">matrix_from_euler_xyz</span>
-<span class="kn">from</span> <span class="nn">pytransform.transformations</span> <span class="kn">import</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">plot_transform</span>
-<span class="kn">from</span> <span class="nn">pytransform.camera</span> <span class="kn">import</span> <span class="n">make_world_grid</span><span class="p">,</span> <span class="n">world2image</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">matrix_from_euler_xyz</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">plot_transform</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.camera</span> <span class="kn">import</span> <span class="n">make_world_grid</span><span class="p">,</span> <span class="n">world2image</span>
 
 
 <span class="n">cam2world</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">matrix_from_euler_xyz</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span>
@@ -219,7 +220,7 @@ parameters of the camera:</p>
     </p>
     <p>
         &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Aug 23, 2018.<br/>
+      Last updated on Dec 07, 2018.<br/>
     </p>
   </div>
 </footer>

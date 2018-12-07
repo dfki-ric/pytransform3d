@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>matplotlib.artist &#8212; pytransform3d 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for matplotlib.artist</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cbook</span><span class="p">,</span> <span class="n">docstring</span><span class="p">,</span> <span class="n">rcParams</span>
+<span class="kn">from</span> <span class="nn">.path</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">.transforms</span> <span class="k">import</span> <span class="p">(</span><span class="n">Bbox</span><span class="p">,</span> <span class="n">IdentityTransform</span><span class="p">,</span> <span class="n">Transform</span><span class="p">,</span> <span class="n">TransformedBbox</span><span class="p">,</span>
+                         <span class="n">TransformedPatchPath</span><span class="p">,</span> <span class="n">TransformedPath</span><span class="p">)</span>
+<span class="c1"># Note, matplotlib artists use the doc strings for set and get</span>
+<span class="c1"># methods to enable the introspection methods of setp and getp.  Every</span>
+<span class="c1"># set_* method should have a docstring containing the line</span>
+<span class="c1">#</span>
+<span class="c1"># ACCEPTS: [ legal | values ]</span>
+<span class="c1">#</span>
+<span class="c1"># and aliases for setters and getters should have a docstring that</span>
+<span class="c1"># starts with &#39;alias for &#39;, as in &#39;alias for set_somemethod&#39;</span>
+<span class="c1">#</span>
+<span class="c1"># You may wonder why we use so much boiler-plate manually defining the</span>
+<span class="c1"># set_alias and get_alias functions, rather than using some clever</span>
+<span class="c1"># python trick.  The answer is that I need to be able to manipulate</span>
+<span class="c1"># the docstring, and there is no clever way to do that in python 2.2,</span>
+<span class="c1"># as far as I can see - see</span>
+<span class="c1">#</span>
+<span class="c1"># https://mail.python.org/pipermail/python-list/2004-October/242925.html</span>
+
+
+<span class="k">def</span> <span class="nf">allow_rasterization</span><span class="p">(</span><span class="n">draw</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for Artist.draw method. Provides routines</span>
+<span class="sd">    that run before and after the draw call. The before and after functions</span>
+<span class="sd">    are useful for changing artist-dependent renderer attributes or making</span>
+<span class="sd">    other setup function calls, such as starting and flushing a mixed-mode</span>
+<span class="sd">    renderer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># the axes class has a second argument inframe for its draw method.</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">draw</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">draw_wrapper</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_rasterized</span><span class="p">():</span>
+                <span class="n">renderer</span><span class="o">.</span><span class="n">start_rasterizing</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_agg_filter</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">renderer</span><span class="o">.</span><span class="n">start_filter</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">draw</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_agg_filter</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">renderer</span><span class="o">.</span><span class="n">stop_filter</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">get_agg_filter</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_rasterized</span><span class="p">():</span>
+                <span class="n">renderer</span><span class="o">.</span><span class="n">stop_rasterizing</span><span class="p">()</span>
+
+    <span class="n">draw_wrapper</span><span class="o">.</span><span class="n">_supports_rasterization</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">draw_wrapper</span>
+
+
+<span class="k">def</span> <span class="nf">_stale_axes_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="n">val</span>
+
+
+<span class="n">_XYPair</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;_XYPair&quot;</span><span class="p">,</span> <span class="s2">&quot;x y&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Artist</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for someone who renders into a</span>
+<span class="sd">    :class:`FigureCanvas`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">aname</span> <span class="o">=</span> <span class="s1">&#39;Artist&#39;</span>
+    <span class="n">zorder</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># order of precedence when bulk setting/updating properties</span>
+    <span class="c1"># via update.  The keys should be property names and the values</span>
+    <span class="c1"># integers</span>
+    <span class="n">_prop_order</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stale</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale_callback</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transformSet</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_visible</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_animated</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clipon</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_picker</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contains</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rasterized</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_agg_filter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mouseover</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eventson</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># fire events only if eventson</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_oid</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># an observer id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propobservers</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># a dict from oids to funcs</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c1"># Handle self.axes as a read-only property, as in Figure.</span>
+            <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_method</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_url</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span> <span class="o">=</span> <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;path.sketch&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path_effects</span> <span class="o">=</span> <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;path.effects&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sticky_edges</span> <span class="o">=</span> <span class="n">_XYPair</span><span class="p">([],</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_in_layout</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># remove the unpicklable remove method, this will get re-added on load</span>
+        <span class="c1"># (by the axes) if the artist lives on an axes.</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;stale_callback&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the artist from the figure if possible.  The effect</span>
+<span class="sd">        will not be visible until the figure is redrawn, e.g., with</span>
+<span class="sd">        :meth:`matplotlib.axes.Axes.draw_idle`.  Call</span>
+<span class="sd">        :meth:`matplotlib.axes.Axes.relim` to update the axes limits</span>
+<span class="sd">        if desired.</span>
+
+<span class="sd">        Note: :meth:`~matplotlib.axes.Axes.relim` will not see</span>
+<span class="sd">        collections even if the collection was added to axes with</span>
+<span class="sd">        *autolim* = True.</span>
+
+<span class="sd">        Note: there is no support for removing the artist&#39;s legend entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># There is no method to set the callback.  Instead the parent should</span>
+        <span class="c1"># set the _remove_method attribute directly.  This would be a</span>
+        <span class="c1"># protected attribute if Python supported that sort of thing.  The</span>
+        <span class="c1"># callback has one parameter, which is the child to be removed.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove_method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="c1"># clear stale callback</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stale_callback</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">_ax_flag</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;axes&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+                <span class="c1"># remove from the mouse hit list</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_mouseover_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="c1"># mark the axes as stale</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="c1"># decouple the artist from the axes</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">_ax_flag</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_ax_flag</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;cannot remove artist&#39;</span><span class="p">)</span>
+        <span class="c1"># TODO: the fix for the collections relim problem is to move the</span>
+        <span class="c1"># limits calculation into the artist itself, including the property of</span>
+        <span class="c1"># whether or not the artist should affect the limits.  Then there will</span>
+        <span class="c1"># be no distinction between axes.add_line, axes.add_patch, etc.</span>
+        <span class="c1"># TODO: add legend support</span>
+
+    <span class="k">def</span> <span class="nf">have_units</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s1">&#39;Return *True* if units are set on the *x* or *y* axes&#39;</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">have_units</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">have_units</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">convert_xunits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;For artists in an axes, if the xaxis has units support,</span>
+<span class="sd">        convert *x* using xaxis unit type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">convert_units</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">convert_yunits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;For artists in an axes, if the yaxis has units support,</span>
+<span class="sd">        convert *y* using yaxis unit type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">convert_units</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The :class:`~matplotlib.axes.Axes` instance the artist</span>
+<span class="sd">        resides in, or *None*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span>
+
+    <span class="nd">@axes</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_axes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">new_axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">new_axes</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can not reset the axes.  You are probably &quot;</span>
+                             <span class="s2">&quot;trying to re-use an artist in more than one &quot;</span>
+                             <span class="s2">&quot;Axes which is not supported&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="n">new_axes</span>
+        <span class="k">if</span> <span class="n">new_axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">new_axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stale_callback</span> <span class="o">=</span> <span class="n">_stale_axes_callback</span>
+        <span class="k">return</span> <span class="n">new_axes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">stale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the artist is &#39;stale&#39; and needs to be re-drawn for the output to</span>
+<span class="sd">        match the internal state of the artist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stale</span>
+
+    <span class="nd">@stale</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">stale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stale</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="c1"># if the artist is animated it does not take normal part in the</span>
+        <span class="c1"># draw stack and is not expected to be drawn as part of the normal</span>
+        <span class="c1"># draw loop (when not saving) so do not propagate this change</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_animated</span><span class="p">():</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stale_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stale_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_window_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the axes bounding box in display space.</span>
+<span class="sd">        Subclasses should override for inclusion in the bounding box</span>
+<span class="sd">        &quot;tight&quot; calculation. Default is to return an empty bounding</span>
+<span class="sd">        box at 0, 0.</span>
+
+<span class="sd">        Be careful when using this function, the results will not update</span>
+<span class="sd">        if the artist window extent of the artist changes.  The extent</span>
+<span class="sd">        can change due to any changes in the transform stack, such as</span>
+<span class="sd">        changing the axes limits, the figure size, or the canvas used</span>
+<span class="sd">        (as is done when saving a figure).  This can lead to unexpected</span>
+<span class="sd">        behavior where interactive figures will look fine on the screen,</span>
+<span class="sd">        but will save incorrectly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Bbox</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+
+    <span class="k">def</span> <span class="nf">get_tightbbox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Like `Artist.get_window_extent`, but includes any clipping.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        renderer : `.RendererBase` instance</span>
+<span class="sd">            renderer that will be used to draw the figures (i.e.</span>
+<span class="sd">            ``fig.canvas.get_renderer()``)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bbox : `.BboxBase`</span>
+<span class="sd">            containing the bounding box (in figure pixel co-ordinates).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">bbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">renderer</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clip_on</span><span class="p">():</span>
+            <span class="n">clip_box</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clip_box</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">clip_box</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">bbox</span> <span class="o">=</span> <span class="n">Bbox</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">clip_box</span><span class="p">)</span>
+            <span class="n">clip_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clip_path</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">clip_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bbox</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">clip_path</span> <span class="o">=</span> <span class="n">clip_path</span><span class="o">.</span><span class="n">get_fully_transformed_path</span><span class="p">()</span>
+                <span class="n">bbox</span> <span class="o">=</span> <span class="n">Bbox</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">clip_path</span><span class="o">.</span><span class="n">get_extents</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">bbox</span>
+
+    <span class="k">def</span> <span class="nf">add_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a callback function that will be called whenever one of</span>
+<span class="sd">        the :class:`Artist`&#39;s properties changes.</span>
+
+<span class="sd">        Returns an *id* that is useful for removing the callback with</span>
+<span class="sd">        :meth:`remove_callback` later.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">oid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propobservers</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_oid</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">oid</span>
+
+    <span class="k">def</span> <span class="nf">remove_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a callback based on its *id*.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            :meth:`add_callback`</span>
+<span class="sd">               For adding callbacks</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propobservers</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">pchanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fire an event when property changed, calling all of the</span>
+<span class="sd">        registered callbacks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">oid</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propobservers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_transform_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns *True* if :class:`Artist` has a transform explicitly</span>
+<span class="sd">        set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformSet</span>
+
+    <span class="k">def</span> <span class="nf">set_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the artist transform.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t : `.Transform`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transformSet</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the :class:`~matplotlib.transforms.Transform`</span>
+<span class="sd">        instance used by this artist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="n">IdentityTransform</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="p">,</span> <span class="n">Transform</span><span class="p">)</span>
+              <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="p">,</span> <span class="s1">&#39;_as_mpl_transform&#39;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="o">.</span><span class="n">_as_mpl_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span>
+
+    <span class="nd">@cbook</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span><span class="s2">&quot;2.2&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">hitlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List the children of the artist which contain the mouse event *event*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">hascursor</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">hascursor</span><span class="p">:</span>
+                <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">traceback</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;while checking&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="n">L</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">hitlist</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">L</span>
+
+    <span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of the child :class:`Artist`s this</span>
+<span class="sd">        :class:`Artist` contains.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test whether the artist contains the mouse event.</span>
+
+<span class="sd">        Returns the truth value and a dictionary of artist specific details of</span>
+<span class="sd">        selection, such as which points are contained in the pick radius.  See</span>
+<span class="sd">        individual artists for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_contains</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; needs &#39;contains&#39; method&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">set_contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace the contains test used by this artist. The new picker</span>
+<span class="sd">        should be a callable function which determines whether the</span>
+<span class="sd">        artist is hit by the mouse event::</span>
+
+<span class="sd">            hit, props = picker(artist, mouseevent)</span>
+
+<span class="sd">        If the mouse event is over the artist, return *hit* = *True*</span>
+<span class="sd">        and *props* is a dictionary of properties you want returned</span>
+<span class="sd">        with the contains test.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        picker : callable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contains</span> <span class="o">=</span> <span class="n">picker</span>
+
+    <span class="k">def</span> <span class="nf">get_contains</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the _contains test used by the artist, or *None* for default.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contains</span>
+
+    <span class="k">def</span> <span class="nf">pickable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s1">&#39;Return *True* if :class:`Artist` is pickable.&#39;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_picker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process pick event</span>
+
+<span class="sd">        each child artist will fire a pick event if *mouseevent* is over</span>
+<span class="sd">        the artist and the artist has picker set</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Pick self</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pickable</span><span class="p">():</span>
+            <span class="n">picker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_picker</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">picker</span><span class="p">):</span>
+                <span class="n">inside</span><span class="p">,</span> <span class="n">prop</span> <span class="o">=</span> <span class="n">picker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">inside</span><span class="p">,</span> <span class="n">prop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">mouseevent</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">inside</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">pick_event</span><span class="p">(</span><span class="n">mouseevent</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">prop</span><span class="p">)</span>
+
+        <span class="c1"># Pick children</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="c1"># make sure the event happened in the same axes</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;axes&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">mouseevent</span><span class="o">.</span><span class="n">inaxes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="ow">or</span> <span class="n">mouseevent</span><span class="o">.</span><span class="n">inaxes</span> <span class="o">==</span> <span class="n">ax</span><span class="p">):</span>
+                <span class="c1"># we need to check if mouseevent.inaxes is None</span>
+                <span class="c1"># because some objects associated with an axes (e.g., a</span>
+                <span class="c1"># tick label) can be outside the bounding box of the</span>
+                <span class="c1"># axes and inaxes will be None</span>
+                <span class="c1"># also check that ax is None so that it traverse objects</span>
+                <span class="c1"># which do no have an axes property but children might</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="n">mouseevent</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_picker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picker</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the epsilon for picking used by this artist</span>
+
+<span class="sd">        *picker* can be one of the following:</span>
+
+<span class="sd">          * *None*: picking is disabled for this artist (default)</span>
+
+<span class="sd">          * A boolean: if *True* then picking will be enabled and the</span>
+<span class="sd">            artist will fire a pick event if the mouse event is over</span>
+<span class="sd">            the artist</span>
+
+<span class="sd">          * A float: if picker is a number it is interpreted as an</span>
+<span class="sd">            epsilon tolerance in points and the artist will fire</span>
+<span class="sd">            off an event if it&#39;s data is within epsilon of the mouse</span>
+<span class="sd">            event.  For some artists like lines and patch collections,</span>
+<span class="sd">            the artist may provide additional data to the pick event</span>
+<span class="sd">            that is generated, e.g., the indices of the data within</span>
+<span class="sd">            epsilon of the pick event</span>
+
+<span class="sd">          * A function: if picker is callable, it is a user supplied</span>
+<span class="sd">            function which determines whether the artist is hit by the</span>
+<span class="sd">            mouse event::</span>
+
+<span class="sd">              hit, props = picker(artist, mouseevent)</span>
+
+<span class="sd">            to determine the hit test.  if the mouse event is over the</span>
+<span class="sd">            artist, return *hit=True* and props is a dictionary of</span>
+<span class="sd">            properties you want added to the PickEvent attributes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        picker : None or bool or float or callable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_picker</span> <span class="o">=</span> <span class="n">picker</span>
+
+    <span class="k">def</span> <span class="nf">get_picker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the picker object used by this artist.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_picker</span>
+
+    <span class="nd">@cbook</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span><span class="s2">&quot;2.2&quot;</span><span class="p">,</span> <span class="s2">&quot;artist.figure is not None&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">is_figure_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether the artist is assigned to a `.Figure`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the url.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span>
+
+    <span class="k">def</span> <span class="nf">set_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the url for the artist.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        url : str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_url</span> <span class="o">=</span> <span class="n">url</span>
+
+    <span class="k">def</span> <span class="nf">get_gid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the group id.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gid</span>
+
+    <span class="k">def</span> <span class="nf">set_gid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the (group) id for the artist.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gid : str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gid</span> <span class="o">=</span> <span class="n">gid</span>
+
+    <span class="k">def</span> <span class="nf">get_snap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the snap setting which may be:</span>
+
+<span class="sd">          * True: snap vertices to the nearest pixel center</span>
+
+<span class="sd">          * False: leave vertices as-is</span>
+
+<span class="sd">          * None: (auto) If the path contains only rectilinear line</span>
+<span class="sd">            segments, round to the nearest pixel center</span>
+
+<span class="sd">        Only supported by the Agg and MacOSX backends.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;path.snap&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snap</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">set_snap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">snap</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the snap setting which may be:</span>
+
+<span class="sd">          * True: snap vertices to the nearest pixel center</span>
+
+<span class="sd">          * False: leave vertices as-is</span>
+
+<span class="sd">          * None: (auto) If the path contains only rectilinear line</span>
+<span class="sd">            segments, round to the nearest pixel center</span>
+
+<span class="sd">        Only supported by the Agg and MacOSX backends.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        snap : bool or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_snap</span> <span class="o">=</span> <span class="n">snap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">get_sketch_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the sketch parameters for the artist.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sketch_params : tuple or `None`</span>
+
+<span class="sd">            A 3-tuple with the following elements:</span>
+
+<span class="sd">              * `scale`: The amplitude of the wiggle perpendicular to the</span>
+<span class="sd">                source line.</span>
+
+<span class="sd">              * `length`: The length of the wiggle along the line.</span>
+
+<span class="sd">              * `randomness`: The scale factor by which the length is</span>
+<span class="sd">                shrunken or expanded.</span>
+
+<span class="sd">            May return `None` if no sketch parameters were set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span>
+
+    <span class="k">def</span> <span class="nf">set_sketch_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">randomness</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the sketch parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        scale : float, optional</span>
+<span class="sd">            The amplitude of the wiggle perpendicular to the source</span>
+<span class="sd">            line, in pixels.  If scale is `None`, or not provided, no</span>
+<span class="sd">            sketch filter will be provided.</span>
+
+<span class="sd">        length : float, optional</span>
+<span class="sd">             The length of the wiggle along the line, in pixels</span>
+<span class="sd">             (default 128.0)</span>
+
+<span class="sd">        randomness : float, optional</span>
+<span class="sd">            The scale factor by which the length is shrunken or</span>
+<span class="sd">            expanded (default 16.0)</span>
+
+<span class="sd">            .. ACCEPTS: (scale: float, length: float, randomness: float)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span> <span class="o">=</span> <span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">length</span> <span class="ow">or</span> <span class="mf">128.0</span><span class="p">,</span> <span class="n">randomness</span> <span class="ow">or</span> <span class="mf">16.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">set_path_effects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_effects</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the path effects.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path_effects : `.AbstractPathEffect`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path_effects</span> <span class="o">=</span> <span class="n">path_effects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">get_path_effects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_effects</span>
+
+    <span class="k">def</span> <span class="nf">get_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the `.Figure` instance the artist belongs to.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span>
+
+    <span class="k">def</span> <span class="nf">set_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the `.Figure` instance the artist belongs to.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fig : `.Figure`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if this is a no-op just return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">is</span> <span class="n">fig</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># if we currently have a figure (the case of both `self.figure`</span>
+        <span class="c1"># and `fig` being none is taken care of above) we then user is</span>
+        <span class="c1"># trying to change the figure an artist is associated with which</span>
+        <span class="c1"># is not allowed for the same reason as adding the same instance</span>
+        <span class="c1"># to more than one Axes</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Can not put single artist in &quot;</span>
+                               <span class="s2">&quot;more than one figure&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="o">=</span> <span class="n">fig</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">set_clip_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clipbox</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the artist&#39;s clip `.Bbox`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        clipbox : `.Bbox`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span> <span class="o">=</span> <span class="n">clipbox</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">set_clip_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the artist&#39;s clip path, which may be:</span>
+
+<span class="sd">        - a :class:`~matplotlib.patches.Patch` (or subclass) instance; or</span>
+<span class="sd">        - a :class:`~matplotlib.path.Path` instance, in which case a</span>
+<span class="sd">          :class:`~matplotlib.transforms.Transform` instance, which will be</span>
+<span class="sd">          applied to the path before using it for clipping, must be provided;</span>
+<span class="sd">          or</span>
+<span class="sd">        - ``None``, to remove a previously set clipping path.</span>
+
+<span class="sd">        For efficiency, if the path happens to be an axis-aligned rectangle,</span>
+<span class="sd">        this method will set the clipping box to the corresponding rectangle</span>
+<span class="sd">        and set the clipping path to ``None``.</span>
+
+<span class="sd">        ACCEPTS: [(`~matplotlib.path.Path`, `.Transform`) | `.Patch` | None]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="k">import</span> <span class="n">Patch</span><span class="p">,</span> <span class="n">Rectangle</span>
+
+        <span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Rectangle</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span> <span class="o">=</span> <span class="n">TransformedBbox</span><span class="p">(</span><span class="n">Bbox</span><span class="o">.</span><span class="n">unit</span><span class="p">(),</span>
+                                               <span class="n">path</span><span class="o">.</span><span class="n">get_transform</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Patch</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="n">TransformedPatchPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="n">path</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">path</span>
+
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="n">TransformedPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">TransformedPatchPath</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="n">path</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">TransformedPath</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="n">path</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid arguments to set_clip_path, of type {} and {}&quot;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+        <span class="c1"># This may result in the callbacks being hit twice, but guarantees they</span>
+        <span class="c1"># will be hit at least once.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">get_alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the alpha value used for blending - not supported on all</span>
+<span class="sd">        backends</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span>
+
+    <span class="k">def</span> <span class="nf">get_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Return the artist&#39;s visiblity&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_visible</span>
+
+    <span class="k">def</span> <span class="nf">get_animated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Return the artist&#39;s animated state&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_animated</span>
+
+    <span class="k">def</span> <span class="nf">get_in_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return boolean flag, ``True`` if artist is included in layout</span>
+<span class="sd">        calculations.</span>
+
+<span class="sd">        E.g. :doc:`/tutorials/intermediate/constrainedlayout_guide`,</span>
+<span class="sd">        `.Figure.tight_layout()`, and</span>
+<span class="sd">        ``fig.savefig(fname, bbox_inches=&#39;tight&#39;)``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_in_layout</span>
+
+    <span class="k">def</span> <span class="nf">get_clip_on</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s1">&#39;Return whether artist uses clipping&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clipon</span>
+
+    <span class="k">def</span> <span class="nf">get_clip_box</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s1">&#39;Return artist clipbox&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span>
+
+    <span class="k">def</span> <span class="nf">get_clip_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s1">&#39;Return artist clip path&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span>
+
+    <span class="k">def</span> <span class="nf">get_transformed_clip_path_and_affine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the clip path with the non-affine part of its</span>
+<span class="sd">        transformation applied, and the remaining affine part of its</span>
+<span class="sd">        transformation.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span><span class="o">.</span><span class="n">get_transformed_path_and_affine</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">set_clip_on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set whether artist uses clipping.</span>
+
+<span class="sd">        When False artists will be visible out side of the axes which</span>
+<span class="sd">        can lead to unexpected results.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clipon</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="c1"># This may result in the callbacks being hit twice, but ensures they</span>
+        <span class="c1"># are hit at least once</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_set_gc_clip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gc</span><span class="p">):</span>
+        <span class="s1">&#39;Set the clip properly for the gc&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clipon</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">gc</span><span class="o">.</span><span class="n">set_clip_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span><span class="p">)</span>
+            <span class="n">gc</span><span class="o">.</span><span class="n">set_clip_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gc</span><span class="o">.</span><span class="n">set_clip_rectangle</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">gc</span><span class="o">.</span><span class="n">set_clip_path</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_rasterized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return whether the artist is to be rasterized.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rasterized</span>
+
+    <span class="k">def</span> <span class="nf">set_rasterized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rasterized</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Force rasterized (bitmap) drawing in vector backend output.</span>
+
+<span class="sd">        Defaults to None, which implies the backend&#39;s default behavior.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rasterized : bool or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rasterized</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">,</span> <span class="s2">&quot;_supports_rasterization&quot;</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Rasterization of &#39;</span><span class="si">%s</span><span class="s2">&#39; will be ignored&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rasterized</span> <span class="o">=</span> <span class="n">rasterized</span>
+
+    <span class="k">def</span> <span class="nf">get_agg_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return filter function to be used for agg filter.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agg_filter</span>
+
+    <span class="k">def</span> <span class="nf">set_agg_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the agg filter.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filter_func : callable</span>
+<span class="sd">            A filter function, which takes a (m, n, 3) float array and a dpi</span>
+<span class="sd">            value, and returns a (m, n, 3) array.</span>
+
+<span class="sd">            .. ACCEPTS: a filter function, which takes a (m, n, 3) float array</span>
+<span class="sd">                and a dpi value, and returns a (m, n, 3) array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_agg_filter</span> <span class="o">=</span> <span class="n">filter_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="s1">&#39;Derived classes drawing method&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the alpha value used for blending - not supported on all backends.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        alpha : float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">set_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the artist&#39;s visibility.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_visible</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">set_animated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the artist&#39;s animation state.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_animated</span> <span class="o">!=</span> <span class="n">b</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_animated</span> <span class="o">=</span> <span class="n">b</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set_in_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set if artist is to be included in layout calculations,</span>
+<span class="sd">        E.g. :doc:`/tutorials/intermediate/constrainedlayout_guide`,</span>
+<span class="sd">        `.Figure.tight_layout()`, and</span>
+<span class="sd">        ``fig.savefig(fname, bbox_inches=&#39;tight&#39;)``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        in_layout : bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_in_layout</span> <span class="o">=</span> <span class="n">in_layout</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">props</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update this artist&#39;s properties from the dictionary *prop*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_update_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Sorting out how to update property (setter or setattr).</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            k : str</span>
+<span class="sd">                The name of property to update</span>
+<span class="sd">            v : obj</span>
+<span class="sd">                The value to assign to the property</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            ret : obj or None</span>
+<span class="sd">                If using a `set_*` method return it&#39;s return, else None.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="c1"># white list attributes we want to be able to update through</span>
+            <span class="c1"># art.update, art.set, setp</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;axes&#39;</span><span class="p">}:</span>
+                <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;set_&#39;</span> <span class="o">+</span> <span class="n">k</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;Unknown property </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">cbook</span><span class="o">.</span><span class="n">_setattr_cm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventson</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">_update_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">props</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the label used for this artist in the legend.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+
+    <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the label to *s* for auto legend.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : object</span>
+<span class="sd">            *s* will be converted to a string by calling `str`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">get_zorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the artist&#39;s zorder.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zorder</span>
+
+    <span class="k">def</span> <span class="nf">set_zorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the zorder for the artist.  Artists with lower zorder</span>
+<span class="sd">        values are drawn first.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        level : float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">zorder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zorder</span> <span class="o">=</span> <span class="n">level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sticky_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        `x` and `y` sticky edge lists.</span>
+
+<span class="sd">        When performing autoscaling, if a data limit coincides with a value in</span>
+<span class="sd">        the corresponding sticky_edges list, then no margin will be added--the</span>
+<span class="sd">        view limit &quot;sticks&quot; to the edge. A typical usecase is histograms,</span>
+<span class="sd">        where one usually expects no margin on the bottom edge (0) of the</span>
+<span class="sd">        histogram.</span>
+
+<span class="sd">        This attribute cannot be assigned to; however, the `x` and `y` lists</span>
+<span class="sd">        can be modified in place as needed.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; artist.sticky_edges.x[:] = (xmin, xmax)</span>
+<span class="sd">        &gt;&gt;&gt; artist.sticky_edges.y[:] = (ymin, ymax)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sticky_edges</span>
+
+    <span class="k">def</span> <span class="nf">update_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="s1">&#39;Copy properties from *other* to *self*.&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transformSet</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_transformSet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_visible</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_visible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">clipbox</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clipon</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_clipon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clippath</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_clippath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_sketch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path_effects</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_path_effects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">x</span><span class="p">[:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">y</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">y</span><span class="p">[:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return a dictionary mapping property name -&gt; value for all Artist props</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ArtistInspector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A property batch setter. Pass *kwargs* to set properties.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
+            <span class="nb">sorted</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_prop_order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">findobj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_self</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find artist objects.</span>
+
+<span class="sd">        Recursively find all :class:`~matplotlib.artist.Artist` instances</span>
+<span class="sd">        contained in self.</span>
+
+<span class="sd">        *match* can be</span>
+
+<span class="sd">          - None: return all objects contained in artist.</span>
+
+<span class="sd">          - function with signature ``boolean = match(artist)``</span>
+<span class="sd">            used to filter matches</span>
+
+<span class="sd">          - class instance: e.g., Line2D.  Only return artists of class type.</span>
+
+<span class="sd">        If *include_self* is True (default), include self in the list to be</span>
+<span class="sd">        checked for a match.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># always return True</span>
+            <span class="k">def</span> <span class="nf">matchfunc</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="n">Artist</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">matchfunc</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">match</span><span class="p">):</span>
+            <span class="n">matchfunc</span> <span class="o">=</span> <span class="n">match</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;match must be None, a matplotlib.artist.Artist &#39;</span>
+                             <span class="s1">&#39;subclass, or a callable&#39;</span><span class="p">)</span>
+
+        <span class="n">artists</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">findobj</span><span class="p">(</span><span class="n">matchfunc</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">()],</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="n">include_self</span> <span class="ow">and</span> <span class="n">matchfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">artists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">artists</span>
+
+    <span class="k">def</span> <span class="nf">get_cursor_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the cursor data for a given event.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">format_cursor_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return *cursor data* string formatted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
+        <span class="n">data_str</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;{:0.3g}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span>
+                   <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">data_str</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mouseover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mouseover</span>
+
+    <span class="nd">@mouseover</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mouseover</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mouseover</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="k">if</span> <span class="n">ax</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">_mouseover_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">_mouseover_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ArtistInspector</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A helper class to inspect an `~matplotlib.artist.Artist` and return</span>
+<span class="sd">    information about its settable properties and their current values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the artist inspector with an `Artist` or an iterable of</span>
+<span class="sd">        `Artist`\s.  If an iterable is used, we assume it is a homogeneous</span>
+<span class="sd">        sequence (all `Artists` are of the same type) and it is your</span>
+<span class="sd">        responsibility to make sure this is so.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">Artist</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">cbook</span><span class="o">.</span><span class="n">iterable</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+                <span class="n">o</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+                    <span class="n">o</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">oorig</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+            <span class="n">o</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">o</span> <span class="o">=</span> <span class="n">o</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">aliasd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_aliases</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a dict mapping property fullnames to sets of aliases for each alias</span>
+<span class="sd">        in the :class:`~matplotlib.artist.ArtistInspector`.</span>
+
+<span class="sd">        e.g., for lines::</span>
+
+<span class="sd">          {&#39;markerfacecolor&#39;: {&#39;mfc&#39;},</span>
+<span class="sd">           &#39;linewidth&#39;      : {&#39;lw&#39;},</span>
+<span class="sd">          }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">)</span>
+                 <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s1">&#39;set_&#39;</span><span class="p">,</span> <span class="s1">&#39;get_&#39;</span><span class="p">))</span>
+                    <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">))]</span>
+        <span class="n">aliases</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_alias</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">propname</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;`({}.*)`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">4</span><span class="p">]),</span>  <span class="c1"># get_.*/set_.*</span>
+                                 <span class="n">func</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">aliases</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">propname</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
+        <span class="k">return</span> <span class="n">aliases</span>
+
+    <span class="n">_get_valid_values_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="s2">r&quot;\n\s*(?:\.\.\s+)?ACCEPTS:\s*((?:.|\n)*?)(?:$|(?:\n\n))&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_valid_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the legal arguments for the setter associated with *attr*.</span>
+
+<span class="sd">        This is done by querying the docstring of the function *set_attr*</span>
+<span class="sd">        for a line that begins with &quot;ACCEPTS&quot; or &quot;.. ACCEPTS&quot;:</span>
+
+<span class="sd">        e.g., for a line linestyle, return</span>
+<span class="sd">        &quot;[ ``&#39;-&#39;`` | ``&#39;--&#39;`` | ``&#39;-.&#39;`` | ``&#39;:&#39;`` | ``&#39;steps&#39;`` | ``&#39;None&#39;``</span>
+<span class="sd">        ]&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;set_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">attr</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> has no function </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+        <span class="n">docstring</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">__doc__</span>
+        <span class="k">if</span> <span class="n">docstring</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
+
+        <span class="k">if</span> <span class="n">docstring</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;alias for &#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_valid_values_regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">docstring</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> *&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Much faster than list(inspect.signature(func).parameters)[1],</span>
+        <span class="c1"># although barely relevant wrt. matplotlib&#39;s total import time.</span>
+        <span class="n">param_name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">__code__</span><span class="o">.</span><span class="n">co_varnames</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;(?m)^ *{} : (.+)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">),</span> <span class="n">docstring</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_get_setters_and_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the attribute strings and a full path to where the setter</span>
+<span class="sd">        is defined for all setters in an object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">setters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;set_&#39;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nargs</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_alias</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">source_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="o">.</span><span class="n">__module__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="o">.</span><span class="n">mro</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
+                    <span class="n">source_class</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__module__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span>
+                    <span class="k">break</span>
+            <span class="n">source_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replace_path</span><span class="p">(</span><span class="n">source_class</span><span class="p">)</span>
+            <span class="n">setters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">[</span><span class="mi">4</span><span class="p">:],</span> <span class="n">source_class</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">setters</span>
+
+    <span class="k">def</span> <span class="nf">_replace_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_class</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes the full path to the public API path that is used</span>
+<span class="sd">        in sphinx. This is needed for links to work.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">replace_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_base._AxesBase&#39;</span><span class="p">:</span> <span class="s1">&#39;Axes&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;_axes.Axes&#39;</span><span class="p">:</span> <span class="s1">&#39;Axes&#39;</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">replace_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">source_class</span> <span class="o">=</span> <span class="n">source_class</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">source_class</span>
+
+    <span class="k">def</span> <span class="nf">get_setters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the attribute strings with setters for object.  e.g., for a line,</span>
+<span class="sd">        return ``[&#39;markerfacecolor&#39;, &#39;linewidth&#39;, ....]``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">prop</span> <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_setters_and_targets</span><span class="p">()]</span>
+
+    <span class="k">def</span> <span class="nf">is_alias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return *True* if method object *o* is an alias for another</span>
+<span class="sd">        function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">__doc__</span>
+        <span class="k">if</span> <span class="n">ds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;alias for &#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">aliased_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return &#39;PROPNAME or alias&#39; if *s* has an alias, else return</span>
+<span class="sd">        PROPNAME.</span>
+
+<span class="sd">        e.g., for the line markerfacecolor property, which has an</span>
+<span class="sd">        alias, return &#39;markerfacecolor or mfc&#39; and for the transform</span>
+<span class="sd">        property, which does not, return &#39;transform&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliasd</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; or </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span>
+                                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aliasd</span><span class="p">[</span><span class="n">s</span><span class="p">])])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">aliased_name_rest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return &#39;PROPNAME or alias&#39; if *s* has an alias, else return</span>
+<span class="sd">        PROPNAME formatted for ReST</span>
+
+<span class="sd">        e.g., for the line markerfacecolor property, which has an</span>
+<span class="sd">        alias, return &#39;markerfacecolor or mfc&#39; and for the transform</span>
+<span class="sd">        property, which does not, return &#39;transform&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliasd</span><span class="p">:</span>
+            <span class="n">aliases</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; or </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span>
+                               <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aliasd</span><span class="p">[</span><span class="n">s</span><span class="p">])])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">aliases</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;:meth:`</span><span class="si">%s</span><span class="s1"> &lt;</span><span class="si">%s</span><span class="s1">&gt;`</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">aliases</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pprint_setters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leadingspace</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If *prop* is *None*, return a list of strings of all settable</span>
+<span class="sd">        properties and their valid values.</span>
+
+<span class="sd">        If *prop* is not *None*, it is a valid property name and that</span>
+<span class="sd">        property will be returned as a string of property : valid</span>
+<span class="sd">        values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">leadingspace</span><span class="p">:</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">leadingspace</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">prop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">accepts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_valid_values</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">accepts</span><span class="p">)</span>
+
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_setters_and_targets</span><span class="p">()</span>
+        <span class="n">attrs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="n">accepts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_valid_values</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliased_name</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
+
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">accepts</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">lines</span>
+
+    <span class="k">def</span> <span class="nf">pprint_setters_rest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leadingspace</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If *prop* is *None*, return a list of strings of all settable</span>
+<span class="sd">        properties and their valid values.  Format the output for ReST</span>
+
+<span class="sd">        If *prop* is not *None*, it is a valid property name and that</span>
+<span class="sd">        property will be returned as a string of property : valid</span>
+<span class="sd">        values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">leadingspace</span><span class="p">:</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">leadingspace</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">prop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">accepts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_valid_values</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">accepts</span><span class="p">)</span>
+
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_setters_and_targets</span><span class="p">()</span>
+        <span class="n">attrs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">########</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">aliased_name_rest</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                 <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">]</span>
+        <span class="n">accepts</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_valid_values</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span> <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">]</span>
+
+        <span class="n">col0_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
+        <span class="n">col1_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">accepts</span><span class="p">)</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;.. table::&#39;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;   :class: property-table&#39;</span><span class="p">)</span>
+        <span class="n">pad</span> <span class="o">+=</span> <span class="s1">&#39;   &#39;</span>
+
+        <span class="n">table_formatstr</span> <span class="o">=</span> <span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="n">col0_len</span> <span class="o">+</span> <span class="s1">&#39;   &#39;</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="n">col1_len</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_formatstr</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;Property&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">col0_len</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span>
+                     <span class="s1">&#39;Description&#39;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">col1_len</span><span class="p">))</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_formatstr</span><span class="p">)</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">pad</span> <span class="o">+</span> <span class="n">n</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">col0_len</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">col1_len</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">accepts</span><span class="p">)])</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_formatstr</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lines</span>
+
+    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return a dictionary mapping property name -&gt; value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">oorig</span>
+        <span class="n">getters</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+                   <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;get_&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">))]</span>
+        <span class="n">getters</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">getters</span><span class="p">:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_alias</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">func</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">name</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">pprint_getters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the getters and actual values as list of strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="p">())</span> <span class="o">!=</span> <span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aliased_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    </span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">lines</span>
+
+
+<span class="k">def</span> <span class="nf">getp</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">property</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the value of object&#39;s property.  *property* is an optional string</span>
+<span class="sd">    for the property you want to return</span>
+
+<span class="sd">    Example usage::</span>
+
+<span class="sd">        getp(obj)  # get all the object properties</span>
+<span class="sd">        getp(obj, &#39;linestyle&#39;)  # get the linestyle property</span>
+
+<span class="sd">    *obj* is a :class:`Artist` instance, e.g.,</span>
+<span class="sd">    :class:`~matplotllib.lines.Line2D` or an instance of a</span>
+<span class="sd">    :class:`~matplotlib.axes.Axes` or :class:`matplotlib.text.Text`.</span>
+<span class="sd">    If the *property* is &#39;somename&#39;, this function returns</span>
+
+<span class="sd">      obj.get_somename()</span>
+
+<span class="sd">    :func:`getp` can be used to query all the gettable properties with</span>
+<span class="sd">    ``getp(obj)``. Many properties have aliases for shorter typing, e.g.</span>
+<span class="sd">    &#39;lw&#39; is an alias for &#39;linewidth&#39;.  In the output, aliases and full</span>
+<span class="sd">    property names will be listed as:</span>
+
+<span class="sd">      property or alias = value</span>
+
+<span class="sd">    e.g.:</span>
+
+<span class="sd">      linewidth or lw = 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">property</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">insp</span> <span class="o">=</span> <span class="n">ArtistInspector</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">insp</span><span class="o">.</span><span class="n">pprint_getters</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+        <span class="k">return</span>
+
+    <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;get_&#39;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">()</span>
+
+<span class="c1"># alias</span>
+<span class="n">get</span> <span class="o">=</span> <span class="n">getp</span>
+
+
+<span class="k">def</span> <span class="nf">setp</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set a property on an artist object.</span>
+
+<span class="sd">    matplotlib supports the use of :func:`setp` (&quot;set property&quot;) and</span>
+<span class="sd">    :func:`getp` to set and get object properties, as well as to do</span>
+<span class="sd">    introspection on the object.  For example, to set the linestyle of a</span>
+<span class="sd">    line to be dashed, you can do::</span>
+
+<span class="sd">      &gt;&gt;&gt; line, = plot([1,2,3])</span>
+<span class="sd">      &gt;&gt;&gt; setp(line, linestyle=&#39;--&#39;)</span>
+
+<span class="sd">    If you want to know the valid types of arguments, you can provide</span>
+<span class="sd">    the name of the property you want to set without a value::</span>
+
+<span class="sd">      &gt;&gt;&gt; setp(line, &#39;linestyle&#39;)</span>
+<span class="sd">          linestyle: [ &#39;-&#39; | &#39;--&#39; | &#39;-.&#39; | &#39;:&#39; | &#39;steps&#39; | &#39;None&#39; ]</span>
+
+<span class="sd">    If you want to see all the properties that can be set, and their</span>
+<span class="sd">    possible values, you can do::</span>
+
+<span class="sd">      &gt;&gt;&gt; setp(line)</span>
+<span class="sd">          ... long output listing omitted</span>
+
+<span class="sd">    You may specify another output file to `setp` if `sys.stdout` is not</span>
+<span class="sd">    acceptable for some reason using the `file` keyword-only argument::</span>
+
+<span class="sd">      &gt;&gt;&gt; with fopen(&#39;output.log&#39;) as f:</span>
+<span class="sd">      &gt;&gt;&gt;     setp(line, file=f)</span>
+
+<span class="sd">    :func:`setp` operates on a single instance or a iterable of</span>
+<span class="sd">    instances. If you are in query mode introspecting the possible</span>
+<span class="sd">    values, only the first instance in the sequence is used. When</span>
+<span class="sd">    actually setting values, all the instances will be set.  e.g.,</span>
+<span class="sd">    suppose you have a list of two lines, the following will make both</span>
+<span class="sd">    lines thicker and red::</span>
+
+<span class="sd">      &gt;&gt;&gt; x = arange(0,1.0,0.01)</span>
+<span class="sd">      &gt;&gt;&gt; y1 = sin(2*pi*x)</span>
+<span class="sd">      &gt;&gt;&gt; y2 = sin(4*pi*x)</span>
+<span class="sd">      &gt;&gt;&gt; lines = plot(x, y1, x, y2)</span>
+<span class="sd">      &gt;&gt;&gt; setp(lines, linewidth=2, color=&#39;r&#39;)</span>
+
+<span class="sd">    :func:`setp` works with the MATLAB style string/value pairs or</span>
+<span class="sd">    with python kwargs.  For example, the following are equivalent::</span>
+
+<span class="sd">      &gt;&gt;&gt; setp(lines, &#39;linewidth&#39;, 2, &#39;color&#39;, &#39;r&#39;)  # MATLAB style</span>
+<span class="sd">      &gt;&gt;&gt; setp(lines, linewidth=2, color=&#39;r&#39;)        # python style</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Artist</span><span class="p">):</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cbook</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">objs</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">insp</span> <span class="o">=</span> <span class="n">ArtistInspector</span><span class="p">(</span><span class="n">objs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># file has to be popped before checking if kwargs is empty</span>
+    <span class="n">printArgs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s1">&#39;file&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">printArgs</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">insp</span><span class="o">.</span><span class="n">pprint_setters</span><span class="p">(</span><span class="n">prop</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">**</span><span class="n">printArgs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">insp</span><span class="o">.</span><span class="n">pprint_setters</span><span class="p">()),</span> <span class="o">**</span><span class="n">printArgs</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The set args must be string, value pairs&#39;</span><span class="p">)</span>
+
+    <span class="c1"># put args into ordereddict to maintain order</span>
+    <span class="n">funcvals</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">funcvals</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">cbook</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">kwdoc</span><span class="p">(</span><span class="n">artist</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Inspect an `~matplotlib.artist.Artist` class and return</span>
+<span class="sd">    information about its settable properties and their current values.</span>
+
+<span class="sd">    It use the class `.ArtistInspector`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    artist : `~matplotlib.artist.Artist` or an iterable of `Artist`\s</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    string</span>
+<span class="sd">        Returns a string with a list or rst table with the settable properties</span>
+<span class="sd">        of the *artist*. The formating depends on the value of</span>
+<span class="sd">        :rc:`docstring.hardcopy`. False result in a list that is intended for</span>
+<span class="sd">        easy reading as a docstring and True result in a rst table intended</span>
+<span class="sd">        for rendering the documentation with sphinx.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hardcopy</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;docstring.hardcopy&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">hardcopy</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ArtistInspector</span><span class="p">(</span><span class="n">artist</span><span class="p">)</span><span class="o">.</span><span class="n">pprint_setters_rest</span><span class="p">(</span>
+                         <span class="n">leadingspace</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ArtistInspector</span><span class="p">(</span><span class="n">artist</span><span class="p">)</span><span class="o">.</span><span class="n">pprint_setters</span><span class="p">(</span>
+                         <span class="n">leadingspace</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">docstring</span><span class="o">.</span><span class="n">interpd</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Artist</span><span class="o">=</span><span class="n">kwdoc</span><span class="p">(</span><span class="n">Artist</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, Alexander Fabisch.<br/>
+      Last updated on Dec 07, 2018.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
