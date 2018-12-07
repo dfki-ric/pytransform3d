@@ -65,7 +65,11 @@ pytransform3d is used in various domains, for example:
 
 ## Installation
 
-Clone the repository and go to the main folder.
+Use pip to install the package:
+
+    [sudo] pip[3] install [--user] pytransform3d
+
+... or clone the repository and go to the main folder.
 
 Install dependencies with:
 
