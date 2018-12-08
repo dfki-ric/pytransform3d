@@ -26,6 +26,7 @@ three different software systems that might all use different conventions for
 transformations. Sometimes even one software uses more than one convention.
 The following aspects are of crucial importance to glue and debug
 transformations in systems with heterogenous and often incompatible software:
+
 * Compatibility: Compatibility between heterogenous softwares is a difficult
   topic. It might involve, for example, communicating between proprietary and
   open source software or different languages.
