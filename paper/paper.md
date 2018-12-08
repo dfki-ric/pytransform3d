@@ -65,19 +65,11 @@ UrdfTransformManager which is able to load transformations from
 the Unified Robot Description Format (URDF) (additionally requires
 beautifulsoup4).
 
-![Transformation Manager](plot_transform_manager.png)
+![Transformation Manager: The TransformManager builds a graph of transformations that can be used to automatically infer previously unknown transformations.](plot_transform_manager.png)
 
-The TransformManager builds a graph of transformations that can be used
-to automatically infer previously unknown transformations.
+![Transformation Editor: The TransformEditor based on PyQt4 can be used to visually modify transformations with a minimal number dependencies.](app_transformation_editor.png)
 
-![Transformation Editor](app_transformation_editor.png)
-
-The TransformEditor based on PyQt4 can be used to visually modify
-transformations with a minimal number dependencies.
-
-![URDF](plot_urdf.png)
-
-A simple URDF file loaded with pytransform3d and displayed in Matplotlib.
+![A simple URDF file loaded with pytransform3d and displayed in Matplotlib.](plot_urdf.png)
 
 One of the strengths of pytransform3d in comparison to most other libraries
 is its rigorous approach to testing. Unit tests have 100% branch coverage
