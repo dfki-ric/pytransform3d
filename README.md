@@ -70,6 +70,10 @@ Use pip to install the package:
 
     [sudo] pip[3] install [--user] pytransform3d
 
+You can install pytransform3d[all] if you want to have support for pydot
+export. Make sure to install graphviz (on Ubuntu: `sudo apt install graphviz`)
+if you want to use this feature.
+
 ... or clone the repository and go to the main folder.
 
 Install dependencies with:

@@ -10,7 +10,7 @@ branches:
     - /\d+\.\d+\..+/
 install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq liblapack-dev libopenblas-dev
+  - sudo apt-get install -qq liblapack-dev libopenblas-dev graphviz
   - pip install numpy scipy lxml bs4 matplotlib coverage pydot
 script: "nosetests -sv ."
 notifications:
