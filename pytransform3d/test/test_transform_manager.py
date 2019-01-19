@@ -2,9 +2,12 @@ import os
 import pickle
 import tempfile
 import numpy as np
+from pytransform3d.rotations import q_id, matrix_from_euler_xyz
 from pytransform3d.transformations import (random_transform, invert_transform,
-                                           concat)
+                                           concat, transform_from_pq,
+                                           random_quaternion, transform_from)
 from pytransform3d.transform_manager import TransformManager
+from pytransform3d import transform_manager
 from numpy.testing import assert_array_almost_equal
 from nose.tools import (assert_raises_regexp, assert_equal, assert_true,
                         assert_false)
@@ -162,3 +165,46 @@ def test_check_consistency():
 
     tm.add_transform("A", "D", A2D_over_path)
     assert_true(tm.check_consistency())
+
+
+def test_png_export():
+    """Test if the graph can be exported to PNG."""
+    random_state = np.random.RandomState(0)
+
+    ee2robot = transform_from_pq(
+        np.hstack((np.array([0.4, -0.3, 0.5]),
+                   random_quaternion(random_state))))
+    cam2robot = transform_from_pq(
+        np.hstack((np.array([0.0, 0.0, 0.8]), q_id)))
+    object2cam = transform_from(
+        matrix_from_euler_xyz(np.array([0.0, 0.0, 0.5])),
+        np.array([0.5, 0.1, 0.1]))
+
+    tm = TransformManager()
+    tm.add_transform("end-effector", "robot", ee2robot)
+    tm.add_transform("camera", "robot", cam2robot)
+    tm.add_transform("object", "camera", object2cam)
+
+    _, filename = tempfile.mkstemp(".png")
+    try:
+        tm.write_png(filename)
+        assert_true(os.path.exists(filename))
+    finally:
+        if os.path.exists(filename):
+            try:
+                os.remove(filename)
+            except WindowsError:
+                pass  # workaround for permission problem on Windows
+
+
+def test_png_export_without_pydot_fails():
+    """Test graph export without pydot."""
+    pydot_available = transform_manager.pydot_available
+    tm = TransformManager()
+    try:
+        transform_manager.pydot_available = False
+        assert_raises_regexp(
+            ImportError, "pydot must be installed to use this feature.",
+            tm.write_png, "bla")
+    finally:
+        transform_manager.pydot_available = pydot_available

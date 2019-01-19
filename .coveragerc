@@ -14,3 +14,4 @@ exclude_lines =
     pragma: no cover
     def plot_*
     def _plot
+    except ImportError:
