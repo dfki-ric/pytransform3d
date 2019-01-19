@@ -299,6 +299,11 @@ class TransformManager(object):
     def write_png(self, filename):
         """Create PNG from dot graph of the transformations.
 
+        .. warning::
+
+            Note that this method requires the Python package pydot and an
+            existing installation of graphviz on your system.
+
         Parameters
         ----------
         filename : str
