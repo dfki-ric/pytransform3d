@@ -27,7 +27,7 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
             pip install nose
-            apt install graphviz
+            sudo apt install graphviz
 
       - save_cache:
           paths:
