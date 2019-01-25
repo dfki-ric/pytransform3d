@@ -12,7 +12,11 @@ There are several ways to contribute to pytransform3d: you could
 * add tests
 * add an example
 
-## How to contribute code
+## How to Contribute Code
+
+This text is shamelessly copied from
+[scikit-learn's](https://scikit-learn.org/stable/developers/contributing.html)
+contribution guidelines.
 
 The preferred way to contribute to pytransform3d is to fork the
 [repository](http://github.com/rock-learning/pytransform3d/) on GitHub,
