@@ -22,7 +22,7 @@ if __name__ == "__main__":
               "Topic :: Scientific/Engineering :: Mathematics",
               "Topic :: Scientific/Engineering :: Visualization",
           ],
-          license='New BSD',
+          license='BSD-3-Clause',
           packages=['pytransform3d'],
           requires=["numpy", "scipy", "lxml", "bs4"]
           )
