@@ -4,9 +4,9 @@ Everyone is welcome to contribute.
 
 There are several ways to contribute to pytransform3d: you could
 
-* send a bug report [bug tracker](
-  <)http://github.com/rock-learning/pytransform3d/issues)
-* work on one of the issues
+* send a bug report
+  [bug tracker](http://github.com/rock-learning/pytransform3d/issues)
+* work on one of the reported issues
 * write documentation
 * add a new feature
 * add tests
@@ -21,7 +21,7 @@ then submit a "pull request" (PR):
 1. [Create an account](https://github.com/signup/free) on
    GitHub if you do not already have one.
 
-2. Fork the [project repository](http://github.com/rock-learning/bolero):
+2. Fork the [project repository](http://github.com/rock-learning/pytransform3d):
    click on the 'Fork' button near the top of the page. This creates a copy of
    the code under your account on the GitHub server.
 
