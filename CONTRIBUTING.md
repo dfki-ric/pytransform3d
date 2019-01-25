@@ -4,7 +4,7 @@ Everyone is welcome to contribute.
 
 There are several ways to contribute to pytransform3d: you could
 
-* send a bug report
+* send a bug report to the
   [bug tracker](http://github.com/rock-learning/pytransform3d/issues)
 * work on one of the reported issues
 * write documentation
@@ -47,17 +47,14 @@ then submit a "pull request" (PR):
 
 Finally, go to the web page of the your fork of the pytransform3d repository,
 and click 'Pull request' to send your changes to the maintainer for review.
-request.
 
-.. note::
+In the above setup, your `origin` remote repository points to
+YourLogin/pytransform3d.git. If you wish to fetch/merge from the main
+repository instead of your forked one, you will need to add another remote
+to use instead of `origin`. If we choose the name `upstream` for it, the
+command will be:
 
-  In the above setup, your `origin` remote repository points to
-  YourLogin/pytransform3d.git. If you wish to fetch/merge from the main
-  repository instead of your forked one, you will need to add another remote
-  to use instead of `origin`. If we choose the name `upstream` for it, the
-  command will be::
-
-        $ git remote add upstream https://github.com/rock-learning/pytransform3d.git
+    $ git remote add upstream https://github.com/rock-learning/pytransform3d.git
 
 (If any of the above seems like magic to you, then look up the
 [Git documentation](http://git-scm.com/documentation) on the web.)
@@ -67,15 +64,12 @@ request.
 Adding a new feature to pytransform3d requires a few other changes:
 
 * New classes or functions that are part of the public interface must be
-  documented. We use [NumPy's conventions for docstrings]
-  (https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt).
-* An entry to the API documentation must be added [here]
-  (https://rock-learning.github.io/pytransform3d/api.html).
-* Consider writing a simple example that will be added to the examples.
-* Tests: Unit tests for new features are mandatory. They should cover most of
-  the branches. Exceptions are plotting functions, debug outputs, etc. These
-  are usually hard to test and are not a fundamental part of the library. We
-  use nosetests.
+  documented. We use [NumPy's conventions for docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt).
+* An entry to the API documentation must be added [here](https://rock-learning.github.io/pytransform3d/api.html).
+* Consider writing a simple example script.
+* Tests: Unit tests for new features are mandatory. They should cover all
+  branches. Exceptions are plotting functions, debug outputs, etc. These
+  are usually hard to test and are not a fundamental part of the library.
 
 ## Merge Policy
 
