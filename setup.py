@@ -24,5 +24,6 @@ if __name__ == "__main__":
           ],
           license='BSD-3-Clause',
           packages=['pytransform3d'],
-          requires=["numpy", "scipy", "lxml", "bs4"]
-          )
+          install_requires=["numpy", "scipy", "matplotlib", "lxml",
+                            "beautifulsoup4"]
+    )
