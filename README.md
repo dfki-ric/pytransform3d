@@ -1,5 +1,6 @@
 [![Travis Status](https://travis-ci.org/rock-learning/pytransform3d.svg?branch=master)](https://travis-ci.org/rock-learning/pytransform3d)
 [![CircleCI Status](https://circleci.com/gh/rock-learning/pytransform3d/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/pytransform3d)
+[![DOI](https://zenodo.org/badge/91809394.svg)](https://zenodo.org/badge/latestdoi/91809394)
 
 # pytransform3d
 
