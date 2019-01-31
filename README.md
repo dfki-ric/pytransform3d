@@ -1,6 +1,7 @@
 [![Travis Status](https://travis-ci.org/rock-learning/pytransform3d.svg?branch=master)](https://travis-ci.org/rock-learning/pytransform3d)
 [![CircleCI Status](https://circleci.com/gh/rock-learning/pytransform3d/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/pytransform3d)
-[![DOI](https://zenodo.org/badge/91809394.svg)](https://zenodo.org/badge/latestdoi/91809394)
+[![Paper DOI](http://joss.theoj.org/papers/10.21105/joss.01159/status.svg)](https://doi.org/10.21105/joss.01159)
+[![Release DOI](https://zenodo.org/badge/91809394.svg)](https://zenodo.org/badge/latestdoi/91809394)
 
 # pytransform3d
 
