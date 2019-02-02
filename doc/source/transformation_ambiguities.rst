@@ -110,8 +110,9 @@ In the active view, we see that the transformation is applied to the data.
 The data is physically moved. The dashed basis represents a frame that is
 moved from the base frame with the same transformation. The data is
 now interpreted in the old frame.
-The the passive we move the frame with the transformation. The data stays
-at its original position but it is interpreted in the new frame.
+In a passive transformation, we move the frame with the transformation.
+The data stays at its original position but it is interpreted in the new
+frame.
 
 .. raw:: html
 
