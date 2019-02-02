@@ -92,14 +92,15 @@ The API documentation can be found
 [here](https://rock-learning.github.io/pytransform3d/).
 
 The docmentation of this project can be found in the directory `doc`.
-Note that currently sphinx 1.6.7 is required to build the documentation.
 To build the documentation, run e.g. (on unix):
 
     cd doc
     make html
 
 The HTML documentation is now located at `doc/build/html/index.html`.
-Note that `sphinx` is required to build the documentation.
+You need the following packages to build the documentation:
+
+    pip install numpydoc sphinx sphinx-gallery
 
 ## Example
 
