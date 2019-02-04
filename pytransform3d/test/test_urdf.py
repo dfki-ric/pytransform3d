@@ -67,6 +67,16 @@ COMPI_URDF = """
       <parent link="link6"/>
       <child link="tcp"/>
     </joint>
+    
+    <transmission name="joint1_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint1">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint1_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
   </robot>
 """
 
