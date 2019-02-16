@@ -47,11 +47,11 @@ class TransformManager(object):
 
         Parameters
         ----------
-        from_frame : string
+        from_frame : str
             Name of the frame for which the transform is added in the to_frame
             coordinate system
 
-        to_frame : string
+        to_frame : str
             Name of the frame in which the transform is defined
 
         A2B : array-like, shape (4, 4)
@@ -84,16 +84,31 @@ class TransformManager(object):
 
         return self
 
+    def has_frame(self, frame):
+        """Check if frame has been registered.
+
+        Parameters
+        ----------
+        frame : str
+            Frame name
+
+        Returns
+        -------
+        has_frame : bool
+            Frame is registered
+        """
+        return frame in self.nodes
+
     def get_transform(self, from_frame, to_frame):
         """Request a transform.
 
         Parameters
         ----------
-        from_frame : string
+        from_frame : str
             Name of the frame for which the transform is requested in the
             to_frame coordinate system
 
-        to_frame : string
+        to_frame : str
             Name of the frame in which the transform is defined
 
         Returns
@@ -143,7 +158,7 @@ class TransformManager(object):
 
         Parameters
         ----------
-        frame : string
+        frame : str
             Reference frame
 
         ax : Matplotlib 3d axis, optional (default: None)
@@ -195,7 +210,7 @@ class TransformManager(object):
 
         Parameters
         ----------
-        frame : string
+        frame : str
             Reference frame
 
         ax : Matplotlib 3d axis, optional (default: None)
