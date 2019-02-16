@@ -176,6 +176,19 @@ def test_check_consistency():
     assert_true(tm.check_consistency())
 
 
+def test_connected_components():
+    """Test computation of connected components in the graph."""
+    tm = TransformManager()
+    tm.add_transform("A", "B", np.eye(4))
+    assert_equal(tm.connected_components(), 1)
+    tm.add_transform("D", "E", np.eye(4))
+    assert_equal(tm.connected_components(), 2)
+    tm.add_transform("B", "C", np.eye(4))
+    assert_equal(tm.connected_components(), 2)
+    tm.add_transform("D", "C", np.eye(4))
+    assert_equal(tm.connected_components(), 1)
+
+
 def test_png_export():
     """Test if the graph can be exported to PNG."""
     random_state = np.random.RandomState(0)

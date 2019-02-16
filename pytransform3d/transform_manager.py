@@ -41,6 +41,7 @@ class TransformManager(object):
         self.nodes = []
         self.i = []
         self.j = []
+        self.connections = sp.csr_matrix((0, 0))
 
     def add_transform(self, from_frame, to_frame, A2B):
         """Register a transform.
@@ -76,10 +77,11 @@ class TransformManager(object):
         self.transforms[(from_frame, to_frame)] = A2B
 
         n_nodes = len(self.nodes)
-        con = sp.csr_matrix((np.zeros(len(self.i)), (self.i, self.j)),
-                            shape=(n_nodes, n_nodes))
+        self.connections = sp.csr_matrix(
+            (np.zeros(len(self.i)), (self.i, self.j)),
+            shape=(n_nodes, n_nodes))
         self.dist, self.predecessors = csgraph.shortest_path(
-            con, unweighted=True, directed=False, method="D",
+            self.connections, unweighted=True, directed=False, method="D",
             return_predecessors=True)
 
         return self
@@ -310,6 +312,20 @@ class TransformManager(object):
                 except KeyError:
                     pass  # Frames are not connected
         return consistent
+
+    def connected_components(self):
+        """Get number of connected components.
+
+        If the number is larger than 1 there will be frames without
+        connections.
+
+        Returns
+        -------
+        n_connected_components : int
+            Number of connected components.
+        """
+        return csgraph.connected_components(
+            self.connections, directed=False, return_labels=False)
 
     def write_png(self, filename):
         """Create PNG from dot graph of the transformations.
