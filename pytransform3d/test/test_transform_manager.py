@@ -39,6 +39,15 @@ def test_request_inverse_transform():
     assert_array_almost_equal(B2A, B2A_2)
 
 
+def test_has_frame():
+    """Check if frames have been registered with transform."""
+    tm = TransformManager()
+    tm.add_transform("A", "B", np.eye(4))
+    assert_true(tm.has_frame("A"))
+    assert_true(tm.has_frame("B"))
+    assert_false(tm.has_frame("C"))
+
+
 def test_transform_not_added():
     """Test request for transforms that have not been added."""
     random_state = np.random.RandomState(0)
