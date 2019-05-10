@@ -1,5 +1,7 @@
 """Load transformations from URDF files."""
+import stl  # TODO dependency: numpy-stl
 import numpy as np
+from mpl_toolkits import mplot3d
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat, transform
@@ -156,16 +158,12 @@ class UrdfTransformManager(TransformManager):
         return shape_objects
 
     def _parse_geometry(self, child, name):
-        """Parse geometric primitives (box, cylinder, sphere).
-
-        Meshes are not supported!
-        """
+        """Parse geometric primitives (box, cylinder, sphere) or meshes."""
         geometry = child.find("geometry")
         if geometry is None:
             raise UrdfException("Missing geometry tag in link '%s'" % name)
         result = []
-        # meshes are not supported
-        for shape_type in ["box", "cylinder", "sphere"]:
+        for shape_type in ["box", "cylinder", "sphere", "mesh"]:
             shapes = geometry.findAll(shape_type)
             Cls = shape_classes[shape_type]
             for shape in shapes:
@@ -486,9 +484,44 @@ class Cylinder(object):
         return ax
 
 
+# TODO ugly hack
+PREFIX="models/robots/universal_robots/urdf/"
+
+
+class Mesh(object):
+    def __init__(self, frame):
+        self.frame = frame
+
+    def parse(self, mesh):
+        if not mesh.has_attr("filename"):
+            raise UrdfException("Mesh has no filename.")
+        self.filename = mesh["filename"]
+        if mesh.has_attr("scale"):
+            self.scale = np.fromstring(mesh["scale"], sep=" ")
+        else:
+            self.scale = np.ones(3)
+
+    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
+        A2B = tm.get_transform(self.frame, frame)
+
+        filename = PREFIX + self.filename
+        mesh = stl.mesh.Mesh.from_file(filename)
+        vectors = mesh.vectors
+        n_vectors = len(vectors)
+        vectors = vectors.reshape(n_vectors * 3, 3)
+        vectors *= self.scale
+        vectors = np.hstack((vectors, np.ones((len(vectors), 1))))
+        vectors = transform(A2B, vectors)[:, :3]
+        vectors = vectors.reshape(n_vectors, 3, 3)
+        ax.add_collection3d(mplot3d.art3d.Poly3DCollection(vectors))
+
+        return ax
+
+
 shape_classes = {"box": Box,
                  "sphere": Sphere,
-                 "cylinder": Cylinder}
+                 "cylinder": Cylinder,
+                 "mesh": Mesh}
 
 
 class UrdfException(Exception):
