@@ -44,7 +44,7 @@ try:
 
             if self.draw_label:
                 self.label_indicator = Line3D([], [], [], color="k", **kwargs)
-                self.label_text = Text3D(0, 0, 0, text="", zdir="z")
+                self.label_text = Text3D(0, 0, 0, text="", zdir="x")
 
             self.set_data(A2B, label)
 
@@ -78,7 +78,7 @@ try:
 
                 self.label_text.set_text(label)
                 self.label_text.set_position([label_pos[0], label_pos[1]])
-                self.label_text.set_3d_properties(label_pos[2])
+                self.label_text.set_3d_properties(label_pos[2], zdir="x")
 
         @artist.allow_rasterization
         def draw(self, renderer, *args, **kwargs):
