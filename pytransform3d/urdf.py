@@ -97,7 +97,7 @@ class UrdfTransformManager(TransformManager):
             raise KeyError("Joint '%s' is not known" % joint_name)
         return self._joints[joint_name][4]
 
-    def load_urdf(self, urdf_xml):
+    def load_urdf(self, urdf_xml, mesh_path=None):
         """Load URDF file into transformation manager.
 
         Parameters
@@ -105,6 +105,7 @@ class UrdfTransformManager(TransformManager):
         urdf_xml : string
             Robot definition in URDF
         """
+        self.mesh_path = mesh_path
         urdf = BeautifulSoup(urdf_xml, "xml")
 
         # URDF XML schema:
@@ -167,7 +168,7 @@ class UrdfTransformManager(TransformManager):
             shapes = geometry.findAll(shape_type)
             Cls = shape_classes[shape_type]
             for shape in shapes:
-                shape_object = Cls(name)
+                shape_object = Cls(name, mesh_path=self.mesh_path)
                 shape_object.parse(shape)
                 result.append(shape_object)
         return result
@@ -382,7 +383,7 @@ class Joint(object):
 
 
 class Box(object):
-    def __init__(self, frame):
+    def __init__(self, frame, mesh_path):
         self.frame = frame
 
     def parse(self, box):
@@ -418,7 +419,7 @@ class Box(object):
 
 
 class Sphere(object):
-    def __init__(self, frame):
+    def __init__(self, frame, mesh_path):
         self.frame = frame
 
     def parse(self, sphere):
@@ -442,7 +443,7 @@ class Sphere(object):
 
 
 class Cylinder(object):
-    def __init__(self, frame):
+    def __init__(self, frame, mesh_path):
         self.frame = frame
 
     def parse(self, cylinder):
@@ -484,13 +485,10 @@ class Cylinder(object):
         return ax
 
 
-# TODO ugly hack
-PREFIX="models/robots/universal_robots/urdf/"
-
-
 class Mesh(object):
-    def __init__(self, frame):
+    def __init__(self, frame, mesh_path):
         self.frame = frame
+        self.mesh_path = mesh_path
 
     def parse(self, mesh):
         if not mesh.has_attr("filename"):
@@ -504,7 +502,7 @@ class Mesh(object):
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
 
-        filename = PREFIX + self.filename
+        filename = self.mesh_path + self.filename  # TODO os.path.join()
         mesh = stl.mesh.Mesh.from_file(filename)
         vectors = mesh.vectors
         n_vectors = len(vectors)
