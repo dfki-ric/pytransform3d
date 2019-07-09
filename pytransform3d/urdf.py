@@ -1,5 +1,6 @@
 """Load transformations from URDF files."""
-import stl  # TODO dependency: numpy-stl
+import stl
+import warnings
 import numpy as np
 from mpl_toolkits import mplot3d
 from bs4 import BeautifulSoup
@@ -25,7 +26,7 @@ class UrdfTransformManager(TransformManager):
 
         Joint angles must be given in radians.
     """
-    def __init__(self):
+    def __init__(self, mesh_folders=()):
         super(UrdfTransformManager, self).__init__()
         self._joints = {}
         self.collision_objects = []
@@ -102,8 +103,11 @@ class UrdfTransformManager(TransformManager):
 
         Parameters
         ----------
-        urdf_xml : string
+        urdf_xml : str
             Robot definition in URDF
+
+        mesh_path : str
+            Path in which we search for meshes that are defined in the URDF
         """
         self.mesh_path = mesh_path
         urdf = BeautifulSoup(urdf_xml, "xml")
@@ -261,8 +265,8 @@ class UrdfTransformManager(TransformManager):
     def plot_visuals(self, frame, ax=None, ax_s=1):
         """Plot all visuals in a given reference frame.
 
-        Visuals can be boxes, spheres, or cylinders. Note that visuals that
-        cannot be connected to the reference frame are omitted.
+        Visuals can be boxes, spheres, cylinders, or meshes. Note that visuals
+        that cannot be connected to the reference frame are omitted.
 
         Parameters
         ----------
@@ -285,9 +289,9 @@ class UrdfTransformManager(TransformManager):
     def plot_collision_objects(self, frame, ax=None, ax_s=1):
         """Plot all collision objects in a given reference frame.
 
-        Collision objects can be boxes, spheres, or cylinders. Note that
-        collision objects that cannot be connected to the reference frame are
-        omitted.
+        Collision objects can be boxes, spheres, cylinders, or meshes. Note
+        that collision objects that cannot be connected to the reference frame
+        are omitted.
 
         Parameters
         ----------
@@ -310,8 +314,8 @@ class UrdfTransformManager(TransformManager):
     def _plot_objects(self, objects, frame, ax=None, ax_s=1):
         """Plot all objects in a given reference frame.
 
-        Objects can be boxes, spheres, or cylinders. Note that objects that
-        cannot be connected to the reference frame are omitted.
+        Objects can be boxes, spheres, cylinders, or meshes. Note that objects
+        that cannot be connected to the reference frame are omitted.
 
         Parameters
         ----------
@@ -502,7 +506,7 @@ class Mesh(object):
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
 
-        filename = self.mesh_path + self.filename  # TODO os.path.join()
+        filename = os.path.join(self.mesh_path, self.filename)
         mesh = stl.mesh.Mesh.from_file(filename)
         vectors = mesh.vectors
         n_vectors = len(vectors)
