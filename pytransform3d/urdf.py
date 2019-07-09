@@ -1,6 +1,5 @@
 """Load transformations from URDF files."""
 import stl
-import warnings
 import numpy as np
 from mpl_toolkits import mplot3d
 from bs4 import BeautifulSoup
