@@ -25,7 +25,7 @@ class UrdfTransformManager(TransformManager):
 
         Joint angles must be given in radians.
     """
-    def __init__(self, mesh_folders=()):
+    def __init__(self):
         super(UrdfTransformManager, self).__init__()
         self._joints = {}
         self.collision_objects = []
