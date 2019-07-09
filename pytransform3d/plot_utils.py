@@ -4,7 +4,6 @@ try:
     import matplotlib.pyplot as plt
     from matplotlib import artist
     from matplotlib.patches import FancyArrowPatch
-    #from mpl_toolkits.mplot3d import Axes3D
     from mpl_toolkits.mplot3d import proj3d
     from mpl_toolkits.mplot3d.art3d import Line3D, Text3D
 
