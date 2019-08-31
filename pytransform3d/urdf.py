@@ -498,16 +498,18 @@ class Mesh(object):
         if not mesh.has_attr("filename"):
             raise UrdfException("Mesh has no filename.")
         self.filename = mesh["filename"]
+        self.filename = os.path.join(self.mesh_path, self.filename)
         if mesh.has_attr("scale"):
             self.scale = np.fromstring(mesh["scale"], sep=" ")
         else:
             self.scale = np.ones(3)
 
-    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3):
         A2B = tm.get_transform(self.frame, frame)
 
-        filename = os.path.join(self.mesh_path, self.filename)
-        mesh = stl.mesh.Mesh.from_file(filename)
+        # Mesh file must be loaded during plotting, otherwise numpy-stl
+        # complains about the size of the meshes.
+        mesh = stl.mesh.Mesh.from_file(self.filename)
         vectors = mesh.vectors
         n_vectors = len(vectors)
         vectors = vectors.reshape(n_vectors * 3, 3)
@@ -515,7 +517,12 @@ class Mesh(object):
         vectors = np.hstack((vectors, np.ones((len(vectors), 1))))
         vectors = transform(A2B, vectors)[:, :3]
         vectors = vectors.reshape(n_vectors, 3, 3)
-        ax.add_collection3d(mplot3d.art3d.Poly3DCollection(vectors))
+
+        p3c = mplot3d.art3d.Poly3DCollection(vectors)
+        p3c.set_alpha(alpha)
+        # HACK without this line the alpha value would not work
+        p3c.set_facecolor(None)
+        ax.add_collection3d(p3c)
 
         return ax
 
