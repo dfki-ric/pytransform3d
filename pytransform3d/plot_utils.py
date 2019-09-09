@@ -224,6 +224,8 @@ try:
         try:
             ax = plt.subplot(pos, projection="3d", aspect="equal")
         except NotImplementedError:
+            # HACK: workaround for bug in new matplotlib versions (ca. 3.02):
+            # "It is not currently possible to manually set the aspect"
             ax = plt.subplot(pos, projection="3d")
         plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
                  xlabel="X", ylabel="Y", zlabel="Z")

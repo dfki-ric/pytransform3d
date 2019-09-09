@@ -29,7 +29,12 @@ image_grid = world2image(world_grid, cam2world, sensor_size, image_size,
                          focal_length)
 
 plt.figure(figsize=(12, 5))
-ax = plt.subplot(121, projection="3d")
+try:
+    ax = plt.subplot(121, projection="3d", aspect="equal")
+except NotImplementedError:
+    # HACK: workaround for bug in new matplotlib versions (ca. 3.02):
+    # "It is not currently possible to manually set the aspect"
+    ax = plt.subplot(121, projection="3d")
 ax.view_init(elev=30, azim=-70)
 ax.set_xlim((-1, 1))
 ax.set_ylim((-1, 1))

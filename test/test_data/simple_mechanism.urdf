@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 0.7 -->
+  <robot name="simple_mechanism">
+
+    <link name="upper_cone">
+      <visual name="upper_cone">
+        <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+        <geometry>
+          <mesh filename="cone.stl" scale="1 1 1"/>
+        </geometry>
+      </visual>
+    </link>
+
+    <link name="lower_cone">
+      <visual name="lower_cone">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="cone.stl" scale="1 1 1"/>
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="joint" type="revolute">
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+      <parent link="lower_cone"/>
+      <child link="upper_cone"/>
+      <axis xyz="1 0 0"/>
+      <limit lower="-2.79253" upper="2.79253" effort="0" velocity="0"/>
+    </joint>
+
+  </robot>
