@@ -141,6 +141,16 @@ plt.show()
 
 ![output](https://rock-learning.github.io/pytransform3d/_images/plot_transform_manager.png)
 
+## Gallery
+
+The following plots have been generated with pytransform3d.
+
+![axis-angle](doc/source/_static/rotations_axis_angle.png)
+![trajectories](doc/source/_static/trajectories.png)
+![urdf](paper/plot_urdf.png)
+![mesh](doc/source/_static/transform_manager_mesh.png)
+![transform-editor](paper/app_transformation_editor.png)
+
 ## Tests
 
 You can use nosetests to run the tests of this project in the root directory:
