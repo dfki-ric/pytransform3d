@@ -145,11 +145,11 @@ plt.show()
 
 The following plots have been generated with pytransform3d.
 
-![axis-angle](doc/source/_static/rotations_axis_angle.png)
-![trajectories](doc/source/_static/trajectories.png)
-![urdf](paper/plot_urdf.png)
-![mesh](doc/source/_static/transform_manager_mesh.png)
-![transform-editor](paper/app_transformation_editor.png)
+<img src="doc/source/_static/rotations_axis_angle.png" height=300px/>
+<img src="doc/source/_static/trajectories.png" height=300px/>
+<img src="paper/plot_urdf.png" height=300px/>
+<img src="doc/source/_static/transform_manager_mesh.png" height=300px/>
+<img src="paper/app_transformation_editor.png" height=300px/>
 
 ## Tests
 
