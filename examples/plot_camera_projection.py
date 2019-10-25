@@ -21,7 +21,7 @@ sensor_size = (0.2, 0.15)
 image_size = (640, 480)
 
 plt.figure(figsize=(12, 5))
-ax = plt.subplot(121, projection="3d", aspect="equal")
+ax = plt.subplot(121, projection="3d")
 ax.set_title("Grid in 3D camera coordinate system")
 ax.set_xlim((-1, 1))
 ax.set_ylim((-1, 1))

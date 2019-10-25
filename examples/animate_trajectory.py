@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     fig = plt.figure(figsize=(5, 5))
 
-    ax = fig.add_subplot(111, projection="3d", aspect="equal")
+    ax = fig.add_subplot(111, projection="3d")
     ax.set_xlim((-1, 1))
     ax.set_ylim((-1, 1))
     ax.set_zlim((-1, 1))

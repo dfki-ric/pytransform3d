@@ -222,7 +222,10 @@ try:
         ax : Matplotlib 3d axis
             New axis
         """
-        ax = plt.subplot(pos, projection="3d", aspect="equal")
+        try:
+            ax = plt.subplot(pos, projection="3d", aspect="equal")
+        except NotImplementedError:
+            ax = plt.subplot(pos, projection="3d")
         plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
                  xlabel="X", ylabel="Y", zlabel="Z")
         return ax

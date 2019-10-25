@@ -78,9 +78,9 @@ if __name__ == "__main__":
     end = quaternion_from_axis_angle(end)
     n_frames = 200
 
-    fig = plt.figure(figsize=(15, 5))
+    fig = plt.figure(figsize=(12, 5))
 
-    ax = fig.add_subplot(121, projection="3d", aspect="equal")
+    ax = fig.add_subplot(121, projection="3d")
     ax.set_xlim((-1, 1))
     ax.set_ylim((-1, 1))
     ax.set_zlim((-1, 1))
