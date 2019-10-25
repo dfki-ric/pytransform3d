@@ -67,7 +67,7 @@ def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10, s=1.0, ax
         ax = make_3d_axis(ax_s)
 
     H = matrices_from_pos_quat(P)
-    trajectory = Trajectory(H, show_direction, n_frames, s)
+    trajectory = Trajectory(H, show_direction, n_frames, s, **kwargs)
     trajectory.add_trajectory(ax)
 
     return ax
