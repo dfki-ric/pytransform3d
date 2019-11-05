@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.editor.TransformEditor &#8212; pytransform3d 1.0 documentation</title>
+    <title>pytransform3d.editor.TransformEditor &#8212; pytransform3d 1.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -11,7 +11,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -205,12 +205,12 @@ plot and the range of the slider.</p>
 
 <dl class="class">
 <dt id="pytransform3d.editor.TransformEditor.DockOptions">
-<em class="property">class </em><code class="descname">DockOptions</code><span class="sig-paren">(</span><em>QMainWindow.DockOptions) QMainWindow.DockOptions(int) QMainWindow.DockOptions(</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.DockOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DockOptions</code><a class="headerlink" href="#pytransform3d.editor.TransformEditor.DockOptions" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
 <dt id="pytransform3d.editor.TransformEditor.RenderFlags">
-<em class="property">class </em><code class="descname">RenderFlags</code><span class="sig-paren">(</span><em>QWidget.RenderFlags) QWidget.RenderFlags(int) QWidget.RenderFlags(</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.RenderFlags" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">RenderFlags</code><a class="headerlink" href="#pytransform3d.editor.TransformEditor.RenderFlags" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -220,12 +220,12 @@ plot and the range of the slider.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.accessibleDescription">
-<code class="descname">accessibleDescription</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.accessibleDescription" title="Permalink to this definition">¶</a></dt>
+<code class="descname">accessibleDescription</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.accessibleDescription" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.accessibleName">
-<code class="descname">accessibleName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.accessibleName" title="Permalink to this definition">¶</a></dt>
+<code class="descname">accessibleName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.accessibleName" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -262,7 +262,7 @@ plot and the range of the slider.</p>
 <dt id="pytransform3d.editor.TransformEditor.addToolBar">
 <code class="descname">addToolBar</code><span class="sig-paren">(</span><em>Qt.ToolBarArea</em>, <em>QToolBar</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.addToolBar" title="Permalink to this definition">¶</a></dt>
 <dd><p>QMainWindow.addToolBar(QToolBar)
-QMainWindow.addToolBar(str) -&gt; QToolBar</p>
+QMainWindow.addToolBar(QString) -&gt; QToolBar</p>
 </dd></dl>
 
 <dl class="method">
@@ -549,14 +549,14 @@ QObject.destroyed [signal]</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.findChild">
-<code class="descname">findChild</code><span class="sig-paren">(</span><em>type</em>, <em>str name=''</em><span class="sig-paren">)</span> &#x2192; QObject<a class="headerlink" href="#pytransform3d.editor.TransformEditor.findChild" title="Permalink to this definition">¶</a></dt>
-<dd><p>QObject.findChild(tuple, str name=’‘) -&gt; QObject</p>
+<code class="descname">findChild</code><span class="sig-paren">(</span><em>type</em>, <em>QString name=QString()</em><span class="sig-paren">)</span> &#x2192; QObject<a class="headerlink" href="#pytransform3d.editor.TransformEditor.findChild" title="Permalink to this definition">¶</a></dt>
+<dd><p>QObject.findChild(tuple, QString name=QString()) -&gt; QObject</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.findChildren">
-<code class="descname">findChildren</code><span class="sig-paren">(</span><em>type</em>, <em>str name=''</em><span class="sig-paren">)</span> &#x2192; list-of-QObject<a class="headerlink" href="#pytransform3d.editor.TransformEditor.findChildren" title="Permalink to this definition">¶</a></dt>
-<dd><p>QObject.findChildren(tuple, str name=’‘) -&gt; list-of-QObject
+<code class="descname">findChildren</code><span class="sig-paren">(</span><em>type</em>, <em>QString name=QString()</em><span class="sig-paren">)</span> &#x2192; list-of-QObject<a class="headerlink" href="#pytransform3d.editor.TransformEditor.findChildren" title="Permalink to this definition">¶</a></dt>
+<dd><p>QObject.findChildren(tuple, QString name=QString()) -&gt; list-of-QObject
 QObject.findChildren(type, QRegExp) -&gt; list-of-QObject
 QObject.findChildren(tuple, QRegExp) -&gt; list-of-QObject</p>
 </dd></dl>
@@ -749,7 +749,7 @@ QObject.findChildren(tuple, QRegExp) -&gt; list-of-QObject</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.inputMethodQuery">
-<code class="descname">inputMethodQuery</code><span class="sig-paren">(</span><em>Qt.InputMethodQuery</em><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#pytransform3d.editor.TransformEditor.inputMethodQuery" title="Permalink to this definition">¶</a></dt>
+<code class="descname">inputMethodQuery</code><span class="sig-paren">(</span><em>Qt.InputMethodQuery</em><span class="sig-paren">)</span> &#x2192; QVariant<a class="headerlink" href="#pytransform3d.editor.TransformEditor.inputMethodQuery" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1094,7 +1094,7 @@ QObject.findChildren(tuple, QRegExp) -&gt; list-of-QObject</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.objectName">
-<code class="descname">objectName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.objectName" title="Permalink to this definition">¶</a></dt>
+<code class="descname">objectName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.objectName" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1164,7 +1164,7 @@ QObject.findChildren(tuple, QRegExp) -&gt; list-of-QObject</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.property">
-<code class="descname">property</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#pytransform3d.editor.TransformEditor.property" title="Permalink to this definition">¶</a></dt>
+<code class="descname">property</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span> &#x2192; QVariant<a class="headerlink" href="#pytransform3d.editor.TransformEditor.property" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1304,12 +1304,12 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setAccessibleDescription">
-<code class="descname">setAccessibleDescription</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setAccessibleDescription" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setAccessibleDescription</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setAccessibleDescription" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setAccessibleName">
-<code class="descname">setAccessibleName</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setAccessibleName" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setAccessibleName</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setAccessibleName" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1524,7 +1524,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setObjectName">
-<code class="descname">setObjectName</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setObjectName" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setObjectName</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setObjectName" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1539,7 +1539,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setProperty">
-<code class="descname">setProperty</code><span class="sig-paren">(</span><em>str</em>, <em>object</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytransform3d.editor.TransformEditor.setProperty" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setProperty</code><span class="sig-paren">(</span><em>str</em>, <em>QVariant</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytransform3d.editor.TransformEditor.setProperty" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1574,7 +1574,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setStatusTip">
-<code class="descname">setStatusTip</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setStatusTip" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setStatusTip</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setStatusTip" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1584,7 +1584,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setStyleSheet">
-<code class="descname">setStyleSheet</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setStyleSheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setStyleSheet</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setStyleSheet" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1609,7 +1609,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setToolTip">
-<code class="descname">setToolTip</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setToolTip" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setToolTip</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setToolTip" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1629,12 +1629,12 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setWhatsThis">
-<code class="descname">setWhatsThis</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWhatsThis" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setWhatsThis</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWhatsThis" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setWindowFilePath">
-<code class="descname">setWindowFilePath</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowFilePath" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setWindowFilePath</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowFilePath" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1649,7 +1649,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setWindowIconText">
-<code class="descname">setWindowIconText</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowIconText" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setWindowIconText</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowIconText" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1669,7 +1669,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setWindowRole">
-<code class="descname">setWindowRole</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowRole" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setWindowRole</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowRole" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1679,7 +1679,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.setWindowTitle">
-<code class="descname">setWindowTitle</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowTitle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setWindowTitle</code><span class="sig-paren">(</span><em>QString</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.editor.TransformEditor.setWindowTitle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1760,7 +1760,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.statusTip">
-<code class="descname">statusTip</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.statusTip" title="Permalink to this definition">¶</a></dt>
+<code class="descname">statusTip</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.statusTip" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1770,7 +1770,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.styleSheet">
-<code class="descname">styleSheet</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.styleSheet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">styleSheet</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.styleSheet" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1836,7 +1836,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.toolTip">
-<code class="descname">toolTip</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.toolTip" title="Permalink to this definition">¶</a></dt>
+<code class="descname">toolTip</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.toolTip" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1846,12 +1846,12 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.tr">
-<code class="descname">tr</code><span class="sig-paren">(</span><em>str</em>, <em>str disambiguation=None</em>, <em>int n=-1</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.tr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">tr</code><span class="sig-paren">(</span><em>str</em>, <em>str disambiguation=None</em>, <em>int n=-1</em><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.tr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.trUtf8">
-<code class="descname">trUtf8</code><span class="sig-paren">(</span><em>str</em>, <em>str disambiguation=None</em>, <em>int n=-1</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.trUtf8" title="Permalink to this definition">¶</a></dt>
+<code class="descname">trUtf8</code><span class="sig-paren">(</span><em>str</em>, <em>str disambiguation=None</em>, <em>int n=-1</em><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.trUtf8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1911,7 +1911,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.whatsThis">
-<code class="descname">whatsThis</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.whatsThis" title="Permalink to this definition">¶</a></dt>
+<code class="descname">whatsThis</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.whatsThis" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1946,7 +1946,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.windowFilePath">
-<code class="descname">windowFilePath</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowFilePath" title="Permalink to this definition">¶</a></dt>
+<code class="descname">windowFilePath</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowFilePath" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1961,7 +1961,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.windowIconText">
-<code class="descname">windowIconText</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowIconText" title="Permalink to this definition">¶</a></dt>
+<code class="descname">windowIconText</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowIconText" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1976,7 +1976,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.windowRole">
-<code class="descname">windowRole</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowRole" title="Permalink to this definition">¶</a></dt>
+<code class="descname">windowRole</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowRole" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1986,7 +1986,7 @@ callable.</p>
 
 <dl class="method">
 <dt id="pytransform3d.editor.TransformEditor.windowTitle">
-<code class="descname">windowTitle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowTitle" title="Permalink to this definition">¶</a></dt>
+<code class="descname">windowTitle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; QString<a class="headerlink" href="#pytransform3d.editor.TransformEditor.windowTitle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -2030,8 +2030,8 @@ callable.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Dec 07, 2018.<br/>
+        &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Nov 05, 2019.<br/>
     </p>
   </div>
 </footer>

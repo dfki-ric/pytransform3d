@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.urdf &#8212; pytransform3d 1.0 documentation</title>
+    <title>pytransform3d.urdf &#8212; pytransform3d 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -11,7 +11,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -117,7 +117,7 @@
     <div class="col-md-12">
       
   <h1>Source code for pytransform3d.urdf</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;Load transformations from URDF files.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Load transformations from URDF files.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">.transform_manager</span> <span class="k">import</span> <span class="n">TransformManager</span>
@@ -143,7 +143,7 @@
 <span class="sd">        Joint angles must be given in radians.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="UrdfTransformManager.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">UrdfTransformManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UrdfTransformManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">[]</span></div>
@@ -236,9 +236,10 @@
 
         <span class="n">robot_name</span> <span class="o">=</span> <span class="n">robot</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
-        <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">)]</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+                 <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
         <span class="n">joints</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_joint</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
-                  <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">)]</span>
+                  <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">joints</span><span class="p">:</span>
@@ -625,8 +626,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Dec 07, 2018.<br/>
+        &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Nov 05, 2019.<br/>
     </p>
   </div>
 </footer>

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 1.0 documentation</title>
+    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 1.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -11,7 +11,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -198,12 +198,12 @@ joints have been added or loaded from an URDF.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>from_frame</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>from_frame</strong> : str</p>
 <blockquote>
 <div><p>Name of the frame for which the transform is added in the to_frame
 coordinate system</p>
 </div></blockquote>
-<p><strong>to_frame</strong> : string</p>
+<p><strong>to_frame</strong> : str</p>
 <blockquote>
 <div><p>Name of the frame in which the transform is defined</p>
 </div></blockquote>
@@ -248,6 +248,26 @@ of B2A?</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pytransform3d.urdf.UrdfTransformManager.connected_components">
+<code class="descname">connected_components</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of connected components.</p>
+<p>If the number is larger than 1 there will be frames without
+connections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n_connected_components</strong> : int</p>
+<blockquote class="last">
+<div><p>Number of connected components.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytransform3d.urdf.UrdfTransformManager.get_joint_limits">
 <code class="descname">get_joint_limits</code><span class="sig-paren">(</span><em>joint_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.get_joint_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.get_joint_limits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get limits of a joint.</p>
@@ -279,12 +299,12 @@ of B2A?</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>from_frame</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>from_frame</strong> : str</p>
 <blockquote>
 <div><p>Name of the frame for which the transform is requested in the
 to_frame coordinate system</p>
 </div></blockquote>
-<p><strong>to_frame</strong> : string</p>
+<p><strong>to_frame</strong> : str</p>
 <blockquote>
 <div><p>Name of the frame in which the transform is defined</p>
 </div></blockquote>
@@ -294,6 +314,30 @@ to_frame coordinate system</p>
 <blockquote class="last">
 <div><p>Homogeneous matrix that represents the transform from ‘from_frame’
 to ‘to_frame’</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytransform3d.urdf.UrdfTransformManager.has_frame">
+<code class="descname">has_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.has_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if frame has been registered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : str</p>
+<blockquote>
+<div><p>Frame name</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>has_frame</strong> : bool</p>
+<blockquote class="last">
+<div><p>Frame is registered</p>
 </div></blockquote>
 </td>
 </tr>
@@ -367,7 +411,7 @@ omitted.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : str</p>
 <blockquote>
 <div><p>Reference frame</p>
 </div></blockquote>
@@ -410,7 +454,7 @@ omitted.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : str</p>
 <blockquote>
 <div><p>Reference frame</p>
 </div></blockquote>
@@ -507,6 +551,29 @@ cannot be connected to the reference frame are omitted.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="pytransform3d.urdf.UrdfTransformManager.write_png">
+<code class="descname">write_png</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.write_png" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create PNG from dot graph of the transformations.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Note that this method requires the Python package pydot and an
+existing installation of graphviz on your system.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote class="last">
+<div><p>Name of the output file. Should end with ‘.png’.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -523,8 +590,8 @@ cannot be connected to the reference frame are omitted.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Dec 07, 2018.<br/>
+        &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Nov 05, 2019.<br/>
     </p>
   </div>
 </footer>

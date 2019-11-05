@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.plot_utils.Frame &#8212; pytransform3d 1.0 documentation</title>
+    <title>pytransform3d.plot_utils.Frame &#8212; pytransform3d 1.1.1 documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -11,7 +11,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -48,7 +48,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -208,7 +208,7 @@ convert <em>y</em> using yaxis unit type</p>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>renderer</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Frame.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Frame.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>artist</em>, <em>renderer</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Frame.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Frame.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the artist.</p>
 </dd></dl>
 
@@ -240,7 +240,7 @@ checked for a match.</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_agg_filter">
 <code class="descname">get_agg_filter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_agg_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return filter function to be used for agg filter.</p>
+<dd><p>return filter function to be used for agg filter</p>
 </dd></dl>
 
 <dl class="method">
@@ -296,23 +296,14 @@ backends</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_figure">
 <code class="descname">get_figure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_figure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <cite>.Figure</cite> instance the artist belongs to.</p>
+<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Figure</span></code> instance the
+artist belongs to.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_gid">
 <code class="descname">get_gid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_gid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the group id.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Frame.get_in_layout">
-<code class="descname">get_in_layout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_in_layout" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return boolean flag, <code class="docutils literal"><span class="pre">True</span></code> if artist is included in layout
-calculations.</p>
-<p>E.g. <span class="xref std std-doc">/tutorials/intermediate/constrainedlayout_guide</span>,
-<cite>.Figure.tight_layout()</cite>, and
-<code class="docutils literal"><span class="pre">fig.savefig(fname,</span> <span class="pre">bbox_inches='tight')</span></code>.</p>
+<dd><p>Returns the group id</p>
 </dd></dl>
 
 <dl class="method">
@@ -324,13 +315,13 @@ calculations.</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_picker">
 <code class="descname">get_picker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_picker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the picker object used by this artist.</p>
+<dd><p>Return the picker object used by this artist</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_rasterized">
 <code class="descname">get_rasterized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_rasterized" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return whether the artist is to be rasterized.</p>
+<dd><p>return True if the artist is to be rasterized</p>
 </dd></dl>
 
 <dl class="method">
@@ -342,8 +333,7 @@ calculations.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>sketch_params</strong> : tuple or <cite>None</cite></p>
-<blockquote class="last">
-<div><p>A 3-tuple with the following elements:</p>
+<p>A 3-tuple with the following elements:</p>
 <blockquote>
 <div><ul class="simple">
 <li><cite>scale</cite>: The amplitude of the wiggle perpendicular to the
@@ -353,8 +343,7 @@ source line.</li>
 shrunken or expanded.</li>
 </ul>
 </div></blockquote>
-<p>May return <cite>None</cite> if no sketch parameters were set.</p>
-</div></blockquote>
+<p class="last">May return <cite>None</cite> if no sketch parameters were set.</p>
 </td>
 </tr>
 </tbody>
@@ -377,31 +366,6 @@ segments, round to the nearest pixel center</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="pytransform3d.plot_utils.Frame.get_tightbbox">
-<code class="descname">get_tightbbox</code><span class="sig-paren">(</span><em>renderer</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_tightbbox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Like <cite>Artist.get_window_extent</cite>, but includes any clipping.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>renderer</strong> : <cite>.RendererBase</cite> instance</p>
-<blockquote>
-<div><p>renderer that will be used to draw the figures (i.e.
-<code class="docutils literal"><span class="pre">fig.canvas.get_renderer()</span></code>)</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>bbox</strong> : <cite>.BboxBase</cite></p>
-<blockquote class="last">
-<div><p>containing the bounding box (in figure pixel co-ordinates).</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_transform">
 <code class="descname">get_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code>
@@ -419,7 +383,7 @@ transformation.</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_url">
 <code class="descname">get_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_url" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the url.</p>
+<dd><p>Returns the url</p>
 </dd></dl>
 
 <dl class="method">
@@ -447,7 +411,7 @@ but will save incorrectly.</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.get_zorder">
 <code class="descname">get_zorder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.get_zorder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the artist’s zorder.</p>
+<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code>’s zorder.</p>
 </dd></dl>
 
 <dl class="method">
@@ -459,19 +423,14 @@ but will save incorrectly.</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.hitlist">
 <code class="descname">hitlist</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.hitlist" title="Permalink to this definition">¶</a></dt>
-<dd><div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.2: </span>The hitlist function was deprecated in Matplotlib 2.2 and will be removed in 3.1.</p>
-</div>
-<p>List the children of the artist which contain the mouse event <em>event</em>.</p>
+<dd><p>List the children of the artist which contain the mouse event <em>event</em>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.is_figure_set">
 <code class="descname">is_figure_set</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.is_figure_set" title="Permalink to this definition">¶</a></dt>
-<dd><div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.2: </span>artist.figure is not None</p>
-</div>
-<p>Returns whether the artist is assigned to a <cite>.Figure</cite>.</p>
+<dd><p>Returns True if the artist is assigned to a
+<code class="xref py py-class docutils literal"><span class="pre">Figure</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -544,62 +503,29 @@ collections even if the collection was added to axes with
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_agg_filter">
 <code class="descname">set_agg_filter</code><span class="sig-paren">(</span><em>filter_func</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_agg_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the agg filter.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filter_func</strong> : callable</p>
-<blockquote class="last">
-<div><p>A filter function, which takes a (m, n, 3) float array and a dpi
-value, and returns a (m, n, 3) array.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><p>set agg_filter function.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_alpha">
 <code class="descname">set_alpha</code><span class="sig-paren">(</span><em>alpha</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_alpha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the alpha value used for blending - not supported on all backends.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alpha</strong> : float</td>
-</tr>
-</tbody>
-</table>
+<dd><p>Set the alpha value used for blending - not supported on
+all backends.</p>
+<p>ACCEPTS: float (0.0 transparent through 1.0 opaque)</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_animated">
 <code class="descname">set_animated</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_animated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the artist’s animation state.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>b</strong> : bool</td>
-</tr>
-</tbody>
-</table>
+<p>ACCEPTS: [True | False]</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_clip_box">
 <code class="descname">set_clip_box</code><span class="sig-paren">(</span><em>clipbox</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_clip_box" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the artist’s clip <cite>.Bbox</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>clipbox</strong> : <cite>.Bbox</cite></td>
-</tr>
-</tbody>
-</table>
+<dd><p>Set the artist’s clip <code class="xref py py-class docutils literal"><span class="pre">Bbox</span></code>.</p>
+<p>ACCEPTS: a <code class="xref py py-class docutils literal"><span class="pre">matplotlib.transforms.Bbox</span></code> instance</p>
 </dd></dl>
 
 <dl class="method">
@@ -608,14 +534,7 @@ value, and returns a (m, n, 3) array.</p>
 <dd><p>Set whether artist uses clipping.</p>
 <p>When False artists will be visible out side of the axes which
 can lead to unexpected results.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>b</strong> : bool</td>
-</tr>
-</tbody>
-</table>
+<p>ACCEPTS: [True | False]</p>
 </dd></dl>
 
 <dl class="method">
@@ -633,7 +552,9 @@ or</li>
 <p>For efficiency, if the path happens to be an axis-aligned rectangle,
 this method will set the clipping box to the corresponding rectangle
 and set the clipping path to <code class="docutils literal"><span class="pre">None</span></code>.</p>
-<p>ACCEPTS: [(<cite>~matplotlib.path.Path</cite>, <cite>.Transform</cite>) | <cite>.Patch</cite> | None]</p>
+<p>ACCEPTS: [ (<code class="xref py py-class docutils literal"><span class="pre">Path</span></code>,
+<code class="xref py py-class docutils literal"><span class="pre">Transform</span></code>) |
+<code class="xref py py-class docutils literal"><span class="pre">Patch</span></code> | None ]</p>
 </dd></dl>
 
 <dl class="method">
@@ -642,20 +563,13 @@ and set the clipping path to <code class="docutils literal"><span class="pre">No
 <dd><p>Replace the contains test used by this artist. The new picker
 should be a callable function which determines whether the
 artist is hit by the mouse event:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="n">hit</span><span class="p">,</span> <span class="n">props</span> <span class="o">=</span> <span class="n">picker</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hit</span><span class="p">,</span> <span class="n">props</span> <span class="o">=</span> <span class="n">picker</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If the mouse event is over the artist, return <em>hit</em> = <em>True</em>
 and <em>props</em> is a dictionary of properties you want returned
 with the contains test.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>picker</strong> : callable</td>
-</tr>
-</tbody>
-</table>
+<p>ACCEPTS: a callable function</p>
 </dd></dl>
 
 <dl class="method">
@@ -683,78 +597,30 @@ with the contains test.</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_figure">
 <code class="descname">set_figure</code><span class="sig-paren">(</span><em>fig</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_figure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the <cite>.Figure</cite> instance the artist belongs to.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fig</strong> : <cite>.Figure</cite></td>
-</tr>
-</tbody>
-</table>
+<dd><p>Set the <code class="xref py py-class docutils literal"><span class="pre">Figure</span></code> instance the artist
+belongs to.</p>
+<p>ACCEPTS: a <code class="xref py py-class docutils literal"><span class="pre">matplotlib.figure.Figure</span></code> instance</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_gid">
 <code class="descname">set_gid</code><span class="sig-paren">(</span><em>gid</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_gid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the (group) id for the artist.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gid</strong> : str</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Frame.set_in_layout">
-<code class="descname">set_in_layout</code><span class="sig-paren">(</span><em>in_layout</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_in_layout" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set if artist is to be included in layout calculations,
-E.g. <span class="xref std std-doc">/tutorials/intermediate/constrainedlayout_guide</span>,
-<cite>.Figure.tight_layout()</cite>, and
-<code class="docutils literal"><span class="pre">fig.savefig(fname,</span> <span class="pre">bbox_inches='tight')</span></code>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>in_layout</strong> : bool</td>
-</tr>
-</tbody>
-</table>
+<dd><p>Sets the (group) id for the artist</p>
+<p>ACCEPTS: an id string</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_label">
 <code class="descname">set_label</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the label to <em>s</em> for auto legend.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>s</strong> : object</p>
-<blockquote class="last">
-<div><p><em>s</em> will be converted to a string by calling <cite>str</cite>.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<p>ACCEPTS: string or anything printable with ‘%s’ conversion.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_path_effects">
 <code class="descname">set_path_effects</code><span class="sig-paren">(</span><em>path_effects</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_path_effects" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the path effects.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path_effects</strong> : <cite>.AbstractPathEffect</cite></td>
-</tr>
-</tbody>
-</table>
+<dd><p>set path_effects, which should be a list of instances of
+matplotlib.patheffect._Base class or its derivatives.</p>
 </dd></dl>
 
 <dl class="method">
@@ -781,7 +647,7 @@ epsilon of the pick event</p>
 <li><p class="first">A function: if picker is callable, it is a user supplied
 function which determines whether the artist is hit by the
 mouse event:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="n">hit</span><span class="p">,</span> <span class="n">props</span> <span class="o">=</span> <span class="n">picker</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hit</span><span class="p">,</span> <span class="n">props</span> <span class="o">=</span> <span class="n">picker</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>to determine the hit test.  if the mouse event is over the
@@ -790,29 +656,15 @@ properties you want added to the PickEvent attributes.</p>
 </li>
 </ul>
 </div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>picker</strong> : None or bool or float or callable</td>
-</tr>
-</tbody>
-</table>
+<p>ACCEPTS: [None|float|boolean|callable]</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_rasterized">
 <code class="descname">set_rasterized</code><span class="sig-paren">(</span><em>rasterized</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_rasterized" title="Permalink to this definition">¶</a></dt>
 <dd><p>Force rasterized (bitmap) drawing in vector backend output.</p>
-<p>Defaults to None, which implies the backend’s default behavior.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rasterized</strong> : bool or None</td>
-</tr>
-</tbody>
-</table>
+<p>Defaults to None, which implies the backend’s default behavior</p>
+<p>ACCEPTS: [True | False | None]</p>
 </dd></dl>
 
 <dl class="method">
@@ -858,56 +710,28 @@ segments, round to the nearest pixel center</li>
 </ul>
 </div></blockquote>
 <p>Only supported by the Agg and MacOSX backends.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>snap</strong> : bool or None</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_transform">
 <code class="descname">set_transform</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the artist transform.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> : <cite>.Transform</cite></td>
-</tr>
-</tbody>
-</table>
+<dd><p>Set the <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> instance
+used by this artist.</p>
+<p>ACCEPTS: <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> instance</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_url">
 <code class="descname">set_url</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_url" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the url for the artist.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>url</strong> : str</td>
-</tr>
-</tbody>
-</table>
+<dd><p>Sets the url for the artist</p>
+<p>ACCEPTS: a url string</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.set_visible">
 <code class="descname">set_visible</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_visible" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the artist’s visibility.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>b</strong> : bool</td>
-</tr>
-</tbody>
-</table>
+<dd><p>Set the artist’s visiblity.</p>
+<p>ACCEPTS: [True | False]</p>
 </dd></dl>
 
 <dl class="method">
@@ -915,14 +739,7 @@ segments, round to the nearest pixel center</li>
 <code class="descname">set_zorder</code><span class="sig-paren">(</span><em>level</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.set_zorder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the zorder for the artist.  Artists with lower zorder
 values are drawn first.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> : float</td>
-</tr>
-</tbody>
-</table>
+<p>ACCEPTS: any number</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -944,7 +761,7 @@ histogram.</p>
 <p>This attribute cannot be assigned to; however, the <cite>x</cite> and <cite>y</cite> lists
 can be modified in place as needed.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">artist</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">artist</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">artist</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">y</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -953,7 +770,8 @@ can be modified in place as needed.</p>
 <dl class="method">
 <dt id="pytransform3d.plot_utils.Frame.update">
 <code class="descname">update</code><span class="sig-paren">(</span><em>props</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Frame.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update this artist’s properties from the dictionary <em>prop</em>.</p>
+<dd><p>Update the properties of this <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code> from the
+dictionary <em>prop</em>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -978,8 +796,8 @@ can be modified in place as needed.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014, Alexander Fabisch.<br/>
-      Last updated on Dec 07, 2018.<br/>
+        &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Nov 05, 2019.<br/>
     </p>
   </div>
 </footer>
