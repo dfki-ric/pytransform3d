@@ -132,6 +132,9 @@ def test_check_matrix():
     R2 = check_matrix(R)
     assert_array_equal(R, R2)
 
+    R = -np.eye(3)
+    assert_raises_regexp(ValueError, "determinant", check_matrix, R)
+
 
 def test_check_axis_angle():
     """Test input validation for axis-angle representation."""

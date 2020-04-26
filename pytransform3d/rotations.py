@@ -250,6 +250,12 @@ def check_matrix(R):
         raise ValueError("Expected rotation matrix, but it failed the test "
                          "for inversion by transposition. np.dot(R, R.T) "
                          "gives %r" % RRT)
+    R_det = np.linalg.det(R)
+    if abs(R_det - 1) > eps:
+        raise ValueError("Expected rotation matrix, but it failed the test "
+                         "for the determinant, which should be 1 but is %g; "
+                         "that is, it probably represents a rotoreflection"
+                         % R_det)
     return R
 
 
