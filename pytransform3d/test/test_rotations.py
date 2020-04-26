@@ -272,24 +272,24 @@ def test_conversions_matrix_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
     R = np.eye(3)
     a = axis_angle_from_matrix(R)
-    assert_array_almost_equal(a, np.array([1, 0, 0, 0]))
+    assert_axis_angle_equal(a, np.array([1, 0, 0, 0]))
 
     R = matrix_from_euler_xyz(np.array([np.pi, np.pi, 0.0]))
     a = axis_angle_from_matrix(R)
-    assert_array_almost_equal(a, np.array([0, 0, 1, np.pi]))
+    assert_axis_angle_equal(a, np.array([0, 0, 1, np.pi]))
 
     R = matrix_from_euler_xyz(np.array([np.pi, 0.0, np.pi]))
     a = axis_angle_from_matrix(R)
-    assert_array_almost_equal(a, np.array([0, 1, 0, np.pi]))
+    assert_axis_angle_equal(a, np.array([0, 1, 0, np.pi]))
 
     R = matrix_from_euler_xyz(np.array([0.0, np.pi, np.pi]))
     a = axis_angle_from_matrix(R)
-    assert_array_almost_equal(a, np.array([1, 0, 0, np.pi]))
+    assert_axis_angle_equal(a, np.array([1, 0, 0, np.pi]))
 
     a = np.array([np.sqrt(0.5), np.sqrt(0.5), 0.0, np.pi])
     R = matrix_from_axis_angle(a)
     a2 = axis_angle_from_matrix(R)
-    assert_array_almost_equal(a2, a)
+    assert_axis_angle_equal(a2, a)
 
     random_state = np.random.RandomState(0)
     for _ in range(5):
@@ -298,11 +298,38 @@ def test_conversions_matrix_axis_angle():
         assert_rotation_matrix(R)
 
         a2 = axis_angle_from_matrix(R)
-        assert_array_almost_equal(a, a2)
+        assert_axis_angle_equal(a, a2)
 
         R2 = matrix_from_axis_angle(a2)
         assert_array_almost_equal(R, R2)
         assert_rotation_matrix(R2)
+
+
+def test_issue43():
+    """Test axis_angle_from_matrix() with angles close to 0 and pi."""
+    a = np.array([-1., 1., 1., np.pi - 5e-8])
+    a[:3] = a[:3] / np.linalg.norm(a[:3])
+    R = matrix_from_axis_angle(a)
+    a2 = axis_angle_from_matrix(R)
+    assert_axis_angle_equal(a, a2)
+
+    a = np.array([-1., 1., 1., 5e-8])
+    a[:3] = a[:3] / np.linalg.norm(a[:3])
+    R = matrix_from_axis_angle(a)
+    a2 = axis_angle_from_matrix(R)
+    assert_axis_angle_equal(a, a2)
+
+    a = np.array([-1., 1., 1., np.pi + 5e-8])
+    a[:3] = a[:3] / np.linalg.norm(a[:3])
+    R = matrix_from_axis_angle(a)
+    a2 = axis_angle_from_matrix(R)
+    assert_axis_angle_equal(a, a2)
+
+    a = np.array([-1., 1., 1., -5e-8])
+    a[:3] = a[:3] / np.linalg.norm(a[:3])
+    R = matrix_from_axis_angle(a)
+    a2 = axis_angle_from_matrix(R)
+    assert_axis_angle_equal(a, a2)
 
 
 def test_conversions_matrix_axis_angle_continuous():
