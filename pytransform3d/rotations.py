@@ -596,12 +596,18 @@ def axis_angle_from_matrix(R):
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     a = np.empty(4)
+
+    axis_unnormalized = np.array(
+        [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
+
     if abs(angle - np.pi) < eps:
-        a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0))
+        # standard formula becomes numerically unstable as derivative of
+        # arccos approaches infinity
+        a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0)) * np.sign(axis_unnormalized)
     else:
-        r = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
-        # The norm of r is 2.0 * np.sin(angle)
-        a[:3] = r / (2.0 * np.sin(angle))
+        # The norm of axis_unnormalized is 2.0 * np.sin(angle)
+        a[:3] = axis_unnormalized / (2.0 * np.sin(angle))
+
     a[3] = angle
     return a
 
@@ -1069,6 +1075,8 @@ def assert_axis_angle_equal(a1, a2, *args, **kwargs):
     See numpy.testing.assert_array_almost_equal for a more detailed
     documentation of the other parameters.
     """
+    if np.any(np.sign(a1) != np.sign(a2)):
+        a1 = -a1
     a1 = norm_axis_angle(a1)
     a2 = norm_axis_angle(a2)
     assert_array_almost_equal(a1, a2, *args, **kwargs)
