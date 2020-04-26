@@ -11,6 +11,7 @@ from pytransform3d import transform_manager
 from numpy.testing import assert_array_almost_equal
 from nose.tools import (assert_raises_regexp, assert_equal, assert_true,
                         assert_false)
+from nose import SkipTest
 
 
 def test_request_added_transform():
@@ -211,6 +212,8 @@ def test_png_export():
     try:
         tm.write_png(filename)
         assert_true(os.path.exists(filename))
+    except ImportError:
+        raise SkipTest("pydot is required for this test")
     finally:
         if os.path.exists(filename):
             try:
