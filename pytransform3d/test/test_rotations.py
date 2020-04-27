@@ -333,8 +333,15 @@ def test_issue43():
 
 
 def test_issue43_numerical_precision():
-    """Test numerical precision of angles close to pi."""
+    """Test numerical precision of angles close to 0 and pi."""
     a = np.array([1., 1., 1., np.pi - 1e-7])
+    a[:3] = a[:3] / np.linalg.norm(a[:3])
+    R = matrix_from_axis_angle(a)
+    a2 = axis_angle_from_matrix(R)
+    axis_dist = np.linalg.norm(a[:3] - a2[:3])
+    assert_less(axis_dist, 1e-10)
+
+    a = np.array([1., 1., 1., 1e-7])
     a[:3] = a[:3] / np.linalg.norm(a[:3])
     R = matrix_from_axis_angle(a)
     a2 = axis_angle_from_matrix(R)

@@ -607,8 +607,11 @@ def axis_angle_from_matrix(R):
         # arccos approaches infinity
         a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0)) * np.sign(axis_unnormalized)
     else:
+        a[:3] = axis_unnormalized
         # The norm of axis_unnormalized is 2.0 * np.sin(angle)
-        a[:3] = axis_unnormalized / (2.0 * np.sin(angle))
+        # a[:3] = a[:3] / (2.0 * np.sin(angle))
+        # but the following is much more precise for angles close to 0 or pi:
+    a[:3] /= np.linalg.norm(a[:3])
 
     a[3] = angle
     return a
