@@ -1075,6 +1075,7 @@ def assert_axis_angle_equal(a1, a2, *args, **kwargs):
     See numpy.testing.assert_array_almost_equal for a more detailed
     documentation of the other parameters.
     """
+    # required despite normalization in case of 180 degree rotation
     if np.any(np.sign(a1) != np.sign(a2)):
         a1 = -a1
     a1 = norm_axis_angle(a1)
