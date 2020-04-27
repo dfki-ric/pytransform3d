@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 from nose.tools import (assert_almost_equal, assert_equal, assert_true,
-                        assert_greater, assert_raises_regexp)
+                        assert_greater, assert_raises_regexp, assert_less)
 from pytransform3d.rotations import *
 
 
@@ -330,6 +330,16 @@ def test_issue43():
     R = matrix_from_axis_angle(a)
     a2 = axis_angle_from_matrix(R)
     assert_axis_angle_equal(a, a2)
+
+
+def test_issue43_numerical_precision():
+    """Test numerical precision of angles close to pi."""
+    a = np.array([1., 1., 1., np.pi - 1e-7])
+    a[:3] = a[:3] / np.linalg.norm(a[:3])
+    R = matrix_from_axis_angle(a)
+    a2 = axis_angle_from_matrix(R)
+    axis_dist = np.linalg.norm(a[:3] - a2[:3])
+    assert_less(axis_dist, 1e-10)
 
 
 def test_conversions_matrix_axis_angle_continuous():

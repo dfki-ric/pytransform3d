@@ -600,7 +600,9 @@ def axis_angle_from_matrix(R):
     axis_unnormalized = np.array(
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
 
-    if abs(angle - np.pi) < eps:
+    if abs(angle - np.pi) < 1e-4:
+        # the threshold is a result from this discussion:
+        # https://github.com/rock-learning/pytransform3d/issues/43
         # standard formula becomes numerically unstable as derivative of
         # arccos approaches infinity
         a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0)) * np.sign(axis_unnormalized)
