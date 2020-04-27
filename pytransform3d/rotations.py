@@ -601,15 +601,15 @@ def axis_angle_from_matrix(R):
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
 
     if abs(angle - np.pi) < 1e-4:
-        # the threshold is a result from this discussion:
+        # The threshold is a result from this discussion:
         # https://github.com/rock-learning/pytransform3d/issues/43
-        # standard formula becomes numerically unstable as derivative of
-        # arccos approaches infinity
+        # The standard formula becomes numerically unstable as derivative of
+        # arccos approaches infinity.
         a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0)) * np.sign(axis_unnormalized)
     else:
         a[:3] = axis_unnormalized
-        # The norm of axis_unnormalized is 2.0 * np.sin(angle)
-        # a[:3] = a[:3] / (2.0 * np.sin(angle))
+        # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we
+        # could normalize with a[:3] = a[:3] / (2.0 * np.sin(angle)),
         # but the following is much more precise for angles close to 0 or pi:
     a[:3] /= np.linalg.norm(a[:3])
 
