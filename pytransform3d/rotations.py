@@ -608,13 +608,12 @@ def axis_angle_from_matrix(R):
     if abs(angle - np.pi) < 1e-4:
         # The threshold is a result from this discussion:
         # https://github.com/rock-learning/pytransform3d/issues/43
-        # The standard formula becomes numerically unstable as derivative of
-        # arccos approaches infinity, however, Rodrigues' formula reduces to
-        # R = I + 2 (ee^T - I), with the rotation axis e, that is,
-        # ee^T = 0.5 * (R + I) and we can find the squared values of the
-        # rotation axis on the diagonal of this matrix. We can still use the
-        # original formula to reconstruct the signs of the rotation axis
-        # correctly.
+        # The standard formula becomes numerically unstable, however,
+        # Rodrigues' formula reduces to R = I + 2 (ee^T - I), with the
+        # rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the
+        # squared values of the rotation axis on the diagonal of this matrix.
+        # We can still use the original formula to reconstruct the signs of
+        # the rotation axis correctly.
         a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0)) * np.sign(axis_unnormalized)
     else:
         a[:3] = axis_unnormalized
