@@ -576,7 +576,8 @@ def euler_zyx_from_matrix(R):
 def axis_angle_from_matrix(R):
     """Compute axis-angle from rotation matrix.
 
-    This operation is called logarithmic map.
+    This operation is called logarithmic map. Note that there are two possible
+    solutions for the rotation axis when the angle is 180 degrees (pi).
 
     Parameters
     ----------
@@ -597,6 +598,10 @@ def axis_angle_from_matrix(R):
 
     a = np.empty(4)
 
+    # We can usually determine the rotation axis by inverting Rodrigues'
+    # formula. Subtracting opposing off-diagonal elements gives us
+    # 2 * sin(angle) * e,
+    # where e is the normalized rotation axis.
     axis_unnormalized = np.array(
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
 
@@ -604,7 +609,12 @@ def axis_angle_from_matrix(R):
         # The threshold is a result from this discussion:
         # https://github.com/rock-learning/pytransform3d/issues/43
         # The standard formula becomes numerically unstable as derivative of
-        # arccos approaches infinity.
+        # arccos approaches infinity, however, Rodrigues' formula reduces to
+        # R = I + 2 (ee^T - I), with the rotation axis e, that is,
+        # ee^T = 0.5 * (R + I) and we can find the squared values of the
+        # rotation axis on the diagonal of this matrix. We can still use the
+        # original formula to reconstruct the signs of the rotation axis
+        # correctly.
         a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0)) * np.sign(axis_unnormalized)
     else:
         a[:3] = axis_unnormalized
