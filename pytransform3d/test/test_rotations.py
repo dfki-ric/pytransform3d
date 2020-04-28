@@ -340,6 +340,7 @@ def test_issue43_numerical_precision():
     a2 = axis_angle_from_matrix(R)
     axis_dist = np.linalg.norm(a[:3] - a2[:3])
     assert_less(axis_dist, 1e-10)
+    assert_less(abs(a[3] - a2[3]), 1e-8)
 
     a = np.array([1., 1., 1., 1e-7])
     a[:3] = a[:3] / np.linalg.norm(a[:3])
@@ -347,6 +348,7 @@ def test_issue43_numerical_precision():
     a2 = axis_angle_from_matrix(R)
     axis_dist = np.linalg.norm(a[:3] - a2[:3])
     assert_less(axis_dist, 1e-10)
+    assert_less(abs(a[3] - a2[3]), 1e-8)
 
 
 def test_conversions_matrix_axis_angle_continuous():
