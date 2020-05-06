@@ -292,7 +292,7 @@ def test_conversions_matrix_axis_angle():
     assert_axis_angle_equal(a2, a)
 
     random_state = np.random.RandomState(0)
-    for _ in range(5):
+    for _ in range(50):
         a = random_axis_angle(random_state)
         R = matrix_from_axis_angle(a)
         assert_rotation_matrix(R)
