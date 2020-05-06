@@ -476,6 +476,35 @@ def test_interpolate_axis_angle():
     assert_array_almost_equal(traj, traj2)
 
 
+def test_interpolate_same_axis_angle():
+    """Test interpolation between the same axis-angle rotation.
+
+    See issue #45.
+    """
+    n_steps = 3
+    random_state = np.random.RandomState(42)
+    a = random_axis_angle(random_state)
+    traj = [axis_angle_slerp(a, a, t) for t in np.linspace(0, 1, n_steps)]
+    assert_equal(len(traj), n_steps)
+    assert_array_almost_equal(traj[0], a)
+    assert_array_almost_equal(traj[1], a)
+    assert_array_almost_equal(traj[2], a)
+
+
+def test_interpolate_almost_same_axis_angle():
+    """Test interpolation between almost the same axis-angle rotation."""
+    n_steps = 3
+    random_state = np.random.RandomState(42)
+    a1 = random_axis_angle(random_state)
+    a2 = np.copy(a1)
+    a2[-1] += np.finfo("float").eps
+    traj = [axis_angle_slerp(a1, a2, t) for t in np.linspace(0, 1, n_steps)]
+    assert_equal(len(traj), n_steps)
+    assert_array_almost_equal(traj[0], a1)
+    assert_array_almost_equal(traj[1], a1)
+    assert_array_almost_equal(traj[2], a2)
+
+
 def test_interpolate_quaternion():
     """Test interpolation between two quaternions with slerp."""
     n_steps = 10
@@ -491,6 +520,22 @@ def test_interpolate_quaternion():
     R_diff_norms = [np.linalg.norm(Rd) for Rd in R_diff]
     assert_array_almost_equal(R_diff_norms,
                               R_diff_norms[0] * np.ones(n_steps - 1))
+
+
+def test_interpolate_same_quaternion():
+    """Test interpolation between the same axis-angle rotation.
+
+    See issue #45.
+    """
+    n_steps = 3
+    random_state = np.random.RandomState(42)
+    a = random_axis_angle(random_state)
+    q = quaternion_from_axis_angle(a)
+    traj = [quaternion_slerp(q, q, t) for t in np.linspace(0, 1, n_steps)]
+    assert_equal(len(traj), n_steps)
+    assert_array_almost_equal(traj[0], q)
+    assert_array_almost_equal(traj[1], q)
+    assert_array_almost_equal(traj[2], q)
 
 
 def test_quaternion_conventions():
