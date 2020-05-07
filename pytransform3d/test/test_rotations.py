@@ -569,7 +569,7 @@ def test_interpolate_quaternion():
 
 
 def test_interpolate_same_quaternion():
-    """Test interpolation between the same axis-angle rotation.
+    """Test interpolation between the same quaternion rotation.
 
     See issue #45.
     """
