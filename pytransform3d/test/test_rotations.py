@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 from nose.tools import (assert_almost_equal, assert_equal, assert_true,
@@ -89,6 +90,27 @@ def test_angle_between_vectors():
     R = matrix_from_axis_angle(a)
     vR = np.dot(R, v)
     assert_almost_equal(angle_between_vectors(vR, v), a[-1])
+
+
+def test_angle_between_close_vectors():
+    """Test angle between close vectors.
+
+    See issue #47.
+    """
+    a = np.array([0.9689124217106448 , 0.24740395925452294 , 0.0 , 0.0])
+    b = np.array([0.9689124217106448 , 0.247403959254523 , 0.0 , 0.0])
+    angle = angle_between_vectors(a, b)
+    assert_almost_equal(angle, 0.0)
+
+
+def test_angle_to_zero_vector_is_nan():
+    """Test angle to zero vector."""
+    a = np.array([1.0, 0.0])
+    b = np.array([0.0, 0.0])
+    with warnings.catch_warnings(record=True) as w:
+        angle = angle_between_vectors(a, b)
+        assert_equal(len(w), 1)
+    assert_true(np.isnan(angle))
 
 
 def test_cross_product_matrix():
