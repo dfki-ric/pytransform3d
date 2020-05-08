@@ -133,8 +133,9 @@ def angle_between_vectors(a, b, fast=False):
         Angle between a and b
     """
     if len(a) != 3 or fast:
-        return np.arccos(np.dot(a, b) /
-                         (np.linalg.norm(a) * np.linalg.norm(b)))
+        return np.arccos(
+            np.clip(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)),
+                    -1.0, 1.0))
     else:
         return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
 
