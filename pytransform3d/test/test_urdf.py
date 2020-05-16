@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 from pytransform3d.urdf import UrdfTransformManager, UrdfException
 from pytransform3d.transformations import transform_from
@@ -755,3 +756,20 @@ def test_plot_mesh_smoke_with_scale():
         "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
     ax = tm.plot_connections_in("lower_cone", ax=ax)
     tm.plot_visuals("lower_cone", ax=ax)
+
+
+def test_plot_without_mesh():
+    import matplotlib
+    matplotlib.use("agg")
+    BASE_DIR = "test/test_data/"
+    tm = UrdfTransformManager()
+    with open(BASE_DIR + "simple_mechanism.urdf", "r") as f:
+        tm.load_urdf(f.read(), mesh_path=None)
+    tm.set_joint("joint", -1.1)
+    ax = tm.plot_frames_in(
+        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+    ax = tm.plot_connections_in("lower_cone", ax=ax)
+
+    with warnings.catch_warnings(record=True) as w:
+        tm.plot_visuals("lower_cone", ax=ax)
+        assert_equal(len(w), 1)
