@@ -11,7 +11,7 @@ meshes.
 import matplotlib.pyplot as plt
 from pytransform3d.urdf import UrdfTransformManager
 
-BASE_DIR = "../test/test_data/"
+BASE_DIR = "test/test_data/"
 
 tm = UrdfTransformManager()
 with open(BASE_DIR + "simple_mechanism.urdf", "r") as f:
