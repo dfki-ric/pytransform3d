@@ -106,8 +106,9 @@ class UrdfTransformManager(TransformManager):
         urdf_xml : str
             Robot definition in URDF
 
-        mesh_path : str
-            Path in which we search for meshes that are defined in the URDF
+        mesh_path : str, optional (default: None)
+            Path in which we search for meshes that are defined in the URDF.
+            Meshes will be ignored if it is set to None.
         """
         self.mesh_path = mesh_path
         urdf = BeautifulSoup(urdf_xml, "xml")
@@ -495,16 +496,25 @@ class Mesh(object):
         self.mesh_path = mesh_path
 
     def parse(self, mesh):
-        if not mesh.has_attr("filename"):
-            raise UrdfException("Mesh has no filename.")
-        self.filename = mesh["filename"]
-        self.filename = os.path.join(self.mesh_path, self.filename)
-        if mesh.has_attr("scale"):
-            self.scale = np.fromstring(mesh["scale"], sep=" ")
+        if self.mesh_path is None:
+            self.filename = None
         else:
-            self.scale = np.ones(3)
+            if not mesh.has_attr("filename"):
+                raise UrdfException("Mesh has no filename.")
+            self.filename = mesh["filename"]
+            self.filename = os.path.join(self.mesh_path, self.filename)
+            if mesh.has_attr("scale"):
+                self.scale = np.fromstring(mesh["scale"], sep=" ")
+            else:
+                self.scale = np.ones(3)
 
     def plot(self, tm, frame, ax=None, alpha=0.3):
+        if self.filename is None:
+            warnings.warn(
+                "Mesh will be ignored. You have to set a mesh path to "
+                "plot meshes.")
+            return ax
+
         A2B = tm.get_transform(self.frame, frame)
 
         try:
