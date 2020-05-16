@@ -1,6 +1,6 @@
 """Load transformations from URDF files."""
 import os
-import stl
+import warnings
 import numpy as np
 from mpl_toolkits import mplot3d
 from bs4 import BeautifulSoup
@@ -507,16 +507,18 @@ class Mesh(object):
     def plot(self, tm, frame, ax=None, alpha=0.3):
         A2B = tm.get_transform(self.frame, frame)
 
-        # Mesh file must be loaded during plotting, otherwise numpy-stl
-        # complains about the size of the meshes.
-        mesh = stl.mesh.Mesh.from_file(self.filename)
-        vectors = mesh.vectors
-        n_vectors = len(vectors)
-        vectors = vectors.reshape(n_vectors * 3, 3)
-        vectors *= self.scale
-        vectors = np.hstack((vectors, np.ones((len(vectors), 1))))
-        vectors = transform(A2B, vectors)[:, :3]
-        vectors = vectors.reshape(n_vectors, 3, 3)
+        try:
+            import trimesh
+        except ImportError:
+            warnings.warn(
+                "Cannot display mesh. Library 'trimesh' not installed.")
+            return ax
+
+        mesh = trimesh.load(self.filename)
+        vertices = mesh.vertices * self.scale
+        vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
+        vertices = transform(A2B, vertices)[:, :3]
+        vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
 
         p3c = mplot3d.art3d.Poly3DCollection(vectors)
         p3c.set_alpha(alpha)
