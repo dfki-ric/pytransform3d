@@ -661,3 +661,97 @@ def test_multiple_parents():
     p0c = tm.get_transform("parent0", "child")
     p1c = tm.get_transform("parent1", "child")
     assert_equal(p0c[0, 3], p1c[1, 3])
+
+
+def test_mesh_missing_filename():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="upper_cone">
+          <visual name="upper_cone">
+            <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+            <geometry>
+            <mesh scale="1 1 0.5"/>
+            </geometry>
+          </visual>
+        </link>
+
+        <link name="lower_cone">
+          <visual name="lower_cone">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+            <mesh scale="1 1 0.5"/>
+            </geometry>
+          </visual>
+        </link>
+
+        <joint name="joint" type="revolute">
+          <origin xyz="0 0 0.2" rpy="0 0 0"/>
+          <parent link="lower_cone"/>
+          <child link="upper_cone"/>
+          <axis xyz="1 0 0"/>
+          <limit lower="-2.79253" upper="2.79253" effort="0" velocity="0"/>
+        </joint>
+
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    assert_raises(UrdfException, tm.load_urdf, urdf, mesh_path="")
+
+
+def test_plot_mesh_smoke_without_scale():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="upper_cone">
+          <visual name="upper_cone">
+            <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+            <geometry>
+            <mesh filename="cone.stl"/>
+            </geometry>
+          </visual>
+        </link>
+
+        <link name="lower_cone">
+          <visual name="lower_cone">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+            <mesh filename="cone.stl"/>
+            </geometry>
+          </visual>
+        </link>
+
+        <joint name="joint" type="revolute">
+          <origin xyz="0 0 0.2" rpy="0 0 0"/>
+          <parent link="lower_cone"/>
+          <child link="upper_cone"/>
+          <axis xyz="1 0 0"/>
+          <limit lower="-2.79253" upper="2.79253" effort="0" velocity="0"/>
+        </joint>
+
+    </robot>
+    """
+    import matplotlib
+    matplotlib.use("agg")
+    BASE_DIR = "test/test_data/"
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf, mesh_path=BASE_DIR)
+    tm.set_joint("joint", -1.1)
+    ax = tm.plot_frames_in(
+        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+    ax = tm.plot_connections_in("lower_cone", ax=ax)
+    tm.plot_visuals("lower_cone", ax=ax)
+
+
+def test_plot_mesh_smoke_with_scale():
+    import matplotlib
+    matplotlib.use("agg")
+    BASE_DIR = "test/test_data/"
+    tm = UrdfTransformManager()
+    with open(BASE_DIR + "simple_mechanism.urdf", "r") as f:
+        tm.load_urdf(f.read(), mesh_path=BASE_DIR)
+    tm.set_joint("joint", -1.1)
+    ax = tm.plot_frames_in(
+        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+    ax = tm.plot_connections_in("lower_cone", ax=ax)
+    tm.plot_visuals("lower_cone", ax=ax)
