@@ -40,7 +40,7 @@ jobs:
           command: |
             . venv/bin/activate
             echo "backend: agg" >> .matplotlibrc
-            nosetests pytransform3d
+            nosetests -sv pytransform3d
 
       - store_artifacts:
           path: cover
