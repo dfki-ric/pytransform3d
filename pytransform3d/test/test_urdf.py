@@ -1,6 +1,5 @@
 try:
     import matplotlib
-    matplotlib.use("agg")
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False

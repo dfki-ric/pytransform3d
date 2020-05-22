@@ -39,6 +39,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
+            echo "backend: agg" >> .matplotlibrc
             nosetests pytransform3d
 
       - store_artifacts:
