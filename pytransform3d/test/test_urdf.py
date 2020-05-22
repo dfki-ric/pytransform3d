@@ -1,9 +1,16 @@
+try:
+    import matplotlib
+    matplotlib.use("agg")
+    matplotlib_available = True
+except ImportError:
+    matplotlib_available = False
 import warnings
 import numpy as np
 from pytransform3d.urdf import UrdfTransformManager, UrdfException
 from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
 from nose.tools import assert_raises, assert_equal
+from nose import SkipTest
 
 
 COMPI_URDF = """
@@ -701,6 +708,9 @@ def test_mesh_missing_filename():
 
 
 def test_plot_mesh_smoke_without_scale():
+    if not matplotlib_available:
+        raise SkipTest("matplotlib is required for this test")
+
     urdf = """
     <?xml version="1.0"?>
     <robot name="simple_mechanism">
@@ -732,8 +742,6 @@ def test_plot_mesh_smoke_without_scale():
 
     </robot>
     """
-    import matplotlib
-    matplotlib.use("agg")
     BASE_DIR = "test/test_data/"
     tm = UrdfTransformManager()
     tm.load_urdf(urdf, mesh_path=BASE_DIR)
@@ -745,8 +753,9 @@ def test_plot_mesh_smoke_without_scale():
 
 
 def test_plot_mesh_smoke_with_scale():
-    import matplotlib
-    matplotlib.use("agg")
+    if not matplotlib_available:
+        raise SkipTest("matplotlib is required for this test")
+
     BASE_DIR = "test/test_data/"
     tm = UrdfTransformManager()
     with open(BASE_DIR + "simple_mechanism.urdf", "r") as f:
@@ -759,8 +768,9 @@ def test_plot_mesh_smoke_with_scale():
 
 
 def test_plot_without_mesh():
-    import matplotlib
-    matplotlib.use("agg")
+    if not matplotlib_available:
+        raise SkipTest("matplotlib is required for this test")
+
     BASE_DIR = "test/test_data/"
     tm = UrdfTransformManager()
     with open(BASE_DIR + "simple_mechanism.urdf", "r") as f:
