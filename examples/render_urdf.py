@@ -10,6 +10,9 @@ Use pyrender to show URDF file. You can get pyrender from
 or from pip. Make sure to run this from the main folder of pytransform3d.
 We will load a simple URDF file but the script is able to display other
 URDF files, too. Just change the paths at the end of this file.
+
+Read pyrenders readme for a list of commands that you can use to control
+the viewer.
 """
 try:
     import pyrender as pr
