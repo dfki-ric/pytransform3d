@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.9
+      - image: circleci/python:latest
 
     working_directory: ~/repo
 
@@ -39,6 +39,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
+            python3 --version
             MPLBACKEND=Agg nosetests -sv pytransform3d
 
       - store_artifacts:
