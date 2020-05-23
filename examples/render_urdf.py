@@ -11,7 +11,11 @@ or from pip. Make sure to run this from the main folder of pytransform3d.
 We will load a simple URDF file but the script is able to display other
 URDF files, too. Just change the paths at the end of this file.
 """
-import pyrender as pr
+try:
+    import pyrender as pr
+except ImportError:
+    print("This example needs 'pyrender'")
+    exit(1)
 import numpy as np
 import trimesh
 from pytransform3d import urdf
