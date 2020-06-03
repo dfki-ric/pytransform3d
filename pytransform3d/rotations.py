@@ -311,6 +311,11 @@ def matrix_from_axis_angle(a):
 
     This is called exponential map or Rodrigues' formula.
 
+    Note that the rotation convention is different from the one used by Euler
+    angles. A rotation about a basis vector results in a transposed rotation
+    matrix in comparison to a corresponding Euler angles. The active / alibi
+    convention is used.
+
     Parameters
     ----------
     a : array-like, shape (4,)
@@ -579,6 +584,11 @@ def axis_angle_from_matrix(R):
 
     This operation is called logarithmic map. Note that there are two possible
     solutions for the rotation axis when the angle is 180 degrees (pi).
+
+    Note that the rotation convention is different from the one used by Euler
+    angles. A rotation about a basis vector results in a transposed rotation
+    matrix in comparison to a corresponding Euler angles. The active / alibi
+    convention is used.
 
     Parameters
     ----------
