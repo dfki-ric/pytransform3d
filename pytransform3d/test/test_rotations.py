@@ -759,3 +759,33 @@ def test_id_rot():
     assert_array_almost_equal(R_id, matrix_from_quaternion(q_id))
     assert_array_almost_equal(R_id, matrix_from_euler_xyz(e_xyz_id))
     assert_array_almost_equal(R_id, matrix_from_euler_zyx(e_zyx_id))
+
+
+def test_check_matrix_threshold():
+    """Test matrix threshold.
+
+    See issue #54.
+    """
+    R = np.array([
+        [-9.15361835e-01,  4.01808328e-01,  2.57475872e-02],
+        [ 5.15480570e-02,  1.80374088e-01, -9.82246499e-01],
+        [-3.99318925e-01, -8.97783496e-01, -1.85819250e-01]])
+    assert_rotation_matrix(R)
+    check_matrix(R)
+
+
+def test_asssert_rotation_matrix_behaves_like_check_matrix():
+    """Test of both checks for rotation matrix validity behave similar."""
+    random_state = np.random.RandomState(2345)
+    for _ in range(5):
+        a = random_axis_angle(random_state)
+        R = matrix_from_axis_angle(a)
+        original_value = R[2, 2]
+        for error in [0, 1e-8, 1e-7, 1e-5, 1e-4, 1]:
+            R[2, 2] = original_value + error
+            try:
+                assert_rotation_matrix(R)
+                check_matrix(R)
+            except AssertionError:
+                assert_raises_regexp(
+                    ValueError, "Expected rotation matrix", check_matrix, R)
