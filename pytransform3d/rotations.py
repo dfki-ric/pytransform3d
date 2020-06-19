@@ -229,13 +229,20 @@ def cross_product_matrix(v):
                      [-v[1], v[0], 0.0]])
 
 
-def check_matrix(R):
+def check_matrix(R, tolerance=1e-6):
     """Input validation of a rotation matrix.
+
+    We check whether R multiplied by its inverse is approximately the identity
+    matrix and the determinant is approximately 1.
 
     Parameters
     ----------
     R : array-like, shape (3, 3)
         Rotation matrix
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance threshold for checks. Default tolerance is the same as in
+        assert_rotation_matrix(R).
 
     Returns
     -------
@@ -247,12 +254,12 @@ def check_matrix(R):
         raise ValueError("Expected rotation matrix with shape (3, 3), got "
                          "array-like object with shape %s" % (R.shape,))
     RRT = np.dot(R, R.T)
-    if not np.allclose(RRT, np.eye(3)):
+    if not np.allclose(RRT, np.eye(3), atol=tolerance):
         raise ValueError("Expected rotation matrix, but it failed the test "
                          "for inversion by transposition. np.dot(R, R.T) "
                          "gives %r" % RRT)
     R_det = np.linalg.det(R)
-    if abs(R_det - 1) > eps:
+    if abs(R_det - 1) > tolerance:
         raise ValueError("Expected rotation matrix, but it failed the test "
                          "for the determinant, which should be 1 but is %g; "
                          "that is, it probably represents a rotoreflection"
