@@ -1,4 +1,5 @@
 """Rotations in three dimensions - SO(3)."""
+import warnings
 import numpy as np
 from .plot_utils import Frame, Arrow3D, make_3d_axis
 from numpy.testing import assert_array_almost_equal
@@ -229,7 +230,7 @@ def cross_product_matrix(v):
                      [-v[1], v[0], 0.0]])
 
 
-def check_matrix(R, tolerance=1e-6):
+def check_matrix(R, tolerance=1e-6, strict_check=True):
     """Input validation of a rotation matrix.
 
     We check whether R multiplied by its inverse is approximately the identity
@@ -244,6 +245,10 @@ def check_matrix(R, tolerance=1e-6):
         Tolerance threshold for checks. Default tolerance is the same as in
         assert_rotation_matrix(R).
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
     Returns
     -------
     R : array, shape (3, 3)
@@ -255,15 +260,23 @@ def check_matrix(R, tolerance=1e-6):
                          "array-like object with shape %s" % (R.shape,))
     RRT = np.dot(R, R.T)
     if not np.allclose(RRT, np.eye(3), atol=tolerance):
-        raise ValueError("Expected rotation matrix, but it failed the test "
-                         "for inversion by transposition. np.dot(R, R.T) "
-                         "gives %r" % RRT)
+        error_msg = ("Expected rotation matrix, but it failed the test "
+                     "for inversion by transposition. np.dot(R, R.T) "
+                     "gives %r" % RRT)
+        if strict_check:
+            raise ValueError(error_msg)
+        else:
+            warnings.warn(error_msg)
     R_det = np.linalg.det(R)
     if abs(R_det - 1) > tolerance:
-        raise ValueError("Expected rotation matrix, but it failed the test "
-                         "for the determinant, which should be 1 but is %g; "
-                         "that is, it probably represents a rotoreflection"
-                         % R_det)
+        error_msg = ("Expected rotation matrix, but it failed the test "
+                     "for the determinant, which should be 1 but is %g; "
+                     "that is, it probably represents a rotoreflection"
+                     % R_det)
+        if strict_check:
+            raise ValueError(error_msg)
+        else:
+            warnings.warn(error_msg)
     return R
 
 
@@ -517,7 +530,7 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     raise ValueError("Cannot compute rotation matrix from no rotation.")
 
 
-def euler_xyz_from_matrix(R):
+def euler_xyz_from_matrix(R, strict_check=True):
     """Compute xyz Euler angles from rotation matrix.
 
     Parameters
@@ -525,12 +538,16 @@ def euler_xyz_from_matrix(R):
     R : array-like, shape (3, 3)
         Rotation matrix
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
     Returns
     -------
     e_xyz : array-like, shape (3,)
         Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
     """
-    R = check_matrix(R)
+    R = check_matrix(R, strict_check=strict_check)
     if np.abs(R[0, 2]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
         angle2 = np.arcsin(-R[0, 2])
@@ -548,7 +565,7 @@ def euler_xyz_from_matrix(R):
     return np.array([angle1, angle2, angle3])
 
 
-def euler_zyx_from_matrix(R):
+def euler_zyx_from_matrix(R, strict_check=True):
     """Compute zyx Euler angles from rotation matrix.
 
     Parameters
@@ -556,12 +573,16 @@ def euler_zyx_from_matrix(R):
     R : array-like, shape (3, 3)
         Rotation matrix
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
     Returns
     -------
     e_zyx : array-like, shape (3,)
         Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
     """
-    R = check_matrix(R)
+    R = check_matrix(R, strict_check=strict_check)
     if np.abs(R[2, 0]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
         angle2 = np.arcsin(R[2, 0])
@@ -581,7 +602,7 @@ def euler_zyx_from_matrix(R):
     return np.array([angle1, angle2, angle3])
 
 
-def axis_angle_from_matrix(R):
+def axis_angle_from_matrix(R, strict_check=True):
     """Compute axis-angle from rotation matrix.
 
     This operation is called logarithmic map. Note that there are two possible
@@ -592,13 +613,17 @@ def axis_angle_from_matrix(R):
     R : array-like, shape (3, 3)
         Rotation matrix
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
     Returns
     -------
     a : array-like, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
-    R = check_matrix(R)
+    R = check_matrix(R, strict_check=strict_check)
     angle = np.arccos((np.trace(R) - 1.0) / 2.0)
 
     if angle == 0.0:
@@ -686,7 +711,7 @@ def compact_axis_angle(a):
     return a[:3] / np.linalg.norm(a[:3]) * angle
 
 
-def quaternion_from_matrix(R):
+def quaternion_from_matrix(R, strict_check=True):
     """Compute quaternion from rotation matrix.
 
     .. warning::
@@ -699,12 +724,16 @@ def quaternion_from_matrix(R):
     R : array-like, shape (3, 3)
         Rotation matrix
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
     Returns
     -------
     q : array-like, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
-    R = check_matrix(R)
+    R = check_matrix(R, strict_check=strict_check)
     q = np.empty(4)
 
     # Source: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
@@ -983,7 +1012,7 @@ def quaternion_diff(q1, q2):
     return axis_angle_from_quaternion(q1q2c)
 
 
-def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
+def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, strict_check=True, **kwargs):
     """Plot basis of a rotation matrix.
 
     Parameters
@@ -1003,6 +1032,10 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha
 
@@ -1016,7 +1049,7 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, **kwargs):
 
     if R is None:
         R = np.eye(3)
-    R = check_matrix(R)
+    R = check_matrix(R, strict_check=strict_check)
 
     A2B = np.eye(4)
     A2B[:3, :3] = R
