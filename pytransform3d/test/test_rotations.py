@@ -789,3 +789,12 @@ def test_asssert_rotation_matrix_behaves_like_check_matrix():
             except AssertionError:
                 assert_raises_regexp(
                     ValueError, "Expected rotation matrix", check_matrix, R)
+
+
+def test_deactivate_rotation_matrix_precision_error():
+    R = np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 2.0]])
+    assert_raises_regexp(
+        ValueError, "Expected rotation matrix", check_matrix, R)
+    with warnings.catch_warnings(record=True) as w:
+        check_matrix(R, strict_check=False)
+        assert_equal(len(w), 2)
