@@ -1,5 +1,6 @@
 import os
 import pickle
+import warnings
 import tempfile
 import numpy as np
 from pytransform3d.rotations import q_id, matrix_from_euler_xyz
@@ -233,3 +234,19 @@ def test_png_export_without_pydot_fails():
             tm.write_png, "bla")
     finally:
         transform_manager.pydot_available = pydot_available
+
+
+def test_deactivate_transform_manager_precision_error():
+    A2B = np.eye(4)
+    A2B[0, 0] = 2.0
+    A2B[3, 0] = 3.0
+    tm = TransformManager()
+    assert_raises_regexp(
+        ValueError, "Expected rotation matrix",
+        tm.add_transform, "A", "B", A2B)
+    with warnings.catch_warnings(record=True) as w:
+        tm = TransformManager(strict_check=False)
+        tm.add_transform("A", "B", A2B)
+        tm.add_transform("B", "C", np.eye(4))
+        tm.get_transform("C", "A")
+        assert_equal(len(w), 6)
