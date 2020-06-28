@@ -35,8 +35,16 @@ class TransformManager(object):
         trivial in this simple case but can be computationally complex for
         large graphs. You can check the consistency explicitly with
         :func:`TransformManager.check_consistency`.
+
+    Parameters
+    ----------
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
     """
-    def __init__(self):
+    def __init__(self, strict_check=True):
+        self.strict_check = strict_check
         self.transforms = {}
         self.nodes = []
         self.i = []
@@ -64,7 +72,7 @@ class TransformManager(object):
         self : TransformManager
             This object for chaining
         """
-        A2B = check_transform(A2B)
+        A2B = check_transform(A2B, strict_check=self.strict_check)
         if from_frame not in self.nodes:
             self.nodes.append(from_frame)
         if to_frame not in self.nodes:
@@ -127,7 +135,9 @@ class TransformManager(object):
         if (from_frame, to_frame) in self.transforms:
             return self.transforms[(from_frame, to_frame)]
         elif (to_frame, from_frame) in self.transforms:
-            return invert_transform(self.transforms[(to_frame, from_frame)])
+            return invert_transform(
+                self.transforms[(to_frame, from_frame)],
+                strict_check=self.strict_check)
         else:
             i = self.nodes.index(from_frame)
             j = self.nodes.index(to_frame)
@@ -149,7 +159,7 @@ class TransformManager(object):
     def _path_transform(self, path):
         A2B = np.eye(4)
         for from_f, to_f in zip(path[:-1], path[1:]):
-            A2B = concat(A2B, self.get_transform(from_f, to_f))
+            A2B = concat(A2B, self.get_transform(from_f, to_f), strict_check=self.strict_check)
         return A2B
 
     def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True, whitelist=None, **kwargs):
@@ -195,7 +205,9 @@ class TransformManager(object):
             try:
                 node2frame = self.get_transform(node, frame)
                 name = node if show_name else None
-                ax = plot_transform(ax, node2frame, s, ax_s, name, **kwargs)
+                ax = plot_transform(
+                    ax, node2frame, s, ax_s, name,
+                    strict_check=self.strict_check, **kwargs)
             except KeyError:
                 pass  # Frame is not connected to the reference frame
         return ax
@@ -306,9 +318,10 @@ class TransformManager(object):
                 try:
                     n1_to_n2 = self.get_transform(n1, n2)
                     n2_to_n1 = self.get_transform(n2, n1)
+                    n1_to_n2_inv = invert_transform(
+                        n2_to_n1, strict_check=self.strict_check)
                     consistent = (consistent and
-                                  np.allclose(n1_to_n2,
-                                              invert_transform(n2_to_n1)))
+                                  np.allclose(n1_to_n2, n1_to_n2_inv))
                 except KeyError:
                     pass  # Frames are not connected
         return consistent

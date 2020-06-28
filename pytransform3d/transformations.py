@@ -65,7 +65,7 @@ def check_pq(pq):
     return pq
 
 
-def transform_from(R, p):
+def transform_from(R, p, strict_check=True):
     """Make transformation from rotation matrix and translation.
 
     Parameters
@@ -76,13 +76,18 @@ def transform_from(R, p):
     p : array-like, shape (3,)
         Translation
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = rotate_transform(np.eye(4), R)
-    A2B = translate_transform(A2B, p)
+    A2B = rotate_transform(np.eye(4), R, strict_check=True)
+    A2B = translate_transform(A2B, p, strict_check=True)
     return A2B
 
 
@@ -108,7 +113,7 @@ def random_transform(random_state=np.random.RandomState(0)):
     return transform_from(R=R, p=p)
 
 
-def invert_transform(A2B):
+def invert_transform(A2B, strict_check=True):
     """Invert transform.
 
     Parameters
@@ -116,19 +121,24 @@ def invert_transform(A2B):
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     Returns
     -------
     B2A : array-like, shape (4, 4)
         Transform from frame B to frame A
     """
-    A2B = check_transform(A2B)
+    A2B = check_transform(A2B, strict_check=strict_check)
     # NOTE there is a faster version:
     # ( R t )^-1   ( R^T -R^T*t )
     # ( 0 1 )    = ( 0    1     )
     return np.linalg.inv(A2B)
 
 
-def translate_transform(A2B, p):
+def translate_transform(A2B, p, strict_check=True):
     """Translate transform.
 
     Parameters
@@ -139,19 +149,24 @@ def translate_transform(A2B, p):
     p : array-like, shape (3,)
         Translation
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = check_transform(A2B)
+    A2B = check_transform(A2B, strict_check=strict_check)
     out = A2B.copy()
     l = len(p)
     out[:l, -1] = p
     return out
 
 
-def rotate_transform(A2B, R):
+def rotate_transform(A2B, R, strict_check=True):
     """Rotate transform.
 
     Parameters
@@ -162,12 +177,17 @@ def rotate_transform(A2B, R):
     R : array-like, shape (3, 3)
         Rotation matrix
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = check_transform(A2B)
+    A2B = check_transform(A2B, strict_check=strict_check)
     out = A2B.copy()
     out[:3, :3] = R
     return out
@@ -189,7 +209,7 @@ def vector_to_point(v):
     return np.hstack((v, 1))
 
 
-def concat(A2B, B2C):
+def concat(A2B, B2C, strict_check=True):
     """Concatenate transforms.
 
     Parameters
@@ -199,13 +219,18 @@ def concat(A2B, B2C):
 
     B2C : array-like, shape (4, 4)
         Transform from frame B to frame C
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
     """
-    A2B = check_transform(A2B)
-    B2C = check_transform(B2C)
+    A2B = check_transform(A2B, strict_check=strict_check)
+    B2C = check_transform(B2C, strict_check=strict_check)
     return B2C.dot(A2B)
 
 
-def transform(A2B, PA):
+def transform(A2B, PA, strict_check=True):
     """Transform point or list of points.
 
     Parameters
@@ -216,12 +241,17 @@ def transform(A2B, PA):
     PA : array-like, shape (4,) or (n_points, 4)
         Point or points in frame A
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     Returns
     -------
     PB : array-like, shape (4,) or (n_points, 4)
         Point or points in frame B
     """
-    A2B = check_transform(A2B)
+    A2B = check_transform(A2B, strict_check=strict_check)
     PA = np.asarray(PA)
     if PA.ndim == 1:
         return np.dot(A2B, PA)
@@ -232,7 +262,8 @@ def transform(A2B, PA):
 
 
 def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
-                    s_xt=1.0, s_yt=1.0, s_zt=1.0, s_t=1.0, s_d=1.0):
+                    s_xt=1.0, s_yt=1.0, s_zt=1.0, s_t=1.0, s_d=1.0,
+                    strict_check=True):
     """Scale a transform from A to reference frame B.
 
     See algorithm 10 from "Analytic Approaches for Design and Operation of
@@ -270,13 +301,18 @@ def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
     s_d : float, optional (default: 1)
         Scaling of the whole transform (displacement)
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     Returns
     -------
     A2B_scaled
         Scaled transform from frame A to frame B (actually this is a transform
         from A to another frame C)
     """
-    A2B = check_transform(A2B)
+    A2B = check_transform(A2B, strict_check=strict_check)
     A2B_scaled = np.eye(4)
 
     R = A2B[:3, :3]
@@ -295,7 +331,7 @@ def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
     return A2B_scaled
 
 
-def pq_from_transform(A2B):
+def pq_from_transform(A2B, strict_check=True):
     """Conversion from homogeneous matrix to position and quaternion.
 
     Parameters
@@ -303,12 +339,17 @@ def pq_from_transform(A2B):
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     Returns
     -------
     pq : array-like, shape (7,)
         Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
     """
-    A2B = check_transform(A2B)
+    A2B = check_transform(A2B, strict_check=strict_check)
     return np.hstack((A2B[:3, 3], quaternion_from_matrix(A2B[:3, :3])))
 
 
@@ -329,7 +370,7 @@ def transform_from_pq(pq):
     return transform_from(matrix_from_quaternion(pq[3:]), pq[:3])
 
 
-def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):
+def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, strict_check=True, **kwargs):
     """Plot transform.
 
     Parameters
@@ -349,6 +390,11 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):
     name : string, optional (default: None)
         Name of the frame, will be used for annotation
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha
 
@@ -362,7 +408,7 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, **kwargs):
 
     if A2B is None:
         A2B = np.eye(4)
-    A2B = check_transform(A2B)
+    A2B = check_transform(A2B, strict_check=strict_check)
 
     frame = Frame(A2B, name, s, **kwargs)
     frame.add_frame(ax)
