@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 from pytransform3d.transformations import (random_transform, transform_from,
                                            invert_transform, vector_to_point,
@@ -164,3 +165,14 @@ def test_transform_from_pq():
     pq = np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0])
     A2B = transform_from_pq(pq)
     assert_array_almost_equal(A2B, np.eye(4))
+
+
+def test_deactivate_transform_precision_error():
+    A2B = np.eye(4)
+    A2B[0, 0] = 2.0
+    A2B[3, 0] = 3.0
+    assert_raises_regexp(
+        ValueError, "Expected rotation matrix", check_transform, A2B)
+    with warnings.catch_warnings(record=True) as w:
+        check_transform(A2B, strict_check=False)
+        assert_equal(len(w), 3)
