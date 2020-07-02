@@ -244,9 +244,13 @@ def test_deactivate_transform_manager_precision_error():
     assert_raises_regexp(
         ValueError, "Expected rotation matrix",
         tm.add_transform, "A", "B", A2B)
-    with warnings.catch_warnings(record=True) as w:
-        tm = TransformManager(strict_check=False)
-        tm.add_transform("A", "B", A2B)
-        tm.add_transform("B", "C", np.eye(4))
-        tm.get_transform("C", "A")
-        assert_equal(len(w), 6)
+    try:
+        warnings.filterwarnings("always", category=UserWarning)
+        with warnings.catch_warnings(record=True) as w:
+            tm = TransformManager(strict_check=False)
+            tm.add_transform("A", "B", A2B)
+            tm.add_transform("B", "C", np.eye(4))
+            tm.get_transform("C", "A")
+            assert_equal(len(w), 9)
+    finally:
+        warnings.filterwarnings("default", category=UserWarning)

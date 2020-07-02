@@ -173,6 +173,10 @@ def test_deactivate_transform_precision_error():
     A2B[3, 0] = 3.0
     assert_raises_regexp(
         ValueError, "Expected rotation matrix", check_transform, A2B)
-    with warnings.catch_warnings(record=True) as w:
-        check_transform(A2B, strict_check=False)
-        assert_equal(len(w), 3)
+    try:
+        warnings.filterwarnings("always", category=UserWarning)
+        with warnings.catch_warnings(record=True) as w:
+            check_transform(A2B, strict_check=False)
+            assert_equal(len(w), 3)
+    finally:
+        warnings.filterwarnings("default", category=UserWarning)
