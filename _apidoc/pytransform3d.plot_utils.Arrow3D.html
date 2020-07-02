@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 1.2 documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script src="../_static/js/jquery-fix.js"></script>
+    <script src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script src="../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytransform3d.plot_utils.Frame" href="pytransform3d.plot_utils.Frame.html" />
@@ -34,8 +26,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -48,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -85,7 +76,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">pytransform3d.plot_utils</span></code>.Arrow3D</a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.Arrow3D</a></li>
 </ul>
 </ul>
 </li>
@@ -127,1135 +118,234 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.Arrow3D</a></li>
+</ul>
+
+  <li>
+    <a href="pytransform3d.plot_utils.make_3d_axis.html" title="Previous Chapter: pytransform3d.plot_utils.make_3d_axis"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; pytransform3d...</span>
+    </a>
+  </li>
+  <li>
+    <a href="pytransform3d.plot_utils.Frame.html" title="Next Chapter: pytransform3d.plot_utils.Frame"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">pytransform3d... &raquo;</span>
+    </a>
+  </li>
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <div class="section" id="pytransform3d-plot-utils-arrow3d">
-<h1><a class="reference internal" href="../api.html#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal"><span class="pre">pytransform3d.plot_utils</span></code></a>.Arrow3D<a class="headerlink" href="#pytransform3d-plot-utils-arrow3d" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<h1><a class="reference internal" href="../api.html#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a>.Arrow3D<a class="headerlink" href="#pytransform3d-plot-utils-arrow3d" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
 <dt id="pytransform3d.plot_utils.Arrow3D">
-<em class="property">class </em><code class="descclassname">pytransform3d.plot_utils.</code><code class="descname">Arrow3D</code><span class="sig-paren">(</span><em>xs</em>, <em>ys</em>, <em>zs</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytransform3d.plot_utils.</code><code class="sig-name descname">Arrow3D</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xs</span></em>, <em class="sig-param"><span class="n">ys</span></em>, <em class="sig-param"><span class="n">zs</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D" title="Permalink to this definition">¶</a></dt>
 <dd><p>A Matplotlib patch that represents an arrow in 3D.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytransform3d.plot_utils.Arrow3D.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>xs</em>, <em>ys</em>, <em>zs</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.add_callback">
-<code class="descname">add_callback</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.add_callback" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a callback function that will be called whenever one of
-the <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code>’s properties changes.</p>
-<p>Returns an <em>id</em> that is useful for removing the callback with
-<a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.remove_callback" title="pytransform3d.plot_utils.Arrow3D.remove_callback"><code class="xref py py-meth docutils literal"><span class="pre">remove_callback()</span></code></a> later.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pytransform3d.plot_utils.Arrow3D.axes">
-<code class="descname">axes</code><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.axes" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <code class="xref py py-class docutils literal"><span class="pre">Axes</span></code> instance the artist
-resides in, or <em>None</em>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.contains">
-<code class="descname">contains</code><span class="sig-paren">(</span><em>mouseevent</em>, <em>radius=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.contains" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test whether the mouse event occurred in the patch.</p>
-<p>Returns T/F, {}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.contains_point">
-<code class="descname">contains_point</code><span class="sig-paren">(</span><em>point</em>, <em>radius=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.contains_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns <em>True</em> if the given point is inside the path
-(transformed with its transform attribute).</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.convert_xunits">
-<code class="descname">convert_xunits</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.convert_xunits" title="Permalink to this definition">¶</a></dt>
-<dd><p>For artists in an axes, if the xaxis has units support,
-convert <em>x</em> using xaxis unit type</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.convert_yunits">
-<code class="descname">convert_yunits</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.convert_yunits" title="Permalink to this definition">¶</a></dt>
-<dd><p>For artists in an axes, if the yaxis has units support,
-convert <em>y</em> using yaxis unit type</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>renderer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the patch.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pytransform3d.plot_utils.Arrow3D.fill">
-<code class="descname">fill</code><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.fill" title="Permalink to this definition">¶</a></dt>
-<dd><p>return whether fill is set</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.findobj">
-<code class="descname">findobj</code><span class="sig-paren">(</span><em>match=None</em>, <em>include_self=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.findobj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find artist objects.</p>
-<p>Recursively find all <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code> instances
-contained in self.</p>
-<p><em>match</em> can be</p>
-<blockquote>
-<div><ul class="simple">
-<li>None: return all objects contained in artist.</li>
-<li>function with signature <code class="docutils literal"><span class="pre">boolean</span> <span class="pre">=</span> <span class="pre">match(artist)</span></code>
-used to filter matches</li>
-<li>class instance: e.g., Line2D.  Only return artists of class type.</li>
-</ul>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">xs</em>, <em class="sig-param">ys</em>, <em class="sig-param">zs</em>, <em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <em>posA</em> and <em>posB</em> are given, a path connecting two points is
+created according to <em>connectionstyle</em>. The path will be
+clipped with <em>patchA</em> and <em>patchB</em> and further shrunken by
+<em>shrinkA</em> and <em>shrinkB</em>. An arrow is drawn along this
+resulting path using the <em>arrowstyle</em> parameter.</p>
+<p>Alternatively if <em>path</em> is provided, an arrow is drawn along this path
+and <em>patchA</em>, <em>patchB</em>, <em>shrinkA</em>, and <em>shrinkB</em> are ignored.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>posA, posB</strong><span class="classifier">None, tuple, optional (default: None)</span></dt><dd><p>(x,y) coordinates of arrow tail and arrow head respectively.</p>
+</dd>
+<dt><strong>path</strong><span class="classifier">None, Path (default: None)</span></dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.path.Path</span></code> instance. If provided, an arrow is
+drawn along this path and <em>patchA</em>, <em>patchB</em>, <em>shrinkA</em>, and
+<em>shrinkB</em> are ignored.</p>
+</dd>
+<dt><strong>arrowstyle</strong><span class="classifier">str or ArrowStyle, optional (default: ‘simple’)</span></dt><dd><blockquote>
+<div><p>Describes how the fancy arrow will be
+drawn. It can be string of the available arrowstyle names,
+with optional comma-separated attributes, or an
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ArrowStyle</span></code> instance. The optional attributes are meant to
+be scaled with the <em>mutation_scale</em>. The following arrow styles are
+available:</p>
 </div></blockquote>
-<p>If <em>include_self</em> is True (default), include self in the list to be
-checked for a match.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.format_cursor_data">
-<code class="descname">format_cursor_data</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.format_cursor_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <em>cursor data</em> string formatted.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_aa">
-<code class="descname">get_aa</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_aa" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code> is to be drawn with antialiasing.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_agg_filter">
-<code class="descname">get_agg_filter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_agg_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>return filter function to be used for agg filter</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_alpha">
-<code class="descname">get_alpha</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_alpha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the alpha value used for blending - not supported on all
-backends</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_animated">
-<code class="descname">get_animated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_animated" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the artist’s animated state</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_antialiased">
-<code class="descname">get_antialiased</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_antialiased" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code> is to be drawn with antialiasing.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_arrowstyle">
-<code class="descname">get_arrowstyle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_arrowstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the arrowstyle object.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_capstyle">
-<code class="descname">get_capstyle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_capstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the current capstyle</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_children">
-<code class="descname">get_children</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_children" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of the child <code class="xref py py-class docutils literal"><span class="pre">Artist`s</span> <span class="pre">this</span>
-<span class="pre">:class:`Artist</span></code> contains.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_clip_box">
-<code class="descname">get_clip_box</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_clip_box" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return artist clipbox</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_clip_on">
-<code class="descname">get_clip_on</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_clip_on" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return whether artist uses clipping</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_clip_path">
-<code class="descname">get_clip_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_clip_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return artist clip path</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_connectionstyle">
-<code class="descname">get_connectionstyle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_connectionstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">ConnectionStyle</span></code> instance.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_contains">
-<code class="descname">get_contains</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_contains" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the _contains test used by the artist, or <em>None</em> for default.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_cursor_data">
-<code class="descname">get_cursor_data</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_cursor_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the cursor data for a given event.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_data_transform">
-<code class="descname">get_data_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_data_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> instance which
-maps data coordinates to physical coordinates.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_dpi_cor">
-<code class="descname">get_dpi_cor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_dpi_cor" title="Permalink to this definition">¶</a></dt>
-<dd><p>dpi_cor is currently used for linewidth-related things and
-shrink factor. Mutation scale is affected by this.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>dpi_cor</strong> : scalar</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_ec">
-<code class="descname">get_ec</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_ec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the edge color of the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_edgecolor">
-<code class="descname">get_edgecolor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_edgecolor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the edge color of the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_extents">
-<code class="descname">get_extents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_extents" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a <code class="xref py py-class docutils literal"><span class="pre">Bbox</span></code> object defining
-the axis-aligned extents of the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_facecolor">
-<code class="descname">get_facecolor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_facecolor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the face color of the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_fc">
-<code class="descname">get_fc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_fc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the face color of the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_figure">
-<code class="descname">get_figure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_figure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Figure</span></code> instance the
-artist belongs to.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_fill">
-<code class="descname">get_fill</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_fill" title="Permalink to this definition">¶</a></dt>
-<dd><p>return whether fill is set</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_gid">
-<code class="descname">get_gid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_gid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the group id</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_hatch">
-<code class="descname">get_hatch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_hatch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the current hatching pattern</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_joinstyle">
-<code class="descname">get_joinstyle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_joinstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the current joinstyle</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_label">
-<code class="descname">get_label</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the label used for this artist in the legend.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_linestyle">
-<code class="descname">get_linestyle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_linestyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the linestyle.  Will be one of [‘solid’ | ‘dashed’ |
-‘dashdot’ | ‘dotted’]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_linewidth">
-<code class="descname">get_linewidth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_linewidth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the line width in points.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_ls">
-<code class="descname">get_ls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_ls" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the linestyle.  Will be one of [‘solid’ | ‘dashed’ |
-‘dashdot’ | ‘dotted’]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_lw">
-<code class="descname">get_lw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_lw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the line width in points.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_mutation_aspect">
-<code class="descname">get_mutation_aspect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_mutation_aspect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the aspect ratio of the bbox mutation.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_mutation_scale">
-<code class="descname">get_mutation_scale</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_mutation_scale" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the mutation scale.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>scale</strong> : scalar</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_patch_transform">
-<code class="descname">get_patch_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_patch_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> instance which
-takes patch coordinates to data coordinates.</p>
-<p>For example, one may define a patch of a circle which represents a
-radius of 5 by providing coordinates for a unit circle, and a
-transform which scales the coordinates (the patch coordinate) by 5.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_path">
-<code class="descname">get_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the path of the arrow in the data coordinates. Use
-get_path_in_displaycoord() method to retrieve the arrow path
-in display coordinates.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_path_in_displaycoord">
-<code class="descname">get_path_in_displaycoord</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_path_in_displaycoord" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the mutated path of the arrow in display coordinates.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_picker">
-<code class="descname">get_picker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_picker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the picker object used by this artist</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_rasterized">
-<code class="descname">get_rasterized</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_rasterized" title="Permalink to this definition">¶</a></dt>
-<dd><p>return True if the artist is to be rasterized</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_sketch_params">
-<code class="descname">get_sketch_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_sketch_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the sketch parameters for the artist.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>sketch_params</strong> : tuple or <cite>None</cite></p>
-<p>A 3-tuple with the following elements:</p>
-<blockquote>
-<div><ul class="simple">
-<li><cite>scale</cite>: The amplitude of the wiggle perpendicular to the
-source line.</li>
-<li><cite>length</cite>: The length of the wiggle along the line.</li>
-<li><cite>randomness</cite>: The scale factor by which the length is
-shrunken or expanded.</li>
-</ul>
-</div></blockquote>
-<p class="last">May return <cite>None</cite> if no sketch parameters were set.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_snap">
-<code class="descname">get_snap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_snap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the snap setting which may be:</p>
-<blockquote>
-<div><ul class="simple">
-<li>True: snap vertices to the nearest pixel center</li>
-<li>False: leave vertices as-is</li>
-<li>None: (auto) If the path contains only rectilinear line
-segments, round to the nearest pixel center</li>
-</ul>
-</div></blockquote>
-<p>Only supported by the Agg and MacOSX backends.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_transform">
-<code class="descname">get_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> applied
-to the <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_transformed_clip_path_and_affine">
-<code class="descname">get_transformed_clip_path_and_affine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_transformed_clip_path_and_affine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the clip path with the non-affine part of its
-transformation applied, and the remaining affine part of its
-transformation.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_url">
-<code class="descname">get_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_url" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the url</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_verts">
-<code class="descname">get_verts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_verts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a copy of the vertices used in this patch</p>
-<p>If the patch contains Bezier curves, the curves will be
-interpolated by line segments.  To access the curves as
-curves, use <a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.get_path" title="pytransform3d.plot_utils.Arrow3D.get_path"><code class="xref py py-meth docutils literal"><span class="pre">get_path()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_visible">
-<code class="descname">get_visible</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_visible" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the artist’s visiblity</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.get_zorder">
-<code class="descname">get_zorder</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.get_zorder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code>’s zorder.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.have_units">
-<code class="descname">have_units</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.have_units" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <em>True</em> if units are set on the <em>x</em> or <em>y</em> axes</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.hitlist">
-<code class="descname">hitlist</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.hitlist" title="Permalink to this definition">¶</a></dt>
-<dd><p>List the children of the artist which contain the mouse event <em>event</em>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.is_figure_set">
-<code class="descname">is_figure_set</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.is_figure_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if the artist is assigned to a
-<code class="xref py py-class docutils literal"><span class="pre">Figure</span></code>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.is_transform_set">
-<code class="descname">is_transform_set</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.is_transform_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns <em>True</em> if <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code> has a transform explicitly
-set.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.pchanged">
-<code class="descname">pchanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.pchanged" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fire an event when property changed, calling all of the
-registered callbacks.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.pick">
-<code class="descname">pick</code><span class="sig-paren">(</span><em>mouseevent</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.pick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Process pick event</p>
-<p>each child artist will fire a pick event if <em>mouseevent</em> is over
-the artist and the artist has picker set</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.pickable">
-<code class="descname">pickable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.pickable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <em>True</em> if <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code> is pickable.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.properties">
-<code class="descname">properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.properties" title="Permalink to this definition">¶</a></dt>
-<dd><p>return a dictionary mapping property name -&gt; value for all Artist props</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.remove">
-<code class="descname">remove</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.remove" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove the artist from the figure if possible.  The effect
-will not be visible until the figure is redrawn, e.g., with
-<code class="xref py py-meth docutils literal"><span class="pre">matplotlib.axes.Axes.draw_idle()</span></code>.  Call
-<code class="xref py py-meth docutils literal"><span class="pre">matplotlib.axes.Axes.relim()</span></code> to update the axes limits
-if desired.</p>
-<p>Note: <code class="xref py py-meth docutils literal"><span class="pre">relim()</span></code> will not see
-collections even if the collection was added to axes with
-<em>autolim</em> = True.</p>
-<p>Note: there is no support for removing the artist’s legend entry.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.remove_callback">
-<code class="descname">remove_callback</code><span class="sig-paren">(</span><em>oid</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.remove_callback" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a callback based on its <em>id</em>.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.add_callback" title="pytransform3d.plot_utils.Arrow3D.add_callback"><code class="xref py py-meth docutils literal"><span class="pre">add_callback()</span></code></a></dt>
-<dd>For adding callbacks</dd>
-</dl>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set">
-<code class="descname">set</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set" title="Permalink to this definition">¶</a></dt>
-<dd><p>A property batch setter. Pass <em>kwargs</em> to set properties.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_aa">
-<code class="descname">set_aa</code><span class="sig-paren">(</span><em>aa</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_aa" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias for set_antialiased</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_agg_filter">
-<code class="descname">set_agg_filter</code><span class="sig-paren">(</span><em>filter_func</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_agg_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>set agg_filter function.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_alpha">
-<code class="descname">set_alpha</code><span class="sig-paren">(</span><em>alpha</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_alpha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the alpha tranparency of the patch.</p>
-<p>ACCEPTS: float or None</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_animated">
-<code class="descname">set_animated</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_animated" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the artist’s animation state.</p>
-<p>ACCEPTS: [True | False]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_antialiased">
-<code class="descname">set_antialiased</code><span class="sig-paren">(</span><em>aa</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_antialiased" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to use antialiased rendering</p>
-<p>ACCEPTS: [True | False]  or None for default</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_arrowstyle">
-<code class="descname">set_arrowstyle</code><span class="sig-paren">(</span><em>arrowstyle=None</em>, <em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_arrowstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the arrow style. Old attributes are forgotten. Without arguments
-(or with <code class="docutils literal"><span class="pre">arrowstyle=None</span></code>) returns available box styles as a list of
-strings.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>arrowstyle</strong> : None, ArrowStyle, str, optional (default: None)</p>
-<blockquote class="last">
-<div><p>Can be a string with arrowstyle name with optional comma-separated
-attributes, e.g.:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_arrowstyle</span><span class="p">(</span><span class="s2">&quot;Fancy,head_length=0.2&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Alternatively attributes can be provided as keywords, e.g.:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_arrowstyle</span><span class="p">(</span><span class="s2">&quot;fancy&quot;</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_capstyle">
-<code class="descname">set_capstyle</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_capstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the patch capstyle</p>
-<p>ACCEPTS: [‘butt’ | ‘round’ | ‘projecting’]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_clip_box">
-<code class="descname">set_clip_box</code><span class="sig-paren">(</span><em>clipbox</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_clip_box" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the artist’s clip <code class="xref py py-class docutils literal"><span class="pre">Bbox</span></code>.</p>
-<p>ACCEPTS: a <code class="xref py py-class docutils literal"><span class="pre">matplotlib.transforms.Bbox</span></code> instance</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_clip_on">
-<code class="descname">set_clip_on</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_clip_on" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether artist uses clipping.</p>
-<p>When False artists will be visible out side of the axes which
-can lead to unexpected results.</p>
-<p>ACCEPTS: [True | False]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_clip_path">
-<code class="descname">set_clip_path</code><span class="sig-paren">(</span><em>path</em>, <em>transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_clip_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the artist’s clip path, which may be:</p>
-<ul class="simple">
-<li>a <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code> (or subclass) instance; or</li>
-<li>a <code class="xref py py-class docutils literal"><span class="pre">Path</span></code> instance, in which case a
-<code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> instance, which will be
-applied to the path before using it for clipping, must be provided;
-or</li>
-<li><code class="docutils literal"><span class="pre">None</span></code>, to remove a previously set clipping path.</li>
-</ul>
-<p>For efficiency, if the path happens to be an axis-aligned rectangle,
-this method will set the clipping box to the corresponding rectangle
-and set the clipping path to <code class="docutils literal"><span class="pre">None</span></code>.</p>
-<p>ACCEPTS: [ (<code class="xref py py-class docutils literal"><span class="pre">Path</span></code>,
-<code class="xref py py-class docutils literal"><span class="pre">Transform</span></code>) |
-<code class="xref py py-class docutils literal"><span class="pre">Patch</span></code> | None ]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_color">
-<code class="descname">set_color</code><span class="sig-paren">(</span><em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_color" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set both the edgecolor and the facecolor.</p>
-<p>ACCEPTS: matplotlib color spec</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.set_facecolor" title="pytransform3d.plot_utils.Arrow3D.set_facecolor"><code class="xref py py-meth docutils literal"><span class="pre">set_facecolor()</span></code></a>, <a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.set_edgecolor" title="pytransform3d.plot_utils.Arrow3D.set_edgecolor"><code class="xref py py-meth docutils literal"><span class="pre">set_edgecolor()</span></code></a></dt>
-<dd>For setting the edge or face color individually.</dd>
-</dl>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_connectionstyle">
-<code class="descname">set_connectionstyle</code><span class="sig-paren">(</span><em>connectionstyle</em>, <em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_connectionstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the connection style. Old attributes are forgotten.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>connectionstyle</strong> : None, ConnectionStyle instance, or string</p>
-<blockquote class="last">
-<div><p>Can be a string with connectionstyle name with
-optional comma-separated attributes, e.g.:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_connectionstyle</span><span class="p">(</span><span class="s2">&quot;arc,angleA=0,armA=30,rad=10&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Alternatively, the attributes can be provided as keywords, e.g.:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_connectionstyle</span><span class="p">(</span><span class="s2">&quot;arc&quot;</span><span class="p">,</span> <span class="n">angleA</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">armA</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span><span class="n">rad</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Without any arguments (or with <code class="docutils literal"><span class="pre">connectionstyle=None</span></code>), return
-available styles as a list of strings.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_contains">
-<code class="descname">set_contains</code><span class="sig-paren">(</span><em>picker</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_contains" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replace the contains test used by this artist. The new picker
-should be a callable function which determines whether the
-artist is hit by the mouse event:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hit</span><span class="p">,</span> <span class="n">props</span> <span class="o">=</span> <span class="n">picker</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>If the mouse event is over the artist, return <em>hit</em> = <em>True</em>
-and <em>props</em> is a dictionary of properties you want returned
-with the contains test.</p>
-<p>ACCEPTS: a callable function</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_data">
-<code class="descname">set_data</code><span class="sig-paren">(</span><em>xs</em>, <em>ys</em>, <em>zs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D.set_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the arrow data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xs</strong> : iterable</p>
-<blockquote>
-<div><p>List of x positions</p>
-</div></blockquote>
-<p><strong>ys</strong> : iterable</p>
-<blockquote>
-<div><p>List of y positions</p>
-</div></blockquote>
-<p><strong>zs</strong> : iterable</p>
-<blockquote class="last">
-<div><p>List of z positions</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_dpi_cor">
-<code class="descname">set_dpi_cor</code><span class="sig-paren">(</span><em>dpi_cor</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_dpi_cor" title="Permalink to this definition">¶</a></dt>
-<dd><p>dpi_cor is currently used for linewidth-related things and
-shrink factor. Mutation scale is affected by this.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dpi_cor</strong> : scalar</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_ec">
-<code class="descname">set_ec</code><span class="sig-paren">(</span><em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_ec" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias for set_edgecolor</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_edgecolor">
-<code class="descname">set_edgecolor</code><span class="sig-paren">(</span><em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_edgecolor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the patch edge color</p>
-<p>ACCEPTS: mpl color spec, None, ‘none’, or ‘auto’</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_facecolor">
-<code class="descname">set_facecolor</code><span class="sig-paren">(</span><em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_facecolor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the patch face color</p>
-<p>ACCEPTS: mpl color spec, or None for default, or ‘none’ for no color</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_fc">
-<code class="descname">set_fc</code><span class="sig-paren">(</span><em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_fc" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias for set_facecolor</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_figure">
-<code class="descname">set_figure</code><span class="sig-paren">(</span><em>fig</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_figure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the <code class="xref py py-class docutils literal"><span class="pre">Figure</span></code> instance the artist
-belongs to.</p>
-<p>ACCEPTS: a <code class="xref py py-class docutils literal"><span class="pre">matplotlib.figure.Figure</span></code> instance</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_fill">
-<code class="descname">set_fill</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_fill" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to fill the patch</p>
-<p>ACCEPTS: [True | False]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_gid">
-<code class="descname">set_gid</code><span class="sig-paren">(</span><em>gid</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_gid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the (group) id for the artist</p>
-<p>ACCEPTS: an id string</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_hatch">
-<code class="descname">set_hatch</code><span class="sig-paren">(</span><em>hatch</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_hatch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the hatching pattern</p>
-<p><em>hatch</em> can be one of:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span>   <span class="o">-</span> <span class="n">diagonal</span> <span class="n">hatching</span>
-\   <span class="o">-</span> <span class="n">back</span> <span class="n">diagonal</span>
-<span class="o">|</span>   <span class="o">-</span> <span class="n">vertical</span>
-<span class="o">-</span>   <span class="o">-</span> <span class="n">horizontal</span>
-<span class="o">+</span>   <span class="o">-</span> <span class="n">crossed</span>
-<span class="n">x</span>   <span class="o">-</span> <span class="n">crossed</span> <span class="n">diagonal</span>
-<span class="n">o</span>   <span class="o">-</span> <span class="n">small</span> <span class="n">circle</span>
-<span class="n">O</span>   <span class="o">-</span> <span class="n">large</span> <span class="n">circle</span>
-<span class="o">.</span>   <span class="o">-</span> <span class="n">dots</span>
-<span class="o">*</span>   <span class="o">-</span> <span class="n">stars</span>
-</pre></div>
-</div>
-<p>Letters can be combined, in which case all the specified
-hatchings are done.  If same letter repeats, it increases the
-density of hatching of that pattern.</p>
-<p>Hatching is supported in the PostScript, PDF, SVG and Agg
-backends only.</p>
-<p>ACCEPTS: [‘/’ | ‘' | ‘|’ | ‘-‘ | ‘+’ | ‘x’ | ‘o’ | ‘O’ | ‘.’ | ‘*’]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_joinstyle">
-<code class="descname">set_joinstyle</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_joinstyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the patch joinstyle</p>
-<p>ACCEPTS: [‘miter’ | ‘round’ | ‘bevel’]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_label">
-<code class="descname">set_label</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the label to <em>s</em> for auto legend.</p>
-<p>ACCEPTS: string or anything printable with ‘%s’ conversion.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_linestyle">
-<code class="descname">set_linestyle</code><span class="sig-paren">(</span><em>ls</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_linestyle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the patch linestyle</p>
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="61%" />
-<col width="39%" />
+<col style="width: 13%" />
+<col style="width: 10%" />
+<col style="width: 76%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">linestyle</th>
-<th class="head">description</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Attrs</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">'-'</span></code> or <code class="docutils literal"><span class="pre">'solid'</span></code></td>
-<td>solid line</td>
+<tbody>
+<tr class="row-even"><td><p>Curve</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-</span></code></p></td>
+<td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">'--'</span></code> or  <code class="docutils literal"><span class="pre">'dashed'</span></code></td>
-<td>dashed line</td>
+<tr class="row-odd"><td><p>CurveB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">'-.'</span></code> or  <code class="docutils literal"><span class="pre">'dashdot'</span></code></td>
-<td>dash-dotted line</td>
+<tr class="row-even"><td><p>BracketB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-[</span></code></p></td>
+<td><p>widthB=1.0, lengthB=0.2, angleB=None</p></td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">':'</span></code> or <code class="docutils literal"><span class="pre">'dotted'</span></code></td>
-<td>dotted line</td>
+<tr class="row-odd"><td><p>CurveFilledB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-|&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>CurveA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;-</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>CurveAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;-&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>CurveFilledA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;|-</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>CurveFilledAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;|-|&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>BracketA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">]-</span></code></p></td>
+<td><p>widthA=1.0, lengthA=0.2, angleA=None</p></td>
+</tr>
+<tr class="row-odd"><td><p>BracketAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">]-[</span></code></p></td>
+<td><p>widthA=1.0, lengthA=0.2, angleA=None, widthB=1.0, lengthB=0.2, angleB=None</p></td>
+</tr>
+<tr class="row-even"><td><p>Fancy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fancy</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.4, tail_width=0.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simple</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">simple</span></code></p></td>
+<td><p>head_length=0.5, head_width=0.5, tail_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>Wedge</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wedge</span></code></p></td>
+<td><p>tail_width=0.3, shrink_factor=0.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>BarAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|-|</span></code></p></td>
+<td><p>widthA=1.0, angleA=None, widthB=1.0, angleB=None</p></td>
 </tr>
 </tbody>
 </table>
-<p>Alternatively a dash tuple of the following form can be provided:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">onoffseq</span><span class="p">),</span>
-</pre></div>
-</div>
-<p>where <code class="docutils literal"><span class="pre">onoffseq</span></code> is an even length tuple of on and off ink
-in points.</p>
-<dl class="docutils">
-<dt>ACCEPTS: [‘solid’ | ‘dashed’, ‘dashdot’, ‘dotted’ |</dt>
-<dd>(offset, on-off-dash-seq) |
-<code class="docutils literal"><span class="pre">'-'</span></code> | <code class="docutils literal"><span class="pre">'--'</span></code> | <code class="docutils literal"><span class="pre">'-.'</span></code> | <code class="docutils literal"><span class="pre">':'</span></code> | <code class="docutils literal"><span class="pre">'None'</span></code> |
-<code class="docutils literal"><span class="pre">'</span> <span class="pre">'</span></code> | <code class="docutils literal"><span class="pre">''</span></code>]</dd>
+</dd>
+<dt><strong>arrow_transmuter</strong></dt><dd><p>Ignored</p>
+</dd>
+<dt><strong>connectionstyle</strong><span class="classifier">str, ConnectionStyle, or None, optional</span></dt><dd></dd>
+<dt><strong>(default: ‘arc3’)</strong></dt><dd><blockquote>
+<div><p>Describes how <em>posA</em> and <em>posB</em> are connected. It can be an
+instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">ConnectionStyle</span></code> class or a string of the
+connectionstyle name, with optional comma-separated attributes. The
+following connection styles are available:</p>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Attrs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Angle</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">angle</span></code></p></td>
+<td><p>angleA=90, angleB=0, rad=0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Angle3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">angle3</span></code></p></td>
+<td><p>angleA=90, angleB=0</p></td>
+</tr>
+<tr class="row-even"><td><p>Arc</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arc</span></code></p></td>
+<td><p>angleA=0, angleB=0, armA=None, armB=None, rad=0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Arc3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arc3</span></code></p></td>
+<td><p>rad=0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>Bar</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bar</span></code></p></td>
+<td><p>armA=0.0, armB=0.0, fraction=0.3, angle=None</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt><strong>connector</strong></dt><dd><p>Ignored</p>
+</dd>
+<dt><strong>patchA, patchB</strong><span class="classifier">None, Patch, optional (default: None)</span></dt><dd><p>Head and tail patch respectively. <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.patch.Patch</span></code>
+instance.</p>
+</dd>
+<dt><strong>shrinkA, shrinkB</strong><span class="classifier">scalar, optional (default: 2)</span></dt><dd><p>Shrinking factor of the tail and head of the arrow respectively</p>
+</dd>
+<dt><strong>mutation_scale</strong><span class="classifier">scalar, optional (default: 1)</span></dt><dd><p>Value with which attributes of <em>arrowstyle</em> (e.g., <em>head_length</em>)
+will be scaled.</p>
+</dd>
+<dt><strong>mutation_aspect</strong><span class="classifier">None, scalar, optional (default: None)</span></dt><dd><p>The height of the rectangle will be squeezed by this value before
+the mutation and the mutated box will be stretched by the inverse
+of it.</p>
+</dd>
+<dt><strong>dpi_cor</strong><span class="classifier">scalar, optional (default: 1)</span></dt><dd><p>dpi_cor is currently used for linewidth-related things and shrink
+factor. Mutation scale is affected by this.</p>
+</dd>
 </dl>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ls</strong> : { ‘-‘,  ‘–’, ‘-.’, ‘:’} and more see description</p>
-<blockquote class="last">
-<div><p>The line style.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_linewidth">
-<code class="descname">set_linewidth</code><span class="sig-paren">(</span><em>w</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_linewidth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the patch linewidth in points</p>
-<p>ACCEPTS: float or None for default</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_ls">
-<code class="descname">set_ls</code><span class="sig-paren">(</span><em>ls</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_ls" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias for set_linestyle</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_lw">
-<code class="descname">set_lw</code><span class="sig-paren">(</span><em>lw</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_lw" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias for set_linewidth</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_mutation_aspect">
-<code class="descname">set_mutation_aspect</code><span class="sig-paren">(</span><em>aspect</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_mutation_aspect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the aspect ratio of the bbox mutation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>aspect</strong> : scalar</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_mutation_scale">
-<code class="descname">set_mutation_scale</code><span class="sig-paren">(</span><em>scale</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_mutation_scale" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the mutation scale.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scale</strong> : scalar</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_patchA">
-<code class="descname">set_patchA</code><span class="sig-paren">(</span><em>patchA</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_patchA" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the tail patch.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>patchA</strong> : Patch</p>
-<blockquote class="last">
-<div><p><code class="xref py py-class docutils literal"><span class="pre">matplotlib.patch.Patch</span></code> instance.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_patchB">
-<code class="descname">set_patchB</code><span class="sig-paren">(</span><em>patchB</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_patchB" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the head patch.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>patchB</strong> : Patch</p>
-<blockquote class="last">
-<div><p><code class="xref py py-class docutils literal"><span class="pre">matplotlib.patch.Patch</span></code> instance.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_path_effects">
-<code class="descname">set_path_effects</code><span class="sig-paren">(</span><em>path_effects</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_path_effects" title="Permalink to this definition">¶</a></dt>
-<dd><p>set path_effects, which should be a list of instances of
-matplotlib.patheffect._Base class or its derivatives.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_picker">
-<code class="descname">set_picker</code><span class="sig-paren">(</span><em>picker</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_picker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the epsilon for picking used by this artist</p>
-<p><em>picker</em> can be one of the following:</p>
-<blockquote>
-<div><ul>
-<li><p class="first"><em>None</em>: picking is disabled for this artist (default)</p>
-</li>
-<li><p class="first">A boolean: if <em>True</em> then picking will be enabled and the
-artist will fire a pick event if the mouse event is over
-the artist</p>
-</li>
-<li><p class="first">A float: if picker is a number it is interpreted as an
-epsilon tolerance in points and the artist will fire
-off an event if it’s data is within epsilon of the mouse
-event.  For some artists like lines and patch collections,
-the artist may provide additional data to the pick event
-that is generated, e.g., the indices of the data within
-epsilon of the pick event</p>
-</li>
-<li><p class="first">A function: if picker is callable, it is a user supplied
-function which determines whether the artist is hit by the
-mouse event:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hit</span><span class="p">,</span> <span class="n">props</span> <span class="o">=</span> <span class="n">picker</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">mouseevent</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>to determine the hit test.  if the mouse event is over the
-artist, return <em>hit=True</em> and props is a dictionary of
-properties you want added to the PickEvent attributes.</p>
-</li>
-</ul>
-</div></blockquote>
-<p>ACCEPTS: [None|float|boolean|callable]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_positions">
-<code class="descname">set_positions</code><span class="sig-paren">(</span><em>posA</em>, <em>posB</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_positions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the begin and end positions of the connecting path.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>posA, posB</strong> : None, tuple</p>
-<blockquote class="last">
-<div><p>(x,y) coordinates of arrow tail and arrow head respectively. If
-<cite>None</cite> use current value.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_rasterized">
-<code class="descname">set_rasterized</code><span class="sig-paren">(</span><em>rasterized</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_rasterized" title="Permalink to this definition">¶</a></dt>
-<dd><p>Force rasterized (bitmap) drawing in vector backend output.</p>
-<p>Defaults to None, which implies the backend’s default behavior</p>
-<p>ACCEPTS: [True | False | None]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_sketch_params">
-<code class="descname">set_sketch_params</code><span class="sig-paren">(</span><em>scale=None</em>, <em>length=None</em>, <em>randomness=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_sketch_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the sketch parameters.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>scale</strong> : float, optional</p>
-<blockquote>
-<div><p>The amplitude of the wiggle perpendicular to the source
-line, in pixels.  If scale is <cite>None</cite>, or not provided, no
-sketch filter will be provided.</p>
-</div></blockquote>
-<p><strong>length</strong> : float, optional</p>
-<blockquote>
-<div><p>The length of the wiggle along the line, in pixels
-(default 128.0)</p>
-</div></blockquote>
-<p><strong>randomness</strong> : float, optional</p>
-<blockquote class="last">
-<div><p>The scale factor by which the length is shrunken or
-expanded (default 16.0)</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_snap">
-<code class="descname">set_snap</code><span class="sig-paren">(</span><em>snap</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_snap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the snap setting which may be:</p>
-<blockquote>
-<div><ul class="simple">
-<li>True: snap vertices to the nearest pixel center</li>
-<li>False: leave vertices as-is</li>
-<li>None: (auto) If the path contains only rectilinear line
-segments, round to the nearest pixel center</li>
-</ul>
-</div></blockquote>
-<p>Only supported by the Agg and MacOSX backends.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_transform">
-<code class="descname">set_transform</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> instance
-used by this artist.</p>
-<p>ACCEPTS: <code class="xref py py-class docutils literal"><span class="pre">Transform</span></code> instance</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_url">
-<code class="descname">set_url</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_url" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the url for the artist</p>
-<p>ACCEPTS: a url string</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_visible">
-<code class="descname">set_visible</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_visible" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the artist’s visiblity.</p>
-<p>ACCEPTS: [True | False]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.set_zorder">
-<code class="descname">set_zorder</code><span class="sig-paren">(</span><em>level</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set_zorder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the zorder for the artist.  Artists with lower zorder
-values are drawn first.</p>
-<p>ACCEPTS: any number</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pytransform3d.plot_utils.Arrow3D.stale">
-<code class="descname">stale</code><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.stale" title="Permalink to this definition">¶</a></dt>
-<dd><p>If the artist is ‘stale’ and needs to be re-drawn for the output to
-match the internal state of the artist.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pytransform3d.plot_utils.Arrow3D.sticky_edges">
-<code class="descname">sticky_edges</code><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.sticky_edges" title="Permalink to this definition">¶</a></dt>
-<dd><p><cite>x</cite> and <cite>y</cite> sticky edge lists.</p>
-<p>When performing autoscaling, if a data limit coincides with a value in
-the corresponding sticky_edges list, then no margin will be added–the
-view limit “sticks” to the edge. A typical usecase is histograms,
-where one usually expects no margin on the bottom edge (0) of the
-histogram.</p>
-<p>This attribute cannot be assigned to; however, the <cite>x</cite> and <cite>y</cite> lists
-can be modified in place as needed.</p>
-<p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">artist</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">artist</span><span class="o">.</span><span class="n">sticky_edges</span><span class="o">.</span><span class="n">y</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.update">
-<code class="descname">update</code><span class="sig-paren">(</span><em>props</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update the properties of this <code class="xref py py-class docutils literal"><span class="pre">Artist</span></code> from the
-dictionary <em>prop</em>.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.plot_utils.Arrow3D.update_from">
-<code class="descname">update_from</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.update_from" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates this <code class="xref py py-class docutils literal"><span class="pre">Patch</span></code> from the properties of <em>other</em>.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>Valid kwargs are:</dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array
+alpha: float or None
+animated: bool
+antialiased or aa: unknown
+capstyle: {‘butt’, ‘round’, ‘projecting’}
+clip_box: <cite>.Bbox</cite>
+clip_on: bool
+clip_path: [(<cite>~matplotlib.path.Path</cite>, <cite>.Transform</cite>) | <cite>.Patch</cite> | None]
+color: color
+contains: callable
+edgecolor or ec: color or None or ‘auto’
+facecolor or fc: color or None
+figure: <cite>.Figure</cite>
+fill: bool
+gid: str
+hatch: {‘/’, ‘', ‘|’, ‘-‘, ‘+’, ‘x’, ‘o’, ‘O’, ‘.’, ‘*’}
+in_layout: bool
+joinstyle: {‘miter’, ‘round’, ‘bevel’}
+label: object
+linestyle or ls: {‘-‘, ‘–’, ‘-.’, ‘:’, ‘’, (offset, on-off-seq), …}
+linewidth or lw: float or None
+path_effects: <cite>.AbstractPathEffect</cite>
+picker: None or bool or float or callable
+rasterized: bool or None
+sketch_params: (scale: float, length: float, randomness: float)
+snap: bool or None
+transform: <cite>.Transform</cite>
+url: str
+visible: bool
+zorder: float</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -1275,7 +365,7 @@ dictionary <em>prop</em>.</p>
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Jul 02, 2020.<br/>
     </p>
   </div>
 </footer>

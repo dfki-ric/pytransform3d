@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.transformations &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>pytransform3d.transformations &#8212; pytransform3d 1.2 documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script src="../../_static/js/jquery-fix.js"></script>
+    <script src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script src="../../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -32,8 +24,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -46,7 +37,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,27 +105,44 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+<form action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <h1>Source code for pytransform3d.transformations</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Transformations in three dimensions - SE(3).&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.rotations</span> <span class="k">import</span> <span class="p">(</span><span class="n">random_quaternion</span><span class="p">,</span> <span class="n">random_vector</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">random_quaternion</span><span class="p">,</span> <span class="n">random_vector</span><span class="p">,</span>
                         <span class="n">matrix_from_quaternion</span><span class="p">,</span> <span class="n">quaternion_from_matrix</span><span class="p">,</span>
                         <span class="n">assert_rotation_matrix</span><span class="p">,</span> <span class="n">check_matrix</span><span class="p">,</span>
                         <span class="n">norm_vector</span><span class="p">,</span> <span class="n">axis_angle_from_matrix</span><span class="p">,</span>
                         <span class="n">matrix_from_axis_angle</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="k">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">make_3d_axis</span>
-<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_array_almost_equal</span>
+<span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">make_3d_axis</span>
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">assert_array_almost_equal</span>
 
 
-<div class="viewcode-block" id="check_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.check_transform.html#pytransform3d.transformations.check_transform">[docs]</a><span class="k">def</span> <span class="nf">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
+<div class="viewcode-block" id="check_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.check_transform.html#pytransform3d.transformations.check_transform">[docs]</a><span class="k">def</span> <span class="nf">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input validation of transform.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame A to frame B</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -146,10 +154,14 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected homogeneous transformation matrix with &quot;</span>
                          <span class="s2">&quot;shape (4, 4), got array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span>
                          <span class="o">%</span> <span class="p">(</span><span class="n">A2B</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
-    <span class="n">check_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">check_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">A2B</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Excpected homogeneous transformation matrix with &quot;</span>
-                         <span class="s2">&quot;[0, 0, 0, 1] at the bottom, got </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">A2B</span><span class="p">)</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Excpected homogeneous transformation matrix with &quot;</span>
+                     <span class="s2">&quot;[0, 0, 0, 1] at the bottom, got </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">A2B</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
@@ -174,7 +186,7 @@
     <span class="k">return</span> <span class="n">pq</span></div>
 
 
-<div class="viewcode-block" id="transform_from"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from">[docs]</a><span class="k">def</span> <span class="nf">transform_from</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<div class="viewcode-block" id="transform_from"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from">[docs]</a><span class="k">def</span> <span class="nf">transform_from</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make transformation from rotation matrix and translation.</span>
 
 <span class="sd">    Parameters</span>
@@ -185,13 +197,18 @@
 <span class="sd">    p : array-like, shape (3,)</span>
 <span class="sd">        Translation</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame A to frame B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">rotate_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">R</span><span class="p">)</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">translate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">rotate_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">translate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
@@ -217,7 +234,7 @@
     <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="invert_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.invert_transform.html#pytransform3d.transformations.invert_transform">[docs]</a><span class="k">def</span> <span class="nf">invert_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
+<div class="viewcode-block" id="invert_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.invert_transform.html#pytransform3d.transformations.invert_transform">[docs]</a><span class="k">def</span> <span class="nf">invert_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Invert transform.</span>
 
 <span class="sd">    Parameters</span>
@@ -225,19 +242,24 @@
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame A to frame B</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    B2A : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame B to frame A</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="c1"># NOTE there is a faster version:</span>
     <span class="c1"># ( R t )^-1   ( R^T -R^T*t )</span>
     <span class="c1"># ( 0 1 )    = ( 0    1     )</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="translate_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.translate_transform.html#pytransform3d.transformations.translate_transform">[docs]</a><span class="k">def</span> <span class="nf">translate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<div class="viewcode-block" id="translate_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.translate_transform.html#pytransform3d.transformations.translate_transform">[docs]</a><span class="k">def</span> <span class="nf">translate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Translate transform.</span>
 
 <span class="sd">    Parameters</span>
@@ -248,19 +270,24 @@
 <span class="sd">    p : array-like, shape (3,)</span>
 <span class="sd">        Translation</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame A to frame B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">A2B</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
     <span class="n">out</span><span class="p">[:</span><span class="n">l</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="rotate_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.rotate_transform.html#pytransform3d.transformations.rotate_transform">[docs]</a><span class="k">def</span> <span class="nf">rotate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+<div class="viewcode-block" id="rotate_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.rotate_transform.html#pytransform3d.transformations.rotate_transform">[docs]</a><span class="k">def</span> <span class="nf">rotate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Rotate transform.</span>
 
 <span class="sd">    Parameters</span>
@@ -271,12 +298,17 @@
 <span class="sd">    R : array-like, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame A to frame B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">A2B</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">out</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span>
     <span class="k">return</span> <span class="n">out</span></div>
@@ -298,7 +330,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="concat"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.concat.html#pytransform3d.transformations.concat">[docs]</a><span class="k">def</span> <span class="nf">concat</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">B2C</span><span class="p">):</span>
+<div class="viewcode-block" id="concat"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.concat.html#pytransform3d.transformations.concat">[docs]</a><span class="k">def</span> <span class="nf">concat</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">B2C</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Concatenate transforms.</span>
 
 <span class="sd">    Parameters</span>
@@ -308,13 +340,18 @@
 
 <span class="sd">    B2C : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame B to frame C</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
-    <span class="n">B2C</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">B2C</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
+    <span class="n">B2C</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">B2C</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">B2C</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.transform.html#pytransform3d.transformations.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">PA</span><span class="p">):</span>
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.transform.html#pytransform3d.transformations.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">PA</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Transform point or list of points.</span>
 
 <span class="sd">    Parameters</span>
@@ -325,12 +362,17 @@
 <span class="sd">    PA : array-like, shape (4,) or (n_points, 4)</span>
 <span class="sd">        Point or points in frame A</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    PB : array-like, shape (4,) or (n_points, 4)</span>
 <span class="sd">        Point or points in frame B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="n">PA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">PA</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">PA</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">PA</span><span class="p">)</span>
@@ -341,7 +383,8 @@
 
 
 <div class="viewcode-block" id="scale_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.scale_transform.html#pytransform3d.transformations.scale_transform">[docs]</a><span class="k">def</span> <span class="nf">scale_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">s_xr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_yr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_zr</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_r</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-                    <span class="n">s_xt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_yt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_zt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_t</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_d</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+                    <span class="n">s_xt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_yt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_zt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_t</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">s_d</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                    <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Scale a transform from A to reference frame B.</span>
 
 <span class="sd">    See algorithm 10 from &quot;Analytic Approaches for Design and Operation of</span>
@@ -379,13 +422,18 @@
 <span class="sd">    s_d : float, optional (default: 1)</span>
 <span class="sd">        Scaling of the whole transform (displacement)</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    A2B_scaled</span>
 <span class="sd">        Scaled transform from frame A to frame B (actually this is a transform</span>
 <span class="sd">        from A to another frame C)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="n">A2B_scaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="n">R</span> <span class="o">=</span> <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
@@ -404,7 +452,7 @@
     <span class="k">return</span> <span class="n">A2B_scaled</span></div>
 
 
-<div class="viewcode-block" id="pq_from_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.pq_from_transform.html#pytransform3d.transformations.pq_from_transform">[docs]</a><span class="k">def</span> <span class="nf">pq_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
+<div class="viewcode-block" id="pq_from_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.pq_from_transform.html#pytransform3d.transformations.pq_from_transform">[docs]</a><span class="k">def</span> <span class="nf">pq_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Conversion from homogeneous matrix to position and quaternion.</span>
 
 <span class="sd">    Parameters</span>
@@ -412,12 +460,17 @@
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Transform from frame A to frame B</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pq : array-like, shape (7,)</span>
 <span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">quaternion_from_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])))</span></div>
 
 
@@ -438,7 +491,7 @@
     <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">matrix_from_quaternion</span><span class="p">(</span><span class="n">pq</span><span class="p">[</span><span class="mi">3</span><span class="p">:]),</span> <span class="n">pq</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="plot_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.plot_transform.html#pytransform3d.transformations.plot_transform">[docs]</a><span class="k">def</span> <span class="nf">plot_transform</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.plot_transform.html#pytransform3d.transformations.plot_transform">[docs]</a><span class="k">def</span> <span class="nf">plot_transform</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot transform.</span>
 
 <span class="sd">    Parameters</span>
@@ -458,6 +511,11 @@
 <span class="sd">    name : string, optional (default: None)</span>
 <span class="sd">        Name of the frame, will be used for annotation</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
 <span class="sd">    kwargs : dict, optional (default: {})</span>
 <span class="sd">        Additional arguments for the plotting functions, e.g. alpha</span>
 
@@ -471,7 +529,7 @@
 
     <span class="k">if</span> <span class="n">A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
 
     <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">frame</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
@@ -502,7 +560,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Jul 02, 2020.<br/>
     </p>
   </div>
 </footer>

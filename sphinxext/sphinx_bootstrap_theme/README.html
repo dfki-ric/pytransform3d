@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Sphinx Bootstrap Theme &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>Sphinx Bootstrap Theme &#8212; pytransform3d 1.2 documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script src="../../_static/js/jquery-fix.js"></script>
+    <script src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script src="../../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -32,8 +24,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -46,7 +37,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -135,7 +126,39 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Sphinx Bootstrap Theme</a><ul>
+<li><a class="reference internal" href="#introduction-and-demos">Introduction and Demos</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#customization">Customization</a><ul>
+<li><a class="reference internal" href="#theme-options">Theme Options</a></li>
+<li><a class="reference internal" href="#bootstrap-versions">Bootstrap Versions</a></li>
+<li><a class="reference internal" href="#extending-layout-html">Extending “layout.html”</a></li>
+<li><a class="reference internal" href="#adding-custom-css">Adding Custom CSS</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#theme-notes">Theme Notes</a><ul>
+<li><a class="reference internal" href="#id2">Sphinx</a></li>
+<li><a class="reference internal" href="#id3">Bootstrap</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contributing">Contributing</a></li>
+<li><a class="reference internal" href="#licenses">Licenses</a></li>
+</ul>
+</li>
+</ul>
+
+<form action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <div class="section" id="sphinx-bootstrap-theme">
 <h1>Sphinx Bootstrap Theme<a class="headerlink" href="#sphinx-bootstrap-theme" title="Permalink to this headline">¶</a></h1>
@@ -147,18 +170,18 @@ and can use any number of different <a class="reference external" href="http://b
 <h2>Introduction and Demos<a class="headerlink" href="#introduction-and-demos" title="Permalink to this headline">¶</a></h2>
 <p>The theme is introduced and discussed in the following posts:</p>
 <ul class="simple">
-<li>12/09/2011 - <a class="reference external" href="http://loose-bits.com/2011/12/09/sphinx-twitter-bootstrap-theme.html">Twitter Bootstrap Theme for Sphinx</a></li>
-<li>11/19/2012 - <a class="reference external" href="http://loose-bits.com/2012/11/19/sphinx-bootstrap-theme-updates.html">Sphinx Bootstrap Theme Updates - Mobile, Dropdowns, and More</a></li>
-<li>2/12/2013 - <a class="reference external" href="http://loose-bits.com/2013/02/12/sphinx-bootstrap-theme-updates.html">Sphinx Bootstrap Theme 0.1.6 - Bootstrap and Other Updates</a></li>
-<li>4/10/2013 - <a class="reference external" href="http://loose-bits.com/2013/04/10/sphinx-bootstrap-theme-bootswatch.html">Sphinx Bootstrap Theme 0.2.0 - Now with Bootswatch!</a></li>
-<li>9/8/2013 - <a class="reference external" href="http://loose-bits.com/2013/09/08/sphinx-bootstrap-theme-bootstrap-3.html">Sphinx Bootstrap Theme 0.3.0 - Bootstrap v3 and more!</a></li>
+<li><p>12/09/2011 - <a class="reference external" href="http://loose-bits.com/2011/12/09/sphinx-twitter-bootstrap-theme.html">Twitter Bootstrap Theme for Sphinx</a></p></li>
+<li><p>11/19/2012 - <a class="reference external" href="http://loose-bits.com/2012/11/19/sphinx-bootstrap-theme-updates.html">Sphinx Bootstrap Theme Updates - Mobile, Dropdowns, and More</a></p></li>
+<li><p>2/12/2013 - <a class="reference external" href="http://loose-bits.com/2013/02/12/sphinx-bootstrap-theme-updates.html">Sphinx Bootstrap Theme 0.1.6 - Bootstrap and Other Updates</a></p></li>
+<li><p>4/10/2013 - <a class="reference external" href="http://loose-bits.com/2013/04/10/sphinx-bootstrap-theme-bootswatch.html">Sphinx Bootstrap Theme 0.2.0 - Now with Bootswatch!</a></p></li>
+<li><p>9/8/2013 - <a class="reference external" href="http://loose-bits.com/2013/09/08/sphinx-bootstrap-theme-bootstrap-3.html">Sphinx Bootstrap Theme 0.3.0 - Bootstrap v3 and more!</a></p></li>
 </ul>
 <p>Examples of the theme in use for some public projects:</p>
 <ul class="simple">
-<li><a class="reference external" href="http://ryan-roemer.github.com/sphinx-bootstrap-theme">Sphinx Bootstrap Theme</a>: This project, with the theme option
-<code class="docutils literal"><span class="pre">'bootswatch_theme':</span> <span class="pre">&quot;flatly&quot;</span></code> to use the “<a class="reference external" href="http://bootswatch.com/flatly">Flatly</a>” <a class="reference external" href="http://bootswatch.com">Bootswatch</a> theme.</li>
-<li><a class="reference external" href="http://ryan-roemer.github.com/django-cloud-browser">Django Cloud Browser</a>: A Django reusable app for browsing cloud
-datastores (e.g., Amazon Web Services S3).</li>
+<li><p><a class="reference external" href="http://ryan-roemer.github.com/sphinx-bootstrap-theme">Sphinx Bootstrap Theme</a>: This project, with the theme option
+<code class="docutils literal notranslate"><span class="pre">'bootswatch_theme':</span> <span class="pre">&quot;flatly&quot;</span></code> to use the “<a class="reference external" href="http://bootswatch.com/flatly">Flatly</a>” <a class="reference external" href="http://bootswatch.com">Bootswatch</a> theme.</p></li>
+<li><p><a class="reference external" href="http://ryan-roemer.github.com/django-cloud-browser">Django Cloud Browser</a>: A Django reusable app for browsing cloud
+datastores (e.g., Amazon Web Services S3).</p></li>
 </ul>
 <p>The theme demo website also includes an <a class="reference external" href="http://ryan-roemer.github.com/sphinx-bootstrap-theme/examples.html">examples page</a> for some useful
 illustrations of getting Sphinx to play nicely with Bootstrap (also take a
@@ -168,13 +191,13 @@ look at the <a class="reference external" href="http://ryan-roemer.github.com/sp
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Installation from <a class="reference external" href="http://pypi.python.org/pypi/sphinx-bootstrap-theme/">PyPI</a> is fairly straightforward:</p>
 <ol class="arabic">
-<li><p class="first">Install the package:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install sphinx_bootstrap_theme
+<li><p>Install the package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install sphinx_bootstrap_theme
 </pre></div>
 </div>
 </li>
-<li><p class="first">Edit the “conf.py” configuration file to point to the bootstrap theme:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># At the top.</span>
+<li><p>Edit the “conf.py” configuration file to point to the bootstrap theme:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># At the top.</span>
 <span class="kn">import</span> <span class="nn">sphinx_bootstrap_theme</span>
 
 <span class="c1"># ...</span>
@@ -194,7 +217,7 @@ look at the <a class="reference external" href="http://ryan-roemer.github.com/sp
 <h3>Theme Options<a class="headerlink" href="#theme-options" title="Permalink to this headline">¶</a></h3>
 <p>The theme provides many built-in options that can be configured by editing
 your “conf.py” file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># (Optional) Logo. Should be small enough to fit the navbar (ideally 24x24).</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># (Optional) Logo. Should be small enough to fit the navbar (ideally 24x24).</span>
 <span class="c1"># Path should be relative to the ``_static`` files directory.</span>
 <span class="n">html_logo</span> <span class="o">=</span> <span class="s2">&quot;my_logo.png&quot;</span>
 
@@ -263,19 +286,19 @@ your “conf.py” file:</p>
 </pre></div>
 </div>
 <p>Note for the navigation bar title that if you don’t specify a theme option of
-<code class="docutils literal"><span class="pre">navbar_title</span></code> that the “conf.py” <code class="docutils literal"><span class="pre">project</span></code> string will be used. We don’t
-use the <code class="docutils literal"><span class="pre">html_title</span></code> or <code class="docutils literal"><span class="pre">html_short_title</span></code> values because by default those
+<code class="docutils literal notranslate"><span class="pre">navbar_title</span></code> that the “conf.py” <code class="docutils literal notranslate"><span class="pre">project</span></code> string will be used. We don’t
+use the <code class="docutils literal notranslate"><span class="pre">html_title</span></code> or <code class="docutils literal notranslate"><span class="pre">html_short_title</span></code> values because by default those
 both contain version strings, which the navigation bar treats differently.</p>
 </div>
 <div class="section" id="bootstrap-versions">
 <h3>Bootstrap Versions<a class="headerlink" href="#bootstrap-versions" title="Permalink to this headline">¶</a></h3>
-<p>The theme supports Bootstrap v2.3.2 and v3.0.0 via the <code class="docutils literal"><span class="pre">bootstrap_version</span></code>
-theme option (of <code class="docutils literal"><span class="pre">&quot;2&quot;</span></code> or <code class="docutils literal"><span class="pre">&quot;3&quot;</span></code>). Some notes regarding version differences:</p>
+<p>The theme supports Bootstrap v2.3.2 and v3.0.0 via the <code class="docutils literal notranslate"><span class="pre">bootstrap_version</span></code>
+theme option (of <code class="docutils literal notranslate"><span class="pre">&quot;2&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;3&quot;</span></code>). Some notes regarding version differences:</p>
 <ul class="simple">
-<li>Bootstrap 3 has dropped support for <a class="reference external" href="http://stackoverflow.com/questions/18023493">sub-menus</a>, so while supported by this
-theme, they will not show up in site or page menus.</li>
-<li>Internally, “navbar.html” is the Sphinx template used for Bootstrap v3 and
-“navbar-2.html” is the template used for v2.</li>
+<li><p>Bootstrap 3 has dropped support for <a class="reference external" href="http://stackoverflow.com/questions/18023493">sub-menus</a>, so while supported by this
+theme, they will not show up in site or page menus.</p></li>
+<li><p>Internally, “navbar.html” is the Sphinx template used for Bootstrap v3 and
+“navbar-2.html” is the template used for v2.</p></li>
 </ul>
 </div>
 <div class="section" id="extending-layout-html">
@@ -285,20 +308,20 @@ in this Sphinx theme or any others. A good candidate for changes is
 “layout.html”, which provides most of the look and feel. First, take a look
 at the “layout.html” file that the theme provides, and figure out
 what you need to override. As a side note, we have some theme-specific
-enhancements, such as the <code class="docutils literal"><span class="pre">navbarextra</span></code> template block for additional
+enhancements, such as the <code class="docutils literal notranslate"><span class="pre">navbarextra</span></code> template block for additional
 content in the navbar.</p>
 <p>Then, create your own “_templates” directory and “layout.html” file (assuming
 you build from a “source” directory):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkdir source/_templates
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir source/_templates
 $ touch source/_templates/layout.html
 </pre></div>
 </div>
 <p>Then, configure your “conf.py”:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">templates_path</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_templates&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">templates_path</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_templates&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Finally, edit your override file “source/_templates/layout.html”:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
 <span class="p">{</span><span class="o">%</span> <span class="n">extends</span> <span class="s2">&quot;!layout.html&quot;</span> <span class="o">%</span><span class="p">}</span>
 
 <span class="p">{</span><span class="c1"># Add some extra stuff before and use existing with &#39;super()&#39; call. #}</span>
@@ -313,17 +336,17 @@ $ touch source/_templates/layout.html
 <h3>Adding Custom CSS<a class="headerlink" href="#adding-custom-css" title="Permalink to this headline">¶</a></h3>
 <p>Alternately, you could add your own custom static media directory with a CSS
 file to override a style, which in the demo would be something like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkdir source/_static
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir source/_static
 $ touch source/_static/my-styles.css
 </pre></div>
 </div>
 <p>Then, in “conf.py”, edit this line:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">html_static_path</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_static&quot;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">html_static_path</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_static&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>You will also need the override template “source/_templates/layout.html” file
 configured as above, but with the following code:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="c1"># Import the theme&#39;s layout. #}</span>
 <span class="p">{</span><span class="o">%</span> <span class="n">extends</span> <span class="s2">&quot;!layout.html&quot;</span> <span class="o">%</span><span class="p">}</span>
 
 <span class="p">{</span><span class="c1"># Custom CSS overrides #}</span>
@@ -332,7 +355,7 @@ configured as above, but with the following code:</p>
 </div>
 <p>Then, in the new file “source/_static/my-styles.css”, add any appropriate
 styling, e.g. a bold background color:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">footer</span> <span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">footer</span> <span class="p">{</span>
   <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
@@ -347,16 +370,16 @@ styling, e.g. a bold background color:</p>
 source links all in the top Bootstrap navigation bar, along with the Sphinx
 search bar on the left side.</p>
 <p>The global (site-wide) table of contents is the “Site” navigation dropdown,
-which is a configurable level rendering of the <code class="docutils literal"><span class="pre">toctree</span></code> for the entire site.
+which is a configurable level rendering of the <code class="docutils literal notranslate"><span class="pre">toctree</span></code> for the entire site.
 The local (page-level) table of contents is the “Page” navigation dropdown,
-which is a multi-level rendering of the current page’s <code class="docutils literal"><span class="pre">toc</span></code>.</p>
+which is a multi-level rendering of the current page’s <code class="docutils literal notranslate"><span class="pre">toc</span></code>.</p>
 </div>
 <div class="section" id="id3">
 <h3>Bootstrap<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>The theme offers Bootstrap v2.x and v3.x, both of which rely on
 jQuery v.1.9.x. As the jQuery that Bootstrap wants can radically depart from
 the jQuery Sphinx internal libraries use, the library from this theme is
-integrated via <code class="docutils literal"><span class="pre">noConflict()</span></code> as <code class="docutils literal"><span class="pre">$jqTheme</span></code>.</p>
+integrated via <code class="docutils literal notranslate"><span class="pre">noConflict()</span></code> as <code class="docutils literal notranslate"><span class="pre">$jqTheme</span></code>.</p>
 <p>You can override any static JS/CSS files by dropping different versions in your
 Sphinx “_static” directory.</p>
 </div>
@@ -365,11 +388,11 @@ Sphinx “_static” directory.</p>
 <h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
 <p>Contributions to this project are most welcome. Please make sure that the demo
 site builds cleanly, and looks like what you want. First build the demo:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ fab clean &amp;&amp; fab demo
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ fab clean &amp;&amp; fab demo
 </pre></div>
 </div>
 <p>Then, view the site in the development server:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ fab demo_server
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ fab demo_server
 </pre></div>
 </div>
 <p>Also, if you are adding a new type of styling or Sphinx or Bootstrap construct,
@@ -396,7 +419,7 @@ please add a usage example to the “Examples” page.</p>
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Jul 02, 2020.<br/>
     </p>
   </div>
 </footer>

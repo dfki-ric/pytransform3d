@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.rotations &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>pytransform3d.rotations &#8212; pytransform3d 1.2 documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script src="../../_static/js/jquery-fix.js"></script>
+    <script src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script src="../../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -32,8 +24,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -46,7 +37,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,13 +105,25 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+<form action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <h1>Source code for pytransform3d.rotations</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Rotations in three dimensions - SO(3).&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="k">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Arrow3D</span><span class="p">,</span> <span class="n">make_3d_axis</span>
-<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="k">import</span> <span class="n">assert_array_almost_equal</span>
+<span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Arrow3D</span><span class="p">,</span> <span class="n">make_3d_axis</span>
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">assert_array_almost_equal</span>
 
 
 <span class="n">unitx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
@@ -252,8 +255,9 @@
 <span class="sd">        Angle between a and b</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">fast</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span>
-                         <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)),</span>
+                    <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span></div>
 
@@ -347,13 +351,24 @@
                      <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">]])</span></div>
 
 
-<div class="viewcode-block" id="check_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.check_matrix.html#pytransform3d.rotations.check_matrix">[docs]</a><span class="k">def</span> <span class="nf">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+<div class="viewcode-block" id="check_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.check_matrix.html#pytransform3d.rotations.check_matrix">[docs]</a><span class="k">def</span> <span class="nf">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input validation of a rotation matrix.</span>
+
+<span class="sd">    We check whether R multiplied by its inverse is approximately the identity</span>
+<span class="sd">    matrix and the determinant is approximately 1.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance threshold for checks. Default tolerance is the same as in</span>
+<span class="sd">        assert_rotation_matrix(R).</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -365,10 +380,24 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected rotation matrix with shape (3, 3), got &quot;</span>
                          <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
     <span class="n">RRT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">RRT</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected rotation matrix, but it failed the test &quot;</span>
-                         <span class="s2">&quot;for inversion by transposition. np.dot(R, R.T) &quot;</span>
-                         <span class="s2">&quot;gives </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">RRT</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">RRT</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="n">tolerance</span><span class="p">):</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Expected rotation matrix, but it failed the test &quot;</span>
+                     <span class="s2">&quot;for inversion by transposition. np.dot(R, R.T) &quot;</span>
+                     <span class="s2">&quot;gives </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">RRT</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+    <span class="n">R_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">R_det</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Expected rotation matrix, but it failed the test &quot;</span>
+                     <span class="s2">&quot;for the determinant, which should be 1 but is </span><span class="si">%g</span><span class="s2">; &quot;</span>
+                     <span class="s2">&quot;that is, it probably represents a rotoreflection&quot;</span>
+                     <span class="o">%</span> <span class="n">R_det</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">R</span></div>
 
 
@@ -422,6 +451,11 @@
     <span class="sd">&quot;&quot;&quot;Compute rotation matrix from axis-angle.</span>
 
 <span class="sd">    This is called exponential map or Rodrigues&#39; formula.</span>
+
+<span class="sd">    Note that the rotation convention is different from the one used by Euler</span>
+<span class="sd">    angles. A rotation about a basis vector results in a transposed rotation</span>
+<span class="sd">    matrix in comparison to a corresponding Euler angles. The active / alibi</span>
+<span class="sd">    convention is used.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -622,7 +656,7 @@
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot compute rotation matrix from no rotation.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="euler_xyz_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.euler_xyz_from_matrix.html#pytransform3d.rotations.euler_xyz_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_xyz_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+<div class="viewcode-block" id="euler_xyz_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.euler_xyz_from_matrix.html#pytransform3d.rotations.euler_xyz_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_xyz_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute xyz Euler angles from rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -630,12 +664,16 @@
 <span class="sd">    R : array-like, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    e_xyz : array-like, shape (3,)</span>
 <span class="sd">        Angles for rotation around x-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
         <span class="c1"># NOTE: There are two solutions: angle2 and pi - angle2!</span>
         <span class="n">angle2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="o">-</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
@@ -653,7 +691,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle1</span><span class="p">,</span> <span class="n">angle2</span><span class="p">,</span> <span class="n">angle3</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="euler_zyx_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.euler_zyx_from_matrix.html#pytransform3d.rotations.euler_zyx_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_zyx_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+<div class="viewcode-block" id="euler_zyx_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.euler_zyx_from_matrix.html#pytransform3d.rotations.euler_zyx_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_zyx_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute zyx Euler angles from rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -661,12 +699,16 @@
 <span class="sd">    R : array-like, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    e_zyx : array-like, shape (3,)</span>
 <span class="sd">        Angles for rotation around z-, y&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
         <span class="c1"># NOTE: There are two solutions: angle2 and pi - angle2!</span>
         <span class="n">angle2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
@@ -686,15 +728,25 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle1</span><span class="p">,</span> <span class="n">angle2</span><span class="p">,</span> <span class="n">angle3</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="axis_angle_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.axis_angle_from_matrix.html#pytransform3d.rotations.axis_angle_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+<div class="viewcode-block" id="axis_angle_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.axis_angle_from_matrix.html#pytransform3d.rotations.axis_angle_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute axis-angle from rotation matrix.</span>
 
-<span class="sd">    This operation is called logarithmic map.</span>
+<span class="sd">    This operation is called logarithmic map. Note that there are two possible</span>
+<span class="sd">    solutions for the rotation axis when the angle is 180 degrees (pi).</span>
+
+<span class="sd">    Note that the rotation convention is different from the one used by Euler</span>
+<span class="sd">    angles. A rotation about a basis vector results in a transposed rotation</span>
+<span class="sd">    matrix in comparison to a corresponding Euler angles. The active / alibi</span>
+<span class="sd">    convention is used.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -702,19 +754,38 @@
 <span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle). The angle is</span>
 <span class="sd">        constrained to [0, pi].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
 
     <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
-        <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span>
+
+    <span class="c1"># We can usually determine the rotation axis by inverting Rodrigues&#39;</span>
+    <span class="c1"># formula. Subtracting opposing off-diagonal elements gives us</span>
+    <span class="c1"># 2 * sin(angle) * e,</span>
+    <span class="c1"># where e is the normalized rotation axis.</span>
+    <span class="n">axis_unnormalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="c1"># The threshold is a result from this discussion:</span>
+        <span class="c1"># https://github.com/rock-learning/pytransform3d/issues/43</span>
+        <span class="c1"># The standard formula becomes numerically unstable, however,</span>
+        <span class="c1"># Rodrigues&#39; formula reduces to R = I + 2 (ee^T - I), with the</span>
+        <span class="c1"># rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the</span>
+        <span class="c1"># squared values of the rotation axis on the diagonal of this matrix.</span>
+        <span class="c1"># We can still use the original formula to reconstruct the signs of</span>
+        <span class="c1"># the rotation axis correctly.</span>
+        <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">axis_unnormalized</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
-        <span class="c1"># The norm of r is 2.0 * np.sin(angle)</span>
-        <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+        <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">axis_unnormalized</span>
+        <span class="c1"># The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we</span>
+        <span class="c1"># could normalize with a[:3] = a[:3] / (2.0 * np.sin(angle)),</span>
+        <span class="c1"># but the following is much more precise for angles close to 0 or pi:</span>
+    <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+
     <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
     <span class="k">return</span> <span class="n">a</span></div>
 
@@ -771,7 +842,7 @@
     <span class="k">return</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="n">angle</span></div>
 
 
-<div class="viewcode-block" id="quaternion_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.quaternion_from_matrix.html#pytransform3d.rotations.quaternion_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">quaternion_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+<div class="viewcode-block" id="quaternion_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.quaternion_from_matrix.html#pytransform3d.rotations.quaternion_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">quaternion_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute quaternion from rotation matrix.</span>
 
 <span class="sd">    .. warning::</span>
@@ -784,12 +855,16 @@
 <span class="sd">    R : array-like, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    q : array-like, shape (4,)</span>
 <span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="c1"># Source: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/</span>
@@ -951,8 +1026,11 @@
 
 
 <span class="k">def</span> <span class="nf">_slerp_weights</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="axis_angle_slerp"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.axis_angle_slerp.html#pytransform3d.rotations.axis_angle_slerp">[docs]</a><span class="k">def</span> <span class="nf">axis_angle_slerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
@@ -1065,7 +1143,7 @@
     <span class="k">return</span> <span class="n">axis_angle_from_quaternion</span><span class="p">(</span><span class="n">q1q2c</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_basis"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.plot_basis.html#pytransform3d.rotations.plot_basis">[docs]</a><span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_basis"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.plot_basis.html#pytransform3d.rotations.plot_basis">[docs]</a><span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot basis of a rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1085,6 +1163,10 @@
 <span class="sd">    ax_s : float, optional (default: 1)</span>
 <span class="sd">        Scaling of the new matplotlib 3d axis</span>
 
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
 <span class="sd">    kwargs : dict, optional (default: {})</span>
 <span class="sd">        Additional arguments for the plotting functions, e.g. alpha</span>
 
@@ -1098,7 +1180,7 @@
 
     <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
 
     <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span>
@@ -1182,6 +1264,9 @@
 <span class="sd">    See numpy.testing.assert_array_almost_equal for a more detailed</span>
 <span class="sd">    documentation of the other parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># required despite normalization in case of 180 degree rotation</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a2</span><span class="p">)):</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="o">-</span><span class="n">a1</span>
     <span class="n">a1</span> <span class="o">=</span> <span class="n">norm_axis_angle</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
     <span class="n">a2</span> <span class="o">=</span> <span class="n">norm_axis_angle</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -1250,7 +1335,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Jul 02, 2020.<br/>
     </p>
   </div>
 </footer>

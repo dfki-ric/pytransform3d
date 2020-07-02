@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>3D Rotations: SO(3) &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>3D Rotations: SO(3) &#8212; pytransform3d 1.2 documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/js/jquery-1.11.0.min.js"></script>
+    <script src="_static/js/jquery-fix.js"></script>
+    <script src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script src="_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3D Transformations: SE(3)" href="transformations.html" />
@@ -34,8 +26,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -48,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -133,23 +124,50 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">3D Rotations: SO(3)</a><ul>
+<li><a class="reference internal" href="#rotation-matrix">Rotation Matrix</a></li>
+<li><a class="reference internal" href="#axis-angle">Axis-Angle</a></li>
+<li><a class="reference internal" href="#euler-angles">Euler Angles</a></li>
+<li><a class="reference internal" href="#quaternions">Quaternions</a></li>
+</ul>
+</li>
+</ul>
+
+  <li>
+    <a href="index.html" title="Previous Chapter: pytransform3d"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; pytransform3d</span>
+    </a>
+  </li>
+  <li>
+    <a href="transformations.html" title="Next Chapter: 3D Transformations: SE(3)"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">3D Transforma... &raquo;</span>
+    </a>
+  </li>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <div class="section" id="d-rotations-so-3">
 <h1>3D Rotations: SO(3)<a class="headerlink" href="#d-rotations-so-3" title="Permalink to this headline">¶</a></h1>
-<p>The group of all rotations in the 3D Cartesian space is called <img class="math" src="_images/math/5417d6e0bad7fce9293e1cc8d93480d4f80fb42a.png" alt="SO(3)"/>.
+<p>The group of all rotations in the 3D Cartesian space is called <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/>.
 The minimum number of components that are required to describe any rotation
-from <img class="math" src="_images/math/5417d6e0bad7fce9293e1cc8d93480d4f80fb42a.png" alt="SO(3)"/> is 3. However, there is no representation that is
+from <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/> is 3. However, there is no representation that is
 non-redundant, continuous and free of singularities. We will now take a closer
 look at competing representations of rotations and the orientations they can
 describe.</p>
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
-<div align="center" class="align-center"><img alt="Rotations" src="_images/rotations.svg" /></div>
-<p>The following example illustrates the usage of pytransform3d to perform these
+<img alt="Rotations" class="align-center" src="_images/rotations.svg" /><p>The following example illustrates the usage of pytransform3d to perform these
 conversions.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
 <span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -190,14 +208,14 @@ conversions.</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="./../../examples/plot_compare_rotations.py">Source code</a>, <a class="reference external" href="./../../examples/plot_compare_rotations.png">png</a>, <a class="reference external" href="./../../examples/plot_compare_rotations.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_compare_rotations.pdf">pdf</a>)</p>
-<div class="figure">
+<div class="figure align-default">
 <img alt="_images/plot_compare_rotations.png" src="_images/plot_compare_rotations.png" />
 </div>
 <div class="section" id="rotation-matrix">
 <h2>Rotation Matrix<a class="headerlink" href="#rotation-matrix" title="Permalink to this headline">¶</a></h2>
 <p>The most practical representation of orientation is a rotation matrix</p>
 <div class="math">
-<p><img src="_images/math/d0e4e4a1c122cdf7e2068551745eeda8970c89fa.png" alt="\boldsymbol R =
+<p><img src="_images/math/cb15c782df330807e2eeeb7be2b9ee810eae9f11.png" alt="\boldsymbol R =
 \left( \begin{array}{ccc}
     r_{11} &amp; r_{12} &amp; r_{13}\\
     r_{21} &amp; r_{22} &amp; r_{23}\\
@@ -205,104 +223,104 @@ conversions.</p>
 \end{array} \right)"/></p>
 </div><p>Note that</p>
 <ul class="simple">
-<li>this is a non-minimal representation for orientations because we have 9
-values but only 3 degrees of freedom</li>
-<li><img class="math" src="_images/math/11c5b02a2f44e69c9d010de9e54308eb0e742769.png" alt="\boldsymbol R"/> must be orthonormal</li>
-<li><img class="math" src="_images/math/c3ff2e61381a865e884c9f78a96193577c05003c.png" alt="\boldsymbol R^T = \boldsymbol R^{-1}"/></li>
-<li><img class="math" src="_images/math/000368aedba19853240c037b11c5a56aa7efa5f4.png" alt="det(\boldsymbol R) = 1"/></li>
+<li><p>this is a non-minimal representation for orientations because we have 9
+values but only 3 degrees of freedom</p></li>
+<li><p><img class="math" src="_images/math/9b0478c944ec81bbf98d8cb2e9e8ff49466e1f9a.png" alt="\boldsymbol R"/> must be orthonormal</p></li>
+<li><p><img class="math" src="_images/math/281193437ad95eb8b4e5588eb17f8b0c57611d79.png" alt="\boldsymbol R^T = \boldsymbol R^{-1}"/></p></li>
+<li><p><img class="math" src="_images/math/6daa9be9ce2fce1f2352d4818177fc8a4df785c3.png" alt="det(\boldsymbol R) = 1"/></p></li>
 </ul>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">There are two conventions on how to interpret rotation matrices. We use
+<p class="admonition-title">Warning</p>
+<p>There are two conventions on how to interpret rotation matrices. We use
 the passive convention. The passive convention assumes that the reference
 coordinate system is changed by the rotation, rotated vectors or points
 stay at their position and are reinterpreted in the new coordinate system.
 Another convention is the active convention. We can easily convert rotation
 matrices between the two conventions by transposing them.</p>
 </div>
-<p>We can use a rotation matrix <img class="math" src="_images/math/1e4bf7f537a4fea396581a984cc01c5013bd65d2.png" alt="\boldsymbol R_{AB}"/> to transform a point
-<img class="math" src="_images/math/fd7679d54c6d681dd182b9d28c5713fd90d8eef7.png" alt="_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}"/> from frame <img class="math" src="_images/math/9805f44feec6f81d376d09e88b8236635edbb3c8.png" alt="B"/> to frame
-<img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/>.</p>
+<p>We can use a rotation matrix <img class="math" src="_images/math/9ea3b600d91c4a102e2079d6497113822460f9ed.png" alt="\boldsymbol R_{AB}"/> to transform a point
+<img class="math" src="_images/math/90c4555206db81e4b3ed2a27cd93a1905149beef.png" alt="_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}"/> from frame <img class="math" src="_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png" alt="B"/> to frame
+<img class="math" src="_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png" alt="A"/>.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">There are two different conventions on how to use rotation matrices to
+<p class="admonition-title">Warning</p>
+<p>There are two different conventions on how to use rotation matrices to
 apply a rotation to a vector. We can either (pre-)multiply the rotation
 matrix to a column vector from the left side or we can (post-)multiply it
 to a row vector from the right side.
 We will use the <strong>pre-multiplication</strong> convention.</p>
 </div>
-<p>This means that we rotate a point <img class="math" src="_images/math/b9dbef8b95f6fd03b98b199ffb53a32386bee924.png" alt="_B\boldsymbol{p}"/> by</p>
+<p>This means that we rotate a point <img class="math" src="_images/math/66590f2c53625eb372136e2bf77aa724fc887458.png" alt="_B\boldsymbol{p}"/> by</p>
 <div class="math">
-<p><img src="_images/math/206c44f6a865fbf23273287bafe96e9804dc7843.png" alt="_A\boldsymbol{p} = \boldsymbol{R}_{ABB} \boldsymbol{p}"/></p>
+<p><img src="_images/math/0f3ae92086aab9005716079bcccf60b90242d05d.png" alt="_A\boldsymbol{p} = \boldsymbol{R}_{ABB} \boldsymbol{p}"/></p>
 </div><p>This is called <strong>linear map</strong>.</p>
 <p>We can see that <em>each column</em> of such a rotation matrix is a basis vector
-of frame <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/> with respect to frame <img class="math" src="_images/math/9805f44feec6f81d376d09e88b8236635edbb3c8.png" alt="B"/>.</p>
+of frame <img class="math" src="_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png" alt="A"/> with respect to frame <img class="math" src="_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png" alt="B"/>.</p>
 <p>We can plot the basis vectors of an orientation to visualize it.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">When plotting basis vectors it is a convention to use red for the x-axis,
+<p class="admonition-title">Note</p>
+<p>When plotting basis vectors it is a convention to use red for the x-axis,
 green for the y-axis and blue for the z-axis (RGB for xyz).</p>
 </div>
 <p>Here, we can see orientation represented by the rotation matrix</p>
 <div class="math">
-<p><img src="_images/math/65939ef4ed749bf040b993b843ed262bc6134ad2.png" alt="\boldsymbol R =
+<p><img src="_images/math/e91720d98dd90c99b186158afdbe8512b9ab1200.png" alt="\boldsymbol R =
 \left( \begin{array}{ccc}
     1 &amp; 0 &amp; 0\\
     0 &amp; 1 &amp; 0\\
     0 &amp; 0 &amp; 1\\
 \end{array} \right)"/></p>
-</div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">plot_basis</span>
+</div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">plot_basis</span>
 <span class="n">plot_basis</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href=".//rotations-1.py">Source code</a>, <a class="reference external" href=".//rotations-1.png">png</a>, <a class="reference external" href=".//rotations-1.hires.png">hires.png</a>, <a class="reference external" href=".//rotations-1.pdf">pdf</a>)</p>
-<div class="figure">
+<div class="figure align-default">
 <img alt="_images/rotations-1.png" src="_images/rotations-1.png" />
 </div>
 <p>We can easily chain multiple rotations: we can apply the rotation defined
-by <img class="math" src="_images/math/1e4bf7f537a4fea396581a984cc01c5013bd65d2.png" alt="\boldsymbol R_{AB}"/> after the rotation <img class="math" src="_images/math/cf356fd995145cd42414c020e3027bd0e3468a7f.png" alt="\boldsymbol R_{BC}"/>
+by <img class="math" src="_images/math/9ea3b600d91c4a102e2079d6497113822460f9ed.png" alt="\boldsymbol R_{AB}"/> after the rotation <img class="math" src="_images/math/479e6a49216f7964c117c7c6f20334a8789eb239.png" alt="\boldsymbol R_{BC}"/>
 by applying the rotation</p>
 <div class="math">
-<p><img src="_images/math/b49a5b9d14f82859a1ac716111f8a7eb03d4008d.png" alt="\boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}."/></p>
+<p><img src="_images/math/7de16531e57ecf8c0349877fe60edba4e57fe79b.png" alt="\boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}."/></p>
 </div><div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">There are two different conventions on how to concatenate rotation
-matrices. Suppose we have a rotation matrix <img class="math" src="_images/math/a00254b18ffa992f0ef19f6e6e095b83c8f85e94.png" alt="R"/> and another matrix
-<img class="math" src="_images/math/9b784c1724800322156c6955aaa3e47f03d59479.png" alt="R'"/> with which we would like to rotate <img class="math" src="_images/math/a00254b18ffa992f0ef19f6e6e095b83c8f85e94.png" alt="R"/>. We can multiply
-<img class="math" src="_images/math/db8151a2ad04085c0fffed7fa52408a525ae7e72.png" alt="R \cdot R'"/> or <img class="math" src="_images/math/1597792a60a31060f599911f23f77fcdcbf2d419.png" alt="R' \cdot R"/>. The first option
-<img class="math" src="_images/math/db8151a2ad04085c0fffed7fa52408a525ae7e72.png" alt="R \cdot R'"/> means that the rotation <img class="math" src="_images/math/9b784c1724800322156c6955aaa3e47f03d59479.png" alt="R'"/> is applied in the
-local coordinate frame defined by <img class="math" src="_images/math/a00254b18ffa992f0ef19f6e6e095b83c8f85e94.png" alt="R"/>. The second option
-<img class="math" src="_images/math/1597792a60a31060f599911f23f77fcdcbf2d419.png" alt="R' \cdot R"/> is equivalent to rotating <img class="math" src="_images/math/a00254b18ffa992f0ef19f6e6e095b83c8f85e94.png" alt="R"/> in the global
+<p class="admonition-title">Warning</p>
+<p>There are two different conventions on how to concatenate rotation
+matrices. Suppose we have a rotation matrix <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/> and another matrix
+<img class="math" src="_images/math/5c01c4aab4e020fd897ef65678180ccea3606398.png" alt="R'"/> with which we would like to rotate <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/>. We can multiply
+<img class="math" src="_images/math/47785887275354e95205cce2723f6cf512cf1dd3.png" alt="R \cdot R'"/> or <img class="math" src="_images/math/a00627497dc2db27d414c29f38a31f634ad2068b.png" alt="R' \cdot R"/>. The first option
+<img class="math" src="_images/math/47785887275354e95205cce2723f6cf512cf1dd3.png" alt="R \cdot R'"/> means that the rotation <img class="math" src="_images/math/5c01c4aab4e020fd897ef65678180ccea3606398.png" alt="R'"/> is applied in the
+local coordinate frame defined by <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/>. The second option
+<img class="math" src="_images/math/a00627497dc2db27d414c29f38a31f634ad2068b.png" alt="R' \cdot R"/> is equivalent to rotating <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/> in the global
 coordinate system.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li>It is easy to apply rotations on point vectors</li>
-<li>Concatenation of rotations is trivial</li>
-<li>You can directly read the basis vectors from the columns</li>
+<li><p>It is easy to apply rotations on point vectors</p></li>
+<li><p>Concatenation of rotations is trivial</p></li>
+<li><p>You can directly read the basis vectors from the columns</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li>We use 9 values for 3 degrees of freedom</li>
-<li>Not every 3x3 matrix is a valid rotation matrix, which means for example
-that we cannot simply apply an optimization algorithm to rotation matrices</li>
+<li><p>We use 9 values for 3 degrees of freedom</p></li>
+<li><p>Not every 3x3 matrix is a valid rotation matrix, which means for example
+that we cannot simply apply an optimization algorithm to rotation matrices</p></li>
 </ul>
 </div>
 <div class="section" id="axis-angle">
 <h2>Axis-Angle<a class="headerlink" href="#axis-angle" title="Permalink to this headline">¶</a></h2>
 <p>Each rotation can be represented by a single rotation around one axis.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">==========</span>
 <span class="sd">Axis-angle</span>
 <span class="sd">==========</span>
 
 <span class="sd">Any rotation can be represented with a single rotation about some axis.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">random_axis_angle</span><span class="p">,</span> <span class="n">matrix_from_axis_angle</span><span class="p">,</span>
                                      <span class="n">plot_basis</span><span class="p">,</span> <span class="n">plot_axis_angle</span><span class="p">)</span>
 
@@ -318,38 +336,38 @@ that we cannot simply apply an optimization algorithm to rotation matrices</li>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="./../../examples/plot_axis_angle.py">Source code</a>, <a class="reference external" href="./../../examples/plot_axis_angle.png">png</a>, <a class="reference external" href="./../../examples/plot_axis_angle.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_axis_angle.pdf">pdf</a>)</p>
-<div class="figure">
+<div class="figure align-default">
 <img alt="_images/plot_axis_angle.png" src="_images/plot_axis_angle.png" />
 </div>
 <p>The axis can be represented as a three-dimensional unit vector and the angle
 by a scalar:</p>
 <div class="math">
-<p><img src="_images/math/f143be89af230218134b6f8072a491eb0a2581d0.png" alt="\left( \boldsymbol{\hat{e}}, \theta \right) = \left( \left( \begin{array}{c}e_x\\e_y\\e_z\end{array} \right), \theta \right)"/></p>
+<p><img src="_images/math/d86f82f765ae252e60e0ab4417af446fa2479141.png" alt="\left( \boldsymbol{\hat{e}}, \theta \right) = \left( \left( \begin{array}{c}e_x\\e_y\\e_z\end{array} \right), \theta \right)"/></p>
 </div><p>It is possible to write this in a more compact way as a rotation vector:</p>
 <div class="math">
-<p><img src="_images/math/ea61e1da29d7dc7f69792f2ebc82b536f3eadfa6.png" alt="\boldsymbol{v} = \theta \boldsymbol{\hat{e}}"/></p>
+<p><img src="_images/math/ccb507e3b880b1767faa5c6728d51923203b845a.png" alt="\boldsymbol{v} = \theta \boldsymbol{\hat{e}}"/></p>
 </div><p><strong>Pros</strong></p>
 <ul class="simple">
-<li>Minimal representation (as rotation vector)</li>
-<li>It is easy to interpret the representation (as axis and angle)</li>
+<li><p>Minimal representation (as rotation vector)</p></li>
+<li><p>It is easy to interpret the representation (as axis and angle)</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li>Concatenation involves conversion to another representation</li>
+<li><p>Concatenation involves conversion to another representation</p></li>
 </ul>
 </div>
 <div class="section" id="euler-angles">
 <h2>Euler Angles<a class="headerlink" href="#euler-angles" title="Permalink to this headline">¶</a></h2>
 <p>A complete rotation can be split into three rotations around basis vectors.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">There are 24 different conventions for defining euler angles. There are
+<p class="admonition-title">Warning</p>
+<p>There are 24 different conventions for defining euler angles. There are
 12 different valid ways to sequence rotation axes that can be interpreted
 as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
 XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
 ZYX convention with intrinsic rotations.</p>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">============</span>
 <span class="sd">Euler Angles</span>
 <span class="sd">============</span>
@@ -357,11 +375,11 @@ ZYX convention with intrinsic rotations.</p>
 <span class="sd">Any rotation can be represented by three consecutive rotations about three</span>
 <span class="sd">basis vectors. Here we use either the x-y-z convention or the z-y-x convention.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
 <span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -389,42 +407,42 @@ ZYX convention with intrinsic rotations.</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="./../../examples/plot_euler_angles.py">Source code</a>, <a class="reference external" href="./../../examples/plot_euler_angles.png">png</a>, <a class="reference external" href="./../../examples/plot_euler_angles.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_euler_angles.pdf">pdf</a>)</p>
-<div class="figure">
+<div class="figure align-default">
 <img alt="_images/plot_euler_angles.png" src="_images/plot_euler_angles.png" />
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li>Minimal representation</li>
+<li><p>Minimal representation</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li>24 different conventions</li>
-<li>Singularities (gimbal lock)</li>
+<li><p>24 different conventions</p></li>
+<li><p>Singularities (gimbal lock)</p></li>
 </ul>
 </div>
 <div class="section" id="quaternions">
 <h2>Quaternions<a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h2>
-<p>Quaternions are represented by a scalar / real part <img class="math" src="_images/math/ecd1ee2a1cd226b40c37e079aca62398d4b774f5.png" alt="w"/>
+<p>Quaternions are represented by a scalar / real part <img class="math" src="_images/math/cc87ee665749db882f94e0d3707eb23e39638650.png" alt="w"/>
 and an imaginary / vector part
-<img class="math" src="_images/math/b775a825d22b00c834b545c6c3861d295e33a67d.png" alt="x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}"/>.</p>
+<img class="math" src="_images/math/296b7098a4e3f5fcb52474893f620ff2889fb5b6.png" alt="x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}"/>.</p>
 <div class="math">
-<p><img src="_images/math/cf82b51893965002598fbd14c345774871ff346f.png" alt="\boldsymbol{q} = w + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}"/></p>
+<p><img src="_images/math/79e9a168c219f2d86faef761347296ae5ab96899.png" alt="\boldsymbol{q} = w + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}"/></p>
 </div><div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">There are two different quaternion conventions: Hamilton’s convention
-defines <img class="math" src="_images/math/933e7e86529ee5b88a1f60257fc44c8752d78995.png" alt="ijk = -1"/> and the JPL convention (from NASA’s Jet Propulsion
-Laboratory, JPL) defines <img class="math" src="_images/math/b5e3d68fb132e1b35dec91eef8d04ea59d2ac102.png" alt="ijk = 1"/>. We use Hamilton’s convention.</p>
+<p class="admonition-title">Warning</p>
+<p>There are two different quaternion conventions: Hamilton’s convention
+defines <img class="math" src="_images/math/64e011788d9a16919f70050b9abb41dd0d11b27a.png" alt="ijk = -1"/> and the JPL convention (from NASA’s Jet Propulsion
+Laboratory, JPL) defines <img class="math" src="_images/math/0e435392bb9407c662458c942eabdc96786b4a87.png" alt="ijk = 1"/>. We use Hamilton’s convention.</p>
 </div>
 <p>Read <a class="reference external" href="https://arxiv.org/pdf/1801.07478.pdf">this paper</a> for details about the
 two conventions and why Hamilton’s convention should be used. Section VI A
 gives useful hints to identify which convention is used.</p>
-<p>The unit quaternion space <img class="math" src="_images/math/8c332edb53fac16c46bc01ea2723bee1bd8703f7.png" alt="S^3"/> can be used to represent orientations.
+<p>The unit quaternion space <img class="math" src="_images/math/78a1421a1c9df3cee32686f45ad59741e81f1f6d.png" alt="S^3"/> can be used to represent orientations.
 To do that, we use an encoding based on the rotation axis and angle.
 A rotation quaternion is a four-dimensional unit vector (versor)
-<img class="math" src="_images/math/2a14e5eb038dbe7ac542c6f82a518df4af76109b.png" alt="\boldsymbol{\hat{q}}"/>.
+<img class="math" src="_images/math/ccac8697bdb80904a21d231b0f7103543f8001f2.png" alt="\boldsymbol{\hat{q}}"/>.
 The following equation describes its relation to axis-axis notation.</p>
 <div class="math">
-<p><img src="_images/math/39e20a34a12820de4966340796602f99b580b264.png" alt="\boldsymbol{\hat{q}} =
+<p><img src="_images/math/eff54f1298025c7a146f02daf51b8fce6c3f6649.png" alt="\boldsymbol{\hat{q}} =
 \left( \begin{array}{c} w\\ x\\ y\\ z\\ \end{array} \right) =
 \left( \begin{array}{c}
     \cos \frac{\theta}{2}\\
@@ -433,33 +451,33 @@ The following equation describes its relation to axis-axis notation.</p>
     e_z \sin \frac{\theta}{2}\\
 \end{array} \right)"/></p>
 </div><div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">The scalar component <img class="math" src="_images/math/ecd1ee2a1cd226b40c37e079aca62398d4b774f5.png" alt="w"/> of a quaternion is sometimes the first
+<p class="admonition-title">Warning</p>
+<p>The scalar component <img class="math" src="_images/math/cc87ee665749db882f94e0d3707eb23e39638650.png" alt="w"/> of a quaternion is sometimes the first
 element and sometimes the last element of the versor. We will use
 the first element to store the scalar component.</p>
 </div>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">The unit quaternions <img class="math" src="_images/math/2a14e5eb038dbe7ac542c6f82a518df4af76109b.png" alt="\boldsymbol{\hat{q}}"/> and
-<img class="math" src="_images/math/15cc7be029b98702d9d394c21ad91b1207d8b2b7.png" alt="-\boldsymbol{\hat{q}}"/> represent exactly the same rotation.</p>
+<p class="admonition-title">Warning</p>
+<p>The unit quaternions <img class="math" src="_images/math/ccac8697bdb80904a21d231b0f7103543f8001f2.png" alt="\boldsymbol{\hat{q}}"/> and
+<img class="math" src="_images/math/86225c865643a22807d20c325823a7d08846f8b6.png" alt="-\boldsymbol{\hat{q}}"/> represent exactly the same rotation.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li>More compact than the matrix representation and less susceptible to
-round-off errors</li>
-<li>The quaternion elements vary continuously over the unit sphere in
-<img class="math" src="_images/math/32258a72104f64db9bd216bc727f002373df80b7.png" alt="\mathbb{R}^4"/> as the orientation changes, avoiding discontinuous
-jumps (inherent to three-dimensional parameterizations)</li>
-<li>Expression of the rotation matrix in terms of quaternion parameters
-involves no trigonometric functions</li>
-<li>Concatenation is simple and computationally cheaper with the quaternion
-product than with rotation matrices</li>
+<li><p>More compact than the matrix representation and less susceptible to
+round-off errors</p></li>
+<li><p>The quaternion elements vary continuously over the unit sphere in
+<img class="math" src="_images/math/1963e1d8fcb281cbc6b8edecfb23c75fd27f06e8.png" alt="\mathbb{R}^4"/> as the orientation changes, avoiding discontinuous
+jumps (inherent to three-dimensional parameterizations)</p></li>
+<li><p>Expression of the rotation matrix in terms of quaternion parameters
+involves no trigonometric functions</p></li>
+<li><p>Concatenation is simple and computationally cheaper with the quaternion
+product than with rotation matrices</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li>The representation is not straightforward to interpret</li>
-<li>There are always two unit quaternions that represent exactly the same
-rotation</li>
+<li><p>The representation is not straightforward to interpret</p></li>
+<li><p>There are always two unit quaternions that represent exactly the same
+rotation</p></li>
 </ul>
 </div>
 </div>
@@ -477,7 +495,7 @@ rotation</li>
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Jul 02, 2020.<br/>
     </p>
   </div>
 </footer>

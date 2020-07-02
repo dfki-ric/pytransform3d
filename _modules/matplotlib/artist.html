@@ -2,25 +2,17 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>matplotlib.artist &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>matplotlib.artist &#8212; pytransform3d 1.1 documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
@@ -32,8 +24,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -46,7 +37,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -114,15 +105,21 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+<form action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <h1>Source code for matplotlib.artist</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
-                        <span class="n">unicode_literals</span><span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">six</span>
-
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">namedtuple</span>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">namedtuple</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -238,12 +235,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span> <span class="o">=</span> <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;path.sketch&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_effects</span> <span class="o">=</span> <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;path.effects&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sticky_edges</span> <span class="o">=</span> <span class="n">_XYPair</span><span class="p">([],</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_in_layout</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="c1"># remove the unpicklable remove method, this will get re-added on load</span>
         <span class="c1"># (by the axes) if the artist lives on an axes.</span>
-        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;_remove_method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">d</span><span class="p">[</span><span class="s1">&#39;stale_callback&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">d</span>
 
@@ -273,7 +270,7 @@
             <span class="n">_ax_flag</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;axes&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
                 <span class="c1"># remove from the mouse hit list</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">mouseover_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_mouseover_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
                 <span class="c1"># mark the axes as stale</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="c1"># decouple the artist from the axes</span>
@@ -376,6 +373,33 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Bbox</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
 
+    <span class="k">def</span> <span class="nf">get_tightbbox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Like `Artist.get_window_extent`, but includes any clipping.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        renderer : `.RendererBase` instance</span>
+<span class="sd">            renderer that will be used to draw the figures (i.e.</span>
+<span class="sd">            ``fig.canvas.get_renderer()``)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bbox : `.BboxBase`</span>
+<span class="sd">            containing the bounding box (in figure pixel co-ordinates).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">bbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">renderer</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clip_on</span><span class="p">():</span>
+            <span class="n">clip_box</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clip_box</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">clip_box</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">bbox</span> <span class="o">=</span> <span class="n">Bbox</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">clip_box</span><span class="p">)</span>
+            <span class="n">clip_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_clip_path</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">clip_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bbox</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">clip_path</span> <span class="o">=</span> <span class="n">clip_path</span><span class="o">.</span><span class="n">get_fully_transformed_path</span><span class="p">()</span>
+                <span class="n">bbox</span> <span class="o">=</span> <span class="n">Bbox</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">clip_path</span><span class="o">.</span><span class="n">get_extents</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">bbox</span>
+
     <span class="k">def</span> <span class="nf">add_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds a callback function that will be called whenever one of</span>
@@ -409,7 +433,7 @@
 <span class="sd">        Fire an event when property changed, calling all of the</span>
 <span class="sd">        registered callbacks.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">oid</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_propobservers</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">oid</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propobservers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">is_transform_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -421,10 +445,11 @@
 
     <span class="k">def</span> <span class="nf">set_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the :class:`~matplotlib.transforms.Transform` instance</span>
-<span class="sd">        used by this artist.</span>
+<span class="sd">        Set the artist transform.</span>
 
-<span class="sd">        ACCEPTS: :class:`~matplotlib.transforms.Transform` instance</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t : `.Transform`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="n">t</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transformSet</span> <span class="o">=</span> <span class="kc">True</span>
@@ -443,6 +468,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="o">.</span><span class="n">_as_mpl_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span>
 
+    <span class="nd">@cbook</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span><span class="s2">&quot;2.2&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">hitlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List the children of the artist which contain the mouse event *event*.</span>
@@ -492,7 +518,9 @@
 <span class="sd">        and *props* is a dictionary of properties you want returned</span>
 <span class="sd">        with the contains test.</span>
 
-<span class="sd">        ACCEPTS: a callable function</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        picker : callable</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_contains</span> <span class="o">=</span> <span class="n">picker</span>
 
@@ -569,46 +597,46 @@
 <span class="sd">            artist, return *hit=True* and props is a dictionary of</span>
 <span class="sd">            properties you want added to the PickEvent attributes.</span>
 
-<span class="sd">        ACCEPTS: [None|float|boolean|callable]</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        picker : None or bool or float or callable</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_picker</span> <span class="o">=</span> <span class="n">picker</span>
 
     <span class="k">def</span> <span class="nf">get_picker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s1">&#39;Return the picker object used by this artist&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Return the picker object used by this artist.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_picker</span>
 
+    <span class="nd">@cbook</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span><span class="s2">&quot;2.2&quot;</span><span class="p">,</span> <span class="s2">&quot;artist.figure is not None&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">is_figure_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns True if the artist is assigned to a</span>
-<span class="sd">        :class:`~matplotlib.figure.Figure`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns whether the artist is assigned to a `.Figure`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the url</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns the url.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span>
 
     <span class="k">def</span> <span class="nf">set_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the url for the artist</span>
+<span class="sd">        Sets the url for the artist.</span>
 
-<span class="sd">        ACCEPTS: a url string</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        url : str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_url</span> <span class="o">=</span> <span class="n">url</span>
 
     <span class="k">def</span> <span class="nf">get_gid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the group id</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Returns the group id.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gid</span>
 
     <span class="k">def</span> <span class="nf">set_gid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gid</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the (group) id for the artist</span>
+<span class="sd">        Sets the (group) id for the artist.</span>
 
-<span class="sd">        ACCEPTS: an id string</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gid : str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gid</span> <span class="o">=</span> <span class="n">gid</span>
 
@@ -642,6 +670,10 @@
 <span class="sd">            segments, round to the nearest pixel center</span>
 
 <span class="sd">        Only supported by the Agg and MacOSX backends.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        snap : bool or None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_snap</span> <span class="o">=</span> <span class="n">snap</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
@@ -654,17 +686,17 @@
 <span class="sd">        -------</span>
 <span class="sd">        sketch_params : tuple or `None`</span>
 
-<span class="sd">        A 3-tuple with the following elements:</span>
+<span class="sd">            A 3-tuple with the following elements:</span>
 
-<span class="sd">          * `scale`: The amplitude of the wiggle perpendicular to the</span>
-<span class="sd">            source line.</span>
+<span class="sd">              * `scale`: The amplitude of the wiggle perpendicular to the</span>
+<span class="sd">                source line.</span>
 
-<span class="sd">          * `length`: The length of the wiggle along the line.</span>
+<span class="sd">              * `length`: The length of the wiggle along the line.</span>
 
-<span class="sd">          * `randomness`: The scale factor by which the length is</span>
-<span class="sd">            shrunken or expanded.</span>
+<span class="sd">              * `randomness`: The scale factor by which the length is</span>
+<span class="sd">                shrunken or expanded.</span>
 
-<span class="sd">        May return `None` if no sketch parameters were set.</span>
+<span class="sd">            May return `None` if no sketch parameters were set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span>
 
@@ -687,6 +719,8 @@
 <span class="sd">        randomness : float, optional</span>
 <span class="sd">            The scale factor by which the length is shrunken or</span>
 <span class="sd">            expanded (default 16.0)</span>
+
+<span class="sd">            .. ACCEPTS: (scale: float, length: float, randomness: float)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_sketch</span> <span class="o">=</span> <span class="kc">None</span>
@@ -695,9 +729,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">set_path_effects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_effects</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        set path_effects, which should be a list of instances of</span>
-<span class="sd">        matplotlib.patheffect._Base class or its derivatives.</span>
+        <span class="sd">&quot;&quot;&quot;Set the path effects.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path_effects : `.AbstractPathEffect`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_effects</span> <span class="o">=</span> <span class="n">path_effects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
@@ -706,18 +742,16 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_effects</span>
 
     <span class="k">def</span> <span class="nf">get_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the :class:`~matplotlib.figure.Figure` instance the</span>
-<span class="sd">        artist belongs to.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return the `.Figure` instance the artist belongs to.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span>
 
     <span class="k">def</span> <span class="nf">set_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the :class:`~matplotlib.figure.Figure` instance the artist</span>
-<span class="sd">        belongs to.</span>
+<span class="sd">        Set the `.Figure` instance the artist belongs to.</span>
 
-<span class="sd">        ACCEPTS: a :class:`matplotlib.figure.Figure` instance</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fig : `.Figure`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># if this is a no-op just return</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="ow">is</span> <span class="n">fig</span><span class="p">:</span>
@@ -737,9 +771,11 @@
 
     <span class="k">def</span> <span class="nf">set_clip_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clipbox</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the artist&#39;s clip :class:`~matplotlib.transforms.Bbox`.</span>
+<span class="sd">        Set the artist&#39;s clip `.Bbox`.</span>
 
-<span class="sd">        ACCEPTS: a :class:`matplotlib.transforms.Bbox` instance</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        clipbox : `.Bbox`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clipbox</span> <span class="o">=</span> <span class="n">clipbox</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
@@ -760,9 +796,7 @@
 <span class="sd">        this method will set the clipping box to the corresponding rectangle</span>
 <span class="sd">        and set the clipping path to ``None``.</span>
 
-<span class="sd">        ACCEPTS: [ (:class:`~matplotlib.path.Path`,</span>
-<span class="sd">        :class:`~matplotlib.transforms.Transform`) |</span>
-<span class="sd">        :class:`~matplotlib.patches.Patch` | None ]</span>
+<span class="sd">        ACCEPTS: [(`~matplotlib.path.Path`, `.Transform`) | `.Patch` | None]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="k">import</span> <span class="n">Patch</span><span class="p">,</span> <span class="n">Rectangle</span>
 
@@ -816,6 +850,17 @@
         <span class="s2">&quot;Return the artist&#39;s animated state&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_animated</span>
 
+    <span class="k">def</span> <span class="nf">get_in_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return boolean flag, ``True`` if artist is included in layout</span>
+<span class="sd">        calculations.</span>
+
+<span class="sd">        E.g. :doc:`/tutorials/intermediate/constrainedlayout_guide`,</span>
+<span class="sd">        `.Figure.tight_layout()`, and</span>
+<span class="sd">        ``fig.savefig(fname, bbox_inches=&#39;tight&#39;)``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_in_layout</span>
+
     <span class="k">def</span> <span class="nf">get_clip_on</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s1">&#39;Return whether artist uses clipping&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clipon</span>
@@ -845,7 +890,9 @@
 <span class="sd">        When False artists will be visible out side of the axes which</span>
 <span class="sd">        can lead to unexpected results.</span>
 
-<span class="sd">        ACCEPTS: [True | False]</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_clipon</span> <span class="o">=</span> <span class="n">b</span>
         <span class="c1"># This may result in the callbacks being hit twice, but ensures they</span>
@@ -864,16 +911,18 @@
             <span class="n">gc</span><span class="o">.</span><span class="n">set_clip_path</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_rasterized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">&quot;return True if the artist is to be rasterized&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return whether the artist is to be rasterized.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rasterized</span>
 
     <span class="k">def</span> <span class="nf">set_rasterized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rasterized</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Force rasterized (bitmap) drawing in vector backend output.</span>
 
-<span class="sd">        Defaults to None, which implies the backend&#39;s default behavior</span>
+<span class="sd">        Defaults to None, which implies the backend&#39;s default behavior.</span>
 
-<span class="sd">        ACCEPTS: [True | False | None]</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rasterized : bool or None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">rasterized</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">,</span> <span class="s2">&quot;_supports_rasterization&quot;</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Rasterization of &#39;</span><span class="si">%s</span><span class="s2">&#39; will be ignored&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
@@ -881,13 +930,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_rasterized</span> <span class="o">=</span> <span class="n">rasterized</span>
 
     <span class="k">def</span> <span class="nf">get_agg_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">&quot;return filter function to be used for agg filter&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return filter function to be used for agg filter.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agg_filter</span>
 
     <span class="k">def</span> <span class="nf">set_agg_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_func</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        set agg_filter function.</span>
+        <span class="sd">&quot;&quot;&quot;Set the agg filter.</span>
 
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filter_func : callable</span>
+<span class="sd">            A filter function, which takes a (m, n, 3) float array and a dpi</span>
+<span class="sd">            value, and returns a (m, n, 3) array.</span>
+
+<span class="sd">            .. ACCEPTS: a filter function, which takes a (m, n, 3) float array</span>
+<span class="sd">                and a dpi value, and returns a (m, n, 3) array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_agg_filter</span> <span class="o">=</span> <span class="n">filter_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
@@ -900,10 +956,11 @@
 
     <span class="k">def</span> <span class="nf">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the alpha value used for blending - not supported on</span>
-<span class="sd">        all backends.</span>
+<span class="sd">        Set the alpha value used for blending - not supported on all backends.</span>
 
-<span class="sd">        ACCEPTS: float (0.0 transparent through 1.0 opaque)</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        alpha : float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="n">alpha</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
@@ -911,9 +968,11 @@
 
     <span class="k">def</span> <span class="nf">set_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the artist&#39;s visiblity.</span>
+<span class="sd">        Set the artist&#39;s visibility.</span>
 
-<span class="sd">        ACCEPTS: [True | False]</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_visible</span> <span class="o">=</span> <span class="n">b</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
@@ -923,19 +982,33 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the artist&#39;s animation state.</span>
 
-<span class="sd">        ACCEPTS: [True | False]</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_animated</span> <span class="o">!=</span> <span class="n">b</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_animated</span> <span class="o">=</span> <span class="n">b</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">set_in_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set if artist is to be included in layout calculations,</span>
+<span class="sd">        E.g. :doc:`/tutorials/intermediate/constrainedlayout_guide`,</span>
+<span class="sd">        `.Figure.tight_layout()`, and</span>
+<span class="sd">        ``fig.savefig(fname, bbox_inches=&#39;tight&#39;)``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        in_layout : bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_in_layout</span> <span class="o">=</span> <span class="n">in_layout</span>
+
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">props</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Update the properties of this :class:`Artist` from the</span>
-<span class="sd">        dictionary *prop*.</span>
+<span class="sd">        Update this artist&#39;s properties from the dictionary *prop*.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">_update_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;sorting out how to update property (setter or setattr)</span>
+            <span class="sd">&quot;&quot;&quot;Sorting out how to update property (setter or setattr).</span>
 
 <span class="sd">            Parameters</span>
 <span class="sd">            ----------</span>
@@ -943,6 +1016,7 @@
 <span class="sd">                The name of property to update</span>
 <span class="sd">            v : obj</span>
 <span class="sd">                The value to assign to the property</span>
+
 <span class="sd">            Returns</span>
 <span class="sd">            -------</span>
 <span class="sd">            ret : obj or None</span>
@@ -959,13 +1033,8 @@
                     <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;Unknown property </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
-        <span class="n">store</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eventson</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">eventson</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">_update_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-                   <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">props</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">eventson</span> <span class="o">=</span> <span class="n">store</span>
+        <span class="k">with</span> <span class="n">cbook</span><span class="o">.</span><span class="n">_setattr_cm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventson</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">_update_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">props</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
@@ -973,28 +1042,27 @@
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the label used for this artist in the legend.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Get the label used for this artist in the legend.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
 
     <span class="k">def</span> <span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the label to *s* for auto legend.</span>
 
-<span class="sd">        ACCEPTS: string or anything printable with &#39;%s&#39; conversion.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : object</span>
+<span class="sd">            *s* will be converted to a string by calling `str`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">get_zorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the :class:`Artist`&#39;s zorder.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Return the artist&#39;s zorder.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zorder</span>
 
     <span class="k">def</span> <span class="nf">set_zorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
@@ -1002,8 +1070,12 @@
 <span class="sd">        Set the zorder for the artist.  Artists with lower zorder</span>
 <span class="sd">        values are drawn first.</span>
 
-<span class="sd">        ACCEPTS: any number</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        level : float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">zorder</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">zorder</span> <span class="o">=</span> <span class="n">level</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pchanged</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1114,8 +1186,9 @@
             <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:0.3g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)))</span>
+        <span class="n">data_str</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:0.3g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span>
+                   <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">data_str</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mouseover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1128,30 +1201,29 @@
         <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
         <span class="k">if</span> <span class="n">ax</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">mouseover_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">_mouseover_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">mouseover_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">_mouseover_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">ArtistInspector</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A helper class to inspect an :class:`~matplotlib.artist.Artist`</span>
-<span class="sd">    and return information about it&#39;s settable properties and their</span>
-<span class="sd">    current values.</span>
+<span class="sd">    A helper class to inspect an `~matplotlib.artist.Artist` and return</span>
+<span class="sd">    information about its settable properties and their current values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the artist inspector with an</span>
-<span class="sd">        :class:`~matplotlib.artist.Artist` or iterable of :class:`Artists`.</span>
-<span class="sd">        If an iterable is used, we assume it is a homogeneous sequence (all</span>
-<span class="sd">        :class:`Artists` are of the same type) and it is your responsibility</span>
-<span class="sd">        to make sure this is so.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the artist inspector with an `Artist` or an iterable of</span>
+<span class="sd">        `Artist`\s.  If an iterable is used, we assume it is a homogeneous</span>
+<span class="sd">        sequence (all `Artists` are of the same type) and it is your</span>
+<span class="sd">        responsibility to make sure this is so.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">cbook</span><span class="o">.</span><span class="n">iterable</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-            <span class="c1"># Wrapped in list instead of doing try-except around next(iter(o))</span>
-            <span class="n">o</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-                <span class="n">o</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">Artist</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">cbook</span><span class="o">.</span><span class="n">iterable</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+                <span class="n">o</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+                    <span class="n">o</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">oorig</span> <span class="o">=</span> <span class="n">o</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
@@ -1162,15 +1234,14 @@
 
     <span class="k">def</span> <span class="nf">get_aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a dict mapping *fullname* -&gt; *alias* for each *alias* in</span>
-<span class="sd">        the :class:`~matplotlib.artist.ArtistInspector`.</span>
+<span class="sd">        Get a dict mapping property fullnames to sets of aliases for each alias</span>
+<span class="sd">        in the :class:`~matplotlib.artist.ArtistInspector`.</span>
 
 <span class="sd">        e.g., for lines::</span>
 
-<span class="sd">          {&#39;markerfacecolor&#39;: &#39;mfc&#39;,</span>
-<span class="sd">           &#39;linewidth&#39;      : &#39;lw&#39;,</span>
+<span class="sd">          {&#39;markerfacecolor&#39;: {&#39;mfc&#39;},</span>
+<span class="sd">           &#39;linewidth&#39;      : {&#39;lw&#39;},</span>
 <span class="sd">          }</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">)</span>
                  <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s1">&#39;set_&#39;</span><span class="p">,</span> <span class="s1">&#39;get_&#39;</span><span class="p">))</span>
@@ -1180,13 +1251,13 @@
             <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_alias</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
                 <span class="k">continue</span>
-            <span class="n">docstring</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
-            <span class="n">fullname</span> <span class="o">=</span> <span class="n">docstring</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span>
-            <span class="n">aliases</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">fullname</span><span class="p">[</span><span class="mi">4</span><span class="p">:],</span> <span class="p">{})[</span><span class="n">name</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">propname</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;`(</span><span class="si">{}</span><span class="s2">.*)`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">4</span><span class="p">]),</span>  <span class="c1"># get_.*/set_.*</span>
+                                 <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">aliases</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">propname</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span>
         <span class="k">return</span> <span class="n">aliases</span>
 
     <span class="n">_get_valid_values_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
-        <span class="sa">r</span><span class="s2">&quot;\n\s*ACCEPTS:\s*((?:.|\n)*?)(?:$|(?:\n\n))&quot;</span>
+        <span class="sa">r</span><span class="s2">&quot;\n\s*(?:\.\.\s+)?ACCEPTS:\s*((?:.|\n)*?)(?:$|(?:\n\n))&quot;</span>
     <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_valid_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
@@ -1194,7 +1265,7 @@
 <span class="sd">        Get the legal arguments for the setter associated with *attr*.</span>
 
 <span class="sd">        This is done by querying the docstring of the function *set_attr*</span>
-<span class="sd">        for a line that begins with ACCEPTS:</span>
+<span class="sd">        for a line that begins with &quot;ACCEPTS&quot; or &quot;.. ACCEPTS&quot;:</span>
 
 <span class="sd">        e.g., for a line linestyle, return</span>
 <span class="sd">        &quot;[ ``&#39;-&#39;`` | ``&#39;--&#39;`` | ``&#39;-.&#39;`` | ``&#39;:&#39;`` | ``&#39;steps&#39;`` | ``&#39;None&#39;``</span>
@@ -1216,6 +1287,14 @@
         <span class="n">match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_valid_values_regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">docstring</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> *&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Much faster than list(inspect.signature(func).parameters)[1],</span>
+        <span class="c1"># although barely relevant wrt. matplotlib&#39;s total import time.</span>
+        <span class="n">param_name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_varnames</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;(?m)^ *</span><span class="si">{}</span><span class="s2"> : (.+)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">),</span> <span class="n">docstring</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
 
     <span class="k">def</span> <span class="nf">_get_setters_and_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1231,10 +1310,7 @@
             <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
-                <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">func</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">func</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">nargs</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_alias</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="n">source_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">o</span><span class="o">.</span><span class="vm">__name__</span>
@@ -1242,8 +1318,22 @@
                 <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
                     <span class="n">source_class</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
                     <span class="k">break</span>
+            <span class="n">source_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replace_path</span><span class="p">(</span><span class="n">source_class</span><span class="p">)</span>
             <span class="n">setters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">[</span><span class="mi">4</span><span class="p">:],</span> <span class="n">source_class</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">setters</span>
+
+    <span class="k">def</span> <span class="nf">_replace_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_class</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes the full path to the public API path that is used</span>
+<span class="sd">        in sphinx. This is needed for links to work.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">replace_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_base._AxesBase&#39;</span><span class="p">:</span> <span class="s1">&#39;Axes&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;_axes.Axes&#39;</span><span class="p">:</span> <span class="s1">&#39;Axes&#39;</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">replace_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">source_class</span> <span class="o">=</span> <span class="n">source_class</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">source_class</span>
 
     <span class="k">def</span> <span class="nf">get_setters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1298,8 +1388,8 @@
 
     <span class="k">def</span> <span class="nf">pprint_setters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leadingspace</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        If *prop* is *None*, return a list of strings of all settable properies</span>
-<span class="sd">        and their valid values.</span>
+<span class="sd">        If *prop* is *None*, return a list of strings of all settable</span>
+<span class="sd">        properties and their valid values.</span>
 
 <span class="sd">        If *prop* is not *None*, it is a valid property name and that</span>
 <span class="sd">        property will be returned as a string of property : valid</span>
@@ -1324,10 +1414,10 @@
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">accepts</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">lines</span>
 
-    <span class="k">def</span> <span class="nf">pprint_setters_rest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leadingspace</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">pprint_setters_rest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leadingspace</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        If *prop* is *None*, return a list of strings of all settable properies</span>
-<span class="sd">        and their valid values.  Format the output for ReST</span>
+<span class="sd">        If *prop* is *None*, return a list of strings of all settable</span>
+<span class="sd">        properties and their valid values.  Format the output for ReST</span>
 
 <span class="sd">        If *prop* is not *None*, it is a valid property name and that</span>
 <span class="sd">        property will be returned as a string of property : valid</span>
@@ -1352,6 +1442,12 @@
 
         <span class="n">col0_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
         <span class="n">col1_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">accepts</span><span class="p">)</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;.. table::&#39;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;   :class: property-table&#39;</span><span class="p">)</span>
+        <span class="n">pad</span> <span class="o">+=</span> <span class="s1">&#39;   &#39;</span>
+
         <span class="n">table_formatstr</span> <span class="o">=</span> <span class="n">pad</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="n">col0_len</span> <span class="o">+</span> <span class="s1">&#39;   &#39;</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="n">col1_len</span>
 
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -1398,7 +1494,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">())):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="p">())</span> <span class="o">!=</span> <span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">:</span>
                 <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1502,7 +1598,7 @@
 <span class="sd">      &gt;&gt;&gt; setp(lines, linewidth=2, color=&#39;r&#39;)        # python style</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">cbook</span><span class="o">.</span><span class="n">iterable</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Artist</span><span class="p">):</span>
         <span class="n">objs</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cbook</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
@@ -1528,27 +1624,40 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The set args must be string, value pairs&#39;</span><span class="p">)</span>
 
     <span class="c1"># put args into ordereddict to maintain order</span>
-    <span class="n">funcvals</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="n">funcvals</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-
-    <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">funcvals</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">]</span>
-    <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">o</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cbook</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">ret</span><span class="p">)]</span>
+    <span class="n">funcvals</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">funcvals</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">cbook</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">ret</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">kwdoc</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">kwdoc</span><span class="p">(</span><span class="n">artist</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inspect an `~matplotlib.artist.Artist` class and return</span>
+<span class="sd">    information about its settable properties and their current values.</span>
+
+<span class="sd">    It use the class `.ArtistInspector`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    artist : `~matplotlib.artist.Artist` or an iterable of `Artist`\s</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    string</span>
+<span class="sd">        Returns a string with a list or rst table with the settable properties</span>
+<span class="sd">        of the *artist*. The formating depends on the value of</span>
+<span class="sd">        :rc:`docstring.hardcopy`. False result in a list that is intended for</span>
+<span class="sd">        easy reading as a docstring and True result in a rst table intended</span>
+<span class="sd">        for rendering the documentation with sphinx.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">hardcopy</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;docstring.hardcopy&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">hardcopy</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ArtistInspector</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">pprint_setters_rest</span><span class="p">(</span>
-                         <span class="n">leadingspace</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ArtistInspector</span><span class="p">(</span><span class="n">artist</span><span class="p">)</span><span class="o">.</span><span class="n">pprint_setters_rest</span><span class="p">(</span>
+                         <span class="n">leadingspace</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ArtistInspector</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">pprint_setters</span><span class="p">(</span><span class="n">leadingspace</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ArtistInspector</span><span class="p">(</span><span class="n">artist</span><span class="p">)</span><span class="o">.</span><span class="n">pprint_setters</span><span class="p">(</span>
+                         <span class="n">leadingspace</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 
 <span class="n">docstring</span><span class="o">.</span><span class="n">interpd</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Artist</span><span class="o">=</span><span class="n">kwdoc</span><span class="p">(</span><span class="n">Artist</span><span class="p">))</span>
-
-<span class="n">_get_axes_msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="si">{0}</span><span class="s2"> has been deprecated in mpl 1.5, please use the</span>
-<span class="s2">axes property.  A removal date has not been set.&quot;&quot;&quot;</span>
 </pre></div>
 
     </div>
@@ -1563,7 +1672,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Sep 09, 2019.<br/>
     </p>
   </div>
 </footer>

@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>3D Transformations: SE(3) &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>3D Transformations: SE(3) &#8212; pytransform3d 1.2 documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/js/jquery-1.11.0.min.js"></script>
+    <script src="_static/js/jquery-fix.js"></script>
+    <script src="_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script src="_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Transformation Ambiguities" href="transformation_ambiguities.html" />
@@ -34,8 +26,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -48,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -131,11 +122,37 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">3D Transformations: SE(3)</a><ul>
+<li><a class="reference internal" href="#transformation-matrix">Transformation Matrix</a></li>
+<li><a class="reference internal" href="#position-and-quaternion">Position and Quaternion</a></li>
+</ul>
+</li>
+</ul>
+
+  <li>
+    <a href="rotations.html" title="Previous Chapter: 3D Rotations: SO(3)"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; 3D Rotations: SO(3)</span>
+    </a>
+  </li>
+  <li>
+    <a href="transformation_ambiguities.html" title="Next Chapter: Transformation Ambiguities"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">Transformatio... &raquo;</span>
+    </a>
+  </li>
+<form action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <div class="section" id="d-transformations-se-3">
 <h1>3D Transformations: SE(3)<a class="headerlink" href="#d-transformations-se-3" title="Permalink to this headline">¶</a></h1>
-<p>The group of all transformations in the 3D Cartesian space is <img class="math" src="_images/math/e2bdc1b0ad0ad461f2177c34e52cf34fdc59d300.png" alt="SE(3)"/>.
+<p>The group of all transformations in the 3D Cartesian space is <img class="math" src="_images/math/5a44cb9fa5269d4e3bc13d64693d9f8dc9c6562c.png" alt="SE(3)"/>.
 Transformations consist of a rotation and a translation. Those can be
 represented in multiple different ways.</p>
 <div class="section" id="transformation-matrix">
@@ -144,27 +161,27 @@ represented in multiple different ways.</p>
 transformation matrices. A transformation matrix is a 4x4 matrix of
 the form</p>
 <div class="math">
-<p><img src="_images/math/2cf720d0ead056a2d32bff6a30e9ca16e51c69c7.png" alt="\boldsymbol T =
+<p><img src="_images/math/465583f3c4dfd18363429b238f135b62549bf465.png" alt="\boldsymbol T =
 \left( \begin{array}{cc}
     \boldsymbol R &amp; \boldsymbol t\\
     \boldsymbol 0 &amp; 1\\
 \end{array} \right)"/></p>
-</div><p>It is a partitioned matrix with a 3x3 rotation matrix <img class="math" src="_images/math/11c5b02a2f44e69c9d010de9e54308eb0e742769.png" alt="\boldsymbol R"/>
-and a column vector <img class="math" src="_images/math/74e96edd4476172935759c1318d7c079631262bd.png" alt="\boldsymbol t"/> that represents the translation.
+</div><p>It is a partitioned matrix with a 3x3 rotation matrix <img class="math" src="_images/math/9b0478c944ec81bbf98d8cb2e9e8ff49466e1f9a.png" alt="\boldsymbol R"/>
+and a column vector <img class="math" src="_images/math/d78239d84cafa81f1a1ff536f35e1513d30a2723.png" alt="\boldsymbol t"/> that represents the translation.
 It is also sometimes called the homogeneous representation of a transformation.</p>
 <p>It is possible to transform position vectors or direction vectors with it.
 Position vectors are represented as a column vector
-<img class="math" src="_images/math/b99ac3a1ff14e19e8440030c52ed8413fb215ae5.png" alt="\left( x,y,z,1 \right)^T"/>.
+<img class="math" src="_images/math/f70c50741b5a0f9ef807f43d0aee268567f97c54.png" alt="\left( x,y,z,1 \right)^T"/>.
 This will activate the translation part of the transformation in a matrix
 multiplication. When we transform a direction vector, we want to deactivate
 the translation by setting the last component to zero:
-<img class="math" src="_images/math/7646b926e89fab4663cb1bc58534d34c6227050a.png" alt="\left( x,y,z,0 \right)^T"/>.</p>
-<p>We can use a transformation matrix <img class="math" src="_images/math/69a5334192c90db842a912ea97396e71a44a8f17.png" alt="\boldsymbol T_{AB}"/> to transform a
-point <img class="math" src="_images/math/c5a7e587fe5dea4d434908c59bda9724688f1bcb.png" alt="\boldsymbol{p}_B := _B\boldsymbol{t}_{BP}"/> from frame <img class="math" src="_images/math/9805f44feec6f81d376d09e88b8236635edbb3c8.png" alt="B"/>
-to frame <img class="math" src="_images/math/0043fe6507e9b1d112e07a2801e24927e267dd50.png" alt="A"/>. For example, transforming a position vector <img class="math" src="_images/math/27d463da4622be5b3ef1d4176ced7d7a323c6425.png" alt="p"/>
+<img class="math" src="_images/math/e9561339b77ef590c352dbfbbaa808c503ce4e37.png" alt="\left( x,y,z,0 \right)^T"/>.</p>
+<p>We can use a transformation matrix <img class="math" src="_images/math/75ef3f2bd38c9d48bf81dd7591ba87a7abcf15e9.png" alt="\boldsymbol T_{AB}"/> to transform a
+point <img class="math" src="_images/math/b235a0493283862fb3829faad4fd0de32a5f9812.png" alt="\boldsymbol{p}_B := _B\boldsymbol{t}_{BP}"/> from frame <img class="math" src="_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png" alt="B"/>
+to frame <img class="math" src="_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png" alt="A"/>. For example, transforming a position vector <img class="math" src="_images/math/141bbefb74014fc5e43499901bf78607ae335583.png" alt="p"/>
 will give the following result:</p>
 <div class="math">
-<p><img src="_images/math/30870a9c443fd0b108fc87985669ef9764036062.png" alt="\boldsymbol T_{AB} \boldsymbol p_B =
+<p><img src="_images/math/1976aee121916085c0e95a7542dd34aac8e1aaa9.png" alt="\boldsymbol T_{AB} \boldsymbol p_B =
 \left( \begin{array}{cc}
     \boldsymbol R \boldsymbol p_B + \boldsymbol t\\
     1\\
@@ -176,7 +193,7 @@ will give the following result:</p>
 7-dimensional vector that consists of the translation and a rotation
 quaternion:</p>
 <div class="math">
-<p><img src="_images/math/0d2ed1b39955f79f1b86a124392d5827c6eeff67.png" alt="\left( \begin{array}{c}
+<p><img src="_images/math/23b9ef92225afe9fdcbb5ff2330f684def4cd240.png" alt="\left( \begin{array}{c}
     x\\y\\z\\q_w\\q_x\\q_y\\q_z
 \end{array} \right)"/></p>
 </div><p>This representation is more compact than a transformation matrix.</p>
@@ -196,7 +213,7 @@ quaternion:</p>
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Jul 02, 2020.<br/>
     </p>
   </div>
 </footer>

@@ -30,8 +30,14 @@ in the following example.
 .. plot:: ../../examples/plot_urdf.py
     :include-source:
 
-The same class can be used to display primitive collision objects (no meshes)
-or visuals from URDF files:
+The same class can be used to display collision objects or visuals from URDF
+files:
 
 .. plot:: ../../examples/plot_collision_objects.py
+    :include-source:
+
+Meshes can only be loaded from STL files. Here is a simple example with
+one visual that is used for two links:
+
+.. plot:: ../../examples/plot_urdf_with_meshes.py
     :include-source:

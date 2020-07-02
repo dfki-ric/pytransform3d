@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 1.1.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 1.2 documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.1.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script src="../_static/js/jquery-fix.js"></script>
+    <script src="../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
+    <script src="../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytransform3d.camera.make_world_grid" href="pytransform3d.camera.make_world_grid.html" />
@@ -34,8 +26,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-  </head>
-  <body>
+  </head><body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -48,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.1.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -85,7 +76,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">pytransform3d.urdf</span></code>.UrdfTransformManager</a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code>.UrdfTransformManager</a></li>
 </ul>
 </ul>
 </li>
@@ -127,451 +118,52 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code>.UrdfTransformManager</a></li>
+</ul>
+
+  <li>
+    <a href="pytransform3d.editor.TransformEditor.html" title="Previous Chapter: pytransform3d.editor.TransformEditor"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm">&laquo; pytransform3d...</span>
+    </a>
+  </li>
+  <li>
+    <a href="pytransform3d.camera.make_world_grid.html" title="Next Chapter: pytransform3d.camera.make_world_grid"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm">pytransform3d... &raquo;</span>
+    </a>
+  </li>
+<form action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+    <div class="col-md-9">
       
   <div class="section" id="pytransform3d-urdf-urdftransformmanager">
-<h1><a class="reference internal" href="../api.html#module-pytransform3d.urdf" title="pytransform3d.urdf"><code class="xref py py-mod docutils literal"><span class="pre">pytransform3d.urdf</span></code></a>.UrdfTransformManager<a class="headerlink" href="#pytransform3d-urdf-urdftransformmanager" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<h1><a class="reference internal" href="../api.html#module-pytransform3d.urdf" title="pytransform3d.urdf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code></a>.UrdfTransformManager<a class="headerlink" href="#pytransform3d-urdf-urdftransformmanager" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
 <dt id="pytransform3d.urdf.UrdfTransformManager">
-<em class="property">class </em><code class="descclassname">pytransform3d.urdf.</code><code class="descname">UrdfTransformManager</code><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytransform3d.urdf.</code><code class="sig-name descname">UrdfTransformManager</code><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transformation manager that can load URDF files.</p>
 <p>URDF is the <a class="reference external" href="http://wiki.ros.org/urdf">Unified Robot Description Format</a>.
 URDF allows to define joints between links that can be rotated about one
 axis. This transformation manager allows to set the joint angles after
 joints have been added or loaded from an URDF.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Note that this module requires the Python package beautifulsoup4.</p>
+<p class="admonition-title">Warning</p>
+<p>Note that this module requires the Python package beautifulsoup4.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Joint angles must be given in radians.</p>
+<p class="admonition-title">Note</p>
+<p>Joint angles must be given in radians.</p>
 </div>
-<dl class="method">
+<dl class="py method">
 <dt id="pytransform3d.urdf.UrdfTransformManager.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.add_joint">
-<code class="descname">add_joint</code><span class="sig-paren">(</span><em>joint_name</em>, <em>from_frame</em>, <em>to_frame</em>, <em>child2parent</em>, <em>axis</em>, <em>limits=(-inf</em>, <em>inf)</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.add_joint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.add_joint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add joint.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>joint_name</strong> : string</p>
-<blockquote>
-<div><p>Name of the joint</p>
-</div></blockquote>
-<p><strong>from_frame</strong> : string</p>
-<blockquote>
-<div><p>Child link of the joint</p>
-</div></blockquote>
-<p><strong>to_frame</strong> : string</p>
-<blockquote>
-<div><p>Parent link of the joint</p>
-</div></blockquote>
-<p><strong>child2parent</strong> : array-like, shape (4, 4)</p>
-<blockquote>
-<div><p>Transformation from child to parent</p>
-</div></blockquote>
-<p><strong>axis</strong> : array-like, shape (3,)</p>
-<blockquote>
-<div><p>Rotation axis of the joint (defined in the child frame)</p>
-</div></blockquote>
-<p><strong>limits</strong> : pair of float, optional (default: (-inf, inf))</p>
-<blockquote class="last">
-<div><p>Lower and upper joint angle limit</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.add_transform">
-<code class="descname">add_transform</code><span class="sig-paren">(</span><em>from_frame</em>, <em>to_frame</em>, <em>A2B</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.add_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Register a transform.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>from_frame</strong> : str</p>
-<blockquote>
-<div><p>Name of the frame for which the transform is added in the to_frame
-coordinate system</p>
-</div></blockquote>
-<p><strong>to_frame</strong> : str</p>
-<blockquote>
-<div><p>Name of the frame in which the transform is defined</p>
-</div></blockquote>
-<p><strong>A2B</strong> : array-like, shape (4, 4)</p>
-<blockquote>
-<div><p>Homogeneous matrix that represents the transform from ‘from_frame’
-to ‘to_frame’</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : TransformManager</p>
-<blockquote class="last">
-<div><p>This object for chaining</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.check_consistency">
-<code class="descname">check_consistency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.check_consistency" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check consistency of the known transformations.</p>
-<p>The complexity of this is between <img class="math" src="../_images/math/4841fef10387b2ee452bf6884eab3df48b5c782a.png" alt="O(n^2)"/> and <img class="math" src="../_images/math/b7ed29dd710e8bf1346e128bf62bff037b7e66f8.png" alt="O(n^3)"/>,
-where <img class="math" src="../_images/math/e11f2701c4a39c7fe543a6c4150b421d50f1c159.png" alt="n"/> is the number of nodes. In graphs where each pair of
-nodes is directly connected the complexity is <img class="math" src="../_images/math/4841fef10387b2ee452bf6884eab3df48b5c782a.png" alt="O(n^2)"/>. In graphs
-that are actually paths, the complexity is <img class="math" src="../_images/math/b7ed29dd710e8bf1346e128bf62bff037b7e66f8.png" alt="O(n^3)"/>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>consistent</strong> : bool</p>
-<blockquote class="last">
-<div><p>Is the graph consistent, i.e. is A2B always the same as the inverse
-of B2A?</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.connected_components">
-<code class="descname">connected_components</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.connected_components" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get number of connected components.</p>
-<p>If the number is larger than 1 there will be frames without
-connections.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>n_connected_components</strong> : int</p>
-<blockquote class="last">
-<div><p>Number of connected components.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.get_joint_limits">
-<code class="descname">get_joint_limits</code><span class="sig-paren">(</span><em>joint_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.get_joint_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.get_joint_limits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get limits of a joint.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>joint_name</strong> : string</p>
-<blockquote>
-<div><p>Name of the joint</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>limits</strong> : pair of float</p>
-<blockquote class="last">
-<div><p>Lower and upper joint angle limit</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.get_transform">
-<code class="descname">get_transform</code><span class="sig-paren">(</span><em>from_frame</em>, <em>to_frame</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.get_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Request a transform.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>from_frame</strong> : str</p>
-<blockquote>
-<div><p>Name of the frame for which the transform is requested in the
-to_frame coordinate system</p>
-</div></blockquote>
-<p><strong>to_frame</strong> : str</p>
-<blockquote>
-<div><p>Name of the frame in which the transform is defined</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>A2B</strong> : array-like, shape (4, 4)</p>
-<blockquote class="last">
-<div><p>Homogeneous matrix that represents the transform from ‘from_frame’
-to ‘to_frame’</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.has_frame">
-<code class="descname">has_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.has_frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if frame has been registered.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : str</p>
-<blockquote>
-<div><p>Frame name</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>has_frame</strong> : bool</p>
-<blockquote class="last">
-<div><p>Frame is registered</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.load_urdf">
-<code class="descname">load_urdf</code><span class="sig-paren">(</span><em>urdf_xml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.load_urdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load URDF file into transformation manager.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>urdf_xml</strong> : string</p>
-<blockquote class="last">
-<div><p>Robot definition in URDF</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.plot_collision_objects">
-<code class="descname">plot_collision_objects</code><span class="sig-paren">(</span><em>frame</em>, <em>ax=None</em>, <em>ax_s=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.plot_collision_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot all collision objects in a given reference frame.</p>
-<p>Collision objects can be boxes, spheres, or cylinders. Note that
-collision objects that cannot be connected to the reference frame are
-omitted.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : string</p>
-<blockquote>
-<div><p>Reference frame</p>
-</div></blockquote>
-<p><strong>ax</strong> : Matplotlib 3d axis, optional (default: None)</p>
-<blockquote>
-<div><p>If the axis is None, a new 3d axis will be created</p>
-</div></blockquote>
-<p><strong>ax_s</strong> : float, optional (default: 1)</p>
-<blockquote>
-<div><p>Scaling of the new matplotlib 3d axis</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ax</strong> : Matplotlib 3d axis</p>
-<blockquote class="last">
-<div><p>New or old axis</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.plot_connections_in">
-<code class="descname">plot_connections_in</code><span class="sig-paren">(</span><em>frame</em>, <em>ax=None</em>, <em>ax_s=1</em>, <em>whitelist=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_connections_in" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot direct frame connections in a given reference frame.</p>
-<p>A line between each pair of frames for which a direct transformation
-is known will be plotted. Direct means that either A2B or B2A has been
-added to the transform manager.</p>
-<p>Note that frames that cannot be connected to the reference frame are
-omitted.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : str</p>
-<blockquote>
-<div><p>Reference frame</p>
-</div></blockquote>
-<p><strong>ax</strong> : Matplotlib 3d axis, optional (default: None)</p>
-<blockquote>
-<div><p>If the axis is None, a new 3d axis will be created</p>
-</div></blockquote>
-<p><strong>ax_s</strong> : float, optional (default: 1)</p>
-<blockquote>
-<div><p>Scaling of the new matplotlib 3d axis</p>
-</div></blockquote>
-<p><strong>whitelist</strong> : list, optional (default: None)</p>
-<blockquote>
-<div><p>Both frames of a connection must be in the whitelist to plot the
-connection</p>
-</div></blockquote>
-<p><strong>kwargs</strong> : dict, optional (default: {})</p>
-<blockquote>
-<div><p>Additional arguments for the plotting functions, e.g. alpha</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ax</strong> : Matplotlib 3d axis</p>
-<blockquote class="last">
-<div><p>New or old axis</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.plot_frames_in">
-<code class="descname">plot_frames_in</code><span class="sig-paren">(</span><em>frame</em>, <em>ax=None</em>, <em>s=1.0</em>, <em>ax_s=1</em>, <em>show_name=True</em>, <em>whitelist=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot all frames in a given reference frame.</p>
-<p>Note that frames that cannot be connected to the reference frame are
-omitted.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : str</p>
-<blockquote>
-<div><p>Reference frame</p>
-</div></blockquote>
-<p><strong>ax</strong> : Matplotlib 3d axis, optional (default: None)</p>
-<blockquote>
-<div><p>If the axis is None, a new 3d axis will be created</p>
-</div></blockquote>
-<p><strong>s</strong> : float, optional (default: 1)</p>
-<blockquote>
-<div><p>Scaling of the frame that will be drawn</p>
-</div></blockquote>
-<p><strong>ax_s</strong> : float, optional (default: 1)</p>
-<blockquote>
-<div><p>Scaling of the new matplotlib 3d axis</p>
-</div></blockquote>
-<p><strong>show_name</strong> : bool, optional (default: True)</p>
-<blockquote>
-<div><p>Print node names</p>
-</div></blockquote>
-<p><strong>whitelist</strong> : list, optional (default: None)</p>
-<blockquote>
-<div><p>Frames that must be plotted</p>
-</div></blockquote>
-<p><strong>kwargs</strong> : dict, optional (default: {})</p>
-<blockquote>
-<div><p>Additional arguments for the plotting functions, e.g. alpha</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ax</strong> : Matplotlib 3d axis</p>
-<blockquote class="last">
-<div><p>New or old axis</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.plot_visuals">
-<code class="descname">plot_visuals</code><span class="sig-paren">(</span><em>frame</em>, <em>ax=None</em>, <em>ax_s=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.plot_visuals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_visuals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot all visuals in a given reference frame.</p>
-<p>Visuals can be boxes, spheres, or cylinders. Note that visuals that
-cannot be connected to the reference frame are omitted.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frame</strong> : string</p>
-<blockquote>
-<div><p>Reference frame</p>
-</div></blockquote>
-<p><strong>ax</strong> : Matplotlib 3d axis, optional (default: None)</p>
-<blockquote>
-<div><p>If the axis is None, a new 3d axis will be created</p>
-</div></blockquote>
-<p><strong>ax_s</strong> : float, optional (default: 1)</p>
-<blockquote>
-<div><p>Scaling of the new matplotlib 3d axis</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ax</strong> : Matplotlib 3d axis</p>
-<blockquote class="last">
-<div><p>New or old axis</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.set_joint">
-<code class="descname">set_joint</code><span class="sig-paren">(</span><em>joint_name</em>, <em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.set_joint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.set_joint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set joint angle.</p>
-<p>Note that joint angles are clipped to their limits.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>joint_name</strong> : string</p>
-<blockquote>
-<div><p>Name of the joint</p>
-</div></blockquote>
-<p><strong>angle</strong> : float</p>
-<blockquote class="last">
-<div><p>Joint angle in radians</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytransform3d.urdf.UrdfTransformManager.write_png">
-<code class="descname">write_png</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.write_png" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create PNG from dot graph of the transformations.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Note that this method requires the Python package pydot and an
-existing installation of graphviz on your system.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
-<div><p>Name of the output file. Should end with ‘.png’.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 </dd></dl>
@@ -591,7 +183,7 @@ existing installation of graphviz on your system.</p>
     </p>
     <p>
         &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 05, 2019.<br/>
+      Last updated on Jul 02, 2020.<br/>
     </p>
   </div>
 </footer>
