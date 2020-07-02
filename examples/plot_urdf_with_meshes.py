@@ -3,15 +3,17 @@
 URDF with Meshes
 ================
 
-This example shows how to load a URDF with STL meshes.
-This example must be run from within the examples folder
-because it uses a hard-coded path to the URDF file and the
-meshes.
+This example shows how to load a URDF with STL meshes. This example must be
+run from within the examples folder or the main folder because it uses a
+hard-coded path to the URDF file and the meshes.
 """
+import os
 import matplotlib.pyplot as plt
 from pytransform3d.urdf import UrdfTransformManager
 
 BASE_DIR = "test/test_data/"
+if not os.path.exists(BASE_DIR):
+    BASE_DIR = os.path.join("..", BASE_DIR)
 
 tm = UrdfTransformManager()
 with open(BASE_DIR + "simple_mechanism.urdf", "r") as f:
