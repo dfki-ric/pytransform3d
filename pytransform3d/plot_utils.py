@@ -62,9 +62,9 @@ try:
             p = A2B[:3, 3]
 
             for d, b in enumerate([self.x_axis, self.y_axis, self.z_axis]):
-                b.set_data([p[0], p[0] + self.s * R[0, d]],
-                           [p[1], p[1] + self.s * R[1, d]])
-                b.set_3d_properties([p[2], p[2] + self.s * R[2, d]])
+                b.set_data(np.array([p[0], p[0] + self.s * R[0, d]]),
+                           np.array([p[1], p[1] + self.s * R[1, d]]))
+                b.set_3d_properties(np.array([p[2], p[2] + self.s * R[2, d]]))
 
             if self.draw_label:
                 if label is None:
@@ -72,8 +72,10 @@ try:
                 label_pos = p + 0.5 * self.s * (R[:, 0] + R[:, 1] + R[:, 2])
 
                 self.label_indicator.set_data(
-                    [p[0], label_pos[0]], [p[1], label_pos[1]])
-                self.label_indicator.set_3d_properties([p[2], label_pos[2]])
+                    np.array([p[0], label_pos[0]]),
+                    np.array([p[1], label_pos[1]]))
+                self.label_indicator.set_3d_properties(
+                    np.array([p[2], label_pos[2]]))
 
                 self.label_text.set_text(label)
                 self.label_text.set_position([label_pos[0], label_pos[1]])
