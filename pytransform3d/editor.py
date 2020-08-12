@@ -1,7 +1,26 @@
 """Modify transformations visually."""
+qt_available = False
 try:
     import PyQt4.QtCore as QtCore
-    import PyQt4.QtGui as QtGui
+    from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QSlider,
+                             QDoubleSpinBox, QGridLayout, QLabel, QGroupBox,
+                             QHBoxLayout, QComboBox, QVBoxLayout)
+    qt_available = True
+except ImportError:
+    try:
+        import PyQt5.QtCore as QtCore
+        from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget,
+                                     QSlider, QDoubleSpinBox, QGridLayout,
+                                     QLabel, QGroupBox, QHBoxLayout, QComboBox,
+                                     QVBoxLayout)
+        qt_available = True
+    except ImportError:
+        import warnings
+        warnings.warn("Cannot import PyQt4. TransformEditor won't be available.")
+        TransformEditor = None
+
+
+if qt_available:
     import sys
     from functools import partial
     from contextlib import contextmanager
@@ -25,7 +44,7 @@ try:
             qobject.blockSignals(signals_blocked)
 
 
-    class PositionEulerEditor(QtGui.QWidget):
+    class PositionEulerEditor(QWidget):
         """Frame editor that represents orientation by Euler angles (XY'Z'').
 
         Parameters
@@ -45,7 +64,7 @@ try:
             Lower and upper limit for the z position. Defines the range of the
             plot and the range of the slider.
 
-        parent : QtGui.QWidget, optional (default: None)
+        parent : QWidget, optional (default: None)
             Parent widget.
         """
         frameChanged = QtCore.pyqtSignal()
@@ -64,32 +83,30 @@ try:
             self.sliders = []
             self.spinboxes = []
             for i in range(len(self.dim_labels)):
-                self.sliders.append(QtGui.QSlider(QtCore.Qt.Horizontal))
+                self.sliders.append(QSlider(QtCore.Qt.Horizontal))
                 self.sliders[i].setRange(0, self.n_slider_steps[i])
-                self.connect(self.sliders[i],
-                             QtCore.SIGNAL("valueChanged(int)"),
-                             partial(self._on_slide, i))
-                spinbox = QtGui.QDoubleSpinBox()
+                self.sliders[i].valueChanged.connect(
+                    partial(self._on_slide, i))
+                spinbox = QDoubleSpinBox()
                 spinbox.setRange(*self.limits[i])
                 spinbox.setDecimals(3)
                 spinbox.setSingleStep(0.001)
                 self.spinboxes.append(spinbox)
-                self.connect(self.spinboxes[i],
-                             QtCore.SIGNAL("valueChanged(double)"),
-                             partial(self._on_pos_edited, i))
-            slider_group = QtGui.QGridLayout()
-            slider_group.addWidget(QtGui.QLabel("Position"),
+                self.spinboxes[i].valueChanged.connect(
+                    partial(self._on_pos_edited, i))
+            slider_group = QGridLayout()
+            slider_group.addWidget(QLabel("Position"),
                                    0, 0, 1, 3, QtCore.Qt.AlignCenter)
-            slider_group.addWidget(QtGui.QLabel("Orientation (Euler angles)"),
+            slider_group.addWidget(QLabel("Orientation (Euler angles)"),
                                    0, 3, 1, 3, QtCore.Qt.AlignCenter)
             for i, slider in enumerate(self.sliders):
-                slider_group.addWidget(QtGui.QLabel(self.dim_labels[i]), 1, i)
+                slider_group.addWidget(QLabel(self.dim_labels[i]), 1, i)
                 slider_group.addWidget(slider, 2, i)
                 slider_group.addWidget(self.spinboxes[i], 3, i)
-            slider_groupbox = QtGui.QGroupBox("Transformation in frame '%s'"
-                                              % base_frame)
+            slider_groupbox = QGroupBox("Transformation in frame '%s'"
+                                        % base_frame)
             slider_groupbox.setLayout(slider_group)
-            layout = QtGui.QHBoxLayout()
+            layout = QHBoxLayout()
             layout.addWidget(slider_groupbox)
             layout.addStretch(1)
             return layout
@@ -152,7 +169,7 @@ try:
             return m + r * float(slider_pos) / float(self.n_slider_steps[dim])
 
 
-    class TransformEditor(QtGui.QMainWindow):
+    class TransformEditor(QMainWindow):
         """GUI to edit transformations.
 
         .. warning::
@@ -188,7 +205,7 @@ try:
         dpi : integer, optional (default: 100)
             Resolution of the figure.
 
-        parent : QtGui.QWidget, optional (default: None)
+        parent : QWidget, optional (default: None)
             Parent widget.
 
         Attributes
@@ -200,7 +217,7 @@ try:
                      ylim=(-1.0, 1.0), zlim=(-1.0, 1.0), s=1.0,
                      figsize=(10, 10), dpi=100, window_size=(500, 600),
                      parent=None):
-            self.app = QtGui.QApplication(sys.argv)
+            self.app = QApplication(sys.argv)
 
             super(TransformEditor, self).__init__(parent)
             self.transform_manager = self._init_transform_manager(
@@ -218,8 +235,7 @@ try:
             self.axis = None
 
             self._create_main_frame()
-            self._on_node_changed([node for node in self.transform_manager.nodes
-                                   if node != self.base_frame][0])
+            self._on_node_changed(0)
 
         def _init_transform_manager(self, transform_manager, frame):
             """Transform all nodes into the reference frame."""
@@ -238,23 +254,22 @@ try:
 
         def _create_main_frame(self):
             """Create main frame and layout."""
-            self.main_frame = QtGui.QWidget()
+            self.main_frame = QWidget()
 
             self.frame_editor = PositionEulerEditor(
                 self.base_frame, self.xlim, self.ylim, self.zlim)
-            self.connect(self.frame_editor, QtCore.SIGNAL("frameChanged()"),
-                         self._on_update)
+            self.frame_editor.frameChanged.connect(self._on_update)
 
-            frame_selection = self._create_frame_selector()
+            self.frame_selection = self._create_frame_selector()
 
             plot = self._create_plot()
 
-            vbox = QtGui.QVBoxLayout()
+            vbox = QVBoxLayout()
             vbox.addWidget(self.frame_editor)
-            vbox.addWidget(frame_selection)
+            vbox.addWidget(self.frame_selection)
             vbox.addWidget(plot)
 
-            main_layout = QtGui.QHBoxLayout()
+            main_layout = QHBoxLayout()
             main_layout.addLayout(vbox)
 
             self.main_frame.setLayout(main_layout)
@@ -262,18 +277,16 @@ try:
             self.setGeometry(0, 0, *self.window_size)
 
         def _create_frame_selector(self):
-            frame_selection = QtGui.QComboBox()
+            frame_selection = QComboBox()
             for node in self.transform_manager.nodes:
                 if node != self.base_frame:
                     frame_selection.addItem(node)
-            self.connect(frame_selection,
-                         QtCore.SIGNAL("activated(const QString&)"),
-                         self._on_node_changed)
+            frame_selection.activated.connect(self._on_node_changed)
             return frame_selection
 
         def _create_plot(self):
-            plot = QtGui.QWidget()
-            canvas_group = QtGui.QGridLayout()
+            plot = QWidget()
+            canvas_group = QGridLayout()
             self.fig = Figure(self.figsize, dpi=self.dpi)
             self.fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
             self.canvas = FigureCanvas(self.fig)
@@ -284,9 +297,9 @@ try:
             plot.setLayout(canvas_group)
             return plot
 
-        def _on_node_changed(self, node):
+        def _on_node_changed(self, node_idx):
             """Slot: manipulatable node changed."""
-            self.node = str(node)
+            self.node = self.frame_selection.itemText(node_idx)
             A2B = self.transform_manager.get_transform(
                 self.node, self.base_frame)
             self.frame_editor.set_frame(A2B)
@@ -325,9 +338,3 @@ try:
             """Start GUI."""
             super(TransformEditor, self).show()
             self.app.exec_()
-
-
-except ImportError as e:
-    import warnings
-    warnings.warn("Cannot import PyQt4. TransformEditor won't be available.")
-    TransformEditor = None
