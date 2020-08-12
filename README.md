@@ -55,7 +55,7 @@ In addition, pytransform3d offers...
 * the TransformManager which manages complex chains of transformations
   (with export to graph visualization as PNG, additionally requires pydot)
 * the TransformEditor which allows to modify transformations graphically
-  (additionally requires PyQt4)
+  (additionally requires PyQt4 or PyQt5)
 * the UrdfTransformManager which is able to load transformations from
   [URDF](http://wiki.ros.org/urdf) files (additionally requires
   beautifulsoup4)
@@ -68,23 +68,28 @@ pytransform3d is used in various domains, for example:
 
 ## Installation
 
-Use pip to install the package:
+Use pip to install the package from PyPI:
 
     [sudo] pip[3] install [--user] pytransform3d
 
 You can install pytransform3d[all] if you want to have support for pydot
 export. Make sure to install graphviz (on Ubuntu: `sudo apt install graphviz`)
-if you want to use this feature.
+if you want to use this feature. If you want to have support for the Qt GUI
+you have to install PyQt 4 or 5 (on Ubuntu: `sudo apt install python3-pyqt5`;
+conda: `conda install pyqt`).
 
-... or clone the repository and go to the main folder.
-
-Install dependencies with:
+You can also install from the current git version: clone the repository and go
+to the main folder. Install dependencies with:
 
     pip install -r requirements.txt
 
 Install the package with:
 
     python setup.py install
+
+Also pip supports installation from a git repository:
+
+    pip install git+https://github.com/rock-learning/pytransform3d.git
 
 ## Documentation
 
