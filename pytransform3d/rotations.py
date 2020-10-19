@@ -874,12 +874,11 @@ def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     TODO
     """
     Q = np.empty((len(Qd), 4))
-    # TODO should we really ignore Qd[0]?
     Q[0] = q0
     for t in range(1, len(Qd)):
         qd = (Qd[t] + Qd[t - 1]) / 2.0
         Q[t] = concatenate_quaternions(
-            _angular_velocity_exp(dt / 2.0 * qd), Q[t - 1])
+            angular_velocity_exp(dt / 2.0 * qd), Q[t - 1])
     return Q
 
 
@@ -901,35 +900,61 @@ def quaternion_gradient(Q):
     """
     Q = check_quaternions(Q)
     Qd = np.empty((len(Q), 3))
-    Qd[0] = 2.0 * _quaternion_log(concatenate_quaternions(Q[1], q_conj(Q[0])))
+    Qd[0] = 2.0 * quaternion_log(concatenate_quaternions(Q[1], q_conj(Q[0])))
     for t in range(1, len(Q) - 1):
         # divided by two because of central differences
-        Qd[t] = 2.0 * _quaternion_log(concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / 2.0
-    Qd[-1] = 2.0 * _quaternion_log(concatenate_quaternions(Q[-1], q_conj(Q[-2])))
+        Qd[t] = 2.0 * quaternion_log(concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / 2.0
+    Qd[-1] = 2.0 * quaternion_log(concatenate_quaternions(Q[-1], q_conj(Q[-2])))
     return Qd
 
 
-def _quaternion_log(q):
-    """TODO document
+def quaternion_log(q):
+    """Logarithm of a unit quaternion.
+
+    log q = log([cos(angle), axis * sin(angle)]) = angle * axis
 
     TODO test
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    a : array-like, shape (3,)
+        Compact axis-angle representation
     """
     im_norm = np.linalg.norm(q[1:])
     if abs(im_norm) < np.finfo(float).eps:
         return np.zeros(3)
-    # TODO why not 2*arccos(w)?
+    q = check_quaternion(q)
     return q[1:] / im_norm * np.arccos(q[0])
 
 
-def _angular_velocity_exp(a):
+def angular_velocity_exp(a):
+    """Exponential of angular velocity.
+
+    TODO test
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Compact axis-angle representation
+
+    Returns
+    -------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+    """
     angle = np.linalg.norm(a)
     if abs(angle) < np.finfo(float).eps:
         return np.array([1.0, 0.0, 0.0, 0.0])
     else:
-        # TODO why not angle/2?
-        im = np.sin(angle) * a / angle
-        re = np.cos(angle)
-        return np.hstack(((re,), im))
+        q = np.empty(4)
+        q[0] = np.cos(angle)
+        q[1:] = np.sin(angle) * a / angle
+        return q
 
 
 def concatenate_quaternions(q1, q2):
