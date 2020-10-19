@@ -878,7 +878,7 @@ def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     for t in range(1, len(Qd)):
         qd = (Qd[t] + Qd[t - 1]) / 2.0
         Q[t] = concatenate_quaternions(
-            angular_velocity_exp(dt / 2.0 * qd), Q[t - 1])
+            angular_velocity_exp(dt * qd), Q[t - 1])
     return Q
 
 
@@ -900,18 +900,18 @@ def quaternion_gradient(Q):
     """
     Q = check_quaternions(Q)
     Qd = np.empty((len(Q), 3))
-    Qd[0] = 2.0 * quaternion_log(concatenate_quaternions(Q[1], q_conj(Q[0])))
+    Qd[0] = quaternion_log(concatenate_quaternions(Q[1], q_conj(Q[0])))
     for t in range(1, len(Q) - 1):
         # divided by two because of central differences
-        Qd[t] = 2.0 * quaternion_log(concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / 2.0
-    Qd[-1] = 2.0 * quaternion_log(concatenate_quaternions(Q[-1], q_conj(Q[-2])))
+        Qd[t] = quaternion_log(concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / 2.0
+    Qd[-1] = quaternion_log(concatenate_quaternions(Q[-1], q_conj(Q[-2])))
     return Qd
 
 
 def quaternion_log(q):
     """Logarithm of a unit quaternion.
 
-    log q = log([cos(angle), axis * sin(angle)]) = angle * axis
+    log q = log([cos(angle / 2), axis * sin(angle / 2)]) = angle * axis
 
     TODO test
 
@@ -929,10 +929,10 @@ def quaternion_log(q):
     if abs(im_norm) < np.finfo(float).eps:
         return np.zeros(3)
     q = check_quaternion(q)
-    return q[1:] / im_norm * np.arccos(q[0])
+    return 2.0 * q[1:] / im_norm * np.arccos(q[0])
 
 
-def angular_velocity_exp(a):
+def angular_velocity_exp(a):  # TODO rename?
     """Exponential of angular velocity.
 
     TODO test
@@ -947,13 +947,14 @@ def angular_velocity_exp(a):
     q : array-like, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
-    angle = np.linalg.norm(a)
+    # TODO check validity of input
+    angle = np.linalg.norm(a) / 2.0
     if abs(angle) < np.finfo(float).eps:
         return np.array([1.0, 0.0, 0.0, 0.0])
     else:
         q = np.empty(4)
         q[0] = np.cos(angle)
-        q[1:] = np.sin(angle) * a / angle
+        q[1:] = np.sin(angle) * a / (2.0 * angle)
         return q
 
 
