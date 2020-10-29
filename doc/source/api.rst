@@ -25,10 +25,12 @@ Utility Functions
    ~pytransform3d.rotations.norm_vector
    ~pytransform3d.rotations.norm_angle
    ~pytransform3d.rotations.norm_axis_angle
+   ~pytransform3d.rotations.norm_compact_axis_angle
    ~pytransform3d.rotations.perpendicular_to_vectors
    ~pytransform3d.rotations.angle_between_vectors
    ~pytransform3d.rotations.random_vector
    ~pytransform3d.rotations.random_axis_angle
+   ~pytransform3d.rotations.random_compact_axis_angle
    ~pytransform3d.rotations.random_quaternion
    ~pytransform3d.rotations.cross_product_matrix
 
@@ -41,7 +43,9 @@ Input Validation Functions
 
    ~pytransform3d.rotations.check_matrix
    ~pytransform3d.rotations.check_axis_angle
+   ~pytransform3d.rotations.check_compact_axis_angle
    ~pytransform3d.rotations.check_quaternion
+   ~pytransform3d.rotations.check_quaternions
 
 Conversions to Rotation Matrix
 ------------------------------
@@ -51,6 +55,7 @@ Conversions to Rotation Matrix
    :template: function.rst
 
    ~pytransform3d.rotations.matrix_from_axis_angle
+   ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
    ~pytransform3d.rotations.matrix_from_angle
    ~pytransform3d.rotations.matrix_from_euler_xyz
@@ -76,7 +81,9 @@ Conversions to Axis-Angle
 
    ~pytransform3d.rotations.axis_angle_from_matrix
    ~pytransform3d.rotations.axis_angle_from_quaternion
+   ~pytransform3d.rotations.axis_angle_from_compact_axis_angle
    ~pytransform3d.rotations.compact_axis_angle
+   ~pytransform3d.rotations.compact_axis_angle_from_matrix
 
 Conversions to Quaternion
 -------------------------
@@ -104,6 +111,8 @@ Quaternion and Axis-Angle Operations
    ~pytransform3d.rotations.quaternion_slerp
    ~pytransform3d.rotations.quaternion_dist
    ~pytransform3d.rotations.quaternion_diff
+   ~pytransform3d.rotations.quaternion_gradient
+   ~pytransform3d.rotations.quaternion_integrate
 
 Plotting
 --------
@@ -123,6 +132,7 @@ Testing
    :template: function.rst
 
    ~pytransform3d.rotations.assert_axis_angle_equal
+   ~pytransform3d.rotations.assert_compact_axis_angle_equal
    ~pytransform3d.rotations.assert_quaternion_equal
    ~pytransform3d.rotations.assert_euler_xyz_equal
    ~pytransform3d.rotations.assert_euler_zyx_equal
