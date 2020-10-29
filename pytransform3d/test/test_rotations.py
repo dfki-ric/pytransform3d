@@ -184,6 +184,30 @@ def test_check_axis_angle():
         check_axis_angle, np.zeros((3, 3)))
 
 
+def test_check_compact_axis_angle():
+    """Test input validation for compact axis-angle representation."""
+    a_list = [0, 0, 0]
+    a = check_compact_axis_angle(a_list)
+    assert_array_almost_equal(a_list, a)
+    assert_equal(type(a), np.ndarray)
+    assert_equal(a.dtype, np.float)
+
+    random_state = np.random.RandomState(0)
+    a = norm_vector(random_vector(random_state, 3))
+    a *= np.pi + random_state.randn() * 4.0 * np.pi
+    a2 = check_compact_axis_angle(a)
+    assert_compact_axis_angle_equal(a, a2)
+    assert_greater(np.linalg.norm(a2), 0)
+    assert_greater(np.pi, np.linalg.norm(a2))
+
+    assert_raises_regexp(
+        ValueError, "Expected axis and angle in array with shape",
+        check_compact_axis_angle, np.zeros(4))
+    assert_raises_regexp(
+        ValueError, "Expected axis and angle in array with shape",
+        check_compact_axis_angle, np.zeros((3, 3)))
+
+
 def test_check_quaternion():
     """Test input validation for quaternion representation."""
     q_list = [1, 0, 0, 0]

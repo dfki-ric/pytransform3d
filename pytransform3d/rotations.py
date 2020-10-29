@@ -48,12 +48,12 @@ def norm_angle(a):
     Parameters
     ----------
     a : float or array-like, shape (n,)
-        Angle(s)
+        Angle(s) in radians
 
     Returns
     -------
     a_norm : float or array-like, shape (n,)
-        Normalized angle(s)
+        Normalized angle(s) in radians
     """
     # Source of the solution: http://stackoverflow.com/a/32266181
     return -((np.pi - np.asarray(a)) % (2.0 * np.pi) - np.pi)
@@ -82,10 +82,7 @@ def norm_axis_angle(a):
     res = np.empty(4)
     res[:3] = a[:3] / norm
 
-    while angle < 0.0:
-        angle += 2.0 * np.pi
-    while angle > np.pi:
-        angle -= 2.0 * np.pi
+    angle = norm_angle(angle)
     if angle < 0.0:
         angle *= -1.0
         res[:3] *= -1.0
@@ -93,6 +90,27 @@ def norm_axis_angle(a):
     res[3] = angle
 
     return res
+
+
+def norm_compact_axis_angle(a):
+    """Normalize compact axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    Returns
+    -------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z).
+        The angle is in [0, pi). No rotation is represented by [0, 0, 0].
+    """
+    angle = np.linalg.norm(a)
+    if angle == 0.0:
+        return np.zeros(3)
+    axis = a / angle
+    return axis * norm_angle(angle)
 
 
 def perpendicular_to_vectors(a, b):
@@ -298,6 +316,26 @@ def check_axis_angle(a):
         raise ValueError("Expected axis and angle in array with shape (4,), "
                          "got array-like object with shape %s" % (a.shape,))
     return norm_axis_angle(a)
+
+
+def check_compact_axis_angle(a):
+    """Input validation of compact axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    Returns
+    -------
+    a : array, shape (3,)
+        Validated axis of rotation and rotation angle: angle * (x, y, z)
+    """
+    a = np.asarray(a, dtype=np.float)
+    if a.ndim != 1 or a.shape[0] != 3:
+        raise ValueError("Expected axis and angle in array with shape (3,), "
+                         "got array-like object with shape %s" % (a.shape,))
+    return norm_compact_axis_angle(a)
 
 
 def check_quaternion(q, unit=True):
@@ -1266,12 +1304,41 @@ def assert_axis_angle_equal(a1, a2, *args, **kwargs):
     constraints and will normalize the representations before comparison.
     See numpy.testing.assert_array_almost_equal for a more detailed
     documentation of the other parameters.
+
+    Parameters
+    ----------
+    a1 : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    a2 : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
     """
     # required despite normalization in case of 180 degree rotation
     if np.any(np.sign(a1) != np.sign(a2)):
         a1 = -a1
     a1 = norm_axis_angle(a1)
     a2 = norm_axis_angle(a2)
+    assert_array_almost_equal(a1, a2, *args, **kwargs)
+
+
+def assert_compact_axis_angle_equal(a1, a2, *args, **kwargs):
+    """Raise an assertion if two axis-angle are not approximately equal.
+
+    Usually we assume that the angle is within [0, pi). However, this function
+    ignores this constraint and will normalize the representations before
+    comparison. See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+
+    Parameters
+    ----------
+    a1 : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    a2 : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+    """
+    a1 = norm_compact_axis_angle(a1)
+    a2 = norm_compact_axis_angle(a2)
     assert_array_almost_equal(a1, a2, *args, **kwargs)
 
 
