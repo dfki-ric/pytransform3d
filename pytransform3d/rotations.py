@@ -403,12 +403,12 @@ def check_quaternions(Q, unit=True):
         Validated quaternions to represent rotations: (w, x, y, z)
     """
     Q_checked = np.asarray(Q, dtype=np.float)
-    if Q.ndim != 2 or Q.shape[1] != 4:
+    if Q_checked.ndim != 2 or Q_checked.shape[1] != 4:
         raise ValueError("Expected quaternion array with shape (n_steps, 4), got "
-                         "array-like object with shape %s" % (Q.shape,))
+                         "array-like object with shape %s" % (Q_checked.shape,))
     if unit:
         for i in range(len(Q)):
-            Q_checked[i] = norm_vector(Q[i])
+            Q_checked[i] = norm_vector(Q_checked[i])
     return Q_checked
 
 
