@@ -156,7 +156,7 @@ It is possible to write this in a more compact way as a rotation vector:
 
 **Pros**
 
-* Minimal representation (as rotation vector)
+* Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)
 * It is easy to interpret the representation (as axis and angle)
 
 **Cons**
