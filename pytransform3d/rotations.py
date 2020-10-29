@@ -204,6 +204,28 @@ def random_axis_angle(random_state=np.random.RandomState(0)):
     return a
 
 
+def random_compact_axis_angle(random_state=np.random.RandomState(0)):
+    """Generate random compact axis-angle.
+
+    The angle will be sampled uniformly from the interval :math:`[0, \pi)`
+    and each component of the rotation axis will be sampled from
+    :math:`\mathcal{N}(\mu=0, \sigma=1)` and than the axis will be normalized
+    to length 1.
+
+    Parameters
+    ----------
+    random_state : np.random.RandomState, optional (default: random seed 0)
+        Random number generator
+
+    Returns
+    -------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+    """
+    a = random_axis_angle(random_state)
+    return a[:3] * a[3]
+
+
 def random_quaternion(random_state=np.random.RandomState(0)):
     """Generate random quaternion.
 
@@ -432,6 +454,31 @@ def matrix_from_axis_angle(a):
     #      cross_product_matrix(a[:3]) * np.sin(theta))
 
     return R
+
+
+def matrix_from_compact_axis_angle(a):
+    """Compute rotation matrix from compact axis-angle.
+
+    This is called exponential map or Rodrigues' formula.
+
+    Note that the rotation convention is different from the one used by Euler
+    angles. A rotation about a basis vector results in a transposed rotation
+    matrix in comparison to a corresponding Euler angles. The active / alibi
+    convention is used.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    a = check_compact_axis_angle(a)
+    a = axis_angle_from_compact_axis_angle(a)
+    return matrix_from_axis_angle(a)
 
 
 def matrix_from_quaternion(q):
@@ -760,6 +807,29 @@ def axis_angle_from_quaternion(q):
         return np.hstack((axis, angle))
 
 
+def axis_angle_from_compact_axis_angle(a):
+    """Compute axis-angle from compact axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z).
+
+    Returns
+    -------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
+        constrained to [0, pi].
+    """
+    a = check_compact_axis_angle(a)
+    angle = np.linalg.norm(a)
+    if angle == 0.0:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+    else:
+        axis = a / angle
+        return np.hstack((axis, (angle,)))
+
+
 def compact_axis_angle(a):
     """Compute 3-dimensional axis-angle from a 4-dimensional one.
 
@@ -776,13 +846,43 @@ def compact_axis_angle(a):
     Returns
     -------
     a : array-like, shape (3,)
-        Compact representation of axis of rotation and rotation angle. a is
-        the rotation axis and np.linalg.norm(a) is the rotation angle.
+        Axis of rotation and rotation angle: angle * (x, y, z) (compact
+        representation).
     """
     angle = a[3]
     if angle == 0.0:
         return np.zeros(3)
     return a[:3] / np.linalg.norm(a[:3]) * angle
+
+
+def compact_axis_angle_from_matrix(R):
+    """Compute compact axis-angle from rotation matrix.
+
+    This operation is called logarithmic map. Note that there are two possible
+    solutions for the rotation axis when the angle is 180 degrees (pi).
+
+    Note that the rotation convention is different from the one used by Euler
+    angles. A rotation about a basis vector results in a transposed rotation
+    matrix in comparison to a corresponding Euler angles. The active / alibi
+    convention is used.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
+    Returns
+    -------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z). The angle is
+        constrained to [0, pi].
+    """
+    a = axis_angle_from_matrix(R)
+    return compact_axis_angle(a)
 
 
 def quaternion_from_matrix(R, strict_check=True):
@@ -1337,6 +1437,12 @@ def assert_compact_axis_angle_equal(a1, a2, *args, **kwargs):
     a2 : array-like, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z)
     """
+    angle1 = np.linalg.norm(a1)
+    angle2 = np.linalg.norm(a2)
+    # required despite normalization in case of 180 degree rotation
+    if (abs(angle1) == np.pi and abs(angle2) == np.pi and
+        any(np.sign(a1) != np.sign(a2))):
+        a1 = -a1
     a1 = norm_compact_axis_angle(a1)
     a2 = norm_compact_axis_angle(a2)
     assert_array_almost_equal(a1, a2, *args, **kwargs)

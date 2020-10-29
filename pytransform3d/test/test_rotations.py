@@ -59,6 +59,33 @@ def test_norm_axis_angle():
             assert_array_almost_equal(n, n2)
 
 
+def test_norm_compact_axis_angle():
+    """Test normalization of compact angle-axis representation."""
+    a = np.array([np.pi, 0.0, 0.0])
+    n = norm_compact_axis_angle(a)
+    assert_array_almost_equal(a, n)
+
+    a = np.array([0.0, np.pi, 0.0])
+    n = norm_compact_axis_angle(a)
+    assert_array_almost_equal(a, n)
+
+    a = np.array([0.0, 0.0, np.pi])
+    n = norm_compact_axis_angle(a)
+    assert_array_almost_equal(a, n)
+
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        a = random_compact_axis_angle(random_state)
+        axis = a / np.linalg.norm(a)
+        angle = random_state.uniform(-20.0, -10.0 + 2.0 * np.pi)
+        a = axis * angle
+        n = norm_compact_axis_angle(a)
+        for angle_offset in np.arange(0.0, 10.1 * np.pi, 2.0 * np.pi):
+            a = axis * (angle + angle_offset)
+            n2 = norm_compact_axis_angle(a)
+            assert_array_almost_equal(n, n2)
+
+
 def test_perpendicular_to_vectors():
     """Test function to compute perpendicular to vectors."""
     random_state = np.random.RandomState(0)
@@ -351,6 +378,43 @@ def test_conversions_matrix_axis_angle():
         assert_rotation_matrix(R2)
 
 
+def test_conversions_matrix_compact_axis_angle():
+    """Test conversions between rotation matrix and axis-angle."""
+    R = np.eye(3)
+    a = compact_axis_angle_from_matrix(R)
+    assert_compact_axis_angle_equal(a, np.zeros(3))
+
+    R = matrix_from_euler_xyz(np.array([np.pi, np.pi, 0.0]))
+    a = compact_axis_angle_from_matrix(R)
+    assert_compact_axis_angle_equal(a, np.array([0, 0, np.pi]))
+
+    R = matrix_from_euler_xyz(np.array([np.pi, 0.0, np.pi]))
+    a = compact_axis_angle_from_matrix(R)
+    assert_compact_axis_angle_equal(a, np.array([0, np.pi, 0]))
+
+    R = matrix_from_euler_xyz(np.array([0.0, np.pi, np.pi]))
+    a = compact_axis_angle_from_matrix(R)
+    assert_compact_axis_angle_equal(a, np.array([np.pi, 0, 0]))
+
+    a = np.array([np.sqrt(0.5) * np.pi, np.sqrt(0.5) * np.pi, 0.0])
+    R = matrix_from_compact_axis_angle(a)
+    a2 = compact_axis_angle_from_matrix(R)
+    assert_compact_axis_angle_equal(a2, a)
+
+    random_state = np.random.RandomState(0)
+    for _ in range(50):
+        a = random_compact_axis_angle(random_state)
+        R = matrix_from_compact_axis_angle(a)
+        assert_rotation_matrix(R)
+
+        a2 = compact_axis_angle_from_matrix(R)
+        assert_compact_axis_angle_equal(a, a2)
+
+        R2 = matrix_from_compact_axis_angle(a2)
+        assert_array_almost_equal(R, R2)
+        assert_rotation_matrix(R2)
+
+
 def test_issue43():
     """Test axis_angle_from_matrix() with angles close to 0 and pi."""
     a = np.array([-1., 1., 1., np.pi - 5e-8])
@@ -506,6 +570,20 @@ def test_conversions_axis_angle_quaternion():
 
         q2 = quaternion_from_axis_angle(a2)
         assert_quaternion_equal(q, q2)
+
+
+def test_axis_angle_from_compact_axis_angle():
+    """Test conversion from compact axis-angle representation."""
+    ca = [0.0, 0.0, 0.0]
+    a = axis_angle_from_compact_axis_angle(ca)
+    assert_array_almost_equal(a, np.array([1.0, 0.0, 0.0, 0.0]))
+
+    random_state = np.random.RandomState(1)
+    for _ in range(5):
+        ca = random_compact_axis_angle(random_state)
+        a = axis_angle_from_compact_axis_angle(ca)
+        assert_almost_equal(np.linalg.norm(ca), a[3])
+        assert_array_almost_equal(ca[:3] / np.linalg.norm(ca), a[:3])
 
 
 def test_compact_axis_angle():
