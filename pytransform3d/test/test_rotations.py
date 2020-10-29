@@ -819,6 +819,21 @@ def test_quaternion_invert():
     assert_array_almost_equal(q_id, q_q_inv)
 
 
+def test_quaternion_gradient_integration():
+    """Test integration of quaternion gradients."""
+    n_steps = 21
+    dt = 0.1
+    random_state = np.random.RandomState(3)
+    for _ in range(5):
+        q1 = random_quaternion(random_state)
+        q2 = random_quaternion(random_state)
+        Q = np.vstack([quaternion_slerp(q1, q2, t)
+                    for t in np.linspace(0, 1, n_steps)])
+        angular_velocities = quaternion_gradient(Q, dt)
+        Q2 = quaternion_integrate(angular_velocities, q1, dt)
+        assert_array_almost_equal(Q, Q2)
+
+
 def test_quaternion_rotation_consistent_with_multiplication():
     """Test if quaternion rotation and multiplication are Hamiltonian."""
     random_state = np.random.RandomState(1)

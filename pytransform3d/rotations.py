@@ -391,7 +391,7 @@ def check_quaternions(Q, unit=True):
 
     Parameters
     ----------
-    q : array-like, shape (n_steps, 4)
+    Q : array-like, shape (n_steps, 4)
         Quaternions to represent rotations: (w, x, y, z)
 
     unit : bool, optional (default: True)
@@ -399,7 +399,7 @@ def check_quaternions(Q, unit=True):
 
     Returns
     -------
-    q : array-like, shape (n_steps, 4)
+    Q : array-like, shape (n_steps, 4)
         Validated quaternions to represent rotations: (w, x, y, z)
     """
     Q_checked = np.asarray(Q, dtype=np.float)
@@ -1001,15 +1001,22 @@ def quaternion_wxyz_from_xyzw(q_xyzw):
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     """Integrate angular velocities to quaternions.
 
-    TODO test
-
     Parameters
     ----------
-    TODO
+    A : array-like, shape (n_steps, 3)
+        Angular velocities in a compact axis-angle representation. Each angular
+        velocity represents the rotational offset after one unit of time.
+
+    q0 : array-like, shape (4,), optional (default: [1, 0, 0, 0])
+        Unit quaternion to represent initial rotation: (w, x, y, z)
+
+    dt : float, optional (default: 1)
+        Time interval between steps.
 
     Returns
     -------
-    TODO
+    Q : array-like, shape (n_steps, 4)
+        Quaternions to represent rotations: (w, x, y, z)
     """
     Q = np.empty((len(Qd), 4))
     Q[0] = q0
@@ -1020,29 +1027,40 @@ def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     return Q
 
 
-# https://www.euclideanspace.com/physics/kinematics/angularvelocity/index.htm
-def quaternion_gradient(Q):
-    """Quaternion gradient similar to numpy's gradient function.
+def quaternion_gradient(Q, dt=1.0):
+    """Time-derivatives of a sequence of quaternions.
 
-    https://numpy.org/doc/stable/reference/generated/numpy.gradient.html
-
-    TODO test
+    Note that this function does not provide the exact same functionality for
+    quaternions as [NumPy's gradient
+    function](https://numpy.org/doc/stable/reference/generated/numpy.gradient.html)
+    for positions. Gradients are always computed as central differences except
+    the first and last gradient. We additionally accept a parameter dt that
+    defines the time interval between each quaternion. Note that this means
+    that we expect this to be constant for the whole sequence.
 
     Parameters
     ----------
-    TODO
+    Q : array-like, shape (n_steps, 4)
+        Quaternions to represent rotations: (w, x, y, z)
+
+    dt : float, optional (default: 1)
+        Time interval between steps. If you have non-constant dt, you can pass
+        1 and manually divide angular velocities by their corresponding time
+        interval afterwards.
 
     Returns
     -------
-    TODO
+    A : array-like, shape (n_steps, 3)
+        Angular velocities in a compact axis-angle representation. Each angular
+        velocity represents the rotational offset after one unit of time.
     """
     Q = check_quaternions(Q)
     Qd = np.empty((len(Q), 3))
-    Qd[0] = quaternion_log(concatenate_quaternions(Q[1], q_conj(Q[0])))
+    Qd[0] = quaternion_log(concatenate_quaternions(Q[1], q_conj(Q[0]))) / dt
     for t in range(1, len(Q) - 1):
         # divided by two because of central differences
-        Qd[t] = quaternion_log(concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / 2.0
-    Qd[-1] = quaternion_log(concatenate_quaternions(Q[-1], q_conj(Q[-2])))
+        Qd[t] = quaternion_log(concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / (2.0 * dt)
+    Qd[-1] = quaternion_log(concatenate_quaternions(Q[-1], q_conj(Q[-2]))) / dt
     return Qd
 
 
