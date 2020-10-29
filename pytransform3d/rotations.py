@@ -1064,7 +1064,7 @@ def quaternion_gradient(Q, dt=1.0):
     return Qd
 
 
-def quaternion_log(q):
+def quaternion_log(q):  # TODO rename to compact_axis_angle_from_quaternion
     """Logarithm of a unit quaternion.
 
     log q = log([cos(angle / 2), axis * sin(angle / 2)]) = angle * axis
@@ -1088,7 +1088,7 @@ def quaternion_log(q):
     return 2.0 * q[1:] / im_norm * np.arccos(q[0])
 
 
-def angular_velocity_exp(a):  # TODO rename?
+def angular_velocity_exp(a):  # TODO rename to quaternion_from_compact_axis_angle
     """Exponential of angular velocity.
 
     TODO test
