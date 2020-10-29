@@ -258,6 +258,36 @@ def test_check_quaternion():
     assert_array_almost_equal(q, q2)
 
 
+def test_check_quaternions():
+    """Test input validation for sequence of quaternions."""
+    Q_list = [[1, 0, 0, 0]]
+    Q = check_quaternions(Q_list)
+    assert_array_almost_equal(Q_list, Q)
+    assert_equal(type(Q), np.ndarray)
+    assert_equal(Q.dtype, np.float)
+    assert_equal(Q.ndim, 2)
+    assert_array_equal(Q.shape, (1, 4))
+
+    Q = np.array([
+        [2, 0, 0, 0],
+        [3, 0, 0, 0],
+        [4, 0, 0, 0],
+        [5, 0, 0, 0]
+    ])
+    Q = check_quaternions(Q)
+    for i in range(len(Q)):
+        assert_almost_equal(np.linalg.norm(Q[i]), 1)
+
+    assert_raises_regexp(ValueError, "Expected quaternion array with shape",
+                         check_quaternions, np.zeros(4))
+    assert_raises_regexp(ValueError, "Expected quaternion array with shape",
+                         check_quaternions, np.zeros((3, 3)))
+
+    Q = np.array([[0.0, 1.2, 0.0, 0.0]])
+    Q2 = check_quaternions(Q, unit=False)
+    assert_array_almost_equal(Q, Q2)
+
+
 def test_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
     assert_raises_regexp(ValueError, "Basis must be in", matrix_from_angle,
