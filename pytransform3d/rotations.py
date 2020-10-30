@@ -849,10 +849,10 @@ def compact_axis_angle(a):
         Axis of rotation and rotation angle: angle * (x, y, z) (compact
         representation).
     """
-    angle = a[3]
-    if angle == 0.0:
+    a = check_axis_angle(a)
+    if abs(a[3]) < np.finfo(float).eps:
         return np.zeros(3)
-    return a[:3] / np.linalg.norm(a[:3]) * angle
+    return a[:3] * a[3]
 
 
 def compact_axis_angle_from_matrix(R):
@@ -899,12 +899,8 @@ def compact_axis_angle_from_quaternion(q):
         Axis of rotation and rotation angle: angle * (x, y, z). The angle is
         constrained to [0, pi].
     """
-    q = check_quaternion(q)
-    im_norm = np.linalg.norm(q[1:])
-    if abs(im_norm) < np.finfo(float).eps:
-        return np.zeros(3)
-    q = check_quaternion(q)
-    return 2.0 * q[1:] / im_norm * np.arccos(q[0])
+    a = axis_angle_from_quaternion(q)
+    return compact_axis_angle(a)
 
 
 def quaternion_from_matrix(R, strict_check=True):
@@ -999,15 +995,8 @@ def quaternion_from_compact_axis_angle(a):
     q : array-like, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
-    a = check_compact_axis_angle(a)
-    angle = np.linalg.norm(a) / 2.0
-    if abs(angle) < np.finfo(float).eps:
-        return np.array([1.0, 0.0, 0.0, 0.0])
-    else:
-        q = np.empty(4)
-        q[0] = np.cos(angle)
-        q[1:] = np.sin(angle) * a / (2.0 * angle)
-        return q
+    a = axis_angle_from_compact_axis_angle(a)
+    return quaternion_from_axis_angle(a)
 
 
 def quaternion_xyzw_from_wxyz(q_wxyz):
