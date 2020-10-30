@@ -476,7 +476,6 @@ def matrix_from_compact_axis_angle(a):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
-    a = check_compact_axis_angle(a)
     a = axis_angle_from_compact_axis_angle(a)
     return matrix_from_axis_angle(a)
 
@@ -850,8 +849,6 @@ def compact_axis_angle(a):
         representation).
     """
     a = check_axis_angle(a)
-    if abs(a[3]) < np.finfo(float).eps:
-        return np.zeros(3)
     return a[:3] * a[3]
 
 
