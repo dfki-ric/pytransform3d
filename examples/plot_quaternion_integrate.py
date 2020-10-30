@@ -1,5 +1,9 @@
 """
-TODO
+======================
+Quaternion Integration
+======================
+
+Integrate angular velocities to a sequence of quaternions.
 """
 import numpy as np
 import matplotlib.pyplot as plt
