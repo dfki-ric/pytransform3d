@@ -635,6 +635,8 @@ def test_conversions_compact_axis_angle_quaternion():
     q = np.array([1, 0, 0, 0])
     a = compact_axis_angle_from_quaternion(q)
     assert_array_almost_equal(a, np.array([0, 0, 0]))
+    q2 = quaternion_from_compact_axis_angle(a)
+    assert_array_almost_equal(q2, q)
 
     random_state = np.random.RandomState(0)
     for _ in range(5):
