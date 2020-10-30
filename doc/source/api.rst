@@ -84,6 +84,7 @@ Conversions to Axis-Angle
    ~pytransform3d.rotations.axis_angle_from_compact_axis_angle
    ~pytransform3d.rotations.compact_axis_angle
    ~pytransform3d.rotations.compact_axis_angle_from_matrix
+   ~pytransform3d.rotations.compact_axis_angle_from_quaternion
 
 Conversions to Quaternion
 -------------------------
@@ -94,6 +95,7 @@ Conversions to Quaternion
 
    ~pytransform3d.rotations.quaternion_from_matrix
    ~pytransform3d.rotations.quaternion_from_axis_angle
+   ~pytransform3d.rotations.quaternion_from_compact_axis_angle
    ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
    ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
 
