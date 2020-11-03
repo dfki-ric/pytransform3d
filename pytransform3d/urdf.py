@@ -427,7 +427,7 @@ class Cylinder(object):
 
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
-        return plot_cylinder(ax, self.length, self.radius, A2B, wireframe, color)
+        return plot_cylinder(ax, self.length, self.radius, 0.0, A2B, wireframe, color)
 
 
 class Mesh(object):

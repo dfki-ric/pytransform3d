@@ -323,7 +323,7 @@ try:
         return ax
 
 
-    def plot_cylinder(ax=None, length=1.0, radius=1.0, A2B=np.eye(4), ax_s=1, wireframe=True, color="k"):
+    def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0, A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100, color="k"):
         """Plot cylinder.
 
         Parameters
@@ -337,6 +337,11 @@ try:
         radius : float, optional (default: 1)
             Radius of the cylinder
 
+        thickness : float, optional (default: 0)
+            Thickness of a cylindrical shell. It will be subtracted from the
+            outer radius to obtain the inner radius. The difference must be
+            greater than 0.
+
         A2B : array-like, shape (4, 4)
             Center of the cylinder
 
@@ -345,6 +350,9 @@ try:
 
         wireframe : bool, optional (default: True)
             Plot wireframe of cylinder and surface otherwise
+
+        n_steps : int, optional (default: 100)
+            Number of discrete steps plotted in each dimension
 
         color : str, optional (default: black)
             Color in which the cylinder should be plotted
@@ -356,6 +364,11 @@ try:
         """
         if ax is None:
             ax = make_3d_axis(ax_s)
+
+        inner_radius = radius - thickness
+        if inner_radius <= 0.0:
+            raise ValueError("Thickness of cylindrical shell results in "
+                             "invalid inner radius: %g" % inner_radius)
 
         axis_start = A2B.dot(np.array([0, 0, -0.5 * length, 1]))[:3]
         axis_end = A2B.dot(np.array([0, 0, 0.5 * length, 1]))[:3]
@@ -370,12 +383,29 @@ try:
         n1 /= np.linalg.norm(n1)
         n2 = np.cross(axis, n1)
 
-        t = np.linspace(0, length, 100)
-        theta = np.linspace(0, 2 * np.pi, 100)
+        if wireframe:
+            t = np.linspace(0, length, n_steps)
+        else:
+            t = np.array([0, length])
+        theta = np.linspace(0, 2 * np.pi, n_steps)
         t, theta = np.meshgrid(t, theta)
-        X, Y, Z = [axis_start[i] + axis[i] * t +
-                   radius * np.sin(theta) * n1[i] +
-                   radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+
+        if thickness > 0.0:
+            X_outer, Y_outer, Z_outer = [
+                axis_start[i] + axis[i] * t +
+                radius * np.sin(theta) * n1[i] +
+                radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+            X_inner, Y_inner, Z_inner = [
+                axis_end[i] - axis[i] * t +
+                inner_radius * np.sin(theta) * n1[i] +
+                inner_radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+            X = np.hstack((X_outer, X_inner))
+            Y = np.hstack((Y_outer, Y_inner))
+            Z = np.hstack((Z_outer, Z_inner))
+        else:
+            X, Y, Z = [axis_start[i] + axis[i] * t +
+                       radius * np.sin(theta) * n1[i] +
+                       radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
 
         if wireframe:
             ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, color=color)
