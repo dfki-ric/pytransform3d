@@ -1,6 +1,5 @@
 """Load transformations from URDF files."""
 import os
-import warnings
 import numpy as np
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
@@ -439,6 +438,7 @@ class Mesh(object):
     def parse(self, mesh):
         if self.mesh_path is None:
             self.filename = None
+            self.scale = 1.0
         else:
             if not mesh.has_attr("filename"):
                 raise UrdfException("Mesh has no filename.")

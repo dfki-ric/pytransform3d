@@ -1,5 +1,6 @@
 """Utilities for plotting."""
 import numpy as np
+import warnings
 try:
     import matplotlib.pyplot as plt
     from matplotlib import artist
@@ -444,5 +445,4 @@ try:
         return ax
 
 except ImportError:
-    import warnings
     warnings.warn("Matplotlib is not installed, visualization is not available")
