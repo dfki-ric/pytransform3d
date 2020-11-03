@@ -1,7 +1,6 @@
 """Rotations in three dimensions - SO(3)."""
 import warnings
 import numpy as np
-from .plot_utils import Frame, Arrow3D, make_3d_axis
 from numpy.testing import assert_array_almost_equal
 
 
@@ -1316,6 +1315,7 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, strict_check=True,
     ax : Matplotlib 3d axis
         New or old axis
     """
+    from .plot_utils import make_3d_axis, Frame
     if ax is None:
         ax = make_3d_axis(ax_s)
 
@@ -1361,6 +1361,7 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
     ax : Matplotlib 3d axis
         New or old axis
     """
+    from .plot_utils import make_3d_axis, Arrow3D
     a = check_axis_angle(a)
     if ax is None:
         ax = make_3d_axis(ax_s)

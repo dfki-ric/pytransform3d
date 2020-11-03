@@ -5,7 +5,8 @@ try:
     from matplotlib import artist
     from matplotlib.patches import FancyArrowPatch
     from mpl_toolkits.mplot3d import proj3d
-    from mpl_toolkits.mplot3d.art3d import Line3D, Text3D
+    from mpl_toolkits.mplot3d.art3d import Line3D, Text3D, Poly3DCollection
+    from .transformations import transform
 
 
     class Frame(artist.Artist):
@@ -231,6 +232,215 @@ try:
             ax = plt.subplot(pos, projection="3d")
         plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
                  xlabel="X", ylabel="Y", zlabel="Z")
+        return ax
+
+    def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), wireframe=True, color="k"):
+        """Plot box.
+
+        Parameters
+        ----------
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        size : array-like, shape (3,), optional (default: [1, 1, 1])
+            Size of the box per dimension
+
+        A2B : array-like, shape (4, 4)
+            Center of the box
+
+        wireframe : bool, optional (default: True)
+            Plot wireframe of cylinder and surface otherwise
+
+        color : str, optional (default: black)
+            Color in which the cylinder should be plotted
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        corners = np.array([
+            [0, 0, 0],
+            [0, 0, 1],
+            [0, 1, 0],
+            [0, 1, 1],
+            [1, 0, 0],
+            [1, 0, 1],
+            [1, 1, 0],
+            [1, 1, 1]
+        ])
+        corners = (corners - 0.5) * size
+        corners = transform(
+            A2B, np.hstack((corners, np.ones((len(corners), 1)))))[:, :3]
+
+        # TODO implement surface plot
+        for i, j in [(0, 1), (0, 2), (1, 3), (2, 3),
+                     (4, 5), (4, 6), (5, 7), (6, 7),
+                     (0, 4), (1, 5), (2, 6), (3, 7)]:
+            ax.plot([corners[i, 0], corners[j, 0]],
+                    [corners[i, 1], corners[j, 1]],
+                    [corners[i, 2], corners[j, 2]], c=color)
+
+        return ax
+
+
+    def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), wireframe=True, color="k"):
+        """Plot cylinder.
+
+        Parameters
+        ----------
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        radius : float, optional (default: 1)
+            Radius of the sphere
+
+        p : array-like, shape (3,), optional (default: [0, 0, 0])
+            Center of the sphere
+
+        wireframe : bool, optional (default: True)
+            Plot wireframe of cylinder and surface otherwise
+
+        color : str, optional (default: black)
+            Color in which the cylinder should be plotted
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        phi, theta = np.mgrid[0.0:np.pi:100j, 0.0:2.0 * np.pi:100j]
+        x = p[0] + radius * np.sin(phi) * np.cos(theta)
+        y = p[1] + radius * np.sin(phi) * np.sin(theta)
+        z = p[2] + radius * np.cos(phi)
+
+        if wireframe:
+            ax.plot_wireframe(x, y, z, rstride=10, cstride=10, color=color)
+        else:
+            ax.plot_surface(x, y, z, color=color, alpha=0.2, linewidth=0)
+
+        return ax
+
+
+    def plot_cylinder(ax=None, length=1.0, radius=1.0, A2B=np.eye(4), ax_s=1, wireframe=True, color="k"):
+        """Plot cylinder.
+
+        Parameters
+        ----------
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        length : float, optional (default: 1)
+            Length of the cylinder
+
+        radius : float, optional (default: 1)
+            Radius of the cylinder
+
+        A2B : array-like, shape (4, 4)
+            Center of the cylinder
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        wireframe : bool, optional (default: True)
+            Plot wireframe of cylinder and surface otherwise
+
+        color : str, optional (default: black)
+            Color in which the cylinder should be plotted
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        if ax is None:
+            ax = make_3d_axis(ax_s)
+
+        axis_start = A2B.dot(np.array([0, 0, -0.5 * length, 1]))[:3]
+        axis_end = A2B.dot(np.array([0, 0, 0.5 * length, 1]))[:3]
+        axis = axis_end - axis_start
+        axis /= length
+
+        not_axis = np.array([1, 0, 0])
+        if (axis == not_axis).all():
+            not_axis = np.array([0, 1, 0])
+
+        n1 = np.cross(axis, not_axis)
+        n1 /= np.linalg.norm(n1)
+        n2 = np.cross(axis, n1)
+
+        t = np.linspace(0, length, 100)
+        theta = np.linspace(0, 2 * np.pi, 100)
+        t, theta = np.meshgrid(t, theta)
+        X, Y, Z = [axis_start[i] + axis[i] * t +
+                   radius * np.sin(theta) * n1[i] +
+                   radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+
+        if wireframe:
+            ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, color=color)
+        else:
+            ax.plot_surface(X, Y, Z, color=color, alpha=0.2, linewidth=0)
+
+        return ax
+
+
+    def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, alpha=1.0):
+        """Plot mesh.
+
+        Note that this function requires the additional library 'trimesh'. It will
+        print a warning if trimesh is not available.
+
+        Parameters
+        ----------
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        filename : str, optional (default: None)
+            Path to mesh file.
+
+        A2B : array-like, shape (4, 4)
+            Pose of the mesh
+
+        s : array-like, shape (3,), optional (default: [1, 1, 1])
+            Scaling of the mesh that will be drawn
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        alpha : float, optional (default: 1)
+            Alpha value of the mesh that will be plotted.
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        if ax is None:
+            ax = make_3d_axis(ax_s)
+
+        if filename is None:
+            warnings.warn(
+                "Mesh will be ignored. You have to set a mesh path to "
+                "plot meshes.")
+            return ax
+
+        try:
+            import trimesh
+        except ImportError:
+            warnings.warn(
+                "Cannot display mesh. Library 'trimesh' not installed.")
+            return ax
+
+        mesh = trimesh.load(filename)
+        vertices = mesh.vertices * s
+        vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
+        vertices = transform(A2B, vertices)[:, :3]
+        vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
+        p3c = Poly3DCollection(vectors)
+        p3c.set_alpha(alpha)
+        # HACK without this line the alpha value would not work
+        p3c.set_facecolor(None)
+        ax.add_collection3d(p3c)
         return ax
 
 except ImportError:

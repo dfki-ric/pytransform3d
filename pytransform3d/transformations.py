@@ -6,7 +6,6 @@ from .rotations import (random_quaternion, random_vector,
                         assert_rotation_matrix, check_matrix,
                         norm_vector, axis_angle_from_matrix,
                         matrix_from_axis_angle)
-from .plot_utils import Frame, make_3d_axis
 from numpy.testing import assert_array_almost_equal
 
 
@@ -403,6 +402,7 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, strict_check=Tru
     ax : Matplotlib 3d axis
         New or old axis
     """
+    from .plot_utils import make_3d_axis, Frame
     if ax is None:
         ax = make_3d_axis(ax_s)
 
