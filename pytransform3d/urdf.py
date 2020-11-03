@@ -2,12 +2,11 @@
 import os
 import warnings
 import numpy as np
-from mpl_toolkits import mplot3d
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat, transform
 from .rotations import matrix_from_euler_xyz, matrix_from_axis_angle
-from .plot_utils import make_3d_axis
+from .plot_utils import make_3d_axis, plot_mesh, plot_cylinder, plot_sphere, plot_box
 
 
 class UrdfTransformManager(TransformManager):
@@ -398,29 +397,7 @@ class Box(object):
 
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
-
-        corners = np.array([
-            [0, 0, 0],
-            [0, 0, 1],
-            [0, 1, 0],
-            [0, 1, 1],
-            [1, 0, 0],
-            [1, 0, 1],
-            [1, 1, 0],
-            [1, 1, 1]
-        ])
-        corners = (corners - 0.5) * self.size
-        corners = transform(
-            A2B, np.hstack((corners, np.ones((len(corners), 1)))))[:, :3]
-
-        for i, j in [(0, 1), (0, 2), (1, 3), (2, 3),
-                     (4, 5), (4, 6), (5, 7), (6, 7),
-                     (0, 4), (1, 5), (2, 6), (3, 7)]:
-            ax.plot([corners[i, 0], corners[j, 0]],
-                    [corners[i, 1], corners[j, 1]],
-                    [corners[i, 2], corners[j, 2]], c=color)
-
-        return ax
+        return plot_box(ax, self.size, A2B, wireframe, color)
 
 
 class Sphere(object):
@@ -434,17 +411,7 @@ class Sphere(object):
 
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         center = tm.get_transform(self.frame, frame)[:3, 3]
-        phi, theta = np.mgrid[0.0:np.pi:100j, 0.0:2.0 * np.pi:100j]
-        x = center[0] + self.radius * np.sin(phi) * np.cos(theta)
-        y = center[1] + self.radius * np.sin(phi) * np.sin(theta)
-        z = center[2] + self.radius * np.cos(phi)
-
-        if wireframe:
-            ax.plot_wireframe(x, y, z, rstride=10, cstride=10, color=color)
-        else:
-            ax.plot_surface(x, y, z, color=color, alpha=0.2, linewidth=0)
-
-        return ax
+        return plot_sphere(ax, self.radius, center, wireframe, color)
 
 
 class Cylinder(object):
@@ -461,33 +428,7 @@ class Cylinder(object):
 
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
-
-        axis_start = A2B.dot(np.array([0, 0, -0.5 * self.length, 1]))[:3]
-        axis_end = A2B.dot(np.array([0, 0, 0.5 * self.length, 1]))[:3]
-        axis = axis_end - axis_start
-        axis /= self.length
-
-        not_axis = np.array([1, 0, 0])
-        if (axis == not_axis).all():
-            not_axis = np.array([0, 1, 0])
-
-        n1 = np.cross(axis, not_axis)
-        n1 /= np.linalg.norm(n1)
-        n2 = np.cross(axis, n1)
-
-        t = np.linspace(0, self.length, 100)
-        theta = np.linspace(0, 2 * np.pi, 100)
-        t, theta = np.meshgrid(t, theta)
-        X, Y, Z = [axis_start[i] + axis[i] * t +
-                   self.radius * np.sin(theta) * n1[i] +
-                   self.radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
-
-        if wireframe:
-            ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, color=color)
-        else:
-            ax.plot_surface(X, Y, Z, color=color, alpha=0.2, linewidth=0)
-
-        return ax
+        return plot_cylinder(ax, self.length, self.radius, A2B, wireframe, color)
 
 
 class Mesh(object):
@@ -509,34 +450,8 @@ class Mesh(object):
                 self.scale = np.ones(3)
 
     def plot(self, tm, frame, ax=None, alpha=0.3):
-        if self.filename is None:
-            warnings.warn(
-                "Mesh will be ignored. You have to set a mesh path to "
-                "plot meshes.")
-            return ax
-
         A2B = tm.get_transform(self.frame, frame)
-
-        try:
-            import trimesh
-        except ImportError:
-            warnings.warn(
-                "Cannot display mesh. Library 'trimesh' not installed.")
-            return ax
-
-        mesh = trimesh.load(self.filename)
-        vertices = mesh.vertices * self.scale
-        vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
-        vertices = transform(A2B, vertices)[:, :3]
-        vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
-
-        p3c = mplot3d.art3d.Poly3DCollection(vectors)
-        p3c.set_alpha(alpha)
-        # HACK without this line the alpha value would not work
-        p3c.set_facecolor(None)
-        ax.add_collection3d(p3c)
-
-        return ax
+        return plot_mesh(ax, self.filename, A2B, self.scale, alpha=alpha)
 
 
 shape_classes = {"box": Box,
