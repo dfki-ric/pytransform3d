@@ -3,7 +3,7 @@
 Plot Transformed Cylinders
 ==========================
 
-Plots surfaces of transformed cylinder shells.
+Plots surfaces of transformed cylindrical shells.
 """
 import numpy as np
 import matplotlib.pyplot as plt
