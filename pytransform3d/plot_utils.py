@@ -235,7 +235,55 @@ try:
                  xlabel="X", ylabel="Y", zlabel="Z")
         return ax
 
-    def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), wireframe=True, color="k"):
+
+    def plot_vector(ax=None, start=np.zeros(3), direction=np.array([1, 0, 0]), s=1.0, arrowstyle="simple", ax_s=1, **kwargs):
+        """Plot Vector.
+
+        Draws an arrow from start to start + s * direction.
+
+        Parameters
+        ----------
+        ax : Matplotlib 3d axis, optional (default: None)
+            If the axis is None, a new 3d axis will be created
+
+        start : array-like, shape (3,), optional (default: [0, 0, 0])
+            Start of the vector
+
+        direction : array-like, shape (3,), optional (default: [0, 0, 0])
+            Direction of the vector
+
+        s : float, optional (default: 1)
+            Scaling of the vector that will be drawn
+
+        arrowstyle : str, or ArrowStyle, optional (default: 'simple')
+            See matplotlib's documentation of arrowstyle in
+            matplotlib.patches.FancyArrowPatch for more options
+
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
+        kwargs : dict, optional (default: {})
+            Additional arguments for the plotting functions, e.g. alpha
+
+        Returns
+        -------
+        ax : Matplotlib 3d axis
+            New or old axis
+        """
+        if ax is None:
+            ax = make_3d_axis(ax_s)
+
+        axis_arrow = Arrow3D(
+            [start[0], start[0] + s * direction[0]],
+            [start[1], start[1] + s * direction[1]],
+            [start[2], start[2] + s * direction[2]],
+            mutation_scale=20, arrowstyle=arrowstyle, **kwargs)
+        ax.add_artist(axis_arrow)
+
+        return ax
+
+
+    def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True, color="k"):
         """Plot box.
 
         Parameters
@@ -249,6 +297,9 @@ try:
         A2B : array-like, shape (4, 4)
             Center of the box
 
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
         wireframe : bool, optional (default: True)
             Plot wireframe of cylinder and surface otherwise
 
@@ -260,6 +311,9 @@ try:
         ax : Matplotlib 3d axis
             New or old axis
         """
+        if ax is None:
+            ax = make_3d_axis(ax_s)
+
         corners = np.array([
             [0, 0, 0],
             [0, 0, 1],
@@ -285,7 +339,7 @@ try:
         return ax
 
 
-    def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), wireframe=True, color="k"):
+    def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True, color="k"):
         """Plot cylinder.
 
         Parameters
@@ -299,6 +353,9 @@ try:
         p : array-like, shape (3,), optional (default: [0, 0, 0])
             Center of the sphere
 
+        ax_s : float, optional (default: 1)
+            Scaling of the new matplotlib 3d axis
+
         wireframe : bool, optional (default: True)
             Plot wireframe of cylinder and surface otherwise
 
@@ -310,6 +367,9 @@ try:
         ax : Matplotlib 3d axis
             New or old axis
         """
+        if ax is None:
+            ax = make_3d_axis(ax_s)
+
         phi, theta = np.mgrid[0.0:np.pi:100j, 0.0:2.0 * np.pi:100j]
         x = p[0] + radius * np.sin(phi) * np.cos(theta)
         y = p[1] + radius * np.sin(phi) * np.sin(theta)
