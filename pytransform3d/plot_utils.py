@@ -283,7 +283,7 @@ try:
         return ax
 
 
-    def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True, color="k"):
+    def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True, color="k", alpha=1.0):
         """Plot box.
 
         Parameters
@@ -305,6 +305,9 @@ try:
 
         color : str, optional (default: black)
             Color in which the cylinder should be plotted
+
+        alpha : float, optional (default: 1)
+            Alpha value of the mesh that will be plotted.
 
         Returns
         -------
@@ -328,13 +331,38 @@ try:
         corners = transform(
             A2B, np.hstack((corners, np.ones((len(corners), 1)))))[:, :3]
 
-        # TODO implement surface plot
-        for i, j in [(0, 1), (0, 2), (1, 3), (2, 3),
-                     (4, 5), (4, 6), (5, 7), (6, 7),
-                     (0, 4), (1, 5), (2, 6), (3, 7)]:
-            ax.plot([corners[i, 0], corners[j, 0]],
-                    [corners[i, 1], corners[j, 1]],
-                    [corners[i, 2], corners[j, 2]], c=color)
+        if wireframe:
+            for i, j in [(0, 1), (0, 2), (1, 3), (2, 3),
+                         (4, 5), (4, 6), (5, 7), (6, 7),
+                         (0, 4), (1, 5), (2, 6), (3, 7)]:
+                ax.plot([corners[i, 0], corners[j, 0]],
+                        [corners[i, 1], corners[j, 1]],
+                        [corners[i, 2], corners[j, 2]],
+                        c=color, alpha=alpha)
+        else:
+            p3c = Poly3DCollection(np.array([
+                [corners[0], corners[1], corners[2]],
+                [corners[1], corners[2], corners[3]],
+
+                [corners[4], corners[5], corners[6]],
+                [corners[5], corners[6], corners[7]],
+
+                [corners[0], corners[1], corners[4]],
+                [corners[1], corners[4], corners[5]],
+
+                [corners[2], corners[6], corners[7]],
+                [corners[2], corners[3], corners[7]],
+
+                [corners[0], corners[4], corners[6]],
+                [corners[0], corners[2], corners[6]],
+
+                [corners[1], corners[5], corners[7]],
+                [corners[1], corners[3], corners[7]],
+            ]))
+            p3c.set_alpha(alpha)
+            # HACK without this line the alpha value would not work
+            p3c.set_facecolor(color)
+            ax.add_collection3d(p3c)
 
         return ax
 
