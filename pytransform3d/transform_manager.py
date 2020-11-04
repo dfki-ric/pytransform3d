@@ -340,7 +340,7 @@ class TransformManager(object):
         return csgraph.connected_components(
             self.connections, directed=False, return_labels=False)
 
-    def write_png(self, filename):
+    def write_png(self, filename, prog=None):
         """Create PNG from dot graph of the transformations.
 
         .. warning::
@@ -352,6 +352,11 @@ class TransformManager(object):
         ----------
         filename : str
             Name of the output file. Should end with '.png'.
+
+        prog : str, optional (default: dot)
+            Name of GraphViz executable that can be found in the `$PATH` or
+            absolute path to GraphViz executable. Possible options are, for
+            example, 'dot', 'twopi', 'neato', 'circo', 'fdp', 'sfdp'.
         """
         if not pydot_available:
             raise ImportError("pydot must be installed to use this feature.")
@@ -381,7 +386,7 @@ class TransformManager(object):
             b_edge = pydot.Edge(connection_name, b_name, penwidth=3)
             graph.add_edge(b_edge)
 
-        graph.write_png(filename)
+        graph.write_png(filename, prog=prog)
 
     def __display_name(self, name):
         return name.replace("/", "")
