@@ -307,7 +307,7 @@ try:
             Color in which the cylinder should be plotted
 
         alpha : float, optional (default: 1)
-            Alpha value of the mesh that will be plotted.
+            Alpha value of the mesh that will be plotted
 
         Returns
         -------
@@ -360,14 +360,13 @@ try:
                 [corners[1], corners[3], corners[7]],
             ]))
             p3c.set_alpha(alpha)
-            # HACK without this line the alpha value would not work
             p3c.set_facecolor(color)
             ax.add_collection3d(p3c)
 
         return ax
 
 
-    def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True, color="k"):
+    def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True, n_steps=100, color="k", alpha=1.0):
         """Plot cylinder.
 
         Parameters
@@ -387,8 +386,14 @@ try:
         wireframe : bool, optional (default: True)
             Plot wireframe of cylinder and surface otherwise
 
+        n_steps : int, optional (default: 100)
+            Number of discrete steps plotted in each dimension
+
         color : str, optional (default: black)
             Color in which the cylinder should be plotted
+
+        alpha : float, optional (default: 1)
+            Alpha value of the mesh that will be plotted
 
         Returns
         -------
@@ -398,15 +403,15 @@ try:
         if ax is None:
             ax = make_3d_axis(ax_s)
 
-        phi, theta = np.mgrid[0.0:np.pi:100j, 0.0:2.0 * np.pi:100j]
+        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
         x = p[0] + radius * np.sin(phi) * np.cos(theta)
         y = p[1] + radius * np.sin(phi) * np.sin(theta)
         z = p[2] + radius * np.cos(phi)
 
         if wireframe:
-            ax.plot_wireframe(x, y, z, rstride=10, cstride=10, color=color)
+            ax.plot_wireframe(x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
         else:
-            ax.plot_surface(x, y, z, color=color, alpha=0.2, linewidth=0)
+            ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
 
         return ax
 
