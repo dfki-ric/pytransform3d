@@ -415,7 +415,7 @@ try:
         return ax
 
 
-    def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, alpha=1.0):
+    def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, convex_hull=False, alpha=1.0):
         """Plot mesh.
 
         Note that this function requires the additional library 'trimesh'. It will
@@ -437,6 +437,10 @@ try:
 
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
+
+        convex_hull : bool, optional (default: False)
+            Show convex hull instead of the original mesh. This can be much
+            faster.
 
         alpha : float, optional (default: 1)
             Alpha value of the mesh that will be plotted.
@@ -463,6 +467,8 @@ try:
             return ax
 
         mesh = trimesh.load(filename)
+        if convex_hull:
+            mesh = mesh.convex_hull
         vertices = mesh.vertices * s
         vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
         vertices = transform(A2B, vertices)[:, :3]

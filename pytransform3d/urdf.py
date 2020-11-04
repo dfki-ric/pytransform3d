@@ -449,9 +449,9 @@ class Mesh(object):
             else:
                 self.scale = np.ones(3)
 
-    def plot(self, tm, frame, ax=None, alpha=0.3):
+    def plot(self, tm, frame, ax=None, alpha=0.3, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
-        return plot_mesh(ax, self.filename, A2B, self.scale, alpha=alpha)
+        return plot_mesh(ax, self.filename, A2B, self.scale, convex_hull=convex_hull, alpha=alpha)
 
 
 shape_classes = {"box": Box,
