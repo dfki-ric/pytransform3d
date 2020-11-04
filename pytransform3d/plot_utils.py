@@ -508,7 +508,7 @@ try:
         return ax
 
 
-    def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, convex_hull=False, alpha=1.0):
+    def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, convex_hull=False, alpha=1.0, color="k"):
         """Plot mesh.
 
         Note that this function requires the additional library 'trimesh'. It will
@@ -536,7 +536,10 @@ try:
             faster.
 
         alpha : float, optional (default: 1)
-            Alpha value of the mesh that will be plotted.
+            Alpha value of the mesh that will be plotted
+
+        color : str, optional (default: black)
+            Color in which the cylinder should be plotted
 
         Returns
         -------
@@ -568,8 +571,7 @@ try:
         vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
         p3c = Poly3DCollection(vectors)
         p3c.set_alpha(alpha)
-        # HACK without this line the alpha value would not work
-        p3c.set_facecolor(None)
+        p3c.set_facecolor(color)
         ax.add_collection3d(p3c)
         return ax
 
