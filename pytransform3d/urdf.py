@@ -3,7 +3,7 @@ import os
 import numpy as np
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
-from .transformations import transform_from, concat, transform
+from .transformations import transform_from, concat
 from .rotations import matrix_from_euler_xyz, matrix_from_axis_angle
 from .plot_utils import make_3d_axis, plot_mesh, plot_cylinder, plot_sphere, plot_box
 
@@ -396,7 +396,7 @@ class Box(object):
 
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
-        return plot_box(ax, self.size, A2B, wireframe, color)
+        return plot_box(ax, self.size, A2B, wireframe=wireframe, color=color)
 
 
 class Sphere(object):
@@ -410,7 +410,7 @@ class Sphere(object):
 
     def plot(self, tm, frame, ax=None, color="k", wireframe=True):
         center = tm.get_transform(self.frame, frame)[:3, 3]
-        return plot_sphere(ax, self.radius, center, wireframe, color)
+        return plot_sphere(ax, self.radius, center, wireframe=wireframe, color=color)
 
 
 class Cylinder(object):

@@ -256,6 +256,7 @@ Testing
    :template: function.rst
 
    ~pytransform3d.plot_utils.make_3d_axis
+   ~pytransform3d.plot_utils.plot_vector
    ~pytransform3d.plot_utils.plot_box
    ~pytransform3d.plot_utils.plot_sphere
    ~pytransform3d.plot_utils.plot_cylinder
