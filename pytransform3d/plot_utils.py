@@ -285,7 +285,7 @@ try:
 
 
     def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l", ax_s=1, color="k", **kwargs):
-        """Plot length and with text at its center.
+        """Plot length with text at its center.
 
         Parameters
         ----------
