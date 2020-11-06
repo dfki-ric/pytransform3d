@@ -150,7 +150,7 @@ plt.show()
 
 The following plots have been generated with pytransform3d.
 
-<img src="doc/source/_static/rotations_axis_angle.png" height=300px/><img src="doc/source/_static/trajectories.png" height=300px/><img src="doc/source/_static/cylinders.png" height=300px/><img src="paper/plot_urdf.png" height=300px/><img src="doc/source/_static/transform_manager_mesh.png" height=300px/><img src="paper/app_transformation_editor.png" height=300px/>
+<img src="doc/source/_static/rotations_axis_angle.png" height=300px/><img src="doc/source/_static/trajectories.png" height=300px/><img src="doc/source/_static/cylinders.png" height=300px/><img src="paper/plot_urdf.png" height=300px/><img src="doc/source/_static/transform_manager_mesh.png" height=300px/><img src="paper/app_transformation_editor.png" height=300px/><img src="doc/source/_static/accelerate_cylinder.png" height=300px/>
 
 ## Tests
 
