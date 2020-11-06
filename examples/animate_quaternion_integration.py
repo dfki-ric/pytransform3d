@@ -18,13 +18,13 @@ def update_lines(step, Q, rot):
     R = matrix_from_quaternion(Q[step])
 
     # Draw new frame
-    rot[0].set_data([0, R[0, 0]], [0, R[1, 0]])
+    rot[0].set_data(np.array([0, R[0, 0]]), [0, R[1, 0]])
     rot[0].set_3d_properties([0, R[2, 0]])
 
-    rot[1].set_data([0, R[0, 1]], [0, R[1, 1]])
+    rot[1].set_data(np.array([0, R[0, 1]]), [0, R[1, 1]])
     rot[1].set_3d_properties([0, R[2, 1]])
 
-    rot[2].set_data([0, R[0, 2]], [0, R[1, 2]])
+    rot[2].set_data(np.array([0, R[0, 2]]), [0, R[1, 2]])
     rot[2].set_3d_properties([0, R[2, 2]])
 
     return rot
