@@ -284,7 +284,7 @@ try:
         return ax
 
 
-    def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l", ax_s=1, color="k", **kwargs):
+    def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l", above=False, ax_s=1, color="k", **kwargs):
         """Plot length with text at its center.
 
         Parameters
@@ -301,6 +301,9 @@ try:
         name : str, optional (default: 'l')
             Text in the middle
 
+        above : bool, optional (default: False)
+            Plot name above line
+
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
 
@@ -315,12 +318,14 @@ try:
 
         direction = end - start
         length = np.linalg.norm(direction)
-        mid1 = start + 0.4 * direction
-        mid2 = start + 0.6 * direction
-        mid = start + 0.45 * direction
 
-        ax.plot([start[0], mid1[0]], [start[1], mid1[1]], [start[2], mid1[2]], color=color)
-        ax.plot([end[0], mid2[0]], [end[1], mid2[1]], [end[2], mid2[2]], color=color)
+        if above:
+            ax.plot([start[0], end[0]], [start[1], end[1]], [start[2], end[2]], color=color)
+        else:
+            mid1 = start + 0.4 * direction
+            mid2 = start + 0.6 * direction
+            ax.plot([start[0], mid1[0]], [start[1], mid1[1]], [start[2], mid1[2]], color=color)
+            ax.plot([end[0], mid2[0]], [end[1], mid2[1]], [end[2], mid2[2]], color=color)
 
         if np.linalg.norm(direction / length - unitz) < np.finfo(float).eps:
             axis = unitx
@@ -340,7 +345,10 @@ try:
                 [mark_end1[1], mark_end2[1]],
                 [mark_end1[2], mark_end2[2]],
                 color=color)
-        ax.text(mid[0], mid[1], mid[2], name, zdir="x", **kwargs)
+        text_location = start + 0.45 * direction
+        if above:
+            text_location[2] += 0.3 * length
+        ax.text(text_location[0], text_location[1], text_location[2], name, zdir="x", **kwargs)
 
         return ax
 
