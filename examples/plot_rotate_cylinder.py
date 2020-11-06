@@ -1,5 +1,10 @@
 """
-TODO
+===============
+Rotate Cylinder
+===============
+
+In this example, we apply a constant torque (tau) to a cylinder at its
+center of gravity and plot it at several steps during the acceleration.
 """
 import numpy as np
 import matplotlib.pyplot as plt
