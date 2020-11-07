@@ -557,7 +557,7 @@ try:
         return ax
 
 
-    def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0, A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100, color="k"):
+    def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0, A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100, alpha=1.0, color="k"):
         """Plot cylinder.
 
         Parameters
@@ -587,6 +587,9 @@ try:
 
         n_steps : int, optional (default: 100)
             Number of discrete steps plotted in each dimension
+
+        alpha : float, optional (default: 1)
+            Alpha value of the mesh that will be plotted
 
         color : str, optional (default: black)
             Color in which the cylinder should be plotted
@@ -642,9 +645,10 @@ try:
                        radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
 
         if wireframe:
-            ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, color=color)
+            ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, alpha=alpha,
+                              color=color)
         else:
-            ax.plot_surface(X, Y, Z, color=color, alpha=0.2, linewidth=0)
+            ax.plot_surface(X, Y, Z, color=color, alpha=alpha, linewidth=0)
 
         return ax
 
