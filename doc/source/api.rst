@@ -276,4 +276,5 @@ Testing
 
    ~pytransform3d.plot_utils.Arrow3D
    ~pytransform3d.plot_utils.Frame
+   ~pytransform3d.plot_utils.LabeledFrame
    ~pytransform3d.plot_utils.Trajectory

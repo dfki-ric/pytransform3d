@@ -25,7 +25,7 @@ try:
         s : float, optional (default: 1)
             Length of basis vectors
 
-        Other arguments except 'c' and 'color' are passed onto Line3D.
+        Other arguments except 'c' and 'color' are passed on to Line3D.
         """
         def __init__(self, A2B, label=None, s=1.0, **kwargs):
             super(Frame, self).__init__()
@@ -101,6 +101,77 @@ try:
             if self.draw_label:
                 axis.add_line(self.label_indicator)
                 axis._add_text(self.label_text)
+
+
+    class LabeledFrame(Frame):
+        """A Matplotlib artist that displays a frame represented by its basis.
+
+        This frame also has axis labels in addition to the standard Frame.
+
+        Parameters
+        ----------
+        A2B : array-like, shape (4, 4)
+            Transform from frame A to frame B
+
+        label : str, optional (default: None)
+            Name of the frame
+
+        s : float, optional (default: 1)
+            Length of basis vectors
+
+        Other arguments except 'c' and 'color' are passed on to Line3D.
+        """
+        def __init__(self, A2B, label=None, s=1.0, **kwargs):
+            self.x_label = Text3D(0, 0, 0, text="", zdir="x")
+            self.y_label = Text3D(0, 0, 0, text="", zdir="x")
+            self.z_label = Text3D(0, 0, 0, text="", zdir="x")
+            super(LabeledFrame, self).__init__(A2B, label=None, s=1.0, **kwargs)
+
+        def set_data(self, A2B, label=None):
+            """Set the transformation data.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Transform from frame A to frame B
+
+            label : str, optional (default: None)
+                Name of the frame
+            """
+            super(LabeledFrame, self).set_data(A2B, label)
+
+            R = A2B[:3, :3]
+            p = A2B[:3, 3]
+            x_label_location = p + 1.1 * self.s * R[:, 0]
+            y_label_location = p + 1.1 * self.s * R[:, 1]
+            z_label_location = p + 1.1 * self.s * R[:, 2]
+
+            self.x_label.set_text("x")
+            self.x_label.set_position(x_label_location[:2])
+            self.x_label.set_3d_properties(x_label_location[2], zdir="x")
+
+            self.y_label.set_text("y")
+            self.y_label.set_position(y_label_location[:2])
+            self.y_label.set_3d_properties(y_label_location[2], zdir="x")
+
+            self.z_label.set_text("z")
+            self.z_label.set_position(z_label_location[:2])
+            self.z_label.set_3d_properties(z_label_location[2], zdir="x")
+
+        @artist.allow_rasterization
+        def draw(self, renderer, *args, **kwargs):
+            """Draw the artist."""
+            self.x_label.draw(renderer, *args, **kwargs)
+            self.y_label.draw(renderer, *args, **kwargs)
+            self.z_label.draw(renderer, *args, **kwargs)
+            super(LabeledFrame, self).draw(renderer, *args, **kwargs)
+
+        def add_frame(self, axis):
+            """Add the frame to a 3D axis."""
+            super(LabeledFrame, self).add_frame(axis)
+            axis._add_text(self.x_label)
+            axis._add_text(self.y_label)
+            axis._add_text(self.z_label)
 
 
     class Trajectory(artist.Artist):
