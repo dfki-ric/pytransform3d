@@ -265,7 +265,7 @@ Reference:
 
 Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
 IEEE Robotics and Automation Magazine.
-PDF: https://core.ac.uk/download/pdf/77055186.pdf.
+PDF: https://openresearch.lsbu.ac.uk/download/641fa36d365e0244b27dd2fc8b881a12061afe1eb5c3952bae15614d3d831710/185181/01598057.pdf.
 
 -------------------------------------
 Source in Target vs. Source to Target
