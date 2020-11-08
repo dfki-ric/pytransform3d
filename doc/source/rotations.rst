@@ -112,13 +112,13 @@ by applying the rotation
 .. warning::
 
     There are two different conventions on how to concatenate rotation
-    matrices. Suppose we have a rotation matrix :math:`R` and another matrix
-    :math:`R'` with which we would like to rotate :math:`R`. We can multiply
-    :math:`R \cdot R'` or :math:`R' \cdot R`. The first option
-    :math:`R \cdot R'` means that the rotation :math:`R'` is applied in the
-    local coordinate frame defined by :math:`R`. The second option
-    :math:`R' \cdot R` is equivalent to rotating :math:`R` in the global
-    coordinate system.
+    matrices. Suppose we have a rotation matrix :math:`R_1` and another matrix
+    :math:`R_2` and we want to first rotate by :math:`R_1` and then by
+    :math:`R_2`. If we want to apply both rotations in global coordinates, we
+    have to concatenate them with :math:`R_1 \cdot R_2`. We can also express
+    the second rotation in terms of a local, body-fixed coordinates by
+    :math:`R_2 \cdot R_1`, which means :math:`R_1` defines new coordinates in
+    which :math:`R_2` is applied.
 
 **Pros**
 
