@@ -115,10 +115,11 @@ by applying the rotation
     matrices. Suppose we have a rotation matrix :math:`R_1` and another matrix
     :math:`R_2` and we want to first rotate by :math:`R_1` and then by
     :math:`R_2`. If we want to apply both rotations in global coordinates, we
-    have to concatenate them with :math:`R_1 \cdot R_2`. We can also express
+    have to concatenate them with :math:`R_2 \cdot R_1`. We can also express
     the second rotation in terms of a local, body-fixed coordinates by
-    :math:`R_2 \cdot R_1`, which means :math:`R_1` defines new coordinates in
-    which :math:`R_2` is applied.
+    :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates in
+    which :math:`R_2` is applied. Note that this only applies to the passive
+    transformation convention that we use here.
 
 **Pros**
 
