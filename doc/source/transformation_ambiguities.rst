@@ -85,6 +85,10 @@ right-handed system and with the left hand in a left-handed system.
 Active (Alibi) vs. Passive (Alias) Transformation
 -------------------------------------------------
 
+.. image:: _static/active_passive.svg
+   :alt: Passive vs. active transformation
+   :align: center
+
 An active transformation
 
 * changes the physical position of an object
@@ -259,7 +263,7 @@ Its transformed version is usually used for a passive transformation:
 
 .. note::
 
-    The default in pytransform3d are passive transformations.
+    Rotation matrices represent passive transformations by default in pytransform3d.
 
 Reference:
 
