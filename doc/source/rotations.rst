@@ -118,8 +118,8 @@ by applying the rotation
     have to concatenate them with :math:`R_2 \cdot R_1`. We can also express
     the second rotation in terms of a local, body-fixed coordinates by
     :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates in
-    which :math:`R_2` is applied. Note that this only applies to the passive
-    transformation convention that we use here.
+    which :math:`R_2` is applied. Note that this applies to both
+    passive and active rotation matrices.
 
 **Pros**
 

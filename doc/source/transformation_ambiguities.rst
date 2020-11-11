@@ -294,49 +294,18 @@ Intrinsic vs. Extrinsic Rotation
 --------------------------------
 
 A similar problem occurs when we want to concatenate rotations:
-suppose we have two rotations matrices :math:`\boldsymbol R` and
-:math:`\boldsymbol R` and we want to concatenate them. We can either
-compute :math:`\boldsymbol R \boldsymbol R'` or
-:math:`\boldsymbol R' \boldsymbol R`. The following equality holds:
-:math:`(\boldsymbol R' \boldsymbol R)^T = \boldsymbol R^T \boldsymbol R'^T`.
+suppose we have a rotation matrix :math:`R_1` and another matrix
+:math:`R_2` and we want to first rotate by :math:`R_1` and then by
+:math:`R_2`. If we want to apply both rotations in global coordinates
+(extrinsic rotation), we have to concatenate them with
+:math:`R_2 \cdot R_1`. We can also express the second rotation in terms
+of a local, body-fixed coordinates (intrinsic rotation) by
+:math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates
+in which :math:`R_2` is applied. Note that this applies to both
+passive and active rotation matrices.
 
-:math:`R \cdot R'` means that the rotation :math:`R'` is applied in the
-local coordinate frame defined by :math:`R`. The second option
-:math:`R' \cdot R` is equivalent to rotating :math:`R` in the global
-coordinate system.
-
-In the following plot you see the original frame in the background.
-The first rotation :math:`R` rotates 45 degrees about the x-axis.
-The result can be seen in the middle. The second rotation :math:`R'`
-rotates 90 degrees about the z-axis. On the left side, we compute
-:math:`R'R`. The result is that the rotation about the z-axis is
-done before the rotation about the x-axis or the rotation about the
-z-axis is an extrinsic rotation because it is applied in the global
-coordinate system. On the right side we see the result of :math:`RR'`.
-The rotation about the z-axis is applied after the rotation about the
-x-axis, hence, it is applied to the local coordinate system. It
-can be called and intrinsic rotation.
-
-.. plot::
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
-    from pytransform3d.rotations import *
-
-
-    ax = plot_basis(R=np.eye(3), p=np.array([-1.0, 0.0, 0.0]), ax_s=2)
-
-    R1 = matrix_from_angle(0, np.pi / 4.0)
-    R2 = matrix_from_angle(2, np.pi / 2.0)
-
-    plot_basis(ax, R1, np.array([1.0, 0.0, 0.0]))
-    plot_basis(ax, R1.dot(R2), np.array([1.0, 1.5, 0.0]))
-    plot_basis(ax, R2.dot(R1), np.array([1.0, -1.5, 0.0]))
-
-    ax.view_init(azim=10, elev=25)
-
-    plt.show()
+.. plot:: ../../examples/plot_convention_rotation_global_local.py
+    :include-source:
 
 .. note::
 
