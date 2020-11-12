@@ -311,6 +311,22 @@ def test_matrix_from_angle():
     assert_array_almost_equal(R, np.array([[0, 1, 0], [-1, 0, 0], [0, 0, 1]]))
 
 
+def test_active_matrix_from_angle():
+    """Sanity checks for rotation around basis vectors."""
+    assert_raises_regexp(ValueError, "Basis must be in",
+                         active_matrix_from_angle, -1, 0)
+    assert_raises_regexp(ValueError, "Basis must be in",
+                         active_matrix_from_angle, 3, 0)
+
+    random_state = np.random.RandomState(21)
+    for i in range(20):
+        basis = random_state.randint(0, 3)
+        angle = 2.0 * np.pi * random_state.rand() - np.pi
+        R_passive = passive_matrix_from_angle(basis, angle)
+        R_active = active_matrix_from_angle(basis, angle)
+        assert_array_almost_equal(R_active, R_passive.T)
+
+
 def test_conversions_matrix_euler_xyz():
     """Test conversions between rotation matrix and xyz Euler angles."""
     random_state = np.random.RandomState(0)

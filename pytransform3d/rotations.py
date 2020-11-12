@@ -512,7 +512,7 @@ def matrix_from_quaternion(q):
 
 
 def matrix_from_angle(basis, angle):
-    """Compute rotation matrix from rotation around basis vector.
+    """Compute passive rotation matrix from rotation around basis vector.
 
     The combined rotation matrices are either extrinsic and can be used with
     pre-multiplied column vectors or they are intrinsic and can be used with
@@ -546,6 +546,46 @@ def matrix_from_angle(basis, angle):
     elif basis == 2:
         R = np.array([[c, s, 0.0],
                       [-s, c, 0.0],
+                      [0.0, 0.0, 1.0]])
+    else:
+        raise ValueError("Basis must be in [0, 1, 2]")
+
+    return R
+
+
+passive_matrix_from_angle = matrix_from_angle
+
+
+def active_matrix_from_angle(basis, angle):
+    """Compute active rotation matrix from rotation around basis vector.
+
+    Parameters
+    ----------
+    basis : int from [0, 1, 2]
+        The rotation axis (0: x, 1: y, 2: z)
+
+    angle : float
+        Rotation angle
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    c = np.cos(angle)
+    s = np.sin(angle)
+
+    if basis == 0:
+        R = np.array([[1.0, 0.0, 0.0],
+                      [0.0, c, -s],
+                      [0.0, s, c]])
+    elif basis == 1:
+        R = np.array([[c, 0.0, s],
+                      [0.0, 1.0, 0.0],
+                      [-s, 0.0, c]])
+    elif basis == 2:
+        R = np.array([[c, -s, 0.0],
+                      [s, c, 0.0],
                       [0.0, 0.0, 1.0]])
     else:
         raise ValueError("Basis must be in [0, 1, 2]")
