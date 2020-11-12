@@ -645,6 +645,44 @@ def matrix_from_euler_zyx(e):
     return R
 
 
+def active_matrix_from_intrinsic_euler_zxz(e):
+    """Compute active rotation matrix from intrinsic zxz Euler angles.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Angles for rotation around z-, y'-, and z''-axes (intrinsic rotations)
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    alpha, beta, gamma = e
+    R = active_matrix_from_angle(2, alpha).dot(
+        active_matrix_from_angle(0, beta)).dot(
+        active_matrix_from_angle(2, gamma))
+    return R
+
+
+def active_matrix_from_extrinsic_euler_zxz(e):
+    """Compute active rotation matrix from extrinsic zxz Euler angles.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Angles for rotation around z-, y-, and z-axes (extrinsic rotations)
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    # The difference between extrinsic and intrinsic rotation is the order of
+    # rotations and because the reverse of zxz is zxz this is exactly the same.
+    return active_matrix_from_intrinsic_euler_zxz(e)
+
+
 def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     """Compute rotation matrix from another representation.
 
