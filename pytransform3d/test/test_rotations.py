@@ -459,6 +459,78 @@ def test_active_matrix_from_extrinsic_euler_zxz():
     )
 
 
+def test_active_matrix_from_intrinsic_euler_zyz():
+    """Test conversion from intrinsic zyz Euler angles."""
+    assert_array_almost_equal(
+        active_matrix_from_intrinsic_euler_zyz([0.5 * np.pi, 0, 0]),
+        np.array([
+            [0, -1, 0],
+            [1, 0, 0],
+            [0, 0, 1]
+        ])
+    )
+    assert_array_almost_equal(
+        active_matrix_from_intrinsic_euler_zyz([0.5 * np.pi, 0, 0.5 * np.pi]),
+        np.array([
+            [-1, 0, 0],
+            [0, -1, 0],
+            [0, 0, 1]
+        ])
+    )
+    assert_array_almost_equal(
+        active_matrix_from_intrinsic_euler_zyz([0.5 * np.pi, 0.5 * np.pi, 0]),
+        np.array([
+            [0, -1, 0],
+            [0, 0, 1],
+            [-1, 0, 0]
+        ])
+    )
+    assert_array_almost_equal(
+        active_matrix_from_intrinsic_euler_zyz([0.5 * np.pi, 0.5 * np.pi, 0.5 * np.pi]),
+        np.array([
+            [-1, 0, 0],
+            [0, 0, 1],
+            [0, 1, 0]
+        ])
+    )
+
+
+def test_active_matrix_from_extrinsic_euler_zyz():
+    """Test conversion from extrinsic zyz Euler angles."""
+    assert_array_almost_equal(
+        active_matrix_from_extrinsic_euler_zyz([0.5 * np.pi, 0, 0]),
+        np.array([
+            [0, -1, 0],
+            [1, 0, 0],
+            [0, 0, 1]
+        ])
+    )
+    assert_array_almost_equal(
+        active_matrix_from_extrinsic_euler_zyz([0.5 * np.pi, 0, 0.5 * np.pi]),
+        np.array([
+            [-1, 0, 0],
+            [0, -1, 0],
+            [0, 0, 1]
+        ])
+    )
+    assert_array_almost_equal(
+        active_matrix_from_extrinsic_euler_zyz([0.5 * np.pi, 0.5 * np.pi, 0]),
+        np.array([
+            [0, -1, 0],
+            [0, 0, 1],
+            [-1, 0, 0]
+        ])
+    )
+    assert_array_almost_equal(
+        active_matrix_from_extrinsic_euler_zyz([0.5 * np.pi, 0.5 * np.pi, 0.5 * np.pi]),
+        np.array([
+            [-1, 0, 0],
+            [0, 0, 1],
+            [0, 1, 0]
+        ])
+    )
+
+
 def test_conversions_matrix_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
     R = np.eye(3)
