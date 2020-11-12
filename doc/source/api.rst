@@ -54,10 +54,12 @@ Conversions to Rotation Matrix
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform3d.rotations.matrix_from_angle
+   ~pytransform3d.rotations.passive_matrix_from_angle
+   ~pytransform3d.rotations.active_matrix_from_angle
    ~pytransform3d.rotations.matrix_from_axis_angle
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
-   ~pytransform3d.rotations.matrix_from_angle
    ~pytransform3d.rotations.matrix_from_euler_xyz
    ~pytransform3d.rotations.matrix_from_euler_zyx
    ~pytransform3d.rotations.matrix_from
