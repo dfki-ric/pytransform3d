@@ -223,6 +223,11 @@ def concat(A2B, B2C, strict_check=True):
         Raise a ValueError if the transformation matrix is not numerically
         close enough to a real transformation matrix. Otherwise we print a
         warning.
+
+    Returns
+    -------
+    A2C : array-like, shape (4, 4)
+        Transform from frame A to frame C
     """
     A2B = check_transform(A2B, strict_check=strict_check)
     B2C = check_transform(B2C, strict_check=strict_check)

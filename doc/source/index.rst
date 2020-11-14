@@ -33,6 +33,7 @@ Table of Contents
    rotations
    transformations
    transformation_ambiguities
+   transformation_modeling
    transform_manager
    camera
    animations
