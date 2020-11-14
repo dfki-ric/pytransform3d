@@ -12,7 +12,7 @@ import sphinx_bootstrap_theme
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    #'sphinx.ext.intersphinx',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     #'sphinx.ext.mathjax',
@@ -31,7 +31,7 @@ source_suffix = '.rst'
 source_encoding = 'utf-8-sig'
 master_doc = 'index'
 project = u'pytransform3d'
-copyright = u'2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center'
+copyright = u'2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center'
 version = __import__("pytransform3d").__version__
 release = __import__("pytransform3d").__version__
 language = 'en'
@@ -51,10 +51,11 @@ html_show_copyright = True
 
 autosummary_generate = True
 autodoc_default_flags = ['members', 'inherited-members']
+# Seems to be fixed now and only applies to old versions:
 # The problem is that the numpydoc doc scraper is building
 # autosummary documentation after autosummary has already run.
 # To avoid warnings, we have to set this to variable.
 # Source: http://stackoverflow.com/questions/12206334
-numpydoc_show_class_members = False
+#numpydoc_show_class_members = True
 
 intersphinx_mapping = {'http://docs.python.org/': None}
