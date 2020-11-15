@@ -594,11 +594,7 @@ def active_matrix_from_angle(basis, angle):
 
 
 def matrix_from_euler_xyz(e):
-    """Compute rotation matrix from xyz Euler angles.
-
-    Intrinsic rotations are used to create the transformation matrix
-    from three concatenated rotations.
-    The xyz convention is usually used in physics and chemistry.
+    """Compute passive rotation matrix from intrinsic xyz Tait-Bryan angles.
 
     Parameters
     ----------
@@ -611,20 +607,14 @@ def matrix_from_euler_xyz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    # We use intrinsic rotations
-    Qx = matrix_from_angle(0, alpha)
-    Qy = matrix_from_angle(1, beta)
-    Qz = matrix_from_angle(2, gamma)
-    R = Qx.dot(Qy).dot(Qz)
+    R = passive_matrix_from_angle(0, alpha).dot(
+        passive_matrix_from_angle(1, beta)).dot(
+        passive_matrix_from_angle(2, gamma))
     return R
 
 
 def matrix_from_euler_zyx(e):
-    """Compute rotation matrix from zyx (yaw-pitch-roll) Euler angles.
-
-    Intrinsic rotations are used to create the transformation matrix
-    from three concatenated rotations.
-    The zyx convention is usually used for aircraft dynamics.
+    """Compute passive rotation matrix from intrinsic zyx Tait-Bryan angles.
 
     Parameters
     ----------
@@ -637,11 +627,9 @@ def matrix_from_euler_zyx(e):
         Rotation matrix
     """
     gamma, beta, alpha = e
-    # We use intrinsic rotations
-    Qz = matrix_from_angle(2, gamma)
-    Qy = matrix_from_angle(1, beta)
-    Qx = matrix_from_angle(0, alpha)
-    R = Qz.dot(Qy).dot(Qx)
+    R = passive_matrix_from_angle(2, gamma).dot(
+        passive_matrix_from_angle(1, beta)).dot(
+        passive_matrix_from_angle(0, alpha))
     return R
 
 
