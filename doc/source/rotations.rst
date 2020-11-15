@@ -47,12 +47,14 @@ Note that
 
 .. warning::
 
-    There are two conventions on how to interpret rotation matrices. We use
-    the passive convention. The passive convention assumes that the reference
-    coordinate system is changed by the rotation, rotated vectors or points
-    stay at their position and are reinterpreted in the new coordinate system.
-    Another convention is the active convention. We can easily convert rotation
-    matrices between the two conventions by transposing them.
+    There are two conventions on how to interpret rotations: active
+    or passive rotation. The standard in pytransform3d is an active rotation.
+    Note that there are some functions to generate rotation matrices that
+    generate passive rotations as well: :func:`~pytransform3d.rotations.matrix_from_angle`,
+    :func:`~pytransform3d.rotations.matrix_from_euler_xyz`, and
+    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
+    for backward compatibility. When in doubt, read the docstring, which
+    clearly states that a passive convention is used here.
 
 We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
 :math:`_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}` from frame :math:`B` to frame
