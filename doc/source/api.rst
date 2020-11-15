@@ -66,6 +66,7 @@ Conversions to Rotation Matrix
    ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz
    ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz
+   ~pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw
    ~pytransform3d.rotations.matrix_from
 
 Conversions to Euler Angles

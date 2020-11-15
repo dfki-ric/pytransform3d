@@ -721,6 +721,26 @@ def active_matrix_from_extrinsic_euler_zyz(e):
     return active_matrix_from_intrinsic_euler_zyz(e)
 
 
+def active_matrix_from_extrinsic_roll_pitch_yaw(rpy):
+    """Compute active rotation matrix from extrinsic roll, pitch, and yaw.
+
+    Parameters
+    ----------
+    rpy : array-like, shape (3,)
+        Angles for rotation around x- (roll), y- (pitch), and z-axes (yaw), extrinsic rotations
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    roll, pitch, yaw = rpy
+    R = active_matrix_from_angle(2, yaw).dot(
+        active_matrix_from_angle(1, pitch)).dot(
+        active_matrix_from_angle(0, roll))
+    return R
+
+
 def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     """Compute rotation matrix from another representation.
 
