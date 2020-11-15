@@ -4,7 +4,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat
-from .rotations import matrix_from_euler_xyz, matrix_from_axis_angle
+from .rotations import active_matrix_from_extrinsic_roll_pitch_yaw, matrix_from_axis_angle
 from .plot_utils import make_3d_axis, plot_mesh, plot_cylinder, plot_sphere, plot_box
 
 
@@ -242,12 +242,10 @@ class UrdfTransformManager(TransformManager):
             if origin.has_attr("rpy"):
                 roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
                 # URDF and KDL use the active convention for rotation matrices.
-                # To convert the defined rotation to the passive convention we
-                # must invert (transpose) the matrix. For more details on how
-                # the URDF parser handles the conversion from Euler angles,
-                # see this blog post:
+                # For more details on how the URDF parser handles the conversion
+                # from Euler angles, see this blog post:
                 # https://orbitalstation.wordpress.com/tag/quaternion/
-                rotation = matrix_from_euler_xyz(roll_pitch_yaw).T
+                rotation = active_matrix_from_extrinsic_roll_pitch_yaw(roll_pitch_yaw)
         return transform_from(rotation, translation)
 
     def _parse_limits(self, joint):
