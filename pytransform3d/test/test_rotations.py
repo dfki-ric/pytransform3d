@@ -641,6 +641,25 @@ def test_conversions_matrix_compact_axis_angle():
         assert_rotation_matrix(R2)
 
 
+def test_active_rotation_is_default():
+    """Test that rotations are active by default."""
+    Rx = active_matrix_from_angle(0, 0.5 * np.pi)
+    ax = np.array([1, 0, 0, 0.5 * np.pi])
+    qx = quaternion_from_axis_angle(ax)
+    assert_array_almost_equal(Rx, matrix_from_axis_angle(ax))
+    assert_array_almost_equal(Rx, matrix_from_quaternion(qx))
+    Ry = active_matrix_from_angle(1, 0.5 * np.pi)
+    ay = np.array([0, 1, 0, 0.5 * np.pi])
+    qy = quaternion_from_axis_angle(ay)
+    assert_array_almost_equal(Ry, matrix_from_axis_angle(ay))
+    assert_array_almost_equal(Ry, matrix_from_quaternion(qy))
+    Rz = active_matrix_from_angle(2, 0.5 * np.pi)
+    az = np.array([0, 0, 1, 0.5 * np.pi])
+    qz = quaternion_from_axis_angle(az)
+    assert_array_almost_equal(Rz, matrix_from_axis_angle(az))
+    assert_array_almost_equal(Rz, matrix_from_quaternion(qz))
+
+
 def test_issue43():
     """Test axis_angle_from_matrix() with angles close to 0 and pi."""
     a = np.array([-1., 1., 1., np.pi - 5e-8])
