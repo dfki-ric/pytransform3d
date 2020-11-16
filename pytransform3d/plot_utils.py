@@ -25,7 +25,7 @@ try:
         s : float, optional (default: 1)
             Length of basis vectors
 
-        Other arguments except 'c' and 'color' are passed onto Line3D.
+        Other arguments except 'c' and 'color' are passed on to Line3D.
         """
         def __init__(self, A2B, label=None, s=1.0, **kwargs):
             super(Frame, self).__init__()
@@ -101,6 +101,75 @@ try:
             if self.draw_label:
                 axis.add_line(self.label_indicator)
                 axis._add_text(self.label_text)
+
+
+    class LabeledFrame(Frame):
+        """Displays a frame represented by its basis with axis labels.
+
+        Parameters
+        ----------
+        A2B : array-like, shape (4, 4)
+            Transform from frame A to frame B
+
+        label : str, optional (default: None)
+            Name of the frame
+
+        s : float, optional (default: 1)
+            Length of basis vectors
+
+        Other arguments except 'c' and 'color' are passed on to Line3D.
+        """
+        def __init__(self, A2B, label=None, s=1.0, **kwargs):
+            self.x_label = Text3D(0, 0, 0, text="", zdir="x")
+            self.y_label = Text3D(0, 0, 0, text="", zdir="x")
+            self.z_label = Text3D(0, 0, 0, text="", zdir="x")
+            super(LabeledFrame, self).__init__(A2B, label=None, s=1.0, **kwargs)
+
+        def set_data(self, A2B, label=None):
+            """Set the transformation data.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Transform from frame A to frame B
+
+            label : str, optional (default: None)
+                Name of the frame
+            """
+            super(LabeledFrame, self).set_data(A2B, label)
+
+            R = A2B[:3, :3]
+            p = A2B[:3, 3]
+            x_label_location = p + 1.1 * self.s * R[:, 0]
+            y_label_location = p + 1.1 * self.s * R[:, 1]
+            z_label_location = p + 1.1 * self.s * R[:, 2]
+
+            self.x_label.set_text("x")
+            self.x_label.set_position(x_label_location[:2])
+            self.x_label.set_3d_properties(x_label_location[2], zdir="x")
+
+            self.y_label.set_text("y")
+            self.y_label.set_position(y_label_location[:2])
+            self.y_label.set_3d_properties(y_label_location[2], zdir="x")
+
+            self.z_label.set_text("z")
+            self.z_label.set_position(z_label_location[:2])
+            self.z_label.set_3d_properties(z_label_location[2], zdir="x")
+
+        @artist.allow_rasterization
+        def draw(self, renderer, *args, **kwargs):
+            """Draw the artist."""
+            self.x_label.draw(renderer, *args, **kwargs)
+            self.y_label.draw(renderer, *args, **kwargs)
+            self.z_label.draw(renderer, *args, **kwargs)
+            super(LabeledFrame, self).draw(renderer, *args, **kwargs)
+
+        def add_frame(self, axis):
+            """Add the frame to a 3D axis."""
+            super(LabeledFrame, self).add_frame(axis)
+            axis._add_text(self.x_label)
+            axis._add_text(self.y_label)
+            axis._add_text(self.z_label)
 
 
     class Trajectory(artist.Artist):
@@ -284,7 +353,7 @@ try:
         return ax
 
 
-    def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l", ax_s=1, color="k", **kwargs):
+    def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l", above=False, ax_s=1, color="k", **kwargs):
         """Plot length with text at its center.
 
         Parameters
@@ -301,6 +370,9 @@ try:
         name : str, optional (default: 'l')
             Text in the middle
 
+        above : bool, optional (default: False)
+            Plot name above line
+
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
 
@@ -315,12 +387,14 @@ try:
 
         direction = end - start
         length = np.linalg.norm(direction)
-        mid1 = start + 0.4 * direction
-        mid2 = start + 0.6 * direction
-        mid = start + 0.45 * direction
 
-        ax.plot([start[0], mid1[0]], [start[1], mid1[1]], [start[2], mid1[2]], color=color)
-        ax.plot([end[0], mid2[0]], [end[1], mid2[1]], [end[2], mid2[2]], color=color)
+        if above:
+            ax.plot([start[0], end[0]], [start[1], end[1]], [start[2], end[2]], color=color)
+        else:
+            mid1 = start + 0.4 * direction
+            mid2 = start + 0.6 * direction
+            ax.plot([start[0], mid1[0]], [start[1], mid1[1]], [start[2], mid1[2]], color=color)
+            ax.plot([end[0], mid2[0]], [end[1], mid2[1]], [end[2], mid2[2]], color=color)
 
         if np.linalg.norm(direction / length - unitz) < np.finfo(float).eps:
             axis = unitx
@@ -340,7 +414,10 @@ try:
                 [mark_end1[1], mark_end2[1]],
                 [mark_end1[2], mark_end2[2]],
                 color=color)
-        ax.text(mid[0], mid[1], mid[2], name, zdir="x", **kwargs)
+        text_location = start + 0.45 * direction
+        if above:
+            text_location[2] += 0.3 * length
+        ax.text(text_location[0], text_location[1], text_location[2], name, zdir="x", **kwargs)
 
         return ax
 
@@ -478,7 +555,7 @@ try:
         return ax
 
 
-    def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0, A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100, color="k"):
+    def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0, A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100, alpha=1.0, color="k"):
         """Plot cylinder.
 
         Parameters
@@ -508,6 +585,9 @@ try:
 
         n_steps : int, optional (default: 100)
             Number of discrete steps plotted in each dimension
+
+        alpha : float, optional (default: 1)
+            Alpha value of the mesh that will be plotted
 
         color : str, optional (default: black)
             Color in which the cylinder should be plotted
@@ -563,9 +643,10 @@ try:
                        radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
 
         if wireframe:
-            ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, color=color)
+            ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, alpha=alpha,
+                              color=color)
         else:
-            ax.plot_surface(X, Y, Z, color=color, alpha=0.2, linewidth=0)
+            ax.plot_surface(X, Y, Z, color=color, alpha=alpha, linewidth=0)
 
         return ax
 

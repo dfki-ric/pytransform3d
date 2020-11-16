@@ -33,8 +33,10 @@ orientation = np.zeros(3)
 
 ax = None
 for p_xy in np.linspace(-2, 2, 21):
-    A2B = transform_from(R=matrix_from_compact_axis_angle(orientation), p=np.array([p_xy, p_xy, 0.0]))
-    ax = plot_cylinder(length=length, radius=radius, A2B=A2B, wireframe=False, ax_s=2.0, ax=ax)
+    A2B = transform_from(R=matrix_from_compact_axis_angle(orientation),
+                         p=np.array([p_xy, p_xy, 0.0]))
+    ax = plot_cylinder(length=length, radius=radius, A2B=A2B, wireframe=False,
+                       alpha=0.2, ax_s=2.0, ax=ax)
     plot_transform(ax=ax, A2B=A2B, s=radius, lw=3)
 
     angular_acceleration = np.linalg.inv(I).dot(tau)
