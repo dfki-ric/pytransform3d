@@ -416,10 +416,7 @@ def matrix_from_axis_angle(a):
 
     This is called exponential map or Rodrigues' formula.
 
-    Note that the rotation convention is different from the one used by Euler
-    angles. A rotation about a basis vector results in a transposed rotation
-    matrix in comparison to a corresponding Euler angles. The active / alibi
-    convention is used.
+    This typically results in an active rotation matrix.
 
     Parameters
     ----------
@@ -460,10 +457,7 @@ def matrix_from_compact_axis_angle(a):
 
     This is called exponential map or Rodrigues' formula.
 
-    Note that the rotation convention is different from the one used by Euler
-    angles. A rotation about a basis vector results in a transposed rotation
-    matrix in comparison to a corresponding Euler angles. The active / alibi
-    convention is used.
+    This typically results in an active rotation matrix.
 
     Parameters
     ----------
@@ -481,6 +475,8 @@ def matrix_from_compact_axis_angle(a):
 
 def matrix_from_quaternion(q):
     """Compute rotation matrix from quaternion.
+
+    This typically results in an active rotation matrix.
 
     Parameters
     ----------
@@ -513,11 +509,6 @@ def matrix_from_quaternion(q):
 
 def matrix_from_angle(basis, angle):
     """Compute passive rotation matrix from rotation around basis vector.
-
-    The combined rotation matrices are either extrinsic and can be used with
-    pre-multiplied column vectors or they are intrinsic and can be used with
-    post-multiplied row vectors. We use a right-hand system with right-hand
-    rotations. We use the passive / alias convention here.
 
     Parameters
     ----------
@@ -768,12 +759,12 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
 
 
 def euler_xyz_from_matrix(R, strict_check=True):
-    """Compute xyz Euler angles from rotation matrix.
+    """Compute xyz Euler angles from passive rotation matrix.
 
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Passive rotation matrix
 
     strict_check : bool, optional (default: True)
         Raise a ValueError if the rotation matrix is not numerically close
@@ -803,12 +794,12 @@ def euler_xyz_from_matrix(R, strict_check=True):
 
 
 def euler_zyx_from_matrix(R, strict_check=True):
-    """Compute zyx Euler angles from rotation matrix.
+    """Compute zyx Euler angles from passive rotation matrix.
 
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix
+        Passive rotation matrix
 
     strict_check : bool, optional (default: True)
         Raise a ValueError if the rotation matrix is not numerically close
@@ -845,10 +836,7 @@ def axis_angle_from_matrix(R, strict_check=True):
     This operation is called logarithmic map. Note that there are two possible
     solutions for the rotation axis when the angle is 180 degrees (pi).
 
-    Note that the rotation convention is different from the one used by Euler
-    angles. A rotation about a basis vector results in a transposed rotation
-    matrix in comparison to a corresponding Euler angles. The active / alibi
-    convention is used.
+    We usually assume active rotations.
 
     Parameters
     ----------
@@ -906,6 +894,8 @@ def axis_angle_from_quaternion(q):
 
     This operation is called logarithmic map.
 
+    We usually assume active rotations.
+
     Parameters
     ----------
     q : array-like, shape (4,)
@@ -930,6 +920,8 @@ def axis_angle_from_quaternion(q):
 
 def axis_angle_from_compact_axis_angle(a):
     """Compute axis-angle from compact axis-angle representation.
+
+    We usually assume active rotations.
 
     Parameters
     ----------
@@ -959,6 +951,8 @@ def compact_axis_angle(a):
     transform :math:`\\left( \\boldsymbol{\hat{e}}, \\theta \\right)` to
     :math:`\\theta \\boldsymbol{\hat{e}}`.
 
+    We usually assume active rotations.
+
     Parameters
     ----------
     a : array-like, shape (4,)
@@ -980,10 +974,7 @@ def compact_axis_angle_from_matrix(R):
     This operation is called logarithmic map. Note that there are two possible
     solutions for the rotation axis when the angle is 180 degrees (pi).
 
-    Note that the rotation convention is different from the one used by Euler
-    angles. A rotation about a basis vector results in a transposed rotation
-    matrix in comparison to a corresponding Euler angles. The active / alibi
-    convention is used.
+    We usually assume active rotations.
 
     Parameters
     ----------
@@ -1007,6 +998,8 @@ def compact_axis_angle_from_matrix(R):
 def compact_axis_angle_from_quaternion(q):
     """Compute compact axis-angle from quaternion (logarithmic map).
 
+    We usually assume active rotations.
+
     Parameters
     ----------
     q : array-like, shape (4,)
@@ -1024,6 +1017,8 @@ def compact_axis_angle_from_quaternion(q):
 
 def quaternion_from_matrix(R, strict_check=True):
     """Compute quaternion from rotation matrix.
+
+    We usually assume active rotations.
 
     .. warning::
 
@@ -1082,6 +1077,8 @@ def quaternion_from_axis_angle(a):
 
     This operation is called exponential map.
 
+    We usually assume active rotations.
+
     Parameters
     ----------
     a : array-like, shape (4,)
@@ -1103,6 +1100,8 @@ def quaternion_from_axis_angle(a):
 
 def quaternion_from_compact_axis_angle(a):
     """Compute quaternion from compact axis-angle (exponential map).
+
+    We usually assume active rotations.
 
     Parameters
     ----------
