@@ -2,7 +2,8 @@
 3D Rotations: SO(3)
 ===================
 
-The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`.
+The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`
+(SO: special orthogonal group).
 The minimum number of components that are required to describe any rotation
 from :math:`SO(3)` is 3. However, there is no representation that is
 non-redundant, continuous and free of singularities. We will now take a closer
