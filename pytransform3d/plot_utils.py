@@ -104,9 +104,7 @@ try:
 
 
     class LabeledFrame(Frame):
-        """A Matplotlib artist that displays a frame represented by its basis.
-
-        This frame also has axis labels in addition to the standard Frame.
+        """Displays a frame represented by its basis with axis labels.
 
         Parameters
         ----------
