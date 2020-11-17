@@ -3,6 +3,7 @@ import platform
 import numpy as np
 from pytransform3d.transformations import (random_transform, transform_from,
                                            invert_transform, vector_to_point,
+                                           vector_to_direction,
                                            concat, transform, scale_transform,
                                            assert_transform, check_transform,
                                            check_pq, pq_from_transform,
@@ -82,6 +83,20 @@ def test_vector_to_point():
     A2B = transform_from(R, p)
     assert_transform(A2B)
     pB = transform(A2B, pA)
+
+
+def test_vector_to_direction():
+    """Test conversion from vector to direction in homogenous coordinates."""
+    v = np.array([1, 2, 3])
+    dA = vector_to_direction(v)
+    assert_array_almost_equal(dA, [1, 2, 3, 0])
+
+    random_state = np.random.RandomState(0)
+    R = matrix_from(a=random_axis_angle(random_state))
+    p = random_vector(random_state)
+    A2B = transform_from(R, p)
+    assert_transform(A2B)
+    dB = transform(A2B, dA)
 
 
 def test_concat():

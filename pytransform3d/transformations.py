@@ -138,7 +138,7 @@ def invert_transform(A2B, strict_check=True):
 
 
 def translate_transform(A2B, p, strict_check=True):
-    """Translate transform.
+    """Sets the translation of a transform.
 
     Parameters
     ----------
@@ -166,7 +166,7 @@ def translate_transform(A2B, p, strict_check=True):
 
 
 def rotate_transform(A2B, R, strict_check=True):
-    """Rotate transform.
+    """Sets the rotation of a transform.
 
     Parameters
     ----------
@@ -195,10 +195,14 @@ def rotate_transform(A2B, R, strict_check=True):
 def vector_to_point(v):
     """Convert 3D vector to position.
 
+    A point (x, y, z) given by the components of a vector will be represented
+    by [x, y, z, 1] in homogeneous coordinates to which we can apply a
+    transformation.
+
     Parameters
     ----------
     v : array-like, shape (3,)
-        3D vector
+        3D vector that contains x, y, and z
 
     Returns
     -------
@@ -206,6 +210,26 @@ def vector_to_point(v):
         Point vector with 1 as last element
     """
     return np.hstack((v, 1))
+
+
+def vector_to_direction(v):
+    """Convert 3D vector to direction.
+
+    A direction (x, y, z) given by the components of a vector will be
+    represented by [x, y, z, 0] in homogeneous coordinates to which we can
+    apply a transformation.
+
+    Parameters
+    ----------
+    v : array-like, shape (3,)
+        3D vector that contains x, y, and z
+
+    Returns
+    -------
+    p : array-like, shape (4,)
+        Direction vector with 0 as last element
+    """
+    return np.hstack((v, 0))
 
 
 def concat(A2B, B2C, strict_check=True):
@@ -235,7 +259,7 @@ def concat(A2B, B2C, strict_check=True):
 
 
 def transform(A2B, PA, strict_check=True):
-    """Transform point or list of points.
+    """Transform point or list of points or directions.
 
     Parameters
     ----------
