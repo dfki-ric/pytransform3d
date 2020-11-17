@@ -212,6 +212,26 @@ def vector_to_point(v):
     return np.hstack((v, 1))
 
 
+def vectors_to_points(V):
+    """Convert 3D vectors to positions.
+
+    A point (x, y, z) given by the components of a vector will be represented
+    by [x, y, z, 1] in homogeneous coordinates to which we can apply a
+    transformation.
+
+    Parameters
+    ----------
+    V : array-like, shape (n_points, 3)
+        Each row is a 3D vector that contains x, y, and z
+
+    Returns
+    -------
+    P : array-like, shape (n_points, 4)
+        Each row is a point vector with 1 as last element
+    """
+    return np.hstack((V, np.ones((len(V), 1))))
+
+
 def vector_to_direction(v):
     """Convert 3D vector to direction.
 
@@ -230,6 +250,26 @@ def vector_to_direction(v):
         Direction vector with 0 as last element
     """
     return np.hstack((v, 0))
+
+
+def vectors_to_directions(V):
+    """Convert 3D vectors to directions.
+
+    A direction (x, y, z) given by the components of a vector will be
+    represented by [x, y, z, 0] in homogeneous coordinates to which we can
+    apply a transformation.
+
+    Parameters
+    ----------
+    V : array-like, shape (n_directions, 3)
+        Each row is a 3D vector that contains x, y, and z
+
+    Returns
+    -------
+    P : array-like, shape (n_directions, 4)
+        Each row is a direction vector with 0 as last element
+    """
+    return np.hstack((V, np.zeros((len(V), 1))))
 
 
 def concat(A2B, B2C, strict_check=True):

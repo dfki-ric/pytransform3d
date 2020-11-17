@@ -3,7 +3,8 @@ import platform
 import numpy as np
 from pytransform3d.transformations import (random_transform, transform_from,
                                            invert_transform, vector_to_point,
-                                           vector_to_direction,
+                                           vectors_to_points, vector_to_direction,
+                                           vectors_to_directions,
                                            concat, transform, scale_transform,
                                            assert_transform, check_transform,
                                            check_pq, pq_from_transform,
@@ -85,6 +86,18 @@ def test_vector_to_point():
     pB = transform(A2B, pA)
 
 
+def test_vectors_to_points():
+    """Test conversion from vectors to homogenous coordinates."""
+    V = np.array([[1, 2, 3], [2, 3, 4]])
+    PA = vectors_to_points(V)
+    assert_array_almost_equal(PA, [[1, 2, 3, 1], [2, 3, 4, 1]])
+
+    random_state = np.random.RandomState(0)
+    V = random_state.randn(10, 3)
+    for i, p in enumerate(vectors_to_points(V)):
+        assert_array_almost_equal(p, vector_to_point(V[i]))
+
+
 def test_vector_to_direction():
     """Test conversion from vector to direction in homogenous coordinates."""
     v = np.array([1, 2, 3])
@@ -97,6 +110,18 @@ def test_vector_to_direction():
     A2B = transform_from(R, p)
     assert_transform(A2B)
     dB = transform(A2B, dA)
+
+
+def test_vectors_to_directions():
+    """Test conversion from vectors to directions in homogenous coordinates."""
+    V = np.array([[1, 2, 3], [2, 3, 4]])
+    DA = vectors_to_directions(V)
+    assert_array_almost_equal(DA, [[1, 2, 3, 0], [2, 3, 4, 0]])
+
+    random_state = np.random.RandomState(0)
+    V = random_state.randn(10, 3)
+    for i, d in enumerate(vectors_to_directions(V)):
+        assert_array_almost_equal(d, vector_to_direction(V[i]))
 
 
 def test_concat():
