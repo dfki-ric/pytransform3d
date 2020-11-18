@@ -167,6 +167,9 @@ Testing
    ~pytransform3d.transformations.translate_transform
    ~pytransform3d.transformations.rotate_transform
    ~pytransform3d.transformations.vector_to_point
+   ~pytransform3d.transformations.vectors_to_points
+   ~pytransform3d.transformations.vector_to_direction
+   ~pytransform3d.transformations.vectors_to_directions
    ~pytransform3d.transformations.concat
    ~pytransform3d.transformations.transform
    ~pytransform3d.transformations.scale_transform
