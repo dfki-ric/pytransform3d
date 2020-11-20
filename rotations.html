@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>3D Rotations: SO(3) &#8212; pytransform3d 1.2 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Rotations: SO(3) &#8212; pytransform3d 1.3 documentation</title>
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -59,6 +60,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3D Rotations: SO(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
@@ -156,7 +158,8 @@
       
   <div class="section" id="d-rotations-so-3">
 <h1>3D Rotations: SO(3)<a class="headerlink" href="#d-rotations-so-3" title="Permalink to this headline">¶</a></h1>
-<p>The group of all rotations in the 3D Cartesian space is called <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/>.
+<p>The group of all rotations in the 3D Cartesian space is called <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/>
+(SO: special orthogonal group).
 The minimum number of components that are required to describe any rotation
 from <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/> is 3. However, there is no representation that is
 non-redundant, continuous and free of singularities. We will now take a closer
@@ -231,12 +234,14 @@ values but only 3 degrees of freedom</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>There are two conventions on how to interpret rotation matrices. We use
-the passive convention. The passive convention assumes that the reference
-coordinate system is changed by the rotation, rotated vectors or points
-stay at their position and are reinterpreted in the new coordinate system.
-Another convention is the active convention. We can easily convert rotation
-matrices between the two conventions by transposing them.</p>
+<p>There are two conventions on how to interpret rotations: active
+or passive rotation. The standard in pytransform3d is an active rotation.
+Note that there are some functions to generate rotation matrices that
+generate passive rotations as well: <a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_angle.html#pytransform3d.rotations.matrix_from_angle" title="pytransform3d.rotations.matrix_from_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_angle()</span></code></a>,
+<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz" title="pytransform3d.rotations.matrix_from_euler_xyz"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_xyz()</span></code></a>, and
+<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_zyx.html#pytransform3d.rotations.matrix_from_euler_zyx" title="pytransform3d.rotations.matrix_from_euler_zyx"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_zyx()</span></code></a>. These are kept
+for backward compatibility. When in doubt, read the docstring, which
+clearly states that a passive convention is used here.</p>
 </div>
 <p>We can use a rotation matrix <img class="math" src="_images/math/9ea3b600d91c4a102e2079d6497113822460f9ed.png" alt="\boldsymbol R_{AB}"/> to transform a point
 <img class="math" src="_images/math/90c4555206db81e4b3ed2a27cd93a1905149beef.png" alt="_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}"/> from frame <img class="math" src="_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png" alt="B"/> to frame
@@ -285,13 +290,14 @@ by applying the rotation</p>
 </div><div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>There are two different conventions on how to concatenate rotation
-matrices. Suppose we have a rotation matrix <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/> and another matrix
-<img class="math" src="_images/math/5c01c4aab4e020fd897ef65678180ccea3606398.png" alt="R'"/> with which we would like to rotate <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/>. We can multiply
-<img class="math" src="_images/math/47785887275354e95205cce2723f6cf512cf1dd3.png" alt="R \cdot R'"/> or <img class="math" src="_images/math/a00627497dc2db27d414c29f38a31f634ad2068b.png" alt="R' \cdot R"/>. The first option
-<img class="math" src="_images/math/47785887275354e95205cce2723f6cf512cf1dd3.png" alt="R \cdot R'"/> means that the rotation <img class="math" src="_images/math/5c01c4aab4e020fd897ef65678180ccea3606398.png" alt="R'"/> is applied in the
-local coordinate frame defined by <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/>. The second option
-<img class="math" src="_images/math/a00627497dc2db27d414c29f38a31f634ad2068b.png" alt="R' \cdot R"/> is equivalent to rotating <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/> in the global
-coordinate system.</p>
+matrices. Suppose we have a rotation matrix <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> and another matrix
+<img class="math" src="_images/math/f59def0e720f7de8ca2abe4eb16528d1e9b9f3bf.png" alt="R_2"/> and we want to first rotate by <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> and then by
+<img class="math" src="_images/math/f59def0e720f7de8ca2abe4eb16528d1e9b9f3bf.png" alt="R_2"/>. If we want to apply both rotations in global coordinates, we
+have to concatenate them with <img class="math" src="_images/math/5db82d008f7b95daf144bfc3a194f4852765e8fb.png" alt="R_2 \cdot R_1"/>. We can also express
+the second rotation in terms of a local, body-fixed coordinates by
+<img class="math" src="_images/math/095df9aa7aeebaf66725086d98973784d835f83e.png" alt="R_1 \cdot R_2"/>, which means <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> defines new coordinates in
+which <img class="math" src="_images/math/f59def0e720f7de8ca2abe4eb16528d1e9b9f3bf.png" alt="R_2"/> is applied. Note that this applies to both
+passive and active rotation matrices.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
@@ -348,7 +354,7 @@ by a scalar:</p>
 <p><img src="_images/math/ccb507e3b880b1767faa5c6728d51923203b845a.png" alt="\boldsymbol{v} = \theta \boldsymbol{\hat{e}}"/></p>
 </div><p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>Minimal representation (as rotation vector)</p></li>
+<li><p>Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)</p></li>
 <li><p>It is easy to interpret the representation (as axis and angle)</p></li>
 </ul>
 <p><strong>Cons</strong></p>
@@ -494,8 +500,8 @@ rotation</p></li>
       
     </p>
     <p>
-        &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jul 02, 2020.<br/>
+        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Nov 20, 2020.<br/>
     </p>
   </div>
 </footer>

@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import proj3d
 from pytransform3d.transformations import transform, plot_transform
-from pytransform3d.plot_utils import Arrow3D
+from pytransform3d.plot_utils import make_3d_axis, Arrow3D
 
 
 plt.figure()
-ax = plt.subplot(111, projection="3d", aspect="equal")
+ax = make_3d_axis(1)
 plt.setp(ax, xlim=(-1.05, 1.05), ylim=(-0.55, 1.55), zlim=(-1.05, 1.05),
             xlabel="X", ylabel="Y", zlabel="Z")
 ax.view_init(elev=90, azim=-90)

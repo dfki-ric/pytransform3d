@@ -2,7 +2,8 @@
 3D Rotations: SO(3)
 ===================
 
-The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`.
+The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`
+(SO: special orthogonal group).
 The minimum number of components that are required to describe any rotation
 from :math:`SO(3)` is 3. However, there is no representation that is
 non-redundant, continuous and free of singularities. We will now take a closer
@@ -47,12 +48,14 @@ Note that
 
 .. warning::
 
-    There are two conventions on how to interpret rotation matrices. We use
-    the passive convention. The passive convention assumes that the reference
-    coordinate system is changed by the rotation, rotated vectors or points
-    stay at their position and are reinterpreted in the new coordinate system.
-    Another convention is the active convention. We can easily convert rotation
-    matrices between the two conventions by transposing them.
+    There are two conventions on how to interpret rotations: active
+    or passive rotation. The standard in pytransform3d is an active rotation.
+    Note that there are some functions to generate rotation matrices that
+    generate passive rotations as well: :func:`~pytransform3d.rotations.matrix_from_angle`,
+    :func:`~pytransform3d.rotations.matrix_from_euler_xyz`, and
+    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
+    for backward compatibility. When in doubt, read the docstring, which
+    clearly states that a passive convention is used here.
 
 We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
 :math:`_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}` from frame :math:`B` to frame
@@ -112,13 +115,14 @@ by applying the rotation
 .. warning::
 
     There are two different conventions on how to concatenate rotation
-    matrices. Suppose we have a rotation matrix :math:`R` and another matrix
-    :math:`R'` with which we would like to rotate :math:`R`. We can multiply
-    :math:`R \cdot R'` or :math:`R' \cdot R`. The first option
-    :math:`R \cdot R'` means that the rotation :math:`R'` is applied in the
-    local coordinate frame defined by :math:`R`. The second option
-    :math:`R' \cdot R` is equivalent to rotating :math:`R` in the global
-    coordinate system.
+    matrices. Suppose we have a rotation matrix :math:`R_1` and another matrix
+    :math:`R_2` and we want to first rotate by :math:`R_1` and then by
+    :math:`R_2`. If we want to apply both rotations in global coordinates, we
+    have to concatenate them with :math:`R_2 \cdot R_1`. We can also express
+    the second rotation in terms of a local, body-fixed coordinates by
+    :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates in
+    which :math:`R_2` is applied. Note that this applies to both
+    passive and active rotation matrices.
 
 **Pros**
 
@@ -156,7 +160,7 @@ It is possible to write this in a more compact way as a rotation vector:
 
 **Pros**
 
-* Minimal representation (as rotation vector)
+* Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)
 * It is easy to interpret the representation (as axis and angle)
 
 **Cons**

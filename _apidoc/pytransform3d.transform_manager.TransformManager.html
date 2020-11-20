@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>pytransform3d.transform_manager.TransformManager &#8212; pytransform3d 1.2 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.transform_manager.TransformManager &#8212; pytransform3d 1.3 documentation</title>
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -59,6 +60,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../rotations.html">3D Rotations: SO(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformations.html">3D Transformations: SE(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../animations.html">Animations</a></li>
@@ -176,9 +178,42 @@ warning.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_transform</span></code>(from_frame, to_frame, A2B)</p></td>
+<td><p>Register a transform.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_consistency</span></code>()</p></td>
+<td><p>Check consistency of the known transformations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">connected_components</span></code>()</p></td>
+<td><p>Get number of connected components.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_transform</span></code>(from_frame, to_frame)</p></td>
+<td><p>Request a transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_frame</span></code>(frame)</p></td>
+<td><p>Check if frame has been registered.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_connections_in</span></code>(frame[, ax, ax_s, whitelist])</p></td>
+<td><p>Plot direct frame connections in a given reference frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frames_in</span></code>(frame[, ax, s, ax_s, …])</p></td>
+<td><p>Plot all frames in a given reference frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_png</span></code>(filename[, prog])</p></td>
+<td><p>Create PNG from dot graph of the transformations.</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="py method">
 <dt id="pytransform3d.transform_manager.TransformManager.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">strict_check</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">strict_check</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -198,8 +233,8 @@ warning.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jul 02, 2020.<br/>
+        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Nov 20, 2020.<br/>
     </p>
   </div>
 </footer>

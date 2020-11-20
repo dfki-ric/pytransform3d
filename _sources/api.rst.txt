@@ -25,10 +25,12 @@ Utility Functions
    ~pytransform3d.rotations.norm_vector
    ~pytransform3d.rotations.norm_angle
    ~pytransform3d.rotations.norm_axis_angle
+   ~pytransform3d.rotations.norm_compact_axis_angle
    ~pytransform3d.rotations.perpendicular_to_vectors
    ~pytransform3d.rotations.angle_between_vectors
    ~pytransform3d.rotations.random_vector
    ~pytransform3d.rotations.random_axis_angle
+   ~pytransform3d.rotations.random_compact_axis_angle
    ~pytransform3d.rotations.random_quaternion
    ~pytransform3d.rotations.cross_product_matrix
 
@@ -41,7 +43,9 @@ Input Validation Functions
 
    ~pytransform3d.rotations.check_matrix
    ~pytransform3d.rotations.check_axis_angle
+   ~pytransform3d.rotations.check_compact_axis_angle
    ~pytransform3d.rotations.check_quaternion
+   ~pytransform3d.rotations.check_quaternions
 
 Conversions to Rotation Matrix
 ------------------------------
@@ -50,11 +54,19 @@ Conversions to Rotation Matrix
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.matrix_from_axis_angle
-   ~pytransform3d.rotations.matrix_from_quaternion
    ~pytransform3d.rotations.matrix_from_angle
+   ~pytransform3d.rotations.passive_matrix_from_angle
+   ~pytransform3d.rotations.active_matrix_from_angle
+   ~pytransform3d.rotations.matrix_from_axis_angle
+   ~pytransform3d.rotations.matrix_from_compact_axis_angle
+   ~pytransform3d.rotations.matrix_from_quaternion
    ~pytransform3d.rotations.matrix_from_euler_xyz
    ~pytransform3d.rotations.matrix_from_euler_zyx
+   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz
+   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz
+   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz
+   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz
+   ~pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw
    ~pytransform3d.rotations.matrix_from
 
 Conversions to Euler Angles
@@ -76,7 +88,10 @@ Conversions to Axis-Angle
 
    ~pytransform3d.rotations.axis_angle_from_matrix
    ~pytransform3d.rotations.axis_angle_from_quaternion
+   ~pytransform3d.rotations.axis_angle_from_compact_axis_angle
    ~pytransform3d.rotations.compact_axis_angle
+   ~pytransform3d.rotations.compact_axis_angle_from_matrix
+   ~pytransform3d.rotations.compact_axis_angle_from_quaternion
 
 Conversions to Quaternion
 -------------------------
@@ -87,6 +102,7 @@ Conversions to Quaternion
 
    ~pytransform3d.rotations.quaternion_from_matrix
    ~pytransform3d.rotations.quaternion_from_axis_angle
+   ~pytransform3d.rotations.quaternion_from_compact_axis_angle
    ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
    ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
 
@@ -104,6 +120,8 @@ Quaternion and Axis-Angle Operations
    ~pytransform3d.rotations.quaternion_slerp
    ~pytransform3d.rotations.quaternion_dist
    ~pytransform3d.rotations.quaternion_diff
+   ~pytransform3d.rotations.quaternion_gradient
+   ~pytransform3d.rotations.quaternion_integrate
 
 Plotting
 --------
@@ -123,6 +141,7 @@ Testing
    :template: function.rst
 
    ~pytransform3d.rotations.assert_axis_angle_equal
+   ~pytransform3d.rotations.assert_compact_axis_angle_equal
    ~pytransform3d.rotations.assert_quaternion_equal
    ~pytransform3d.rotations.assert_euler_xyz_equal
    ~pytransform3d.rotations.assert_euler_zyx_equal
@@ -148,6 +167,9 @@ Testing
    ~pytransform3d.transformations.translate_transform
    ~pytransform3d.transformations.rotate_transform
    ~pytransform3d.transformations.vector_to_point
+   ~pytransform3d.transformations.vectors_to_points
+   ~pytransform3d.transformations.vector_to_direction
+   ~pytransform3d.transformations.vectors_to_directions
    ~pytransform3d.transformations.concat
    ~pytransform3d.transformations.transform
    ~pytransform3d.transformations.scale_transform
@@ -244,6 +266,12 @@ Testing
    :template: function.rst
 
    ~pytransform3d.plot_utils.make_3d_axis
+   ~pytransform3d.plot_utils.plot_vector
+   ~pytransform3d.plot_utils.plot_length_variable
+   ~pytransform3d.plot_utils.plot_box
+   ~pytransform3d.plot_utils.plot_sphere
+   ~pytransform3d.plot_utils.plot_cylinder
+   ~pytransform3d.plot_utils.plot_mesh
 
 .. autosummary::
    :toctree: _apidoc/
@@ -251,4 +279,5 @@ Testing
 
    ~pytransform3d.plot_utils.Arrow3D
    ~pytransform3d.plot_utils.Frame
+   ~pytransform3d.plot_utils.LabeledFrame
    ~pytransform3d.plot_utils.Trajectory

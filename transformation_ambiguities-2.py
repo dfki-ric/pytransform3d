@@ -1,10 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import proj3d
+from pytransform3d.plot_utils import make_3d_axis
 
 
 plt.figure()
-ax = plt.subplot(111, projection="3d", aspect="equal")
+ax = make_3d_axis(1)
 plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-1.05, 0.05),
         xlabel="X", ylabel="Y", zlabel="Z")
 

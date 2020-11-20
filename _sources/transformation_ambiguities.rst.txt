@@ -28,11 +28,11 @@ right-handed system and with the left hand in a left-handed system.
 
     import numpy as np
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import proj3d
+    from pytransform3d.plot_utils import make_3d_axis
 
 
     plt.figure()
-    ax = plt.subplot(111, projection="3d", aspect="equal")
+    ax = make_3d_axis(1)
     plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-0.05, 1.05),
             xlabel="X", ylabel="Y", zlabel="Z")
 
@@ -54,11 +54,11 @@ right-handed system and with the left hand in a left-handed system.
 
     import numpy as np
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import proj3d
+    from pytransform3d.plot_utils import make_3d_axis
 
 
     plt.figure()
-    ax = plt.subplot(111, projection="3d", aspect="equal")
+    ax = make_3d_axis(1)
     plt.setp(ax, xlim=(-0.05, 1.05), ylim=(-0.05, 1.05), zlim=(-1.05, 0.05),
             xlabel="X", ylabel="Y", zlabel="Z")
 
@@ -84,6 +84,10 @@ right-handed system and with the left hand in a left-handed system.
 -------------------------------------------------
 Active (Alibi) vs. Passive (Alias) Transformation
 -------------------------------------------------
+
+.. image:: _static/active_passive.svg
+   :alt: Passive vs. active transformation
+   :align: center
 
 An active transformation
 
@@ -126,13 +130,12 @@ frame.
 
     import numpy as np
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import proj3d
     from pytransform3d.transformations import transform, plot_transform
-    from pytransform3d.plot_utils import Arrow3D
+    from pytransform3d.plot_utils import make_3d_axis, Arrow3D
 
 
     plt.figure()
-    ax = plt.subplot(111, projection="3d", aspect="equal")
+    ax = make_3d_axis(1)
     plt.setp(ax, xlim=(-1.05, 1.05), ylim=(-0.55, 1.55), zlim=(-1.05, 1.05),
                 xlabel="X", ylabel="Y", zlabel="Z")
     ax.view_init(elev=90, azim=-90)
@@ -184,11 +187,11 @@ frame.
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import proj3d
     from pytransform3d.transformations import transform, plot_transform
-    from pytransform3d.plot_utils import Arrow3D
+    from pytransform3d.plot_utils import make_3d_axis, Arrow3D
 
 
     plt.figure()
-    ax = plt.subplot(111, projection="3d", aspect="equal")
+    ax = make_3d_axis(1)
     plt.setp(ax, xlim=(-1.05, 1.05), ylim=(-0.55, 1.55), zlim=(-1.05, 1.05),
                 xlabel="X", ylabel="Y", zlabel="Z")
     ax.view_init(elev=90, azim=-90)
@@ -260,73 +263,19 @@ Its transformed version is usually used for a passive transformation:
 
 .. note::
 
-    The default in pytransform3d are passive transformations.
+    The standard in pytransform3d is an active rotation.
+    Note that there are some functions to generate rotation matrices that
+    generate passive rotations as well: :func:`~pytransform3d.rotations.matrix_from_angle`,
+    :func:`~pytransform3d.rotations.matrix_from_euler_xyz`, and
+    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
+    for backward compatibility. When in doubt, read the docstring, which
+    clearly states that a passive convention is used here.
 
 Reference:
 
 Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
 IEEE Robotics and Automation Magazine.
-PDF: https://core.ac.uk/download/pdf/77055186.pdf.
-
--------------------------------------
-Source in Target vs. Source to Target
--------------------------------------
-
-A transformations is defined between two frames: source and target, origin
-and target, or parent and child. You can also say it transforms from some
-frame to another frame.
-However, it is not always clear how to interpret the source and the target.
-
-**Source in target:**
-The first option would be to assume that the source is the base frame in
-which we represent the target frame and the transformation gives us the
-translation and rotation to get the location of the target in the source.
-In the illustration below that would mean that the object (target) is
-defined in the camera frame (source) and the camera (target) is defined in
-the body frame (source).
-
-**Source to target:**
-The second option assumes that the transformation transforms data, for example,
-points from the source frame to the target frame. In the illustration below
-that would mean we have a transformation to transform points from the
-object frame (source) to the camera frame (target) and a transformation
-to transform points from the camera frame (source) to the body frame (target).
-
-Whenever you hear that there is a transformation from some frame to another
-frame, make sure you understand what is meant.
-
-.. note::
-
-    The default in pytransform3d is source in target.
-
-.. plot::
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from pytransform3d.rotations import random_quaternion, q_id
-    from pytransform3d.transformations import transform_from_pq
-    from pytransform3d.transform_manager import TransformManager
-
-
-    random_state = np.random.RandomState(0)
-
-    camera2body = transform_from_pq(
-        np.hstack((np.array([0.4, -0.3, 0.5]),
-                   random_quaternion(random_state))))
-    object2camera = transform_from_pq(
-        np.hstack((np.array([0.0, 0.0, 0.3]),
-                   random_quaternion(random_state))))
-
-    tm = TransformManager()
-    tm.add_transform("camera", "body", camera2body)
-    tm.add_transform("object", "camera", object2camera)
-
-    ax = tm.plot_frames_in("body", s=0.1)
-    ax.set_xlim((-0.15, 0.65))
-    ax.set_ylim((-0.4, 0.4))
-    ax.set_zlim((0.0, 0.8))
-    plt.show()
-
+PDF: https://openresearch.lsbu.ac.uk/download/641fa36d365e0244b27dd2fc8b881a12061afe1eb5c3952bae15614d3d831710/185181/01598057.pdf.
 
 ----------------------------------------
 Pre-multiply vs. Post-multiply Rotations
@@ -351,49 +300,18 @@ Intrinsic vs. Extrinsic Rotation
 --------------------------------
 
 A similar problem occurs when we want to concatenate rotations:
-suppose we have two rotations matrices :math:`\boldsymbol R` and
-:math:`\boldsymbol R` and we want to concatenate them. We can either
-compute :math:`\boldsymbol R \boldsymbol R'` or
-:math:`\boldsymbol R' \boldsymbol R`. The following equality holds:
-:math:`(\boldsymbol R' \boldsymbol R)^T = \boldsymbol R^T \boldsymbol R'^T`.
+suppose we have a rotation matrix :math:`R_1` and another matrix
+:math:`R_2` and we want to first rotate by :math:`R_1` and then by
+:math:`R_2`. If we want to apply both rotations in global coordinates
+(extrinsic rotation), we have to concatenate them with
+:math:`R_2 \cdot R_1`. We can also express the second rotation in terms
+of a local, body-fixed coordinates (intrinsic rotation) by
+:math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates
+in which :math:`R_2` is applied. Note that this applies to both
+passive and active rotation matrices.
 
-:math:`R \cdot R'` means that the rotation :math:`R'` is applied in the
-local coordinate frame defined by :math:`R`. The second option
-:math:`R' \cdot R` is equivalent to rotating :math:`R` in the global
-coordinate system.
-
-In the following plot you see the original frame in the background.
-The first rotation :math:`R` rotates 45 degrees about the x-axis.
-The result can be seen in the middle. The second rotation :math:`R'`
-rotates 90 degrees about the z-axis. On the left side, we compute
-:math:`R'R`. The result is that the rotation about the z-axis is
-done before the rotation about the x-axis or the rotation about the
-z-axis is an extrinsic rotation because it is applied in the global
-coordinate system. On the right side we see the result of :math:`RR'`.
-The rotation about the z-axis is applied after the rotation about the
-x-axis, hence, it is applied to the local coordinate system. It
-can be called and intrinsic rotation.
-
-.. plot::
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
-    from pytransform3d.rotations import *
-
-
-    ax = plot_basis(R=np.eye(3), p=np.array([-1.0, 0.0, 0.0]), ax_s=2)
-
-    R1 = matrix_from_angle(0, np.pi / 4.0)
-    R2 = matrix_from_angle(2, np.pi / 2.0)
-
-    plot_basis(ax, R1, np.array([1.0, 0.0, 0.0]))
-    plot_basis(ax, R1.dot(R2), np.array([1.0, 1.5, 0.0]))
-    plot_basis(ax, R2.dot(R1), np.array([1.0, -1.5, 0.0]))
-
-    ax.view_init(azim=10, elev=25)
-
-    plt.show()
+.. plot:: ../../examples/plot_convention_rotation_global_local.py
+    :include-source:
 
 .. note::
 

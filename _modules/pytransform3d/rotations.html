@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>pytransform3d.rotations &#8212; pytransform3d 1.2 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.rotations &#8212; pytransform3d 1.3 documentation</title>
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
@@ -37,7 +38,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -57,6 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
@@ -122,7 +124,6 @@
 <span></span><span class="sd">&quot;&quot;&quot;Rotations in three dimensions - SO(3).&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Arrow3D</span><span class="p">,</span> <span class="n">make_3d_axis</span>
 <span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">assert_array_almost_equal</span>
 
 
@@ -169,12 +170,12 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    a : float or array-like, shape (n,)</span>
-<span class="sd">        Angle(s)</span>
+<span class="sd">        Angle(s) in radians</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    a_norm : float or array-like, shape (n,)</span>
-<span class="sd">        Normalized angle(s)</span>
+<span class="sd">        Normalized angle(s) in radians</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Source of the solution: http://stackoverflow.com/a/32266181</span>
     <span class="k">return</span> <span class="o">-</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">%</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
@@ -203,10 +204,7 @@
     <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">res</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">norm</span>
 
-    <span class="k">while</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-        <span class="n">angle</span> <span class="o">+=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-    <span class="k">while</span> <span class="n">angle</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
-        <span class="n">angle</span> <span class="o">-=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="n">angle</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
         <span class="n">res</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
@@ -214,6 +212,27 @@
     <span class="n">res</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
 
     <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="norm_compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.norm_compact_axis_angle.html#pytransform3d.rotations.norm_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">norm_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize compact axis-angle representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z).</span>
+<span class="sd">        The angle is in [0, pi). No rotation is represented by [0, 0, 0].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">angle</span>
+    <span class="k">return</span> <span class="n">axis</span> <span class="o">*</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="perpendicular_to_vectors"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.perpendicular_to_vectors.html#pytransform3d.rotations.perpendicular_to_vectors">[docs]</a><span class="k">def</span> <span class="nf">perpendicular_to_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -305,6 +324,28 @@
     <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">angle</span><span class="p">])</span>
     <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">a</span></div>
+
+
+<div class="viewcode-block" id="random_compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.random_compact_axis_angle.html#pytransform3d.rotations.random_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">random_compact_axis_angle</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Generate random compact axis-angle.</span>
+
+<span class="sd">    The angle will be sampled uniformly from the interval :math:`[0, \pi)`</span>
+<span class="sd">    and each component of the rotation axis will be sampled from</span>
+<span class="sd">    :math:`\mathcal{N}(\mu=0, \sigma=1)` and than the axis will be normalized</span>
+<span class="sd">    to length 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : np.random.RandomState, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">random_axis_angle</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="random_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.random_quaternion.html#pytransform3d.rotations.random_quaternion">[docs]</a><span class="k">def</span> <span class="nf">random_quaternion</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
@@ -421,6 +462,26 @@
     <span class="k">return</span> <span class="n">norm_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="check_compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.check_compact_axis_angle.html#pytransform3d.rotations.check_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">check_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of compact axis-angle representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array, shape (3,)</span>
+<span class="sd">        Validated axis of rotation and rotation angle: angle * (x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected axis and angle in array with shape (3,), &quot;</span>
+                         <span class="s2">&quot;got array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">norm_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="check_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.check_quaternion.html#pytransform3d.rotations.check_quaternion">[docs]</a><span class="k">def</span> <span class="nf">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input validation of quaternion representation.</span>
 
@@ -447,15 +508,38 @@
         <span class="k">return</span> <span class="n">q</span></div>
 
 
+<div class="viewcode-block" id="check_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.check_quaternions.html#pytransform3d.rotations.check_quaternions">[docs]</a><span class="k">def</span> <span class="nf">check_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of quaternion representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    unit : bool, optional (default: True)</span>
+<span class="sd">        Normalize the quaternions so that they are unit quaternions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Validated quaternions to represent rotations: (w, x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q_checked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Q_checked</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">Q_checked</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected quaternion array with shape (n_steps, 4), got &quot;</span>
+                         <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Q_checked</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">)):</span>
+            <span class="n">Q_checked</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">Q_checked</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Q_checked</span></div>
+
+
 <div class="viewcode-block" id="matrix_from_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_axis_angle.html#pytransform3d.rotations.matrix_from_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute rotation matrix from axis-angle.</span>
 
 <span class="sd">    This is called exponential map or Rodrigues&#39; formula.</span>
 
-<span class="sd">    Note that the rotation convention is different from the one used by Euler</span>
-<span class="sd">    angles. A rotation about a basis vector results in a transposed rotation</span>
-<span class="sd">    matrix in comparison to a corresponding Euler angles. The active / alibi</span>
-<span class="sd">    convention is used.</span>
+<span class="sd">    This typically results in an active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -491,8 +575,31 @@
     <span class="k">return</span> <span class="n">R</span></div>
 
 
+<div class="viewcode-block" id="matrix_from_compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_compact_axis_angle.html#pytransform3d.rotations.matrix_from_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute rotation matrix from compact axis-angle.</span>
+
+<span class="sd">    This is called exponential map or Rodrigues&#39; formula.</span>
+
+<span class="sd">    This typically results in an active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">axis_angle_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="matrix_from_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_quaternion.html#pytransform3d.rotations.matrix_from_quaternion">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute rotation matrix from quaternion.</span>
+
+<span class="sd">    This typically results in an active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -524,13 +631,7 @@
 
 
 <div class="viewcode-block" id="matrix_from_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_angle.html#pytransform3d.rotations.matrix_from_angle">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_angle</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute rotation matrix from rotation around basis vector.</span>
-
-<span class="sd">    The combined rotation matrices are either extrinsic and can be used with</span>
-<span class="sd">    pre-multiplied column vectors or they are intrinsic and can be used with</span>
-<span class="sd">    post-multiplied row vectors. We use a right-hand system with right-hand</span>
-<span class="sd">    rotations. We use the passive / alias convention. You can derive the</span>
-<span class="sd">    active / alibi rotation matrix by transposing the rotation matrix.</span>
+    <span class="sd">&quot;&quot;&quot;Compute passive rotation matrix from rotation around basis vector.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -566,12 +667,48 @@
     <span class="k">return</span> <span class="n">R</span></div>
 
 
-<div class="viewcode-block" id="matrix_from_euler_xyz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute rotation matrix from xyz Euler angles.</span>
+<span class="n">passive_matrix_from_angle</span> <span class="o">=</span> <span class="n">matrix_from_angle</span>
 
-<span class="sd">    Intrinsic rotations are used to create the transformation matrix</span>
-<span class="sd">    from three concatenated rotations.</span>
-<span class="sd">    The xyz convention is usually used in physics and chemistry.</span>
+
+<div class="viewcode-block" id="active_matrix_from_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_angle.html#pytransform3d.rotations.active_matrix_from_angle">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_angle</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from rotation around basis vector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    basis : int from [0, 1, 2]</span>
+<span class="sd">        The rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    angle : float</span>
+<span class="sd">        Rotation angle</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">basis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">]])</span>
+    <span class="k">elif</span> <span class="n">basis</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">s</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">c</span><span class="p">]])</span>
+    <span class="k">elif</span> <span class="n">basis</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Basis must be in [0, 1, 2]&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="matrix_from_euler_xyz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute passive rotation matrix from intrinsic xyz Tait-Bryan angles.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -584,20 +721,14 @@
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
-    <span class="c1"># We use intrinsic rotations</span>
-    <span class="n">Qx</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
-    <span class="n">Qy</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
-    <span class="n">Qz</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">Qx</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Qy</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Qz</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R</span></div>
 
 
 <div class="viewcode-block" id="matrix_from_euler_zyx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_euler_zyx.html#pytransform3d.rotations.matrix_from_euler_zyx">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute rotation matrix from zyx (yaw-pitch-roll) Euler angles.</span>
-
-<span class="sd">    Intrinsic rotations are used to create the transformation matrix</span>
-<span class="sd">    from three concatenated rotations.</span>
-<span class="sd">    The zyx convention is usually used for aircraft dynamics.</span>
+    <span class="sd">&quot;&quot;&quot;Compute passive rotation matrix from intrinsic zyx Tait-Bryan angles.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -610,11 +741,105 @@
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">e</span>
-    <span class="c1"># We use intrinsic rotations</span>
-    <span class="n">Qz</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
-    <span class="n">Qy</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
-    <span class="n">Qx</span> <span class="o">=</span> <span class="n">matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">Qz</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Qy</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Qx</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zxz Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zxz Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x-, and z-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The difference between extrinsic and intrinsic rotation is the order of</span>
+    <span class="c1"># rotations and because the reverse of zxz is zxz this is exactly the same.</span>
+    <span class="k">return</span> <span class="n">active_matrix_from_intrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zyz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zyz Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zyz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zyz Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y-, and z-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The difference between extrinsic and intrinsic rotation is the order of</span>
+    <span class="c1"># rotations and because the reverse of zyz is zyz this is exactly the same.</span>
+    <span class="k">return</span> <span class="n">active_matrix_from_intrinsic_euler_zyz</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_roll_pitch_yaw"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html#pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">(</span><span class="n">rpy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic roll, pitch, and yaw.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rpy : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x- (roll), y- (pitch), and z-axes (yaw), extrinsic rotations</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">roll</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">yaw</span> <span class="o">=</span> <span class="n">rpy</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">yaw</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pitch</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">roll</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R</span></div>
 
 
@@ -657,12 +882,12 @@
 
 
 <div class="viewcode-block" id="euler_xyz_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.euler_xyz_from_matrix.html#pytransform3d.rotations.euler_xyz_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_xyz_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute xyz Euler angles from rotation matrix.</span>
+    <span class="sd">&quot;&quot;&quot;Compute xyz Euler angles from passive rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix</span>
+<span class="sd">        Passive rotation matrix</span>
 
 <span class="sd">    strict_check : bool, optional (default: True)</span>
 <span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
@@ -692,12 +917,12 @@
 
 
 <div class="viewcode-block" id="euler_zyx_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.euler_zyx_from_matrix.html#pytransform3d.rotations.euler_zyx_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_zyx_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute zyx Euler angles from rotation matrix.</span>
+    <span class="sd">&quot;&quot;&quot;Compute zyx Euler angles from passive rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix</span>
+<span class="sd">        Passive rotation matrix</span>
 
 <span class="sd">    strict_check : bool, optional (default: True)</span>
 <span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
@@ -734,10 +959,7 @@
 <span class="sd">    This operation is called logarithmic map. Note that there are two possible</span>
 <span class="sd">    solutions for the rotation axis when the angle is 180 degrees (pi).</span>
 
-<span class="sd">    Note that the rotation convention is different from the one used by Euler</span>
-<span class="sd">    angles. A rotation about a basis vector results in a transposed rotation</span>
-<span class="sd">    matrix in comparison to a corresponding Euler angles. The active / alibi</span>
-<span class="sd">    convention is used.</span>
+<span class="sd">    We usually assume active rotations.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -795,6 +1017,8 @@
 
 <span class="sd">    This operation is called logarithmic map.</span>
 
+<span class="sd">    We usually assume active rotations.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    q : array-like, shape (4,)</span>
@@ -817,6 +1041,31 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="n">angle</span><span class="p">))</span></div>
 
 
+<div class="viewcode-block" id="axis_angle_from_compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.axis_angle_from_compact_axis_angle.html#pytransform3d.rotations.axis_angle_from_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">axis_angle_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute axis-angle from compact axis-angle representation.</span>
+
+<span class="sd">    We usually assume active rotations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle). The angle is</span>
+<span class="sd">        constrained to [0, pi].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">check_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">angle</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="p">(</span><span class="n">angle</span><span class="p">,)))</span></div>
+
+
 <div class="viewcode-block" id="compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.compact_axis_angle.html#pytransform3d.rotations.compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute 3-dimensional axis-angle from a 4-dimensional one.</span>
 
@@ -824,6 +1073,8 @@
 <span class="sd">    represented by the norm of the rotation axis vector, which means we</span>
 <span class="sd">    transform :math:`\\left( \\boldsymbol{\hat{e}}, \\theta \\right)` to</span>
 <span class="sd">    :math:`\\theta \\boldsymbol{\hat{e}}`.</span>
+
+<span class="sd">    We usually assume active rotations.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -833,17 +1084,64 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    a : array-like, shape (3,)</span>
-<span class="sd">        Compact representation of axis of rotation and rotation angle. a is</span>
-<span class="sd">        the rotation axis and np.linalg.norm(a) is the rotation angle.</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z) (compact</span>
+<span class="sd">        representation).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">angle</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">*</span> <span class="n">angle</span></div>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">check_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="compact_axis_angle_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.compact_axis_angle_from_matrix.html#pytransform3d.rotations.compact_axis_angle_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">compact_axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute compact axis-angle from rotation matrix.</span>
+
+<span class="sd">    This operation is called logarithmic map. Note that there are two possible</span>
+<span class="sd">    solutions for the rotation axis when the angle is 180 degrees (pi).</span>
+
+<span class="sd">    We usually assume active rotations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z). The angle is</span>
+<span class="sd">        constrained to [0, pi].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="compact_axis_angle_from_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.compact_axis_angle_from_quaternion.html#pytransform3d.rotations.compact_axis_angle_from_quaternion">[docs]</a><span class="k">def</span> <span class="nf">compact_axis_angle_from_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute compact axis-angle from quaternion (logarithmic map).</span>
+
+<span class="sd">    We usually assume active rotations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z). The angle is</span>
+<span class="sd">        constrained to [0, pi].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">axis_angle_from_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="quaternion_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.quaternion_from_matrix.html#pytransform3d.rotations.quaternion_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">quaternion_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute quaternion from rotation matrix.</span>
+
+<span class="sd">    We usually assume active rotations.</span>
 
 <span class="sd">    .. warning::</span>
 
@@ -902,6 +1200,8 @@
 
 <span class="sd">    This operation is called exponential map.</span>
 
+<span class="sd">    We usually assume active rotations.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    a : array-like, shape (4,)</span>
@@ -919,6 +1219,25 @@
     <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">q</span></div>
+
+
+<div class="viewcode-block" id="quaternion_from_compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.quaternion_from_compact_axis_angle.html#pytransform3d.rotations.quaternion_from_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">quaternion_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute quaternion from compact axis-angle (exponential map).</span>
+
+<span class="sd">    We usually assume active rotations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">axis_angle_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">quaternion_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="quaternion_xyzw_from_wxyz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.quaternion_xyzw_from_wxyz.html#pytransform3d.rotations.quaternion_xyzw_from_wxyz">[docs]</a><span class="k">def</span> <span class="nf">quaternion_xyzw_from_wxyz</span><span class="p">(</span><span class="n">q_wxyz</span><span class="p">):</span>
@@ -953,6 +1272,72 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q_xyzw</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q_xyzw</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">q_xyzw</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">q_xyzw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q_xyzw</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q_xyzw</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span></div>
+
+
+<div class="viewcode-block" id="quaternion_integrate"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.quaternion_integrate.html#pytransform3d.rotations.quaternion_integrate">[docs]</a><span class="k">def</span> <span class="nf">quaternion_integrate</span><span class="p">(</span><span class="n">Qd</span><span class="p">,</span> <span class="n">q0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">dt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Integrate angular velocities to quaternions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : array-like, shape (n_steps, 3)</span>
+<span class="sd">        Angular velocities in a compact axis-angle representation. Each angular</span>
+<span class="sd">        velocity represents the rotational offset after one unit of time.</span>
+
+<span class="sd">    q0 : array-like, shape (4,), optional (default: [1, 0, 0, 0])</span>
+<span class="sd">        Unit quaternion to represent initial rotation: (w, x, y, z)</span>
+
+<span class="sd">    dt : float, optional (default: 1)</span>
+<span class="sd">        Time interval between steps.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Quaternions to represent rotations: (w, x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Qd</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">q0</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Qd</span><span class="p">)):</span>
+        <span class="n">qd</span> <span class="o">=</span> <span class="p">(</span><span class="n">Qd</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">Qd</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">concatenate_quaternions</span><span class="p">(</span>
+            <span class="n">quaternion_from_compact_axis_angle</span><span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">qd</span><span class="p">),</span> <span class="n">Q</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Q</span></div>
+
+
+<div class="viewcode-block" id="quaternion_gradient"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.quaternion_gradient.html#pytransform3d.rotations.quaternion_gradient">[docs]</a><span class="k">def</span> <span class="nf">quaternion_gradient</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Time-derivatives of a sequence of quaternions.</span>
+
+<span class="sd">    Note that this function does not provide the exact same functionality for</span>
+<span class="sd">    quaternions as [NumPy&#39;s gradient</span>
+<span class="sd">    function](https://numpy.org/doc/stable/reference/generated/numpy.gradient.html)</span>
+<span class="sd">    for positions. Gradients are always computed as central differences except</span>
+<span class="sd">    the first and last gradient. We additionally accept a parameter dt that</span>
+<span class="sd">    defines the time interval between each quaternion. Note that this means</span>
+<span class="sd">    that we expect this to be constant for the whole sequence.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    dt : float, optional (default: 1)</span>
+<span class="sd">        Time interval between steps. If you have non-constant dt, you can pass</span>
+<span class="sd">        1 and manually divide angular velocities by their corresponding time</span>
+<span class="sd">        interval afterwards.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A : array-like, shape (n_steps, 3)</span>
+<span class="sd">        Angular velocities in a compact axis-angle representation. Each angular</span>
+<span class="sd">        velocity represents the rotational offset after one unit of time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">check_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+    <span class="n">Qd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">Qd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_quaternion</span><span class="p">(</span><span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span> <span class="o">/</span> <span class="n">dt</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># divided by two because of central differences</span>
+        <span class="n">Qd</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_quaternion</span><span class="p">(</span><span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">Qd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_quaternion</span><span class="p">(</span><span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])))</span> <span class="o">/</span> <span class="n">dt</span>
+    <span class="k">return</span> <span class="n">Qd</span></div>
 
 
 <div class="viewcode-block" id="concatenate_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.concatenate_quaternions.html#pytransform3d.rotations.concatenate_quaternions">[docs]</a><span class="k">def</span> <span class="nf">concatenate_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
@@ -1175,6 +1560,7 @@
 <span class="sd">    ax : Matplotlib 3d axis</span>
 <span class="sd">        New or old axis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span><span class="p">,</span> <span class="n">Frame</span>
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
@@ -1220,6 +1606,7 @@
 <span class="sd">    ax : Matplotlib 3d axis</span>
 <span class="sd">        New or old axis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span><span class="p">,</span> <span class="n">Arrow3D</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">check_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
@@ -1263,12 +1650,47 @@
 <span class="sd">    constraints and will normalize the representations before comparison.</span>
 <span class="sd">    See numpy.testing.assert_array_almost_equal for a more detailed</span>
 <span class="sd">    documentation of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a1 : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
+
+<span class="sd">    a2 : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># required despite normalization in case of 180 degree rotation</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a2</span><span class="p">)):</span>
         <span class="n">a1</span> <span class="o">=</span> <span class="o">-</span><span class="n">a1</span>
     <span class="n">a1</span> <span class="o">=</span> <span class="n">norm_axis_angle</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
     <span class="n">a2</span> <span class="o">=</span> <span class="n">norm_axis_angle</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_compact_axis_angle_equal"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.assert_compact_axis_angle_equal.html#pytransform3d.rotations.assert_compact_axis_angle_equal">[docs]</a><span class="k">def</span> <span class="nf">assert_compact_axis_angle_equal</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if two axis-angle are not approximately equal.</span>
+
+<span class="sd">    Usually we assume that the angle is within [0, pi). However, this function</span>
+<span class="sd">    ignores this constraint and will normalize the representations before</span>
+<span class="sd">    comparison. See numpy.testing.assert_array_almost_equal for a more detailed</span>
+<span class="sd">    documentation of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a1 : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    a2 : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angle1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+    <span class="n">angle2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
+    <span class="c1"># required despite normalization in case of 180 degree rotation</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">angle1</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle2</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="ow">and</span>
+        <span class="nb">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a2</span><span class="p">))):</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="o">-</span><span class="n">a1</span>
+    <span class="n">a1</span> <span class="o">=</span> <span class="n">norm_compact_axis_angle</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+    <span class="n">a2</span> <span class="o">=</span> <span class="n">norm_compact_axis_angle</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
@@ -1334,8 +1756,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2019, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jul 02, 2020.<br/>
+        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Nov 20, 2020.<br/>
     </p>
   </div>
 </footer>
