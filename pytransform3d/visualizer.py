@@ -17,7 +17,8 @@ def figure():
 
 class Frame:
     def __init__(self, A2B, label=None, s=1.0):
-        self.A2B = A2B
+        self.A2B = None
+        self.label = None
         self.s = s
 
         self.frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
@@ -27,6 +28,8 @@ class Frame:
 
     def set_data(self, A2B, label=None):
         previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
         self.A2B = A2B
         self.label = label
         if label is not None:
