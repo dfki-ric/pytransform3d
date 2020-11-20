@@ -52,19 +52,19 @@ def show_urdf_transform_manager(tm, frame, collision_objects=False,
     scene = pr.Scene()
     if collision_objects:
         if hasattr(tm, "collision_objects"):
-            _add_objects(scene, tm.collision_objects, frame)
+            _add_objects(scene, tm, tm.collision_objects, frame)
     if visuals:
         if hasattr(tm, "visuals"):
-            _add_objects(scene, tm.visuals, frame)
+            _add_objects(scene, tm, tm.visuals, frame)
     if frames:
         for node in tm.nodes:
             _add_frame(scene, tm, node, frame, s)
     pr.Viewer(scene, use_raymond_lighting=True)
 
 
-def _add_objects(scene, objects, frame):
+def _add_objects(scene, tm, objects, frame):
     for obj in objects:
-        obj.show(scene, frame)
+        obj.show(scene, tm, frame)
 
 
 def _add_frame(scene, tm, from_frame, to_frame, s=1.0):
@@ -81,7 +81,7 @@ def _add_frame(scene, tm, from_frame, to_frame, s=1.0):
 # We modify the shape objects to include a function that renders them
 
 
-def box_show(self, scene, frame):
+def box_show(self, scene, tm, frame):
     """Render box."""
     A2B = tm.get_transform(self.frame, frame)
 
@@ -110,7 +110,7 @@ def box_show(self, scene, frame):
 urdf.Box.show = box_show
 
 
-def sphere_show(self, scene, frame):
+def sphere_show(self, scene, tm, frame):
     """Render sphere."""
     A2B = tm.get_transform(self.frame, frame)
 
@@ -138,7 +138,7 @@ def sphere_show(self, scene, frame):
 urdf.Sphere.show = sphere_show
 
 
-def cylinder_show(self, scene, frame):
+def cylinder_show(self, scene, tm, frame):
     """Render cylinder."""
     A2B = tm.get_transform(self.frame, frame)
 
@@ -180,7 +180,7 @@ def cylinder_show(self, scene, frame):
 urdf.Cylinder.show = cylinder_show
 
 
-def mesh_show(self, scene, frame):
+def mesh_show(self, scene, tm, frame):
     """Render mesh."""
     if self.mesh_path is None:
         print("No mesh path given")
