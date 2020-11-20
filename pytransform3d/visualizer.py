@@ -4,6 +4,7 @@ from . import rotations as pr
 from . import transformations as pt
 from . import trajectories as ptr
 from . import urdf
+from functools import partial
 import warnings
 
 
@@ -17,21 +18,30 @@ def figure():
 class Frame:
     def __init__(self, A2B, label=None, s=1.0):
         self.A2B = A2B
+        self.s = s
+
+        self.frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
+            size=self.s)
+
+        self.set_data(A2B, label)
+
+    def set_data(self, A2B, label=None):
+        previous_A2B = self.A2B
+        self.A2B = A2B
         self.label = label
         if label is not None:
             warnings.warn(
                 "This viewer does not support text. Frame label "
                 "will be ignored.")
-        self.s = s
 
-    def set_data(self, A2B, label=None):
-        raise NotImplementedError()
+        self.frame.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
 
     def add_frame(self, figure):
-        frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
-            size=self.s)
-        frame.transform(self.A2B)
-        figure.add_geometry(frame)
+        figure.add_geometry(self.frame)
+
+    @property
+    def geometries(self):
+        return [self.frame]
 
 
 class Trajectory:
@@ -42,6 +52,9 @@ class Trajectory:
         self.s = s
         self.c = c
 
+        self.line_set = None
+        self.key_frames = []
+
     def set_data(self, H, label=None):
         raise NotImplementedError()
 
@@ -49,24 +62,30 @@ class Trajectory:
         points = self.H[:, :3, 3]
         lines = np.hstack((np.arange(len(points) - 1)[:, np.newaxis],
                            np.arange(1, len(points))[:, np.newaxis]))
-        line_set = o3d.geometry.LineSet(
+        self.line_set = o3d.geometry.LineSet(
             points=o3d.utility.Vector3dVector(points),
             lines=o3d.utility.Vector2iVector(lines))
         colors = [self.c for _ in range(len(lines))]
-        line_set.colors = o3d.utility.Vector3dVector(colors)
-        figure.add_geometry(line_set)
+        self.line_set.colors = o3d.utility.Vector3dVector(colors)
+        figure.add_geometry(self.line_set)
 
         key_frames_indices = np.linspace(
             0, len(self.H) - 1, self.n_frames, dtype=np.int)
         for i, key_frame_idx in enumerate(key_frames_indices):
             frame = Frame(self.H[key_frame_idx], s=self.s)
             frame.add_frame(figure)
+            self.key_frames.append(frame)
+
+    @property
+    def geometries(self):
+        return [self.line_set] + self.key_frames
 
 
 def plot_basis(figure, R, p=np.zeros(3), s=1.0):
     A2B = pt.transform_from(R=R, p=p)
     frame = Frame(A2B, s=s)
     frame.add_frame(figure)
+    return frame
 
 
 def plot_trajectory(figure, P, show_direction=True, n_frames=10, s=1.0, c=[0, 0, 0]):
@@ -74,6 +93,7 @@ def plot_trajectory(figure, P, show_direction=True, n_frames=10, s=1.0, c=[0, 0,
     assert not show_direction, "not implemented yet"
     trajectory = Trajectory(H, show_direction, n_frames, s, c)
     trajectory.add_trajectory(figure)
+    return trajectory
 
 
 class Figure:
@@ -84,9 +104,37 @@ class Figure:
     def add_geometry(self, geometry):
         self.visualizer.add_geometry(geometry)
 
+    def update_geometry(self, geometry):
+        self.visualizer.update_geometry(geometry)
+
     def set_line_width(self, line_width):
         self.visualizer.get_render_option().line_width = line_width
         self.visualizer.update_renderer()
+
+    def animate(self, callback, n_frames, loop=False, fargs=()):
+        initialized = False
+        window_open = True
+        while window_open and (loop or not initialized):
+            for i in range(n_frames):
+                drawn_artists = callback(i, *fargs)
+
+                if drawn_artists is None:
+                    raise RuntimeError('The animation function must return a '
+                                       'sequence of Artist objects.')
+                try:
+                    drawn_artists = [a for a in drawn_artists]
+                except TypeError:
+                    drawn_artists = [drawn_artists]
+
+                for a in drawn_artists:
+                    for geometry in a.geometries:
+                        self.update_geometry(geometry)
+
+                window_open = self.visualizer.poll_events()
+                if not window_open:
+                    break
+                self.visualizer.update_renderer()
+            initialized = True
 
     def view_init(self, azim=-60, elev=30):
         vc = self.visualizer.get_view_control()
