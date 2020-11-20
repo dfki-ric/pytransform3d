@@ -7,8 +7,60 @@ from . import urdf
 import warnings
 
 
+# TODO docstrings
+
+
 def figure():
     return Figure()
+
+
+class Frame:
+    def __init__(self, A2B, label=None, s=1.0):
+        self.A2B = A2B
+        self.label = label
+        if label is not None:
+            warnings.warn(
+                "This viewer does not support text. Frame label "
+                "will be ignored.")
+        self.s = s
+
+    def set_data(self, A2B, label=None):
+        raise NotImplementedError()
+
+    def add_frame(self, figure):
+        frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
+            size=self.s)
+        frame.transform(self.A2B)
+        figure.add_geometry(frame)
+
+
+class Trajectory:
+    def __init__(self, H, show_direction=True, n_frames=10, s=1.0, c=[0, 0, 0]):
+        self.H = H
+        self.show_direction = show_direction
+        self.n_frames = n_frames
+        self.s = s
+        self.c = c
+
+    def set_data(self, H, label=None):
+        raise NotImplementedError()
+
+    def add_trajectory(self, figure):
+        points = self.H[:, :3, 3]
+        lines = np.hstack((np.arange(len(points) - 1)[:, np.newaxis],
+                           np.arange(1, len(points))[:, np.newaxis]))
+        line_set = o3d.geometry.LineSet(
+            points=o3d.utility.Vector3dVector(points),
+            lines=o3d.utility.Vector2iVector(lines))
+        colors = [self.c for _ in range(len(lines))]
+        line_set.colors = o3d.utility.Vector3dVector(colors)
+        figure.add_geometry(line_set)
+
+        key_frames_indices = np.linspace(
+            0, len(self.H) - 1, self.n_frames, dtype=np.int)
+        for i, key_frame_idx in enumerate(key_frames_indices):
+            frame = Frame(self.H[key_frame_idx], s=self.s)
+            frame.add_frame(figure)
 
 
 def plot_basis(figure, R, p=np.zeros(3), s=1.0):
@@ -59,53 +111,8 @@ class Figure:
         self.visualizer.destroy_window()
 
 
-class Frame:
-    def __init__(self, A2B, label=None, s=1.0):
-        self.A2B = A2B
-        self.label = label
-        if label is not None:
-            warnings.warn(
-                "This viewer does not support text. Frame label "
-                "will be ignored.")
-        self.s = s
-
-    def set_data(self, A2B, label=None):
-        raise NotImplementedError()
-
-    def add_frame(self, figure):
-        frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
-            size=self.s)
-        frame.transform(self.A2B)
-        figure.add_geometry(frame)
-
-
-class Trajectory:
-    def __init__(self, H, show_direction=True, n_frames=10, s=1.0, c=[0, 0, 0]):
-        self.H = H
-        self.show_direction = show_direction
-        self.n_frames = n_frames
-        self.s = s
-        self.c = c
-
-    def set_data(self, H, label=None):
-        raise NotImplementedError()
-
-    def add_trajectory(self, figure):
-        points = self.H[:, :3, 3]
-        lines = np.hstack((np.arange(len(points) - 1)[:, np.newaxis],
-                           np.arange(1, len(points))[:, np.newaxis]))
-        line_set = o3d.geometry.LineSet(
-            points=o3d.utility.Vector3dVector(points),
-            lines=o3d.utility.Vector2iVector(lines))
-        colors = [self.c for _ in range(len(lines))]
-        line_set.colors = o3d.utility.Vector3dVector(colors)
-        figure.add_geometry(line_set)
-
-        key_frames_indices = np.linspace(
-            0, len(self.H) - 1, self.n_frames, dtype=np.int)
-        for i, key_frame_idx in enumerate(key_frames_indices):
-            frame = Frame(self.H[key_frame_idx], s=self.s)
-            frame.add_frame(figure)
+Figure.plot_basis = plot_basis
+Figure.plot_trajectory = plot_trajectory
 
 
 def show_urdf_transform_manager(
