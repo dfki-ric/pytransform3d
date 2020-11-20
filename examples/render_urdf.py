@@ -26,7 +26,7 @@ from pytransform3d.transformations import transform
 
 
 def show_urdf_transform_manager(tm, frame, collision_objects=False,
-        visuals=False):
+                                visuals=False, frames=False, s=1.0):
     """Render URDF file with pyrender.
 
     Parameters
@@ -42,26 +42,46 @@ def show_urdf_transform_manager(tm, frame, collision_objects=False,
 
     visuals : bool, optional (default: False)
         Render visuals
+
+    frames : bool, optional (default: False)
+        Render frames
+
+    s : float, optional (default: 1)
+        Axis scale
     """
     scene = pr.Scene()
     if collision_objects:
         if hasattr(tm, "collision_objects"):
-            _add_objects(scene, tm.collision_objects)
+            _add_objects(scene, tm, tm.collision_objects, frame)
     if visuals:
         if hasattr(tm, "visuals"):
-            _add_objects(scene, tm.visuals)
+            _add_objects(scene, tm, tm.visuals, frame)
+    if frames:
+        for node in tm.nodes:
+            _add_frame(scene, tm, node, frame, s)
     pr.Viewer(scene, use_raymond_lighting=True)
 
 
-def _add_objects(scene, objects):
+def _add_objects(scene, tm, objects, frame):
     for obj in objects:
-        obj.show(scene)
+        obj.show(scene, tm, frame)
+
+
+def _add_frame(scene, tm, from_frame, to_frame, s=1.0):
+    axis_mesh = pr.Mesh.from_trimesh(
+        trimesh.creation.axis(
+            origin_size=s * 0.1, axis_radius=s * 0.05, axis_length=s),
+        smooth=False)
+    n = pr.node.Node(
+        mesh=axis_mesh, matrix=tm.get_transform(from_frame, to_frame),
+        scale=np.ones(3) * s)
+    scene.add_node(n)
 
 
 # We modify the shape objects to include a function that renders them
 
 
-def box_show(self, scene):
+def box_show(self, scene, tm, frame):
     """Render box."""
     A2B = tm.get_transform(self.frame, frame)
 
@@ -90,7 +110,7 @@ def box_show(self, scene):
 urdf.Box.show = box_show
 
 
-def sphere_show(self, scene):
+def sphere_show(self, scene, tm, frame):
     """Render sphere."""
     A2B = tm.get_transform(self.frame, frame)
 
@@ -118,7 +138,7 @@ def sphere_show(self, scene):
 urdf.Sphere.show = sphere_show
 
 
-def cylinder_show(self, scene):
+def cylinder_show(self, scene, tm, frame):
     """Render cylinder."""
     A2B = tm.get_transform(self.frame, frame)
 
@@ -160,7 +180,7 @@ def cylinder_show(self, scene):
 urdf.Cylinder.show = cylinder_show
 
 
-def mesh_show(self, scene):
+def mesh_show(self, scene, tm, frame):
     """Render mesh."""
     if self.mesh_path is None:
         print("No mesh path given")
@@ -187,4 +207,5 @@ tm = urdf.UrdfTransformManager()
 with open(filename, "r") as f:
     tm.load_urdf(f.read(), mesh_path=mesh_path)
 tm.set_joint("joint", 0.25 * np.pi)
-show_urdf_transform_manager(tm, frame, visuals=True, collision_objects=False)
+show_urdf_transform_manager(
+    tm, frame, visuals=True, collision_objects=False, frames=True, s=0.05)
