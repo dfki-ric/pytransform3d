@@ -4,15 +4,15 @@ from . import rotations as pr
 from . import transformations as pt
 from . import trajectories as ptr
 from . import urdf
-from functools import partial
+from itertools import chain
 import warnings
 
 
 # TODO docstrings
 
 
-def figure():
-    return Figure()
+def figure(window_name="Open3D"):
+    return Figure(window_name)
 
 
 class Frame:
@@ -57,31 +57,35 @@ class Trajectory:
 
         self.line_set = None
         self.key_frames = []
+        self.line_set = o3d.geometry.LineSet()
 
-    def set_data(self, H, label=None):
-        raise NotImplementedError()
+        self.key_frames_indices = np.linspace(
+            0, len(self.H) - 1, self.n_frames, dtype=np.int)
+        for i, key_frame_idx in enumerate(self.key_frames_indices):
+            self.key_frames.append(Frame(self.H[key_frame_idx], s=self.s))
+
+        self.set_data(H)
+
+    def set_data(self, H):
+        self.line_set.points = o3d.utility.Vector3dVector(H[:, :3, 3])
+        self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
+            np.arange(len(H) - 1)[:, np.newaxis],
+            np.arange(1, len(H))[:, np.newaxis])))
+        self.line_set.colors = o3d.utility.Vector3dVector(
+            [self.c for _ in range(len(H))])
+        for i, key_frame_idx in enumerate(self.key_frames_indices):
+            self.key_frames[i].set_data(H[key_frame_idx])
 
     def add_trajectory(self, figure):
-        points = self.H[:, :3, 3]
-        lines = np.hstack((np.arange(len(points) - 1)[:, np.newaxis],
-                           np.arange(1, len(points))[:, np.newaxis]))
-        self.line_set = o3d.geometry.LineSet(
-            points=o3d.utility.Vector3dVector(points),
-            lines=o3d.utility.Vector2iVector(lines))
-        colors = [self.c for _ in range(len(lines))]
-        self.line_set.colors = o3d.utility.Vector3dVector(colors)
         figure.add_geometry(self.line_set)
-
-        key_frames_indices = np.linspace(
-            0, len(self.H) - 1, self.n_frames, dtype=np.int)
-        for i, key_frame_idx in enumerate(key_frames_indices):
-            frame = Frame(self.H[key_frame_idx], s=self.s)
-            frame.add_frame(figure)
-            self.key_frames.append(frame)
+        for key_frame in self.key_frames:
+            key_frame.add_frame(figure)
 
     @property
     def geometries(self):
-        return [self.line_set] + self.key_frames
+        frame_geometries = list(
+            chain(*[kf.geometries for kf in self.key_frames]))
+        return [self.line_set] + frame_geometries
 
 
 def plot_basis(figure, R, p=np.zeros(3), s=1.0):
@@ -100,9 +104,9 @@ def plot_trajectory(figure, P, show_direction=True, n_frames=10, s=1.0, c=[0, 0,
 
 
 class Figure:
-    def __init__(self):
+    def __init__(self, window_name="Open3D"):
         self.visualizer = o3d.visualization.Visualizer()
-        self.visualizer.create_window()
+        self.visualizer.create_window(window_name=window_name)
 
     def add_geometry(self, geometry):
         self.visualizer.add_geometry(geometry)
@@ -113,6 +117,9 @@ class Figure:
     def set_line_width(self, line_width):
         self.visualizer.get_render_option().line_width = line_width
         self.visualizer.update_renderer()
+
+    def set_zoom(self, zoom):
+        self.visualizer.get_view_control().set_zoom(zoom)
 
     def animate(self, callback, n_frames, loop=False, fargs=()):
         initialized = False
