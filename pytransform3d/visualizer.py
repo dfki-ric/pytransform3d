@@ -47,6 +47,28 @@ class Frame:
         return [self.frame]
 
 
+def plot_basis(figure, R=None, p=np.zeros(3), s=1.0, strict_check=True):
+    if R is None:
+        R = np.eye(3)
+    R = pr.check_matrix(R, strict_check=strict_check)
+
+    frame = Frame(pt.transform_from(R=R, p=p), s=s)
+    frame.add_frame(figure)
+
+    return frame
+
+
+def plot_transform(figure, A2B=None, s=1.0, ax_s=1, name=None, strict_check=True):
+    if A2B is None:
+        A2B = np.eye(4)
+    A2B = pt.check_transform(A2B, strict_check=strict_check)
+
+    frame = Frame(A2B, name, s)
+    frame.add_frame(figure)
+
+    return frame
+
+
 class Trajectory:
     def __init__(self, H, show_direction=True, n_frames=10, s=1.0, c=[0, 0, 0]):
         self.H = H
@@ -67,6 +89,7 @@ class Trajectory:
         self.set_data(H)
 
     def set_data(self, H):
+        assert not self.show_direction
         self.line_set.points = o3d.utility.Vector3dVector(H[:, :3, 3])
         self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
             np.arange(len(H) - 1)[:, np.newaxis],
@@ -88,19 +111,48 @@ class Trajectory:
         return [self.line_set] + frame_geometries
 
 
-def plot_basis(figure, R, p=np.zeros(3), s=1.0):
-    A2B = pt.transform_from(R=R, p=p)
-    frame = Frame(A2B, s=s)
-    frame.add_frame(figure)
-    return frame
-
-
 def plot_trajectory(figure, P, show_direction=True, n_frames=10, s=1.0, c=[0, 0, 0]):
     H = ptr.matrices_from_pos_quat(P)
     assert not show_direction, "not implemented yet"
     trajectory = Trajectory(H, show_direction, n_frames, s, c)
     trajectory.add_trajectory(figure)
     return trajectory
+
+
+class Mesh:
+    def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
+        self.mesh = o3d.io.read_triangle_mesh(filename)
+        self.mesh.vertices = o3d.utility.Vector3dVector(
+            np.asarray(self.mesh.vertices) * s)
+        if c is not None:
+            n_vertices = len(self.mesh.vertices)
+            colors = np.zeros((n_vertices, 3))
+            colors[:] = c
+            self.mesh.vertex_colors = o3d.utility.Vector3dVector(colors)
+        self.A2B = None
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
+        self.A2B = A2B
+
+        self.mesh.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+
+    def add_artist(self, figure):
+        for g in self.geometries:
+            figure.add_geometry(g)
+
+    @property
+    def geometries(self):
+        return [self.mesh]
+
+
+def plot_mesh(figure, filename, A2B=np.eye(4), s=np.ones(3), c=None):
+    mesh = Mesh(filename, A2B, s, c)
+    mesh.add_artist(figure)
+    return mesh
 
 
 class Figure:
@@ -171,6 +223,8 @@ class Figure:
 
 Figure.plot_basis = plot_basis
 Figure.plot_trajectory = plot_trajectory
+Figure.plot_mesh = plot_mesh
+Figure.plot_transform = plot_transform
 
 
 def show_urdf_transform_manager(
