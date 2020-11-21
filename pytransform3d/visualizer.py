@@ -155,6 +155,41 @@ def plot_mesh(figure, filename, A2B=np.eye(4), s=np.ones(3), c=None):
     return mesh
 
 
+class Cylinder:
+    def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
+        self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
+            radius=radius, height=length, resolution=resolution, split=split)
+        if c is not None:
+            n_vertices = len(self.cylinder.vertices)
+            colors = np.zeros((n_vertices, 3))
+            colors[:] = c
+            self.cylinder.vertex_colors = o3d.utility.Vector3dVector(colors)
+        self.A2B = None
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
+        self.A2B = A2B
+
+        self.cylinder.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+
+    def add_artist(self, figure):
+        for g in self.geometries:
+            figure.add_geometry(g)
+
+    @property
+    def geometries(self):
+        return [self.cylinder]
+
+
+def plot_cylinder(figure, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
+    cylinder = Cylinder(length, radius, A2B, resolution, split, c)
+    cylinder.add_artist(figure)
+    return cylinder
+
+
 class Figure:
     def __init__(self, window_name="Open3D"):
         self.visualizer = o3d.visualization.Visualizer()
@@ -225,6 +260,7 @@ Figure.plot_basis = plot_basis
 Figure.plot_trajectory = plot_trajectory
 Figure.plot_mesh = plot_mesh
 Figure.plot_transform = plot_transform
+Figure.plot_cylinder = plot_cylinder
 
 
 def show_urdf_transform_manager(
@@ -275,7 +311,7 @@ def cylinder_show(self, figure, tm, frame, c=None):
 urdf.Cylinder.show = cylinder_show
 
 
-def mesh_show(self, figure, tm, frame, c=None):
+def mesh_show(self, figure, tm, frame, c=None):  # TODO refactor
     if self.mesh_path is None:
         print("No mesh path given")
         return
