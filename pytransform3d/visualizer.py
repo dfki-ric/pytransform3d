@@ -77,7 +77,6 @@ class Trajectory:
         self.s = s
         self.c = c
 
-        self.line_set = None
         self.key_frames = []
         self.line_set = o3d.geometry.LineSet()
 
@@ -264,6 +263,88 @@ def plot_sphere(figure, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
     return sphere
 
 
+class Graph:
+    def __init__(self, tm, frame, show_frames=False, show_connections=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
+        self.tm = tm
+        self.frame = frame
+        self.show_frames = show_frames
+        self.show_connections = show_connections
+        self.whitelist = whitelist
+        self.s = s
+        self.c = c
+
+        if self.frame not in self.tm.nodes:
+            raise KeyError("Unknown frame '%s'" % self.frame)
+
+        self.nodes = list(sorted(self.tm._whitelisted_nodes(whitelist)))
+
+        self.frames = {}
+        if self.show_frames:
+            for node in self.nodes:
+                try:
+                    node2frame = self.tm.get_transform(node, frame)
+                    name = node if show_name else None
+                    self.frames[node] = Frame(node2frame, name, s)
+                except KeyError:
+                    pass  # Frame is not connected to the reference frame
+
+        self.connections = {}
+        if self.show_connections:
+            for frame_names in self.tm.transforms.keys():
+                from_frame, to_frame = frame_names
+                if from_frame in self.tm.nodes and to_frame in self.tm.nodes:
+                    try:
+                        self.tm.get_transform(from_frame, self.frame)
+                        self.tm.get_transform(to_frame, self.frame)
+                        self.connections[frame_names] = o3d.geometry.LineSet()
+                    except KeyError:
+                        pass  # Frame is not connected to the reference frame
+        self.set_data()
+
+    def set_data(self):
+        if self.show_frames:
+            for node in self.nodes:
+                try:
+                    node2frame = self.tm.get_transform(node, self.frame)
+                    self.frames[node].set_data(node2frame)
+                except KeyError:
+                    pass  # Frame is not connected to the reference frame
+
+        if self.show_connections:
+            for frame_names in self.connections.keys():
+                from_frame, to_frame = frame_names
+                try:
+                    from2ref = self.tm.get_transform(from_frame, self.frame)
+                    to2ref = self.tm.get_transform(to_frame, self.frame)
+
+                    points = np.vstack((from2ref[:3, 3], to2ref[:3, 3]))
+                    self.connections[frame_names].points = o3d.utility.Vector3dVector(points)
+                    self.connections[frame_names].lines = o3d.utility.Vector2iVector(np.array([[0, 1]]))
+                    self.connections[frame_names].colors = o3d.utility.Vector3dVector([self.c for _ in range(2)])
+                except KeyError:
+                    pass  # Frame is not connected to the reference frame
+
+    def add_artist(self, figure):  # TODO move to base class
+        for g in self.geometries:
+            figure.add_geometry(g)
+
+    @property
+    def geometries(self):
+        geometries = []
+        if self.show_frames:
+            for f in self.frames.values():
+                geometries += f.geometries
+        if self.show_connections:
+            geometries += list(self.connections.values())
+        return geometries
+
+
+def plot_graph(figure, tm, frame, show_frames=False, show_connections=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
+    graph = Graph(tm, frame, show_frames, show_connections, show_name, whitelist, s, c)
+    graph.add_artist(figure)
+    return graph
+
+
 class Figure:
     def __init__(self, window_name="Open3D"):
         self.visualizer = o3d.visualization.Visualizer()
@@ -337,6 +418,7 @@ Figure.plot_transform = plot_transform
 Figure.plot_cylinder = plot_cylinder
 Figure.plot_box = plot_box
 Figure.plot_sphere = plot_sphere
+Figure.plot_graph = plot_graph
 
 
 def show_urdf_transform_manager(
