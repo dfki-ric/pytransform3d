@@ -229,6 +229,41 @@ def plot_box(figure, size=np.ones(3), A2B=np.eye(4), c=None):
     return box
 
 
+class Sphere:
+    def __init__(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
+        self.sphere = o3d.geometry.TriangleMesh.create_sphere(
+            radius, resolution)
+        if c is not None:
+            n_vertices = len(self.sphere.vertices)
+            colors = np.zeros((n_vertices, 3))
+            colors[:] = c
+            self.sphere.vertex_colors = o3d.utility.Vector3dVector(colors)
+        self.A2B = None
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
+        self.A2B = A2B
+
+        self.sphere.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+
+    def add_artist(self, figure):
+        for g in self.geometries:
+            figure.add_geometry(g)
+
+    @property
+    def geometries(self):
+        return [self.sphere]
+
+
+def plot_sphere(figure, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
+    sphere = Sphere(radius, A2B, resolution, c)
+    sphere.add_artist(figure)
+    return sphere
+
+
 class Figure:
     def __init__(self, window_name="Open3D"):
         self.visualizer = o3d.visualization.Visualizer()
@@ -301,6 +336,7 @@ Figure.plot_mesh = plot_mesh
 Figure.plot_transform = plot_transform
 Figure.plot_cylinder = plot_cylinder
 Figure.plot_box = plot_box
+Figure.plot_sphere = plot_sphere
 
 
 def show_urdf_transform_manager(
