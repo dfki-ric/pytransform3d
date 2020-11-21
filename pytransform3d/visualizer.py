@@ -190,6 +190,45 @@ def plot_cylinder(figure, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, 
     return cylinder
 
 
+class Box:
+    def __init__(self, size=np.ones(3), A2B=np.eye(4), c=None):
+        self.half_size = np.asarray(size) / 2.0
+        width, height, depth = size
+        self.box = o3d.geometry.TriangleMesh.create_box(
+            width, height, depth)
+        if c is not None:
+            n_vertices = len(self.box.vertices)
+            colors = np.zeros((n_vertices, 3))
+            colors[:] = c
+            self.box.vertex_colors = o3d.utility.Vector3dVector(colors)
+        self.A2B = None
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
+        self.A2B = A2B
+
+        self.box.transform(
+            pt.concat(pt.transform_from(R=np.eye(3), p=-self.half_size),
+                      pt.concat(pt.invert_transform(previous_A2B), self.A2B)))
+
+    def add_artist(self, figure):
+        for g in self.geometries:
+            figure.add_geometry(g)
+
+    @property
+    def geometries(self):
+        return [self.box]
+
+
+def plot_box(figure, size=np.ones(3), A2B=np.eye(4), c=None):
+    box = Box(size, A2B, c)
+    box.add_artist(figure)
+    return box
+
+
 class Figure:
     def __init__(self, window_name="Open3D"):
         self.visualizer = o3d.visualization.Visualizer()
@@ -261,6 +300,7 @@ Figure.plot_trajectory = plot_trajectory
 Figure.plot_mesh = plot_mesh
 Figure.plot_transform = plot_transform
 Figure.plot_cylinder = plot_cylinder
+Figure.plot_box = plot_box
 
 
 def show_urdf_transform_manager(
