@@ -10,7 +10,7 @@ branches:
 install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq liblapack-dev libopenblas-dev graphviz
-  - pip install numpy scipy lxml bs4 matplotlib coverage pydot trimesh
+  - pip install numpy scipy lxml bs4 matplotlib coverage pydot trimesh open3d
 script: "MPLBACKEND=Agg nosetests -sv ."
 notifications:
   recipients:
