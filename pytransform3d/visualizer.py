@@ -71,9 +71,8 @@ try:
 
 
     class Trajectory:
-        def __init__(self, H, show_direction=True, n_frames=10, s=1.0, c=[0, 0, 0]):
+        def __init__(self, H, n_frames=10, s=1.0, c=[0, 0, 0]):
             self.H = H
-            self.show_direction = show_direction
             self.n_frames = n_frames
             self.s = s
             self.c = c
@@ -89,7 +88,6 @@ try:
             self.set_data(H)
 
         def set_data(self, H):
-            assert not self.show_direction
             self.line_set.points = o3d.utility.Vector3dVector(H[:, :3, 3])
             self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
                 np.arange(len(H) - 1)[:, np.newaxis],
@@ -106,15 +104,12 @@ try:
 
         @property
         def geometries(self):
-            frame_geometries = list(
-                chain(*[kf.geometries for kf in self.key_frames]))
-            return [self.line_set] + frame_geometries
+            return [self.line_set] + list(chain(*[kf.geometries for kf in self.key_frames]))
 
 
-    def plot_trajectory(figure, P, show_direction=True, n_frames=10, s=1.0, c=[0, 0, 0]):
+    def plot_trajectory(figure, P, n_frames=10, s=1.0, c=[0, 0, 0]):
         H = ptr.matrices_from_pos_quat(P)
-        assert not show_direction, "not implemented yet"
-        trajectory = Trajectory(H, show_direction, n_frames, s, c)
+        trajectory = Trajectory(H, n_frames, s, c)
         trajectory.add_trajectory(figure)
         return trajectory
 

@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     H = np.zeros((100, 4, 4))
     H[:] = np.eye(4)
-    trajectory = pv.Trajectory(H, show_direction=False, s=0.2, c=[0, 0, 0])
+    trajectory = pv.Trajectory(H, s=0.2, c=[0, 0, 0])
     trajectory.add_trajectory(fig)
     fig.view_init()
     fig.set_zoom(8)
