@@ -16,5 +16,4 @@ from pytransform3d import visualizer as pv
 fig = pv.figure()
 fig.plot_mesh(filename="test/test_data/scan.stl", s=np.ones(3))
 fig.plot_transform(A2B=np.eye(4), s=0.3)
-#fig.view_init()
 fig.show()

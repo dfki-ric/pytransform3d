@@ -21,7 +21,7 @@ def animation_callback(step, n_frames, frame):
     return frame
 
 
-fig = pv.figure()
+fig = pv.figure(width=500, height=500)
 frame = fig.plot_basis(R=np.eye(3), s=0.5)
 fig.view_init()
 
