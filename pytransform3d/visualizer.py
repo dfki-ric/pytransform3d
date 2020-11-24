@@ -16,7 +16,47 @@ try:
         return Figure(window_name, width, height)
 
 
-    class Frame:
+    class Artist:
+        def add_artist(self, figure):
+            for g in self.geometries:
+                figure.add_geometry(g)
+
+        @property
+        def geometries(self):
+            return []
+
+
+    class Line3D(Artist):
+        def __init__(self, P, c=(0, 0, 0)):
+            self.line_set = o3d.geometry.LineSet()
+            self.set_data(P, c)
+
+        def set_data(self, P, c=None):
+            self.line_set.points = o3d.utility.Vector3dVector(P)
+            self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
+                np.arange(len(P) - 1)[:, np.newaxis],
+                np.arange(1, len(P))[:, np.newaxis])))
+
+            if c is not None:
+                try:
+                    if len(c[0]) == 3:
+                        self.line_set.colors = o3d.utility.Vector3dVector(c)
+                except TypeError:  # one color for all segments
+                    self.line_set.colors = o3d.utility.Vector3dVector(
+                        [c for _ in range(len(P))])
+
+        @property
+        def geometries(self):
+            return [self.line_set]
+
+
+    def plot(figure, P, c=(0, 0, 0)):
+        line3d = Line3D(P, c)
+        line3d.add_artist(figure)
+        return line3d
+
+
+    class Frame(Artist):
         def __init__(self, A2B, label=None, s=1.0):
             self.A2B = None
             self.label = None
@@ -70,15 +110,15 @@ try:
         return frame
 
 
-    class Trajectory:
-        def __init__(self, H, n_frames=10, s=1.0, c=[0, 0, 0]):
+    class Trajectory(Artist):
+        def __init__(self, H, n_frames=10, s=1.0, c=(0, 0, 0)):
             self.H = H
             self.n_frames = n_frames
             self.s = s
             self.c = c
 
             self.key_frames = []
-            self.line_set = o3d.geometry.LineSet()
+            self.line = Line3D(H[:, :3, 3], c)
 
             self.key_frames_indices = np.linspace(
                 0, len(self.H) - 1, self.n_frames, dtype=np.int)
@@ -88,33 +128,26 @@ try:
             self.set_data(H)
 
         def set_data(self, H):
-            self.line_set.points = o3d.utility.Vector3dVector(H[:, :3, 3])
-            self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
-                np.arange(len(H) - 1)[:, np.newaxis],
-                np.arange(1, len(H))[:, np.newaxis])))
-            self.line_set.colors = o3d.utility.Vector3dVector(
-                [self.c for _ in range(len(H))])
+            self.line.set_data(H[:, :3, 3])
             for i, key_frame_idx in enumerate(self.key_frames_indices):
                 self.key_frames[i].set_data(H[key_frame_idx])
 
         def add_trajectory(self, figure):
-            figure.add_geometry(self.line_set)
-            for key_frame in self.key_frames:
-                key_frame.add_frame(figure)
+            self.add_artist(figure)
 
         @property
         def geometries(self):
-            return [self.line_set] + list(chain(*[kf.geometries for kf in self.key_frames]))
+            return self.line.geometries + list(chain(*[kf.geometries for kf in self.key_frames]))
 
 
-    def plot_trajectory(figure, P, n_frames=10, s=1.0, c=[0, 0, 0]):
+    def plot_trajectory(figure, P, n_frames=10, s=1.0, c=(0, 0, 0)):
         H = ptr.matrices_from_pos_quat(P)
         trajectory = Trajectory(H, n_frames, s, c)
         trajectory.add_trajectory(figure)
         return trajectory
 
 
-    class Mesh:
+    class Mesh(Artist):
         def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
             self.mesh = o3d.io.read_triangle_mesh(filename)
             self.mesh.vertices = o3d.utility.Vector3dVector(
@@ -135,10 +168,6 @@ try:
 
             self.mesh.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
 
-        def add_artist(self, figure):
-            for g in self.geometries:
-                figure.add_geometry(g)
-
         @property
         def geometries(self):
             return [self.mesh]
@@ -150,7 +179,7 @@ try:
         return mesh
 
 
-    class Cylinder:
+    class Cylinder(Artist):
         def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
             self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
                 radius=radius, height=length, resolution=resolution, split=split)
@@ -170,10 +199,6 @@ try:
 
             self.cylinder.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
 
-        def add_artist(self, figure):
-            for g in self.geometries:
-                figure.add_geometry(g)
-
         @property
         def geometries(self):
             return [self.cylinder]
@@ -185,7 +210,7 @@ try:
         return cylinder
 
 
-    class Box:
+    class Box(Artist):
         def __init__(self, size=np.ones(3), A2B=np.eye(4), c=None):
             self.half_size = np.asarray(size) / 2.0
             width, height, depth = size
@@ -209,10 +234,6 @@ try:
                 pt.concat(pt.transform_from(R=np.eye(3), p=-self.half_size),
                           pt.concat(pt.invert_transform(previous_A2B), self.A2B)))
 
-        def add_artist(self, figure):
-            for g in self.geometries:
-                figure.add_geometry(g)
-
         @property
         def geometries(self):
             return [self.box]
@@ -224,7 +245,7 @@ try:
         return box
 
 
-    class Sphere:
+    class Sphere(Artist):
         def __init__(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
             self.sphere = o3d.geometry.TriangleMesh.create_sphere(
                 radius, resolution)
@@ -244,10 +265,6 @@ try:
 
             self.sphere.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
 
-        def add_artist(self, figure):
-            for g in self.geometries:
-                figure.add_geometry(g)
-
         @property
         def geometries(self):
             return [self.sphere]
@@ -259,7 +276,7 @@ try:
         return sphere
 
 
-    class Graph:
+    class Graph(Artist):
         def __init__(self, tm, frame, show_frames=False, show_connections=False, show_visuals=False, show_collision_objects=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
             self.tm = tm
             self.frame = frame
@@ -348,10 +365,6 @@ try:
                 A2B = self.tm.get_transform(frame, self.frame)
                 obj.set_data(A2B)
 
-        def add_artist(self, figure):  # TODO move to base class
-            for g in self.geometries:
-                figure.add_geometry(g)
-
         @property
         def geometries(self):
             geometries = []
@@ -437,6 +450,7 @@ try:
             self.visualizer.destroy_window()
 
 
+    Figure.plot = plot
     Figure.plot_basis = plot_basis
     Figure.plot_trajectory = plot_trajectory
     Figure.plot_mesh = plot_mesh
