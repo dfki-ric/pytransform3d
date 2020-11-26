@@ -1,3 +1,4 @@
+"""Optional 3D renderer based on Open3D's visualizer."""
 import warnings
 try:
     import open3d as o3d
@@ -33,6 +34,193 @@ try:
             New figure.
         """
         return Figure(window_name, width, height, with_key_callbacks)
+
+
+    class Figure:
+        def __init__(self, window_name="Open3D", width=1920, height=1080, with_key_callbacks=False):
+            if with_key_callbacks:
+                self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
+            else:
+                self.visualizer = o3d.visualization.Visualizer()
+            self.visualizer.create_window(window_name=window_name, width=width, height=height)
+
+        def add_geometry(self, geometry):
+            self.visualizer.add_geometry(geometry)
+
+        def update_geometry(self, geometry):
+            self.visualizer.update_geometry(geometry)
+
+        def set_line_width(self, line_width):
+            self.visualizer.get_render_option().line_width = line_width
+            self.visualizer.update_renderer()
+
+        def set_zoom(self, zoom):
+            self.visualizer.get_view_control().set_zoom(zoom)
+
+        def animate(self, callback, n_frames, loop=False, fargs=()):
+            initialized = False
+            window_open = True
+            while window_open and (loop or not initialized):
+                for i in range(n_frames):
+                    drawn_artists = callback(i, *fargs)
+
+                    if drawn_artists is None:
+                        raise RuntimeError('The animation function must return a '
+                                           'sequence of Artist objects.')
+                    try:
+                        drawn_artists = [a for a in drawn_artists]
+                    except TypeError:
+                        drawn_artists = [drawn_artists]
+
+                    for a in drawn_artists:
+                        for geometry in a.geometries:
+                            self.update_geometry(geometry)
+
+                    window_open = self.visualizer.poll_events()
+                    if not window_open:
+                        break
+                    self.visualizer.update_renderer()
+                initialized = True
+
+        def view_init(self, azim=-60, elev=30):
+            vc = self.visualizer.get_view_control()
+            pcp = vc.convert_to_pinhole_camera_parameters()
+            distance = np.linalg.norm(pcp.extrinsic[:3, 3])
+            R_azim_elev_0_world2camera = np.array([
+                [0, 1, 0],
+                [0, 0, -1],
+                [-1, 0, 0]])
+            R_azim_elev_0_camera2world = R_azim_elev_0_world2camera.T
+            # azimuth and elevation are defined in world frame
+            R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
+            R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
+            R_elev_azim_camera2world = R_azim.dot(R_elev).dot(R_azim_elev_0_camera2world)
+            pcp.extrinsic = pt.transform_from(  # world2camera
+                R=R_elev_azim_camera2world.T,
+                p=[0, 0, distance])
+            vc.convert_from_pinhole_camera_parameters(pcp)
+
+        def plot(self, P, c=(0, 0, 0)):
+            """Plot line.
+
+            Parameters
+            ----------
+            P : array-like, shape (n_points, 3)
+                Points of which the line consists.
+
+            c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
+                Color can be given as individual colors per line segment or as one
+                color for each segment. A color is represented by 3 values between
+                0 and 1 indicate representing red, green, and blue respectively.
+
+            Returns
+            -------
+            Line3D : line
+                New line.
+            """
+            line3d = Line3D(P, c)
+            line3d.add_artist(self)
+            return line3d
+
+        def plot_basis(self, R=None, p=np.zeros(3), s=1.0, strict_check=True):
+            """Plot basis.
+
+            Parameters
+            ----------
+            R : array-like, shape (3, 3), optional (default: I)
+                Rotation matrix, each column contains a basis vector
+
+            p : array-like, shape (3,), optional (default: [0, 0, 0])
+                Offset from the origin
+
+            s : float, optional (default: 1)
+                Scaling of the frame that will be drawn
+
+            strict_check : bool, optional (default: True)
+                Raise a ValueError if the rotation matrix is not numerically close
+                enough to a real rotation matrix. Otherwise we print a warning.
+
+            Returns
+            -------
+            Frame : frame
+                New frame.
+            """
+            if R is None:
+                R = np.eye(3)
+            R = pr.check_matrix(R, strict_check=strict_check)
+
+            frame = Frame(pt.transform_from(R=R, p=p), s=s)
+            frame.add_artist(self)
+
+            return frame
+
+        def plot_transform(self, A2B=None, s=1.0, name=None, strict_check=True):
+            """Plot coordinate frame.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Transform from frame A to frame B
+
+            s : float, optional (default: 1)
+                Length of basis vectors
+
+            label : str, optional (default: None)
+                Name of the frame
+
+            strict_check : bool, optional (default: True)
+                Raise a ValueError if the transformation matrix is not numerically
+                close enough to a real transformation matrix. Otherwise we print a
+                warning.
+
+            Returns
+            -------
+            Frame : frame
+                New frame.
+            """
+            if A2B is None:
+                A2B = np.eye(4)
+            A2B = pt.check_transform(A2B, strict_check=strict_check)
+
+            frame = Frame(A2B, name, s)
+            frame.add_artist(self)
+
+            return frame
+
+        def plot_trajectory(self, P, n_frames=10, s=1.0, c=(0, 0, 0)):
+            H = ptr.matrices_from_pos_quat(P)
+            trajectory = Trajectory(H, n_frames, s, c)
+            trajectory.add_trajectory(self)
+            return trajectory
+
+        def plot_mesh(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
+            mesh = Mesh(filename, A2B, s, c)
+            mesh.add_artist(self)
+            return mesh
+
+        def plot_cylinder(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
+            cylinder = Cylinder(length, radius, A2B, resolution, split, c)
+            cylinder.add_artist(self)
+            return cylinder
+
+        def plot_box(self, size=np.ones(3), A2B=np.eye(4), c=None):
+            box = Box(size, A2B, c)
+            box.add_artist(self)
+            return box
+
+        def plot_sphere(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
+            sphere = Sphere(radius, A2B, resolution, c)
+            sphere.add_artist(self)
+            return sphere
+
+        def plot_graph(self, tm, frame, show_frames=False, show_connections=False, show_visuals=False, show_collision_objects=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
+            graph = Graph(tm, frame, show_frames, show_connections, show_visuals, show_collision_objects, show_name, whitelist, s, c)
+            graph.add_artist(self)
+            return graph
+
+        def show(self):
+            self.visualizer.run()
+            self.visualizer.destroy_window()
 
 
     class Artist:
@@ -205,23 +393,15 @@ try:
             return self.line.geometries + list(chain(*[kf.geometries for kf in self.key_frames]))
 
 
-    def plot_trajectory(figure, P, n_frames=10, s=1.0, c=(0, 0, 0)):
-        H = ptr.matrices_from_pos_quat(P)
-        trajectory = Trajectory(H, n_frames, s, c)
-        trajectory.add_trajectory(figure)
-        return trajectory
-
-
-    class Mesh(Artist):
-        def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
-            self.mesh = o3d.io.read_triangle_mesh(filename)
-            self.mesh.vertices = o3d.utility.Vector3dVector(
-                np.asarray(self.mesh.vertices) * s)
+    class Sphere(Artist):
+        def __init__(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
+            self.sphere = o3d.geometry.TriangleMesh.create_sphere(
+                radius, resolution)
             if c is not None:
-                n_vertices = len(self.mesh.vertices)
+                n_vertices = len(self.sphere.vertices)
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
-                self.mesh.vertex_colors = o3d.utility.Vector3dVector(colors)
+                self.sphere.vertex_colors = o3d.utility.Vector3dVector(colors)
             self.A2B = None
             self.set_data(A2B)
 
@@ -231,48 +411,11 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.mesh.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+            self.sphere.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
 
         @property
         def geometries(self):
-            return [self.mesh]
-
-
-    def plot_mesh(figure, filename, A2B=np.eye(4), s=np.ones(3), c=None):
-        mesh = Mesh(filename, A2B, s, c)
-        mesh.add_artist(figure)
-        return mesh
-
-
-    class Cylinder(Artist):
-        def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
-            self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
-                radius=radius, height=length, resolution=resolution, split=split)
-            if c is not None:
-                n_vertices = len(self.cylinder.vertices)
-                colors = np.zeros((n_vertices, 3))
-                colors[:] = c
-                self.cylinder.vertex_colors = o3d.utility.Vector3dVector(colors)
-            self.A2B = None
-            self.set_data(A2B)
-
-        def set_data(self, A2B):
-            previous_A2B = self.A2B
-            if previous_A2B is None:
-                previous_A2B = np.eye(4)
-            self.A2B = A2B
-
-            self.cylinder.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
-
-        @property
-        def geometries(self):
-            return [self.cylinder]
-
-
-    def plot_cylinder(figure, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
-        cylinder = Cylinder(length, radius, A2B, resolution, split, c)
-        cylinder.add_artist(figure)
-        return cylinder
+            return [self.sphere]
 
 
     class Box(Artist):
@@ -304,21 +447,15 @@ try:
             return [self.box]
 
 
-    def plot_box(figure, size=np.ones(3), A2B=np.eye(4), c=None):
-        box = Box(size, A2B, c)
-        box.add_artist(figure)
-        return box
-
-
-    class Sphere(Artist):
-        def __init__(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
-            self.sphere = o3d.geometry.TriangleMesh.create_sphere(
-                radius, resolution)
+    class Cylinder(Artist):
+        def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
+            self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
+                radius=radius, height=length, resolution=resolution, split=split)
             if c is not None:
-                n_vertices = len(self.sphere.vertices)
+                n_vertices = len(self.cylinder.vertices)
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
-                self.sphere.vertex_colors = o3d.utility.Vector3dVector(colors)
+                self.cylinder.vertex_colors = o3d.utility.Vector3dVector(colors)
             self.A2B = None
             self.set_data(A2B)
 
@@ -328,17 +465,37 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.sphere.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+            self.cylinder.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
 
         @property
         def geometries(self):
-            return [self.sphere]
+            return [self.cylinder]
 
 
-    def plot_sphere(figure, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
-        sphere = Sphere(radius, A2B, resolution, c)
-        sphere.add_artist(figure)
-        return sphere
+    class Mesh(Artist):
+        def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
+            self.mesh = o3d.io.read_triangle_mesh(filename)
+            self.mesh.vertices = o3d.utility.Vector3dVector(
+                np.asarray(self.mesh.vertices) * s)
+            if c is not None:
+                n_vertices = len(self.mesh.vertices)
+                colors = np.zeros((n_vertices, 3))
+                colors[:] = c
+                self.mesh.vertex_colors = o3d.utility.Vector3dVector(colors)
+            self.A2B = None
+            self.set_data(A2B)
+
+        def set_data(self, A2B):
+            previous_A2B = self.A2B
+            if previous_A2B is None:
+                previous_A2B = np.eye(4)
+            self.A2B = A2B
+
+            self.mesh.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+
+        @property
+        def geometries(self):
+            return [self.mesh]
 
 
     class Graph(Artist):
@@ -441,176 +598,6 @@ try:
             for object in self.objects.values():
                 geometries += object.geometries
             return geometries
-
-
-    def plot_graph(figure, tm, frame, show_frames=False, show_connections=False, show_visuals=False, show_collision_objects=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
-        graph = Graph(tm, frame, show_frames, show_connections, show_visuals, show_collision_objects, show_name, whitelist, s, c)
-        graph.add_artist(figure)
-        return graph
-
-
-    class Figure:
-        def __init__(self, window_name="Open3D", width=1920, height=1080, with_key_callbacks=False):
-            if with_key_callbacks:
-                self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
-            else:
-                self.visualizer = o3d.visualization.Visualizer()
-            self.visualizer.create_window(window_name=window_name, width=width, height=height)
-
-        def add_geometry(self, geometry):
-            self.visualizer.add_geometry(geometry)
-
-        def update_geometry(self, geometry):
-            self.visualizer.update_geometry(geometry)
-
-        def set_line_width(self, line_width):
-            self.visualizer.get_render_option().line_width = line_width
-            self.visualizer.update_renderer()
-
-        def set_zoom(self, zoom):
-            self.visualizer.get_view_control().set_zoom(zoom)
-
-        def animate(self, callback, n_frames, loop=False, fargs=()):
-            initialized = False
-            window_open = True
-            while window_open and (loop or not initialized):
-                for i in range(n_frames):
-                    drawn_artists = callback(i, *fargs)
-
-                    if drawn_artists is None:
-                        raise RuntimeError('The animation function must return a '
-                                           'sequence of Artist objects.')
-                    try:
-                        drawn_artists = [a for a in drawn_artists]
-                    except TypeError:
-                        drawn_artists = [drawn_artists]
-
-                    for a in drawn_artists:
-                        for geometry in a.geometries:
-                            self.update_geometry(geometry)
-
-                    window_open = self.visualizer.poll_events()
-                    if not window_open:
-                        break
-                    self.visualizer.update_renderer()
-                initialized = True
-
-        def view_init(self, azim=-60, elev=30):
-            vc = self.visualizer.get_view_control()
-            pcp = vc.convert_to_pinhole_camera_parameters()
-            distance = np.linalg.norm(pcp.extrinsic[:3, 3])
-            R_azim_elev_0_world2camera = np.array([
-                [0, 1, 0],
-                [0, 0, -1],
-                [-1, 0, 0]])
-            R_azim_elev_0_camera2world = R_azim_elev_0_world2camera.T
-            # azimuth and elevation are defined in world frame
-            R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
-            R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
-            R_elev_azim_camera2world = R_azim.dot(R_elev).dot(R_azim_elev_0_camera2world)
-            pcp.extrinsic = pt.transform_from(  # world2camera
-                R=R_elev_azim_camera2world.T,
-                p=[0, 0, distance])
-            vc.convert_from_pinhole_camera_parameters(pcp)
-
-        def plot(self, P, c=(0, 0, 0)):
-            """Plot line.
-
-            Parameters
-            ----------
-            P : array-like, shape (n_points, 3)
-                Points of which the line consists.
-
-            c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
-                Color can be given as individual colors per line segment or as one
-                color for each segment. A color is represented by 3 values between
-                0 and 1 indicate representing red, green, and blue respectively.
-
-            Returns
-            -------
-            Line3D : line
-                New line.
-            """
-            line3d = Line3D(P, c)
-            line3d.add_artist(self)
-            return line3d
-
-        def plot_basis(self, R=None, p=np.zeros(3), s=1.0, strict_check=True):
-            """Plot basis.
-
-            Parameters
-            ----------
-            R : array-like, shape (3, 3), optional (default: I)
-                Rotation matrix, each column contains a basis vector
-
-            p : array-like, shape (3,), optional (default: [0, 0, 0])
-                Offset from the origin
-
-            s : float, optional (default: 1)
-                Scaling of the frame that will be drawn
-
-            strict_check : bool, optional (default: True)
-                Raise a ValueError if the rotation matrix is not numerically close
-                enough to a real rotation matrix. Otherwise we print a warning.
-
-            Returns
-            -------
-            Frame : frame
-                New frame.
-            """
-            if R is None:
-                R = np.eye(3)
-            R = pr.check_matrix(R, strict_check=strict_check)
-
-            frame = Frame(pt.transform_from(R=R, p=p), s=s)
-            frame.add_artist(self)
-
-            return frame
-
-        def plot_transform(self, A2B=None, s=1.0, name=None, strict_check=True):
-            """Plot coordinate frame.
-
-            Parameters
-            ----------
-            A2B : array-like, shape (4, 4)
-                Transform from frame A to frame B
-
-            s : float, optional (default: 1)
-                Length of basis vectors
-
-            label : str, optional (default: None)
-                Name of the frame
-
-            strict_check : bool, optional (default: True)
-                Raise a ValueError if the transformation matrix is not numerically
-                close enough to a real transformation matrix. Otherwise we print a
-                warning.
-
-            Returns
-            -------
-            Frame : frame
-                New frame.
-            """
-            if A2B is None:
-                A2B = np.eye(4)
-            A2B = pt.check_transform(A2B, strict_check=strict_check)
-
-            frame = Frame(A2B, name, s)
-            frame.add_artist(self)
-
-            return frame
-
-        def show(self):
-            self.visualizer.run()
-            self.visualizer.destroy_window()
-
-
-    Figure.plot_trajectory = plot_trajectory
-    Figure.plot_mesh = plot_mesh
-    Figure.plot_cylinder = plot_cylinder
-    Figure.plot_box = plot_box
-    Figure.plot_sphere = plot_sphere
-    Figure.plot_graph = plot_graph
 
 except ImportError:
     warnings.warn("3D visualizer is not available. Install open3d.")

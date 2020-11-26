@@ -281,3 +281,32 @@ Testing
    ~pytransform3d.plot_utils.Frame
    ~pytransform3d.plot_utils.LabeledFrame
    ~pytransform3d.plot_utils.Trajectory
+
+
+:mod:`pytransform3d.visualizer`
+===============================
+
+.. automodule:: pytransform3d.visualizer
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.visualizer.figure
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform3d.visualizer.Figure
+   ~pytransform3d.visualizer.Artist
+   ~pytransform3d.visualizer.Line3D
+   ~pytransform3d.visualizer.Frame
+   ~pytransform3d.visualizer.Trajectory
+   ~pytransform3d.visualizer.Sphere
+   ~pytransform3d.visualizer.Box
+   ~pytransform3d.visualizer.Cylinder
+   ~pytransform3d.visualizer.Mesh
+   ~pytransform3d.visualizer.Graph

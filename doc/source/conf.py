@@ -12,7 +12,7 @@ import sphinx_bootstrap_theme
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
+    #'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     #'sphinx.ext.mathjax',
@@ -50,12 +50,6 @@ html_show_sphinx = False
 html_show_copyright = True
 
 autosummary_generate = True
-autodoc_default_flags = ['members', 'inherited-members']
-# Seems to be fixed now and only applies to old versions:
-# The problem is that the numpydoc doc scraper is building
-# autosummary documentation after autosummary has already run.
-# To avoid warnings, we have to set this to variable.
-# Source: http://stackoverflow.com/questions/12206334
-#numpydoc_show_class_members = True
+autodoc_default_options = {"member-order": "bysource"}
 
 intersphinx_mapping = {'http://docs.python.org/': None}
