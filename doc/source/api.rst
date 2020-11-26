@@ -155,28 +155,63 @@ Testing
     :no-members:
     :no-inherited-members:
 
+Input Validation Functions
+--------------------------
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
    ~pytransform3d.transformations.check_transform
    ~pytransform3d.transformations.check_pq
+
+Create Transformations
+----------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.transformations.transform_from
    ~pytransform3d.transformations.random_transform
-   ~pytransform3d.transformations.invert_transform
    ~pytransform3d.transformations.translate_transform
    ~pytransform3d.transformations.rotate_transform
+   ~pytransform3d.transformations.pq_from_transform
+   ~pytransform3d.transformations.transform_from_pq
+
+Apply Transformations
+---------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.concat
+   ~pytransform3d.transformations.invert_transform
+   ~pytransform3d.transformations.transform
    ~pytransform3d.transformations.vector_to_point
    ~pytransform3d.transformations.vectors_to_points
    ~pytransform3d.transformations.vector_to_direction
    ~pytransform3d.transformations.vectors_to_directions
-   ~pytransform3d.transformations.concat
-   ~pytransform3d.transformations.transform
    ~pytransform3d.transformations.scale_transform
+
+Plotting
+--------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.transformations.plot_transform
+
+Testing
+-------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.transformations.assert_transform
-   ~pytransform3d.transformations.pq_from_transform
-   ~pytransform3d.transformations.transform_from_pq
 
 
 :mod:`pytransform3d.trajectories`
