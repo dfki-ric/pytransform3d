@@ -12,8 +12,8 @@ try:
     # TODO docstrings
 
 
-    def figure(window_name="Open3D", width=1920, height=1080):
-        return Figure(window_name, width, height)
+    def figure(window_name="Open3D", width=1920, height=1080, with_key_callbacks=False):
+        return Figure(window_name, width, height, with_key_callbacks)
 
 
     class Artist:
@@ -385,8 +385,11 @@ try:
 
 
     class Figure:
-        def __init__(self, window_name="Open3D", width=1920, height=1080):
-            self.visualizer = o3d.visualization.Visualizer()
+        def __init__(self, window_name="Open3D", width=1920, height=1080, with_key_callbacks=False):
+            if with_key_callbacks:
+                self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
+            else:
+                self.visualizer = o3d.visualization.Visualizer()
             self.visualizer.create_window(window_name=window_name, width=width, height=height)
 
         def add_geometry(self, geometry):
