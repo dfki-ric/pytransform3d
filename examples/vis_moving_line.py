@@ -23,9 +23,9 @@ def animation_callback(step, n_frames, line):
 
 fig = pv.figure()
 P = np.zeros((100, 3))
-colors = np.empty((100, 3))
+colors = np.empty((99, 3))
 for d in range(colors.shape[1]):
-    colors[:, d] = np.linspace(0, 255, len(colors))
+    colors[:, d] = np.linspace(0, 1, len(colors))
 line = fig.plot(P, colors)
 frame = fig.plot_basis(R=np.eye(3), s=0.5)
 fig.view_init()

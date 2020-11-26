@@ -9,29 +9,88 @@ try:
     from itertools import chain
 
 
-    # TODO docstrings
-
-
     def figure(window_name="Open3D", width=1920, height=1080, with_key_callbacks=False):
+        """Create a new figure.
+
+        Parameters
+        ----------
+        window_name : str, optional (default: Open3D)
+            Window title name.
+
+        width : int, optional (default: 1920)
+            Width of the window.
+
+        height : int, optional (default: 1080)
+            Height of the window.
+
+        with_key_callbacks : bool, optional (default: False)
+            Creates a visualizer that allows to register callbacks
+            for keys.
+
+        Returns
+        -------
+        figure : Figure
+            New figure.
+        """
         return Figure(window_name, width, height, with_key_callbacks)
 
 
     class Artist:
+        """Abstract base class for objects that can be rendered."""
+
         def add_artist(self, figure):
+            """Add artist to figure.
+
+            Parameters
+            ----------
+            figure : Figure
+                Figure to which the artist will be added.
+            """
             for g in self.geometries:
                 figure.add_geometry(g)
 
         @property
         def geometries(self):
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return []
 
 
     class Line3D(Artist):
+        """A line.
+
+        Parameters
+        ----------
+        P : array-like, shape (n_points, 3)
+            Points of which the line consists.
+
+        c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
+            Color can be given as individual colors per line segment or as one
+            color for each segment. A color is represented by 3 values between
+            0 and 1 indicate representing red, green, and blue respectively.
+        """
         def __init__(self, P, c=(0, 0, 0)):
             self.line_set = o3d.geometry.LineSet()
             self.set_data(P, c)
 
         def set_data(self, P, c=None):
+            """Update data.
+
+            Parameters
+            ----------
+            P : array-like, shape (n_points, 3)
+                Points of which the line consists.
+
+            c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
+                Color can be given as individual colors per line segment or as one
+                color for each segment. A color is represented by 3 values between
+                0 and 1 indicate representing red, green, and blue respectively.
+            """
             self.line_set.points = o3d.utility.Vector3dVector(P)
             self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
                 np.arange(len(P) - 1)[:, np.newaxis],
@@ -43,20 +102,34 @@ try:
                         self.line_set.colors = o3d.utility.Vector3dVector(c)
                 except TypeError:  # one color for all segments
                     self.line_set.colors = o3d.utility.Vector3dVector(
-                        [c for _ in range(len(P))])
+                        [c for _ in range(len(P) - 1)])
 
         @property
         def geometries(self):
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return [self.line_set]
 
 
-    def plot(figure, P, c=(0, 0, 0)):
-        line3d = Line3D(P, c)
-        line3d.add_artist(figure)
-        return line3d
-
-
     class Frame(Artist):
+        """Coordinate frame.
+
+        Parameters
+        ----------
+        A2B : array-like, shape (4, 4)
+            Transform from frame A to frame B
+
+        label : str, optional (default: None)
+            Name of the frame
+
+        s : float, optional (default: 1)
+            Length of basis vectors
+        """
         def __init__(self, A2B, label=None, s=1.0):
             self.A2B = None
             self.label = None
@@ -68,6 +141,16 @@ try:
             self.set_data(A2B, label)
 
         def set_data(self, A2B, label=None):
+            """Update data.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Transform from frame A to frame B
+
+            label : str, optional (default: None)
+                Name of the frame
+            """
             previous_A2B = self.A2B
             if previous_A2B is None:
                 previous_A2B = np.eye(4)
@@ -80,34 +163,16 @@ try:
 
             self.frame.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
 
-        def add_frame(self, figure):
-            figure.add_geometry(self.frame)
-
         @property
         def geometries(self):
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return [self.frame]
-
-
-    def plot_basis(figure, R=None, p=np.zeros(3), s=1.0, strict_check=True):
-        if R is None:
-            R = np.eye(3)
-        R = pr.check_matrix(R, strict_check=strict_check)
-
-        frame = Frame(pt.transform_from(R=R, p=p), s=s)
-        frame.add_frame(figure)
-
-        return frame
-
-
-    def plot_transform(figure, A2B=None, s=1.0, ax_s=1, name=None, strict_check=True):
-        if A2B is None:
-            A2B = np.eye(4)
-        A2B = pt.check_transform(A2B, strict_check=strict_check)
-
-        frame = Frame(A2B, name, s)
-        frame.add_frame(figure)
-
-        return frame
 
 
     class Trajectory(Artist):
@@ -448,16 +513,100 @@ try:
                 p=[0, 0, distance])
             vc.convert_from_pinhole_camera_parameters(pcp)
 
+        def plot(self, P, c=(0, 0, 0)):
+            """Plot line.
+
+            Parameters
+            ----------
+            P : array-like, shape (n_points, 3)
+                Points of which the line consists.
+
+            c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
+                Color can be given as individual colors per line segment or as one
+                color for each segment. A color is represented by 3 values between
+                0 and 1 indicate representing red, green, and blue respectively.
+
+            Returns
+            -------
+            Line3D : line
+                New line.
+            """
+            line3d = Line3D(P, c)
+            line3d.add_artist(self)
+            return line3d
+
+        def plot_basis(self, R=None, p=np.zeros(3), s=1.0, strict_check=True):
+            """Plot basis.
+
+            Parameters
+            ----------
+            R : array-like, shape (3, 3), optional (default: I)
+                Rotation matrix, each column contains a basis vector
+
+            p : array-like, shape (3,), optional (default: [0, 0, 0])
+                Offset from the origin
+
+            s : float, optional (default: 1)
+                Scaling of the frame that will be drawn
+
+            strict_check : bool, optional (default: True)
+                Raise a ValueError if the rotation matrix is not numerically close
+                enough to a real rotation matrix. Otherwise we print a warning.
+
+            Returns
+            -------
+            Frame : frame
+                New frame.
+            """
+            if R is None:
+                R = np.eye(3)
+            R = pr.check_matrix(R, strict_check=strict_check)
+
+            frame = Frame(pt.transform_from(R=R, p=p), s=s)
+            frame.add_artist(self)
+
+            return frame
+
+        def plot_transform(self, A2B=None, s=1.0, name=None, strict_check=True):
+            """Plot coordinate frame.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Transform from frame A to frame B
+
+            s : float, optional (default: 1)
+                Length of basis vectors
+
+            label : str, optional (default: None)
+                Name of the frame
+
+            strict_check : bool, optional (default: True)
+                Raise a ValueError if the transformation matrix is not numerically
+                close enough to a real transformation matrix. Otherwise we print a
+                warning.
+
+            Returns
+            -------
+            Frame : frame
+                New frame.
+            """
+            if A2B is None:
+                A2B = np.eye(4)
+            A2B = pt.check_transform(A2B, strict_check=strict_check)
+
+            frame = Frame(A2B, name, s)
+            frame.add_artist(self)
+
+            return frame
+
         def show(self):
             self.visualizer.run()
             self.visualizer.destroy_window()
 
 
-    Figure.plot = plot
-    Figure.plot_basis = plot_basis
     Figure.plot_trajectory = plot_trajectory
     Figure.plot_mesh = plot_mesh
-    Figure.plot_transform = plot_transform
     Figure.plot_cylinder = plot_cylinder
     Figure.plot_box = plot_box
     Figure.plot_sphere = plot_sphere
