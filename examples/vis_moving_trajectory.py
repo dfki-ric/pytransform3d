@@ -40,7 +40,7 @@ if __name__ == "__main__":
     H[:, 1, 3] = np.linspace(-2, 2, len(H))
     H[:, 2, 3] = np.linspace(0, 4, len(H))
     trajectory = pv.Trajectory(H, s=0.2, c=[0, 0, 0])
-    trajectory.add_trajectory(fig)
+    trajectory.add_artist(fig)
     fig.view_init()
     fig.set_zoom(0.5)
 

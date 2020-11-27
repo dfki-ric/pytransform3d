@@ -997,7 +997,6 @@ try:
                         points = np.vstack((from2ref[:3, 3], to2ref[:3, 3]))
                         self.connections[frame_names].points = o3d.utility.Vector3dVector(points)
                         self.connections[frame_names].lines = o3d.utility.Vector2iVector(np.array([[0, 1]]))
-                        self.connections[frame_names].colors = o3d.utility.Vector3dVector([self.c for _ in range(2)])
                     except KeyError:
                         pass  # Frame is not connected to the reference frame
 
