@@ -329,26 +329,126 @@ try:
             return sphere
 
         def plot_box(self, size=np.ones(3), A2B=np.eye(4), c=None):
-            """TODO"""
+            """Plot box.
+
+            Parameters
+            ----------
+            size : array-like, shape (3,), optional (default: [1, 1, 1])
+                Size of the box per dimension
+
+            A2B : array-like, shape (4, 4), optional (default: I)
+                Center of the box
+
+            c : array-like, shape (3,), optional (default: None)
+                Color
+
+            Returns
+            -------
+            box : Box
+                New box.
+            """
             box = Box(size, A2B, c)
             box.add_artist(self)
             return box
 
         def plot_cylinder(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
-            """TODO"""
+            """Plot cylinder.
+
+            Parameters
+            ----------
+            length : float, optional (default: 1)
+                Length of the cylinder
+
+            radius : float, optional (default: 1)
+                Radius of the cylinder
+
+            A2B : array-like, shape (4, 4)
+                Center of the cylinder
+
+            resolution : int, optional (default: 20)
+                The circle will be split into resolution segments
+
+            split : int, optional (default: 4)
+                The height will be split into split segments
+
+            c : array-like, shape (3,), optional (default: None)
+                Color
+
+            Returns
+            -------
+            cylinder : Cylinder
+                New cylinder.
+            """
             cylinder = Cylinder(length, radius, A2B, resolution, split, c)
             cylinder.add_artist(self)
             return cylinder
 
         def plot_mesh(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
-            """TODO"""
+            """Plot mesh.
+
+            Parameters
+            ----------
+            filename : str
+                Path to mesh file
+
+            A2B : array-like, shape (4, 4)
+                Center of the mesh
+
+            s : array-like, shape (3,), optional (default: [1, 1, 1])
+                Scaling of the mesh that will be drawn
+
+            c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)
+                Color(s)
+
+            Returns
+            -------
+            mesh : Mesh
+                New mesh.
+            """
             mesh = Mesh(filename, A2B, s, c)
             mesh.add_artist(self)
             return mesh
 
-        def plot_graph(self, tm, frame, show_frames=False, show_connections=False, show_visuals=False, show_collision_objects=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
-            """TODO"""
-            graph = Graph(tm, frame, show_frames, show_connections, show_visuals, show_collision_objects, show_name, whitelist, s, c)
+        def plot_graph(
+                self, tm, frame, show_frames=False, show_connections=False,
+                show_visuals=False, show_collision_objects=False,
+                show_name=False, whitelist=None, s=1.0):
+            """Plot graph of connected frames.
+
+            Parameters
+            ----------
+            tm : TransformManager
+                Representation of the graph
+
+            frame : str
+                Name of the base frame in which the graph will be displayed
+
+            show_frames : bool, optional (default: False)
+                Show coordinate frames
+
+            show_connections : bool, optional (default: False)
+                Draw lines between frames of the graph
+
+            show_visuals : bool, optional (default: False)
+                Show visuals that are stored in the graph
+
+            show_collision_objects : bool, optional (default: False)
+                Show collision objects that are stored in the graph
+
+            show_name : bool, optional (default: False)
+                Show names of frames
+
+            whitelist : list, optional (default: all)
+                List of frames that should be displayed
+
+            Returns
+            -------
+            graph : Graph
+                New graph.
+            """
+            graph = Graph(tm, frame, show_frames, show_connections,
+                          show_visuals, show_collision_objects, show_name,
+                          whitelist, s)
             graph.add_artist(self)
             return graph
 
@@ -565,7 +665,7 @@ try:
             Radius of the sphere
 
         A2B : array-like, shape (4, 4)
-            Transform from frame A to frame B
+            Center of the sphere
 
         resolution : int, optianal (default: 20)
             The resolution of the sphere. The longitues will be split into
@@ -594,7 +694,7 @@ try:
             Parameters
             ----------
             A2B : array-like, shape (4, 4)
-                Transform from frame A to frame B
+                Center of the sphere
             """
             previous_A2B = self.A2B
             if previous_A2B is None:
@@ -616,7 +716,19 @@ try:
 
 
     class Box(Artist):
-        """TODO"""
+        """Box.
+
+        Parameters
+        ----------
+        size : array-like, shape (3,), optional (default: [1, 1, 1])
+            Size of the box per dimension
+
+        A2B : array-like, shape (4, 4), optional (default: I)
+            Center of the box
+
+        c : array-like, shape (3,), optional (default: None)
+            Color
+        """
         def __init__(self, size=np.ones(3), A2B=np.eye(4), c=None):
             self.half_size = np.asarray(size) / 2.0
             width, height, depth = size
@@ -631,7 +743,13 @@ try:
             self.set_data(A2B)
 
         def set_data(self, A2B):
-            """TODO"""
+            """Update data.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Center of the box
+            """
             previous_A2B = self.A2B
             if previous_A2B is None:
                 previous_A2B = np.eye(4)
@@ -643,12 +761,39 @@ try:
 
         @property
         def geometries(self):
-            """TODO"""
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return [self.box]
 
 
     class Cylinder(Artist):
-        """TODO"""
+        """Cylinder.
+
+        Parameters
+        ----------
+        length : float, optional (default: 1)
+            Length of the cylinder
+
+        radius : float, optional (default: 1)
+            Radius of the cylinder
+
+        A2B : array-like, shape (4, 4)
+            Center of the cylinder
+
+        resolution : int, optional (default: 20)
+            The circle will be split into resolution segments
+
+        split : int, optional (default: 4)
+            The height will be split into split segments
+
+        c : array-like, shape (3,), optional (default: None)
+            Color
+        """
         def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
             self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
                 radius=radius, height=length, resolution=resolution, split=split)
@@ -661,7 +806,13 @@ try:
             self.set_data(A2B)
 
         def set_data(self, A2B):
-            """TODO"""
+            """Update data.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Center of the cylinder
+            """
             previous_A2B = self.A2B
             if previous_A2B is None:
                 previous_A2B = np.eye(4)
@@ -671,12 +822,33 @@ try:
 
         @property
         def geometries(self):
-            """TODO"""
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return [self.cylinder]
 
 
     class Mesh(Artist):
-        """TODO"""
+        """Mesh.
+
+        Parameters
+        ----------
+        filename : str
+            Path to mesh file
+
+        A2B : array-like, shape (4, 4)
+            Center of the mesh
+
+        s : array-like, shape (3,), optional (default: [1, 1, 1])
+            Scaling of the mesh that will be drawn
+
+        c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)
+            Color(s)
+        """
         def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
             self.mesh = o3d.io.read_triangle_mesh(filename)
             self.mesh.vertices = o3d.utility.Vector3dVector(
@@ -690,7 +862,13 @@ try:
             self.set_data(A2B)
 
         def set_data(self, A2B):
-            """TODO"""
+            """Update data.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Center of the mesh
+            """
             previous_A2B = self.A2B
             if previous_A2B is None:
                 previous_A2B = np.eye(4)
@@ -700,13 +878,46 @@ try:
 
         @property
         def geometries(self):
-            """TODO"""
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return [self.mesh]
 
 
     class Graph(Artist):
-        """TODO"""
-        def __init__(self, tm, frame, show_frames=False, show_connections=False, show_visuals=False, show_collision_objects=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
+        """Graph of connected frames.
+
+        Parameters
+        ----------
+        tm : TransformManager
+            Representation of the graph
+
+        frame : str
+            Name of the base frame in which the graph will be displayed
+
+        show_frames : bool, optional (default: False)
+            Show coordinate frames
+
+        show_connections : bool, optional (default: False)
+            Draw lines between frames of the graph
+
+        show_visuals : bool, optional (default: False)
+            Show visuals that are stored in the graph
+
+        show_collision_objects : bool, optional (default: False)
+            Show collision objects that are stored in the graph
+
+        show_name : bool, optional (default: False)
+            Show names of frames
+
+        whitelist : list, optional (default: all)
+            List of frames that should be displayed
+        """
+        def __init__(self, tm, frame, show_frames=False, show_connections=False, show_visuals=False, show_collision_objects=False, show_name=False, whitelist=None, s=1.0):
             self.tm = tm
             self.frame = frame
             self.show_frames = show_frames
@@ -715,7 +926,6 @@ try:
             self.show_collision_objects = show_collision_objects
             self.whitelist = whitelist
             self.s = s
-            self.c = c
 
             if self.frame not in self.tm.nodes:
                 raise KeyError("Unknown frame '%s'" % self.frame)
@@ -728,7 +938,7 @@ try:
                     try:
                         node2frame = self.tm.get_transform(node, frame)
                         name = node if show_name else None
-                        self.frames[node] = Frame(node2frame, name, s)
+                        self.frames[node] = Frame(node2frame, name, self.s)
                     except KeyError:
                         pass  # Frame is not connected to the reference frame
 
@@ -768,7 +978,7 @@ try:
             return artists
 
         def set_data(self):
-            """TODO"""
+            """Indicate that data has been updated."""
             if self.show_frames:
                 for node in self.nodes:
                     try:
@@ -797,7 +1007,13 @@ try:
 
         @property
         def geometries(self):
-            """TODO"""
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             geometries = []
             if self.show_frames:
                 for f in self.frames.values():
