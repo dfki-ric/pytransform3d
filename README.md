@@ -105,7 +105,7 @@ To build the documentation, run e.g. (on unix):
 The HTML documentation is now located at `doc/build/html/index.html`.
 You need the following packages to build the documentation:
 
-    pip install numpydoc sphinx sphinx-gallery
+    pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
 
 ## Example
 
