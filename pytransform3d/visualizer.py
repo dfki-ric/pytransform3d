@@ -270,23 +270,63 @@ try:
             return frame
 
         def plot_trajectory(self, P, n_frames=10, s=1.0, c=(0, 0, 0)):
-            """TODO"""
+            """Trajectory of poses.
+
+            Parameters
+            ----------
+            P : array-like, shape (n_steps, 7), optional (default: None)
+                Sequence of poses represented by positions and quaternions in the
+                order (x, y, z, w, vx, vy, vz) for each step
+
+            n_frames : int, optional (default: 10)
+                Number of frames that should be plotted to indicate the rotation
+
+            s : float, optional (default: 1)
+                Scaling of the frames that will be drawn
+
+            c : array-like, shape (3,), optional (default: black)
+                A color is represented by 3 values between 0 and 1 indicate
+                representing red, green, and blue respectively.
+
+            Returns
+            -------
+            trajectory : Trajectory
+                New trajectory.
+            """
             H = ptr.matrices_from_pos_quat(P)
             trajectory = Trajectory(H, n_frames, s, c)
-            trajectory.add_trajectory(self)
+            trajectory.add_artist(self)
             return trajectory
 
-        def plot_mesh(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
-            """TODO"""
-            mesh = Mesh(filename, A2B, s, c)
-            mesh.add_artist(self)
-            return mesh
+        def plot_sphere(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
+            """Plot sphere.
 
-        def plot_cylinder(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
-            """TODO"""
-            cylinder = Cylinder(length, radius, A2B, resolution, split, c)
-            cylinder.add_artist(self)
-            return cylinder
+            Parameters
+            ----------
+            radius : float, optional (default: 1)
+                Radius of the sphere
+
+            A2B : array-like, shape (4, 4)
+                Transform from frame A to frame B
+
+            resolution : int, optianal (default: 20)
+                The resolution of the sphere. The longitues will be split into
+                resolution segments (i.e. there are resolution + 1 latitude lines
+                including the north and south pole). The latitudes will be split
+                into `2 * resolution segments (i.e. there are 2 * resolution
+                longitude lines.)
+
+            c : array-like, shape (3,), optional (default: None)
+                Color
+
+            Returns
+            -------
+            sphere : Sphere
+                New sphere.
+            """
+            sphere = Sphere(radius, A2B, resolution, c)
+            sphere.add_artist(self)
+            return sphere
 
         def plot_box(self, size=np.ones(3), A2B=np.eye(4), c=None):
             """TODO"""
@@ -294,11 +334,17 @@ try:
             box.add_artist(self)
             return box
 
-        def plot_sphere(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
+        def plot_cylinder(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
             """TODO"""
-            sphere = Sphere(radius, A2B, resolution, c)
-            sphere.add_artist(self)
-            return sphere
+            cylinder = Cylinder(length, radius, A2B, resolution, split, c)
+            cylinder.add_artist(self)
+            return cylinder
+
+        def plot_mesh(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
+            """TODO"""
+            mesh = Mesh(filename, A2B, s, c)
+            mesh.add_artist(self)
+            return mesh
 
         def plot_graph(self, tm, frame, show_frames=False, show_connections=False, show_visuals=False, show_collision_objects=False, show_name=False, whitelist=None, s=1.0, c=(0, 0, 0)):
             """TODO"""
@@ -453,7 +499,23 @@ try:
 
 
     class Trajectory(Artist):
-        """TODO"""
+        """Trajectory of poses.
+
+        Parameters
+        ----------
+        H : array-like, shape (n_steps, 4, 4)
+            Sequence of poses represented by homogeneous matrices
+
+        n_frames : int, optional (default: 10)
+            Number of frames that should be plotted to indicate the rotation
+
+        s : float, optional (default: 1)
+            Scaling of the frames that will be drawn
+
+        c : array-like, shape (3,), optional (default: black)
+            A color is represented by 3 values between 0 and 1 indicate
+            representing red, green, and blue respectively.
+        """
         def __init__(self, H, n_frames=10, s=1.0, c=(0, 0, 0)):
             self.H = H
             self.n_frames = n_frames
@@ -471,20 +533,50 @@ try:
             self.set_data(H)
 
         def set_data(self, H):
+            """Update data.
+
+            Parameters
+            ----------
+            H : array-like, shape (n_steps, 4, 4)
+                Sequence of poses represented by homogeneous matrices
+            """
             self.line.set_data(H[:, :3, 3])
             for i, key_frame_idx in enumerate(self.key_frames_indices):
                 self.key_frames[i].set_data(H[key_frame_idx])
 
-        def add_trajectory(self, figure):
-            self.add_artist(figure)
-
         @property
         def geometries(self):
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return self.line.geometries + list(chain(*[kf.geometries for kf in self.key_frames]))
 
 
     class Sphere(Artist):
-        """TODO"""
+        """Sphere.
+
+        Parameters
+        ----------
+        radius : float, optional (default: 1)
+            Radius of the sphere
+
+        A2B : array-like, shape (4, 4)
+            Transform from frame A to frame B
+
+        resolution : int, optianal (default: 20)
+            The resolution of the sphere. The longitues will be split into
+            resolution segments (i.e. there are resolution + 1 latitude lines
+            including the north and south pole). The latitudes will be split
+            into `2 * resolution segments (i.e. there are 2 * resolution
+            longitude lines.)
+
+        c : array-like, shape (3,), optional (default: None)
+            Color
+        """
         def __init__(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
             self.sphere = o3d.geometry.TriangleMesh.create_sphere(
                 radius, resolution)
@@ -497,6 +589,13 @@ try:
             self.set_data(A2B)
 
         def set_data(self, A2B):
+            """Update data.
+
+            Parameters
+            ----------
+            A2B : array-like, shape (4, 4)
+                Transform from frame A to frame B
+            """
             previous_A2B = self.A2B
             if previous_A2B is None:
                 previous_A2B = np.eye(4)
@@ -506,6 +605,13 @@ try:
 
         @property
         def geometries(self):
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
             return [self.sphere]
 
 
