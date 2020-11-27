@@ -28,6 +28,7 @@ if __name__ == "__main__":
                             "beautifulsoup4"],
           extras_require={
               "all": ["pydot", "trimesh", "open3d"],
-              "doc": ["numpydoc", "sphinx", "sphinx-gallery", "sphinx-bootstrap-theme"]
+              "doc": ["numpydoc", "sphinx", "sphinx-gallery", "sphinx-bootstrap-theme"],
+              "test": ["nose", "coverage"]
           }
     )

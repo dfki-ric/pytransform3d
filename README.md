@@ -70,7 +70,7 @@ pytransform3d is used in various domains, for example:
 
 Use pip to install the package from PyPI:
 
-    [sudo] pip[3] install [--user] pytransform3d
+    [sudo] pip[3] install [--user] pytransform3d[all,doc,test]
 
 You can install pytransform3d[all] if you want to have support for pydot
 export. Make sure to install graphviz (on Ubuntu: `sudo apt install graphviz`)
