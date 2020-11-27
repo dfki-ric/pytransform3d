@@ -155,28 +155,63 @@ Testing
     :no-members:
     :no-inherited-members:
 
+Input Validation Functions
+--------------------------
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
    ~pytransform3d.transformations.check_transform
    ~pytransform3d.transformations.check_pq
+
+Create Transformations
+----------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.transformations.transform_from
    ~pytransform3d.transformations.random_transform
-   ~pytransform3d.transformations.invert_transform
    ~pytransform3d.transformations.translate_transform
    ~pytransform3d.transformations.rotate_transform
+   ~pytransform3d.transformations.pq_from_transform
+   ~pytransform3d.transformations.transform_from_pq
+
+Apply Transformations
+---------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.concat
+   ~pytransform3d.transformations.invert_transform
+   ~pytransform3d.transformations.transform
    ~pytransform3d.transformations.vector_to_point
    ~pytransform3d.transformations.vectors_to_points
    ~pytransform3d.transformations.vector_to_direction
    ~pytransform3d.transformations.vectors_to_directions
-   ~pytransform3d.transformations.concat
-   ~pytransform3d.transformations.transform
    ~pytransform3d.transformations.scale_transform
+
+Plotting
+--------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.transformations.plot_transform
+
+Testing
+-------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.transformations.assert_transform
-   ~pytransform3d.transformations.pq_from_transform
-   ~pytransform3d.transformations.transform_from_pq
 
 
 :mod:`pytransform3d.trajectories`
@@ -281,3 +316,32 @@ Testing
    ~pytransform3d.plot_utils.Frame
    ~pytransform3d.plot_utils.LabeledFrame
    ~pytransform3d.plot_utils.Trajectory
+
+
+:mod:`pytransform3d.visualizer`
+===============================
+
+.. automodule:: pytransform3d.visualizer
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.visualizer.figure
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~pytransform3d.visualizer.Figure
+   ~pytransform3d.visualizer.Artist
+   ~pytransform3d.visualizer.Line3D
+   ~pytransform3d.visualizer.Frame
+   ~pytransform3d.visualizer.Trajectory
+   ~pytransform3d.visualizer.Sphere
+   ~pytransform3d.visualizer.Box
+   ~pytransform3d.visualizer.Cylinder
+   ~pytransform3d.visualizer.Mesh
+   ~pytransform3d.visualizer.Graph

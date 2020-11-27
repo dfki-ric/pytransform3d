@@ -6,10 +6,11 @@ Plot Box
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import plot_box, plot_length_variable
+from pytransform3d.transformations import plot_transform
 
 
-random_state = np.random.RandomState(42)
 ax = plot_box(size=[1, 1, 1], wireframe=False, alpha=0.1, color="k")
+plot_transform(ax=ax)
 plot_box(ax=ax, size=[1, 1, 1], wireframe=True, alpha=0.3)
 plot_length_variable(
     ax=ax,

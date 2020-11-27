@@ -23,6 +23,9 @@ pytransform3d covers the following groups of transformations.
 |       | rotation)       |           |                     |
 +-------+-----------------+-----------+---------------------+
 
+In this documentation we will use the notation :math:`_A\boldsymbol{t}_{BC}`
+to represent a vector from frame B to frame C expressed in frame A.
+
 -----------------
 Table of Contents
 -----------------
@@ -38,18 +41,6 @@ Table of Contents
    camera
    animations
    api
-
---------
-Notation
---------
-
-We will use the notation
-
-.. math::
-
-    _A\boldsymbol{t}_{BC}
-
-to represent a vector from frame B to frame C expressed in frame A.
 
 ----------
 References

@@ -27,6 +27,8 @@ if __name__ == "__main__":
           install_requires=["numpy", "scipy", "matplotlib", "lxml",
                             "beautifulsoup4"],
           extras_require={
-              "all": ["pydot", "trimesh"]
+              "all": ["pydot", "trimesh", "open3d"],
+              "doc": ["numpydoc", "sphinx", "sphinx-gallery", "sphinx-bootstrap-theme"],
+              "test": ["nose", "coverage"]
           }
     )

@@ -1,6 +1,6 @@
 """
 ===========
-Plot Circle
+Plot Sphere
 ===========
 """
 import numpy as np
