@@ -7,6 +7,9 @@ This example shows how to load a URDF with STL meshes and animate it.
 This example must be run from within the examples folder or the main
 folder because it uses a hard-coded path to the URDF file and the meshes.
 """
+print(__doc__)
+
+
 import os
 import numpy as np
 from pytransform3d.urdf import UrdfTransformManager

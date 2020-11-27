@@ -5,6 +5,9 @@ Visualized Transformed Cylinders
 
 Plots surfaces of transformed cylindrical shells.
 """
+print(__doc__)
+
+
 import numpy as np
 from pytransform3d.transformations import transform_from
 from pytransform3d.rotations import random_axis_angle, matrix_from_axis_angle

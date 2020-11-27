@@ -9,6 +9,8 @@ hard-coded path to the STL file. Press 'H' to print the viewer's
 help message to stdout.
 """
 print(__doc__)
+
+
 import numpy as np
 from pytransform3d import visualizer as pv
 

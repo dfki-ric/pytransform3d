@@ -7,6 +7,9 @@ This example shows how to load a URDF with STL meshes. This example must be
 run from within the examples folder or the main folder because it uses a
 hard-coded path to the URDF file and the meshes.
 """
+print(__doc__)
+
+
 import os
 from pytransform3d.urdf import UrdfTransformManager
 import pytransform3d.visualizer as pv
