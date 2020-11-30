@@ -100,6 +100,23 @@ def test_perpendicular_to_vectors():
     assert_array_almost_equal(perpendicular_to_vectors(c, a), b)
 
 
+def test_perpendicular_to_vector():
+    """Test function to compute perpendicular to vector."""
+    assert_almost_equal(angle_between_vectors(unitx, perpendicular_to_vector(unitx)), np.pi / 2.0)
+    assert_almost_equal(angle_between_vectors(unity, perpendicular_to_vector(unity)), np.pi / 2.0)
+    assert_almost_equal(angle_between_vectors(unitz, perpendicular_to_vector(unitz)), np.pi / 2.0)
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        a = norm_vector(random_vector(random_state))
+        assert_almost_equal(angle_between_vectors(a, perpendicular_to_vector(a)), np.pi / 2.0)
+        b = a - np.array([a[0], 0.0, 0.0])
+        assert_almost_equal(angle_between_vectors(b, perpendicular_to_vector(b)), np.pi / 2.0)
+        c = a - np.array([0.0, a[1], 0.0])
+        assert_almost_equal(angle_between_vectors(c, perpendicular_to_vector(c)), np.pi / 2.0)
+        d = a - np.array([0.0, 0.0, a[2]])
+        assert_almost_equal(angle_between_vectors(d, perpendicular_to_vector(d)), np.pi / 2.0)
+
+
 def test_angle_between_vectors():
     """Test function to compute angle between two vectors."""
     v = np.array([1, 0, 0])
@@ -817,6 +834,44 @@ def test_conversions_axis_angle_quaternion():
 
         q2 = quaternion_from_axis_angle(a2)
         assert_quaternion_equal(q, q2)
+
+
+def test_axis_angle_from_two_direction_vectors():
+    """Test calculation of axis-angle from two direction vectors."""
+    d1 = np.array([1.0, 0.0, 0.0])
+    a = axis_angle_from_two_directions(d1, d1)
+    assert_axis_angle_equal(a, np.array([1, 0, 0, 0]))
+
+    a = axis_angle_from_two_directions(d1, np.zeros(3))
+    assert_axis_angle_equal(a, np.array([1, 0, 0, 0]))
+
+    a = axis_angle_from_two_directions(np.zeros(3), d1)
+    assert_axis_angle_equal(a, np.array([1, 0, 0, 0]))
+
+    d2 = np.array([0.0, 1.0, 0.0])
+    a = axis_angle_from_two_directions(d1, d2)
+    assert_axis_angle_equal(a, np.array([0, 0, 1, 0.5 * np.pi]))
+
+    d3 = np.array([-1.0, 0.0, 0.0])
+    a = axis_angle_from_two_directions(d1, d3)
+    assert_axis_angle_equal(a, np.array([0, 0, 1, np.pi]))
+
+    d4 = np.array([0.0, -1.0, 0.0])
+    a = axis_angle_from_two_directions(d2, d4)
+    assert_axis_angle_equal(a, np.array([0, 0, 1, np.pi]))
+
+    a = axis_angle_from_two_directions(d3, d4)
+    assert_axis_angle_equal(a, np.array([0, 0, 1, 0.5 * np.pi]))
+
+    random_state = np.random.RandomState(323)
+    for i in range(5):
+        R = matrix_from_axis_angle(random_axis_angle(random_state))
+        v1 = random_vector(random_state, 3)
+        v2 = R.dot(v1)
+        a = axis_angle_from_two_directions(v1, v2)
+        assert_almost_equal(angle_between_vectors(v1, a[:3]), 0.5 * np.pi)
+        assert_almost_equal(angle_between_vectors(v2, a[:3]), 0.5 * np.pi)
+        assert_array_almost_equal(v2, matrix_from_axis_angle(a).dot(v1))
 
 
 def test_axis_angle_from_compact_axis_angle():

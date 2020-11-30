@@ -131,6 +131,33 @@ def perpendicular_to_vectors(a, b):
     return np.cross(a, b)
 
 
+def perpendicular_to_vector(a):
+    """Compute perpendicular vector to one other vector.
+
+    There is an infinite number of solutions to this problem. Thus, we
+    restrict the solutions to [1, 0, z] and return [0, 0, 1] if the
+    z component of a is 0.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        3d vector
+
+    Returns
+    -------
+    b : array-like, shape (3,)
+        A 3d vector that is orthogonal to a. It does not necessarily have
+        unit length.
+    """
+    if abs(a[2]) < eps:
+        return np.copy(unitz)
+    # Now that we solved the problem for [x, y, 0], we can solve it for all
+    # other vectors by restricting solutions to [1, 0, z] and find z.
+    # The dot product of orthogonal vectors is 0, thus
+    # a[0] * 1 + a[1] * 0 + a[2] * z == 0 or -a[0] / a[2] = z
+    return np.array([1.0, 0.0, -a[0] / a[2]])
+
+
 def angle_between_vectors(a, b, fast=False):
     """Compute angle between two vectors.
 
@@ -941,6 +968,42 @@ def axis_angle_from_compact_axis_angle(a):
     else:
         axis = a / angle
         return np.hstack((axis, (angle,)))
+
+
+def axis_angle_from_two_directions(a, b):
+    """Compute axis-angle representation from two direction vectors.
+
+    The rotation will transform direction vector a to direction vector b.
+    The direction vectors don't have to be normalized as this will be
+    done internally. Note that there is more than one possible solution.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        First direction vector
+
+    b : array-like, shape (3,)
+        Second direction vector
+
+    Returns
+    -------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
+        constrained to [0, pi].
+    """
+    a = norm_vector(a)
+    b = norm_vector(b)
+    cos_angle = a.dot(b)
+    if abs(-1.0 - cos_angle) < eps:
+        # For 180 degree rotations we have an infinite number of solutions,
+        # but we have to pick one axis.
+        axis = perpendicular_to_vector(a)
+    else:
+        axis = np.cross(a, b)
+    aa = np.empty(4)
+    aa[:3] = norm_vector(axis)
+    aa[3] = np.arccos(cos_angle)
+    return norm_axis_angle(aa)
 
 
 def compact_axis_angle(a):
