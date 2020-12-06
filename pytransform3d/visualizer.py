@@ -701,7 +701,8 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.sphere.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+            self.sphere.transform(pt.invert_transform(previous_A2B))
+            self.sphere.transform(self.A2B)
 
         @property
         def geometries(self):
@@ -752,12 +753,12 @@ try:
             """
             previous_A2B = self.A2B
             if previous_A2B is None:
+                self.box.transform(pt.transform_from(R=np.eye(3), p=-self.half_size))
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.box.transform(
-                pt.concat(pt.transform_from(R=np.eye(3), p=-self.half_size),
-                          pt.concat(pt.invert_transform(previous_A2B), self.A2B)))
+            self.box.transform(pt.invert_transform(previous_A2B))
+            self.box.transform(self.A2B)
 
         @property
         def geometries(self):
@@ -818,7 +819,8 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.cylinder.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+            self.cylinder.transform(pt.invert_transform(previous_A2B))
+            self.cylinder.transform(self.A2B)
 
         @property
         def geometries(self):
@@ -874,7 +876,8 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.mesh.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+            self.mesh.transform(pt.invert_transform(previous_A2B))
+            self.mesh.transform(self.A2B)
 
         @property
         def geometries(self):
