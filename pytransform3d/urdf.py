@@ -130,7 +130,7 @@ class UrdfTransformManager(TransformManager):
 
         self.add_transform(links[0], robot_name, np.eye(4))
         for joint in joints:
-            if joint.joint_type == "revolute":
+            if joint.joint_type in ["revolute", "continuous"]:
                 self.add_joint(
                     joint.joint_name, joint.child, joint.parent,
                     joint.child2parent, joint.joint_axis, joint.limits)
@@ -214,16 +214,16 @@ class UrdfTransformManager(TransformManager):
 
         j.joint_type = joint["type"]
 
-        if j.joint_type in ["planar", "floating", "continuous", "prismatic"]:
+        if j.joint_type in ["planar", "floating", "prismatic"]:
             raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
-        elif j.joint_type not in ["revolute", "fixed"]:
+        elif j.joint_type not in ["revolute", "continuous", "fixed"]:
             raise UrdfException("Joint type '%s' is not allowed in a URDF "
                                 "document." % j.joint_type)
 
         j.child2parent = self._parse_origin(joint)
 
         j.joint_axis = np.array([1, 0, 0])
-        if j.joint_type == "revolute":
+        if j.joint_type in ["revolute", "continuous"]:
             axis = joint.find("axis")
             if axis is not None and axis.has_attr("xyz"):
                 j.joint_axis = np.fromstring(axis["xyz"], sep=" ")
