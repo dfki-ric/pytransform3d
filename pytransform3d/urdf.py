@@ -23,9 +23,20 @@ class UrdfTransformManager(TransformManager):
     .. note::
 
         Joint angles must be given in radians.
+
+    Parameters
+    ----------
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
+    check : bool, optional (default: True)
+        Check if transformation matrices are valid. This might significantly
+        slow down some operations.
     """
-    def __init__(self):
-        super(UrdfTransformManager, self).__init__()
+    def __init__(self, strict_check=True, check=True):
+        super(UrdfTransformManager, self).__init__(strict_check, check)
         self._joints = {}
         self.collision_objects = []
         self.visuals = []

@@ -72,6 +72,17 @@ def test_invert_transform():
         assert_array_almost_equal(A2B, A2B2)
 
 
+def test_invert_transform_without_check():
+    """Test inversion of transformations."""
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        A2B = random_state.randn(4, 4)
+        A2B = A2B + A2B.T
+        B2A = invert_transform(A2B, check=False)
+        A2B2 = np.linalg.inv(B2A)
+        assert_array_almost_equal(A2B, A2B2)
+
+
 def test_vector_to_point():
     """Test conversion from vector to homogenous coordinates."""
     v = np.array([1, 2, 3])
