@@ -4,7 +4,7 @@ import numpy as np
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat
-from .rotations import active_matrix_from_extrinsic_roll_pitch_yaw, matrix_from_axis_angle
+from .rotations import active_matrix_from_extrinsic_roll_pitch_yaw, matrix_from_axis_angle, norm_vector
 from .plot_utils import make_3d_axis, plot_mesh, plot_cylinder, plot_sphere, plot_box
 
 
@@ -31,7 +31,7 @@ class UrdfTransformManager(TransformManager):
         self.visuals = []
 
     def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis,
-                  limits=(float("-inf"), float("inf"))):
+                  limits=(float("-inf"), float("inf")), joint_type="revolute"):
         """Add joint.
 
         Parameters
@@ -53,30 +53,40 @@ class UrdfTransformManager(TransformManager):
 
         limits : pair of float, optional (default: (-inf, inf))
             Lower and upper joint angle limit
+
+        joint_type : str, optional (default: 'revolute')
+            Joint type: revolute or prismatic (continuous is the same as
+            revolute)
         """
         self.add_transform(from_frame, to_frame, child2parent)
         self._joints[joint_name] = (from_frame, to_frame, child2parent, axis,
-                                    limits)
+                                    limits, joint_type)
 
-    def set_joint(self, joint_name, angle):
-        """Set joint angle.
+    def set_joint(self, joint_name, value):
+        """Set joint position.
 
-        Note that joint angles are clipped to their limits.
+        Note that joint values are clipped to their limits.
 
         Parameters
         ----------
         joint_name : string
             Name of the joint
 
-        angle : float
-            Joint angle in radians
+        value : float
+            Joint angle in radians in case of revolute joints or position
+            in case of prismatic joint.
         """
         if joint_name not in self._joints:
             raise KeyError("Joint '%s' is not known" % joint_name)
-        from_frame, to_frame, child2parent, axis, limits = self._joints[joint_name]
-        angle = np.clip(angle, limits[0], limits[1])
-        joint_rotation = matrix_from_axis_angle(np.hstack((axis, [angle])))
-        joint2A = transform_from(joint_rotation, np.zeros(3))
+        from_frame, to_frame, child2parent, axis, limits, joint_type = self._joints[joint_name]
+        value = np.clip(value, limits[0], limits[1])
+        if joint_type == "revolute":
+            joint_rotation = matrix_from_axis_angle(np.hstack((axis, [value])))
+            joint2A = transform_from(joint_rotation, np.zeros(3))
+        else:
+            assert joint_type == "prismatic"
+            joint_offset = value * norm_vector(axis)
+            joint2A = transform_from(np.eye(3), joint_offset)
         self.add_transform(from_frame, to_frame, concat(joint2A, child2parent))
 
     def get_joint_limits(self, joint_name):
@@ -133,8 +143,15 @@ class UrdfTransformManager(TransformManager):
             if joint.joint_type in ["revolute", "continuous"]:
                 self.add_joint(
                     joint.joint_name, joint.child, joint.parent,
-                    joint.child2parent, joint.joint_axis, joint.limits)
+                    joint.child2parent, joint.joint_axis, joint.limits,
+                    "revolute")
+            elif joint.joint_type == "prismatic":
+                self.add_joint(
+                    joint.joint_name, joint.child, joint.parent,
+                    joint.child2parent, joint.joint_axis, joint.limits,
+                    "prismatic")
             else:
+                assert joint.joint_type == "fixed"
                 self.add_transform(
                     joint.child, joint.parent, joint.child2parent)
 
@@ -214,16 +231,16 @@ class UrdfTransformManager(TransformManager):
 
         j.joint_type = joint["type"]
 
-        if j.joint_type in ["planar", "floating", "prismatic"]:
+        if j.joint_type in ["planar", "floating"]:
             raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
-        elif j.joint_type not in ["revolute", "continuous", "fixed"]:
+        elif j.joint_type not in ["revolute", "continuous", "prismatic", "fixed"]:
             raise UrdfException("Joint type '%s' is not allowed in a URDF "
                                 "document." % j.joint_type)
 
         j.child2parent = self._parse_origin(joint)
 
         j.joint_axis = np.array([1, 0, 0])
-        if j.joint_type in ["revolute", "continuous"]:
+        if j.joint_type in ["revolute", "continuous", "prismatic"]:
             axis = joint.find("axis")
             if axis is not None and axis.has_attr("xyz"):
                 j.joint_axis = np.fromstring(axis["xyz"], sep=" ")

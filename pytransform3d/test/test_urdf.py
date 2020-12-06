@@ -249,7 +249,7 @@ def test_unsupported_joint_type():
     <robot name="robot_name">
     <link name="link0"/>
     <link name="link1"/>
-    <joint name="joint0" type="prismatic">
+    <joint name="joint0" type="planar">
         <parent link="link0"/>
         <child link="link1"/>
     </joint>
@@ -670,35 +670,6 @@ def test_multiple_parents():
     assert_equal(p0c[0, 3], p1c[1, 3])
 
 
-def test_continuous_joint():
-    urdf = """
-    <?xml version="1.0"?>
-    <robot name="mmm">
-        <link name="parent"/>
-        <link name="child"/>
-
-        <joint name="joint" type="continuous">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <parent link="parent"/>
-            <child link="child"/>
-            <axis xyz="1 0 0"/>
-        </joint>
-    </robot>
-    """
-    tm = UrdfTransformManager()
-    tm.load_urdf(urdf)
-    tm.set_joint("joint", 0.5 * np.pi)
-
-    c2p = tm.get_transform("child", "parent")
-    assert_array_almost_equal(
-        c2p,
-        np.array([[1, 0, 0, 0],
-                  [0, 0, -1, 0],
-                  [0, 1, 0, 0],
-                  [0, 0, 0, 1]])
-    )
-
-
 def test_mesh_missing_filename():
     urdf = """
     <?xml version="1.0"?>
@@ -778,6 +749,64 @@ def test_plot_mesh_smoke_without_scale():
         "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
     ax = tm.plot_connections_in("lower_cone", ax=ax)
     tm.plot_visuals("lower_cone", ax=ax)
+
+
+def test_continuous_joint():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <link name="parent"/>
+        <link name="child"/>
+
+        <joint name="joint" type="continuous">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="parent"/>
+            <child link="child"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+    tm.set_joint("joint", 0.5 * np.pi)
+
+    c2p = tm.get_transform("child", "parent")
+    assert_array_almost_equal(
+        c2p,
+        np.array([[1, 0, 0, 0],
+                  [0, 0, -1, 0],
+                  [0, 1, 0, 0],
+                  [0, 0, 0, 1]])
+    )
+
+
+def test_prismatic_joint():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <link name="parent"/>
+        <link name="child"/>
+
+        <joint name="joint" type="prismatic">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="parent"/>
+            <child link="child"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+    tm.set_joint("joint", 5.33)
+
+    c2p = tm.get_transform("child", "parent")
+    assert_array_almost_equal(
+        c2p,
+        np.array([[1, 0, 0, 5.33],
+                  [0, 1, 0, 0],
+                  [0, 0, 1, 0],
+                  [0, 0, 0, 1]])
+    )
 
 
 def test_plot_mesh_smoke_with_scale():
