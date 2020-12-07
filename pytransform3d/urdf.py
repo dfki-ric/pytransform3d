@@ -93,12 +93,16 @@ class UrdfTransformManager(TransformManager):
         value = np.clip(value, limits[0], limits[1])
         if joint_type == "revolute":
             joint_rotation = matrix_from_axis_angle(np.hstack((axis, [value])))
-            joint2A = transform_from(joint_rotation, np.zeros(3))
+            joint2A = transform_from(joint_rotation, np.zeros(3),
+                                     strict_check=self.strict_check)
         else:
             assert joint_type == "prismatic"
             joint_offset = value * norm_vector(axis)
-            joint2A = transform_from(np.eye(3), joint_offset)
-        self.add_transform(from_frame, to_frame, concat(joint2A, child2parent))
+            joint2A = transform_from(np.eye(3), joint_offset,
+                                     strict_check=self.strict_check)
+        self.add_transform(from_frame, to_frame, concat(
+            joint2A, child2parent, strict_check=self.strict_check,
+            check=self.check))
 
     def get_joint_limits(self, joint_name):
         """Get limits of a joint.
@@ -273,8 +277,10 @@ class UrdfTransformManager(TransformManager):
                 # For more details on how the URDF parser handles the conversion
                 # from Euler angles, see this blog post:
                 # https://orbitalstation.wordpress.com/tag/quaternion/
-                rotation = active_matrix_from_extrinsic_roll_pitch_yaw(roll_pitch_yaw)
-        return transform_from(rotation, translation)
+                rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
+                    roll_pitch_yaw)
+        return transform_from(
+            rotation, translation, strict_check=self.strict_check)
 
     def _parse_limits(self, joint):
         """Parse joint limits."""
