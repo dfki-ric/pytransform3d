@@ -32,8 +32,8 @@ class UrdfTransformManager(TransformManager):
         warning.
 
     check : bool, optional (default: True)
-        Check if transformation matrices are valid. This might significantly
-        slow down some operations.
+        Check if transformation matrices are valid and requested nodes exist,
+        which might significantly slow down some operations.
     """
     def __init__(self, strict_check=True, check=True):
         super(UrdfTransformManager, self).__init__(strict_check, check)

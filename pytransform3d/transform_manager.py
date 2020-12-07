@@ -44,8 +44,8 @@ class TransformManager(object):
         warning.
 
     check : bool, optional (default: True)
-        Check if transformation matrices are valid. This might significantly
-        slow down some operations.
+        Check if transformation matrices are valid and requested nodes exist,
+        which might significantly slow down some operations.
     """
     def __init__(self, strict_check=True, check=True):
         self.strict_check = strict_check
@@ -134,10 +134,11 @@ class TransformManager(object):
             Homogeneous matrix that represents the transform from 'from_frame'
             to 'to_frame'
         """
-        if from_frame not in self.nodes:
-            raise KeyError("Unknown frame '%s'" % from_frame)
-        if to_frame not in self.nodes:
-            raise KeyError("Unknown frame '%s'" % to_frame)
+        if self.check:
+            if from_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % from_frame)
+            if to_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % to_frame)
 
         if (from_frame, to_frame) in self.transforms:
             return self.transforms[(from_frame, to_frame)]
