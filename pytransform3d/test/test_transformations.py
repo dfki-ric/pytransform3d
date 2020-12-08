@@ -2,6 +2,7 @@ import warnings
 import platform
 import numpy as np
 from pytransform3d.transformations import (random_transform, transform_from,
+                                           translate_transform, rotate_transform,
                                            invert_transform, vector_to_point,
                                            vectors_to_points, vector_to_direction,
                                            vectors_to_directions,
@@ -39,6 +40,20 @@ def test_check_transform():
     A2B = random_transform(random_state)
     A2B2 = check_transform(A2B)
     assert_array_almost_equal(A2B, A2B2)
+
+
+def test_translate_transform_with_check():
+    A2B_broken = np.zeros((4, 4))
+    assert_raises_regexp(
+        ValueError, "rotation matrix", translate_transform,
+        A2B_broken, np.zeros(3))
+
+
+def test_rotate_transform_with_check():
+    A2B_broken = np.zeros((4, 4))
+    assert_raises_regexp(
+        ValueError, "rotation matrix", rotate_transform,
+        A2B_broken, np.eye(3))
 
 
 def test_check_pq():

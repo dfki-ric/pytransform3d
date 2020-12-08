@@ -85,8 +85,10 @@ def transform_from(R, p, strict_check=True):
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = rotate_transform(np.eye(4), R, strict_check=True)
-    A2B = translate_transform(A2B, p, strict_check=True)
+    A2B = rotate_transform(
+        np.eye(4), R, strict_check=strict_check, check=False)
+    A2B = translate_transform(
+        A2B, p, strict_check=strict_check, check=False)
     return A2B
 
 
@@ -142,7 +144,7 @@ def invert_transform(A2B, strict_check=True, check=True):
     return np.linalg.inv(A2B)
 
 
-def translate_transform(A2B, p, strict_check=True):
+def translate_transform(A2B, p, strict_check=True, check=True):
     """Sets the translation of a transform.
 
     Parameters
@@ -158,19 +160,23 @@ def translate_transform(A2B, p, strict_check=True):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
 
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = check_transform(A2B, strict_check=strict_check)
+    if check:
+        A2B = check_transform(A2B, strict_check=strict_check)
     out = A2B.copy()
     l = len(p)
     out[:l, -1] = p
     return out
 
 
-def rotate_transform(A2B, R, strict_check=True):
+def rotate_transform(A2B, R, strict_check=True, check=True):
     """Sets the rotation of a transform.
 
     Parameters
@@ -186,12 +192,16 @@ def rotate_transform(A2B, R, strict_check=True):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
 
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = check_transform(A2B, strict_check=strict_check)
+    if check:
+        A2B = check_transform(A2B, strict_check=strict_check)
     out = A2B.copy()
     out[:3, :3] = R
     return out
