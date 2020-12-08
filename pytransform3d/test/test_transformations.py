@@ -2,6 +2,7 @@ import warnings
 import platform
 import numpy as np
 from pytransform3d.transformations import (random_transform, transform_from,
+                                           translate_transform, rotate_transform,
                                            invert_transform, vector_to_point,
                                            vectors_to_points, vector_to_direction,
                                            vectors_to_directions,
@@ -41,6 +42,20 @@ def test_check_transform():
     assert_array_almost_equal(A2B, A2B2)
 
 
+def test_translate_transform_with_check():
+    A2B_broken = np.zeros((4, 4))
+    assert_raises_regexp(
+        ValueError, "rotation matrix", translate_transform,
+        A2B_broken, np.zeros(3))
+
+
+def test_rotate_transform_with_check():
+    A2B_broken = np.zeros((4, 4))
+    assert_raises_regexp(
+        ValueError, "rotation matrix", rotate_transform,
+        A2B_broken, np.eye(3))
+
+
 def test_check_pq():
     """Test input validation for position and orientation quaternion."""
     q = np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0])
@@ -68,6 +83,17 @@ def test_invert_transform():
         p = random_vector(random_state)
         A2B = transform_from(R, p)
         B2A = invert_transform(A2B)
+        A2B2 = np.linalg.inv(B2A)
+        assert_array_almost_equal(A2B, A2B2)
+
+
+def test_invert_transform_without_check():
+    """Test inversion of transformations."""
+    random_state = np.random.RandomState(0)
+    for _ in range(5):
+        A2B = random_state.randn(4, 4)
+        A2B = A2B + A2B.T
+        B2A = invert_transform(A2B, check=False)
         A2B2 = np.linalg.inv(B2A)
         assert_array_almost_equal(A2B, A2B2)
 

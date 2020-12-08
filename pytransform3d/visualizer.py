@@ -584,7 +584,8 @@ try:
                     "This viewer does not support text. Frame label "
                     "will be ignored.")
 
-            self.frame.transform(pt.concat(pt.invert_transform(previous_A2B), self.A2B))
+            self.frame.transform(pt.invert_transform(previous_A2B, check=False))
+            self.frame.transform(self.A2B)
 
         @property
         def geometries(self):
@@ -701,7 +702,7 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.sphere.transform(pt.invert_transform(previous_A2B))
+            self.sphere.transform(pt.invert_transform(previous_A2B, check=False))
             self.sphere.transform(self.A2B)
 
         @property
@@ -757,7 +758,7 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.box.transform(pt.invert_transform(previous_A2B))
+            self.box.transform(pt.invert_transform(previous_A2B, check=False))
             self.box.transform(self.A2B)
 
         @property
@@ -819,7 +820,7 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.cylinder.transform(pt.invert_transform(previous_A2B))
+            self.cylinder.transform(pt.invert_transform(previous_A2B, check=False))
             self.cylinder.transform(self.A2B)
 
         @property
@@ -876,7 +877,7 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.mesh.transform(pt.invert_transform(previous_A2B))
+            self.mesh.transform(pt.invert_transform(previous_A2B, check=False))
             self.mesh.transform(self.A2B)
 
         @property

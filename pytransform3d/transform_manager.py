@@ -42,14 +42,23 @@ class TransformManager(object):
         Raise a ValueError if the transformation matrix is not numerically
         close enough to a real transformation matrix. Otherwise we print a
         warning.
+
+    check : bool, optional (default: True)
+        Check if transformation matrices are valid and requested nodes exist,
+        which might significantly slow down some operations.
     """
-    def __init__(self, strict_check=True):
+    def __init__(self, strict_check=True, check=True):
         self.strict_check = strict_check
+        self.check = check
+
         self.transforms = {}
         self.nodes = []
         self.i = []
         self.j = []
         self.connections = sp.csr_matrix((0, 0))
+        self.dist = None
+        self.predecessors = None
+        self._cached_shortest_paths = {}
 
     def add_transform(self, from_frame, to_frame, A2B):
         """Register a transform.
@@ -72,18 +81,27 @@ class TransformManager(object):
         self : TransformManager
             This object for chaining
         """
-        A2B = check_transform(A2B, strict_check=self.strict_check)
+        if self.check:
+            A2B = check_transform(A2B, strict_check=self.strict_check)
         if from_frame not in self.nodes:
             self.nodes.append(from_frame)
         if to_frame not in self.nodes:
             self.nodes.append(to_frame)
 
+        recompute_shortest_path = False
         if (from_frame, to_frame) not in self.transforms:
             self.i.append(self.nodes.index(from_frame))
             self.j.append(self.nodes.index(to_frame))
+            recompute_shortest_path = True
 
         self.transforms[(from_frame, to_frame)] = A2B
 
+        if recompute_shortest_path:
+            self._recompute_shortest_path()
+
+        return self
+
+    def _recompute_shortest_path(self):
         n_nodes = len(self.nodes)
         self.connections = sp.csr_matrix(
             (np.zeros(len(self.i)), (self.i, self.j)),
@@ -91,8 +109,7 @@ class TransformManager(object):
         self.dist, self.predecessors = csgraph.shortest_path(
             self.connections, unweighted=True, directed=False, method="D",
             return_predecessors=True)
-
-        return self
+        self._cached_shortest_paths.clear()
 
     def has_frame(self, frame):
         """Check if frame has been registered.
@@ -127,17 +144,18 @@ class TransformManager(object):
             Homogeneous matrix that represents the transform from 'from_frame'
             to 'to_frame'
         """
-        if from_frame not in self.nodes:
-            raise KeyError("Unknown frame '%s'" % from_frame)
-        if to_frame not in self.nodes:
-            raise KeyError("Unknown frame '%s'" % to_frame)
+        if self.check:
+            if from_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % from_frame)
+            if to_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % to_frame)
 
         if (from_frame, to_frame) in self.transforms:
             return self.transforms[(from_frame, to_frame)]
         elif (to_frame, from_frame) in self.transforms:
             return invert_transform(
                 self.transforms[(to_frame, from_frame)],
-                strict_check=self.strict_check)
+                strict_check=self.strict_check, check=self.check)
         else:
             i = self.nodes.index(from_frame)
             j = self.nodes.index(to_frame)
@@ -149,17 +167,22 @@ class TransformManager(object):
             return self._path_transform(path)
 
     def _shortest_path(self, i, j):
+        if (i, j) in self._cached_shortest_paths:
+            return self._cached_shortest_paths[(i, j)]
+
         path = []
         k = i
         while k != -9999:
             path.append(self.nodes[k])
             k = self.predecessors[j, k]
+        self._cached_shortest_paths[(i, j)] = path
         return path
 
     def _path_transform(self, path):
         A2B = np.eye(4)
         for from_f, to_f in zip(path[:-1], path[1:]):
-            A2B = concat(A2B, self.get_transform(from_f, to_f), strict_check=self.strict_check)
+            A2B = concat(A2B, self.get_transform(from_f, to_f),
+                         strict_check=self.strict_check, check=self.check)
         return A2B
 
     def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True, whitelist=None, **kwargs):
@@ -319,7 +342,8 @@ class TransformManager(object):
                     n1_to_n2 = self.get_transform(n1, n2)
                     n2_to_n1 = self.get_transform(n2, n1)
                     n1_to_n2_inv = invert_transform(
-                        n2_to_n1, strict_check=self.strict_check)
+                        n2_to_n1, strict_check=self.strict_check,
+                        check=self.check)
                     consistent = (consistent and
                                   np.allclose(n1_to_n2, n1_to_n2_inv))
                 except KeyError:

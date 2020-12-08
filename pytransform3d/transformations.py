@@ -85,8 +85,10 @@ def transform_from(R, p, strict_check=True):
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = rotate_transform(np.eye(4), R, strict_check=True)
-    A2B = translate_transform(A2B, p, strict_check=True)
+    A2B = rotate_transform(
+        np.eye(4), R, strict_check=strict_check, check=False)
+    A2B = translate_transform(
+        A2B, p, strict_check=strict_check, check=False)
     return A2B
 
 
@@ -112,7 +114,7 @@ def random_transform(random_state=np.random.RandomState(0)):
     return transform_from(R=R, p=p)
 
 
-def invert_transform(A2B, strict_check=True):
+def invert_transform(A2B, strict_check=True, check=True):
     """Invert transform.
 
     Parameters
@@ -125,19 +127,24 @@ def invert_transform(A2B, strict_check=True):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
 
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
     Returns
     -------
     B2A : array-like, shape (4, 4)
         Transform from frame B to frame A
     """
-    A2B = check_transform(A2B, strict_check=strict_check)
-    # NOTE there is a faster version:
+    if check:
+        A2B = check_transform(A2B, strict_check=strict_check)
+    # NOTE there is a faster version, but it is not faster than matrix
+    # inversion with numpy:
     # ( R t )^-1   ( R^T -R^T*t )
     # ( 0 1 )    = ( 0    1     )
     return np.linalg.inv(A2B)
 
 
-def translate_transform(A2B, p, strict_check=True):
+def translate_transform(A2B, p, strict_check=True, check=True):
     """Sets the translation of a transform.
 
     Parameters
@@ -153,19 +160,23 @@ def translate_transform(A2B, p, strict_check=True):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
 
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = check_transform(A2B, strict_check=strict_check)
+    if check:
+        A2B = check_transform(A2B, strict_check=strict_check)
     out = A2B.copy()
     l = len(p)
     out[:l, -1] = p
     return out
 
 
-def rotate_transform(A2B, R, strict_check=True):
+def rotate_transform(A2B, R, strict_check=True, check=True):
     """Sets the rotation of a transform.
 
     Parameters
@@ -181,12 +192,16 @@ def rotate_transform(A2B, R, strict_check=True):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
 
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = check_transform(A2B, strict_check=strict_check)
+    if check:
+        A2B = check_transform(A2B, strict_check=strict_check)
     out = A2B.copy()
     out[:3, :3] = R
     return out
@@ -272,7 +287,7 @@ def vectors_to_directions(V):
     return np.hstack((V, np.zeros((len(V), 1))))
 
 
-def concat(A2B, B2C, strict_check=True):
+def concat(A2B, B2C, strict_check=True, check=True):
     """Concatenate transforms.
 
     Parameters
@@ -288,13 +303,17 @@ def concat(A2B, B2C, strict_check=True):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
 
+    check : bool, optional (default: True)
+        Check if transformation matrices are valid
+
     Returns
     -------
     A2C : array-like, shape (4, 4)
         Transform from frame A to frame C
     """
-    A2B = check_transform(A2B, strict_check=strict_check)
-    B2C = check_transform(B2C, strict_check=strict_check)
+    if check:
+        A2B = check_transform(A2B, strict_check=strict_check)
+        B2C = check_transform(B2C, strict_check=strict_check)
     return B2C.dot(A2B)
 
 

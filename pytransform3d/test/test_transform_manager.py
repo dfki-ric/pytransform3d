@@ -261,3 +261,11 @@ def test_deactivate_transform_manager_precision_error():
             assert_equal(len(w), n_expected_warnings)
     finally:
         warnings.filterwarnings("default", category=UserWarning)
+
+
+def test_deactivate_checks():
+    tm = TransformManager(check=False)
+    tm.add_transform("A", "B", np.zeros((4, 4)))
+    tm.add_transform("B", "C", np.zeros((4, 4)))
+    A2B = tm.get_transform("A", "C")
+    assert_array_almost_equal(A2B, np.zeros((4, 4)))
