@@ -58,6 +58,7 @@ class TransformManager(object):
         self.connections = sp.csr_matrix((0, 0))
         self.dist = None
         self.predecessors = None
+        self._cached_shortest_paths = {}
 
     def add_transform(self, from_frame, to_frame, A2B):
         """Register a transform.
@@ -108,6 +109,7 @@ class TransformManager(object):
         self.dist, self.predecessors = csgraph.shortest_path(
             self.connections, unweighted=True, directed=False, method="D",
             return_predecessors=True)
+        self._cached_shortest_paths.clear()
 
     def has_frame(self, frame):
         """Check if frame has been registered.
@@ -165,11 +167,15 @@ class TransformManager(object):
             return self._path_transform(path)
 
     def _shortest_path(self, i, j):
+        if (i, j) in self._cached_shortest_paths:
+            return self._cached_shortest_paths[(i, j)]
+
         path = []
         k = i
         while k != -9999:
             path.append(self.nodes[k])
             k = self.predecessors[j, k]
+        self._cached_shortest_paths[(i, j)] = path
         return path
 
     def _path_transform(self, path):
