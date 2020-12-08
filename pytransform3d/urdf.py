@@ -70,7 +70,7 @@ class UrdfTransformManager(TransformManager):
             revolute)
         """
         self.add_transform(from_frame, to_frame, child2parent)
-        self._joints[joint_name] = (from_frame, to_frame, child2parent, axis,
+        self._joints[joint_name] = (from_frame, to_frame, child2parent, norm_vector(axis),
                                     limits, joint_type)
 
     def set_joint(self, joint_name, value):
@@ -92,14 +92,15 @@ class UrdfTransformManager(TransformManager):
         from_frame, to_frame, child2parent, axis, limits, joint_type = self._joints[joint_name]
         value = np.clip(value, limits[0], limits[1])
         if joint_type == "revolute":
-            joint_rotation = matrix_from_axis_angle(np.hstack((axis, [value])))
-            joint2A = transform_from(joint_rotation, np.zeros(3),
-                                     strict_check=self.strict_check)
+            joint_rotation = matrix_from_axis_angle(
+                np.hstack((axis, (value,))))
+            joint2A = transform_from(
+                joint_rotation, np.zeros(3), strict_check=self.strict_check)
         else:
             assert joint_type == "prismatic"
-            joint_offset = value * norm_vector(axis)
-            joint2A = transform_from(np.eye(3), joint_offset,
-                                     strict_check=self.strict_check)
+            joint_offset = value * axis
+            joint2A = transform_from(
+                np.eye(3), joint_offset, strict_check=self.strict_check)
         self.add_transform(from_frame, to_frame, concat(
             joint2A, child2parent, strict_check=self.strict_check,
             check=self.check))
