@@ -150,7 +150,11 @@ class UrdfTransformManager(TransformManager):
 
         robot_name = robot["name"]
 
-        links = [self._parse_link(link)
+        materials = dict([
+            self._parse_material(material)
+            for material in robot.findAll("material", recursive=False)])
+
+        links = [self._parse_link(link, materials)
                  for link in robot.findAll("link", recursive=False)]
         joints = [self._parse_joint(joint, links)
                   for joint in robot.findAll("joint", recursive=False)]
@@ -172,16 +176,36 @@ class UrdfTransformManager(TransformManager):
                 self.add_transform(
                     joint.child, joint.parent, joint.child2parent)
 
-    def _parse_link(self, link):
+    def _parse_material(self, material):
+        """Parse material."""
+        if not material.has_attr("name"):
+            raise UrdfException("Material name is missing.")
+        colors = material.findAll("color")
+        if len(colors) not in [0, 1]:
+            raise UrdfException("More than one color is not allowed.")
+        if len(colors) == 1:
+            color = self._parse_color(colors[0])
+        else:
+            color = None
+        # TODO texture is currently ignored
+        return material["name"], color
+
+    def _parse_color(self, color):
+        """Parse color."""
+        if not color.has_attr("rgba"):
+            raise UrdfException("Attribute 'rgba' of color tag is missing.")
+        return np.fromstring(color["rgba"], sep=" ")
+
+    def _parse_link(self, link, materials):
         """Create link."""
         if not link.has_attr("name"):
             raise UrdfException("Link name is missing.")
-        self.visuals.extend(self._parse_link_children(link, "visual"))
+        self.visuals.extend(self._parse_link_children(link, "visual", materials))
         self.collision_objects.extend(
-            self._parse_link_children(link, "collision"))
+            self._parse_link_children(link, "collision", dict()))
         return link["name"]
 
-    def _parse_link_children(self, link, child_type):
+    def _parse_link_children(self, link, child_type, materials):
         """Parse collision objects or visuals."""
         children = link.findAll(child_type)
         shape_objects = []
@@ -190,12 +214,22 @@ class UrdfTransformManager(TransformManager):
                 name = child["name"]
             else:
                 name = "%s/%s_%s" % (link["name"], child_type, i)
+
+            color = None
+            if child_type == "visual":
+                material = child.find("material")
+                if material is not None:
+                    material_name, color = self._parse_material(material)
+                    if color is None and material_name in materials:
+                        color = materials[material_name]
+
             child2link = self._parse_origin(child)
             self.add_transform(name, link["name"], child2link)
-            shape_objects.extend(self._parse_geometry(child, name))
+
+            shape_objects.extend(self._parse_geometry(child, name, color))
         return shape_objects
 
-    def _parse_geometry(self, child, name):
+    def _parse_geometry(self, child, name, color):
         """Parse geometric primitives (box, cylinder, sphere) or meshes."""
         geometry = child.find("geometry")
         if geometry is None:
@@ -205,7 +239,7 @@ class UrdfTransformManager(TransformManager):
             shapes = geometry.findAll(shape_type)
             Cls = shape_classes[shape_type]
             for shape in shapes:
-                shape_object = Cls(name, mesh_path=self.mesh_path)
+                shape_object = Cls(name, mesh_path=self.mesh_path, color=color)
                 shape_object.parse(shape)
                 result.append(shape_object)
         return result
@@ -420,36 +454,41 @@ class Joint(object):
 
 
 class Box(object):
-    def __init__(self, frame, mesh_path):
+    def __init__(self, frame, mesh_path, color):
         self.frame = frame
+        self.color = color
 
     def parse(self, box):
         self.size = np.zeros(3)
         if box.has_attr("size"):
             self.size = np.fromstring(box["size"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
+    def plot(self, tm, frame, ax=None, wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
+        color = self.color if self.color is not None else "k"
         return plot_box(ax, self.size, A2B, wireframe=wireframe, color=color)
 
 
 class Sphere(object):
-    def __init__(self, frame, mesh_path):
+    def __init__(self, frame, mesh_path, color):
         self.frame = frame
+        self.color = color
 
     def parse(self, sphere):
         if not sphere.has_attr("radius"):
             raise UrdfException("Sphere has no radius.")
         self.radius = float(sphere["radius"])
 
-    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
+    def plot(self, tm, frame, ax=None, wireframe=True):
         center = tm.get_transform(self.frame, frame)[:3, 3]
+        color = self.color if self.color is not None else "k"
         return plot_sphere(ax, self.radius, center, wireframe=wireframe, color=color)
 
 
 class Cylinder(object):
-    def __init__(self, frame, mesh_path):
+    def __init__(self, frame, mesh_path, color):
         self.frame = frame
+        self.color = color
 
     def parse(self, cylinder):
         if not cylinder.has_attr("radius"):
@@ -459,15 +498,17 @@ class Cylinder(object):
             raise UrdfException("Cylinder has no length.")
         self.length = float(cylinder["length"])
 
-    def plot(self, tm, frame, ax=None, color="k", wireframe=True):
+    def plot(self, tm, frame, ax=None, wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
+        color = self.color if self.color is not None else "k"
         return plot_cylinder(ax, self.length, self.radius, 0.0, A2B, wireframe, color)
 
 
 class Mesh(object):
-    def __init__(self, frame, mesh_path):
+    def __init__(self, frame, mesh_path, color):
         self.frame = frame
         self.mesh_path = mesh_path
+        self.color = color
 
     def parse(self, mesh):
         if self.mesh_path is None:
@@ -485,7 +526,8 @@ class Mesh(object):
 
     def plot(self, tm, frame, ax=None, alpha=0.3, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
-        return plot_mesh(ax, self.filename, A2B, self.scale, convex_hull=convex_hull, alpha=alpha)
+        color = self.color if self.color is not None else "k"
+        return plot_mesh(ax, self.filename, A2B, self.scale, convex_hull=convex_hull, alpha=alpha, color=color)
 
 
 shape_classes = {"box": Box,

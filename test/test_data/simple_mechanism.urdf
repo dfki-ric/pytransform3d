@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <!-- created with Phobos 0.7 -->
   <robot name="simple_mechanism">
+    <material name="Blue">
+      <color rgba="0.2 0.2 1.0 1.0"/>
+    </material>
 
     <link name="upper_cone">
       <visual name="upper_cone">
@@ -8,6 +11,7 @@
         <geometry>
           <mesh filename="cone.stl" scale="1 1 0.5"/>
         </geometry>
+        <material name="Blue"/>
       </visual>
     </link>
 
