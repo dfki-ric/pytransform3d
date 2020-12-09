@@ -90,7 +90,8 @@ class UrdfTransformManager(TransformManager):
         if joint_name not in self._joints:
             raise KeyError("Joint '%s' is not known" % joint_name)
         from_frame, to_frame, child2parent, axis, limits, joint_type = self._joints[joint_name]
-        value = np.clip(value, limits[0], limits[1])
+        # this is way faster than np.clip:
+        value = min(max(value, limits[0]), limits[1])
         if joint_type == "revolute":
             joint_rotation = matrix_from_axis_angle(
                 np.hstack((axis, (value,))))
