@@ -1,11 +1,12 @@
 """Transformations in three dimensions - SE(3)."""
 import warnings
+import math
 import numpy as np
 from .rotations import (random_quaternion, random_vector,
                         matrix_from_quaternion, quaternion_from_matrix,
                         assert_rotation_matrix, check_matrix,
                         norm_vector, axis_angle_from_matrix,
-                        matrix_from_axis_angle)
+                        matrix_from_axis_angle, cross_product_matrix)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -513,3 +514,145 @@ def assert_transform(A2B, *args, **kwargs):
     assert_rotation_matrix(A2B[:3, :3], *args, **kwargs)
     assert_array_almost_equal(A2B[3], np.array([0.0, 0.0, 0.0, 1.0]),
                               *args, **kwargs)
+
+
+def twist_from_screw(q, s_axis, h, theta=1.0):
+    """TODO
+
+    Parameters
+    ----------
+    TODO
+
+    Returns
+    -------
+    twist : TODO
+    """
+    # TODO only rotation / only translation
+    v_div_theta_dot = -np.cross(s_axis, q) + h * s_axis
+    return np.r_[s_axis, v_div_theta_dot] * theta
+
+
+def twist_matrix_from_twist(twist):
+    """TODO
+
+    Parameters
+    ----------
+    twist : array-like, shape (6,)
+        Twist vector: (omega_1, omega_2, omega_3, v_1, v_2, v_3)
+
+    Returns
+    -------
+    twist_matrix : array, shape (4, 4)
+        Twist matrix
+    """
+    twist_matrix = np.zeros(4)
+    twist_matrix[:3, :3] = cross_product_matrix(twist[:3])
+    twist_matrix[:3, 3] = twist[3:]
+    return twist_matrix
+
+
+def transform_from_twist_displacement(twist_displacement):
+    """Conversion from twist displacement to homogeneous matrix.
+
+    Exponential map.
+
+    Parameters
+    ----------
+    TODO
+
+    Returns
+    -------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+    """
+    omega = twist_displacement[:3]
+    theta_dot = np.linalg.norm(omega)
+    if theta_dot == 0.0:
+        twist_displacement = np.zeros(6)  # TODO
+    else:
+        twist_displacement = twist_displacement / theta_dot
+    omega = twist_displacement[:3]
+    v = twist_displacement[3:6]
+
+    A2B = np.eye(4)
+    A2B[:3, :3] = matrix_from_axis_angle(np.hstack((omega, (theta_dot,))))
+    A2B[:3, 3] = (np.eye(3) * theta_dot
+                  + (1.0 - math.cos(theta_dot)) * cross_product_matrix(omega)
+                  + (theta_dot - math.sin(theta_dot)) * cross_product_matrix(omega) ** 2
+                  ).dot(v)
+    return A2B
+
+
+def plot_screw_motion(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, s=1.0, ax_s=1, **kwargs):
+    """TODO
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis, optional (default: None)
+        If the axis is None, a new 3d axis will be created
+
+    q : TODO
+
+    s_axis : TODO
+
+    h : TODO
+
+    theta : TODO
+
+    s : float, optional (default: 1)
+        Scaling of the axis and angle that will be drawn
+
+    ax_s : float, optional (default: 1)
+        Scaling of the new matplotlib 3d axis
+
+    kwargs : dict, optional (default: {})
+        Additional arguments for the plotting functions, e.g. alpha
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
+    """
+    from .plot_utils import make_3d_axis, Arrow3D
+    from .rotations import unitx, unity, perpendicular_to_vectors, angle_between_vectors, _slerp_weights
+    if ax is None:
+        ax = make_3d_axis(ax_s)
+
+    ax.plot([0, q[0]], [0, q[1]], [0, q[2]], color="k")
+    ax.scatter(q[0], q[1], q[2], color="r")
+
+    a = np.cross(-s_axis * theta, q)
+    b = h * theta * s_axis
+    ab = a + b
+    ax.plot([0, a[0]], [0, a[1]], [0, a[2]], color="k")
+    ax.plot([0, b[0]], [0, b[1]], [0, b[2]], color="k")
+    ax.plot([ab[0], a[0]], [ab[1], a[1]], [ab[2], a[2]], color="k")
+    ax.plot([ab[0], b[0]], [ab[1], b[1]], [ab[2], b[2]], color="k")
+
+    axis_arrow = Arrow3D(
+        [q[0], q[0] + s * s_axis[0]],
+        [q[1], q[1] + s * s_axis[1]],
+        [q[2], q[2] + s * s_axis[2]],
+        mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
+    ax.add_artist(axis_arrow)
+
+    p1 = (unitx if np.abs(s_axis[0]) <= np.finfo(float).eps else
+          perpendicular_to_vectors(unity, s_axis))
+    p2 = perpendicular_to_vectors(s_axis, p1)
+
+    angle_p1p2 = angle_between_vectors(p1, p2)
+    arc = np.empty((100, 3))
+    for i, t in enumerate(np.linspace(0, theta, 100)):
+        w1, w2 = _slerp_weights(angle_p1p2, 2 * t / np.pi)
+        arc[i] = q + s * (s_axis + w1 * p1 + w2 * p2) + t * h * s_axis
+    ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
+
+    arrow_coords = np.vstack((arc[-1], arc[-1] + 20 * (arc[-1] - arc[-3]))).T
+    angle_arrow = Arrow3D(
+        arrow_coords[0], arrow_coords[1], arrow_coords[2],
+        mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
+    ax.add_artist(angle_arrow)
+
+    for i in [0, -1]:
+        arc_bound = np.vstack((q + 0.5 * s * s_axis, arc[i])).T
+        ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k")
