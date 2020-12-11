@@ -1,5 +1,6 @@
 """Rotations in three dimensions - SO(3)."""
 import warnings
+import math
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
@@ -457,8 +458,8 @@ def matrix_from_axis_angle(a):
     """
     a = check_axis_angle(a)
     ux, uy, uz, theta = a
-    c = np.cos(theta)
-    s = np.sin(theta)
+    c = math.cos(theta)
+    s = math.sin(theta)
     ci = 1.0 - c
     R = np.array([[ci * ux * ux + c,
                    ci * ux * uy - uz * s,
@@ -472,9 +473,9 @@ def matrix_from_axis_angle(a):
                   ])
 
     # This is equivalent to
-    # R = (np.eye(3) * np.cos(theta) +
-    #      (1.0 - np.cos(theta)) * a[:3, np.newaxis].dot(a[np.newaxis, :3]) +
-    #      cross_product_matrix(a[:3]) * np.sin(theta))
+    # R = (np.eye(3) * np.cos(a[3]) +
+    #      (1.0 - np.cos(a[3])) * a[:3, np.newaxis].dot(a[np.newaxis, :3]) +
+    #      cross_product_matrix(a[:3]) * np.sin(a[3]))
 
     return R
 

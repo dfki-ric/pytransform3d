@@ -8,7 +8,7 @@ import numpy as np
 from pytransform3d.urdf import UrdfTransformManager, UrdfException
 from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_raises, assert_equal
+from nose.tools import assert_raises, assert_equal, assert_true
 from nose import SkipTest
 
 
@@ -840,3 +840,66 @@ def test_plot_without_mesh():
     with warnings.catch_warnings(record=True) as w:
         tm.plot_visuals("lower_cone", ax=ax)
         assert_equal(len(w), 1)
+
+
+def test_parse_material():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <material name="Black">
+            <color rgba="0.0 0.0 0.0 1.0"/>
+        </material>
+        <link name="root">
+            <visual>
+                <geometry>
+                    <box size="0.758292 1.175997 0.8875"/>
+                    <material name="Black"/>
+                </geometry>
+            </visual>
+        </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+    assert_array_almost_equal(tm.visuals[0].color, np.array([0, 0, 0, 1]))
+
+
+def test_parse_material_without_color():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <material name="Black"/>
+        <link name="root">
+            <visual>
+                <geometry>
+                    <box size="0.758292 1.175997 0.8875"/>
+                    <material name="Black"/>
+                </geometry>
+            </visual>
+        </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+    assert_true(tm.visuals[0].color is None)
+
+
+def test_parse_material_local():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <link name="root">
+            <visual>
+                <geometry>
+                    <box size="0.758292 1.175997 0.8875"/>
+                    <material name="Black">
+                        <color rgba="1.0 0.0 0.0 1.0"/>
+                    </material>
+                </geometry>
+            </visual>
+        </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+    assert_array_almost_equal(tm.visuals[0].color, np.array([1, 0, 0, 1]))

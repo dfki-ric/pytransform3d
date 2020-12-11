@@ -969,15 +969,20 @@ try:
         def _objects_to_artists(self, objects):
             artists = {}
             for obj in objects:
+                if obj.color is None:
+                    color = None
+                else:
+                    # we loose the alpha channel as it is not supported by Open3D
+                    color = (obj.color[0], obj.color[1], obj.color[2])
                 if isinstance(obj, urdf.Sphere):
-                    artist = Sphere(radius=obj.radius)
+                    artist = Sphere(radius=obj.radius, c=color)
                 elif isinstance(obj, urdf.Box):
-                    artist = Box(obj.size)
+                    artist = Box(obj.size, c=color)
                 elif isinstance(obj, urdf.Cylinder):
-                    artist = Cylinder(obj.length, obj.radius)
+                    artist = Cylinder(obj.length, obj.radius, c=color)
                 else:
                     assert isinstance(obj, urdf.Mesh)
-                    artist = Mesh(obj.filename, s=obj.scale)
+                    artist = Mesh(obj.filename, s=obj.scale, c=color)
                 artists[obj.frame] = artist
             return artists
 
