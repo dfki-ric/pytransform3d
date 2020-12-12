@@ -1,5 +1,5 @@
 ===================
-3D Rotations: SO(3)
+SO(3): 3D Rotations
 ===================
 
 The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`

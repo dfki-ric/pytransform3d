@@ -1,5 +1,5 @@
 =========================
-3D Transformations: SE(3)
+SE(3): 3D Transformations
 =========================
 
 The group of all transformations in the 3D Cartesian space is :math:`SE(3)`
@@ -9,15 +9,23 @@ represented in different ways just like rotations can be expressed
 in different ways. For most representations of orientations we can find
 an analogous representation of transformations:
 
-* A **transformation matrix** :math:`\boldsymbol T` is analogous to a rotation
+* A **transformation matrix** :math:`\boldsymbol T` is similar to a rotation
   matrix :math:`\boldsymbol R`.
-* A **screw axis** :math:`\mathcal S` is analogous to a rotation axis :math:`\hat{\omega}`.
-* A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is analogous to
+* A **screw axis** :math:`\mathcal S` is similar to a rotation axis
+  :math:`\hat{\boldsymbol{\omega}}`.
+* A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is similar to
   angular velocity :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`.
 * Exponential coordinates :math:`\mathcal{S} \theta` for rigid body motions
-  are analogous to exponential coordinates
+  are similar to exponential coordinates
   :math:`\hat{\boldsymbol{\omega}} \theta` for rotations (axis-angle
   representation).
+
+Here is an overview of the representations and the conversions between them
+that are available in pytransform3d.
+
+.. image:: _static/transformations.svg
+   :alt: Transformations
+   :align: center
 
 ---------------------
 Transformation Matrix
