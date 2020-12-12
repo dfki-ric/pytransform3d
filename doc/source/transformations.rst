@@ -121,14 +121,15 @@ where either
 2. :math:`||\boldsymbol{\omega}|| = 0` and :math:`||\boldsymbol{v}|| = 1`
    (only translation).
 
-In case 1 we can compute the screw axis from screw parameters
+In case 1, we can compute the screw axis from screw parameters
 :math:`(\boldsymbol{q}, \hat{\boldsymbol{s}}, h)` as
 
 .. math::
 
     \mathcal{S} = \left[ \begin{array}{c}\hat{\boldsymbol{s}} \\ \boldsymbol{q} \times \hat{\boldsymbol{s}} + h \hat{\boldsymbol{s}}\end{array} \right]
 
-In case 2 ... TODO
+In case 2, :math:`h` is infinite and we directly translate along :math:`\hat{\boldsymbol{s}}`.
 
 With the additional parameter :math:`\theta` we can then define a complete
 transformation through its exponential coordinates :math:`\mathcal{S} \theta`.
+This is a minimal representation as it only needs 6 values.
