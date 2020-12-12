@@ -6,7 +6,7 @@ The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`
 (SO: special orthogonal group).
 The minimum number of components that are required to describe any rotation
 from :math:`SO(3)` is 3. However, there is no representation that is
-non-redundant, continuous and free of singularities. We will now take a closer
+non-redundant, continuous, and free of singularities. We will now take a closer
 look at competing representations of rotations and the orientations they can
 describe.
 
@@ -150,48 +150,25 @@ by a scalar:
 
 .. math::
 
-    \left( \boldsymbol{\hat{e}}, \theta \right) = \left( \left( \begin{array}{c}e_x\\e_y\\e_z\end{array} \right), \theta \right)
+    \left( \hat{\boldsymbol{\omega}}, \theta \right) = \left( \left( \begin{array}{c}\omega_x\\\omega_y\\\omega_z\end{array} \right), \theta \right)
 
 It is possible to write this in a more compact way as a rotation vector:
 
 .. math::
 
-    \boldsymbol{v} = \theta \boldsymbol{\hat{e}}
+    \boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}
 
 **Pros**
 
 * Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)
 * It is easy to interpret the representation (as axis and angle)
+* Can also represent angular velocity and acceleration when we replace
+  :math:`\theta` by :math:`\dot{\theta}` or :math:`\ddot{\theta}` respectively,
+  which makes numerical integration and differentiation easy.
 
 **Cons**
 
 * Concatenation involves conversion to another representation
-
-------------
-Euler Angles
-------------
-
-A complete rotation can be split into three rotations around basis vectors.
-
-.. warning::
-
-    There are 24 different conventions for defining euler angles. There are
-    12 different valid ways to sequence rotation axes that can be interpreted
-    as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
-    XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
-    ZYX convention with intrinsic rotations.
-
-.. plot:: ../../examples/plot_euler_angles.py
-    :include-source:
-
-**Pros**
-
-* Minimal representation
-
-**Cons**
-
-* 24 different conventions
-* Singularities (gimbal lock)
 
 -----------
 Quaternions
@@ -227,9 +204,9 @@ The following equation describes its relation to axis-axis notation.
     \left( \begin{array}{c} w\\ x\\ y\\ z\\ \end{array} \right) =
     \left( \begin{array}{c}
         \cos \frac{\theta}{2}\\
-        e_x \sin \frac{\theta}{2}\\
-        e_y \sin \frac{\theta}{2}\\
-        e_z \sin \frac{\theta}{2}\\
+        \omega_x \sin \frac{\theta}{2}\\
+        \omega_y \sin \frac{\theta}{2}\\
+        \omega_z \sin \frac{\theta}{2}\\
     \end{array} \right)
 
 .. warning::
@@ -260,3 +237,29 @@ The following equation describes its relation to axis-axis notation.
 * The representation is not straightforward to interpret
 * There are always two unit quaternions that represent exactly the same
   rotation
+
+------------
+Euler Angles
+------------
+
+A complete rotation can be split into three rotations around basis vectors.
+
+.. warning::
+
+    There are 24 different conventions for defining euler angles. There are
+    12 different valid ways to sequence rotation axes that can be interpreted
+    as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
+    XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
+    ZYX convention with intrinsic rotations.
+
+.. plot:: ../../examples/plot_euler_angles.py
+    :include-source:
+
+**Pros**
+
+* Minimal representation
+
+**Cons**
+
+* 24 different conventions
+* Singularities (gimbal lock)
