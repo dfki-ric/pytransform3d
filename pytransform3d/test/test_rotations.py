@@ -157,6 +157,47 @@ def test_angle_to_zero_vector_is_nan():
     assert_true(np.isnan(angle))
 
 
+def test_vector_projection_on_zero_vector():
+    """Test projection on zero vector."""
+    random_state = np.random.RandomState(23)
+    for _ in range(5):
+        a = random_vector(random_state, 3)
+        a_on_b = vector_projection(a, np.zeros(3))
+        assert_array_almost_equal(a_on_b, np.zeros(3))
+
+
+def test_vector_projection():
+    """Test orthogonal projection of one vector to another vector."""
+    a = np.ones(3)
+    a_on_unitx = vector_projection(a, unitx)
+    assert_array_almost_equal(a_on_unitx, unitx)
+    assert_almost_equal(angle_between_vectors(a_on_unitx, unitx), 0.0)
+
+    a2_on_unitx = vector_projection(2 * a, unitx)
+    assert_array_almost_equal(a2_on_unitx, 2 * unitx)
+    assert_almost_equal(angle_between_vectors(a2_on_unitx, unitx), 0.0)
+
+    a_on_unity = vector_projection(a, unity)
+    assert_array_almost_equal(a_on_unity, unity)
+    assert_almost_equal(angle_between_vectors(a_on_unity, unity), 0.0)
+
+    minus_a_on_unity = vector_projection(-a, unity)
+    assert_array_almost_equal(minus_a_on_unity, -unity)
+    assert_almost_equal(angle_between_vectors(minus_a_on_unity, unity), np.pi)
+
+    a_on_unitz = vector_projection(a, unitz)
+    assert_array_almost_equal(a_on_unitz, unitz)
+    assert_almost_equal(angle_between_vectors(a_on_unitz, unitz), 0.0)
+
+    unitz_on_a = vector_projection(unitz, a)
+    assert_array_almost_equal(unitz_on_a, np.ones(3) / 3.0)
+    assert_almost_equal(angle_between_vectors(unitz_on_a, a), 0.0)
+
+    unitx_on_unitx = vector_projection(unitx, unitx)
+    assert_array_almost_equal(unitx_on_unitx, unitx)
+    assert_almost_equal(angle_between_vectors(unitx_on_unitx, unitx), 0.0)
+
+
 def test_cross_product_matrix():
     """Test cross-product matrix."""
     random_state = np.random.RandomState(0)
