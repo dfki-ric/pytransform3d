@@ -186,6 +186,28 @@ def angle_between_vectors(a, b, fast=False):
         return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
 
 
+def vector_projection(a, b):
+    """Orthogonal projection of vector a on vector b.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Vector a that will be projected on vector b
+
+    b : array-like, shape (3,)
+        Vector b on which vector a will be projected
+
+    Returns
+    -------
+    a_on_b : array, shape (3,)
+        Vector a
+    """
+    b_norm_squared = np.dot(b, b)
+    if b_norm_squared == 0.0:
+        return np.zeros(3)
+    return np.dot(a, b) * b / b_norm_squared
+
+
 def random_vector(random_state=np.random.RandomState(0), n=3):
     """Generate an nd vector with normally distributed components.
 
@@ -1565,7 +1587,7 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
 
     angle_p1p2 = angle_between_vectors(p1, p2)
     arc = np.empty((100, 3))
-    for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, 100)):
+    for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, len(arc))):
         w1, w2 = _slerp_weights(angle_p1p2, t)
         arc[i] = p + 0.5 * s * (a[:3] + w1 * p1 + w2 * p2)
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
