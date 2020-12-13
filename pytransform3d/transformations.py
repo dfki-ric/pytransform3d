@@ -516,7 +516,7 @@ def assert_transform(A2B, *args, **kwargs):
                               *args, **kwargs)
 
 
-def twist_from_screw(q, s_axis, h, theta=1.0):
+def screw_axis_from_screw_parameters(q, s_axis, h, theta=1.0):
     """TODO
 
     Parameters
@@ -527,31 +527,13 @@ def twist_from_screw(q, s_axis, h, theta=1.0):
     -------
     twist : TODO
     """
-    # TODO only rotation / only translation
-    v_div_theta_dot = -np.cross(s_axis, q) + h * s_axis
-    return np.r_[s_axis, v_div_theta_dot] * theta
+    if np.isinf(h):
+        raise NotImplementedError("TODO only translation")
+    else:
+        return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis] * theta
 
 
-def twist_matrix_from_twist(twist):
-    """TODO
-
-    Parameters
-    ----------
-    twist : array-like, shape (6,)
-        Twist vector: (omega_1, omega_2, omega_3, v_1, v_2, v_3)
-
-    Returns
-    -------
-    twist_matrix : array, shape (4, 4)
-        Twist matrix
-    """
-    twist_matrix = np.zeros(4)
-    twist_matrix[:3, :3] = cross_product_matrix(twist[:3])
-    twist_matrix[:3, 3] = twist[3:]
-    return twist_matrix
-
-
-def transform_from_twist_displacement(twist_displacement):
+def transform_from_exponential_coordinates(Stheta):
     """Conversion from twist displacement to homogeneous matrix.
 
     Exponential map.
@@ -565,25 +547,30 @@ def transform_from_twist_displacement(twist_displacement):
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
-    omega = twist_displacement[:3]
-    theta_dot = np.linalg.norm(omega)
-    if theta_dot == 0.0:
-        twist_displacement = np.zeros(6)  # TODO
-    else:
-        twist_displacement = twist_displacement / theta_dot
-    omega = twist_displacement[:3]
-    v = twist_displacement[3:6]
+    omega_theta = Stheta[:3]
+    theta = np.linalg.norm(omega_theta)
+
+    if theta == 0.0:  # only translation
+        A2B = np.eye(4)
+        A2B[:3, 3] = Stheta[3:]
+        return A2B
+
+    screw_axis = Stheta / theta
+    omega = screw_axis[:3]
+    v = screw_axis[3:]
 
     A2B = np.eye(4)
-    A2B[:3, :3] = matrix_from_axis_angle(np.hstack((omega, (theta_dot,))))
-    A2B[:3, 3] = (np.eye(3) * theta_dot
-                  + (1.0 - math.cos(theta_dot)) * cross_product_matrix(omega)
-                  + (theta_dot - math.sin(theta_dot)) * cross_product_matrix(omega) ** 2
-                  ).dot(v)
+    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega, theta])
+    omega_matrix = cross_product_matrix(omega)
+    A2B[:3, 3] = np.dot(
+        np.eye(3) * theta
+        + (1.0 - math.cos(theta)) * omega_matrix
+        + (theta - math.sin(theta)) * np.dot(omega_matrix, omega_matrix),
+        v)
     return A2B
 
 
-def plot_screw_motion(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, s=1.0, ax_s=1, **kwargs):
+def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, ax_s=1, **kwargs):
     """TODO
 
     Parameters
@@ -599,8 +586,7 @@ def plot_screw_motion(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), 
 
     theta : TODO
 
-    s : float, optional (default: 1)
-        Scaling of the axis and angle that will be drawn
+    # TODO plot in base coordinate frame A2B!!!
 
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
@@ -618,41 +604,31 @@ def plot_screw_motion(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), 
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    ax.plot([0, q[0]], [0, q[1]], [0, q[2]], color="k")
     ax.scatter(q[0], q[1], q[2], color="r")
 
-    a = np.cross(-s_axis * theta, q)
-    b = h * theta * s_axis
-    ab = a + b
-    ax.plot([0, a[0]], [0, a[1]], [0, a[2]], color="k")
-    ax.plot([0, b[0]], [0, b[1]], [0, b[2]], color="k")
-    ax.plot([ab[0], a[0]], [ab[1], a[1]], [ab[2], a[2]], color="k")
-    ax.plot([ab[0], b[0]], [ab[1], b[1]], [ab[2], b[2]], color="k")
-
     axis_arrow = Arrow3D(
-        [q[0], q[0] + s * s_axis[0]],
-        [q[1], q[1] + s * s_axis[1]],
-        [q[2], q[2] + s * s_axis[2]],
+        [q[0], q[0] + s_axis[0]],
+        [q[1], q[1] + s_axis[1]],
+        [q[2], q[2] + s_axis[2]],
         mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
     ax.add_artist(axis_arrow)
 
-    p1 = (unitx if np.abs(s_axis[0]) <= np.finfo(float).eps else
-          perpendicular_to_vectors(unity, s_axis))
+    q_projected_on_s_axis = np.linalg.norm(q) * np.cos(angle_between_vectors(-q, s_axis)) * s_axis
+    p1 = -q + -q_projected_on_s_axis
     p2 = perpendicular_to_vectors(s_axis, p1)
 
-    angle_p1p2 = angle_between_vectors(p1, p2)
-    arc = np.empty((100, 3))
-    for i, t in enumerate(np.linspace(0, theta, 100)):
-        w1, w2 = _slerp_weights(angle_p1p2, 2 * t / np.pi)
-        arc[i] = q + s * (s_axis + w1 * p1 + w2 * p2) + t * h * s_axis
-    ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
+    arc = np.empty((40, 3))
+    for i, theta_fraction in enumerate(np.linspace(0.0, theta, len(arc))):
+        w1, w2 = _slerp_weights(theta, theta_fraction / theta)
+        arc[i] = q + q_projected_on_s_axis + w1 * p1 + w2 * p2 + h * s_axis * theta_fraction
+    ax.plot(arc[:, 0], arc[:, 1], arc[:, 2], color="k", lw=3, **kwargs)
 
-    arrow_coords = np.vstack((arc[-1], arc[-1] + 20 * (arc[-1] - arc[-3]))).T
+    arrow_coords = np.vstack((arc[-1], arc[-1] + (arc[-1] - arc[-2]))).T
     angle_arrow = Arrow3D(
         arrow_coords[0], arrow_coords[1], arrow_coords[2],
         mutation_scale=20, lw=3, arrowstyle="-|>", color="k")
     ax.add_artist(angle_arrow)
 
     for i in [0, -1]:
-        arc_bound = np.vstack((q + 0.5 * s * s_axis, arc[i])).T
+        arc_bound = np.vstack((q, arc[i])).T
         ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k")
