@@ -184,7 +184,9 @@ and an imaginary / vector part
 
     There are two different quaternion conventions: Hamilton's convention
     defines :math:`ijk = -1` and the JPL convention (from NASA's Jet Propulsion
-    Laboratory, JPL) defines :math:`ijk = 1`. We use Hamilton's convention.
+    Laboratory, JPL) defines :math:`ijk = 1`.
+    These two conventions result in different multiplication operations and
+    conversions to other representations. We use Hamilton's convention.
 
 Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about the
 two conventions and why Hamilton's convention should be used. Section VI A
@@ -261,3 +263,12 @@ A complete rotation can be split into three rotations around basis vectors.
 
 * 24 different conventions
 * Singularities (gimbal lock)
+
+----------
+References
+----------
+
+* Representing Robot Pose: The good, the bad, and the ugly (slides): http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
+* Representing Robot Pose: The good, the bad, and the ugly (blog): http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
+* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+* Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
