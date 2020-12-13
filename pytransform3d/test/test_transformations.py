@@ -9,10 +9,13 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            concat, transform, scale_transform,
                                            assert_transform, check_transform,
                                            check_pq, pq_from_transform,
-                                           transform_from_pq)
+                                           transform_from_pq,
+                                           check_screw_parameters,
+                                           check_screw_axis)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
-                                     random_vector, axis_angle_from_matrix)
-from nose.tools import assert_equal, assert_raises_regexp
+                                     random_vector, axis_angle_from_matrix,
+                                     norm_vector)
+from nose.tools import assert_equal, assert_almost_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 
 
@@ -253,3 +256,52 @@ def test_deactivate_transform_precision_error():
             assert_equal(len(w), n_expected_warnings)
     finally:
         warnings.filterwarnings("default", category=UserWarning)
+
+
+def test_check_screw_parameters():
+    q = [100.0, -20.3, 1e-3]
+    s_axis = norm_vector(np.array([-1.0, 2.0, 3.0])).tolist()
+    h = 0.2
+
+    assert_raises_regexp(
+        ValueError, "Expected 3D vector with shape",
+        check_screw_parameters, [0.0], s_axis, h)
+    assert_raises_regexp(
+        ValueError, "Expected 3D vector with shape",
+        check_screw_parameters, q, [0.0], h)
+
+    q2, s_axis2, h2 = check_screw_parameters(q, 2.0 * np.array(s_axis), h)
+    assert_array_almost_equal(q, q2)
+    assert_almost_equal(h, h2)
+    assert_almost_equal(np.linalg.norm(s_axis2), 1.0)
+
+    q2, s_axis2, h2 = check_screw_parameters(q, s_axis, h)
+    assert_array_almost_equal(q, q2)
+    assert_array_almost_equal(s_axis, s_axis2)
+    assert_almost_equal(h, h2)
+
+
+def test_check_screw_axis():
+    random_state = np.random.RandomState(73)
+    omega = norm_vector(random_vector(random_state, 3))
+    v = random_vector(random_state, 3)
+
+    assert_raises_regexp(
+        ValueError, "Expected 3D vector with shape",
+        check_screw_axis, np.r_[0, 1, v])
+
+    assert_raises_regexp(
+        ValueError, "Norm of rotation axis must either be 0 or 1",
+        check_screw_axis, np.r_[2 * omega, v])
+
+    assert_raises_regexp(
+        ValueError, "If the norm of the rotation axis is 0",
+        check_screw_axis, np.r_[0, 0, 0, v])
+
+    S_pure_translation = np.r_[0, 0, 0, norm_vector(v)]
+    S = check_screw_axis(S_pure_translation)
+    assert_array_almost_equal(S, S_pure_translation)
+
+    S_both = np.r_[omega, v]
+    S = check_screw_axis(S_both)
+    assert_array_almost_equal(S, S_both)
