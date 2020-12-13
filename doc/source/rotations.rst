@@ -140,11 +140,9 @@ by applying the rotation
 Axis-Angle
 ----------
 
-Each rotation can be represented by a single rotation around one axis.
-
 .. plot:: ../../examples/plot_axis_angle.py
-    :include-source:
 
+Each rotation can be represented by a single rotation around one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
 by a scalar:
 

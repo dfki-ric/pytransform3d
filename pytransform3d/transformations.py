@@ -516,7 +516,7 @@ def assert_transform(A2B, *args, **kwargs):
                               *args, **kwargs)
 
 
-def screw_axis_from_screw_parameters(q, s_axis, h, theta=1.0):
+def screw_axis_from_screw_parameters(q, s_axis, h):
     """TODO
 
     Parameters
@@ -530,7 +530,7 @@ def screw_axis_from_screw_parameters(q, s_axis, h, theta=1.0):
     if np.isinf(h):
         raise NotImplementedError("TODO only translation")
     else:
-        return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis] * theta
+        return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis]
 
 
 def transform_from_exponential_coordinates(Stheta):

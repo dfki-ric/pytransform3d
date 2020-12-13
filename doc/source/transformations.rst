@@ -100,21 +100,24 @@ a 2D array.
 Exponential Coordinates
 -----------------------
 
+.. plot:: ../../examples/plot_screw.py
+
 Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
-by a motion along a screw axis. A screw axis is represented by a point vector
-:math:`\boldsymbol{q}` through which the screw axis passes, a (unit) direction
-vector :math:`\hat{\boldsymbol{s}}` that indicates the direction of the axis,
-and the pitch :math:`h`. The pitch represents the ratio of translation and
-rotation. A screw motion translates along the screw axis and rotates about it.
+by a motion along a screw axis. The **screw parameters** that describe a screw
+axis include a point vector :math:`\boldsymbol{q}` through which the screw
+axis passes, a (unit) direction vector :math:`\hat{\boldsymbol{s}}` that
+indicates the direction of the axis, and the pitch :math:`h`. The pitch
+represents the ratio of translation and rotation. A screw motion translates
+along the screw axis and rotates about it.
 
 .. image:: _static/screw_axis.svg
    :alt: Screw axis
    :width: 80%
    :align: center
 
-A screw axis is typically represented by
-:math:`\mathcal{S} = \left[\begin{array}{c}\boldsymbol{\omega}\\\boldsymbol{v}\end{array}\right]`,
+A **screw axis** is typically represented by
+:math:`\mathcal{S} = \left[\begin{array}{c}\boldsymbol{\omega}\\\boldsymbol{v}\end{array}\right] \in \mathbb{R}^6`,
 where either
 
 1. :math:`||\boldsymbol{\omega}|| = 1` or
@@ -130,6 +133,14 @@ In case 1, we can compute the screw axis from screw parameters
 
 In case 2, :math:`h` is infinite and we directly translate along :math:`\hat{\boldsymbol{s}}`.
 
-With the additional parameter :math:`\theta` we can then define a complete
-transformation through its exponential coordinates :math:`\mathcal{S} \theta`.
+By multiplication with an additional parameter :math:`\theta` we can then
+define a complete transformation through its exponential coordinates
+:math:`\mathcal{S} \theta = \left[\begin{array}{c}\boldsymbol{\omega}\theta\\\boldsymbol{v}\theta\end{array}\right] \in \mathbb{R}^6`.
 This is a minimal representation as it only needs 6 values.
+
+----------
+References
+----------
+
+Lynch, Park: Modern Robotics (Section 3.3); available at
+http://hades.mech.northwestern.edu/index.php/Modern_Robotics
