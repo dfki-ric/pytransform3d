@@ -166,6 +166,9 @@ Input Validation Functions
 
    ~pytransform3d.transformations.check_transform
    ~pytransform3d.transformations.check_pq
+   ~pytransform3d.transformations.check_screw_parameters
+   ~pytransform3d.transformations.check_screw_axis
+   ~pytransform3d.transformations.check_exponential_coordinates
 
 Create Transformations
 ----------------------
@@ -180,6 +183,9 @@ Create Transformations
    ~pytransform3d.transformations.rotate_transform
    ~pytransform3d.transformations.pq_from_transform
    ~pytransform3d.transformations.transform_from_pq
+   ~pytransform3d.transformations.screw_axis_from_screw_parameters
+   ~pytransform3d.transformations.screw_parameters_from_screw_axis
+   ~pytransform3d.transformations.transform_from_exponential_coordinates
 
 Apply Transformations
 ---------------------
@@ -205,6 +211,7 @@ Plotting
    :template: function.rst
 
    ~pytransform3d.transformations.plot_transform
+   ~pytransform3d.transformations.plot_screw
 
 Testing
 -------

@@ -516,21 +516,179 @@ def assert_transform(A2B, *args, **kwargs):
                               *args, **kwargs)
 
 
-def screw_axis_from_screw_parameters(q, s_axis, h):
-    """TODO
+def check_screw_parameters(q, s_axis, h):
+    """Input validation of screw parameters.
 
     Parameters
     ----------
-    TODO
+    q : array-like, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array-like, shape (3,)
+        Direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis.
 
     Returns
     -------
-    twist : TODO
+    q : array-like, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array-like, shape (3,)
+        Unit direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis.
     """
-    if np.isinf(h):
-        raise NotImplementedError("TODO only translation")
+    q = np.asarray(q, dtype=np.float)
+    s_axis = norm_vector(np.asarray(s_axis, dtype=np.float))
+    if q.ndim != 1 or q.shape[0] != 3:
+        raise ValueError("Expected 3D vector with shape (3,), got array-like "
+                         "object with shape %s" % (q.shape,))
+    if s_axis.ndim != 1 or s_axis.shape[0] != 3:
+        raise ValueError("Expected 3D vector with shape (3,), got array-like "
+                         "object with shape %s" % (s_axis.shape,))
+    return q, s_axis, h
+
+
+def check_screw_axis(screw_axis):
+    """Input validation of screw parameters.
+
+    Parameters
+    ----------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    Returns
+    -------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+    """
+    screw_axis = np.asarray(screw_axis, dtype=np.float)
+    if screw_axis.ndim != 1 or screw_axis.shape[0] != 6:
+        raise ValueError("Expected 3D vector with shape (6,), got array-like "
+                         "object with shape %s" % (screw_axis.shape,))
+
+    omega_norm = np.linalg.norm(screw_axis[:3])
+    if (abs(omega_norm - 1.0) > np.finfo(float).eps
+            and abs(omega_norm) > np.finfo(float).eps):
+        raise ValueError(
+            "Norm of rotation axis must either be 0 or 1, but it is %g."
+            % omega_norm)
+    if abs(omega_norm) < np.finfo(float).eps:
+        v_norm = np.linalg.norm(screw_axis[3:])
+        if abs(v_norm - 1.0) > np.finfo(float).eps:
+            raise ValueError(
+                "If the norm of the rotation axis is 0, then the direction "
+                "vector must have norm 1, but it is %g." % v_norm)
+
+    return screw_axis
+
+
+def check_exponential_coordinates(Stheta):
+    """Input validation for exponential coordinates of transformation.
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation.
+
+    Returns
+    -------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation.
+    """
+    Stheta = np.asarray(Stheta, dtype=np.float)
+    if Stheta.ndim != 1 or Stheta.shape[0] != 6:
+        raise ValueError("Expected 3D vector with shape (6,), got array-like "
+                         "object with shape %s" % (Stheta.shape,))
+    return Stheta
+
+
+def screw_axis_from_screw_parameters(q, s_axis, h):
+    """Compute screw axis representation from screw parameters.
+
+    Parameters
+    ----------
+    q : array-like, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array-like, shape (3,)
+        Direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis.
+
+    Returns
+    -------
+    screw_axis : array, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+    """
+    q, s_axis, h = check_screw_parameters(q, s_axis, h)
+    s_axis_norm = np.linalg.norm(s_axis)
+    if s_axis_norm == 0.0:  # pure translation
+        return np.r_[0.0, 0.0, 0.0, s_axis]
     else:
         return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis]
+
+
+def screw_parameters_from_screw_axis(screw_axis):
+    """Compute screw parameters from screw axis.
+
+    Parameters
+    ----------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    Returns
+    -------
+    q : array-like, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array-like, shape (3,)
+        Unit direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis.
+    """
+    screw_axis = check_screw_axis(screw_axis)
+
+    omega = screw_axis[:3]
+    v = screw_axis[3:]
+
+    s_axis = omega
+    omega_norm = np.linalg.norm(omega)
+    if abs(omega_norm) < np.finfo(float).eps:
+        h = np.inf
+    else:
+        h = omega.dot(v)
+    q = np.cross(s_axis, v - h * s_axis)
+    return q, s_axis, h
 
 
 def transform_from_exponential_coordinates(Stheta):
@@ -540,20 +698,24 @@ def transform_from_exponential_coordinates(Stheta):
 
     Parameters
     ----------
-    TODO
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation.
 
     Returns
     -------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
     """
+    Stheta = check_exponential_coordinates(Stheta)
     omega_theta = Stheta[:3]
     theta = np.linalg.norm(omega_theta)
 
     if theta == 0.0:  # only translation
-        A2B = np.eye(4)
-        A2B[:3, 3] = Stheta[3:]
-        return A2B
+        return translate_transform(np.eye(4), Stheta[3:])
 
     screw_axis = Stheta / theta
     omega = screw_axis[:3]
@@ -571,20 +733,25 @@ def transform_from_exponential_coordinates(Stheta):
 
 
 def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
-    """TODO
+    """Plot screw axis and transformation.
 
     Parameters
     ----------
     ax : Matplotlib 3d axis, optional (default: None)
         If the axis is None, a new 3d axis will be created
 
-    q : TODO
+    q : array-like, shape (3,), optional (default: [0, 0, 0])
+        Vector to a point on the screw axis
 
-    s_axis : TODO
+    s_axis : array-like, shape (3,), optional (default: [1, 0, 0])
+        Direction vector of the screw axis
 
-    h : TODO
+    h : float, optional (default: 1)
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis.
 
-    theta : TODO
+    theta : float, optional (default: 1)
+        Rotation angle. h * theta is the translation.
 
     A2B : array-like, shape (4, 4), optional (default: I)
         Origin of the screw
@@ -607,7 +774,8 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
         New or old axis
     """
     from .plot_utils import make_3d_axis, Arrow3D
-    from .rotations import vector_projection, angle_between_vectors, perpendicular_to_vectors, _slerp_weights
+    from .rotations import (vector_projection, angle_between_vectors,
+                            perpendicular_to_vectors, _slerp_weights)
 
     if ax is None:
         ax = make_3d_axis(ax_s)
