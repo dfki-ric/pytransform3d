@@ -617,7 +617,7 @@ def check_exponential_coordinates(Stheta):
     """
     Stheta = np.asarray(Stheta, dtype=np.float)
     if Stheta.ndim != 1 or Stheta.shape[0] != 6:
-        raise ValueError("Expected 3D vector with shape (6,), got array-like "
+        raise ValueError("Expected array-like with shape (6,), got array-like "
                          "object with shape %s" % (Stheta.shape,))
     return Stheta
 

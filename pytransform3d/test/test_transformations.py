@@ -11,7 +11,8 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            check_pq, pq_from_transform,
                                            transform_from_pq,
                                            check_screw_parameters,
-                                           check_screw_axis)
+                                           check_screw_axis,
+                                           check_exponential_coordinates)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector)
@@ -305,3 +306,13 @@ def test_check_screw_axis():
     S_both = np.r_[omega, v]
     S = check_screw_axis(S_both)
     assert_array_almost_equal(S, S_both)
+
+
+def test_check_exponential_coordinates():
+    assert_raises_regexp(
+        ValueError, "Expected array-like with shape",
+        check_exponential_coordinates, [0])
+
+    Stheta = [0.0, 1.0, 2.0, -5.0, -2, 3]
+    Stheta2 = check_exponential_coordinates(Stheta)
+    assert_array_almost_equal(Stheta, Stheta2)
