@@ -529,7 +529,7 @@ def check_screw_parameters(q, s_axis, h):
 
     h : float
         Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis.
+        of the screw axis. Infinite pitch indicates pure translation.
 
     Returns
     -------
@@ -541,17 +541,19 @@ def check_screw_parameters(q, s_axis, h):
 
     h : float
         Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis.
+        of the screw axis. Infinite pitch indicates pure translation.
     """
     q = np.asarray(q, dtype=np.float)
-    s_axis = norm_vector(np.asarray(s_axis, dtype=np.float))
+    s_axis = np.asarray(s_axis, dtype=np.float)
     if q.ndim != 1 or q.shape[0] != 3:
         raise ValueError("Expected 3D vector with shape (3,), got array-like "
                          "object with shape %s" % (q.shape,))
     if s_axis.ndim != 1 or s_axis.shape[0] != 3:
         raise ValueError("Expected 3D vector with shape (3,), got array-like "
                          "object with shape %s" % (s_axis.shape,))
-    return q, s_axis, h
+    if np.linalg.norm(s_axis) == 0.0:
+        raise ValueError("s_axis must not have norm 0")
+    return q, norm_vector(s_axis), h
 
 
 def check_screw_axis(screw_axis):
@@ -635,7 +637,7 @@ def screw_axis_from_screw_parameters(q, s_axis, h):
 
     h : float
         Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis.
+        of the screw axis. Infinite pitch indicates pure translation.
 
     Returns
     -------
@@ -646,8 +648,7 @@ def screw_axis_from_screw_parameters(q, s_axis, h):
         components are related to translation.
     """
     q, s_axis, h = check_screw_parameters(q, s_axis, h)
-    s_axis_norm = np.linalg.norm(s_axis)
-    if s_axis_norm == 0.0:  # pure translation
+    if np.isinf(h):  # pure translation
         return np.r_[0.0, 0.0, 0.0, s_axis]
     else:
         return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis]
@@ -655,6 +656,9 @@ def screw_axis_from_screw_parameters(q, s_axis, h):
 
 def screw_parameters_from_screw_axis(screw_axis):
     """Compute screw parameters from screw axis.
+
+    Note that there is not just one solution since q can be any point on the
+    screw axis. We select q so that it is orthogonal to s_axis.
 
     Parameters
     ----------
@@ -667,27 +671,30 @@ def screw_parameters_from_screw_axis(screw_axis):
     Returns
     -------
     q : array-like, shape (3,)
-        Vector to a point on the screw axis
+        Vector to a point on the screw axis that is orthogonal to s_axis
 
     s_axis : array-like, shape (3,)
         Unit direction vector of the screw axis
 
     h : float
         Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis.
+        of the screw axis. Infinite pitch indicates pure translation.
     """
     screw_axis = check_screw_axis(screw_axis)
 
     omega = screw_axis[:3]
     v = screw_axis[3:]
 
-    s_axis = omega
     omega_norm = np.linalg.norm(omega)
-    if abs(omega_norm) < np.finfo(float).eps:
+    if abs(omega_norm) < np.finfo(float).eps:  # pure translation
+        q = np.zeros(3)
+        s_axis = v
         h = np.inf
     else:
+        s_axis = omega
         h = omega.dot(v)
-    q = np.cross(s_axis, v - h * s_axis)
+        q_cross_s_axis = v - h * s_axis
+        q = np.cross(s_axis, q_cross_s_axis)
     return q, s_axis, h
 
 
@@ -748,7 +755,7 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
 
     h : float, optional (default: 1)
         Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis.
+        of the screw axis. Infinite pitch indicates pure translation.
 
     theta : float, optional (default: 1)
         Rotation angle. h * theta is the translation.
@@ -784,6 +791,9 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
         A2B = np.eye(4)
 
     origin_projected_on_screw_axis = q + vector_projection(-q, s_axis)
+
+    if np.isinf(h):
+        raise NotImplementedError("TODO pure translation")
 
     screw_axis_to_old_frame = -origin_projected_on_screw_axis
     screw_axis_to_rotated_frame = perpendicular_to_vectors(s_axis, screw_axis_to_old_frame)

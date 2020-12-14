@@ -12,10 +12,12 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            transform_from_pq,
                                            check_screw_parameters,
                                            check_screw_axis,
-                                           check_exponential_coordinates)
+                                           check_exponential_coordinates,
+                                           screw_axis_from_screw_parameters,
+                                           screw_parameters_from_screw_axis)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
-                                     norm_vector)
+                                     norm_vector, perpendicular_to_vector)
 from nose.tools import assert_equal, assert_almost_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 
@@ -270,6 +272,9 @@ def test_check_screw_parameters():
     assert_raises_regexp(
         ValueError, "Expected 3D vector with shape",
         check_screw_parameters, q, [0.0], h)
+    assert_raises_regexp(
+        ValueError, "s_axis must not have norm 0",
+        check_screw_parameters, q, np.zeros(3), h)
 
     q2, s_axis2, h2 = check_screw_parameters(q, 2.0 * np.array(s_axis), h)
     assert_array_almost_equal(q, q2)
@@ -316,3 +321,31 @@ def test_check_exponential_coordinates():
     Stheta = [0.0, 1.0, 2.0, -5.0, -2, 3]
     Stheta2 = check_exponential_coordinates(Stheta)
     assert_array_almost_equal(Stheta, Stheta2)
+
+
+def test_conversions_between_screw_axis_and_parameters():
+    random_state = np.random.RandomState(98)
+
+    q = random_vector(random_state, 3)
+    s_axis = norm_vector(random_vector(random_state, 3))
+    h = np.inf
+    screw_axis = screw_axis_from_screw_parameters(q, s_axis, h)
+    assert_array_almost_equal(screw_axis, np.r_[0, 0, 0, s_axis])
+    q2, s_axis2, h2 = screw_parameters_from_screw_axis(screw_axis)
+
+    assert_array_almost_equal(np.zeros(3), q2)
+    assert_array_almost_equal(s_axis, s_axis2)
+    assert_array_almost_equal(h, h2)
+
+    for _ in range(10):
+        s_axis = norm_vector(random_vector(random_state, 3))
+        # q has to be orthogonal to s_axis so that we reconstruct it exactly
+        q = perpendicular_to_vector(s_axis)
+        h = random_state.rand() + 0.5
+
+        screw_axis = screw_axis_from_screw_parameters(q, s_axis, h)
+        q2, s_axis2, h2 = screw_parameters_from_screw_axis(screw_axis)
+
+        assert_array_almost_equal(q, q2)
+        assert_array_almost_equal(s_axis, s_axis2)
+        assert_array_almost_equal(h, h2)
