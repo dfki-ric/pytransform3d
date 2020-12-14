@@ -4,26 +4,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.urdf &#8212; pytransform3d 1.3 documentation</title>
-    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
+    <title>pytransform3d.urdf &#8212; pytransform3d 1.4 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/language_data.js"></script>
-    <script src="../../_static/js/jquery-1.11.0.min.js"></script>
-    <script src="../../_static/js/jquery-fix.js"></script>
-    <script src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script src="../../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
 
@@ -38,12 +36,11 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.3</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -107,18 +104,7 @@
 
 <div class="container">
   <div class="row">
-      <div class="col-md-3">
-        <div id="sidebar" class="bs-sidenav" role="complementary">
-<form action="../../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-        </div>
-      </div>
-    <div class="col-md-9">
+    <div class="body col-md-12 content" role="main">
       
   <h1>Source code for pytransform3d.urdf</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Load transformations from URDF files.&quot;&quot;&quot;</span>
@@ -127,7 +113,7 @@
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">.transform_manager</span> <span class="kn">import</span> <span class="n">TransformManager</span>
 <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">concat</span>
-<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="n">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">,</span> <span class="n">matrix_from_axis_angle</span>
+<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="n">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">,</span> <span class="n">matrix_from_axis_angle</span><span class="p">,</span> <span class="n">norm_vector</span>
 <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span><span class="p">,</span> <span class="n">plot_mesh</span><span class="p">,</span> <span class="n">plot_cylinder</span><span class="p">,</span> <span class="n">plot_sphere</span><span class="p">,</span> <span class="n">plot_box</span>
 
 
@@ -146,15 +132,26 @@
 <span class="sd">    .. note::</span>
 
 <span class="sd">        Joint angles must be given in radians.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
+<span class="sd">    check : bool, optional (default: True)</span>
+<span class="sd">        Check if transformation matrices are valid and requested nodes exist,</span>
+<span class="sd">        which might significantly slow down some operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="UrdfTransformManager.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">UrdfTransformManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UrdfTransformManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">strict_check</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">[]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">add_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span>
-                  <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">))):</span>
+<div class="viewcode-block" id="UrdfTransformManager.add_joint"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.add_joint">[docs]</a>    <span class="k">def</span> <span class="nf">add_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span>
+                  <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)),</span> <span class="n">joint_type</span><span class="o">=</span><span class="s2">&quot;revolute&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add joint.</span>
 
 <span class="sd">        Parameters</span>
@@ -176,33 +173,49 @@
 
 <span class="sd">        limits : pair of float, optional (default: (-inf, inf))</span>
 <span class="sd">            Lower and upper joint angle limit</span>
+
+<span class="sd">        joint_type : str, optional (default: &#39;revolute&#39;)</span>
+<span class="sd">            Joint type: revolute or prismatic (continuous is the same as</span>
+<span class="sd">            revolute)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span>
-                                    <span class="n">limits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">axis</span><span class="p">),</span>
+                                    <span class="n">limits</span><span class="p">,</span> <span class="n">joint_type</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">set_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set joint angle.</span>
+<div class="viewcode-block" id="UrdfTransformManager.set_joint"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint">[docs]</a>    <span class="k">def</span> <span class="nf">set_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set joint position.</span>
 
-<span class="sd">        Note that joint angles are clipped to their limits.</span>
+<span class="sd">        Note that joint values are clipped to their limits.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        joint_name : string</span>
 <span class="sd">            Name of the joint</span>
 
-<span class="sd">        angle : float</span>
-<span class="sd">            Joint angle in radians</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Joint angle in radians in case of revolute joints or position</span>
+<span class="sd">            in case of prismatic joint.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">joint_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not known&quot;</span> <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
-        <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">limits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">]</span>
-        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">joint_rotation</span> <span class="o">=</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="p">[</span><span class="n">angle</span><span class="p">])))</span>
-        <span class="n">joint2A</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">joint_rotation</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">concat</span><span class="p">(</span><span class="n">joint2A</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">))</span>
+        <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">limits</span><span class="p">,</span> <span class="n">joint_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">]</span>
+        <span class="c1"># this is way faster than np.clip:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">limits</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">limits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
+            <span class="n">joint_rotation</span> <span class="o">=</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,))))</span>
+            <span class="n">joint2A</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
+                <span class="n">joint_rotation</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;prismatic&quot;</span>
+            <span class="n">joint_offset</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">axis</span>
+            <span class="n">joint2A</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">joint_offset</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">concat</span><span class="p">(</span>
+            <span class="n">joint2A</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">get_joint_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
+<div class="viewcode-block" id="UrdfTransformManager.get_joint_limits"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.get_joint_limits">[docs]</a>    <span class="k">def</span> <span class="nf">get_joint_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get limits of a joint.</span>
 
 <span class="sd">        Parameters</span>
@@ -217,9 +230,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">joint_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not known&quot;</span> <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="nf">load_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urdf_xml</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="UrdfTransformManager.load_urdf"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf">[docs]</a>    <span class="k">def</span> <span class="nf">load_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urdf_xml</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load URDF file into transformation manager.</span>
 
 <span class="sd">        Parameters</span>
@@ -246,31 +259,62 @@
 
         <span class="n">robot_name</span> <span class="o">=</span> <span class="n">robot</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
-        <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+        <span class="n">materials</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parse_material</span><span class="p">(</span><span class="n">material</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)])</span>
+
+        <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">materials</span><span class="p">)</span>
                  <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
         <span class="n">joints</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_joint</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
                   <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">joints</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;revolute&quot;</span><span class="p">,</span> <span class="s2">&quot;continuous&quot;</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_joint</span><span class="p">(</span>
                     <span class="n">joint</span><span class="o">.</span><span class="n">joint_name</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
-                    <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_axis</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">limits</span><span class="p">)</span>
+                    <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_axis</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">limits</span><span class="p">,</span>
+                    <span class="s2">&quot;revolute&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_joint</span><span class="p">(</span>
+                    <span class="n">joint</span><span class="o">.</span><span class="n">joint_name</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
+                    <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_axis</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">limits</span><span class="p">,</span>
+                    <span class="s2">&quot;prismatic&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span>
-                    <span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">)</span>
+                    <span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_parse_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_parse_material</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">material</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse material.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">material</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Material name is missing.&quot;</span><span class="p">)</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">material</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;More than one color is not allowed.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_color</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># TODO texture is currently ignored</span>
+        <span class="k">return</span> <span class="n">material</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">color</span>
+
+    <span class="k">def</span> <span class="nf">_parse_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse color.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">color</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Attribute &#39;rgba&#39; of color tag is missing.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="s2">&quot;rgba&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">materials</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create link.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">link</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Link name is missing.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link_children</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s2">&quot;visual&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_link_children</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s2">&quot;visual&quot;</span><span class="p">,</span> <span class="n">materials</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_parse_link_children</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s2">&quot;collision&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parse_link_children</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s2">&quot;collision&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_parse_link_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">child_type</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_parse_link_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">,</span> <span class="n">child_type</span><span class="p">,</span> <span class="n">materials</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse collision objects or visuals.&quot;&quot;&quot;</span>
         <span class="n">children</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="n">child_type</span><span class="p">)</span>
         <span class="n">shape_objects</span> <span class="o">=</span> <span class="p">[]</span>
@@ -279,12 +323,22 @@
                 <span class="n">name</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">child_type</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+            <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">child_type</span> <span class="o">==</span> <span class="s2">&quot;visual&quot;</span><span class="p">:</span>
+                <span class="n">material</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">material</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">material_name</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_material</span><span class="p">(</span><span class="n">material</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">material_name</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">:</span>
+                        <span class="n">color</span> <span class="o">=</span> <span class="n">materials</span><span class="p">[</span><span class="n">material_name</span><span class="p">]</span>
+
             <span class="n">child2link</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_origin</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">child2link</span><span class="p">)</span>
-            <span class="n">shape_objects</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_geometry</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+            <span class="n">shape_objects</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_geometry</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">shape_objects</span>
 
-    <span class="k">def</span> <span class="nf">_parse_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_parse_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse geometric primitives (box, cylinder, sphere) or meshes.&quot;&quot;&quot;</span>
         <span class="n">geometry</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">geometry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -294,7 +348,7 @@
             <span class="n">shapes</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="n">shape_type</span><span class="p">)</span>
             <span class="n">Cls</span> <span class="o">=</span> <span class="n">shape_classes</span><span class="p">[</span><span class="n">shape_type</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">:</span>
-                <span class="n">shape_object</span> <span class="o">=</span> <span class="n">Cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span><span class="p">)</span>
+                <span class="n">shape_object</span> <span class="o">=</span> <span class="n">Cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
                 <span class="n">shape_object</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
                 <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shape_object</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span>
@@ -337,16 +391,16 @@
 
         <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;planar&quot;</span><span class="p">,</span> <span class="s2">&quot;floating&quot;</span><span class="p">,</span> <span class="s2">&quot;continuous&quot;</span><span class="p">,</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;planar&quot;</span><span class="p">,</span> <span class="s2">&quot;floating&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Unsupported joint type &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;revolute&quot;</span><span class="p">,</span> <span class="s2">&quot;fixed&quot;</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;revolute&quot;</span><span class="p">,</span> <span class="s2">&quot;continuous&quot;</span><span class="p">,</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">,</span> <span class="s2">&quot;fixed&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint type &#39;</span><span class="si">%s</span><span class="s2">&#39; is not allowed in a URDF &quot;</span>
                                 <span class="s2">&quot;document.&quot;</span> <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span><span class="p">)</span>
 
         <span class="n">j</span><span class="o">.</span><span class="n">child2parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_origin</span><span class="p">(</span><span class="n">joint</span><span class="p">)</span>
 
         <span class="n">j</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;revolute&quot;</span><span class="p">,</span> <span class="s2">&quot;continuous&quot;</span><span class="p">,</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">]:</span>
             <span class="n">axis</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;axis&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">axis</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">):</span>
                 <span class="n">j</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">axis</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
@@ -368,8 +422,10 @@
                 <span class="c1"># For more details on how the URDF parser handles the conversion</span>
                 <span class="c1"># from Euler angles, see this blog post:</span>
                 <span class="c1"># https://orbitalstation.wordpress.com/tag/quaternion/</span>
-                <span class="n">rotation</span> <span class="o">=</span> <span class="n">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">(</span><span class="n">roll_pitch_yaw</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="n">translation</span><span class="p">)</span>
+                <span class="n">rotation</span> <span class="o">=</span> <span class="n">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">(</span>
+                    <span class="n">roll_pitch_yaw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span>
+            <span class="n">rotation</span><span class="p">,</span> <span class="n">translation</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_parse_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse joint limits.&quot;&quot;&quot;</span>
@@ -382,7 +438,7 @@
                 <span class="n">upper</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">limit</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span>
 
-    <span class="k">def</span> <span class="nf">plot_visuals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="UrdfTransformManager.plot_visuals"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_visuals">[docs]</a>    <span class="k">def</span> <span class="nf">plot_visuals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot all visuals in a given reference frame.</span>
 
 <span class="sd">        Visuals can be boxes, spheres, cylinders, or meshes. Note that visuals</span>
@@ -404,9 +460,9 @@
 <span class="sd">        ax : Matplotlib 3d axis</span>
 <span class="sd">            New or old axis</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_objects</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_objects</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">plot_collision_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="UrdfTransformManager.plot_collision_objects"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects">[docs]</a>    <span class="k">def</span> <span class="nf">plot_collision_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot all collision objects in a given reference frame.</span>
 
 <span class="sd">        Collision objects can be boxes, spheres, cylinders, or meshes. Note</span>
@@ -429,7 +485,7 @@
 <span class="sd">        ax : Matplotlib 3d axis</span>
 <span class="sd">            New or old axis</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_objects</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_objects</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_plot_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot all objects in a given reference frame.</span>
@@ -507,36 +563,41 @@
 
 
 <span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">box</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
         <span class="k">return</span> <span class="n">plot_box</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="n">wireframe</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sphere</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sphere</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;radius&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Sphere has no radius.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sphere</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">center</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">)[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
         <span class="k">return</span> <span class="n">plot_sphere</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="n">wireframe</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">Cylinder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cylinder</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cylinder</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;radius&quot;</span><span class="p">):</span>
@@ -546,15 +607,17 @@
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Cylinder has no length.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cylinder</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
         <span class="k">return</span> <span class="n">plot_cylinder</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">wireframe</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">Mesh</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span> <span class="o">=</span> <span class="n">mesh_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
 
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mesh</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -572,7 +635,8 @@
 
     <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">plot_mesh</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">convex_hull</span><span class="o">=</span><span class="n">convex_hull</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
+        <span class="k">return</span> <span class="n">plot_mesh</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">convex_hull</span><span class="o">=</span><span class="n">convex_hull</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
 
 
 <span class="n">shape_classes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">Box</span><span class="p">,</span>
@@ -598,7 +662,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 20, 2020.<br/>
+      Last updated on Dec 14, 2020.<br/>
     </p>
   </div>
 </footer>

@@ -4,26 +4,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations &#8212; pytransform3d 1.3 documentation</title>
-    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootswatch-3.1.0/readable/bootstrap.min.css" type="text/css" />
+    <title>pytransform3d.rotations &#8212; pytransform3d 1.4 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/language_data.js"></script>
-    <script src="../../_static/js/jquery-1.11.0.min.js"></script>
-    <script src="../../_static/js/jquery-fix.js"></script>
-    <script src="../../_static/bootstrap-3.1.0/js/bootstrap.min.js"></script>
-    <script src="../../_static/bootstrap-sphinx.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
 
@@ -38,12 +36,11 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.3</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
-            <li class="divider-vertical"></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -107,22 +104,12 @@
 
 <div class="container">
   <div class="row">
-      <div class="col-md-3">
-        <div id="sidebar" class="bs-sidenav" role="complementary">
-<form action="../../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-        </div>
-      </div>
-    <div class="col-md-9">
+    <div class="body col-md-12 content" role="main">
       
   <h1>Source code for pytransform3d.rotations</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Rotations in three dimensions - SO(3).&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">assert_array_almost_equal</span>
 
@@ -252,6 +239,33 @@
 <span class="sd">        3d vector that is orthogonal to a and b</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">perpendicular_to_vector</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute perpendicular vector to one other vector.</span>
+
+<span class="sd">    There is an infinite number of solutions to this problem. Thus, we</span>
+<span class="sd">    restrict the solutions to [1, 0, z] and return [0, 0, 1] if the</span>
+<span class="sd">    z component of a is 0.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    b : array-like, shape (3,)</span>
+<span class="sd">        A 3d vector that is orthogonal to a. It does not necessarily have</span>
+<span class="sd">        unit length.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">unitz</span><span class="p">)</span>
+    <span class="c1"># Now that we solved the problem for [x, y, 0], we can solve it for all</span>
+    <span class="c1"># other vectors by restricting solutions to [1, 0, z] and find z.</span>
+    <span class="c1"># The dot product of orthogonal vectors is 0, thus</span>
+    <span class="c1"># a[0] * 1 + a[1] * 0 + a[2] * z == 0 or -a[0] / a[2] = z</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
 
 
 <div class="viewcode-block" id="angle_between_vectors"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.angle_between_vectors.html#pytransform3d.rotations.angle_between_vectors">[docs]</a><span class="k">def</span> <span class="nf">angle_between_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -553,8 +567,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">check_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="n">ux</span><span class="p">,</span> <span class="n">uy</span><span class="p">,</span> <span class="n">uz</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">a</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
     <span class="n">ci</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">c</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">ci</span> <span class="o">*</span> <span class="n">ux</span> <span class="o">*</span> <span class="n">ux</span> <span class="o">+</span> <span class="n">c</span><span class="p">,</span>
                    <span class="n">ci</span> <span class="o">*</span> <span class="n">ux</span> <span class="o">*</span> <span class="n">uy</span> <span class="o">-</span> <span class="n">uz</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span>
@@ -568,9 +582,9 @@
                   <span class="p">])</span>
 
     <span class="c1"># This is equivalent to</span>
-    <span class="c1"># R = (np.eye(3) * np.cos(theta) +</span>
-    <span class="c1">#      (1.0 - np.cos(theta)) * a[:3, np.newaxis].dot(a[np.newaxis, :3]) +</span>
-    <span class="c1">#      cross_product_matrix(a[:3]) * np.sin(theta))</span>
+    <span class="c1"># R = (np.eye(3) * np.cos(a[3]) +</span>
+    <span class="c1">#      (1.0 - np.cos(a[3])) * a[:3, np.newaxis].dot(a[np.newaxis, :3]) +</span>
+    <span class="c1">#      cross_product_matrix(a[:3]) * np.sin(a[3]))</span>
 
     <span class="k">return</span> <span class="n">R</span></div>
 
@@ -1064,6 +1078,42 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">axis</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">angle</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="p">(</span><span class="n">angle</span><span class="p">,)))</span></div>
+
+
+<div class="viewcode-block" id="axis_angle_from_two_directions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.axis_angle_from_two_directions.html#pytransform3d.rotations.axis_angle_from_two_directions">[docs]</a><span class="k">def</span> <span class="nf">axis_angle_from_two_directions</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute axis-angle representation from two direction vectors.</span>
+
+<span class="sd">    The rotation will transform direction vector a to direction vector b.</span>
+<span class="sd">    The direction vectors don&#39;t have to be normalized as this will be</span>
+<span class="sd">    done internally. Note that there is more than one possible solution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        First direction vector</span>
+
+<span class="sd">    b : array-like, shape (3,)</span>
+<span class="sd">        Second direction vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle). The angle is</span>
+<span class="sd">        constrained to [0, pi].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">cos_angle</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">cos_angle</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="c1"># For 180 degree rotations we have an infinite number of solutions,</span>
+        <span class="c1"># but we have to pick one axis.</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">perpendicular_to_vector</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">aa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">aa</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">aa</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">cos_angle</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">norm_axis_angle</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="compact_axis_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.compact_axis_angle.html#pytransform3d.rotations.compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
@@ -1757,7 +1807,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 20, 2020.<br/>
+      Last updated on Dec 14, 2020.<br/>
     </p>
   </div>
 </footer>
