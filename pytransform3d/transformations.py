@@ -725,12 +725,12 @@ def transform_from_exponential_coordinates(Stheta):
         return translate_transform(np.eye(4), Stheta[3:])
 
     screw_axis = Stheta / theta
-    omega = screw_axis[:3]
+    omega_unit = screw_axis[:3]
     v = screw_axis[3:]
 
     A2B = np.eye(4)
-    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega, theta])
-    omega_matrix = cross_product_matrix(omega)
+    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
+    omega_matrix = cross_product_matrix(omega_unit)
     A2B[:3, 3] = np.dot(
         np.eye(3) * theta
         + (1.0 - math.cos(theta)) * omega_matrix
@@ -739,7 +739,7 @@ def transform_from_exponential_coordinates(Stheta):
     return A2B
 
 
-def exponential_coordinates_from_transform(A2B):
+def exponential_coordinates_from_transform(A2B, strict_check=True):
     """Conversion from homogeneous matrix to exponential coordinates.
 
     Logarithmic map.
@@ -748,6 +748,11 @@ def exponential_coordinates_from_transform(A2B):
     ----------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
 
     Returns
     -------
@@ -758,7 +763,25 @@ def exponential_coordinates_from_transform(A2B):
         components are related to translation. Theta is the rotation angle
         and h * theta the translation.
     """
-    raise NotImplementedError()
+    A2B = check_transform(A2B, strict_check=strict_check)
+
+    R = A2B[:3, :3]
+    p = A2B[:3, 3]
+
+    if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
+        return np.r_[0.0, 0.0, 0.0, p]
+
+    omega_theta = axis_angle_from_matrix(R)
+    omega_unit = omega_theta[:3]
+    theta = omega_theta[3]
+    omega_unit_matrix = cross_product_matrix(omega_unit)
+
+    G_inv = (np.eye(3) / theta - 0.5 * omega_unit_matrix
+             + (1.0 / theta - 0.5 / np.tan(theta / 2.0))
+             * np.dot(omega_unit_matrix, omega_unit_matrix))
+    v = G_inv.dot(p)
+
+    return np.hstack((omega_unit, v)) * theta
 
 
 def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):

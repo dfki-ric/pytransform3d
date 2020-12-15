@@ -186,6 +186,7 @@ Create Transformations
    ~pytransform3d.transformations.screw_axis_from_screw_parameters
    ~pytransform3d.transformations.screw_parameters_from_screw_axis
    ~pytransform3d.transformations.transform_from_exponential_coordinates
+   ~pytransform3d.transformations.exponential_coordinates_from_transform
 
 Apply Transformations
 ---------------------

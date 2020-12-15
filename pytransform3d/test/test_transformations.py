@@ -14,10 +14,13 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            check_screw_axis,
                                            check_exponential_coordinates,
                                            screw_axis_from_screw_parameters,
-                                           screw_parameters_from_screw_axis)
+                                           screw_parameters_from_screw_axis,
+                                           transform_from_exponential_coordinates,
+                                           exponential_coordinates_from_transform)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
-                                     norm_vector, perpendicular_to_vector)
+                                     norm_vector, perpendicular_to_vector,
+                                     active_matrix_from_angle)
 from nose.tools import assert_equal, assert_almost_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 
@@ -349,3 +352,34 @@ def test_conversions_between_screw_axis_and_parameters():
         assert_array_almost_equal(q, q2)
         assert_array_almost_equal(s_axis, s_axis2)
         assert_array_almost_equal(h, h2)
+
+
+def test_conversions_between_exponential_coordinates_and_transform():
+    A2B = np.eye(4)
+    Stheta = exponential_coordinates_from_transform(A2B)
+    assert_array_almost_equal(Stheta, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    A2B2 = transform_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(A2B, A2B2)
+
+    A2B = translate_transform(np.eye(4), [1.0, 5.0, 0.0])
+    Stheta = exponential_coordinates_from_transform(A2B)
+    assert_array_almost_equal(Stheta, [0.0, 0.0, 0.0, 1.0, 5.0, 0.0])
+    A2B2 = transform_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(A2B, A2B2)
+
+    A2B = rotate_transform(np.eye(4), active_matrix_from_angle(2, 0.5 * np.pi))
+    Stheta = exponential_coordinates_from_transform(A2B)
+    assert_array_almost_equal(Stheta, [0.0, 0.0, 0.5 * np.pi, 0.0, 0.0, 0.0])
+    A2B2 = transform_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(A2B, A2B2)
+
+    random_state = np.random.RandomState(52)
+    for _ in range(5):
+        A2B = random_transform(random_state)
+        print(A2B)
+        Stheta = exponential_coordinates_from_transform(A2B)
+        print(Stheta)
+        A2B2 = transform_from_exponential_coordinates(Stheta)
+        print(A2B2)
+        print(np.round(A2B - A2B2, 4))
+        assert_array_almost_equal(A2B, A2B2)
