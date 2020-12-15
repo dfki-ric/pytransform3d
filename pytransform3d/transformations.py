@@ -699,7 +699,7 @@ def screw_parameters_from_screw_axis(screw_axis):
 
 
 def transform_from_exponential_coordinates(Stheta):
-    """Conversion from twist displacement to homogeneous matrix.
+    """Conversion from exponential coordinates to homogeneous matrix.
 
     Exponential map.
 
@@ -714,7 +714,7 @@ def transform_from_exponential_coordinates(Stheta):
 
     Returns
     -------
-    A2B : array-like, shape (4, 4)
+    A2B : array, shape (4, 4)
         Transform from frame A to frame B
     """
     Stheta = check_exponential_coordinates(Stheta)
@@ -737,6 +737,28 @@ def transform_from_exponential_coordinates(Stheta):
         + (theta - math.sin(theta)) * np.dot(omega_matrix, omega_matrix),
         v)
     return A2B
+
+
+def exponential_coordinates_from_transform(A2B):
+    """Conversion from homogeneous matrix to exponential coordinates.
+
+    Logarithmic map.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation.
+    """
+    raise NotImplementedError()
 
 
 def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
