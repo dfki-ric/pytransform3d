@@ -704,19 +704,37 @@ def screw_axis_from_screw_parameters(q, s_axis, h):
 
 
 def screw_axis_from_exponential_coordinates(Stheta):
-    raise NotImplementedError("TODO")
+    Stheta = check_exponential_coordinates(Stheta)
+    omega_theta = Stheta[:3]
+    v_theta = Stheta[3:]
+    theta = np.linalg.norm(omega_theta)
+    if theta == 0.0:
+        theta = np.linalg.norm(v_theta)
+    return Stheta / theta
 
 
 def screw_axis_from_unit_twist(unit_twist):
-    raise NotImplementedError("TODO")
+    # TODO check unit twist
+    screw_axis = np.empty(6)
+    screw_axis[0] = unit_twist[2, 1]
+    screw_axis[1] = unit_twist[0, 2]
+    screw_axis[2] = unit_twist[1, 0]
+    screw_axis[3:] = unit_twist[:3, 3]
+    return screw_axis
 
 
 def exponential_coordinates_from_screw_axis(screw_axis, theta):
-    raise NotImplementedError("TODO")
+    return screw_axis * theta
 
 
 def exponential_coordinates_from_matrix_log(matrix_log):
-    raise NotImplementedError("TODO")
+    # TODO check matrix log
+    Stheta = np.empty(6)
+    Stheta[0] = matrix_log[2, 1]
+    Stheta[1] = matrix_log[0, 2]
+    Stheta[2] = matrix_log[1, 0]
+    Stheta[3:] = matrix_log[:3, 3]
+    return Stheta
 
 
 def exponential_coordinates_from_transform(A2B, strict_check=True):
@@ -765,7 +783,13 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
 
 
 def unit_twist_from_screw_axis(screw_axis):
-    raise NotImplementedError("TODO")
+    screw_axis = check_screw_axis(screw_axis)
+    omega = screw_axis[:3]
+    v = screw_axis[3:]
+    unit_twist = np.zeros((4, 4))
+    unit_twist[:3, :3] = cross_product_matrix(omega)
+    unit_twist[:3, 3] = v
+    raise unit_twist
 
 
 def unit_twist_from_matrix_log(matrix_log):
