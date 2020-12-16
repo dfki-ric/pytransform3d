@@ -289,6 +289,11 @@ def test_check_screw_parameters():
     assert_array_almost_equal(s_axis, s_axis2)
     assert_almost_equal(h, h2)
 
+    q2, s_axis2, h2 = check_screw_parameters(q, s_axis, np.inf)
+    assert_array_almost_equal(np.zeros(3), q2)
+    assert_array_almost_equal(s_axis, s_axis2)
+    assert_almost_equal(np.inf, h2)
+
 
 def test_check_screw_axis():
     random_state = np.random.RandomState(73)
@@ -376,10 +381,6 @@ def test_conversions_between_exponential_coordinates_and_transform():
     random_state = np.random.RandomState(52)
     for _ in range(5):
         A2B = random_transform(random_state)
-        print(A2B)
         Stheta = exponential_coordinates_from_transform(A2B)
-        print(Stheta)
         A2B2 = transform_from_exponential_coordinates(Stheta)
-        print(A2B2)
-        print(np.round(A2B - A2B2, 4))
         assert_array_almost_equal(A2B, A2B2)

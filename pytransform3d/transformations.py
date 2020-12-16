@@ -534,7 +534,8 @@ def check_screw_parameters(q, s_axis, h):
     Returns
     -------
     q : array-like, shape (3,)
-        Vector to a point on the screw axis
+        Vector to a point on the screw axis. Will be set to zero vector when
+        pitch is infinite (pure translation).
 
     s_axis : array-like, shape (3,)
         Unit direction vector of the screw axis
@@ -543,16 +544,20 @@ def check_screw_parameters(q, s_axis, h):
         Pitch of the screw. The pitch is the ratio of translation and rotation
         of the screw axis. Infinite pitch indicates pure translation.
     """
-    q = np.asarray(q, dtype=np.float)
     s_axis = np.asarray(s_axis, dtype=np.float)
-    if q.ndim != 1 or q.shape[0] != 3:
-        raise ValueError("Expected 3D vector with shape (3,), got array-like "
-                         "object with shape %s" % (q.shape,))
     if s_axis.ndim != 1 or s_axis.shape[0] != 3:
         raise ValueError("Expected 3D vector with shape (3,), got array-like "
                          "object with shape %s" % (s_axis.shape,))
     if np.linalg.norm(s_axis) == 0.0:
         raise ValueError("s_axis must not have norm 0")
+
+    q = np.asarray(q, dtype=np.float)
+    if q.ndim != 1 or q.shape[0] != 3:
+        raise ValueError("Expected 3D vector with shape (3,), got array-like "
+                         "object with shape %s" % (q.shape,))
+    if np.isinf(h):  # pure translation
+        q = np.zeros(3)
+
     return q, norm_vector(s_axis), h
 
 
@@ -835,32 +840,38 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
     if A2B is None:
         A2B = np.eye(4)
 
+    q, s_axis, h = check_screw_parameters(q, s_axis, h)
+
     origin_projected_on_screw_axis = q + vector_projection(-q, s_axis)
 
-    if np.isinf(h):
-        raise NotImplementedError("TODO pure translation")
+    pure_translation = np.isinf(h)
 
-    screw_axis_to_old_frame = -origin_projected_on_screw_axis
-    screw_axis_to_rotated_frame = perpendicular_to_vectors(s_axis, screw_axis_to_old_frame)
-    screw_axis_to_translated_frame = h * s_axis
+    if not pure_translation:
+        screw_axis_to_old_frame = -origin_projected_on_screw_axis
+        screw_axis_to_rotated_frame = perpendicular_to_vectors(s_axis, screw_axis_to_old_frame)
+        screw_axis_to_translated_frame = h * s_axis
 
-    arc = np.empty((100, 3))
-    angle = angle_between_vectors(screw_axis_to_old_frame, screw_axis_to_rotated_frame)
-    for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)), np.linspace(0.0, 1.0, len(arc)))):
-        t1, t2 = t
-        w1, w2 = _slerp_weights(angle, t1)
-        arc[i] = (origin_projected_on_screw_axis
-                  + w1 * screw_axis_to_old_frame
-                  + w2 * screw_axis_to_rotated_frame
-                  + screw_axis_to_translated_frame * t2 * theta)
+        arc = np.empty((100, 3))
+        angle = angle_between_vectors(screw_axis_to_old_frame, screw_axis_to_rotated_frame)
+        for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)), np.linspace(0.0, 1.0, len(arc)))):
+            t1, t2 = t
+            w1, w2 = _slerp_weights(angle, t1)
+            arc[i] = (origin_projected_on_screw_axis
+                      + w1 * screw_axis_to_old_frame
+                      + w2 * screw_axis_to_rotated_frame
+                      + screw_axis_to_translated_frame * t2 * theta)
 
     q = transform(A2B, vector_to_point(q))[:3]
     s_axis = transform(A2B, vector_to_direction(s_axis))[:3]
-    arc = transform(A2B, vectors_to_points(arc))[:, :3]
-    origin_projected_on_screw_axis = transform(A2B, vector_to_point(origin_projected_on_screw_axis))[:3]
+    if not pure_translation:
+        arc = transform(A2B, vectors_to_points(arc))[:, :3]
+        origin_projected_on_screw_axis = transform(A2B, vector_to_point(origin_projected_on_screw_axis))[:3]
 
     # Screw axis
     ax.scatter(q[0], q[1], q[2], color="r")
+    if pure_translation:
+        s_axis *= theta
+        ax.scatter(q[0] + s_axis[0], q[1] + s_axis[1], q[2] + s_axis[2], color="r")
     ax.plot(
         [q[0] - s * s_axis[0], q[0] + (1 + s) * s_axis[0]],
         [q[1] - s * s_axis[1], q[1] + (1 + s) * s_axis[1]],
@@ -873,15 +884,18 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
         mutation_scale=20, lw=3, arrowstyle="-|>", color="k", alpha=alpha)
     ax.add_artist(axis_arrow)
 
-    # Transformation
-    ax.plot(arc[:, 0], arc[:, 1], arc[:, 2], color="k", lw=3,
-            alpha=alpha, **kwargs)
-    arrow_coords = np.vstack((arc[-1], arc[-1] + (arc[-1] - arc[-2]))).T
-    angle_arrow = Arrow3D(
-        arrow_coords[0], arrow_coords[1], arrow_coords[2],
-        mutation_scale=20, lw=3, arrowstyle="-|>", color="k", alpha=alpha)
-    ax.add_artist(angle_arrow)
+    if not pure_translation:
+        # Transformation
+        ax.plot(arc[:, 0], arc[:, 1], arc[:, 2], color="k", lw=3,
+                alpha=alpha, **kwargs)
+        arrow_coords = np.vstack((arc[-1], arc[-1] + (arc[-1] - arc[-2]))).T
+        angle_arrow = Arrow3D(
+            arrow_coords[0], arrow_coords[1], arrow_coords[2],
+            mutation_scale=20, lw=3, arrowstyle="-|>", color="k", alpha=alpha)
+        ax.add_artist(angle_arrow)
 
-    for i in [0, -1]:
-        arc_bound = np.vstack((origin_projected_on_screw_axis, arc[i])).T
-        ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k", alpha=alpha)
+        for i in [0, -1]:
+            arc_bound = np.vstack((origin_projected_on_screw_axis, arc[i])).T
+            ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k", alpha=alpha)
+
+    return ax
