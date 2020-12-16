@@ -629,36 +629,6 @@ def check_exponential_coordinates(Stheta):
     return Stheta
 
 
-def screw_axis_from_screw_parameters(q, s_axis, h):
-    """Compute screw axis representation from screw parameters.
-
-    Parameters
-    ----------
-    q : array-like, shape (3,)
-        Vector to a point on the screw axis
-
-    s_axis : array-like, shape (3,)
-        Direction vector of the screw axis
-
-    h : float
-        Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis. Infinite pitch indicates pure translation.
-
-    Returns
-    -------
-    screw_axis : array, shape (6,)
-        Screw axis described by 6 values
-        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
-        where the first 3 components are related to rotation and the last 3
-        components are related to translation.
-    """
-    q, s_axis, h = check_screw_parameters(q, s_axis, h)
-    if np.isinf(h):  # pure translation
-        return np.r_[0.0, 0.0, 0.0, s_axis]
-    else:
-        return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis]
-
-
 def screw_parameters_from_screw_axis(screw_axis):
     """Compute screw parameters from screw axis.
 
@@ -703,45 +673,50 @@ def screw_parameters_from_screw_axis(screw_axis):
     return q, s_axis, h
 
 
-def transform_from_exponential_coordinates(Stheta):
-    """Conversion from exponential coordinates to homogeneous matrix.
-
-    Exponential map.
+def screw_axis_from_screw_parameters(q, s_axis, h):
+    """Compute screw axis representation from screw parameters.
 
     Parameters
     ----------
-    Stheta : array-like, shape (6,)
-        Exponential coordinates of transformation:
-        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
-        where the first 3 components are related to rotation and the last 3
-        components are related to translation. Theta is the rotation angle
-        and h * theta the translation.
+    q : array-like, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array-like, shape (3,)
+        Direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
 
     Returns
     -------
-    A2B : array, shape (4, 4)
-        Transform from frame A to frame B
+    screw_axis : array, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
     """
-    Stheta = check_exponential_coordinates(Stheta)
-    omega_theta = Stheta[:3]
-    theta = np.linalg.norm(omega_theta)
+    q, s_axis, h = check_screw_parameters(q, s_axis, h)
+    if np.isinf(h):  # pure translation
+        return np.r_[0.0, 0.0, 0.0, s_axis]
+    else:
+        return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis]
 
-    if theta == 0.0:  # only translation
-        return translate_transform(np.eye(4), Stheta[3:])
 
-    screw_axis = Stheta / theta
-    omega_unit = screw_axis[:3]
-    v = screw_axis[3:]
+def screw_axis_from_exponential_coordinates(Stheta):
+    raise NotImplementedError("TODO")
 
-    A2B = np.eye(4)
-    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
-    omega_matrix = cross_product_matrix(omega_unit)
-    A2B[:3, 3] = np.dot(
-        np.eye(3) * theta
-        + (1.0 - math.cos(theta)) * omega_matrix
-        + (theta - math.sin(theta)) * np.dot(omega_matrix, omega_matrix),
-        v)
-    return A2B
+
+def screw_axis_from_unit_twist(unit_twist):
+    raise NotImplementedError("TODO")
+
+
+def exponential_coordinates_from_screw_axis(screw_axis, theta):
+    raise NotImplementedError("TODO")
+
+
+def exponential_coordinates_from_matrix_log(matrix_log):
+    raise NotImplementedError("TODO")
 
 
 def exponential_coordinates_from_transform(A2B, strict_check=True):
@@ -787,6 +762,71 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
     v = G_inv.dot(p)
 
     return np.hstack((omega_unit, v)) * theta
+
+
+def unit_twist_from_screw_axis(screw_axis):
+    raise NotImplementedError("TODO")
+
+
+def unit_twist_from_matrix_log(matrix_log):
+    raise NotImplementedError("TODO")
+
+
+def matrix_log_from_exponential_coordinates(Stheta):
+    raise NotImplementedError("TODO")
+
+
+def matrix_log_from_unit_twist(unit_twist):
+    raise NotImplementedError("TODO")
+
+
+def matrix_log_from_transform(A2B):
+    raise NotImplementedError("TODO")
+
+
+def transform_from_exponential_coordinates(Stheta):
+    """Conversion from exponential coordinates to homogeneous matrix.
+
+    Exponential map.
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation.
+
+    Returns
+    -------
+    A2B : array, shape (4, 4)
+        Transform from frame A to frame B
+    """
+    Stheta = check_exponential_coordinates(Stheta)
+    omega_theta = Stheta[:3]
+    theta = np.linalg.norm(omega_theta)
+
+    if theta == 0.0:  # only translation
+        return translate_transform(np.eye(4), Stheta[3:])
+
+    screw_axis = Stheta / theta
+    omega_unit = screw_axis[:3]
+    v = screw_axis[3:]
+
+    A2B = np.eye(4)
+    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
+    omega_matrix = cross_product_matrix(omega_unit)
+    A2B[:3, 3] = np.dot(
+        np.eye(3) * theta
+        + (1.0 - math.cos(theta)) * omega_matrix
+        + (theta - math.sin(theta)) * np.dot(omega_matrix, omega_matrix),
+        v)
+    return A2B
+
+
+def transform_from_matrix_log(matrix_log):
+    raise NotImplementedError("TODO")
 
 
 def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):

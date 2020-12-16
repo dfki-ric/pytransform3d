@@ -170,23 +170,82 @@ Input Validation Functions
    ~pytransform3d.transformations.check_screw_axis
    ~pytransform3d.transformations.check_exponential_coordinates
 
-Create Transformations
-----------------------
+Conversions to Transformation Matrix
+------------------------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
+
    ~pytransform3d.transformations.transform_from
    ~pytransform3d.transformations.random_transform
    ~pytransform3d.transformations.translate_transform
    ~pytransform3d.transformations.rotate_transform
-   ~pytransform3d.transformations.pq_from_transform
    ~pytransform3d.transformations.transform_from_pq
-   ~pytransform3d.transformations.screw_axis_from_screw_parameters
-   ~pytransform3d.transformations.screw_parameters_from_screw_axis
    ~pytransform3d.transformations.transform_from_exponential_coordinates
+   ~pytransform3d.transformations.transform_from_matrix_log
+
+Conversions to Position and Quaternion
+--------------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.pq_from_transform
+
+Conversions to Screw Parameters
+-------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.screw_parameters_from_screw_axis
+
+Conversions to Screw Axis
+-------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.screw_axis_from_screw_parameters
+   ~pytransform3d.transformations.screw_axis_from_exponential_coordinates
+   ~pytransform3d.transformations.screw_axis_from_unit_twist
+
+Conversions to Exponential Coordinates
+--------------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.transformations.exponential_coordinates_from_transform
+   ~pytransform3d.transformations.exponential_coordinates_from_screw_axis
+   ~pytransform3d.transformations.exponential_coordinates_from_matrix_log
+
+Conversions to Unit Twist
+-------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.unit_twist_from_screw_axis
+   ~pytransform3d.transformations.unit_twist_from_matrix_log
+
+Conversions to Matrix Logarithm
+-------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.matrix_log_from_exponential_coordinates
+   ~pytransform3d.transformations.matrix_log_from_unit_twist
+   ~pytransform3d.transformations.matrix_log_from_transform
 
 Apply Transformations
 ---------------------
