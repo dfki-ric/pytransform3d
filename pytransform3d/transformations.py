@@ -835,7 +835,7 @@ def transform_log_from_transform(A2B, strict_check=True):
     R = A2B[:3, :3]
     p = A2B[:3, 3]
 
-    transform_log = np.zeroy((4, 4))
+    transform_log = np.zeros((4, 4))
 
     if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
         transform_log[:3, 3] = p
@@ -915,11 +915,10 @@ def transform_from_transform_log(transform_log):
     A2B = np.eye(4)
     A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
     omega_unit_matrix = transform_log[:3, :3] / theta
-    A2B[:3, 3] = np.dot(
-        np.eye(3) * theta
-        + (1.0 - math.cos(theta)) * omega_unit_matrix
-        + (theta - math.sin(theta)) * np.dot(omega_unit_matrix, omega_unit_matrix),
-        v)
+    G = (np.eye(3) * theta
+         + (1.0 - math.cos(theta)) * omega_unit_matrix
+         + (theta - math.sin(theta)) * np.dot(omega_unit_matrix, omega_unit_matrix))
+    A2B[:3, 3] = np.dot(G, v)
     return A2B
 
 

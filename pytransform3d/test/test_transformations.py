@@ -25,7 +25,9 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            unit_twist_from_screw_axis,
                                            screw_axis_from_unit_twist,
                                            transform_log_from_unit_twist,
-                                           unit_twist_from_transform_log)
+                                           unit_twist_from_transform_log,
+                                           transform_from_transform_log,
+                                           transform_log_from_transform)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -472,3 +474,23 @@ def test_conversions_between_unit_twist_and_transform_log():
         V2, theta2 = unit_twist_from_transform_log(transform_log)
         assert_array_almost_equal(V, V2)
         assert_almost_equal(theta, theta2)
+
+
+def test_conversions_between_transform_and_transform_log():
+    A2B = np.eye(4)
+    transform_log = transform_log_from_transform(A2B)
+    assert_array_almost_equal(transform_log, np.zeros((4, 4)))
+    A2B2 = transform_from_transform_log(transform_log)
+    assert_array_almost_equal(A2B, A2B2)
+
+    random_state = np.random.RandomState(84)
+    A2B = transform_from(np.eye(3), p=random_vector(random_state, 3))
+    transform_log = transform_log_from_transform(A2B)
+    A2B2 = transform_from_transform_log(transform_log)
+    assert_array_almost_equal(A2B, A2B2)
+
+    for _ in range(5):
+        A2B = random_transform(random_state)
+        transform_log = transform_log_from_transform(A2B)
+        A2B2 = transform_from_transform_log(transform_log)
+        assert_array_almost_equal(A2B, A2B2)
