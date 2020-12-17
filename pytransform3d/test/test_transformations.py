@@ -19,7 +19,13 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            exponential_coordinates_from_transform,
                                            random_screw_axis,
                                            exponential_coordinates_from_screw_axis,
-                                           screw_axis_from_exponential_coordinates)
+                                           screw_axis_from_exponential_coordinates,
+                                           transform_log_from_exponential_coordinates,
+                                           exponential_coordinates_from_transform_log,
+                                           unit_twist_from_screw_axis,
+                                           screw_axis_from_unit_twist,
+                                           transform_log_from_unit_twist,
+                                           unit_twist_from_transform_log)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -418,4 +424,51 @@ def test_conversions_between_screw_axis_and_exponential_coordinates():
         Stheta = exponential_coordinates_from_screw_axis(S, theta)
         S2, theta2 = screw_axis_from_exponential_coordinates(Stheta)
         assert_array_almost_equal(S, S2)
+        assert_almost_equal(theta, theta2)
+
+
+def test_conversions_between_exponential_coordinates_and_transform_log():
+    random_state = np.random.RandomState(22)
+    for _ in range(5):
+        Stheta = random_state.randn(6)
+        transform_log = transform_log_from_exponential_coordinates(Stheta)
+        Stheta2 = exponential_coordinates_from_transform_log(transform_log)
+        assert_array_almost_equal(Stheta, Stheta2)
+
+
+def test_conversions_between_unit_twist_and_screw_axis():
+    random_state = np.random.RandomState(83)
+    for _ in range(5):
+        S = random_screw_axis(random_state)
+        V = unit_twist_from_screw_axis(S)
+        S2 = screw_axis_from_unit_twist(V)
+        assert_array_almost_equal(S, S2)
+
+
+def test_conversions_between_unit_twist_and_transform_log():
+    V = np.array([[0.0, 0.0, 0.0, 1.0],
+                  [0.0, 0.0, 0.0, 0.0],
+                  [0.0, 0.0, 0.0, 0.0],
+                  [0.0, 0.0, 0.0, 0.0]])
+    theta = 1.0
+    transform_log = transform_log_from_unit_twist(V, theta)
+    V2, theta2 = unit_twist_from_transform_log(transform_log)
+    assert_array_almost_equal(V, V2)
+    assert_almost_equal(theta, theta2)
+
+    V = np.zeros((4, 4))
+    theta = 0.0
+    transform_log = transform_log_from_unit_twist(V, theta)
+    V2, theta2 = unit_twist_from_transform_log(transform_log)
+    assert_array_almost_equal(V, V2)
+    assert_almost_equal(theta, theta2)
+
+    random_state = np.random.RandomState(65)
+    for _ in range(5):
+        S = random_screw_axis(random_state)
+        theta = np.random.rand()
+        V = unit_twist_from_screw_axis(S)
+        transform_log = transform_log_from_unit_twist(V, theta)
+        V2, theta2 = unit_twist_from_transform_log(transform_log)
+        assert_array_almost_equal(V, V2)
         assert_almost_equal(theta, theta2)

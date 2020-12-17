@@ -609,9 +609,9 @@ def check_exponential_coordinates(Stheta):
     Stheta : array-like, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
-        where the first 3 components are related to rotation and the last 3
-        components are related to translation. Theta is the rotation angle
-        and h * theta the translation.
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
 
     Returns
     -------
@@ -620,7 +620,9 @@ def check_exponential_coordinates(Stheta):
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
         where the first 3 components are related to rotation and the last 3
         components are related to translation. Theta is the rotation angle
-        and h * theta the translation.
+        and h * theta the translation. Theta should be >= 0. Negative rotations
+        will be represented by a negative screw axis instead. This is relevant
+        if you want to recover theta from exponential coordinates.
     """
     Stheta = np.asarray(Stheta, dtype=np.float)
     if Stheta.ndim != 1 or Stheta.shape[0] != 6:
@@ -766,9 +768,9 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
     Stheta : array-like, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
-        where the first 3 components are related to rotation and the last 3
-        components are related to translation. Theta is the rotation angle
-        and h * theta the translation.
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
     """
     A2B = check_transform(A2B, strict_check=strict_check)
 
@@ -798,7 +800,7 @@ def unit_twist_from_screw_axis(screw_axis):
     unit_twist = np.zeros((4, 4))
     unit_twist[:3, :3] = cross_product_matrix(omega)
     unit_twist[:3, 3] = v
-    raise unit_twist
+    return unit_twist
 
 
 def unit_twist_from_transform_log(transform_log):
@@ -808,7 +810,9 @@ def unit_twist_from_transform_log(transform_log):
     theta = np.linalg.norm(omega)
     if abs(theta) < np.finfo(float).eps:
         theta = np.linalg.norm(transform_log[:3, 3])
-    return transform_log / theta
+    if abs(theta) < np.finfo(float).eps:
+        return np.zeros((4, 4)), 0.0
+    return transform_log / theta, theta
 
 
 def transform_log_from_exponential_coordinates(Stheta):
@@ -864,9 +868,9 @@ def transform_from_exponential_coordinates(Stheta):
     Stheta : array-like, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
-        where the first 3 components are related to rotation and the last 3
-        components are related to translation. Theta is the rotation angle
-        and h * theta the translation.
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
 
     Returns
     -------
