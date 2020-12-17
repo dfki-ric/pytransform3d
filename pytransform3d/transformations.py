@@ -94,7 +94,7 @@ def transform_from(R, p, strict_check=True):
 
 
 def random_transform(random_state=np.random.RandomState(0)):
-    """Generate an random transform.
+    """Generate random transform.
 
     Each component of the translation will be sampled from
     :math:`\mathcal{N}(\mu=0, \sigma=1)`.
@@ -609,9 +609,11 @@ def check_exponential_coordinates(Stheta):
     Stheta : array-like, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
-        where S is the screw axis, the first 3 components are related to
-        rotation and the last 3 components are related to translation.
-        Theta is the rotation angle and h * theta the translation.
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation. Theta should be >= 0. Negative rotations
+        will be represented by a negative screw axis instead. This is relevant
+        if you want to recover theta from exponential coordinates.
 
     Returns
     -------
@@ -632,7 +634,24 @@ def check_exponential_coordinates(Stheta):
 
 
 def random_screw_axis(random_state=np.random.RandomState(0)):
-    """TODO"""
+    """Generate random screw axis.
+
+    Each component of v will be sampled from
+    :math:`\mathcal{N}(\mu=0, \sigma=1)`.
+
+    Parameters
+    ----------
+    random_state : np.random.RandomState, optional (default: random seed 0)
+        Random number generator
+
+    Returns
+    -------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+    """
     omega = norm_vector(random_state.randn(3))
     v = random_state.randn(3)
     return np.hstack((omega, v))
@@ -713,6 +732,31 @@ def screw_axis_from_screw_parameters(q, s_axis, h):
 
 
 def screw_axis_from_exponential_coordinates(Stheta):
+    """Compute screw axis and theta from exponential coordinates.
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation. Theta should be >= 0. Negative rotations
+        will be represented by a negative screw axis instead. This is relevant
+        if you want to recover theta from exponential coordinates.
+
+    Returns
+    -------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    theta : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+    """
     Stheta = check_exponential_coordinates(Stheta)
     omega_theta = Stheta[:3]
     v_theta = Stheta[3:]
@@ -735,6 +779,31 @@ def screw_axis_from_unit_twist(unit_twist):
 
 
 def exponential_coordinates_from_screw_axis(screw_axis, theta):
+    """Compute exponential coordinates from screw axis and theta.
+
+    Parameters
+    ----------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    theta : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    Returns
+    -------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation. Theta should be >= 0. Negative rotations
+        will be represented by a negative screw axis instead. This is relevant
+        if you want to recover theta from exponential coordinates.
+    """
     return screw_axis * theta
 
 
