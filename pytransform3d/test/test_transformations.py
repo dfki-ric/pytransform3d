@@ -16,7 +16,10 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            screw_axis_from_screw_parameters,
                                            screw_parameters_from_screw_axis,
                                            transform_from_exponential_coordinates,
-                                           exponential_coordinates_from_transform)
+                                           exponential_coordinates_from_transform,
+                                           random_screw_axis,
+                                           exponential_coordinates_from_screw_axis,
+                                           screw_axis_from_exponential_coordinates)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -384,3 +387,35 @@ def test_conversions_between_exponential_coordinates_and_transform():
         Stheta = exponential_coordinates_from_transform(A2B)
         A2B2 = transform_from_exponential_coordinates(Stheta)
         assert_array_almost_equal(A2B, A2B2)
+
+
+def test_random_screw_axis():
+    random_state = np.random.RandomState(893)
+    for _ in range(5):
+        S = random_screw_axis(random_state)
+        check_screw_axis(S)
+
+
+def test_conversions_between_screw_axis_and_exponential_coordinates():
+    S = np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+    theta = 1.0
+    Stheta = exponential_coordinates_from_screw_axis(S, theta)
+    S2, theta2 = screw_axis_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(S, S2)
+    assert_almost_equal(theta, theta2)
+
+    S = np.zeros(6)
+    theta = 0.0
+    Stheta = exponential_coordinates_from_screw_axis(S, theta)
+    S2, theta2 = screw_axis_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(S, S2)
+    assert_almost_equal(theta, theta2)
+
+    random_state = np.random.RandomState(33)
+    for _ in range(5):
+        S = random_screw_axis(random_state)
+        theta = random_state.rand()
+        Stheta = exponential_coordinates_from_screw_axis(S, theta)
+        S2, theta2 = screw_axis_from_exponential_coordinates(Stheta)
+        assert_array_almost_equal(S, S2)
+        assert_almost_equal(theta, theta2)

@@ -629,6 +629,13 @@ def check_exponential_coordinates(Stheta):
     return Stheta
 
 
+def random_screw_axis(random_state=np.random.RandomState(0)):
+    """TODO"""
+    omega = norm_vector(random_state.randn(3))
+    v = random_state.randn(3)
+    return np.hstack((omega, v))
+
+
 def screw_parameters_from_screw_axis(screw_axis):
     """Compute screw parameters from screw axis.
 
@@ -708,9 +715,11 @@ def screw_axis_from_exponential_coordinates(Stheta):
     omega_theta = Stheta[:3]
     v_theta = Stheta[3:]
     theta = np.linalg.norm(omega_theta)
-    if theta == 0.0:
+    if theta < np.finfo(float).eps:
         theta = np.linalg.norm(v_theta)
-    return Stheta / theta
+    if theta < np.finfo(float).eps:
+        return np.zeros(6), 0.0
+    return Stheta / theta, theta
 
 
 def screw_axis_from_unit_twist(unit_twist):
@@ -793,19 +802,56 @@ def unit_twist_from_screw_axis(screw_axis):
 
 
 def unit_twist_from_transform_log(transform_log):
-    raise NotImplementedError("TODO")
+    # TODO check transform_log
+    omega = np.array([
+        transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]])
+    theta = np.linalg.norm(omega)
+    if abs(theta) < np.finfo(float).eps:
+        theta = np.linalg.norm(transform_log[:3, 3])
+    return transform_log / theta
 
 
 def transform_log_from_exponential_coordinates(Stheta):
-    raise NotImplementedError("TODO")
+    check_exponential_coordinates(Stheta)
+    omega = Stheta[:3]
+    v = Stheta[3:]
+    transform_log = np.zeros((4, 4))
+    transform_log[:3, :3] = cross_product_matrix(omega)
+    transform_log[:3, 3] = v
+    return transform_log
 
 
-def transform_log_from_unit_twist(unit_twist):
-    raise NotImplementedError("TODO")
+def transform_log_from_unit_twist(unit_twist, theta):
+    return unit_twist * theta
 
 
-def transform_log_from_transform(A2B):
-    raise NotImplementedError("TODO")
+def transform_log_from_transform(A2B, strict_check=True):
+    A2B = check_transform(A2B, strict_check=strict_check)
+
+    R = A2B[:3, :3]
+    p = A2B[:3, 3]
+
+    transform_log = np.zeroy((4, 4))
+
+    if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
+        transform_log[:3, 3] = p
+        return transform_log
+
+    omega_theta = axis_angle_from_matrix(R)
+    omega_unit = omega_theta[:3]
+    theta = omega_theta[3]
+    omega_unit_matrix = cross_product_matrix(omega_unit)
+
+    G_inv = (np.eye(3) / theta - 0.5 * omega_unit_matrix
+             + (1.0 / theta - 0.5 / np.tan(theta / 2.0))
+             * np.dot(omega_unit_matrix, omega_unit_matrix))
+    v = G_inv.dot(p)
+
+    transform_log[:3, :3] = omega_unit_matrix
+    transform_log[:3, 3] = v
+    transform_log *= theta
+
+    return transform_log
 
 
 def transform_from_exponential_coordinates(Stheta):
@@ -850,7 +896,27 @@ def transform_from_exponential_coordinates(Stheta):
 
 
 def transform_from_transform_log(transform_log):
-    raise NotImplementedError("TODO")
+    # TODO check transform_log
+    omega_theta = np.array([
+        transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]])
+    v = transform_log[:3, 3]
+    theta = np.linalg.norm(omega_theta)
+
+    if theta == 0.0:  # only translation
+        return translate_transform(np.eye(4), v)
+
+    omega_unit = omega_theta / theta
+    v = v / theta
+
+    A2B = np.eye(4)
+    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
+    omega_unit_matrix = transform_log[:3, :3] / theta
+    A2B[:3, 3] = np.dot(
+        np.eye(3) * theta
+        + (1.0 - math.cos(theta)) * omega_unit_matrix
+        + (theta - math.sin(theta)) * np.dot(omega_unit_matrix, omega_unit_matrix),
+        v)
+    return A2B
 
 
 def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
