@@ -184,7 +184,7 @@ Conversions to Transformation Matrix
    ~pytransform3d.transformations.rotate_transform
    ~pytransform3d.transformations.transform_from_pq
    ~pytransform3d.transformations.transform_from_exponential_coordinates
-   ~pytransform3d.transformations.transform_from_matrix_log
+   ~pytransform3d.transformations.transform_from_transform_log
 
 Conversions to Position and Quaternion
 --------------------------------------
@@ -224,7 +224,7 @@ Conversions to Exponential Coordinates
 
    ~pytransform3d.transformations.exponential_coordinates_from_transform
    ~pytransform3d.transformations.exponential_coordinates_from_screw_axis
-   ~pytransform3d.transformations.exponential_coordinates_from_matrix_log
+   ~pytransform3d.transformations.exponential_coordinates_from_transform_log
 
 Conversions to Unit Twist
 -------------------------
@@ -234,7 +234,7 @@ Conversions to Unit Twist
    :template: function.rst
 
    ~pytransform3d.transformations.unit_twist_from_screw_axis
-   ~pytransform3d.transformations.unit_twist_from_matrix_log
+   ~pytransform3d.transformations.unit_twist_from_transform_log
 
 Conversions to Matrix Logarithm
 -------------------------------
@@ -243,9 +243,9 @@ Conversions to Matrix Logarithm
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.matrix_log_from_exponential_coordinates
-   ~pytransform3d.transformations.matrix_log_from_unit_twist
-   ~pytransform3d.transformations.matrix_log_from_transform
+   ~pytransform3d.transformations.transform_log_from_exponential_coordinates
+   ~pytransform3d.transformations.transform_log_from_unit_twist
+   ~pytransform3d.transformations.transform_log_from_transform
 
 Apply Transformations
 ---------------------

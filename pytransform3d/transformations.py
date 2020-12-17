@@ -727,13 +727,13 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
     return screw_axis * theta
 
 
-def exponential_coordinates_from_matrix_log(matrix_log):
+def exponential_coordinates_from_transform_log(transform_log):
     # TODO check matrix log
     Stheta = np.empty(6)
-    Stheta[0] = matrix_log[2, 1]
-    Stheta[1] = matrix_log[0, 2]
-    Stheta[2] = matrix_log[1, 0]
-    Stheta[3:] = matrix_log[:3, 3]
+    Stheta[0] = transform_log[2, 1]
+    Stheta[1] = transform_log[0, 2]
+    Stheta[2] = transform_log[1, 0]
+    Stheta[3:] = transform_log[:3, 3]
     return Stheta
 
 
@@ -792,19 +792,19 @@ def unit_twist_from_screw_axis(screw_axis):
     raise unit_twist
 
 
-def unit_twist_from_matrix_log(matrix_log):
+def unit_twist_from_transform_log(transform_log):
     raise NotImplementedError("TODO")
 
 
-def matrix_log_from_exponential_coordinates(Stheta):
+def transform_log_from_exponential_coordinates(Stheta):
     raise NotImplementedError("TODO")
 
 
-def matrix_log_from_unit_twist(unit_twist):
+def transform_log_from_unit_twist(unit_twist):
     raise NotImplementedError("TODO")
 
 
-def matrix_log_from_transform(A2B):
+def transform_log_from_transform(A2B):
     raise NotImplementedError("TODO")
 
 
@@ -849,7 +849,7 @@ def transform_from_exponential_coordinates(Stheta):
     return A2B
 
 
-def transform_from_matrix_log(matrix_log):
+def transform_from_transform_log(transform_log):
     raise NotImplementedError("TODO")
 
 
