@@ -28,7 +28,7 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            unit_twist_from_transform_log,
                                            transform_from_transform_log,
                                            transform_log_from_transform,
-                                           check_unit_twist)
+                                           check_unit_twist, check_transform_log)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -379,6 +379,27 @@ def test_check_unit_twist():
         np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
     unit_twist2 = check_unit_twist(unit_twist)
     assert_array_almost_equal(unit_twist, unit_twist2)
+
+
+def test_check_transform_log():
+    assert_raises_regexp(
+        ValueError, "Expected array-like with shape", check_transform_log,
+        np.zeros((1, 4, 4)))
+    assert_raises_regexp(
+        ValueError, "Expected array-like with shape", check_transform_log,
+        np.zeros((3, 4)))
+    assert_raises_regexp(
+        ValueError, "Expected array-like with shape", check_transform_log,
+        np.zeros((4, 3)))
+
+    assert_raises_regexp(
+        ValueError, "Last row of logarithm of transformation must only "
+                    "contains zeros",
+        check_transform_log, np.eye(4))
+    transform_log = unit_twist_from_screw_axis(
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
+    transform_log2 = check_transform_log(transform_log)
+    assert_array_almost_equal(transform_log, transform_log2)
 
 
 def test_random_screw_axis():
