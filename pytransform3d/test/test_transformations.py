@@ -27,7 +27,8 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            transform_log_from_unit_twist,
                                            unit_twist_from_transform_log,
                                            transform_from_transform_log,
-                                           transform_log_from_transform)
+                                           transform_log_from_transform,
+                                           check_unit_twist)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -342,6 +343,51 @@ def test_check_exponential_coordinates():
     assert_array_almost_equal(Stheta, Stheta2)
 
 
+def test_check_unit_twist():
+    assert_raises_regexp(
+        ValueError, "Expected array-like with shape", check_unit_twist,
+        np.zeros((1, 4, 4)))
+    assert_raises_regexp(
+        ValueError, "Expected array-like with shape", check_unit_twist,
+        np.zeros((3, 4)))
+    assert_raises_regexp(
+        ValueError, "Expected array-like with shape", check_unit_twist,
+        np.zeros((4, 3)))
+
+    assert_raises_regexp(
+        ValueError, "Last row of unit twist must only contains zeros",
+        check_unit_twist, np.eye(4))
+
+    unit_twist = unit_twist_from_screw_axis(
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
+    assert_raises_regexp(
+        ValueError, "Norm of rotation axis must either be 0 or 1",
+        check_unit_twist, unit_twist)
+
+    unit_twist = unit_twist_from_screw_axis(
+        np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
+    assert_raises_regexp(
+        ValueError, "If the norm of the rotation axis is 0",
+        check_unit_twist, unit_twist)
+
+    unit_twist = unit_twist_from_screw_axis(
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+    unit_twist2 = check_unit_twist(unit_twist)
+    assert_array_almost_equal(unit_twist, unit_twist2)
+
+    unit_twist = unit_twist_from_screw_axis(
+        np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+    unit_twist2 = check_unit_twist(unit_twist)
+    assert_array_almost_equal(unit_twist, unit_twist2)
+
+
+def test_random_screw_axis():
+    random_state = np.random.RandomState(893)
+    for _ in range(5):
+        S = random_screw_axis(random_state)
+        check_screw_axis(S)
+
+
 def test_conversions_between_screw_axis_and_parameters():
     random_state = np.random.RandomState(98)
 
@@ -395,13 +441,6 @@ def test_conversions_between_exponential_coordinates_and_transform():
         Stheta = exponential_coordinates_from_transform(A2B)
         A2B2 = transform_from_exponential_coordinates(Stheta)
         assert_array_almost_equal(A2B, A2B2)
-
-
-def test_random_screw_axis():
-    random_state = np.random.RandomState(893)
-    for _ in range(5):
-        S = random_screw_axis(random_state)
-        check_screw_axis(S)
 
 
 def test_conversions_between_screw_axis_and_exponential_coordinates():

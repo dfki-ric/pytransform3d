@@ -633,6 +633,48 @@ def check_exponential_coordinates(Stheta):
     return Stheta
 
 
+def check_unit_twist(unit_twist):
+    """Input validation for unit twist.
+
+    Parameters
+    ----------
+    unit_twist : array-like, shape (4, 4)
+        A unit twist consists of a cross-product matrix that represents an
+        axis of rotation, a translation, and a row of zeros.
+
+    Returns
+    -------
+    unit_twist : array-like, shape (4, 4)
+        A unit twist consists of a cross-product matrix that represents an
+        axis of rotation, a translation, and a row of zeros.
+    """
+    unit_twist = np.asarray(unit_twist, dtype=np.float)
+    if (unit_twist.ndim != 2 or unit_twist.shape[0] != 4
+            or unit_twist.shape[1] != 4):
+        raise ValueError("Expected array-like with shape (4, 4), got array-like "
+                         "object with shape %s" % (unit_twist.shape,))
+    if any(unit_twist[3] != 0.0):
+        raise ValueError("Last row of unit twist must only contains zeros.")
+
+    omega_norm = np.linalg.norm(
+        [unit_twist[2, 1], unit_twist[0, 2], unit_twist[1, 0]])
+
+    if (abs(omega_norm - 1.0) > np.finfo(float).eps
+            and abs(omega_norm) > np.finfo(float).eps):
+        raise ValueError(
+            "Norm of rotation axis must either be 0 or 1, but it is %g."
+            % omega_norm)
+    if abs(omega_norm) < np.finfo(float).eps:
+        v_norm = np.linalg.norm(unit_twist[:3, 3])
+        if (abs(v_norm - 1.0) > np.finfo(float).eps
+                and abs(v_norm) > np.finfo(float).eps):
+            raise ValueError(
+                "If the norm of the rotation axis is 0, then the direction "
+                "vector must have norm 1 or 0, but it is %g." % v_norm)
+
+    return unit_twist
+
+
 def random_screw_axis(random_state=np.random.RandomState(0)):
     """Generate random screw axis.
 
@@ -769,7 +811,7 @@ def screw_axis_from_exponential_coordinates(Stheta):
 
 
 def screw_axis_from_unit_twist(unit_twist):
-    # TODO check unit twist
+    unit_twist = check_unit_twist(unit_twist)
     screw_axis = np.empty(6)
     screw_axis[0] = unit_twist[2, 1]
     screw_axis[1] = unit_twist[0, 2]
@@ -895,6 +937,7 @@ def transform_log_from_exponential_coordinates(Stheta):
 
 
 def transform_log_from_unit_twist(unit_twist, theta):
+    unit_twist = check_unit_twist(unit_twist)
     return unit_twist * theta
 
 

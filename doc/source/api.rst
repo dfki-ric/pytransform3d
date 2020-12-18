@@ -169,6 +169,7 @@ Input Validation Functions
    ~pytransform3d.transformations.check_screw_parameters
    ~pytransform3d.transformations.check_screw_axis
    ~pytransform3d.transformations.check_exponential_coordinates
+   ~pytransform3d.transformations.check_unit_twist
 
 Conversions to Transformation Matrix
 ------------------------------------
