@@ -811,6 +811,22 @@ def screw_axis_from_exponential_coordinates(Stheta):
 
 
 def screw_axis_from_unit_twist(unit_twist):
+    """Compute screw axis from unit twist.
+
+    Parameters
+    ----------
+    unit_twist : array-like, shape (4, 4)
+        A unit twist consists of a cross-product matrix that represents an
+        axis of rotation, a translation, and a row of zeros.
+
+    Returns
+    -------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+    """
     unit_twist = check_unit_twist(unit_twist)
     screw_axis = np.empty(6)
     screw_axis[0] = unit_twist[2, 1]
@@ -850,6 +866,22 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
 
 
 def exponential_coordinates_from_transform_log(transform_log):
+    """Compute exponential coordinates from logarithm of transformation.
+
+    Parameters
+    ----------
+    transform_log : array, shape (4, 4)
+        Matrix logarithm of transformation matrix: [S] * theta.
+
+    Returns
+    -------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
+    """
     # TODO check matrix log
     Stheta = np.empty(6)
     Stheta[0] = transform_log[2, 1]
@@ -905,6 +937,22 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
 
 
 def unit_twist_from_screw_axis(screw_axis):
+    """Compute unit twist from screw axis.
+
+    Parameters
+    ----------
+    screw_axis : array-like, shape (6,)
+        Screw axis described by 6 values
+        (omega_1, omega_2, omega_3, v_1, v_2, v_3),
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    Returns
+    -------
+    unit_twist : array-like, shape (4, 4)
+        A unit twist consists of a cross-product matrix that represents an
+        axis of rotation, a translation, and a row of zeros.
+    """
     screw_axis = check_screw_axis(screw_axis)
     omega = screw_axis[:3]
     v = screw_axis[3:]
@@ -915,6 +963,19 @@ def unit_twist_from_screw_axis(screw_axis):
 
 
 def unit_twist_from_transform_log(transform_log):
+    """Compute unit twist from logarithm of transformation.
+
+    Parameters
+    ----------
+    transform_log : array, shape (4, 4)
+        Matrix logarithm of transformation matrix: [S] * theta.
+
+    Returns
+    -------
+    unit_twist : array-like, shape (4, 4)
+        A unit twist consists of a cross-product matrix that represents an
+        axis of rotation, a translation, and a row of zeros.
+    """
     # TODO check transform_log
     omega = np.array([
         transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]])
@@ -927,6 +988,22 @@ def unit_twist_from_transform_log(transform_log):
 
 
 def transform_log_from_exponential_coordinates(Stheta):
+    """Compute matrix logarithm of transformation from exponential coordinates.
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
+
+    Returns
+    -------
+    transform_log : array, shape (4, 4)
+        Matrix logarithm of transformation matrix: [S] * theta.
+    """
     check_exponential_coordinates(Stheta)
     omega = Stheta[:3]
     v = Stheta[3:]
@@ -937,11 +1014,45 @@ def transform_log_from_exponential_coordinates(Stheta):
 
 
 def transform_log_from_unit_twist(unit_twist, theta):
+    """Compute matrix logarithm of transformation from unit twist and theta.
+
+    Parameters
+    ----------
+    unit_twist : array-like, shape (4, 4)
+        A unit twist consists of a cross-product matrix that represents an
+        axis of rotation, a translation, and a row of zeros.
+
+    theta : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    Returns
+    -------
+    transform_log : array, shape (4, 4)
+        Matrix logarithm of transformation matrix: [S] * theta.
+    """
     unit_twist = check_unit_twist(unit_twist)
     return unit_twist * theta
 
 
 def transform_log_from_transform(A2B, strict_check=True):
+    """Compute matrix logarithm of transformation from transformation.
+
+    Parameters
+    ----------
+    A2B : array, shape (4, 4)
+        Transform from frame A to frame B
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
+    Returns
+    -------
+    transform_log : array, shape (4, 4)
+        Matrix logarithm of transformation matrix: [S] * theta.
+    """
     A2B = check_transform(A2B, strict_check=strict_check)
 
     R = A2B[:3, :3]
@@ -1012,6 +1123,18 @@ def transform_from_exponential_coordinates(Stheta):
 
 
 def transform_from_transform_log(transform_log):
+    """Compute transformation from matrix logarithm of transformation.
+
+    Parameters
+    ----------
+    transform_log : array, shape (4, 4)
+        Matrix logarithm of transformation matrix: [S] * theta.
+
+    Returns
+    -------
+    A2B : array, shape (4, 4)
+        Transform from frame A to frame B
+    """
     # TODO check transform_log
     omega_theta = np.array([
         transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]])
