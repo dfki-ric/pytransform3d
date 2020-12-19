@@ -158,6 +158,16 @@ Testing
     :no-members:
     :no-inherited-members:
 
+Utility Functions
+-----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.random_transform
+   ~pytransform3d.transformations.random_screw_axis
+
 Input Validation Functions
 --------------------------
 
@@ -182,7 +192,6 @@ Conversions to Transformation Matrix
 
 
    ~pytransform3d.transformations.transform_from
-   ~pytransform3d.transformations.random_transform
    ~pytransform3d.transformations.translate_transform
    ~pytransform3d.transformations.rotate_transform
    ~pytransform3d.transformations.transform_from_pq

@@ -424,12 +424,12 @@ def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
 
 
 def pq_from_transform(A2B, strict_check=True):
-    """Conversion from homogeneous matrix to position and quaternion.
+    """Compute position and quaternion from transformation matrix.
 
     Parameters
     ----------
     A2B : array-like, shape (4, 4)
-        Transform from frame A to frame B
+        Transformation matrix from frame A to frame B
 
     strict_check : bool, optional (default: True)
         Raise a ValueError if the transformation matrix is not numerically
@@ -446,7 +446,7 @@ def pq_from_transform(A2B, strict_check=True):
 
 
 def transform_from_pq(pq):
-    """Conversion from position and quaternion to homogeneous matrix.
+    """Compute transformation matrix from position and quaternion.
 
     Parameters
     ----------
@@ -456,7 +456,7 @@ def transform_from_pq(pq):
     Returns
     -------
     A2B : array-like, shape (4, 4)
-        Transform from frame A to frame B
+        Transformation matrix from frame A to frame B
     """
     pq = check_pq(pq)
     return transform_from(matrix_from_quaternion(pq[3:]), pq[:3])
@@ -987,14 +987,14 @@ def exponential_coordinates_from_transform_log(transform_log):
 
 
 def exponential_coordinates_from_transform(A2B, strict_check=True):
-    """Conversion from homogeneous matrix to exponential coordinates.
+    """Compute exponential coordinates from transformation matrix.
 
     Logarithmic map.
 
     Parameters
     ----------
     A2B : array-like, shape (4, 4)
-        Transform from frame A to frame B
+        Transformation matrix from frame A to frame B
 
     strict_check : bool, optional (default: True)
         Raise a ValueError if the transformation matrix is not numerically
@@ -1180,7 +1180,7 @@ def transform_log_from_transform(A2B, strict_check=True):
 
 
 def transform_from_exponential_coordinates(Stheta):
-    """Conversion from exponential coordinates to homogeneous matrix.
+    """Compute transformation matrix from exponential coordinates.
 
     Exponential map.
 
@@ -1196,7 +1196,7 @@ def transform_from_exponential_coordinates(Stheta):
     Returns
     -------
     A2B : array, shape (4, 4)
-        Transform from frame A to frame B
+        Transformation matrix from frame A to frame B
     """
     Stheta = check_exponential_coordinates(Stheta)
 
@@ -1258,7 +1258,7 @@ def transform_from_transform_log(transform_log):
 
 
 def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
-    """Plot screw axis and transformation.
+    """Plot transformation about and along screw axis.
 
     Parameters
     ----------
