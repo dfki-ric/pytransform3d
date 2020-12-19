@@ -324,7 +324,7 @@ Testing
 
 .. autosummary::
    :toctree: _apidoc/
-   :template: class.rst
+   :template: class_without_inherited.rst
 
    ~pytransform3d.editor.TransformEditor
 
@@ -382,7 +382,7 @@ Testing
 
 .. autosummary::
    :toctree: _apidoc/
-   :template: class.rst
+   :template: class_without_inherited.rst
 
    ~pytransform3d.plot_utils.Arrow3D
    ~pytransform3d.plot_utils.Frame

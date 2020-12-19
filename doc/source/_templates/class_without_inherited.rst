@@ -5,7 +5,7 @@
 .. autoclass:: {{ objname }}
    :members:
    :show-inheritance:
-   :inherited-members:
+   :no-inherited-members:
 
    {% block methods %}
    .. automethod:: __init__
@@ -15,7 +15,9 @@
 
    .. autosummary::
    {% for item in methods %}
-      ~{{ name }}.{{ item }}
+       {% if item not in inherited_members %}
+          ~{{ name }}.{{ item }}
+       {% endif %}
    {%- endfor %}
    {% endif %}
    {% endblock %}
@@ -26,7 +28,9 @@
 
    .. autosummary::
    {% for item in attributes %}
-      ~{{ name }}.{{ item }}
+       {% if item not in inherited_members %}
+          ~{{ name }}.{{ item }}
+       {% endif %}
    {%- endfor %}
    {% endif %}
    {% endblock %}
