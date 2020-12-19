@@ -15,6 +15,12 @@ an analogous representation of transformations:
   :math:`\hat{\boldsymbol{\omega}}`.
 * A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is similar to
   angular velocity :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`.
+* A **unit twist matrix** :math:`\left[\mathcal{S}\right]` is similar to
+  a cross-product matrix of a unit rotation axis
+  :math:`\left[\hat{\boldsymbol{\omega}}\right]`.
+* The **logarithm of a transformation** :math:`\left[\mathcal{S}\right] \theta`
+  is similar to a cross-product matrix of the angle-axis representation
+  :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta`.
 * Exponential coordinates :math:`\mathcal{S} \theta` for rigid body motions
   are similar to exponential coordinates
   :math:`\hat{\boldsymbol{\omega}} \theta` for rotations (axis-angle
