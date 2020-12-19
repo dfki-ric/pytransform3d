@@ -329,7 +329,7 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
 
     .. math::
 
-        A^T = -A
+        V^T = -V
 
     Parameters
     ----------

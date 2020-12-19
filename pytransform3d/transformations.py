@@ -523,6 +523,9 @@ def assert_transform(A2B, *args, **kwargs):
 def check_screw_parameters(q, s_axis, h):
     """Input validation of screw parameters.
 
+    The parameters :math:`(\\boldsymbol{q}, \\hat{\\boldsymbol{s}}, h)` describe
+    a screw.
+
     Parameters
     ----------
     q : array-like, shape (3,)
@@ -537,11 +540,11 @@ def check_screw_parameters(q, s_axis, h):
 
     Returns
     -------
-    q : array-like, shape (3,)
+    q : array, shape (3,)
         Vector to a point on the screw axis. Will be set to zero vector when
         pitch is infinite (pure translation).
 
-    s_axis : array-like, shape (3,)
+    s_axis : array, shape (3,)
         Unit direction vector of the screw axis
 
     h : float
@@ -566,7 +569,16 @@ def check_screw_parameters(q, s_axis, h):
 
 
 def check_screw_axis(screw_axis):
-    """Input validation of screw parameters.
+    """Input validation of screw axis.
+
+    A screw axis
+
+    .. math::
+
+        \\mathcal{S} = \\left[\\begin{array}{c}\\boldsymbol{\\omega}\\\\\\boldsymbol{v}\\end{array}\\right] \in \\mathbb{R}^6
+
+    consists of a part that describes rotation and a part that describes
+    translation.
 
     Parameters
     ----------
@@ -578,7 +590,7 @@ def check_screw_axis(screw_axis):
 
     Returns
     -------
-    screw_axis : array-like, shape (6,)
+    screw_axis : array, shape (6,)
         Screw axis described by 6 values
         (omega_1, omega_2, omega_3, v_1, v_2, v_3),
         where the first 3 components are related to rotation and the last 3
@@ -608,6 +620,10 @@ def check_screw_axis(screw_axis):
 def check_exponential_coordinates(Stheta):
     """Input validation for exponential coordinates of transformation.
 
+    Exponential coordinates of a transformation :math:`\\mathcal{S}\\theta
+    \\in \\mathbb{R}^6` are the product of a screw axis and a scalar
+    :math:`\\theta`.
+
     Parameters
     ----------
     Stheta : array-like, shape (6,)
@@ -621,7 +637,7 @@ def check_exponential_coordinates(Stheta):
 
     Returns
     -------
-    Stheta : array-like, shape (6,)
+    Stheta : array, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
         where the first 3 components are related to rotation and the last 3
@@ -640,6 +656,28 @@ def check_exponential_coordinates(Stheta):
 def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
     """Input validation for unit twist.
 
+    A unit twist matrix consists of the cross-product matrix of a rotation
+    axis and a translation.
+
+    .. math::
+
+        \\left[\\mathcal S\\right]
+        =
+        \\left( \\begin{array}{cc}
+            \\left[\\boldsymbol{\\omega}\\right] & \\boldsymbol v\\\\
+            \\boldsymbol 0 & 0\\\\
+        \\end{array} \\right)
+        =
+        \\left(
+        \\begin{matrix}
+        0 & -\\omega_3 & \\omega_2 & v_1\\\\
+        \\omega_3 & 0 & -\\omega_1 & v_2\\\\
+        -\\omega_2 & \\omega_1 & 0 & v_3\\\\
+        0 & 0 & 0 & 0\\\\
+        \\end{matrix}
+        \\right)
+        \\in \\mathbb{R}^{4 \\times 4}
+
     Parameters
     ----------
     unit_twist : array-like, shape (4, 4)
@@ -655,7 +693,7 @@ def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
 
     Returns
     -------
-    unit_twist : array-like, shape (4, 4)
+    unit_twist : array, shape (4, 4)
         A unit twist consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
     """
@@ -691,9 +729,13 @@ def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
 def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     """Input validation for logarithm of transformation.
 
+    The logarithm of a transformation :math:`\\left[\\mathcal{S}\\right]\\theta
+    \\in \\mathbb{R}^{4 \\times 4}` are the product of a unit twist and a
+    scalar :math:`\\theta`.
+
     Parameters
     ----------
-    transform_log : array, shape (4, 4)
+    transform_log : array-like, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
 
     tolerance : float, optional (default: 1e-6)
@@ -736,7 +778,7 @@ def random_screw_axis(random_state=np.random.RandomState(0)):
 
     Returns
     -------
-    screw_axis : array-like, shape (6,)
+    screw_axis : array, shape (6,)
         Screw axis described by 6 values
         (omega_1, omega_2, omega_3, v_1, v_2, v_3),
         where the first 3 components are related to rotation and the last 3
@@ -763,10 +805,10 @@ def screw_parameters_from_screw_axis(screw_axis):
 
     Returns
     -------
-    q : array-like, shape (3,)
+    q : array, shape (3,)
         Vector to a point on the screw axis that is orthogonal to s_axis
 
-    s_axis : array-like, shape (3,)
+    s_axis : array, shape (3,)
         Unit direction vector of the screw axis
 
     h : float
@@ -838,7 +880,7 @@ def screw_axis_from_exponential_coordinates(Stheta):
 
     Returns
     -------
-    screw_axis : array-like, shape (6,)
+    screw_axis : array, shape (6,)
         Screw axis described by 6 values
         (omega_1, omega_2, omega_3, v_1, v_2, v_3),
         where the first 3 components are related to rotation and the last 3
@@ -871,7 +913,7 @@ def screw_axis_from_unit_twist(unit_twist):
 
     Returns
     -------
-    screw_axis : array-like, shape (6,)
+    screw_axis : array, shape (6,)
         Screw axis described by 6 values
         (omega_1, omega_2, omega_3, v_1, v_2, v_3),
         where the first 3 components are related to rotation and the last 3
@@ -904,7 +946,7 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
 
     Returns
     -------
-    Stheta : array-like, shape (6,)
+    Stheta : array, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
         where the first 3 components are related to rotation and the last 3
@@ -913,6 +955,7 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
         will be represented by a negative screw axis instead. This is relevant
         if you want to recover theta from exponential coordinates.
     """
+    screw_axis = check_screw_axis(screw_axis)
     return screw_axis * theta
 
 
@@ -921,12 +964,12 @@ def exponential_coordinates_from_transform_log(transform_log):
 
     Parameters
     ----------
-    transform_log : array, shape (4, 4)
+    transform_log : array-like, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
 
     Returns
     -------
-    Stheta : array-like, shape (6,)
+    Stheta : array, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
         where S is the screw axis, the first 3 components are related to
@@ -960,7 +1003,7 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
 
     Returns
     -------
-    Stheta : array-like, shape (6,)
+    Stheta : array, shape (6,)
         Exponential coordinates of transformation:
         S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
         where S is the screw axis, the first 3 components are related to
@@ -1001,7 +1044,7 @@ def unit_twist_from_screw_axis(screw_axis):
 
     Returns
     -------
-    unit_twist : array-like, shape (4, 4)
+    unit_twist : array, shape (4, 4)
         A unit twist consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
     """
@@ -1020,12 +1063,12 @@ def unit_twist_from_transform_log(transform_log):
 
     Parameters
     ----------
-    transform_log : array, shape (4, 4)
+    transform_log : array-like, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
 
     Returns
     -------
-    unit_twist : array-like, shape (4, 4)
+    unit_twist : array, shape (4, 4)
         A unit twist consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
     """
@@ -1183,7 +1226,7 @@ def transform_from_transform_log(transform_log):
 
     Parameters
     ----------
-    transform_log : array, shape (4, 4)
+    transform_log : array-like, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
 
     Returns

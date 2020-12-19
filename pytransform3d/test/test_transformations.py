@@ -488,8 +488,7 @@ def test_conversions_between_screw_axis_and_exponential_coordinates():
 
     S = np.zeros(6)
     theta = 0.0
-    Stheta = exponential_coordinates_from_screw_axis(S, theta)
-    S2, theta2 = screw_axis_from_exponential_coordinates(Stheta)
+    S2, theta2 = screw_axis_from_exponential_coordinates(np.zeros(6))
     assert_array_almost_equal(S, S2)
     assert_almost_equal(theta, theta2)
 
