@@ -1,4 +1,7 @@
-"""Transformations in three dimensions - SE(3)."""
+"""Transformations in three dimensions - SE(3).
+
+See :doc:`transformations` for more information.
+"""
 import warnings
 import math
 import numpy as np

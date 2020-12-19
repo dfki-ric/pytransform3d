@@ -1,4 +1,7 @@
-"""Rotations in three dimensions - SO(3)."""
+"""Rotations in three dimensions - SO(3).
+
+See :doc:`rotations` for more information.
+"""
 import warnings
 import math
 import numpy as np

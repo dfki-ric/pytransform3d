@@ -1,4 +1,7 @@
-"""Transformations related to cameras."""
+"""Transformations related to cameras.
+
+See :doc:`camera` for more information.
+"""
 import numpy as np
 from .transformations import invert_transform, transform
 

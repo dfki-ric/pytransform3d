@@ -4,7 +4,7 @@
 API Documentation
 =================
 
-You can search for specific modules, classes or functions in the
+You can search for specific modules, classes, or functions in the
 :ref:`genindex`.
 
 
@@ -229,8 +229,8 @@ Conversions to Exponential Coordinates
    ~pytransform3d.transformations.exponential_coordinates_from_screw_axis
    ~pytransform3d.transformations.exponential_coordinates_from_transform_log
 
-Conversions to Unit Twist
--------------------------
+Conversions to Unit Twist Matrix
+--------------------------------
 
 .. autosummary::
    :toctree: _apidoc/
