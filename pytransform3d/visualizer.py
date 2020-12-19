@@ -313,7 +313,7 @@ try:
                 The resolution of the sphere. The longitues will be split into
                 resolution segments (i.e. there are resolution + 1 latitude lines
                 including the north and south pole). The latitudes will be split
-                into `2 * resolution segments (i.e. there are 2 * resolution
+                into 2 * resolution segments (i.e. there are 2 * resolution
                 longitude lines.)
 
             c : array-like, shape (3,), optional (default: None)
@@ -672,7 +672,7 @@ try:
             The resolution of the sphere. The longitues will be split into
             resolution segments (i.e. there are resolution + 1 latitude lines
             including the north and south pole). The latitudes will be split
-            into `2 * resolution segments (i.e. there are 2 * resolution
+            into 2 * resolution segments (i.e. there are 2 * resolution
             longitude lines.)
 
         c : array-like, shape (3,), optional (default: None)
