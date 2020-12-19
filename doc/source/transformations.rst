@@ -144,6 +144,38 @@ define a complete transformation through its exponential coordinates
 :math:`\mathcal{S} \theta = \left[\begin{array}{c}\boldsymbol{\omega}\theta\\\boldsymbol{v}\theta\end{array}\right] \in \mathbb{R}^6`.
 This is a minimal representation as it only needs 6 values.
 
+---------------------------
+Logarithm of Transformation
+---------------------------
+
+Alternatively, we can represent a screw axis :math:`\mathcal S` in a matrix
+
+.. math::
+
+    \left[\mathcal S\right]
+    =
+    \left( \begin{array}{cc}
+        \left[\boldsymbol{\omega}\right] & \boldsymbol v\\
+        \boldsymbol 0 & 0\\
+    \end{array} \right)
+    =
+    \left(
+    \begin{matrix}
+    0 & -\omega_3 & \omega_2 & v_1\\
+    \omega_3 & 0 & -\omega_1 & v_2\\
+    -\omega_2 & \omega_1 & 0 & v_3\\
+    0 & 0 & 0 & 0\\
+    \end{matrix}
+    \right)
+    \in \mathbb{R}^{4 \times 4}
+
+that contains the cross-product matrix of its orientation part and its
+translation part. This is the **matrix representation of a unit twist** and
+we will also refer to it as unit twist in the API. By multiplication with
+:math:`\theta` we can again generate a full description of a transformation
+:math:`\left[\mathcal{S}\right] \theta`, which is the **matrix logarithm of
+a transformation matrix**.
+
 ----------
 References
 ----------
