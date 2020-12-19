@@ -333,6 +333,13 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
     V : array-like, shape (3, 3)
         Cross-product matrix
 
+    tolerance : float, optional (default: 1e-6)
+        Tolerance threshold for checks.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if V.T is not numerically close enough to -V.
+        Otherwise we print a warning.
+
     Returns
     -------
     V : array-like, shape (3, 3)

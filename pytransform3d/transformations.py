@@ -6,7 +6,8 @@ from .rotations import (random_quaternion, random_vector,
                         matrix_from_quaternion, quaternion_from_matrix,
                         assert_rotation_matrix, check_matrix,
                         norm_vector, axis_angle_from_matrix,
-                        matrix_from_axis_angle, cross_product_matrix)
+                        matrix_from_axis_angle, cross_product_matrix,
+                        check_skew_symmetric_matrix)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -633,7 +634,7 @@ def check_exponential_coordinates(Stheta):
     return Stheta
 
 
-def check_unit_twist(unit_twist):
+def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
     """Input validation for unit twist.
 
     Parameters
@@ -641,6 +642,13 @@ def check_unit_twist(unit_twist):
     unit_twist : array-like, shape (4, 4)
         A unit twist consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance threshold for checks.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if [omega].T is not numerically close enough to
+        -[omega]. Otherwise we print a warning.
 
     Returns
     -------
@@ -655,6 +663,8 @@ def check_unit_twist(unit_twist):
                          "object with shape %s" % (unit_twist.shape,))
     if any(unit_twist[3] != 0.0):
         raise ValueError("Last row of unit twist must only contains zeros.")
+
+    check_skew_symmetric_matrix(unit_twist[:3, :3], tolerance, strict_check)
 
     omega_norm = np.linalg.norm(
         [unit_twist[2, 1], unit_twist[0, 2], unit_twist[1, 0]])
@@ -675,13 +685,20 @@ def check_unit_twist(unit_twist):
     return unit_twist
 
 
-def check_transform_log(transform_log):
+def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     """Input validation for logarithm of transformation.
 
     Parameters
     ----------
     transform_log : array, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance threshold for checks.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if [omega].T is not numerically close enough to
+        -[omega]. Otherwise we print a warning.
 
     Returns
     -------
@@ -697,6 +714,9 @@ def check_transform_log(transform_log):
         raise ValueError(
             "Last row of logarithm of transformation must only "
             "contains zeros.")
+
+    check_skew_symmetric_matrix(transform_log[:3, :3], tolerance, strict_check)
+
     return transform_log
 
 

@@ -380,6 +380,13 @@ def test_check_unit_twist():
     unit_twist2 = check_unit_twist(unit_twist)
     assert_array_almost_equal(unit_twist, unit_twist2)
 
+    unit_twist = unit_twist_from_screw_axis(
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+    unit_twist[0, 0] = 0.0001
+    assert_raises_regexp(
+        ValueError, "Expected skew-symmetric matrix",
+        check_unit_twist, unit_twist)
+
 
 def test_check_transform_log():
     assert_raises_regexp(
@@ -400,6 +407,13 @@ def test_check_transform_log():
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
     transform_log2 = check_transform_log(transform_log)
     assert_array_almost_equal(transform_log, transform_log2)
+
+    transform_log = unit_twist_from_screw_axis(
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
+    transform_log[0, 0] = 0.0001
+    assert_raises_regexp(
+        ValueError, "Expected skew-symmetric matrix",
+        check_transform_log, transform_log)
 
 
 def test_random_screw_axis():
