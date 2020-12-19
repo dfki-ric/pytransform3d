@@ -9,19 +9,17 @@ pytransform3d
 
 pytransform3d covers the following groups of transformations.
 
-+-------+-----------------+-----------+---------------------+
-| Group | Description     | Dimension | Representation      |
-+=======+=================+===========+=====================+
-| SO(3) | 3D rotations    | 3         | unit quaternion,    |
-|       |                 |           | rotation matrix,    |
-|       |                 |           | axis-angle,         |
-|       |                 |           | Euler angles        |
-+-------+-----------------+-----------+---------------------+
-| SE(3) | 3D rigid        | 6         | transformation      |
-|       | transformations |           | matrix, translation |
-|       | (translation +  |           | + unit quaternion   |
-|       | rotation)       |           |                     |
-+-------+-----------------+-----------+---------------------+
++-------+------------------+-----------+------------------------------------+
+| Group | Description      | Dimension | Representation                     |
++=======+==================+===========+====================================+
+| SO(3) | 3D rotations     | 3         | unit quaternion, rotation matrix,  |
+|       |                  |           | axis-angle, Euler angles           |
++-------+------------------+-----------+------------------------------------+
+| SE(3) | 3D rigid body    | 6         | transformation matrix, translation |
+|       | transformations  |           | and unit quaternion, exponential   |
+|       | (translation and |           | coordinates, logarithm of          |
+|       | rotation)        |           | transformation                     |
++-------+------------------+-----------+------------------------------------+
 
 In this documentation we will use the notation :math:`_A\boldsymbol{t}_{BC}`
 to represent a vector from frame B to frame C expressed in frame A.
