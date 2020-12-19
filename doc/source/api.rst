@@ -43,6 +43,7 @@ Input Validation Functions
    :template: function.rst
 
    ~pytransform3d.rotations.check_matrix
+   ~pytransform3d.rotations.check_skew_symmetric_matrix
    ~pytransform3d.rotations.check_axis_angle
    ~pytransform3d.rotations.check_compact_axis_angle
    ~pytransform3d.rotations.check_quaternion
