@@ -22,13 +22,13 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            screw_axis_from_exponential_coordinates,
                                            transform_log_from_exponential_coordinates,
                                            exponential_coordinates_from_transform_log,
-                                           unit_twist_from_screw_axis,
-                                           screw_axis_from_unit_twist,
-                                           transform_log_from_unit_twist,
-                                           unit_twist_from_transform_log,
+                                           screw_matrix_from_screw_axis,
+                                           screw_axis_from_screw_matrix,
+                                           transform_log_from_screw_matrix,
+                                           screw_matrix_from_transform_log,
                                            transform_from_transform_log,
                                            transform_log_from_transform,
-                                           check_unit_twist, check_transform_log)
+                                           check_screw_matrix, check_transform_log)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -343,49 +343,49 @@ def test_check_exponential_coordinates():
     assert_array_almost_equal(Stheta, Stheta2)
 
 
-def test_check_unit_twist():
+def test_check_screw_matrix():
     assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_unit_twist,
+        ValueError, "Expected array-like with shape", check_screw_matrix,
         np.zeros((1, 4, 4)))
     assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_unit_twist,
+        ValueError, "Expected array-like with shape", check_screw_matrix,
         np.zeros((3, 4)))
     assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_unit_twist,
+        ValueError, "Expected array-like with shape", check_screw_matrix,
         np.zeros((4, 3)))
 
     assert_raises_regexp(
-        ValueError, "Last row of unit twist must only contains zeros",
-        check_unit_twist, np.eye(4))
+        ValueError, "Last row of screw matrix must only contains zeros",
+        check_screw_matrix, np.eye(4))
 
-    unit_twist = unit_twist_from_screw_axis(
+    screw_matrix = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
     assert_raises_regexp(
         ValueError, "Norm of rotation axis must either be 0 or 1",
-        check_unit_twist, unit_twist)
+        check_screw_matrix, screw_matrix)
 
-    unit_twist = unit_twist_from_screw_axis(
+    screw_matrix = screw_matrix_from_screw_axis(
         np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
     assert_raises_regexp(
         ValueError, "If the norm of the rotation axis is 0",
-        check_unit_twist, unit_twist)
+        check_screw_matrix, screw_matrix)
 
-    unit_twist = unit_twist_from_screw_axis(
+    screw_matrix = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
-    unit_twist2 = check_unit_twist(unit_twist)
-    assert_array_almost_equal(unit_twist, unit_twist2)
+    screw_matrix2 = check_screw_matrix(screw_matrix)
+    assert_array_almost_equal(screw_matrix, screw_matrix2)
 
-    unit_twist = unit_twist_from_screw_axis(
+    screw_matrix = screw_matrix_from_screw_axis(
         np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
-    unit_twist2 = check_unit_twist(unit_twist)
-    assert_array_almost_equal(unit_twist, unit_twist2)
+    screw_matrix2 = check_screw_matrix(screw_matrix)
+    assert_array_almost_equal(screw_matrix, screw_matrix2)
 
-    unit_twist = unit_twist_from_screw_axis(
+    screw_matrix = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
-    unit_twist[0, 0] = 0.0001
+    screw_matrix[0, 0] = 0.0001
     assert_raises_regexp(
         ValueError, "Expected skew-symmetric matrix",
-        check_unit_twist, unit_twist)
+        check_screw_matrix, screw_matrix)
 
 
 def test_check_transform_log():
@@ -403,12 +403,12 @@ def test_check_transform_log():
         ValueError, "Last row of logarithm of transformation must only "
                     "contains zeros",
         check_transform_log, np.eye(4))
-    transform_log = unit_twist_from_screw_axis(
+    transform_log = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
     transform_log2 = check_transform_log(transform_log)
     assert_array_almost_equal(transform_log, transform_log2)
 
-    transform_log = unit_twist_from_screw_axis(
+    transform_log = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
     transform_log[0, 0] = 0.0001
     assert_raises_regexp(
@@ -511,41 +511,41 @@ def test_conversions_between_exponential_coordinates_and_transform_log():
         assert_array_almost_equal(Stheta, Stheta2)
 
 
-def test_conversions_between_unit_twist_and_screw_axis():
+def test_conversions_between_screw_matrix_and_screw_axis():
     random_state = np.random.RandomState(83)
     for _ in range(5):
         S = random_screw_axis(random_state)
-        V = unit_twist_from_screw_axis(S)
-        S2 = screw_axis_from_unit_twist(V)
+        S_mat = screw_matrix_from_screw_axis(S)
+        S2 = screw_axis_from_screw_matrix(S_mat)
         assert_array_almost_equal(S, S2)
 
 
-def test_conversions_between_unit_twist_and_transform_log():
-    V = np.array([[0.0, 0.0, 0.0, 1.0],
-                  [0.0, 0.0, 0.0, 0.0],
-                  [0.0, 0.0, 0.0, 0.0],
-                  [0.0, 0.0, 0.0, 0.0]])
+def test_conversions_between_screw_matrix_and_transform_log():
+    S_mat = np.array([[0.0, 0.0, 0.0, 1.0],
+                      [0.0, 0.0, 0.0, 0.0],
+                      [0.0, 0.0, 0.0, 0.0],
+                      [0.0, 0.0, 0.0, 0.0]])
     theta = 1.0
-    transform_log = transform_log_from_unit_twist(V, theta)
-    V2, theta2 = unit_twist_from_transform_log(transform_log)
-    assert_array_almost_equal(V, V2)
+    transform_log = transform_log_from_screw_matrix(S_mat, theta)
+    S_mat2, theta2 = screw_matrix_from_transform_log(transform_log)
+    assert_array_almost_equal(S_mat, S_mat2)
     assert_almost_equal(theta, theta2)
 
-    V = np.zeros((4, 4))
+    S_mat = np.zeros((4, 4))
     theta = 0.0
-    transform_log = transform_log_from_unit_twist(V, theta)
-    V2, theta2 = unit_twist_from_transform_log(transform_log)
-    assert_array_almost_equal(V, V2)
+    transform_log = transform_log_from_screw_matrix(S_mat, theta)
+    S_mat2, theta2 = screw_matrix_from_transform_log(transform_log)
+    assert_array_almost_equal(S_mat, S_mat2)
     assert_almost_equal(theta, theta2)
 
     random_state = np.random.RandomState(65)
     for _ in range(5):
         S = random_screw_axis(random_state)
         theta = np.random.rand()
-        V = unit_twist_from_screw_axis(S)
-        transform_log = transform_log_from_unit_twist(V, theta)
-        V2, theta2 = unit_twist_from_transform_log(transform_log)
-        assert_array_almost_equal(V, V2)
+        S_mat = screw_matrix_from_screw_axis(S)
+        transform_log = transform_log_from_screw_matrix(S_mat, theta)
+        S_mat2, theta2 = screw_matrix_from_transform_log(transform_log)
+        assert_array_almost_equal(S_mat, S_mat2)
         assert_almost_equal(theta, theta2)
 
 

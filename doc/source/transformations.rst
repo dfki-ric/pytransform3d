@@ -13,9 +13,7 @@ an analogous representation of transformations:
   matrix :math:`\boldsymbol R`.
 * A **screw axis** :math:`\mathcal S` is similar to a rotation axis
   :math:`\hat{\boldsymbol{\omega}}`.
-* A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is similar to
-  angular velocity :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`.
-* A **unit twist matrix** :math:`\left[\mathcal{S}\right]` is similar to
+* A **screw matrix** :math:`\left[\mathcal{S}\right]` is similar to
   a cross-product matrix of a unit rotation axis
   :math:`\left[\hat{\boldsymbol{\omega}}\right]`.
 * The **logarithm of a transformation** :math:`\left[\mathcal{S}\right] \theta`
@@ -25,6 +23,8 @@ an analogous representation of transformations:
   are similar to exponential coordinates
   :math:`\hat{\boldsymbol{\omega}} \theta` for rotations (axis-angle
   representation).
+* A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is similar to
+  angular velocity :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`.
 
 Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.
@@ -170,9 +170,9 @@ Alternatively, we can represent a screw axis :math:`\mathcal S` in a matrix
     \in \mathbb{R}^{4 \times 4}
 
 that contains the cross-product matrix of its orientation part and its
-translation part. This is the **matrix representation of a unit twist** and
-we will also refer to it as unit twist in the API. By multiplication with
-:math:`\theta` we can again generate a full description of a transformation
+translation part. This is the **matrix representation of a screw axis** and
+we will also refer to it as **screw matrix** in the API. By multiplication
+with :math:`\theta` we can again generate a full description of a transformation
 :math:`\left[\mathcal{S}\right] \theta`, which is the **matrix logarithm of
 a transformation matrix**.
 

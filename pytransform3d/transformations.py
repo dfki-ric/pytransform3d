@@ -653,10 +653,10 @@ def check_exponential_coordinates(Stheta):
     return Stheta
 
 
-def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
-    """Input validation for unit twist.
+def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
+    """Input validation for screw matrix.
 
-    A unit twist matrix consists of the cross-product matrix of a rotation
+    A screw matrix consists of the cross-product matrix of a rotation
     axis and a translation.
 
     .. math::
@@ -680,8 +680,8 @@ def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
 
     Parameters
     ----------
-    unit_twist : array-like, shape (4, 4)
-        A unit twist consists of a cross-product matrix that represents an
+    screw_matrix : array-like, shape (4, 4)
+        A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
 
     tolerance : float, optional (default: 1e-6)
@@ -693,22 +693,22 @@ def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
 
     Returns
     -------
-    unit_twist : array, shape (4, 4)
-        A unit twist consists of a cross-product matrix that represents an
+    screw_matrix : array, shape (4, 4)
+        A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
     """
-    unit_twist = np.asarray(unit_twist, dtype=np.float)
-    if (unit_twist.ndim != 2 or unit_twist.shape[0] != 4
-            or unit_twist.shape[1] != 4):
+    screw_matrix = np.asarray(screw_matrix, dtype=np.float)
+    if (screw_matrix.ndim != 2 or screw_matrix.shape[0] != 4
+            or screw_matrix.shape[1] != 4):
         raise ValueError("Expected array-like with shape (4, 4), got array-like "
-                         "object with shape %s" % (unit_twist.shape,))
-    if any(unit_twist[3] != 0.0):
-        raise ValueError("Last row of unit twist must only contains zeros.")
+                         "object with shape %s" % (screw_matrix.shape,))
+    if any(screw_matrix[3] != 0.0):
+        raise ValueError("Last row of screw matrix must only contains zeros.")
 
-    check_skew_symmetric_matrix(unit_twist[:3, :3], tolerance, strict_check)
+    check_skew_symmetric_matrix(screw_matrix[:3, :3], tolerance, strict_check)
 
     omega_norm = np.linalg.norm(
-        [unit_twist[2, 1], unit_twist[0, 2], unit_twist[1, 0]])
+        [screw_matrix[2, 1], screw_matrix[0, 2], screw_matrix[1, 0]])
 
     if (abs(omega_norm - 1.0) > np.finfo(float).eps
             and abs(omega_norm) > np.finfo(float).eps):
@@ -716,21 +716,21 @@ def check_unit_twist(unit_twist, tolerance=1e-6, strict_check=True):
             "Norm of rotation axis must either be 0 or 1, but it is %g."
             % omega_norm)
     if abs(omega_norm) < np.finfo(float).eps:
-        v_norm = np.linalg.norm(unit_twist[:3, 3])
+        v_norm = np.linalg.norm(screw_matrix[:3, 3])
         if (abs(v_norm - 1.0) > np.finfo(float).eps
                 and abs(v_norm) > np.finfo(float).eps):
             raise ValueError(
                 "If the norm of the rotation axis is 0, then the direction "
                 "vector must have norm 1 or 0, but it is %g." % v_norm)
 
-    return unit_twist
+    return screw_matrix
 
 
 def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     """Input validation for logarithm of transformation.
 
     The logarithm of a transformation :math:`\\left[\\mathcal{S}\\right]\\theta
-    \\in \\mathbb{R}^{4 \\times 4}` are the product of a unit twist and a
+    \\in \\mathbb{R}^{4 \\times 4}` are the product of a screw matrix and a
     scalar :math:`\\theta`.
 
     Parameters
@@ -902,13 +902,13 @@ def screw_axis_from_exponential_coordinates(Stheta):
     return Stheta / theta, theta
 
 
-def screw_axis_from_unit_twist(unit_twist):
-    """Compute screw axis from unit twist.
+def screw_axis_from_screw_matrix(screw_matrix):
+    """Compute screw axis from screw matrix.
 
     Parameters
     ----------
-    unit_twist : array-like, shape (4, 4)
-        A unit twist consists of a cross-product matrix that represents an
+    screw_matrix : array-like, shape (4, 4)
+        A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
 
     Returns
@@ -919,13 +919,13 @@ def screw_axis_from_unit_twist(unit_twist):
         where the first 3 components are related to rotation and the last 3
         components are related to translation.
     """
-    unit_twist = check_unit_twist(unit_twist)
+    screw_matrix = check_screw_matrix(screw_matrix)
 
     screw_axis = np.empty(6)
-    screw_axis[0] = unit_twist[2, 1]
-    screw_axis[1] = unit_twist[0, 2]
-    screw_axis[2] = unit_twist[1, 0]
-    screw_axis[3:] = unit_twist[:3, 3]
+    screw_axis[0] = screw_matrix[2, 1]
+    screw_axis[1] = screw_matrix[0, 2]
+    screw_axis[2] = screw_matrix[1, 0]
+    screw_axis[3:] = screw_matrix[:3, 3]
     return screw_axis
 
 
@@ -1031,8 +1031,8 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
     return np.hstack((omega_unit, v)) * theta
 
 
-def unit_twist_from_screw_axis(screw_axis):
-    """Compute unit twist from screw axis.
+def screw_matrix_from_screw_axis(screw_axis):
+    """Compute screw matrix from screw axis.
 
     Parameters
     ----------
@@ -1044,22 +1044,22 @@ def unit_twist_from_screw_axis(screw_axis):
 
     Returns
     -------
-    unit_twist : array, shape (4, 4)
-        A unit twist consists of a cross-product matrix that represents an
+    screw_matrix : array, shape (4, 4)
+        A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
     """
     screw_axis = check_screw_axis(screw_axis)
 
     omega = screw_axis[:3]
     v = screw_axis[3:]
-    unit_twist = np.zeros((4, 4))
-    unit_twist[:3, :3] = cross_product_matrix(omega)
-    unit_twist[:3, 3] = v
-    return unit_twist
+    screw_matrix = np.zeros((4, 4))
+    screw_matrix[:3, :3] = cross_product_matrix(omega)
+    screw_matrix[:3, 3] = v
+    return screw_matrix
 
 
-def unit_twist_from_transform_log(transform_log):
-    """Compute unit twist from logarithm of transformation.
+def screw_matrix_from_transform_log(transform_log):
+    """Compute screw matrix from logarithm of transformation.
 
     Parameters
     ----------
@@ -1068,8 +1068,8 @@ def unit_twist_from_transform_log(transform_log):
 
     Returns
     -------
-    unit_twist : array, shape (4, 4)
-        A unit twist consists of a cross-product matrix that represents an
+    screw_matrix : array, shape (4, 4)
+        A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
     """
     transform_log = check_transform_log(transform_log)
@@ -1111,13 +1111,13 @@ def transform_log_from_exponential_coordinates(Stheta):
     return transform_log
 
 
-def transform_log_from_unit_twist(unit_twist, theta):
-    """Compute matrix logarithm of transformation from unit twist and theta.
+def transform_log_from_screw_matrix(screw_matrix, theta):
+    """Compute matrix logarithm of transformation from screw matrix and theta.
 
     Parameters
     ----------
-    unit_twist : array-like, shape (4, 4)
-        A unit twist consists of a cross-product matrix that represents an
+    screw_matrix : array-like, shape (4, 4)
+        A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
 
     theta : float
@@ -1129,8 +1129,8 @@ def transform_log_from_unit_twist(unit_twist, theta):
     transform_log : array, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
     """
-    unit_twist = check_unit_twist(unit_twist)
-    return unit_twist * theta
+    screw_matrix = check_screw_matrix(screw_matrix)
+    return screw_matrix * theta
 
 
 def transform_log_from_transform(A2B, strict_check=True):

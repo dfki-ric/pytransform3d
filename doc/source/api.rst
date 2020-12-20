@@ -180,7 +180,7 @@ Input Validation Functions
    ~pytransform3d.transformations.check_screw_parameters
    ~pytransform3d.transformations.check_screw_axis
    ~pytransform3d.transformations.check_exponential_coordinates
-   ~pytransform3d.transformations.check_unit_twist
+   ~pytransform3d.transformations.check_screw_matrix
    ~pytransform3d.transformations.check_transform_log
 
 Conversions to Transformation Matrix
@@ -225,7 +225,7 @@ Conversions to Screw Axis
 
    ~pytransform3d.transformations.screw_axis_from_screw_parameters
    ~pytransform3d.transformations.screw_axis_from_exponential_coordinates
-   ~pytransform3d.transformations.screw_axis_from_unit_twist
+   ~pytransform3d.transformations.screw_axis_from_screw_matrix
 
 Conversions to Exponential Coordinates
 --------------------------------------
@@ -245,8 +245,8 @@ Conversions to Unit Twist Matrix
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.unit_twist_from_screw_axis
-   ~pytransform3d.transformations.unit_twist_from_transform_log
+   ~pytransform3d.transformations.screw_matrix_from_screw_axis
+   ~pytransform3d.transformations.screw_matrix_from_transform_log
 
 Conversions to Matrix Logarithm
 -------------------------------
@@ -256,7 +256,7 @@ Conversions to Matrix Logarithm
    :template: function.rst
 
    ~pytransform3d.transformations.transform_log_from_exponential_coordinates
-   ~pytransform3d.transformations.transform_log_from_unit_twist
+   ~pytransform3d.transformations.transform_log_from_screw_matrix
    ~pytransform3d.transformations.transform_log_from_transform
 
 Apply Transformations
