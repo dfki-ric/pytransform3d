@@ -24,57 +24,56 @@ def spatial_inertia_of_cylinder(mass, length, radius):
     return I
 
 
-"""
-def adjoint_A2B(A2B):
-    from pytransform3d.rotations import cross_product_matrix
-    R = A2B[:3, :3]
-    p = A2B[:3, 3]
-    adj = np.zeros((6, 6))
-    adj[:3, :3] = R
-    adj[3:, :3] = np.dot(cross_product_matrix(p), R)
-    adj[3:, 3:] = R
-    return adj
-"""
-
-
-def animation_callback(step, n_frames, cylinder, cylinder_frame, prev_cylinder2world, inertia_inv, Stheta_dot):
-    if step == 0:
+def animation_callback(
+        step, cylinder, cylinder_frame, prev_cylinder2world,
+        Stheta_dot, inertia_inv):
+    if step == 0:  # Reset cylinder state
         prev_cylinder2world[:, :] = np.eye(4)
         Stheta_dot[:] = 0.0
 
+    Stheta = exponential_coordinates_from_transform(prev_cylinder2world)
+
+    # Apply constant wrench
     wrench_in_cylinder = np.array([0.1, 0.001, 0.001, 0.01, 1.0, 1.0])
     dt = 0.0005
 
     Stheta_ddot = np.dot(inertia_inv, wrench_in_cylinder)
     Stheta_dot += dt * Stheta_ddot
-    Stheta = exponential_coordinates_from_transform(prev_cylinder2world)
     Stheta += dt * Stheta_dot
     cylinder2world = transform_from_exponential_coordinates(Stheta)
 
+    # Update visualization
     cylinder_frame.set_data(cylinder2world)
     cylinder.set_data(cylinder2world)
+
     prev_cylinder2world[:, :] = transform_from_exponential_coordinates(Stheta)
+
     return cylinder_frame, cylinder
 
 
 fig = pv.figure()
 
+# Definition of cylinder
 mass = 1.0
 length = 0.5
 radius = 0.1
-cylinder = fig.plot_cylinder(length=length, radius=radius)
+inertia_inv = np.linalg.inv(
+    spatial_inertia_of_cylinder(mass=mass, length=length, radius=radius))
+
+# State of cylinder
 cylinder2world = np.eye(4)
-cylinder_frame = fig.plot_transform(A2B=cylinder2world, s=0.5)
-inertia = spatial_inertia_of_cylinder(mass=mass, length=length, radius=radius)
-inertia_inv = np.linalg.inv(inertia)
 twist = np.zeros(6)
+
+cylinder = fig.plot_cylinder(length=length, radius=radius, c=[1, 0.5, 0])
+cylinder_frame = fig.plot_transform(A2B=cylinder2world, s=0.5)
 
 fig.plot_transform(A2B=np.eye(4), s=0.5)
 
 fig.view_init()
 
-n_frames = 10000
 fig.animate(
-    animation_callback, n_frames, fargs=(n_frames, cylinder, cylinder_frame, cylinder2world, inertia_inv, twist), loop=True)
+    animation_callback, n_frames=10000,
+    fargs=(cylinder, cylinder_frame, cylinder2world, twist, inertia_inv),
+    loop=True)
 
 fig.show()
