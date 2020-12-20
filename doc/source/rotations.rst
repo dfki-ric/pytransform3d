@@ -156,6 +156,31 @@ It is possible to write this in a more compact way as a rotation vector:
 
     \boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}
 
+We can also refer to this representation as **exponential coordinates of
+rotation**. In addition, we can represent it by the cross-product matrix
+
+.. math::
+
+    \left[\hat{\boldsymbol{\omega}}\right] \theta
+    =
+    \left(
+    \begin{matrix}
+    0 & -\omega_3 & \omega_2\\
+    \omega_3 & 0 & -\omega_1\\
+    -\omega_2 & \omega_1 & 0\\
+    \end{matrix}
+    \right)
+    \theta
+    \in so(3)
+    \subset \mathbb{R}^{3 \times 3},
+
+where :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta` is the matrix
+logarithm of a rotation matrix and :math:`so(3)` is the Lie algebra of
+the Lie group :math:`SO(3)`. We can easily represent angular velocity as
+:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
+and angular acceleration as
+:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}`.
+
 **Pros**
 
 * Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)

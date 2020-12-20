@@ -173,8 +173,19 @@ that contains the cross-product matrix of its orientation part and its
 translation part. This is the **matrix representation of a screw axis** and
 we will also refer to it as **screw matrix** in the API. By multiplication
 with :math:`\theta` we can again generate a full description of a transformation
-:math:`\left[\mathcal{S}\right] \theta`, which is the **matrix logarithm of
-a transformation matrix**.
+:math:`\left[\mathcal{S}\right] \theta \in se(3)`, which is the **matrix
+logarithm of a transformation matrix** and :math:`se(3)` is the Lie algebra of
+Lie group :math:`SE(3)`.
+
+-----
+Twist
+-----
+
+We call spatial velocity (translation and rotation) **twist**. Similarly
+to the matrix logarithm, a twist :math:`\mathcal{V} = \mathcal{S} \dot{\theta}`
+is described by a screw axis :math:`S` and a scalar :math:`\dot{\theta}`
+and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \theta \in se(3)`
+is the matrix representation of a twist.
 
 ----------
 References
