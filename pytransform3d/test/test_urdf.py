@@ -864,6 +864,25 @@ def test_parse_material():
     assert_array_almost_equal(tm.visuals[0].color, np.array([0, 0, 0, 1]))
 
 
+def test_parse_material_without_name():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <material/>
+        <link name="root">
+            <visual>
+                <geometry>
+                    <box size="0.758292 1.175997 0.8875"/>
+                    <material name="Black"/>
+                </geometry>
+            </visual>
+        </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    assert_raises(UrdfException, tm.load_urdf, urdf)
+
+
 def test_parse_material_without_color():
     urdf = """
     <?xml version="1.0"?>
@@ -882,6 +901,49 @@ def test_parse_material_without_color():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
     assert_true(tm.visuals[0].color is None)
+
+
+def test_parse_material_without_rgba():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <material name="Black">
+            <color/>
+        </material>
+        <link name="root">
+            <visual>
+                <geometry>
+                    <box size="0.758292 1.175997 0.8875"/>
+                    <material name="Black"/>
+                </geometry>
+            </visual>
+        </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    assert_raises(UrdfException, tm.load_urdf, urdf)
+
+
+def test_parse_material_with_two_colors():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <material name="Black">
+            <color rgba="0.0 0.0 0.0 1.0"/>
+            <color rgba="0.0 0.0 0.0 1.0"/>
+        </material>
+        <link name="root">
+            <visual>
+                <geometry>
+                    <box size="0.758292 1.175997 0.8875"/>
+                    <material name="Black"/>
+                </geometry>
+            </visual>
+        </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    assert_raises(UrdfException, tm.load_urdf, urdf)
 
 
 def test_parse_material_local():

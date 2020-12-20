@@ -1,4 +1,7 @@
-"""Load transformations from URDF files."""
+"""Load transformations from URDF files.
+
+See :doc:`transform_manager` for more information.
+"""
 import os
 import numpy as np
 from bs4 import BeautifulSoup

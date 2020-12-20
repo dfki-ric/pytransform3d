@@ -1,14 +1,14 @@
 ===================
-3D Rotations: SO(3)
+SO(3): 3D Rotations
 ===================
 
 The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`
-(SO: special orthogonal group).
-The minimum number of components that are required to describe any rotation
-from :math:`SO(3)` is 3. However, there is no representation that is
-non-redundant, continuous and free of singularities. We will now take a closer
-look at competing representations of rotations and the orientations they can
-describe.
+(SO: special orthogonal group). It is typically represented by 3D rotations
+matrices. The minimum number of components that are required to describe
+any rotation from :math:`SO(3)` is 3. However, there is no representation that
+is non-redundant, continuous, and free of singularities. We will now take a
+closer look at competing representations of rotations and the orientations they
+can describe.
 
 Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.
@@ -140,58 +140,58 @@ by applying the rotation
 Axis-Angle
 ----------
 
-Each rotation can be represented by a single rotation around one axis.
-
 .. plot:: ../../examples/plot_axis_angle.py
-    :include-source:
 
+Each rotation can be represented by a single rotation around one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
 by a scalar:
 
 .. math::
 
-    \left( \boldsymbol{\hat{e}}, \theta \right) = \left( \left( \begin{array}{c}e_x\\e_y\\e_z\end{array} \right), \theta \right)
+    \left( \hat{\boldsymbol{\omega}}, \theta \right) = \left( \left( \begin{array}{c}\omega_x\\\omega_y\\\omega_z\end{array} \right), \theta \right)
 
 It is possible to write this in a more compact way as a rotation vector:
 
 .. math::
 
-    \boldsymbol{v} = \theta \boldsymbol{\hat{e}}
+    \boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}
+
+We can also refer to this representation as **exponential coordinates of
+rotation**. In addition, we can represent it by the cross-product matrix
+
+.. math::
+
+    \left[\hat{\boldsymbol{\omega}}\right] \theta
+    =
+    \left(
+    \begin{matrix}
+    0 & -\omega_3 & \omega_2\\
+    \omega_3 & 0 & -\omega_1\\
+    -\omega_2 & \omega_1 & 0\\
+    \end{matrix}
+    \right)
+    \theta
+    \in so(3)
+    \subset \mathbb{R}^{3 \times 3},
+
+where :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta` is the matrix
+logarithm of a rotation matrix and :math:`so(3)` is the Lie algebra of
+the Lie group :math:`SO(3)`. We can easily represent angular velocity as
+:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
+and angular acceleration as
+:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}`.
 
 **Pros**
 
 * Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)
 * It is easy to interpret the representation (as axis and angle)
+* Can also represent angular velocity and acceleration when we replace
+  :math:`\theta` by :math:`\dot{\theta}` or :math:`\ddot{\theta}` respectively,
+  which makes numerical integration and differentiation easy.
 
 **Cons**
 
 * Concatenation involves conversion to another representation
-
-------------
-Euler Angles
-------------
-
-A complete rotation can be split into three rotations around basis vectors.
-
-.. warning::
-
-    There are 24 different conventions for defining euler angles. There are
-    12 different valid ways to sequence rotation axes that can be interpreted
-    as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
-    XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
-    ZYX convention with intrinsic rotations.
-
-.. plot:: ../../examples/plot_euler_angles.py
-    :include-source:
-
-**Pros**
-
-* Minimal representation
-
-**Cons**
-
-* 24 different conventions
-* Singularities (gimbal lock)
 
 -----------
 Quaternions
@@ -209,7 +209,9 @@ and an imaginary / vector part
 
     There are two different quaternion conventions: Hamilton's convention
     defines :math:`ijk = -1` and the JPL convention (from NASA's Jet Propulsion
-    Laboratory, JPL) defines :math:`ijk = 1`. We use Hamilton's convention.
+    Laboratory, JPL) defines :math:`ijk = 1`.
+    These two conventions result in different multiplication operations and
+    conversions to other representations. We use Hamilton's convention.
 
 Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about the
 two conventions and why Hamilton's convention should be used. Section VI A
@@ -227,9 +229,9 @@ The following equation describes its relation to axis-axis notation.
     \left( \begin{array}{c} w\\ x\\ y\\ z\\ \end{array} \right) =
     \left( \begin{array}{c}
         \cos \frac{\theta}{2}\\
-        e_x \sin \frac{\theta}{2}\\
-        e_y \sin \frac{\theta}{2}\\
-        e_z \sin \frac{\theta}{2}\\
+        \omega_x \sin \frac{\theta}{2}\\
+        \omega_y \sin \frac{\theta}{2}\\
+        \omega_z \sin \frac{\theta}{2}\\
     \end{array} \right)
 
 .. warning::
@@ -260,3 +262,38 @@ The following equation describes its relation to axis-axis notation.
 * The representation is not straightforward to interpret
 * There are always two unit quaternions that represent exactly the same
   rotation
+
+------------
+Euler Angles
+------------
+
+A complete rotation can be split into three rotations around basis vectors.
+
+.. warning::
+
+    There are 24 different conventions for defining euler angles. There are
+    12 different valid ways to sequence rotation axes that can be interpreted
+    as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
+    XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
+    ZYX convention with intrinsic rotations.
+
+.. plot:: ../../examples/plot_euler_angles.py
+    :include-source:
+
+**Pros**
+
+* Minimal representation
+
+**Cons**
+
+* 24 different conventions
+* Singularities (gimbal lock)
+
+----------
+References
+----------
+
+* Representing Robot Pose: The good, the bad, and the ugly (slides): http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
+* Representing Robot Pose: The good, the bad, and the ugly (blog): http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
+* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+* Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf

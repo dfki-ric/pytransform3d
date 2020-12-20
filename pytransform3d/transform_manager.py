@@ -1,5 +1,7 @@
-"""Manage compley chains of transformations."""
-import warnings
+"""Manage compley chains of transformations.
+
+See :doc:`transform_manager` for more information.
+"""
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph

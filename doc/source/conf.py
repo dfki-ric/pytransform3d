@@ -10,20 +10,26 @@ import sphinx_bootstrap_theme
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
-    #'sphinx.ext.intersphinx',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     #'sphinx.ext.mathjax',
     'sphinx.ext.imgmath',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
-    'sphinx.ext.autosummary',
     'matplotlib.sphinxext.plot_directive',
     'numpydoc',
 ]
 
-templates_path = ['_templates']
+autodoc_default_options = {"member-order": "bysource"}
+autosummary_generate = True  # generate files at doc/source/_apidoc
+class_members_toctree = False
+numpydoc_show_class_members = False
+
+# class template from https://stackoverflow.com/a/62613202/915743
+templates_path = ["_templates"]
 exclude_patterns = []
 exclude_trees = ["_templates", "sphinxext"]
 source_suffix = '.rst'
@@ -48,7 +54,11 @@ html_show_sourcelink = False
 html_show_sphinx = False
 html_show_copyright = True
 
-autosummary_generate = True
-autodoc_default_options = {"member-order": "bysource"}
-
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/{.major}'.format(
+        sys.version_info), None),
+    'numpy': ('https://numpy.org/doc/stable', None),
+    'scipy': ('https://docs.scipy.org/doc/scipy/reference', None),
+    'matplotlib': ('https://matplotlib.org/', None)
+}
+intersphinx_timeout = 10

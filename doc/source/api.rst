@@ -4,7 +4,7 @@
 API Documentation
 =================
 
-You can search for specific modules, classes or functions in the
+You can search for specific modules, classes, or functions in the
 :ref:`genindex`.
 
 
@@ -28,6 +28,7 @@ Utility Functions
    ~pytransform3d.rotations.norm_compact_axis_angle
    ~pytransform3d.rotations.perpendicular_to_vectors
    ~pytransform3d.rotations.angle_between_vectors
+   ~pytransform3d.rotations.vector_projection
    ~pytransform3d.rotations.random_vector
    ~pytransform3d.rotations.random_axis_angle
    ~pytransform3d.rotations.random_compact_axis_angle
@@ -42,6 +43,7 @@ Input Validation Functions
    :template: function.rst
 
    ~pytransform3d.rotations.check_matrix
+   ~pytransform3d.rotations.check_skew_symmetric_matrix
    ~pytransform3d.rotations.check_axis_angle
    ~pytransform3d.rotations.check_compact_axis_angle
    ~pytransform3d.rotations.check_quaternion
@@ -156,6 +158,16 @@ Testing
     :no-members:
     :no-inherited-members:
 
+Utility Functions
+-----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.random_transform
+   ~pytransform3d.transformations.random_screw_axis
+
 Input Validation Functions
 --------------------------
 
@@ -165,20 +177,87 @@ Input Validation Functions
 
    ~pytransform3d.transformations.check_transform
    ~pytransform3d.transformations.check_pq
+   ~pytransform3d.transformations.check_screw_parameters
+   ~pytransform3d.transformations.check_screw_axis
+   ~pytransform3d.transformations.check_exponential_coordinates
+   ~pytransform3d.transformations.check_screw_matrix
+   ~pytransform3d.transformations.check_transform_log
 
-Create Transformations
-----------------------
+Conversions to Transformation Matrix
+------------------------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
+
    ~pytransform3d.transformations.transform_from
-   ~pytransform3d.transformations.random_transform
    ~pytransform3d.transformations.translate_transform
    ~pytransform3d.transformations.rotate_transform
-   ~pytransform3d.transformations.pq_from_transform
    ~pytransform3d.transformations.transform_from_pq
+   ~pytransform3d.transformations.transform_from_exponential_coordinates
+   ~pytransform3d.transformations.transform_from_transform_log
+
+Conversions to Position and Quaternion
+--------------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.pq_from_transform
+
+Conversions to Screw Parameters
+-------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.screw_parameters_from_screw_axis
+
+Conversions to Screw Axis
+-------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.screw_axis_from_screw_parameters
+   ~pytransform3d.transformations.screw_axis_from_exponential_coordinates
+   ~pytransform3d.transformations.screw_axis_from_screw_matrix
+
+Conversions to Exponential Coordinates
+--------------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.exponential_coordinates_from_transform
+   ~pytransform3d.transformations.exponential_coordinates_from_screw_axis
+   ~pytransform3d.transformations.exponential_coordinates_from_transform_log
+
+Conversions to Unit Twist Matrix
+--------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.screw_matrix_from_screw_axis
+   ~pytransform3d.transformations.screw_matrix_from_transform_log
+
+Conversions to Matrix Logarithm
+-------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.transform_log_from_exponential_coordinates
+   ~pytransform3d.transformations.transform_log_from_screw_matrix
+   ~pytransform3d.transformations.transform_log_from_transform
 
 Apply Transformations
 ---------------------
@@ -204,6 +283,7 @@ Plotting
    :template: function.rst
 
    ~pytransform3d.transformations.plot_transform
+   ~pytransform3d.transformations.plot_screw
 
 Testing
 -------
@@ -253,7 +333,7 @@ Testing
 
 .. autosummary::
    :toctree: _apidoc/
-   :template: class.rst
+   :template: class_without_inherited.rst
 
    ~pytransform3d.editor.TransformEditor
 
@@ -311,7 +391,7 @@ Testing
 
 .. autosummary::
    :toctree: _apidoc/
-   :template: class.rst
+   :template: class_without_inherited.rst
 
    ~pytransform3d.plot_utils.Arrow3D
    ~pytransform3d.plot_utils.Frame

@@ -1,4 +1,7 @@
-"""Rotations in three dimensions - SO(3)."""
+"""Rotations in three dimensions - SO(3).
+
+See :doc:`rotations` for more information.
+"""
 import warnings
 import math
 import numpy as np
@@ -186,6 +189,28 @@ def angle_between_vectors(a, b, fast=False):
         return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
 
 
+def vector_projection(a, b):
+    """Orthogonal projection of vector a on vector b.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Vector a that will be projected on vector b
+
+    b : array-like, shape (3,)
+        Vector b on which vector a will be projected
+
+    Returns
+    -------
+    a_on_b : array, shape (3,)
+        Vector a
+    """
+    b_norm_squared = np.dot(b, b)
+    if b_norm_squared == 0.0:
+        return np.zeros(3)
+    return np.dot(a, b) * b / b_norm_squared
+
+
 def random_vector(random_state=np.random.RandomState(0), n=3):
     """Generate an nd vector with normally distributed components.
 
@@ -295,6 +320,46 @@ def cross_product_matrix(v):
     return np.array([[0.0, -v[2], v[1]],
                      [v[2], 0.0, -v[0]],
                      [-v[1], v[0], 0.0]])
+
+
+def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
+    """Input validation of a skew-symmetric matrix.
+
+    Check whether the transpose of the matrix is its negative:
+
+    .. math::
+
+        V^T = -V
+
+    Parameters
+    ----------
+    V : array-like, shape (3, 3)
+        Cross-product matrix
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance threshold for checks.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if V.T is not numerically close enough to -V.
+        Otherwise we print a warning.
+
+    Returns
+    -------
+    V : array-like, shape (3, 3)
+        Validated cross-product matrix
+    """
+    V = np.asarray(V, dtype=np.float)
+    if V.ndim != 2 or V.shape[0] != 3 or V.shape[1] != 3:
+        raise ValueError("Expected skew-symmetric matrix with shape (3, 3), "
+                         "got array-like object with shape %s" % (V.shape,))
+    if not np.allclose(V.T, -V, atol=tolerance):
+        error_msg = ("Expected skew-symmetric matrix, but it failed the test "
+                     "V.T = %r\n-V = %r" % (V.T, -V))
+        if strict_check:
+            raise ValueError(error_msg)
+        else:
+            warnings.warn(error_msg)
+    return V
 
 
 def check_matrix(R, tolerance=1e-6, strict_check=True):
@@ -1565,7 +1630,7 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
 
     angle_p1p2 = angle_between_vectors(p1, p2)
     arc = np.empty((100, 3))
-    for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, 100)):
+    for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, len(arc))):
         w1, w2 = _slerp_weights(angle_p1p2, t)
         arc[i] = p + 0.5 * s * (a[:3] + w1 * p1 + w2 * p2)
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
