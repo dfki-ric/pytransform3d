@@ -3,7 +3,7 @@
 Visualized Transformed Cylinders
 ================================
 
-Plots surfaces of transformed cylindrical shells.
+Plots transformed cylinders.
 """
 print(__doc__)
 
