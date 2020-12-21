@@ -5,65 +5,8 @@ print(__doc__)
 import os
 import numpy as np
 from pytransform3d.urdf import UrdfTransformManager
-from pytransform3d.transformations import screw_axis_from_exponential_coordinates, screw_parameters_from_screw_axis
+import pytransform3d.transformations as pt
 import pytransform3d.visualizer as pv
-
-
-def adjoint_A2B(A2B):
-    """Compute adjoint representation of a transformation matrix.
-
-    The adjoint representation of a transformation from frame A to frame B
-    :math:`\\left[Ad_{\\boldsymbol{T}_{BA}}\right]` translates a twist from
-    frame A to frame B (adjoint map):
-
-    .. math::
-
-        \\mathcal{V}_{B} = \\left[Ad_{\\boldsymbol{T}_{BA}}\right] \\mathcal{V}_A
-
-    The corresponding matrix form is
-
-    .. math::
-
-        \\left[\\mathcal{V}_{B}\\right]
-        = \\boldsymbol{T}_{BA} \\left[\\mathcal{V}_A\\right] \\boldsymbol{T}_{BA}^{-1}
-
-    We can also use the adjoint representation to transform a wrench from frame
-    A to frame B:
-
-    .. math::
-
-        \\mathcal{F}_B = \\left[ Ad_{\\boldsymbol{T}_{AB}} \\right]^T \\mathcal{F}_A
-
-    Note that not only the adjoint is transposed but also the transformation is
-    inverted.
-
-    Adjoint representations have the following properties:
-
-    .. math::
-
-        \\left[Ad_{\\boldsymbol{T}_1 \\boldsymbol{T}_2}}\right]
-        = \\left[Ad_{\\boldsymbol{T}_1}}\right] \\left[Ad_{\\boldsymbol{T}_2}}\right]
-
-    .. math::
-
-        \\left[Ad_{\\boldsymbol{T}}}\right]^{-1} = \\left[Ad_{\\boldsymbol{T}^{-1}}}\right]
-
-    Parameters
-    ----------
-    A2B : TODO
-
-    Returns
-    -------
-    adj : TODO
-    """
-    from pytransform3d.rotations import cross_product_matrix
-    R = A2B[:3, :3]
-    p = A2B[:3, 3]
-    adj = np.zeros((6, 6))
-    adj[:3, :3] = R
-    adj[3:, :3] = np.dot(cross_product_matrix(p), R)
-    adj[3:, 3:] = R
-    return adj
 
 
 def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0):
@@ -168,7 +111,7 @@ base2ee = tm.get_transform("robot_arm", "tcp")
 
 mass = 1.0
 wrench_in_ee = np.array([0.0, 0.0, 0.0, 0.0, -9.81, 0.0]) * mass
-wrench_in_base = np.dot(adjoint_A2B(base2ee).T, wrench_in_ee)
+wrench_in_base = np.dot(pt.adjoint_from_transform(base2ee).T, wrench_in_ee)
 
 fig = pv.figure()
 
@@ -181,12 +124,12 @@ mass2base = np.copy(ee2base)
 mass2base[2, 3] += 0.075
 fig.plot_sphere(radius=0.025, A2B=mass2base)
 
-S, theta = screw_axis_from_exponential_coordinates(wrench_in_base)
-q, s, h = screw_parameters_from_screw_axis(S)
+S, theta = pt.screw_axis_from_exponential_coordinates(wrench_in_base)
+q, s, h = pt.screw_parameters_from_screw_axis(S)
 plot_screw(fig, q, s, h, theta * 0.05)
 
-S, theta = screw_axis_from_exponential_coordinates(wrench_in_ee)
-q, s, h = screw_parameters_from_screw_axis(S)
+S, theta = pt.screw_axis_from_exponential_coordinates(wrench_in_ee)
+q, s, h = pt.screw_parameters_from_screw_axis(S)
 plot_screw(fig, q, s, h, theta * 0.05, A2B=ee2base)
 
 fig.view_init()

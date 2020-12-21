@@ -1257,6 +1257,68 @@ def transform_from_transform_log(transform_log):
     return A2B
 
 
+def adjoint_from_transform(A2B):
+    """Compute adjoint representation of a transformation matrix.
+
+    The adjoint representation of a transformation
+    :math:`\\left[Ad_{\\boldsymbol{T}_{BA}}\\right]`
+    from frame A to frame B translates a twist from frame A to frame B
+    through the adjoint map
+
+    .. math::
+
+        \\mathcal{V}_{B} = \\left[Ad_{\\boldsymbol{T}_{BA}}\\right] \\mathcal{V}_A
+
+    The corresponding matrix form is
+
+    .. math::
+
+        \\left[\\mathcal{V}_{B}\\right]
+        = \\boldsymbol{T}_{BA} \\left[\\mathcal{V}_A\\right] \\boldsymbol{T}_{BA}^{-1}
+
+    We can also use the adjoint representation to transform a wrench from frame
+    A to frame B:
+
+    .. math::
+
+        \\mathcal{F}_B = \\left[ Ad_{\\boldsymbol{T}_{AB}} \\right]^T \\mathcal{F}_A
+
+    Note that not only the adjoint is transposed but also the transformation is
+    inverted.
+
+    Adjoint representations have the following properties:
+
+    .. math::
+
+        \\left[Ad_{\\boldsymbol{T}_1 \\boldsymbol{T}_2}\\right]
+        = \\left[Ad_{\\boldsymbol{T}_1}\\right] \\left[Ad_{\\boldsymbol{T}_2}\\right]
+
+    .. math::
+
+        \\left[Ad_{\\boldsymbol{T}}\\right]^{-1} = \\left[Ad_{\\boldsymbol{T}^{-1}}\\right]
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    adj_A2B : array, shape (6, 6)
+        Adjoint representation of transformation matrix
+    """
+    A2B = check_transform(A2B)
+
+    R = A2B[:3, :3]
+    p = A2B[:3, 3]
+
+    adj_A2B = np.zeros((6, 6))
+    adj_A2B[:3, :3] = R
+    adj_A2B[3:, :3] = np.dot(cross_product_matrix(p), R)
+    adj_A2B[3:, 3:] = R
+    return adj_A2B
+
+
 def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
     """Plot transformation about and along screw axis.
 
