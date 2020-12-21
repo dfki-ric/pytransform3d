@@ -13,9 +13,9 @@
   <link name="linkmount"/>
   <link name="link1">
     <visual>
-      <origin xyz="0 0 0.05"/>
+      <origin xyz="0 0 0.07"/>
       <geometry>
-        <cylinder radius="0.05" length="0.1"/>
+        <cylinder radius="0.05" length="0.14"/>
       </geometry>
       <material name="Blue"/>
     </visual>
@@ -29,9 +29,9 @@
       <material name="Orange"/>
     </visual>
     <visual>
-      <origin xyz="0 0.125 0" rpy="1.570796 0 0"/>
+      <origin xyz="0 0.14 0" rpy="1.570796 0 0"/>
       <geometry>
-        <cylinder radius="0.05" length="0.25"/>
+        <cylinder radius="0.05" length="0.28"/>
       </geometry>
       <material name="Black"/>
     </visual>
@@ -47,9 +47,9 @@
   </link>
   <link name="link4">
     <visual>
-      <origin xyz="0 0 0.15"/>
+      <origin xyz="0 0 0.17"/>
       <geometry>
-        <cylinder radius="0.05" length="0.3"/>
+        <cylinder radius="0.05" length="0.34"/>
       </geometry>
       <material name="Blue"/>
     </visual>
@@ -72,9 +72,9 @@
   </link>
   <link name="link6">
     <visual>
-      <origin xyz="0 0 0.05"/>
+      <origin xyz="0 0 0.025"/>
       <geometry>
-        <cylinder radius="0.05" length="0.1"/>
+        <cylinder radius="0.05" length="0.05"/>
       </geometry>
       <material name="Blue"/>
     </visual>
@@ -131,14 +131,4 @@
   <parent link="link6"/>
   <child link="tcp"/>
 </joint>
-
-<transmission name="joint1_trans">
-  <type>transmission_interface/SimpleTransmission</type>
-  <joint name="joint1">
-    <hardwareInterface>PositionJointInterface</hardwareInterface>
-  </joint>
-  <actuator name="joint1_motor">
-    <mechanicalReduction>1</mechanicalReduction>
-  </actuator>
-</transmission>
 </robot>
