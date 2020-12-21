@@ -1,4 +1,21 @@
-"""TODO"""
+"""
+================
+Visualize Wrench
+================
+
+We see a 6-DOF robot arm and we assume that we have a force/torque sensor
+that measures the force of a spherical mass (gray sphere) at the tool center
+point (TCP). We can draw the screw representation of the wrench in the TCP
+frame as a force along a screw axis from the red sphere to the green sphere.
+Then we use the adjoint representation of the transformation from the base
+to the TCP to transform the wrench to the robot's base frame. This wrench
+has a force component and a torque component, which we can also visualize
+as a screw: the red sphere indicates the point q on the screw axis, the
+straight black line shows the screw axis, the red line indicates the
+direction to the initial configuration and the green line indicates the
+direction to the displaced configuration in which the instantaneous
+wrench would move the base.
+"""
 print(__doc__)
 
 
@@ -15,7 +32,7 @@ def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, t
     Parameters
     ----------
     figure : Figure
-        TODO
+        Interface to Open3D's visualizer
 
     q : array-like, shape (3,), optional (default: [0, 0, 0])
         Vector to a point on the screw axis
