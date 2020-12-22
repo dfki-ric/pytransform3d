@@ -1,9 +1,9 @@
-=================
-Transform Manager
-=================
+========================
+Managing Transformations
+========================
 
 It is sometimes very difficult to have an overview of all the transformations
-that are required to obtain one specific transformation. Suppose you have
+that are required to calculate another transformation. Suppose you have
 a robot with a camera that can observe the robot's end-effector and an object
 that we want to manipulate. We would like to know the position of the
 end-effector in the object's frame so that we can control it. The
@@ -22,9 +22,9 @@ We can also export the underlying graph structure as a PNG with::
     :align: center
 
 
-A subclass of the transformation manager is the
-:class:`~pytransform3d.urdf.UrdfTransformManager` which can be used to load
-robot definitions from URDF files. An example with a simple robot can be seen
+A subclass of :class:`~pytransform3d.transform_manager.TransformManager` is
+:class:`~pytransform3d.urdf.UrdfTransformManager` which can load robot
+definitions from URDF files. An example with a simple robot can be seen
 in the following example.
 
 .. plot:: ../../examples/plot_urdf.py
@@ -36,8 +36,8 @@ files:
 .. plot:: ../../examples/plot_collision_objects.py
     :include-source:
 
-Meshes can only be loaded from STL files. Here is a simple example with
-one visual that is used for two links:
+The library `trimesh <https://trimsh.org/>`_ will be used to load meshes.
+Here is a simple example with one visual that is used for two links:
 
 .. plot:: ../../examples/plot_urdf_with_meshes.py
     :include-source:
