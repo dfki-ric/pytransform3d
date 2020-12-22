@@ -150,12 +150,19 @@ plt.show()
 
 The following plots and visualizations have been generated with pytransform3d.
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/animation_nao.gif" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/animation_kuka.gif" height=300px/>
+Left: [Nao robot](https://www.softbankrobotics.com/emea/en/nao) with URDF
+from [Bullet3](https://github.com/bulletphysics/bullet3).
+Right: [Kuka iiwa](https://www.kuka.com/en-de/products/robot-systems/industrial-robots/lbr-iiwa).
+The animation is based on pytransform3d's visualization interface to
+[Open3D](http://www.open3d.org/).
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/example_plot_box.png" height=300px/>
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/cylinders.png" height=300px/>
+<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/animation_nao.gif" height=400px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/animation_kuka.gif" height=400px/>
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/rotations_axis_angle.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/trajectories.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/paper/plot_urdf.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/transform_manager_mesh.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/accelerate_cylinder.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/example_plot_screw.png" height=300px/>
+Various plots based on Matplotlib.
+
+<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/example_plot_box.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/cylinders.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/paper/plot_urdf.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/transform_manager_mesh.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/accelerate_cylinder.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/example_plot_screw.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/rotations_axis_angle.png" width=300px/>
+
+Transformation editor based on Qt.
 
 <img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/paper/app_transformation_editor.png" height=300px/>
 
