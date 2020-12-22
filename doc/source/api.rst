@@ -240,8 +240,8 @@ Conversions to Exponential Coordinates
    ~pytransform3d.transformations.exponential_coordinates_from_screw_axis
    ~pytransform3d.transformations.exponential_coordinates_from_transform_log
 
-Conversions to Unit Twist Matrix
---------------------------------
+Conversions to Screw Matrix
+---------------------------
 
 .. autosummary::
    :toctree: _apidoc/
