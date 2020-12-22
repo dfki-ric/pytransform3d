@@ -25,7 +25,7 @@ a point :math:`_A\boldsymbol{p} := _A\boldsymbol{t}_{AP}` from frame :math:`A`
 to frame :math:`C` by multiplication :math:`_C\boldsymbol{p} = \boldsymbol{T}_{CA}\,_A\boldsymbol{p}`.
 
 In code this might look differently. Here we should prefer the notation `A2B`
-transformation from frame `A` to frame `B`.
+for a transformation from frame `A` to frame `B`.
 
 .. code-block::
 

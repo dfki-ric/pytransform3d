@@ -13,7 +13,9 @@ for you.
 .. plot:: ../../examples/plot_transform_manager.py
     :include-source:
 
-We can also export the underlying graph structure as a PNG with::
+We can also export the underlying graph structure as a PNG with
+
+.. code-block::
 
     tm.write_png(filename)
 
@@ -24,8 +26,8 @@ We can also export the underlying graph structure as a PNG with::
 
 A subclass of :class:`~pytransform3d.transform_manager.TransformManager` is
 :class:`~pytransform3d.urdf.UrdfTransformManager` which can load robot
-definitions from URDF files. An example with a simple robot can be seen
-in the following example.
+definitions from `URDF <http://wiki.ros.org/urdf/Tutorials>`_ files. Here is
+an example with a simple robot.
 
 .. plot:: ../../examples/plot_urdf.py
     :include-source:
