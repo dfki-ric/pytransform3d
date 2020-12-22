@@ -1,4 +1,4 @@
-"""Manage compley chains of transformations.
+"""Manage complex chains of transformations.
 
 See :doc:`transform_manager` for more information.
 """
@@ -16,26 +16,27 @@ from .plot_utils import make_3d_axis
 
 
 class TransformManager(object):
-    """Manage transforms between frames.
+    """Manage transformations between frames.
 
     This is a simplified version of `ROS tf <http://wiki.ros.org/tf>`_ that
-    ignores the temporal aspect. A user can register transforms. The shortest
-    path between all frames will be computed internally which enables us to
-    provide transforms for any connected frames.
+    ignores the temporal aspect. A user can register transformations. The
+    shortest path between all frames will be computed internally which enables
+    us to provide transforms for any connected frames.
 
-    Suppose we know the transforms A2B, D2C, and B2C. The transform manager can
-    compute any transform between the frames A, B, C and D. For example, you
-    can request the transform that represents frame D in frame A. The transform
-    manager will automatically concatenate the transform D2C, C2B, and B2A,
-    where C2B and B2A are obtained by inverting B2C and A2B respectively.
+    Suppose we know the transformations A2B, D2C, and B2C. The transform
+    manager can compute any transformation between the frames A, B, C and D.
+    For example, you can request the transformation that represents frame D in
+    frame A. The transformation manager will automatically concatenate the
+    transformations D2C, C2B, and B2A, where C2B and B2A are obtained by
+    inverting B2C and A2B respectively.
 
     .. warning::
 
-        It is possible to introduce inconsistencies in the transform manager.
-        Adding A2B and B2A with inconsistent values will result in an invalid
-        state because inconsistencies will not be checked. It seems to be
-        trivial in this simple case but can be computationally complex for
-        large graphs. You can check the consistency explicitly with
+        It is possible to introduce inconsistencies in the transformation
+        manager. Adding A2B and B2A with inconsistent values will result in
+        an invalid state because inconsistencies will not be checked. It seems
+        to be trivial in this simple case but can be computationally complex
+        for large graphs. You can check the consistency explicitly with
         :func:`TransformManager.check_consistency`.
 
     Parameters
@@ -63,20 +64,20 @@ class TransformManager(object):
         self._cached_shortest_paths = {}
 
     def add_transform(self, from_frame, to_frame, A2B):
-        """Register a transform.
+        """Register a transformation.
 
         Parameters
         ----------
         from_frame : str
-            Name of the frame for which the transform is added in the to_frame
-            coordinate system
+            Name of the frame for which the transformation is added in the
+            to_frame coordinate system
 
         to_frame : str
-            Name of the frame in which the transform is defined
+            Name of the frame in which the transformation is defined
 
         A2B : array-like, shape (4, 4)
-            Homogeneous matrix that represents the transform from 'from_frame'
-            to 'to_frame'
+            Homogeneous matrix that represents the transformation from
+            'from_frame' to 'to_frame'
 
         Returns
         -------
@@ -129,22 +130,22 @@ class TransformManager(object):
         return frame in self.nodes
 
     def get_transform(self, from_frame, to_frame):
-        """Request a transform.
+        """Request a transformation.
 
         Parameters
         ----------
         from_frame : str
-            Name of the frame for which the transform is requested in the
+            Name of the frame for which the transformation is requested in the
             to_frame coordinate system
 
         to_frame : str
-            Name of the frame in which the transform is defined
+            Name of the frame in which the transformation is defined
 
         Returns
         -------
         A2B : array-like, shape (4, 4)
-            Homogeneous matrix that represents the transform from 'from_frame'
-            to 'to_frame'
+            Homogeneous matrix that represents the transformation from
+            'from_frame' to 'to_frame'
         """
         if self.check:
             if from_frame not in self.nodes:
@@ -242,7 +243,7 @@ class TransformManager(object):
 
         A line between each pair of frames for which a direct transformation
         is known will be plotted. Direct means that either A2B or B2A has been
-        added to the transform manager.
+        added to the transformation manager.
 
         Note that frames that cannot be connected to the reference frame are
         omitted.
