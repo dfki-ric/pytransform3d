@@ -56,11 +56,21 @@ class TransformManager(object):
 
         self.transforms = {}
         self.nodes = []
+
+        # A pair (self.i[n], self.j[n]) represents indices of connected nodes
         self.i = []
         self.j = []
+        # We have to store the index n associated to a transformation to be
+        # able to remove the transformation later
+        self.transform_to_ij_index = {}
+        # Same information as sparse matrix
         self.connections = sp.csr_matrix((0, 0))
+
+        # Result of shortest path algorithm:
+        # distance matrix (distance is the number of transformations)
         self.dist = None
         self.predecessors = None
+
         self._cached_shortest_paths = {}
 
     def add_transform(self, from_frame, to_frame, A2B):
@@ -91,17 +101,50 @@ class TransformManager(object):
         if to_frame not in self.nodes:
             self.nodes.append(to_frame)
 
+        transform_key = (from_frame, to_frame)
+
         recompute_shortest_path = False
-        if (from_frame, to_frame) not in self.transforms:
+        if transform_key not in self.transforms:
+            ij_index = len(self.i)
             self.i.append(self.nodes.index(from_frame))
             self.j.append(self.nodes.index(to_frame))
+            self.transform_to_ij_index[transform_key] = ij_index
             recompute_shortest_path = True
 
-        self.transforms[(from_frame, to_frame)] = A2B
+        self.transforms[transform_key] = A2B
 
         if recompute_shortest_path:
             self._recompute_shortest_path()
 
+        return self
+
+    def remove_transform(self, from_frame, to_frame):
+        """Remove a transformation.
+
+        Nothing happens if there is no such transformation.
+
+        Parameters
+        ----------
+        from_frame : str
+            Name of the frame for which the transformation is added in the
+            to_frame coordinate system
+
+        to_frame : str
+            Name of the frame in which the transformation is defined
+
+        Returns
+        -------
+        self : TransformManager
+            This object for chaining
+        """
+        transform_key = (from_frame, to_frame)
+        if transform_key in self.transforms:
+            del self.transforms[transform_key]
+            ij_index = self.transform_to_ij_index[transform_key]
+            del self.transform_to_ij_index[transform_key]
+            del self.i[ij_index]
+            del self.j[ij_index]
+            self._recompute_shortest_path()
         return self
 
     def _recompute_shortest_path(self):
