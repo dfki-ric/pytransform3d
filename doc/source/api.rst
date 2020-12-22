@@ -274,6 +274,7 @@ Apply Transformations
    ~pytransform3d.transformations.vector_to_direction
    ~pytransform3d.transformations.vectors_to_directions
    ~pytransform3d.transformations.scale_transform
+   ~pytransform3d.transformations.adjoint_from_transform
 
 Plotting
 --------

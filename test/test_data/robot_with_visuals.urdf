@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<robot name="robot_arm">
+  <material name="Blue">
+    <color rgba="0.2 0.2 1.0 1.0"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.5 0.0 1.0"/>
+  </material>
+  <material name="Black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <link name="linkmount"/>
+  <link name="link1">
+    <visual>
+      <origin xyz="0 0 0.07"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.14"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+  </link>
+  <link name="link2">
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.14 0" rpy="1.570796 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.28"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+  </link>
+  <link name="link3">
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+  </link>
+  <link name="link4">
+    <visual>
+      <origin xyz="0 0 0.17"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.34"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+  </link>
+  <link name="link5">
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0.173 0" rpy="1.570796 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.346"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+  </link>
+  <link name="link6">
+    <visual>
+      <origin xyz="0 0 0.025"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.05"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+  </link>
+  <link name="tcp"/>
+
+<joint name="joint1" type="revolute">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent link="linkmount"/>
+  <child link="link1"/>
+  <axis xyz="0 0 1.0"/>
+  <limit lower="-1" upper="1"/>
+</joint>
+
+<joint name="joint2" type="revolute">
+  <origin xyz="0 0 0.158" rpy="1.570796 0 0"/>
+  <parent link="link1"/>
+  <child link="link2"/>
+  <axis xyz="0 0 -1.0"/>
+  <limit lower="-1"/>
+</joint>
+
+<joint name="joint3" type="revolute">
+  <origin xyz="0 0.28 0" rpy="0 0 0"/>
+  <parent link="link2"/>
+  <child link="link3"/>
+  <axis xyz="0 0 -1.0"/>
+  <limit upper="1"/>
+</joint>
+
+<joint name="joint4" type="revolute">
+  <origin xyz="0 0 0" rpy="-1.570796 0 0"/>
+  <parent link="link3"/>
+  <child link="link4"/>
+  <axis xyz="0 0 1.0"/>
+</joint>
+
+<joint name="joint5" type="revolute">
+  <origin xyz="0 0 0.34" rpy="1.570796 0 0"/>
+  <parent link="link4"/>
+  <child link="link5"/>
+  <axis xyz="0 0 -1.0"/>
+</joint>
+
+<joint name="joint6" type="revolute">
+  <origin xyz="0 0.346 0" rpy="-1.570796 0 0"/>
+  <parent link="link5"/>
+  <child link="link6"/>
+  <axis xyz="0 0 1.0"/>
+</joint>
+
+<joint name="jointtcp" type="fixed">
+  <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  <parent link="link6"/>
+  <child link="tcp"/>
+</joint>
+</robot>

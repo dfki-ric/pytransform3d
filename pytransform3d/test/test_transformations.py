@@ -28,7 +28,8 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            screw_matrix_from_transform_log,
                                            transform_from_transform_log,
                                            transform_log_from_transform,
-                                           check_screw_matrix, check_transform_log)
+                                           check_screw_matrix, check_transform_log,
+                                           adjoint_from_transform)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -567,3 +568,25 @@ def test_conversions_between_transform_and_transform_log():
         transform_log = transform_log_from_transform(A2B)
         A2B2 = transform_from_transform_log(transform_log)
         assert_array_almost_equal(A2B, A2B2)
+
+
+def test_adjoint_of_transformation():
+    random_state = np.random.RandomState(94)
+    for _ in range(5):
+        A2B = random_transform(random_state)
+        theta_dot = 3.0 * random_state.rand()
+        S = random_screw_axis(random_state)
+
+        V_A = S * theta_dot
+
+        adj_A2B = adjoint_from_transform(A2B)
+        V_B = adj_A2B.dot(V_A)
+
+        S_mat = screw_matrix_from_screw_axis(S)
+        V_mat_A = S_mat * theta_dot
+        V_mat_B = A2B.dot(V_mat_A).dot(invert_transform(A2B))
+
+        S_B, theta_dot2 = screw_axis_from_exponential_coordinates(V_B)
+        V_mat_B2 = screw_matrix_from_screw_axis(S_B) * theta_dot2
+        assert_almost_equal(theta_dot, theta_dot2)
+        assert_array_almost_equal(V_mat_B, V_mat_B2)
