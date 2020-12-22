@@ -45,7 +45,7 @@ def norm_vector(v):
         return np.asarray(v) / norm
 
 
-def norm_rotation_matrix(R):
+def norm_matrix(R):
     """Normalize rotation matrix.
 
     Parameters
@@ -523,6 +523,49 @@ def check_quaternions(Q, unit=True):
         for i in range(len(Q)):
             Q_checked[i] = norm_vector(Q_checked[i])
     return Q_checked
+
+
+def matrix_from_two_vectors(a, b):
+    """Compute rotation matrix from two vectors.
+
+    We assume that the two given vectors form a plane so that we can compute
+    a third, orthogonal vector with the cross product.
+
+    The x-axis will point in the same direction as a, the y-axis corresponds
+    to the normalized vector rejection of b on a, and the z-axis is the
+    cross product of the other basis vectors.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        First vector, must not be 0
+
+    b : array-like, shape (3,)
+        Second vector, must not be 0 or parallel to v1
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Rotation matrix
+    """
+    if np.linalg.norm(a) == 0:
+        raise ValueError("a must not be the zero vector.")
+    if np.linalg.norm(b) == 0:
+        raise ValueError("b must not be the zero vector.")
+
+    c = perpendicular_to_vectors(a, b)
+    if np.linalg.norm(c) == 0:
+        raise ValueError("a and b must not be parallel.")
+
+    a = norm_vector(a)
+
+    b_on_a_projection = vector_projection(b, a)
+    b_on_a_rejection = b - b_on_a_projection
+    b = norm_vector(b_on_a_rejection)
+
+    c = norm_vector(c)
+
+    return np.column_stack((a, b, c))
 
 
 def matrix_from_axis_angle(a):
