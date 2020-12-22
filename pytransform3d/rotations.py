@@ -35,7 +35,7 @@ def norm_vector(v):
 
     Returns
     -------
-    u : array-like, shape (n,)
+    u : array, shape (n,)
         nd unit vector with norm 1 or the zero vector
     """
     norm = np.linalg.norm(v)
@@ -43,6 +43,27 @@ def norm_vector(v):
         return v
     else:
         return np.asarray(v) / norm
+
+
+def norm_rotation_matrix(R):
+    """Normalize rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix with small numerical errors
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Normalized rotation matrix
+    """
+    R = np.asarray(R)
+    c2 = R[:, 1]
+    c3 = norm_vector(R[:, 2])
+    c1 = norm_vector(np.cross(c2, c3))
+    c2 = norm_vector(np.cross(c3, c1))
+    return np.column_stack((c1, c2, c3))
 
 
 def norm_angle(a):

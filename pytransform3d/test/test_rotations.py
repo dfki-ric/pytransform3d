@@ -1301,3 +1301,21 @@ def test_deactivate_rotation_matrix_precision_error():
     with warnings.catch_warnings(record=True) as w:
         check_matrix(R, strict_check=False)
         assert_equal(len(w), 2)
+
+
+def test_norm_rotation_matrix():
+    R = norm_rotation_matrix(np.eye(3))
+    assert_array_equal(R, np.eye(3))
+
+    R[1, 0] += np.finfo(float).eps
+    R = norm_rotation_matrix(R)
+    assert_array_equal(R, np.eye(3))
+    assert_equal(np.linalg.det(R), 1.0)
+
+    R = np.eye(3)
+    for _ in range(100):
+        R = R.dot(active_matrix_from_extrinsic_roll_pitch_yaw([0.2, 0.3, 0.4]))
+    assert_true(np.linalg.det(R) != 0.0)
+    R_norm = norm_rotation_matrix(R)
+    assert_equal(np.linalg.det(R_norm), 1.0)
+    assert_array_almost_equal(R, R_norm)
