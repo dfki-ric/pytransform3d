@@ -269,3 +269,22 @@ def test_deactivate_checks():
     tm.add_transform("B", "C", np.zeros((4, 4)))
     A2B = tm.get_transform("A", "C")
     assert_array_almost_equal(A2B, np.zeros((4, 4)))
+
+
+def test_remove_transform():
+    tm = TransformManager()
+    tm.add_transform("A", "B", np.eye(4))
+    tm.add_transform("C", "D", np.eye(4))
+
+    assert_raises_regexp(
+        KeyError, "Cannot compute path", tm.get_transform, "A", "D")
+
+    tm.add_transform("B", "C", np.eye(4))
+    tm.get_transform("A", "C")
+
+    tm.remove_transform("B", "C")
+    tm.remove_transform("B", "C")  # nothing should happen
+    assert_raises_regexp(
+        KeyError, "Cannot compute path", tm.get_transform, "A", "D")
+    tm.get_transform("B", "A")
+    tm.get_transform("D", "C")
