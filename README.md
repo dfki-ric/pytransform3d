@@ -152,10 +152,12 @@ The following plots and visualizations have been generated with pytransform3d.
 
 <img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/animation_nao.gif" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/animation_kuka.gif" height=300px/>
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/paper/app_transformation_editor.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/example_plot_box.png" height=300px/>
-
+<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/example_plot_box.png" height=300px/>
 <img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/cylinders.png" height=300px/>
+
 <img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/rotations_axis_angle.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/trajectories.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/paper/plot_urdf.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/transform_manager_mesh.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/accelerate_cylinder.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/doc/source/_static/example_plot_screw.png" height=300px/>
+
+<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/doc/improve_docs/paper/app_transformation_editor.png" height=300px/>
 
 ## Tests
 
