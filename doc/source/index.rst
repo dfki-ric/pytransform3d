@@ -24,6 +24,16 @@ pytransform3d covers the following groups of transformations.
 In this documentation we will use the notation :math:`_A\boldsymbol{t}_{BC}`
 to represent a vector from frame B to frame C expressed in frame A.
 
+------------
+Installation
+------------
+
+pytransform3d is available at GitHub: https://github.com/rock-learning/pytransform3d
+
+The readme contains detailed installation instructions. This documentation
+contains guidelines on working with pytransform3d and working with
+transformations in general as well as an API documentation.
+
 -----------------
 Table of Contents
 -----------------
