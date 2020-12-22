@@ -1301,3 +1301,43 @@ def test_deactivate_rotation_matrix_precision_error():
     with warnings.catch_warnings(record=True) as w:
         check_matrix(R, strict_check=False)
         assert_equal(len(w), 2)
+
+
+def test_norm_rotation_matrix():
+    R = norm_matrix(np.eye(3))
+    assert_array_equal(R, np.eye(3))
+
+    R[1, 0] += np.finfo(float).eps
+    R = norm_matrix(R)
+    assert_array_equal(R, np.eye(3))
+    assert_equal(np.linalg.det(R), 1.0)
+
+    R = np.eye(3)
+    R[1, 1] += 0.3
+    R_norm = norm_matrix(R)
+    assert_almost_equal(np.linalg.det(R_norm), 1.0)
+    assert_array_almost_equal(np.eye(3), R_norm)
+
+
+def test_matrix_from_two_vectors():
+    assert_raises_regexp(
+        ValueError, "a must not be the zero vector",
+        matrix_from_two_vectors, np.zeros(3), np.zeros(3))
+    assert_raises_regexp(
+        ValueError, "b must not be the zero vector",
+        matrix_from_two_vectors, np.ones(3), np.zeros(3))
+    assert_raises_regexp(
+        ValueError, "a and b must not be parallel",
+        matrix_from_two_vectors, np.ones(3), np.ones(3))
+
+    R = matrix_from_two_vectors(unitx, unity)
+    assert_array_almost_equal(R, np.eye(3))
+
+    random_state = np.random.RandomState(28)
+    for _ in range(5):
+        a = random_vector(random_state, 3)
+        b = random_vector(random_state, 3)
+        R = matrix_from_two_vectors(a, b)
+        assert_rotation_matrix(R)
+        assert_array_almost_equal(norm_vector(a), R[:, 0])
+        assert_almost_equal(angle_between_vectors(b, R[:, 2]), 0.5 * np.pi)

@@ -23,6 +23,7 @@ Utility Functions
    :template: function.rst
 
    ~pytransform3d.rotations.norm_vector
+   ~pytransform3d.rotations.norm_matrix
    ~pytransform3d.rotations.norm_angle
    ~pytransform3d.rotations.norm_axis_angle
    ~pytransform3d.rotations.norm_compact_axis_angle
@@ -59,6 +60,7 @@ Conversions to Rotation Matrix
    ~pytransform3d.rotations.matrix_from_angle
    ~pytransform3d.rotations.passive_matrix_from_angle
    ~pytransform3d.rotations.active_matrix_from_angle
+   ~pytransform3d.rotations.matrix_from_two_vectors
    ~pytransform3d.rotations.matrix_from_axis_angle
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
@@ -238,8 +240,8 @@ Conversions to Exponential Coordinates
    ~pytransform3d.transformations.exponential_coordinates_from_screw_axis
    ~pytransform3d.transformations.exponential_coordinates_from_transform_log
 
-Conversions to Unit Twist Matrix
---------------------------------
+Conversions to Screw Matrix
+---------------------------
 
 .. autosummary::
    :toctree: _apidoc/
