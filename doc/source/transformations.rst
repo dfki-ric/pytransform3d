@@ -106,7 +106,7 @@ a 2D array.
 Exponential Coordinates
 -----------------------
 
-.. plot:: ../../examples/plot_screw.py
+.. plot:: ../../examples/plots/plot_screw.py
 
 Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed

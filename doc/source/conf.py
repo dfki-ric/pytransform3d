@@ -9,18 +9,19 @@ sys.path.insert(0, os.path.abspath('../..'))
 import sphinx_bootstrap_theme
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    #'sphinx.ext.mathjax',
-    'sphinx.ext.imgmath',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',
-    'matplotlib.sphinxext.plot_directive',
-    'numpydoc',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.doctest",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.todo",
+    "sphinx.ext.coverage",
+    #"sphinx.ext.mathjax",
+    "sphinx.ext.imgmath",
+    "sphinx.ext.ifconfig",
+    "sphinx.ext.viewcode",
+    "matplotlib.sphinxext.plot_directive",
+    "numpydoc",
+    "sphinx_gallery.gen_gallery",
 ]
 
 autodoc_default_options = {"member-order": "bysource"}
@@ -62,3 +63,13 @@ intersphinx_mapping = {
     'matplotlib': ('https://matplotlib.org/', None)
 }
 intersphinx_timeout = 10
+
+from sphinx_gallery.sorting import ExplicitOrder
+
+sphinx_gallery_conf = {
+    "examples_dirs": "../../examples",
+    "gallery_dirs": "_auto_examples",
+    "subsection_order": ExplicitOrder([
+        "../../examples/plots", "../../examples/animations",
+        "../../examples/visualizations", "../../examples/apps"]),
+}

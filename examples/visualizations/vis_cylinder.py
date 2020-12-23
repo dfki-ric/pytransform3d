@@ -1,7 +1,7 @@
-""""
-================================
-Visualized Transformed Cylinders
-================================
+"""
+===============================
+Visualize Transformed Cylinders
+===============================
 
 Plots transformed cylinders.
 """

@@ -21,15 +21,20 @@ def animation_callback(step, n_frames, tm, graph, joint_names):
     graph.set_data()
     return graph
 
+
 BASE_DIR = "test/test_data/"
-if not os.path.exists(BASE_DIR):
-    BASE_DIR = os.path.join("..", BASE_DIR)
+data_dir = BASE_DIR
+search_path = "."
+while (not os.path.exists(data_dir) and
+       os.path.dirname(search_path) != "pytransform3d"):
+    search_path = os.path.join(search_path, "..")
+    data_dir = os.path.join(search_path, BASE_DIR)
 
 tm = UrdfTransformManager()
-filename = os.path.join(BASE_DIR, "robot_with_visuals.urdf")
+filename = os.path.join(data_dir, "robot_with_visuals.urdf")
 with open(filename, "r") as f:
     robot_urdf = f.read()
-    tm.load_urdf(robot_urdf, mesh_path=BASE_DIR)
+    tm.load_urdf(robot_urdf, mesh_path=data_dir)
 joint_names = ["joint%d" % i for i in range(1, 7)]
 
 fig = pv.figure()

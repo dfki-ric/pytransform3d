@@ -49,3 +49,4 @@ Table of Contents
    camera
    animations
    api
+   _auto_examples/index

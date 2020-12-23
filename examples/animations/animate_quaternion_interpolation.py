@@ -1,19 +1,18 @@
 """
 ===========================================
-Interpolate Between Axis-angle Orientations
+Interpolate Between Quaternion Orientations
 ===========================================
 
-We can interpolate between two orientations that are represented by an axis and
-an angle either linearly or with slerp (**s**pherical **l**inear
-int**erp**olation). Here we compare both methods and measure the angular
-velocity between two successive steps. We can see that linear interpolation
-results in a non-constant angular velocity. Usually it is a better idea to
-interpolate with slerp.
+We can interpolate between two orientations that are represented by quaternions
+either linearly or with slerp (spherical linear interpolation).
+Here we compare both methods and measure the angular velocity between two
+successive steps. We can see that linear interpolation results in a
+non-constant angular velocity. Usually it is a better idea to interpolate with
+slerp.
 """
 print(__doc__)
 
 
-import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
@@ -21,8 +20,7 @@ from pytransform3d.rotations import *
 
 
 velocity = None
-last_a = None
-rotation_axis = None
+last_R = None
 
 
 def interpolate_linear(start, end, t):
@@ -31,20 +29,20 @@ def interpolate_linear(start, end, t):
 
 def update_lines(step, start, end, n_frames, rot, profile):
     global velocity
-    global last_a
+    global last_R
 
     if step == 0:
         velocity = []
-        last_a = start
+        last_R = matrix_from_quaternion(start)
 
     if step <= n_frames / 2:
         t = step / float(n_frames / 2 - 1)
-        a = axis_angle_slerp(start, end, t)
+        q = quaternion_slerp(start, end, t)
     else:
         t = (step - n_frames / 2) / float(n_frames / 2 - 1)
-        a = interpolate_linear(end, start, t)
+        q = interpolate_linear(end, start, t)
 
-    R = matrix_from_axis_angle(a)
+    R = matrix_from_quaternion(q)
 
     # Draw new frame
     rot[0].set_data(np.array([0, R[0, 0]]), [0, R[1, 0]])
@@ -61,8 +59,8 @@ def update_lines(step, start, end, n_frames, rot, profile):
     rot[3].set_data(np.array([test[0] / 2.0, test[0]]), [test[1] / 2.0, test[1]])
     rot[3].set_3d_properties([test[2] / 2.0, test[2]])
 
-    velocity.append(angle_between_vectors(a[:3], last_a[:3]) + a[3] - last_a[3])
-    last_a = a
+    velocity.append(np.linalg.norm(R - last_R))
+    last_R = R
     profile.set_data(np.linspace(0, 1, n_frames)[:len(velocity)], velocity)
 
     return rot
@@ -72,10 +70,12 @@ if __name__ == "__main__":
     # Generate random start and goal
     np.random.seed(3)
     start = np.array([0, 0, 0, np.pi])
-    start[:3] = norm_vector(np.random.randn(3))
+    start[:3] = np.random.randn(3)
+    start = quaternion_from_axis_angle(start)
     end = np.array([0, 0, 0, np.pi])
-    end[:3] = norm_vector(np.random.randn(3))
-    n_frames = 100
+    end[:3] = np.random.randn(3)
+    end = quaternion_from_axis_angle(end)
+    n_frames = 200
 
     fig = plt.figure(figsize=(12, 5))
 
@@ -87,8 +87,8 @@ if __name__ == "__main__":
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
 
-    Rs = matrix_from_axis_angle(start)
-    Re = matrix_from_axis_angle(end)
+    Rs = matrix_from_quaternion(start)
+    Re = matrix_from_quaternion(end)
 
     rot = [ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],
            ax.plot([0, 0], [0, 1], [0, 0], c="g", lw=3)[0],

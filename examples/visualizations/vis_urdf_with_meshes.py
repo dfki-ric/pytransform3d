@@ -14,13 +14,18 @@ import os
 from pytransform3d.urdf import UrdfTransformManager
 import pytransform3d.visualizer as pv
 
+
 BASE_DIR = "test/test_data/"
-if not os.path.exists(BASE_DIR):
-    BASE_DIR = os.path.join("..", BASE_DIR)
+data_dir = BASE_DIR
+search_path = "."
+while (not os.path.exists(data_dir) and
+       os.path.dirname(search_path) != "pytransform3d"):
+    search_path = os.path.join(search_path, "..")
+    data_dir = os.path.join(search_path, BASE_DIR)
 
 tm = UrdfTransformManager()
-with open(BASE_DIR + "simple_mechanism.urdf", "r") as f:
-    tm.load_urdf(f.read(), mesh_path=BASE_DIR)
+with open(data_dir + "simple_mechanism.urdf", "r") as f:
+    tm.load_urdf(f.read(), mesh_path=data_dir)
 tm.set_joint("joint", -1.1)
 
 fig = pv.figure("URDF with meshes")

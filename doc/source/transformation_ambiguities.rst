@@ -312,7 +312,7 @@ passive and active rotation matrices.
 
 Here is a comparison between various conventions of concatenation.
 
-.. plot:: ../../examples/plot_convention_rotation_global_local.py
+.. plot:: ../../examples/plots/plot_convention_rotation_global_local.py
 
 .. note::
 

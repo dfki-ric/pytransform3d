@@ -199,6 +199,7 @@ urdf.Mesh.show = mesh_show
 
 
 # Load your own URDF here:
+# (this script should be started from the main directory)
 mesh_path = "test/test_data/"
 filename = "test/test_data/simple_mechanism.urdf"
 frame = "lower_cone"

@@ -20,7 +20,7 @@ that are available in pytransform3d.
 The following example illustrates the usage of pytransform3d to perform these
 conversions.
 
-.. plot:: ../../examples/plot_compare_rotations.py
+.. plot:: ../../examples/plots/plot_compare_rotations.py
     :include-source:
 
 ---------------
@@ -140,7 +140,7 @@ by applying the rotation
 Axis-Angle
 ----------
 
-.. plot:: ../../examples/plot_axis_angle.py
+.. plot:: ../../examples/plots/plot_axis_angle.py
 
 Each rotation can be represented by a single rotation around one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
@@ -277,7 +277,7 @@ A complete rotation can be split into three rotations around basis vectors.
     XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
     ZYX convention with intrinsic rotations.
 
-.. plot:: ../../examples/plot_euler_angles.py
+.. plot:: ../../examples/plots/plot_euler_angles.py
     :include-source:
 
 **Pros**
