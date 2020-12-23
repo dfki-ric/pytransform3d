@@ -1,7 +1,7 @@
 """
-===========================================
-Interpolate Between Axis-angle Orientations
-===========================================
+==============================================
+Interpolate Between Axis-Angle Representations
+==============================================
 
 We can interpolate between two orientations that are represented by an axis and
 an angle either linearly or with slerp (spherical linear interpolation).

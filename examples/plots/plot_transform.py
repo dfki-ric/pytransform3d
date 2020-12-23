@@ -1,7 +1,7 @@
 """
-=========
-Transform
-=========
+===================
+Plot Transformation
+===================
 
 We can display transformations by plotting the basis vectors of the
 corresponding coordinate frame.

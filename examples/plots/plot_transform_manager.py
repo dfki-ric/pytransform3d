@@ -1,9 +1,9 @@
 """
-=================
-Transform Manager
-=================
+======================
+Transformation Manager
+======================
 
-In this example, we will use the transform manager to infer a transformation
+In this example, we will use the TransformManager to infer a transformation
 automatically.
 """
 print(__doc__)

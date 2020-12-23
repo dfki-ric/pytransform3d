@@ -1,7 +1,7 @@
 """
-======
-Frames
-======
+===============================================
+Plot with Respect to Different Reference Frames
+===============================================
 
 In this example, we will demonstrate how to use the TransformManager.
 We will add several transforms to the manager and plot all frames in
