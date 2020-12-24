@@ -293,7 +293,10 @@ def vectors_to_directions(V):
 
 
 def concat(A2B, B2C, strict_check=True, check=True):
-    """Concatenate transforms.
+    """Concatenate transformations.
+
+    We use the extrinsic convention, which means that B2C is left-multiplied
+    to A2B.
 
     Parameters
     ----------

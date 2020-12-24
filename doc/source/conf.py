@@ -2,6 +2,10 @@
 
 import sys
 import os
+import glob
+import shutil
+from sphinx_gallery.scrapers import figure_rst
+from sphinx_gallery.sorting import ExplicitOrder
 
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../..'))
@@ -94,10 +98,6 @@ class Open3DScraper(object):
             The ReSTructuredText that will be rendered to HTML containing
             the images.
         """
-        import glob
-        import shutil
-        from sphinx_gallery.scrapers import figure_rst
-
         path_current_example = os.path.dirname(block_vars['src_file'])
         jpgs = sorted(glob.glob(os.path.join(
             path_current_example, "__open3d_rendered_image.jpg")))
@@ -109,9 +109,6 @@ class Open3DScraper(object):
             image_names.append(this_image_path)
             shutil.move(jpg, this_image_path)
         return figure_rst(image_names, gallery_conf["src_dir"])
-
-
-from sphinx_gallery.sorting import ExplicitOrder
 
 
 sphinx_gallery_conf = {

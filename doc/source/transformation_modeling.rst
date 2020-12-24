@@ -10,8 +10,9 @@ and make to always concatenate them in the correct way.
    :alt: Three frames
    :align: center
 
-When modeling transformations in mathematical equations we sequence them from
-right to left. Here it makes most sense to give names like :math:`\boldsymbol T_{BA}` for
+When modeling transformations in mathematical equations we often sequence them
+from right to left (extrinsic convention).
+Here it makes most sense to give names like :math:`\boldsymbol T_{BA}` for
 transformations that maps points **from frame** :math:`A` **to frame**
 :math:`B`, so we can easily recognize that
 
@@ -21,8 +22,8 @@ transformations that maps points **from frame** :math:`A` **to frame**
 
 when we read the names of the frames from right to left.
 Now we can use the transformation matrix :math:`\boldsymbol T_{CA}` to transform
-a point :math:`_A\boldsymbol{p} := _A\boldsymbol{t}_{AP}` from frame :math:`A`
-to frame :math:`C` by multiplication :math:`_C\boldsymbol{p} = \boldsymbol{T}_{CA}\,_A\boldsymbol{p}`.
+a point :math:`_A\boldsymbol{p}` from frame :math:`A` to frame
+:math:`C` by multiplication :math:`_C\boldsymbol{p} = \boldsymbol{T}_{CA}\,_A\boldsymbol{p}`.
 
 In code this might look differently. Here we should prefer the notation `A2B`
 for a transformation from frame `A` to frame `B`.

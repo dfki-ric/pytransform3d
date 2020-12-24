@@ -295,18 +295,19 @@ matrices depending on how we multiply them to points.
 
     The default in pytransform3d are pre-multiplied rotation matrices.
 
---------------------------------
-Intrinsic vs. Extrinsic Rotation
---------------------------------
+---------------------------------------
+Intrinsic vs. Extrinsic Transformations
+---------------------------------------
 
-A similar problem occurs when we want to concatenate rotations:
+A similar problem occurs when we want to concatenate rotations
+or transformations:
 suppose we have a rotation matrix :math:`R_1` and another matrix
 :math:`R_2` and we want to first rotate by :math:`R_1` and then by
 :math:`R_2`. If we want to apply both rotations in global coordinates
-(extrinsic rotation), we have to concatenate them with
+(global, space-fixed / extrinsic rotation), we have to concatenate them with
 :math:`R_2 \cdot R_1`. We can also express the second rotation in terms
-of a local, body-fixed coordinates (intrinsic rotation) by
-:math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates
+of a local, body-fixed coordinates (local, body-fixed / intrinsic rotation)
+by :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates
 in which :math:`R_2` is applied. Note that this applies to both
 passive and active rotation matrices.
 
@@ -314,6 +315,15 @@ Here is a comparison between various conventions of concatenation.
 
 .. plot:: ../../examples/plots/plot_convention_rotation_global_local.py
 
-.. note::
+.. warning::
 
-    The default in pytransform3d are intrinsic rotations.
+    There are two conventions on how to concatenate rotations and
+    transformations: intrinsic and extrinsic transformation.
+    There is no default in pytransform3d but usually the function name
+    should tell you which convention the function uses.
+    Note that there are two functions to generate rotation matrices that
+    generate intrinsic rotations without a telling function name:
+    :func:`~pytransform3d.rotations.matrix_from_euler_xyz` and
+    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
+    for backward compatibility. When in doubt, read the docstring, which
+    clearly states that they make intrinsic rotations.

@@ -58,8 +58,7 @@ Note that
     clearly states that a passive convention is used here.
 
 We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
-:math:`_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}` from frame :math:`B` to frame
-:math:`A`.
+:math:`_B\boldsymbol{p}` from frame :math:`B` to frame :math:`A`.
 
 .. warning::
 
@@ -293,7 +292,5 @@ A complete rotation can be split into three rotations around basis vectors.
 References
 ----------
 
-* Representing Robot Pose: The good, the bad, and the ugly (slides): http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
-* Representing Robot Pose: The good, the bad, and the ugly (blog): http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
-* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
 * Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
+* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
