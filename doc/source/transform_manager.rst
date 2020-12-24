@@ -26,20 +26,10 @@ We can also export the underlying graph structure as a PNG with
 
 A subclass of :class:`~pytransform3d.transform_manager.TransformManager` is
 :class:`~pytransform3d.urdf.UrdfTransformManager` which can load robot
-definitions from `URDF <http://wiki.ros.org/urdf/Tutorials>`_ files. Here is
-an example with a simple robot.
-
-.. plot:: ../../examples/plots/plot_urdf.py
-    :include-source:
-
+definitions from `URDF <http://wiki.ros.org/urdf/Tutorials>`_ files.
 The same class can be used to display collision objects or visuals from URDF
-files:
-
-.. plot:: ../../examples/plots/plot_collision_objects.py
-    :include-source:
-
-The library `trimesh <https://trimsh.org/>`_ will be used to load meshes.
-Here is a simple example with one visual that is used for two links:
+files. The library `trimesh <https://trimsh.org/>`_ will be used to load
+meshes. Here is a simple example with one visual that is used for two links:
 
 .. plot:: ../../examples/plots/plot_urdf_with_meshes.py
     :include-source:
