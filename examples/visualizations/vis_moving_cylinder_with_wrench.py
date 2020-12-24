@@ -71,9 +71,11 @@ fig.plot_transform(A2B=np.eye(4), s=0.5)
 
 fig.view_init()
 
-fig.animate(
-    animation_callback, n_frames=10000,
-    fargs=(cylinder, cylinder_frame, cylinder2world, twist, inertia_inv),
-    loop=True)
-
-fig.show()
+if "__file__" in globals():
+    fig.animate(
+        animation_callback, n_frames=10000,
+        fargs=(cylinder, cylinder_frame, cylinder2world, twist, inertia_inv),
+        loop=True)
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")

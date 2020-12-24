@@ -452,6 +452,16 @@ try:
             graph.add_artist(self)
             return graph
 
+        def save_image(self, filename):
+            """Save rendered image to file.
+
+            Parameters
+            ----------
+            filename : str
+                Path to file in which the rendered image should be stored
+            """
+            self.visualizer.capture_screen_image(filename, True)
+
         def show(self):
             """Display the figure window."""
             self.visualizer.run()

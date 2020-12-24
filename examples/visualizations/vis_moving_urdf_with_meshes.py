@@ -41,5 +41,8 @@ graph = fig.plot_graph(
     tm, "lower_cone", s=0.1, show_connections=True, show_visuals=True)
 fig.view_init()
 n_frames = 100
-fig.animate(animation_callback, n_frames, loop=True, fargs=(n_frames, tm, graph))
-fig.show()
+if "__file__" in globals():
+    fig.animate(animation_callback, n_frames, loop=True, fargs=(n_frames, tm, graph))
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")

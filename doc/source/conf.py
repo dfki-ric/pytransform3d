@@ -64,7 +64,65 @@ intersphinx_mapping = {
 }
 intersphinx_timeout = 10
 
+
+# experimental API, works with sphinx-gallery 0.8.2
+class Open3DScraper(object):
+    def __repr__(self):
+        return "Open3DScraper"
+
+    def __call__(self, block, block_vars, gallery_conf, **kwargs):
+        """Scrape Open3D images.
+
+        Parameters
+        ----------
+        block : tuple
+            A tuple containing the (label, content, line_number) of the block.
+        block_vars : dict
+            Dict of block variables.
+        gallery_conf : dict
+            Contains the configuration of Sphinx-Gallery
+        **kwargs : dict
+            Additional keyword arguments to pass to
+            :meth:`~matplotlib.figure.Figure.savefig`, e.g. ``format='svg'``.
+            The ``format`` kwarg in particular is used to set the file extension
+            of the output file (currently only 'png', 'jpg', and 'svg' are
+            supported).
+
+        Returns
+        -------
+        rst : str
+            The ReSTructuredText that will be rendered to HTML containing
+            the images.
+        """
+        import glob
+        import shutil
+        from sphinx_gallery.scrapers import figure_rst
+
+        path_current_example = os.path.dirname(block_vars['src_file'])
+        jpgs = sorted(glob.glob(os.path.join(
+            path_current_example, "__open3d_rendered_image.jpg")))
+
+        image_names = list()
+        image_path_iterator = block_vars["image_path_iterator"]
+        for jpg in jpgs:
+            this_image_path = image_path_iterator.next()
+            image_names.append(this_image_path)
+            shutil.move(jpg, this_image_path)
+        return figure_rst(image_names, gallery_conf["src_dir"])
+
+        with open("test.log", "w") as f:
+            f.write(str(gallery_conf))
+            f.write(str(block_vars["image_path_iterator"]))
+            images = glob.glob("__open3d_rendered_image_*.jpg")
+            for image in images:
+                f.write(str("image: %s" % image))
+                os.remove(image)
+        rst = ""
+        return rst
+
+
 from sphinx_gallery.sorting import ExplicitOrder
+
 
 sphinx_gallery_conf = {
     "examples_dirs": "../../examples",
@@ -73,4 +131,6 @@ sphinx_gallery_conf = {
         "../../examples/plots", "../../examples/animations",
         "../../examples/visualizations", "../../examples/apps"]),
     "reference_url": {"pytransform3d": None},
+    "filename_pattern": "/(?:plot|animate|vis)_",
+    "image_scrapers": ("matplotlib", Open3DScraper()),
 }

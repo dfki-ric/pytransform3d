@@ -154,4 +154,7 @@ q, s, h = pt.screw_parameters_from_screw_axis(S)
 plot_screw(fig, q, s, h, theta * 0.05, A2B=ee2base)
 
 fig.view_init()
-fig.show()
+if "__file__" in globals():
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")

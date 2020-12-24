@@ -25,4 +25,7 @@ fig.plot_cylinder(length=1.0, radius=0.3, A2B=A2B)
 fig.plot_transform(A2B=A2B)
 fig.view_init()
 fig.set_zoom(2)
-fig.show()
+if "__file__" in globals():
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")

@@ -28,4 +28,7 @@ while (not os.path.exists(data_dir) and
 fig = pv.figure()
 fig.plot_mesh(filename=os.path.join(data_dir, "scan.stl"), s=np.ones(3))
 fig.plot_transform(A2B=np.eye(4), s=0.3)
-fig.show()
+if "__file__" in globals():
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")

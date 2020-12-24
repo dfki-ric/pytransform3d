@@ -84,4 +84,7 @@ for name, angle in zip(joint_names, joint_angles):
 fig = pv.figure("URDF")
 fig.plot_graph(tm, "compi", show_frames=True, show_connections=True, whitelist=["link%d" % d for d in range(1, 7)], s=0.05)
 fig.view_init()
-fig.show()
+if "__file__" in globals():
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")

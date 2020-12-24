@@ -20,4 +20,7 @@ A2B = transform_from(
 fig.plot_box(size=[0.2, 0.5, 1], A2B=A2B)
 fig.plot_transform(A2B=A2B)
 fig.view_init()
-fig.show()
+if "__file__" in globals():
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")

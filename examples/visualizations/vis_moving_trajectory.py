@@ -28,21 +28,23 @@ def update_trajectory(step, n_frames, trajectory):
     return trajectory
 
 
-if __name__ == "__main__":
-    n_frames = 200
+n_frames = 200
 
-    fig = pv.figure()
+fig = pv.figure()
 
-    H = np.empty((100, 4, 4))
-    H[:] = np.eye(4)
-    # set initial trajectory to extend view box
-    H[:, 0, 3] = np.linspace(-2, 2, len(H))
-    H[:, 1, 3] = np.linspace(-2, 2, len(H))
-    H[:, 2, 3] = np.linspace(0, 4, len(H))
-    trajectory = pv.Trajectory(H, s=0.2, c=[0, 0, 0])
-    trajectory.add_artist(fig)
-    fig.view_init()
-    fig.set_zoom(0.5)
+H = np.empty((100, 4, 4))
+H[:] = np.eye(4)
+# set initial trajectory to extend view box
+H[:, 0, 3] = np.linspace(-2, 2, len(H))
+H[:, 1, 3] = np.linspace(-2, 2, len(H))
+H[:, 2, 3] = np.linspace(0, 4, len(H))
+trajectory = pv.Trajectory(H, s=0.2, c=[0, 0, 0])
+trajectory.add_artist(fig)
+fig.view_init()
+fig.set_zoom(0.5)
 
+if "__file__" in globals():
     fig.animate(update_trajectory, n_frames, fargs=(n_frames, trajectory), loop=True)
     fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")
