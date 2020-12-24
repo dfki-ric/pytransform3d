@@ -72,4 +72,5 @@ sphinx_gallery_conf = {
     "subsection_order": ExplicitOrder([
         "../../examples/plots", "../../examples/animations",
         "../../examples/visualizations", "../../examples/apps"]),
+    "reference_url": {"pytransform3d": None},
 }
