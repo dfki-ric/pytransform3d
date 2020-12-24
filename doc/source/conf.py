@@ -110,16 +110,6 @@ class Open3DScraper(object):
             shutil.move(jpg, this_image_path)
         return figure_rst(image_names, gallery_conf["src_dir"])
 
-        with open("test.log", "w") as f:
-            f.write(str(gallery_conf))
-            f.write(str(block_vars["image_path_iterator"]))
-            images = glob.glob("__open3d_rendered_image_*.jpg")
-            for image in images:
-                f.write(str("image: %s" % image))
-                os.remove(image)
-        rst = ""
-        return rst
-
 
 from sphinx_gallery.sorting import ExplicitOrder
 
@@ -133,4 +123,6 @@ sphinx_gallery_conf = {
     "reference_url": {"pytransform3d": None},
     "filename_pattern": "/(?:plot|animate|vis)_",
     "image_scrapers": ("matplotlib", Open3DScraper()),
+    "backreferences_dir": "_auto_examples/backreferences",
+    "doc_module": "pytransform3d",
 }
