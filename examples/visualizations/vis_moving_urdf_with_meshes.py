@@ -40,6 +40,7 @@ fig = pv.figure("URDF with meshes")
 graph = fig.plot_graph(
     tm, "lower_cone", s=0.1, show_connections=True, show_visuals=True)
 fig.view_init()
+fig.set_zoom(1.2)
 n_frames = 100
 if "__file__" in globals():
     fig.animate(animation_callback, n_frames, loop=True, fargs=(n_frames, tm, graph))
