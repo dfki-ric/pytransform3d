@@ -17,12 +17,6 @@ that are available in pytransform3d.
    :alt: Rotations
    :align: center
 
-The following example illustrates the usage of pytransform3d to perform these
-conversions.
-
-.. plot:: ../../examples/plots/plot_compare_rotations.py
-    :include-source:
-
 ---------------
 Rotation Matrix
 ---------------
@@ -45,6 +39,9 @@ Note that
 * :math:`\boldsymbol R` must be orthonormal
 * :math:`\boldsymbol R^T = \boldsymbol R^{-1}`
 * :math:`det(\boldsymbol R) = 1`
+
+pytransform3d uses a numpy array of shape (3, 3) to represent rotation
+matrices and typically we use the variable name R for a rotation matrix.
 
 .. warning::
 
@@ -125,8 +122,9 @@ by applying the rotation
 
 **Pros**
 
-* It is easy to apply rotations on point vectors
-* Concatenation of rotations is trivial
+* It is easy to apply rotations on point vectors by matrix-vector
+  multiplication
+* Concatenation of rotations is trivial through matrix multiplication
 * You can directly read the basis vectors from the columns
 
 **Cons**
@@ -134,6 +132,7 @@ by applying the rotation
 * We use 9 values for 3 degrees of freedom
 * Not every 3x3 matrix is a valid rotation matrix, which means for example
   that we cannot simply apply an optimization algorithm to rotation matrices
+  or interpolate between rotation matrices
 
 ----------
 Axis-Angle
@@ -149,14 +148,28 @@ by a scalar:
 
     \left( \hat{\boldsymbol{\omega}}, \theta \right) = \left( \left( \begin{array}{c}\omega_x\\\omega_y\\\omega_z\end{array} \right), \theta \right)
 
+pytransform3d uses a numpy array of shape (4,) for the axis-angle
+representation of a rotation, where the first 3 entries correspond to the
+unit axis of rotation and the fourth entry to the rotation angle in
+radians, and typically we use the variable name a.
+
 It is possible to write this in a more compact way as a rotation vector:
 
 .. math::
 
     \boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}
 
+pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
+representation of a rotation and typically we use the variable name a.
+
 We can also refer to this representation as **exponential coordinates of
-rotation**. In addition, we can represent it by the cross-product matrix
+rotation**. We can easily represent angular velocity as
+:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
+and angular acceleration as
+:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}` so that we can easily do
+component-wise integration and differentiation with this representation.
+In addition, we can represent :math:`\theta \hat{\boldsymbol{\omega}}` by
+the cross-product matrix
 
 .. math::
 
@@ -175,10 +188,7 @@ rotation**. In addition, we can represent it by the cross-product matrix
 
 where :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta` is the matrix
 logarithm of a rotation matrix and :math:`so(3)` is the Lie algebra of
-the Lie group :math:`SO(3)`. We can easily represent angular velocity as
-:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
-and angular acceleration as
-:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}`.
+the Lie group :math:`SO(3)`.
 
 **Pros**
 
@@ -197,7 +207,7 @@ Quaternions
 -----------
 
 Quaternions are represented by a scalar / real part :math:`w`
-and an imaginary / vector part
+and an vector / imaginary part
 :math:`x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}`.
 
 .. math::
@@ -233,6 +243,9 @@ The following equation describes its relation to axis-axis notation.
         \omega_z \sin \frac{\theta}{2}\\
     \end{array} \right)
 
+pytransform3d uses a numpy array of shape (4,) for quaternions and
+typically we use the variable name q.
+
 .. warning::
 
     The scalar component :math:`w` of a quaternion is sometimes the first
@@ -267,6 +280,10 @@ Euler Angles
 ------------
 
 A complete rotation can be split into three rotations around basis vectors.
+pytransform3d uses a numpy array of shape (3,) for Euler angles, where
+each entry corresponds to a rotation angle in radians around one basis
+vector. The basis vector that will be used and the order of rotation
+is defined by the convention that we use.
 
 .. warning::
 

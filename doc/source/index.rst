@@ -16,7 +16,7 @@ pytransform3d covers the following groups of transformations.
 |       |                    | axis-angle, Euler angles                |
 +-------+--------------------+-----------------------------------------+
 | SE(3) | 3D transformations | transformation matrix, translation      |
-|       | (rotation +        | and unit quaternion, exponential        |
+|       | (rotation and      | and unit quaternion, exponential        |
 |       | translation)       | coordinates, logarithm of               |
 |       |                    | transformation                          |
 +-------+--------------------+-----------------------------------------+
