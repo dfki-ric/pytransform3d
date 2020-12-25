@@ -304,6 +304,8 @@ is defined by the convention that we use.
 
 * 24 different conventions
 * Singularities (gimbal lock)
+* Concatenation and transformation of vectors requires conversion to rotation
+  matrix or quaternion
 
 ----------
 References
