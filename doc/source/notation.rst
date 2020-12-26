@@ -2,27 +2,38 @@
 Notation
 ========
 
-We will use the notation :math:`_A\boldsymbol{t}_{BC}` to represent a vector
-from frame B to frame C expressed in frame A, where frame refers to a reference
+For physical quantities we use the notation :math:`_{A}\boldsymbol{x}_{BC}`,
+where :math:`\boldsymbol{x}` is a physical quantity of frame C with
+respect to frame B expressed in frame A, where frame refers to a reference
 frame or coordinate system that is defined by three orthonormal basis vectors
-and a position in three-dimensional space.
+and a position in three-dimensional space. For example,
+:math:`_{A}\boldsymbol{t}_{BC}` is the translation of C with respect to B
+measured in A or :math:`_{A}\boldsymbol{\omega}_{BC}` is the
+orientation vector of C with respect to B measured in A.
 
-The position of a point :math:`P` with respect to a frame A in
-three-dimensional space can be defined by
+Since :math:`_A\boldsymbol{t}_{BC}` represents a vector or translation from
+frame B to frame C expressed in frame A, the position of a point :math:`P`
+with respect to a frame A in three-dimensional space can be defined by
 :math:`_A\boldsymbol{p} := _A\boldsymbol{t}_{AP}`.
 
 When we define a mapping from some frame A to another frame B that can be
 expressed as a matrix multiplication, we use the notation
-:math:`\boldsymbol{M}_{BA}` for the corresponding matrix.
+:math:`\boldsymbol{M}_{BA}` for the corresponding matrix. We can read this
+from right to left as a matrix that maps from frame A to frame B through
+multiplication, for example, when we want to transform a point by
+
+.. math::
+
+    _B\boldsymbol{p} = \boldsymbol{M}_{BA} {_A\boldsymbol{p}}
 
 ---------------
 Representations
 ---------------
 
-We can use many different representations of rotation and translation.
+We can use many different representations of rotation and / or translation.
 Here is an overview of the representations that are available in pytransform3d.
 All representations are stored in NumPy arrays, of which the corresponding
-shape is shown in the table. You will find more details on these
+shape is shown in this table. You will find more details on these
 representations on the following pages.
 
 +----------------------------------------+---------------------+----------+-------------+
@@ -58,6 +69,18 @@ representations on the following pages.
 | Position and quaternion                | (7,)                | X        | X           |
 | :math:`(\pmb{p}, \pmb{q})`             |                     |          |             |
 +----------------------------------------+---------------------+----------+-------------+
+
+------------------------------------
+Duality of Transformations and Poses
+------------------------------------
+
+We can use a transformation matrix :math:`\boldsymbol{T}_{BA}` that represents
+a transformation from frame A to frame B to represent the pose (position and
+orientation) of frame A in frame B (if we use the active transformation
+convention; see :ref:`transformation_ambiguities` for details). This is just
+a different interpretation of the same matrix and similar to our interpretation
+of a vector from A to P :math:`_A\boldsymbol{t}_{AP}` as a point
+:math:`_A\boldsymbol{p}`.
 
 ----------
 References
