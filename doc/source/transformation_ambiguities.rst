@@ -334,7 +334,12 @@ Here is a comparison between various conventions of concatenation.
 Conventions of Other Software
 -----------------------------
 
-`Blender <https://www.blender.org/>`_
+The following is an incomplete list of conventions for representations of
+rotations, orientations, transformations, or poses and coordinate frames
+other software packages use. It illustrates the diversity that you will
+find when you combine different software systems.
+
+`Blender (computer graphics) <https://www.blender.org/>`_
 
 * All representations of orientation: active rotation, angles in degree
 * Euler angles (are actually Tait-Bryan angles): external rotations
@@ -348,8 +353,8 @@ Conventions of Other Software
   (default) or intrinsic xyz convention, which can be selected by
   parameter
 * Quaternion
-  * Scalar first
-  * Hamilton multiplication
+    * Scalar first
+    * Hamilton multiplication
 
 `Robot Operating System (ROS) <https://www.ros.org/>`_
 
@@ -374,7 +379,7 @@ Conventions of Other Software
   scalar last
 * See also `REP103 <https://www.ros.org/reps/rep-0103.html>`_
 
-`Bullet <https://github.com/bulletphysics/bullet3>`_
+`Bullet (physics engine) <https://github.com/bulletphysics/bullet3>`_
 
 * Rotation matrix and quaternion: active rotations
 * Quaternion: scalar last
@@ -382,13 +387,13 @@ Conventions of Other Software
     * The function getQuaternionFromEuler from pybullet's API makes
       extrinsic rotations about roll, pitch, and yaw (xyz)
 
-`Eigen <http://eigen.tuxfamily.org/index.php?title=Main_Page>`_
+`Eigen (linear algebra library) <http://eigen.tuxfamily.org/index.php?title=Main_Page>`_
 
 * Quaternion
     * Scalar first (constructor) and scalar last (internal)
     * Hamilton multiplication
 
-`XSens MVNX format for motion capture data <https://base.xsens.com/hc/en-us/articles/360012672099-MVNX-Version-4-File-Structure>`_
+`XSens MVNX format (motion capture) <https://base.xsens.com/hc/en-us/articles/360012672099-MVNX-Version-4-File-Structure>`_
 
 * Conventions for coordinate frames
     * Right-handed
@@ -401,3 +406,13 @@ Conventions of Other Software
 * Rotation matrix and quaternion: active convention
 * Quaternion: scalar first
 * Euler angles: extrinsic rotations about roll, pitch, and yaw (xyz)
+
+`Universal Robot <https://www.universal-robots.com/>`_
+
+* Conventions for coordinate frames
+    * Default axis orientation of tool center point: z forward
+      (approach direction), x and y axes define the orientation
+      with which we approach the target
+    * Axis orientation of robot's base: z up, x and y axes in the plane
+      on which the robot is mounted
+* Euler angles: extrinsic roll-pitch-yaw (xyz) convention
