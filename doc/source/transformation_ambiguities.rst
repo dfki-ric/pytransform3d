@@ -387,3 +387,17 @@ Conventions of Other Software
 * Quaternion
     * Scalar first (constructor) and scalar last (internal)
     * Hamilton multiplication
+
+`XSens MVNX format for motion capture data <https://base.xsens.com/hc/en-us/articles/360012672099-MVNX-Version-4-File-Structure>`_
+
+* Conventions for coordinate frames
+    * Right-handed
+    * Axis orientation in the world (global): north west up (NWU)
+    * Axis orientation on body parts: axes are aligned with world axes when
+      subject stands in T pose
+    * Quaternion and rotation matrix rotate from sensor frame to world frame,
+      that is, they represent the orientation of the sensor with respect to
+      the world
+* Rotation matrix and quaternion: active convention
+* Quaternion: scalar first
+* Euler angles: extrinsic rotations about roll, pitch, and yaw (xyz)
