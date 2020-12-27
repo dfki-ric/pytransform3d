@@ -1,3 +1,5 @@
+.. _transformation_ambiguities:
+
 ==========================
 Transformation Ambiguities
 ==========================
@@ -327,3 +329,62 @@ Here is a comparison between various conventions of concatenation.
     :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
     for backward compatibility. When in doubt, read the docstring, which
     clearly states that they make intrinsic rotations.
+
+-----------------------------
+Conventions of Other Software
+-----------------------------
+
+`Blender <https://www.blender.org/>`_
+
+* All representations of orientation: active rotation, angles in degree
+* Euler angles (are actually Tait-Bryan angles): external rotations
+* Quaternion: scalar first
+
+`Peter Corke's robotics toolbox <https://petercorke.com/toolboxes/robotics-toolbox/>`_
+
+* Rotation matrix: active convention
+* Euler angles: zyz convention
+* Roll, pitch, and yaw corresponds either to intrinsic zyx convention
+  (default) or intrinsic xyz convention, which can be selected by
+  parameter
+* Quaternion
+  * Scalar first
+  * Hamilton multiplication
+
+`Robot Operating System (ROS) <https://www.ros.org/>`_
+
+* Conventions for coordinate frames
+    * Right-handed
+    * Axis orientation on body: x forward, y left, z up
+    * Axis orientation in the world: east north up (ENU)
+    * Axis orientation of optical camera frame (indicated by suffix
+      in topic name): z forward, x right, y down
+* Euler angles
+    * Active, extrinsic roll-pitch-yaw (xyz) convention (as used, e.g.,
+      in origin tag of URDF) can be used
+    * In addition, the yaw-pitch-roll (zyx) convention can be used, but
+      is discouraged
+* Rotation / transformation matrix: active convention
+* A `PoseStamped <http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/PoseStamped.html>`_
+  is represented with respect to a `frame_id`
+* When interpreted as active transformation,
+  `TransformStamped <http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/TransformStamped.html>`_
+  represents a transformation from *child frame* to its (parent) *frame*
+* `Quaternion <http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/Quaternion.html>`_:
+  scalar last
+* See also `REP103 <https://www.ros.org/reps/rep-0103.html>`_
+
+`Bullet <https://github.com/bulletphysics/bullet3>`_
+
+* Quaternion: scalar last
+* Euler angles
+    * The function setEulerZYX makes extrinsic rotations about
+      zyx or intrinsic rotations about xyz
+    * The function setEulerYPR makes extrinsic rotations about
+      yaw, pitch, and roll (zyx)
+
+`Eigen <http://eigen.tuxfamily.org/index.php?title=Main_Page>`_
+
+* Quaternion
+    * Scalar first (constructor) and scalar last (internal)
+    * Hamilton multiplication

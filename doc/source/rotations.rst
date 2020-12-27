@@ -126,6 +126,7 @@ by applying the rotation
   multiplication
 * Concatenation of rotations is trivial through matrix multiplication
 * You can directly read the basis vectors from the columns
+* No singularities
 
 **Cons**
 
@@ -268,6 +269,7 @@ typically we use the variable name q.
   involves no trigonometric functions
 * Concatenation is simple and computationally cheaper with the quaternion
   product than with rotation matrices
+* No singularities
 
 **Cons**
 
