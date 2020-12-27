@@ -218,14 +218,14 @@ and an vector / imaginary part
 .. warning::
 
     There are two different quaternion conventions: Hamilton's convention
-    defines :math:`ijk = -1` and the JPL convention (from NASA's Jet Propulsion
-    Laboratory, JPL) defines :math:`ijk = 1`.
+    defines :math:`ijk = -1` and the Shuster or JPL convention (from NASA's
+    Jet Propulsion Laboratory, JPL) defines :math:`ijk = 1`.
     These two conventions result in different multiplication operations and
     conversions to other representations. We use Hamilton's convention.
 
-Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about the
-two conventions and why Hamilton's convention should be used. Section VI A
-gives useful hints to identify which convention is used.
+Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about
+the two conventions and why Hamilton's convention should be used. Section VI A
+gives further useful hints to identify which convention is used.
 
 The unit quaternion space :math:`S^3` can be used to represent orientations.
 To do that, we use an encoding based on the rotation axis and angle.
