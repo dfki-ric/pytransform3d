@@ -311,7 +311,8 @@ suppose we have a rotation matrix :math:`R_1` and another matrix
 of a local, body-fixed coordinates (local, body-fixed / intrinsic rotation)
 by :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates
 in which :math:`R_2` is applied. Note that this applies to both
-passive and active rotation matrices.
+passive and active rotation matrices. Specifying this convention is
+particularly relevant when we deal with Euler angles.
 
 Here is a comparison between various conventions of concatenation.
 

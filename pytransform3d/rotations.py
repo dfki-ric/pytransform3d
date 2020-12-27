@@ -814,9 +814,11 @@ def active_matrix_from_extrinsic_euler_zxz(e):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
-    # The difference between extrinsic and intrinsic rotation is the order of
-    # rotations and because the reverse of zxz is zxz this is exactly the same.
-    return active_matrix_from_intrinsic_euler_zxz(e)
+    alpha, beta, gamma = e
+    R = active_matrix_from_angle(2, gamma).dot(
+        active_matrix_from_angle(0, beta)).dot(
+        active_matrix_from_angle(2, alpha))
+    return R
 
 
 def active_matrix_from_intrinsic_euler_zyz(e):
@@ -852,9 +854,11 @@ def active_matrix_from_extrinsic_euler_zyz(e):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
-    # The difference between extrinsic and intrinsic rotation is the order of
-    # rotations and because the reverse of zyz is zyz this is exactly the same.
-    return active_matrix_from_intrinsic_euler_zyz(e)
+    alpha, beta, gamma = e
+    R = active_matrix_from_angle(2, gamma).dot(
+        active_matrix_from_angle(1, beta)).dot(
+        active_matrix_from_angle(2, alpha))
+    return R
 
 
 def active_matrix_from_extrinsic_roll_pitch_yaw(rpy):
