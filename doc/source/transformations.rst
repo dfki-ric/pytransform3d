@@ -77,15 +77,15 @@ the translation by setting the last component to zero:
 :math:`\left( x,y,z,0 \right)^T`.
 
 We can use a transformation matrix :math:`\boldsymbol T_{AB}` to transform a
-point :math:`\boldsymbol{p}_B := _B\boldsymbol{t}_{BP}` from frame :math:`B`
-to frame :math:`A`. For example, transforming a position vector :math:`p`
-will give the following result:
+point :math:`{_B}\boldsymbol{p}` from frame :math:`B` to frame :math:`A`.
+For example, transforming a position vector :math:`p` will give the following
+result:
 
 .. math::
 
-    \boldsymbol T_{AB} \boldsymbol p_B =
+    \boldsymbol{T}_{AB}  {_B}\boldsymbol{p} =
     \left( \begin{array}{c}
-        \boldsymbol R \boldsymbol p_B + \boldsymbol t\\
+        \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
         1\\
     \end{array} \right)
 
