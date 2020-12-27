@@ -376,12 +376,11 @@ Conventions of Other Software
 
 `Bullet <https://github.com/bulletphysics/bullet3>`_
 
+* Rotation matrix and quaternion: active rotations
 * Quaternion: scalar last
 * Euler angles
-    * The function setEulerZYX makes extrinsic rotations about
-      zyx or intrinsic rotations about xyz
-    * The function setEulerYPR makes extrinsic rotations about
-      yaw, pitch, and roll (zyx)
+    * The function getQuaternionFromEuler from pybullet's API makes
+      extrinsic rotations about roll, pitch, and yaw (xyz)
 
 `Eigen <http://eigen.tuxfamily.org/index.php?title=Main_Page>`_
 
