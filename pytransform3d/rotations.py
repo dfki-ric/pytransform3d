@@ -804,6 +804,12 @@ def active_matrix_from_intrinsic_euler_zxz(e):
 def active_matrix_from_extrinsic_euler_zxz(e):
     """Compute active rotation matrix from extrinsic zxz Euler angles.
 
+    .. warning::
+
+        This function was not implemented correctly in versions 1.3 and 1.4
+        as the order of the angles was reversed, which actually corresponds
+        to intrinsic rotations. This has been fixed in version 1.5.
+
     Parameters
     ----------
     e : array-like, shape (3,)
@@ -843,6 +849,12 @@ def active_matrix_from_intrinsic_euler_zyz(e):
 
 def active_matrix_from_extrinsic_euler_zyz(e):
     """Compute active rotation matrix from extrinsic zyz Euler angles.
+
+    .. warning::
+
+        This function was not implemented correctly in versions 1.3 and 1.4
+        as the order of the angles was reversed, which actually corresponds
+        to intrinsic rotations. This has been fixed in version 1.5.
 
     Parameters
     ----------
