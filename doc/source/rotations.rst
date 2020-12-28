@@ -17,12 +17,6 @@ that are available in pytransform3d.
    :alt: Rotations
    :align: center
 
-The following example illustrates the usage of pytransform3d to perform these
-conversions.
-
-.. plot:: ../../examples/plot_compare_rotations.py
-    :include-source:
-
 ---------------
 Rotation Matrix
 ---------------
@@ -46,6 +40,9 @@ Note that
 * :math:`\boldsymbol R^T = \boldsymbol R^{-1}`
 * :math:`det(\boldsymbol R) = 1`
 
+pytransform3d uses a numpy array of shape (3, 3) to represent rotation
+matrices and typically we use the variable name R for a rotation matrix.
+
 .. warning::
 
     There are two conventions on how to interpret rotations: active
@@ -58,8 +55,7 @@ Note that
     clearly states that a passive convention is used here.
 
 We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
-:math:`_B\boldsymbol{p} := _B\boldsymbol{t}_{BP}` from frame :math:`B` to frame
-:math:`A`.
+:math:`_B\boldsymbol{p}` from frame :math:`B` to frame :math:`A`.
 
 .. warning::
 
@@ -126,21 +122,24 @@ by applying the rotation
 
 **Pros**
 
-* It is easy to apply rotations on point vectors
-* Concatenation of rotations is trivial
+* It is easy to apply rotations on point vectors by matrix-vector
+  multiplication
+* Concatenation of rotations is trivial through matrix multiplication
 * You can directly read the basis vectors from the columns
+* No singularities
 
 **Cons**
 
 * We use 9 values for 3 degrees of freedom
 * Not every 3x3 matrix is a valid rotation matrix, which means for example
   that we cannot simply apply an optimization algorithm to rotation matrices
+  or interpolate between rotation matrices
 
 ----------
 Axis-Angle
 ----------
 
-.. plot:: ../../examples/plot_axis_angle.py
+.. plot:: ../../examples/plots/plot_axis_angle.py
 
 Each rotation can be represented by a single rotation around one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
@@ -150,14 +149,28 @@ by a scalar:
 
     \left( \hat{\boldsymbol{\omega}}, \theta \right) = \left( \left( \begin{array}{c}\omega_x\\\omega_y\\\omega_z\end{array} \right), \theta \right)
 
+pytransform3d uses a numpy array of shape (4,) for the axis-angle
+representation of a rotation, where the first 3 entries correspond to the
+unit axis of rotation and the fourth entry to the rotation angle in
+radians, and typically we use the variable name a.
+
 It is possible to write this in a more compact way as a rotation vector:
 
 .. math::
 
     \boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}
 
+pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
+representation of a rotation and typically we use the variable name a.
+
 We can also refer to this representation as **exponential coordinates of
-rotation**. In addition, we can represent it by the cross-product matrix
+rotation**. We can easily represent angular velocity as
+:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
+and angular acceleration as
+:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}` so that we can easily do
+component-wise integration and differentiation with this representation.
+In addition, we can represent :math:`\theta \hat{\boldsymbol{\omega}}` by
+the cross-product matrix
 
 .. math::
 
@@ -176,10 +189,7 @@ rotation**. In addition, we can represent it by the cross-product matrix
 
 where :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta` is the matrix
 logarithm of a rotation matrix and :math:`so(3)` is the Lie algebra of
-the Lie group :math:`SO(3)`. We can easily represent angular velocity as
-:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
-and angular acceleration as
-:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}`.
+the Lie group :math:`SO(3)`.
 
 **Pros**
 
@@ -198,7 +208,7 @@ Quaternions
 -----------
 
 Quaternions are represented by a scalar / real part :math:`w`
-and an imaginary / vector part
+and an vector / imaginary part
 :math:`x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}`.
 
 .. math::
@@ -208,14 +218,14 @@ and an imaginary / vector part
 .. warning::
 
     There are two different quaternion conventions: Hamilton's convention
-    defines :math:`ijk = -1` and the JPL convention (from NASA's Jet Propulsion
-    Laboratory, JPL) defines :math:`ijk = 1`.
+    defines :math:`ijk = -1` and the Shuster or JPL convention (from NASA's
+    Jet Propulsion Laboratory, JPL) defines :math:`ijk = 1`.
     These two conventions result in different multiplication operations and
     conversions to other representations. We use Hamilton's convention.
 
-Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about the
-two conventions and why Hamilton's convention should be used. Section VI A
-gives useful hints to identify which convention is used.
+Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about
+the two conventions and why Hamilton's convention should be used. Section VI A
+gives further useful hints to identify which convention is used.
 
 The unit quaternion space :math:`S^3` can be used to represent orientations.
 To do that, we use an encoding based on the rotation axis and angle.
@@ -233,6 +243,9 @@ The following equation describes its relation to axis-axis notation.
         \omega_y \sin \frac{\theta}{2}\\
         \omega_z \sin \frac{\theta}{2}\\
     \end{array} \right)
+
+pytransform3d uses a numpy array of shape (4,) for quaternions and
+typically we use the variable name q.
 
 .. warning::
 
@@ -256,6 +269,7 @@ The following equation describes its relation to axis-axis notation.
   involves no trigonometric functions
 * Concatenation is simple and computationally cheaper with the quaternion
   product than with rotation matrices
+* No singularities
 
 **Cons**
 
@@ -268,6 +282,10 @@ Euler Angles
 ------------
 
 A complete rotation can be split into three rotations around basis vectors.
+pytransform3d uses a numpy array of shape (3,) for Euler angles, where
+each entry corresponds to a rotation angle in radians around one basis
+vector. The basis vector that will be used and the order of rotation
+is defined by the convention that we use.
 
 .. warning::
 
@@ -277,7 +295,7 @@ A complete rotation can be split into three rotations around basis vectors.
     XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
     ZYX convention with intrinsic rotations.
 
-.. plot:: ../../examples/plot_euler_angles.py
+.. plot:: ../../examples/plots/plot_euler_angles.py
     :include-source:
 
 **Pros**
@@ -288,12 +306,12 @@ A complete rotation can be split into three rotations around basis vectors.
 
 * 24 different conventions
 * Singularities (gimbal lock)
+* Concatenation and transformation of vectors requires conversion to rotation
+  matrix or quaternion
 
 ----------
 References
 ----------
 
-* Representing Robot Pose: The good, the bad, and the ugly (slides): http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
-* Representing Robot Pose: The good, the bad, and the ugly (blog): http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
-* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
 * Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
+* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf

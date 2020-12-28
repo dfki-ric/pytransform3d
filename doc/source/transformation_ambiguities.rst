@@ -1,3 +1,5 @@
+.. _transformation_ambiguities:
+
 ==========================
 Transformation Ambiguities
 ==========================
@@ -295,25 +297,116 @@ matrices depending on how we multiply them to points.
 
     The default in pytransform3d are pre-multiplied rotation matrices.
 
---------------------------------
-Intrinsic vs. Extrinsic Rotation
---------------------------------
+---------------------------------------
+Intrinsic vs. Extrinsic Transformations
+---------------------------------------
 
-A similar problem occurs when we want to concatenate rotations:
+A similar problem occurs when we want to concatenate rotations
+or transformations:
 suppose we have a rotation matrix :math:`R_1` and another matrix
 :math:`R_2` and we want to first rotate by :math:`R_1` and then by
 :math:`R_2`. If we want to apply both rotations in global coordinates
-(extrinsic rotation), we have to concatenate them with
+(global, space-fixed / extrinsic rotation), we have to concatenate them with
 :math:`R_2 \cdot R_1`. We can also express the second rotation in terms
-of a local, body-fixed coordinates (intrinsic rotation) by
-:math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates
+of a local, body-fixed coordinates (local, body-fixed / intrinsic rotation)
+by :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates
 in which :math:`R_2` is applied. Note that this applies to both
-passive and active rotation matrices.
+passive and active rotation matrices. Specifying this convention is
+particularly relevant when we deal with Euler angles.
 
 Here is a comparison between various conventions of concatenation.
 
-.. plot:: ../../examples/plot_convention_rotation_global_local.py
+.. plot:: ../../examples/plots/plot_convention_rotation_global_local.py
 
-.. note::
+.. warning::
 
-    The default in pytransform3d are intrinsic rotations.
+    There are two conventions on how to concatenate rotations and
+    transformations: intrinsic and extrinsic transformation.
+    There is no default in pytransform3d but usually the function name
+    should tell you which convention the function uses.
+    Note that there are two functions to generate rotation matrices that
+    generate intrinsic rotations without a telling function name:
+    :func:`~pytransform3d.rotations.matrix_from_euler_xyz` and
+    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
+    for backward compatibility. When in doubt, read the docstring, which
+    clearly states that they make intrinsic rotations.
+
+-----------------------------
+Conventions of Other Software
+-----------------------------
+
+The following is an incomplete list of conventions for representations of
+rotations, orientations, transformations, or poses and coordinate frames
+other software packages use. It illustrates the diversity that you will
+find when you combine different software systems.
+
+`Blender user interface (computer graphics) <https://www.blender.org/>`_
+
+* Active rotations
+* Euler angles (are actually Tait-Bryan angles): external rotations, angles in degree
+* Quaternion: scalar first
+
+`XSens MVNX format (motion capture) <https://base.xsens.com/hc/en-us/articles/360012672099-MVNX-Version-4-File-Structure>`_
+
+* Active rotations
+* Conventions for coordinate frames
+    * Axis orientation in the world (global): x north, y west, z up (NWU)
+    * Axis orientation on body parts: axes are aligned with world axes when
+      subject stands in T pose
+    * Quaternion and rotation matrix rotate from sensor frame to world frame,
+      that is, they represent the orientation of the sensor with respect to
+      the world
+* Quaternion: scalar first
+* Euler angles: extrinsic roll-pitch-yaw (xyz) convention
+
+`Bullet (physics engine) <https://github.com/bulletphysics/bullet3>`_
+
+* Active rotations
+* Euler angles: extrinsic roll-pitch-yaw (xyz) convention
+  (getQuaternionFromEuler from pybullet's API)
+* Quaternion: scalar last and Hamilton multiplication
+
+`Eigen (linear algebra library) <http://eigen.tuxfamily.org/index.php?title=Main_Page>`_
+
+* Quaternion
+    * Scalar first (constructor) and scalar last (internal)
+    * Hamilton multiplication
+
+`Peter Corke's robotics toolbox <https://petercorke.com/toolboxes/robotics-toolbox/>`_
+
+* Active rotations
+* Euler angles
+    * Intrinsic zyz convention
+    * Roll-pitch-yaw angles correspond either to intrinsic zyx convention
+      (default) or intrinsic xyz convention, which can be selected by a
+      parameter
+* Quaternion: scalar first and Hamilton multiplication
+
+`Robot Operating System (ROS) <https://www.ros.org/>`_ `(REP103) <https://www.ros.org/reps/rep-0103.html>`_
+
+* Active transformations
+* Conventions for coordinate frames
+    * Axis orientation on body: x forward, y left, z up
+    * Axis orientation in the world: x east, y north, z up (ENU)
+    * Axis orientation of optical camera frame (indicated by suffix
+      in topic name): z forward, x right, y down
+* Euler angles
+    * Active, extrinsic roll-pitch-yaw (xyz) convention (as used, e.g.,
+      in origin tag of URDF) can be used
+    * In addition, the yaw-pitch-roll (zyx) convention can be used, but
+      is discouraged
+* A `PoseStamped <http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/PoseStamped.html>`_
+  is represented with respect to a `frame_id`
+* When interpreted as active transformation,
+  `TransformStamped <http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/TransformStamped.html>`_
+  represents a transformation from *child frame* to its (parent) *frame*
+* `Quaternion <http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/Quaternion.html>`_:
+  scalar last
+
+`Universal Robot user interface <https://www.universal-robots.com/>`_
+
+* Conventions for coordinate frames
+    * Default axis orientation of tool center point: z forward
+      (approach direction), x and y axes define the orientation
+      with which we approach the target
+* Euler angles: extrinsic roll-pitch-yaw (xyz) convention

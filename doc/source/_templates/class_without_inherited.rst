@@ -34,3 +34,6 @@
    {%- endfor %}
    {% endif %}
    {% endblock %}
+
+.. minigallery:: {{module}}.{{objname}}
+    :add-heading:

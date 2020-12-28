@@ -525,9 +525,9 @@ def test_active_matrix_from_extrinsic_euler_zxz():
     assert_array_almost_equal(
         active_matrix_from_extrinsic_euler_zxz([0.5 * np.pi, 0.5 * np.pi, 0]),
         np.array([
-            [0, 0, 1],
-            [1, 0, 0],
-            [0, 1, 0]
+            [0, -1, 0],
+            [0, 0, -1],
+            [1, 0, 0]
         ])
     )
     assert_array_almost_equal(
@@ -633,9 +633,9 @@ def test_active_matrix_from_extrinsic_roll_pitch_yaw():
     assert_array_almost_equal(
         active_matrix_from_extrinsic_euler_zyz([0.5 * np.pi, 0.5 * np.pi, 0]),
         np.array([
-            [0, -1, 0],
             [0, 0, 1],
-            [-1, 0, 0]
+            [1, 0, 0],
+            [0, 1, 0]
         ])
     )
     assert_array_almost_equal(

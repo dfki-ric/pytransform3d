@@ -9,28 +9,36 @@ pytransform3d
 
 pytransform3d covers the following groups of transformations.
 
-+-------+------------------+-----------+------------------------------------+
-| Group | Description      | Dimension | Representation                     |
-+=======+==================+===========+====================================+
-| SO(3) | 3D rotations     | 3         | unit quaternion, rotation matrix,  |
-|       |                  |           | axis-angle, Euler angles           |
-+-------+------------------+-----------+------------------------------------+
-| SE(3) | 3D rigid body    | 6         | transformation matrix, translation |
-|       | transformations  |           | and unit quaternion, exponential   |
-|       | (translation and |           | coordinates, logarithm of          |
-|       | rotation)        |           | transformation                     |
-+-------+------------------+-----------+------------------------------------+
++-------+--------------------+-----------------------------------------+
+| Group | Description        | Representations                         |
++=======+====================+=========================================+
+| SO(3) | 3D rotations       | unit quaternion, rotation matrix,       |
+|       |                    | axis-angle, Euler angles                |
++-------+--------------------+-----------------------------------------+
+| SE(3) | 3D transformations | transformation matrix, translation      |
+|       | (rotation and      | and unit quaternion, exponential        |
+|       | translation)       | coordinates, logarithm of               |
+|       |                    | transformation                          |
++-------+--------------------+-----------------------------------------+
 
-In this documentation we will use the notation :math:`_A\boldsymbol{t}_{BC}`
-to represent a vector from frame B to frame C expressed in frame A.
+------------
+Installation
+------------
+
+pytransform3d is available at
+`GitHub <https://github.com/rock-learning/pytransform3d>`_.
+The readme there contains installation instructions. This documentation
+explains how you can work with pytransform3d and with 3D transformations
+in general.
 
 -----------------
 Table of Contents
 -----------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
+   notation
    rotations
    transformations
    transformation_ambiguities
@@ -39,3 +47,4 @@ Table of Contents
    camera
    animations
    api
+   _auto_examples/index

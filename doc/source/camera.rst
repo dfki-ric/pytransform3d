@@ -17,5 +17,5 @@ However, we have to know some parameters of the camera:
 
 The following example shows how a grid is projected on an image.
 
-.. plot:: ../../examples/plot_camera.py
+.. plot:: ../../examples/plots/plot_camera.py
     :include-source:

@@ -718,5 +718,29 @@ try:
         ax.add_collection3d(p3c)
         return ax
 
+
+    def remove_frame(ax, left=0.0, bottom=0.0, right=1.0, top=1.0):
+        """Remove axis and scale bbox.
+
+        Parameters
+        ----------
+        ax : Matplotlib 3d axis
+            Axis from which we remove the frame
+
+        left : float, optional (default: 0)
+            Position of left border (between 0 and 1)
+
+        bottom : float, optional (default: 0)
+            Position of bottom border (between 0 and 1)
+
+        right : float, optional (default: 1)
+            Position of right border (between 0 and 1)
+
+        top : float, optional (default: 1)
+            Position of top border (between 0 and 1)
+        """
+        ax.axis("off")
+        plt.subplots_adjust(left=left, bottom=bottom, right=right, top=top)
+
 except ImportError:
     warnings.warn("Matplotlib is not installed, visualization is not available")
