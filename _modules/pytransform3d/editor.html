@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.editor &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d.editor &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
@@ -36,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -52,14 +55,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -322,7 +327,7 @@
 <span class="sd">        transform_manager : TransformManager</span>
 <span class="sd">            Result, all frames are expressed in the base frame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform_manager</span><span class="p">,</span> <span class="n">base_frame</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+<div class="viewcode-block" id="TransformEditor.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.editor.TransformEditor.html#pytransform3d.editor.TransformEditor.__init__">[docs]</a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform_manager</span><span class="p">,</span> <span class="n">base_frame</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
                      <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                      <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
                      <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -344,7 +349,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_create_main_frame</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_on_node_changed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_on_node_changed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
         <span class="k">def</span> <span class="nf">_init_transform_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform_manager</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Transform all nodes into the reference frame.&quot;&quot;&quot;</span>
@@ -461,7 +466,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

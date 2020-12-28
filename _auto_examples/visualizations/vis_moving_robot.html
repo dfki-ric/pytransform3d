@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animated Robot &#8212; pytransform3d 1.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Visualize Cylinder with Wrench" href="vis_moving_cylinder_with_wrench.html" />
+    <link rel="prev" title="Animate Trajectory" href="vis_moving_trajectory.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Animated Robot</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="vis_moving_trajectory.html" title="Previous Chapter: Animate Trajectory"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Animate Trajectory</span>
+    </a>
+  </li>
+  <li>
+    <a href="vis_moving_cylinder_with_wrench.html" title="Next Chapter: Visualize Cylinder with Wrench"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Visualize Cyl... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="animated-robot">
+<span id="sphx-glr-auto-examples-visualizations-vis-moving-robot-py"></span><h1>Animated Robot<a class="headerlink" href="#animated-robot" title="Permalink to this headline">¶</a></h1>
+<p>In this example we animate a 6-DOF robot arm with cylindrical visuals.</p>
+<img alt="vis moving robot" class="sphx-glr-single-img" src="../../_images/sphx_glr_vis_moving_robot_001.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.urdf</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a>
+<span class="kn">import</span> <span class="nn">pytransform3d.visualizer</span> <span class="k">as</span> <span class="nn">pv</span>
+
+
+<span class="k">def</span> <span class="nf">animation_callback</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">):</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.cos.html#numpy.cos" title="numpy.cos" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">))</span>
+    <span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">:</span>
+        <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint" title="pytransform3d.urdf.UrdfTransformManager.set_joint" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.set_data" title="pytransform3d.visualizer.Graph.set_data" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">graph</span><span class="o">.</span><span class="n">set_data</span></a><span class="p">()</span>
+    <span class="k">return</span> <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a>
+
+
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a> <span class="o">=</span> <span class="s2">&quot;test/test_data/&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+<span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.exists" title="os.path.exists" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">)</span> <span class="ow">and</span>
+       <a href="https://docs.python.org/3/library/os.path.html#os.path.dirname" title="os.path.dirname" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;pytransform3d&quot;</span><span class="p">):</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a><span class="p">)</span>
+
+<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a><span class="p">()</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">filename</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">,</span> <span class="s2">&quot;robot_with_visuals.urdf&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">filename</span></a><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <a href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper" class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">f</span></a><span class="p">:</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">robot_urdf</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper" class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">f</span></a><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="pytransform3d.urdf.UrdfTransformManager.load_urdf" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">load_urdf</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">robot_urdf</span></a><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;joint</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)]</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">:</span>
+    <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint" title="pytransform3d.urdf.UrdfTransformManager.set_joint" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure" title="pytransform3d.visualizer.Figure" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.visualizer.figure.html#pytransform3d.visualizer.figure" title="pytransform3d.visualizer.figure" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-function"><span class="n">pv</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">plot_graph</span></a><span class="p">(</span>
+    <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a><span class="p">,</span> <span class="s2">&quot;robot_arm&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_visuals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.view_init" title="pytransform3d.visualizer.Figure.view_init" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">view_init</span></a><span class="p">()</span>
+<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.set_zoom" title="pytransform3d.visualizer.Figure.set_zoom" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">set_zoom</span></a><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">if</span> <span class="s2">&quot;__file__&quot;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.animate" title="pytransform3d.visualizer.Figure.animate" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">animate</span></a><span class="p">(</span><span class="n">animation_callback</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">fargs</span><span class="o">=</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">))</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.show" title="pytransform3d.visualizer.Figure.show" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">save_image</span></a><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.208 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-moving-robot-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/f53689eb52e7298e06e3804403ee8e45/vis_moving_robot.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_moving_robot.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/6e06749e84e1bbecad97402e7163273a/vis_moving_robot.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vis_moving_robot.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Dec 28, 2020.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

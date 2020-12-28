@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer.Figure &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d.visualizer.Figure &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -38,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -54,14 +57,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../animations.html">Animations</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -75,7 +80,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code>.Figure</a></li>
+<li><a class="reference internal" href="#">pytransform3d.visualizer.Figure</a><ul>
+<li><a class="reference internal" href="#examples-using-pytransform3d-visualizer-figure">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.visualizer.Figure</span></code></a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -120,11 +128,12 @@
     <div class="body col-md-12 content" role="main">
       
   <div class="section" id="pytransform3d-visualizer-figure">
-<h1><a class="reference internal" href="../api.html#module-pytransform3d.visualizer" title="pytransform3d.visualizer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code></a>.Figure<a class="headerlink" href="#pytransform3d-visualizer-figure" title="Permalink to this headline">¶</a></h1>
+<h1>pytransform3d.visualizer.Figure<a class="headerlink" href="#pytransform3d-visualizer-figure" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pytransform3d.visualizer.Figure">
 <em class="property">class </em><code class="sig-prename descclassname">pytransform3d.visualizer.</code><code class="sig-name descname">Figure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window_name</span><span class="o">=</span><span class="default_value">'Open3D'</span></em>, <em class="sig-param"><span class="n">width</span><span class="o">=</span><span class="default_value">1920</span></em>, <em class="sig-param"><span class="n">height</span><span class="o">=</span><span class="default_value">1080</span></em>, <em class="sig-param"><span class="n">with_key_callbacks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer.html#Figure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure" title="Permalink to this definition">¶</a></dt>
-<dd><p>The top level container for all the plot elements.</p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The top level container for all the plot elements.</p>
 <p>You can close the visualizer with the keys <cite>escape</cite> or <cite>q</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -141,6 +150,12 @@ for keys.</p>
 </dl>
 </dd>
 </dl>
+<dl class="py method">
+<dt id="pytransform3d.visualizer.Figure.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window_name</span><span class="o">=</span><span class="default_value">'Open3D'</span></em>, <em class="sig-param"><span class="n">width</span><span class="o">=</span><span class="default_value">1920</span></em>, <em class="sig-param"><span class="n">height</span><span class="o">=</span><span class="default_value">1080</span></em>, <em class="sig-param"><span class="n">with_key_callbacks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer.html#Figure.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -148,38 +163,44 @@ for keys.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.add_geometry" title="pytransform3d.visualizer.Figure.add_geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_geometry</span></code></a>(geometry)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.__init__" title="pytransform3d.visualizer.Figure.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([window_name, width, height, …])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.add_geometry" title="pytransform3d.visualizer.Figure.add_geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_geometry</span></code></a>(geometry)</p></td>
 <td><p>Add geometry to visualizer.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.animate" title="pytransform3d.visualizer.Figure.animate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">animate</span></code></a>(callback, n_frames[, loop, fargs])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.animate" title="pytransform3d.visualizer.Figure.animate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">animate</span></code></a>(callback, n_frames[, loop, fargs])</p></td>
 <td><p>Make animation with callback.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot" title="pytransform3d.visualizer.Figure.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(P[, c])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot" title="pytransform3d.visualizer.Figure.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(P[, c])</p></td>
 <td><p>Plot line.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_basis" title="pytransform3d.visualizer.Figure.plot_basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_basis</span></code></a>([R, p, s, strict_check])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_basis" title="pytransform3d.visualizer.Figure.plot_basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_basis</span></code></a>([R, p, s, strict_check])</p></td>
 <td><p>Plot basis.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_box" title="pytransform3d.visualizer.Figure.plot_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_box</span></code></a>([size, A2B, c])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_box" title="pytransform3d.visualizer.Figure.plot_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_box</span></code></a>([size, A2B, c])</p></td>
 <td><p>Plot box.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_cylinder" title="pytransform3d.visualizer.Figure.plot_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cylinder</span></code></a>([length, radius, A2B, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_cylinder" title="pytransform3d.visualizer.Figure.plot_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cylinder</span></code></a>([length, radius, A2B, …])</p></td>
 <td><p>Plot cylinder.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_graph</span></code></a>(tm, frame[, show_frames, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_graph</span></code></a>(tm, frame[, show_frames, …])</p></td>
 <td><p>Plot graph of connected frames.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_mesh" title="pytransform3d.visualizer.Figure.plot_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_mesh</span></code></a>(filename[, A2B, s, c])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_mesh" title="pytransform3d.visualizer.Figure.plot_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_mesh</span></code></a>(filename[, A2B, s, c])</p></td>
 <td><p>Plot mesh.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_sphere" title="pytransform3d.visualizer.Figure.plot_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sphere</span></code></a>([radius, A2B, resolution, c])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_sphere" title="pytransform3d.visualizer.Figure.plot_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sphere</span></code></a>([radius, A2B, resolution, c])</p></td>
 <td><p>Plot sphere.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_trajectory" title="pytransform3d.visualizer.Figure.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>(P[, n_frames, s, c])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_trajectory" title="pytransform3d.visualizer.Figure.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>(P[, n_frames, s, c])</p></td>
 <td><p>Trajectory of poses.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_transform" title="pytransform3d.visualizer.Figure.plot_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_transform</span></code></a>([A2B, s, name, strict_check])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_transform" title="pytransform3d.visualizer.Figure.plot_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_transform</span></code></a>([A2B, s, name, strict_check])</p></td>
 <td><p>Plot coordinate frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_image</span></code></a>(filename)</p></td>
+<td><p>Save rendered image to file.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.set_line_width" title="pytransform3d.visualizer.Figure.set_line_width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_line_width</span></code></a>(line_width)</p></td>
 <td><p>Set render option line width.</p></td>
@@ -417,7 +438,7 @@ representing red, green, and blue respectively.</p>
 <dt><strong>resolution</strong><span class="classifier">int, optianal (default: 20)</span></dt><dd><p>The resolution of the sphere. The longitues will be split into
 resolution segments (i.e. there are resolution + 1 latitude lines
 including the north and south pole). The latitudes will be split
-into <a href="#id1"><span class="problematic" id="id2">`</span></a>2 * resolution segments (i.e. there are 2 * resolution
+into 2 * resolution segments (i.e. there are 2 * resolution
 longitude lines.)</p>
 </dd>
 <dt><strong>c</strong><span class="classifier">array-like, shape (3,), optional (default: None)</span></dt><dd><p>Color</p>
@@ -548,6 +569,20 @@ longitude lines.)</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pytransform3d.visualizer.Figure.save_image">
+<code class="sig-name descname">save_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer.html#Figure.save_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure.save_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save rendered image to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>Path to file in which the rendered image should be stored</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pytransform3d.visualizer.Figure.show">
 <code class="sig-name descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer.html#Figure.show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display the figure window.</p>
@@ -555,6 +590,65 @@ longitude lines.)</p>
 
 </dd></dl>
 
+<div class="section" id="examples-using-pytransform3d-visualizer-figure">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.visualizer.Figure</span></code><a class="headerlink" href="#examples-using-pytransform3d-visualizer-figure" title="Permalink to this headline">¶</a></h2>
+<div class="sphx-glr-thumbcontainer" tooltip="Visualize Sphere"><div class="figure align-default" id="id1">
+<img alt="Visualize Sphere" src="../_images/sphx_glr_vis_sphere_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_sphere.html#sphx-glr-auto-examples-visualizations-vis-sphere-py"><span class="std std-ref">Visualize Sphere</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Coordinate Frame"><div class="figure align-default" id="id2">
+<img alt="Visualize Coordinate Frame" src="../_images/sphx_glr_vis_basis_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_basis.html#sphx-glr-auto-examples-visualizations-vis-basis-py"><span class="std std-ref">Visualize Coordinate Frame</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><div class="figure align-default" id="id3">
+<img alt="Plot Box" src="../_images/sphx_glr_vis_box_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_box.html#sphx-glr-auto-examples-visualizations-vis-box-py"><span class="std std-ref">Plot Box</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folde..."><div class="figure align-default" id="id4">
+<img alt="Visualize Mesh" src="../_images/sphx_glr_vis_mesh_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_mesh.html#sphx-glr-auto-examples-visualizations-vis-mesh-py"><span class="std std-ref">Visualize Mesh</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a rotation about the x-axis."><div class="figure align-default" id="id5">
+<img alt="Animate Rotation" src="../_images/sphx_glr_vis_moving_basis_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_basis.html#sphx-glr-auto-examples-visualizations-vis-moving-basis-py"><span class="std std-ref">Animate Rotation</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plots transformed cylinders."><div class="figure align-default" id="id6">
+<img alt="Visualize Transformed Cylinders" src="../_images/sphx_glr_vis_cylinder_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_cylinder.html#sphx-glr-auto-examples-visualizations-vis-cylinder-py"><span class="std std-ref">Visualize Transformed Cylinders</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a line."><div class="figure align-default" id="id7">
+<img alt="Animate Line" src="../_images/sphx_glr_vis_moving_line_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_line.html#sphx-glr-auto-examples-visualizations-vis-moving-line-py"><span class="std std-ref">Animate Line</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><div class="figure align-default" id="id8">
+<img alt="URDF with Meshes" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ..."><div class="figure align-default" id="id9">
+<img alt="Animated URDF with Meshes" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><div class="figure align-default" id="id10">
+<img alt="Animate Trajectory" src="../_images/sphx_glr_vis_moving_trajectory_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_trajectory.html#sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><div class="figure align-default" id="id11">
+<img alt="Animated Robot" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exp..."><div class="figure align-default" id="id12">
+<img alt="Visualize Cylinder with Wrench" src="../_images/sphx_glr_vis_moving_cylinder_with_wrench_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_cylinder_with_wrench.html#sphx-glr-auto-examples-visualizations-vis-moving-cylinder-with-wrench-py"><span class="std std-ref">Visualize Cylinder with Wrench</span></a></span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><div class="figure align-default" id="id13">
+<img alt="URDF Joints" src="../_images/sphx_glr_vis_urdf_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm and we assume that we have a force/torque sensor that measures the for..."><div class="figure align-default" id="id14">
+<img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-clear"></div></div>
 </div>
 
 
@@ -570,7 +664,7 @@ longitude lines.)</p>
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

@@ -1,7 +1,43 @@
-﻿:mod:`pytransform3d.urdf`.UrdfTransformManager
-=====================================================
+﻿pytransform3d.urdf.UrdfTransformManager
+=======================================
 
 .. currentmodule:: pytransform3d.urdf
 
 .. autoclass:: UrdfTransformManager
-    :members:
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~UrdfTransformManager.__init__
+      ~UrdfTransformManager.add_joint
+      ~UrdfTransformManager.add_transform
+      ~UrdfTransformManager.check_consistency
+      ~UrdfTransformManager.connected_components
+      ~UrdfTransformManager.get_joint_limits
+      ~UrdfTransformManager.get_transform
+      ~UrdfTransformManager.has_frame
+      ~UrdfTransformManager.load_urdf
+      ~UrdfTransformManager.plot_collision_objects
+      ~UrdfTransformManager.plot_connections_in
+      ~UrdfTransformManager.plot_frames_in
+      ~UrdfTransformManager.plot_visuals
+      ~UrdfTransformManager.remove_transform
+      ~UrdfTransformManager.set_joint
+      ~UrdfTransformManager.write_png
+   
+   
+
+   
+   
+   
+
+.. minigallery:: pytransform3d.urdf.UrdfTransformManager
+    :add-heading:

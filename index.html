@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -14,7 +17,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3D Rotations: SO(3)" href="rotations.html" />
+    <link rel="next" title="Notation" href="notation.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -37,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="#">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -53,14 +56,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -75,8 +80,8 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">pytransform3d</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
-<li><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 </ul>
@@ -88,7 +93,7 @@
               
                 
   <li>
-    <a href="rotations.html" title="Next Chapter: 3D Rotations: SO(3)"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">3D Rotations: SO(3) &raquo;</span>
+    <a href="notation.html" title="Next Chapter: Notation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Notation &raquo;</span>
     </a>
   </li>
               
@@ -123,91 +128,57 @@
 <p>pytransform3d covers the following groups of transformations.</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 30%" />
-<col style="width: 20%" />
-<col style="width: 38%" />
+<col style="width: 10%" />
+<col style="width: 29%" />
+<col style="width: 60%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Group</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Dimension</p></th>
-<th class="head"><p>Representation</p></th>
+<th class="head"><p>Representations</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>SO(3)</p></td>
 <td><p>3D rotations</p></td>
-<td><p>3</p></td>
-<td><p>unit quaternion,
-rotation matrix,
-axis-angle,
-Euler angles</p></td>
+<td><p>unit quaternion, rotation matrix,
+axis-angle, Euler angles</p></td>
 </tr>
 <tr class="row-odd"><td><p>SE(3)</p></td>
-<td><p>3D rigid
-transformations
-(translation +
-rotation)</p></td>
-<td><p>6</p></td>
-<td><p>transformation
-matrix, translation
-+ unit quaternion</p></td>
+<td><p>3D transformations
+(rotation and
+translation)</p></td>
+<td><p>transformation matrix, translation
+and unit quaternion, exponential
+coordinates, logarithm of
+transformation</p></td>
 </tr>
 </tbody>
 </table>
-<p>In this documentation we will use the notation <img class="math" src="_images/math/450d29f8128d1413fc5c90eb5122db5b534a81dc.png" alt="_A\boldsymbol{t}_{BC}"/>
-to represent a vector from frame B to frame C expressed in frame A.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>pytransform3d is available at
+<a class="reference external" href="https://github.com/rock-learning/pytransform3d">GitHub</a>.
+The readme there contains installation instructions. This documentation
+explains how you can work with pytransform3d and with 3D transformations
+in general.</p>
+</div>
 <div class="section" id="table-of-contents">
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="rotations.html#rotation-matrix">Rotation Matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rotations.html#axis-angle">Axis-Angle</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rotations.html#euler-angles">Euler Angles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rotations.html#quaternions">Quaternions</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#transformation-matrix">Transformation Matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformations.html#position-and-quaternion">Position and Quaternion</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#right-handed-vs-left-handed-coordinate-system">Right-handed vs. Left-handed Coordinate System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#active-alibi-vs-passive-alias-transformation">Active (Alibi) vs. Passive (Alias) Transformation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#pre-multiply-vs-post-multiply-rotations">Pre-multiply vs. Post-multiply Rotations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#intrinsic-vs-extrinsic-rotation">Intrinsic vs. Extrinsic Rotation</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.trajectories"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.transform_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transform_manager</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.editor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.editor</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.urdf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.camera"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#module-pytransform3d.visualizer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_auto_examples/index.html">Examples</a></li>
 </ul>
 </div>
-</div>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Representing Robot Pose: The good, the bad, and the ugly (slides): <a class="reference external" href="http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf">http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf</a></p></li>
-<li><p>Representing Robot Pose: The good, the bad, and the ugly (blog): <a class="reference external" href="http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly">http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly</a></p></li>
-<li><p>Kindr cheat sheet: <a class="reference external" href="https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf">https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf</a></p></li>
-<li><p>Why and How to Avoid the Flipped Quaternion Multiplication: <a class="reference external" href="https://arxiv.org/pdf/1801.07478.pdf">https://arxiv.org/pdf/1801.07478.pdf</a></p></li>
-</ul>
 </div>
 </div>
 
@@ -224,7 +195,7 @@ to represent a vector from frame B to frame C expressed in frame A.</p>
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

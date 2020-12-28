@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transform_manager &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d.transform_manager &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
@@ -36,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -52,14 +55,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -107,8 +112,10 @@
     <div class="body col-md-12 content" role="main">
       
   <h1>Source code for pytransform3d.transform_manager</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Manage compley chains of transformations.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span></span><span class="sd">&quot;&quot;&quot;Manage complex chains of transformations.</span>
+
+<span class="sd">See :doc:`transform_manager` for more information.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csgraph</span>
@@ -123,26 +130,27 @@
 
 
 <div class="viewcode-block" id="TransformManager"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager">[docs]</a><span class="k">class</span> <span class="nc">TransformManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Manage transforms between frames.</span>
+    <span class="sd">&quot;&quot;&quot;Manage transformations between frames.</span>
 
 <span class="sd">    This is a simplified version of `ROS tf &lt;http://wiki.ros.org/tf&gt;`_ that</span>
-<span class="sd">    ignores the temporal aspect. A user can register transforms. The shortest</span>
-<span class="sd">    path between all frames will be computed internally which enables us to</span>
-<span class="sd">    provide transforms for any connected frames.</span>
+<span class="sd">    ignores the temporal aspect. A user can register transformations. The</span>
+<span class="sd">    shortest path between all frames will be computed internally which enables</span>
+<span class="sd">    us to provide transforms for any connected frames.</span>
 
-<span class="sd">    Suppose we know the transforms A2B, D2C, and B2C. The transform manager can</span>
-<span class="sd">    compute any transform between the frames A, B, C and D. For example, you</span>
-<span class="sd">    can request the transform that represents frame D in frame A. The transform</span>
-<span class="sd">    manager will automatically concatenate the transform D2C, C2B, and B2A,</span>
-<span class="sd">    where C2B and B2A are obtained by inverting B2C and A2B respectively.</span>
+<span class="sd">    Suppose we know the transformations A2B, D2C, and B2C. The transform</span>
+<span class="sd">    manager can compute any transformation between the frames A, B, C and D.</span>
+<span class="sd">    For example, you can request the transformation that represents frame D in</span>
+<span class="sd">    frame A. The transformation manager will automatically concatenate the</span>
+<span class="sd">    transformations D2C, C2B, and B2A, where C2B and B2A are obtained by</span>
+<span class="sd">    inverting B2C and A2B respectively.</span>
 
 <span class="sd">    .. warning::</span>
 
-<span class="sd">        It is possible to introduce inconsistencies in the transform manager.</span>
-<span class="sd">        Adding A2B and B2A with inconsistent values will result in an invalid</span>
-<span class="sd">        state because inconsistencies will not be checked. It seems to be</span>
-<span class="sd">        trivial in this simple case but can be computationally complex for</span>
-<span class="sd">        large graphs. You can check the consistency explicitly with</span>
+<span class="sd">        It is possible to introduce inconsistencies in the transformation</span>
+<span class="sd">        manager. Adding A2B and B2A with inconsistent values will result in</span>
+<span class="sd">        an invalid state because inconsistencies will not be checked. It seems</span>
+<span class="sd">        to be trivial in this simple case but can be computationally complex</span>
+<span class="sd">        for large graphs. You can check the consistency explicitly with</span>
 <span class="sd">        :func:`TransformManager.check_consistency`.</span>
 
 <span class="sd">    Parameters</span>
@@ -156,34 +164,44 @@
 <span class="sd">        Check if transformation matrices are valid and requested nodes exist,</span>
 <span class="sd">        which might significantly slow down some operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformManager.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span> <span class="o">=</span> <span class="n">strict_check</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check</span> <span class="o">=</span> <span class="n">check</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># A pair (self.i[n], self.j[n]) represents indices of connected nodes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># We have to store the index n associated to a transformation to be</span>
+        <span class="c1"># able to remove the transformation later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Same information as sparse matrix</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># Result of shortest path algorithm:</span>
+        <span class="c1"># distance matrix (distance is the number of transformations)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="TransformManager.add_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.add_transform">[docs]</a>    <span class="k">def</span> <span class="nf">add_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Register a transform.</span>
+        <span class="sd">&quot;&quot;&quot;Register a transformation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        from_frame : str</span>
-<span class="sd">            Name of the frame for which the transform is added in the to_frame</span>
-<span class="sd">            coordinate system</span>
+<span class="sd">            Name of the frame for which the transformation is added in the</span>
+<span class="sd">            to_frame coordinate system</span>
 
 <span class="sd">        to_frame : str</span>
-<span class="sd">            Name of the frame in which the transform is defined</span>
+<span class="sd">            Name of the frame in which the transformation is defined</span>
 
 <span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Homogeneous matrix that represents the transform from &#39;from_frame&#39;</span>
-<span class="sd">            to &#39;to_frame&#39;</span>
+<span class="sd">            Homogeneous matrix that represents the transformation from</span>
+<span class="sd">            &#39;from_frame&#39; to &#39;to_frame&#39;</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -197,17 +215,50 @@
         <span class="k">if</span> <span class="n">to_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_frame</span><span class="p">)</span>
 
+        <span class="n">transform_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span>
+
         <span class="n">recompute_shortest_path</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">transform_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">:</span>
+            <span class="n">ij_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">from_frame</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">to_frame</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ij_index</span>
             <span class="n">recompute_shortest_path</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">[(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)]</span> <span class="o">=</span> <span class="n">A2B</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">A2B</span>
 
         <span class="k">if</span> <span class="n">recompute_shortest_path</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_recompute_shortest_path</span><span class="p">()</span>
 
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="TransformManager.remove_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.remove_transform">[docs]</a>    <span class="k">def</span> <span class="nf">remove_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove a transformation.</span>
+
+<span class="sd">        Nothing happens if there is no such transformation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_frame : str</span>
+<span class="sd">            Name of the frame for which the transformation is added in the</span>
+<span class="sd">            to_frame coordinate system</span>
+
+<span class="sd">        to_frame : str</span>
+<span class="sd">            Name of the frame in which the transformation is defined</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : TransformManager</span>
+<span class="sd">            This object for chaining</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">transform_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transform_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span>
+            <span class="n">ij_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ij_index</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">[</span><span class="n">ij_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recompute_shortest_path</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="nf">_recompute_shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -236,22 +287,22 @@
         <span class="k">return</span> <span class="n">frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span></div>
 
 <div class="viewcode-block" id="TransformManager.get_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.get_transform">[docs]</a>    <span class="k">def</span> <span class="nf">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Request a transform.</span>
+        <span class="sd">&quot;&quot;&quot;Request a transformation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        from_frame : str</span>
-<span class="sd">            Name of the frame for which the transform is requested in the</span>
+<span class="sd">            Name of the frame for which the transformation is requested in the</span>
 <span class="sd">            to_frame coordinate system</span>
 
 <span class="sd">        to_frame : str</span>
-<span class="sd">            Name of the frame in which the transform is defined</span>
+<span class="sd">            Name of the frame in which the transformation is defined</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Homogeneous matrix that represents the transform from &#39;from_frame&#39;</span>
-<span class="sd">            to &#39;to_frame&#39;</span>
+<span class="sd">            Homogeneous matrix that represents the transformation from</span>
+<span class="sd">            &#39;from_frame&#39; to &#39;to_frame&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">from_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
@@ -349,7 +400,7 @@
 
 <span class="sd">        A line between each pair of frames for which a direct transformation</span>
 <span class="sd">        is known will be plotted. Direct means that either A2B or B2A has been</span>
-<span class="sd">        added to the transform manager.</span>
+<span class="sd">        added to the transformation manager.</span>
 
 <span class="sd">        Note that frames that cannot be connected to the reference frame are</span>
 <span class="sd">        omitted.</span>
@@ -537,7 +588,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

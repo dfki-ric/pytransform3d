@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transformation Ambiguities &#8212; pytransform3d 1.4 documentation</title>
+    <title>Transformation Ambiguities &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -15,7 +18,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Modeling Transformations" href="transformation_modeling.html" />
-    <link rel="prev" title="3D Transformations: SE(3)" href="transformations.html" />
+    <link rel="prev" title="SE(3): 3D Transformations" href="transformations.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -38,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -54,14 +57,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -79,7 +84,8 @@
 <li><a class="reference internal" href="#right-handed-vs-left-handed-coordinate-system">Right-handed vs. Left-handed Coordinate System</a></li>
 <li><a class="reference internal" href="#active-alibi-vs-passive-alias-transformation">Active (Alibi) vs. Passive (Alias) Transformation</a></li>
 <li><a class="reference internal" href="#pre-multiply-vs-post-multiply-rotations">Pre-multiply vs. Post-multiply Rotations</a></li>
-<li><a class="reference internal" href="#intrinsic-vs-extrinsic-rotation">Intrinsic vs. Extrinsic Rotation</a></li>
+<li><a class="reference internal" href="#intrinsic-vs-extrinsic-transformations">Intrinsic vs. Extrinsic Transformations</a></li>
+<li><a class="reference internal" href="#conventions-of-other-software">Conventions of Other Software</a></li>
 </ul>
 </li>
 </ul>
@@ -91,7 +97,7 @@
               
                 
   <li>
-    <a href="transformations.html" title="Previous Chapter: 3D Transformations: SE(3)"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; 3D Transforma...</span>
+    <a href="transformations.html" title="Previous Chapter: SE(3): 3D Transformations"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; SE(3): 3D Tra...</span>
     </a>
   </li>
   <li>
@@ -126,7 +132,7 @@
     <div class="body col-md-12 content" role="main">
       
   <div class="section" id="transformation-ambiguities">
-<h1>Transformation Ambiguities<a class="headerlink" href="#transformation-ambiguities" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Transformation Ambiguities<a class="headerlink" href="#transformation-ambiguities" title="Permalink to this headline">¶</a></h1>
 <p>There are lots of ambiguities in the world of transformations. We try to
 explain them all here.</p>
 <div class="section" id="right-handed-vs-left-handed-coordinate-system">
@@ -248,82 +254,146 @@ matrices depending on how we multiply them to points.</p>
 <p>The default in pytransform3d are pre-multiplied rotation matrices.</p>
 </div>
 </div>
-<div class="section" id="intrinsic-vs-extrinsic-rotation">
-<h2>Intrinsic vs. Extrinsic Rotation<a class="headerlink" href="#intrinsic-vs-extrinsic-rotation" title="Permalink to this headline">¶</a></h2>
-<p>A similar problem occurs when we want to concatenate rotations:
+<div class="section" id="intrinsic-vs-extrinsic-transformations">
+<h2>Intrinsic vs. Extrinsic Transformations<a class="headerlink" href="#intrinsic-vs-extrinsic-transformations" title="Permalink to this headline">¶</a></h2>
+<p>A similar problem occurs when we want to concatenate rotations
+or transformations:
 suppose we have a rotation matrix <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> and another matrix
 <img class="math" src="_images/math/f59def0e720f7de8ca2abe4eb16528d1e9b9f3bf.png" alt="R_2"/> and we want to first rotate by <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> and then by
 <img class="math" src="_images/math/f59def0e720f7de8ca2abe4eb16528d1e9b9f3bf.png" alt="R_2"/>. If we want to apply both rotations in global coordinates
-(extrinsic rotation), we have to concatenate them with
+(global, space-fixed / extrinsic rotation), we have to concatenate them with
 <img class="math" src="_images/math/5db82d008f7b95daf144bfc3a194f4852765e8fb.png" alt="R_2 \cdot R_1"/>. We can also express the second rotation in terms
-of a local, body-fixed coordinates (intrinsic rotation) by
-<img class="math" src="_images/math/095df9aa7aeebaf66725086d98973784d835f83e.png" alt="R_1 \cdot R_2"/>, which means <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> defines new coordinates
+of a local, body-fixed coordinates (local, body-fixed / intrinsic rotation)
+by <img class="math" src="_images/math/095df9aa7aeebaf66725086d98973784d835f83e.png" alt="R_1 \cdot R_2"/>, which means <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> defines new coordinates
 in which <img class="math" src="_images/math/f59def0e720f7de8ca2abe4eb16528d1e9b9f3bf.png" alt="R_2"/> is applied. Note that this applies to both
-passive and active rotation matrices.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">================================================================</span>
-<span class="sd">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</span>
-<span class="sd">================================================================</span>
-
-<span class="sd">We will compare all possible combinations of passive and active</span>
-<span class="sd">rotations and extrinsic and intrinsic concatenation of rotations.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">proj3d</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">passive_matrix_from_angle</span><span class="p">,</span> <span class="n">active_matrix_from_angle</span><span class="p">,</span> <span class="n">plot_basis</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">)]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;Z&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">azim</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
-
-<span class="n">Rx45</span> <span class="o">=</span> <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">45</span><span class="p">))</span>
-<span class="n">Rz45</span> <span class="o">=</span> <span class="n">passive_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">45</span><span class="p">))</span>
-
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Passive Extrinsic Rotations&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_x(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rx45</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_z(45^{\circ}) R_x(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rz45</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Rx45</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Passive Intrinsic Rotations&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_x(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rx45</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_x(45^{\circ}) R_{z&#39;}(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rx45</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Rz45</span><span class="p">))</span>
-
-<span class="n">Rx45</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">45</span><span class="p">))</span>
-<span class="n">Rz45</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">45</span><span class="p">))</span>
-
-<span class="n">axes</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Active Extrinsic Rotations&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_x(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rx45</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_z(45^{\circ}) R_x(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rz45</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Rx45</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Active Intrinsic Rotations&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_x(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rx45</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$R_x(45^{\circ}) R_{z&#39;}(45^{\circ})$&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">R</span><span class="o">=</span><span class="n">Rx45</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Rz45</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>(<a class="reference external" href="./../../examples/plot_convention_rotation_global_local.py">Source code</a>, <a class="reference external" href="./../../examples/plot_convention_rotation_global_local.png">png</a>, <a class="reference external" href="./../../examples/plot_convention_rotation_global_local.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plot_convention_rotation_global_local.pdf">pdf</a>)</p>
+passive and active rotation matrices. Specifying this convention is
+particularly relevant when we deal with Euler angles.</p>
+<p>Here is a comparison between various conventions of concatenation.</p>
+<p>(<a class="reference external" href="./../../examples/plots/plot_convention_rotation_global_local.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_convention_rotation_global_local.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_convention_rotation_global_local.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_convention_rotation_global_local.pdf">pdf</a>)</p>
 <div class="figure align-default">
 <img alt="_images/plot_convention_rotation_global_local.png" src="_images/plot_convention_rotation_global_local.png" />
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The default in pytransform3d are intrinsic rotations.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There are two conventions on how to concatenate rotations and
+transformations: intrinsic and extrinsic transformation.
+There is no default in pytransform3d but usually the function name
+should tell you which convention the function uses.
+Note that there are two functions to generate rotation matrices that
+generate intrinsic rotations without a telling function name:
+<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz" title="pytransform3d.rotations.matrix_from_euler_xyz"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_xyz()</span></code></a> and
+<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_zyx.html#pytransform3d.rotations.matrix_from_euler_zyx" title="pytransform3d.rotations.matrix_from_euler_zyx"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_zyx()</span></code></a>. These are kept
+for backward compatibility. When in doubt, read the docstring, which
+clearly states that they make intrinsic rotations.</p>
 </div>
+</div>
+<div class="section" id="conventions-of-other-software">
+<h2>Conventions of Other Software<a class="headerlink" href="#conventions-of-other-software" title="Permalink to this headline">¶</a></h2>
+<p>The following is an incomplete list of conventions for representations of
+rotations, orientations, transformations, or poses and coordinate frames
+other software packages use. It illustrates the diversity that you will
+find when you combine different software systems.</p>
+<p><a class="reference external" href="https://www.blender.org/">Blender user interface (computer graphics)</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><p>Euler angles (are actually Tait-Bryan angles): external rotations, angles in degree</p></li>
+<li><p>Quaternion: scalar first</p></li>
+</ul>
+<p><a class="reference external" href="https://base.xsens.com/hc/en-us/articles/360012672099-MVNX-Version-4-File-Structure">XSens MVNX format (motion capture)</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><dl class="simple">
+<dt>Conventions for coordinate frames</dt><dd><ul>
+<li><p>Axis orientation in the world (global): x north, y west, z up (NWU)</p></li>
+<li><p>Axis orientation on body parts: axes are aligned with world axes when
+subject stands in T pose</p></li>
+<li><p>Quaternion and rotation matrix rotate from sensor frame to world frame,
+that is, they represent the orientation of the sensor with respect to
+the world</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Quaternion: scalar first</p></li>
+<li><p>Euler angles: extrinsic roll-pitch-yaw (xyz) convention</p></li>
+</ul>
+<p><a class="reference external" href="https://github.com/bulletphysics/bullet3">Bullet (physics engine)</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><p>Euler angles: extrinsic roll-pitch-yaw (xyz) convention
+(getQuaternionFromEuler from pybullet’s API)</p></li>
+<li><p>Quaternion: scalar last and Hamilton multiplication</p></li>
+</ul>
+<p><a class="reference external" href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen (linear algebra library)</a></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Quaternion</dt><dd><ul>
+<li><p>Scalar first (constructor) and scalar last (internal)</p></li>
+<li><p>Hamilton multiplication</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><a class="reference external" href="https://petercorke.com/toolboxes/robotics-toolbox/">Peter Corke’s robotics toolbox</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><dl class="simple">
+<dt>Euler angles</dt><dd><ul>
+<li><p>Intrinsic zyz convention</p></li>
+<li><p>Roll-pitch-yaw angles correspond either to intrinsic zyx convention
+(default) or intrinsic xyz convention, which can be selected by a
+parameter</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Quaternion: scalar first and Hamilton multiplication</p></li>
+</ul>
+<p><a class="reference external" href="https://www.ros.org/">Robot Operating System (ROS)</a> <a class="reference external" href="https://www.ros.org/reps/rep-0103.html">(REP103)</a></p>
+<ul class="simple">
+<li><p>Active transformations</p></li>
+<li><dl class="simple">
+<dt>Conventions for coordinate frames</dt><dd><ul>
+<li><p>Axis orientation on body: x forward, y left, z up</p></li>
+<li><p>Axis orientation in the world: x east, y north, z up (ENU)</p></li>
+<li><p>Axis orientation of optical camera frame (indicated by suffix
+in topic name): z forward, x right, y down</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Euler angles</dt><dd><ul>
+<li><p>Active, extrinsic roll-pitch-yaw (xyz) convention (as used, e.g.,
+in origin tag of URDF) can be used</p></li>
+<li><p>In addition, the yaw-pitch-roll (zyx) convention can be used, but
+is discouraged</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>A <a class="reference external" href="http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/PoseStamped.html">PoseStamped</a>
+is represented with respect to a <cite>frame_id</cite></p></li>
+<li><p>When interpreted as active transformation,
+<a class="reference external" href="http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/TransformStamped.html">TransformStamped</a>
+represents a transformation from <em>child frame</em> to its (parent) <em>frame</em></p></li>
+<li><p><a class="reference external" href="http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/Quaternion.html">Quaternion</a>:
+scalar last</p></li>
+</ul>
+<p><a class="reference external" href="https://www.universal-robots.com/">Universal Robot user interface</a></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Conventions for coordinate frames</dt><dd><ul>
+<li><p>Default axis orientation of tool center point: z forward
+(approach direction), x and y axes define the orientation
+with which we approach the target</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Euler angles: extrinsic roll-pitch-yaw (xyz) convention</p></li>
+</ul>
 </div>
 </div>
 
@@ -340,7 +410,7 @@ passive and active rotation matrices.</p>
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

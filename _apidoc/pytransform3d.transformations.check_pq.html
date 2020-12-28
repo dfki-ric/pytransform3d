@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations.check_pq &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d.transformations.check_pq &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -14,7 +17,7 @@
     <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.transformations.transform_from" href="pytransform3d.transformations.transform_from.html" />
+    <link rel="next" title="pytransform3d.transformations.check_screw_parameters" href="pytransform3d.transformations.check_screw_parameters.html" />
     <link rel="prev" title="pytransform3d.transformations.check_transform" href="pytransform3d.transformations.check_transform.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -38,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -54,14 +57,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../animations.html">Animations</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -75,7 +80,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_pq</a></li>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_pq</a><ul>
+<li><a class="reference internal" href="#examples-using-pytransform3d-transformations-check-pq">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.check_pq</span></code></a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -89,7 +97,7 @@
     </a>
   </li>
   <li>
-    <a href="pytransform3d.transformations.transform_from.html" title="Next Chapter: pytransform3d.transformations.transform_from"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pytransform3d... &raquo;</span>
+    <a href="pytransform3d.transformations.check_screw_parameters.html" title="Next Chapter: pytransform3d.transformations.check_screw_parameters"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pytransform3d... &raquo;</span>
     </a>
   </li>
               
@@ -141,6 +149,9 @@
 </dl>
 </dd></dl>
 
+<div class="section" id="examples-using-pytransform3d-transformations-check-pq">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.check_pq</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-check-pq" title="Permalink to this headline">¶</a></h2>
+<div class="sphx-glr-clear"></div></div>
 </div>
 
 
@@ -156,7 +167,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

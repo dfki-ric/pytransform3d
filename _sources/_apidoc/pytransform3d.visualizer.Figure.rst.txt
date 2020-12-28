@@ -1,7 +1,45 @@
-﻿:mod:`pytransform3d.visualizer`.Figure
-=============================================
+﻿pytransform3d.visualizer.Figure
+===============================
 
 .. currentmodule:: pytransform3d.visualizer
 
 .. autoclass:: Figure
-    :members:
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Figure.__init__
+      ~Figure.add_geometry
+      ~Figure.animate
+      ~Figure.plot
+      ~Figure.plot_basis
+      ~Figure.plot_box
+      ~Figure.plot_cylinder
+      ~Figure.plot_graph
+      ~Figure.plot_mesh
+      ~Figure.plot_sphere
+      ~Figure.plot_trajectory
+      ~Figure.plot_transform
+      ~Figure.save_image
+      ~Figure.set_line_width
+      ~Figure.set_zoom
+      ~Figure.show
+      ~Figure.update_geometry
+      ~Figure.view_init
+   
+   
+
+   
+   
+   
+
+.. minigallery:: pytransform3d.visualizer.Figure
+    :add-heading:

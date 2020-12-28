@@ -1,7 +1,37 @@
-﻿:mod:`pytransform3d.transform_manager`.TransformManager
-==============================================================
+﻿pytransform3d.transform\_manager.TransformManager
+=================================================
 
 .. currentmodule:: pytransform3d.transform_manager
 
 .. autoclass:: TransformManager
-    :members:
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TransformManager.__init__
+      ~TransformManager.add_transform
+      ~TransformManager.check_consistency
+      ~TransformManager.connected_components
+      ~TransformManager.get_transform
+      ~TransformManager.has_frame
+      ~TransformManager.plot_connections_in
+      ~TransformManager.plot_frames_in
+      ~TransformManager.remove_transform
+      ~TransformManager.write_png
+   
+   
+
+   
+   
+   
+
+.. minigallery:: pytransform3d.transform_manager.TransformManager
+    :add-heading:

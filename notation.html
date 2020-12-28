@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notation &#8212; pytransform3d 1.5 documentation</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SO(3): 3D Rotations" href="rotations.html" />
+    <link rel="prev" title="pytransform3d" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Notation</a><ul>
+<li><a class="reference internal" href="#representations">Representations</a></li>
+<li><a class="reference internal" href="#duality-of-transformations-and-poses">Duality of Transformations and Poses</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="index.html" title="Previous Chapter: pytransform3d"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pytransform3d</span>
+    </a>
+  </li>
+  <li>
+    <a href="rotations.html" title="Next Chapter: SO(3): 3D Rotations"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">SO(3): 3D Rotations &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="section" id="notation">
+<h1>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h1>
+<p>For physical quantities we use the notation <img class="math" src="_images/math/3e8d0fa9b4776124ada722970f386a22eeaab292.png" alt="_{A}\boldsymbol{x}_{BC}"/>,
+where <img class="math" src="_images/math/fa44d7cdd2d3f90f81820cfe85818a142149d124.png" alt="\boldsymbol{x}"/> is a physical quantity of frame C with
+respect to frame B expressed in frame A, where frame refers to a reference
+frame or coordinate system that is defined by three orthonormal basis vectors
+and a position in three-dimensional space. For example,
+<img class="math" src="_images/math/d7630191cf5ddcf5696961e2dbcd83688da4c40e.png" alt="_{A}\boldsymbol{t}_{BC}"/> is the translation of C with respect to B
+measured in A or <img class="math" src="_images/math/3a0a38a6c1a6f2a6dad269732f456d280d194717.png" alt="_{A}\boldsymbol{\omega}_{BC}"/> is the
+orientation vector of C with respect to B measured in A.</p>
+<p>Since <img class="math" src="_images/math/450d29f8128d1413fc5c90eb5122db5b534a81dc.png" alt="_A\boldsymbol{t}_{BC}"/> represents a vector or translation from
+frame B to frame C expressed in frame A, the position of a point <img class="math" src="_images/math/c2aa3dff9bffb099e9dff196fd36aed56ec16baf.png" alt="P"/>
+with respect to a frame A in three-dimensional space can be defined by
+<img class="math" src="_images/math/86337058a33a4bf64036571af6230a662616eee0.png" alt="_A\boldsymbol{p} := _A\boldsymbol{t}_{AP}"/>.</p>
+<p>When we define a mapping from some frame A to another frame B that can be
+expressed as a matrix multiplication, we use the notation
+<img class="math" src="_images/math/154ce50b162c0cbf7214a614569f9c51b911da52.png" alt="\boldsymbol{M}_{BA}"/> for the corresponding matrix. We can read this
+from right to left as a matrix that maps from frame A to frame B through
+multiplication, for example, when we want to transform a point by</p>
+<div class="math">
+<p><img src="_images/math/3c019428871f5d9c48960643635cb2b7de4e303d.png" alt="_B\boldsymbol{p} = \boldsymbol{M}_{BA} {_A\boldsymbol{p}}"/></p>
+</div><div class="section" id="representations">
+<h2>Representations<a class="headerlink" href="#representations" title="Permalink to this headline">¶</a></h2>
+<p>We can use many different representations of rotation and / or translation.
+Here is an overview of the representations that are available in pytransform3d.
+All representations are stored in NumPy arrays, of which the corresponding
+shape is shown in this table. You will find more details on these
+representations on the following pages.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 25%" />
+<col style="width: 12%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Representation and Mathematical Symbol</p></th>
+<th class="head"><p>NumPy Array Shape</p></th>
+<th class="head"><p>Rotation</p></th>
+<th class="head"><p>Translation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Rotation matrix
+<img class="math" src="_images/math/7580223f19f8adeaebf264954a214856067e3074.png" alt="\pmb{R}"/></p></td>
+<td><p>(3, 3)</p></td>
+<td><p>X</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Compact axis-angle
+<img class="math" src="_images/math/e053af6bf928b8c528cb031ebb9c37ab1b39abc3.png" alt="\pmb{\omega}"/></p></td>
+<td><p>(3,)</p></td>
+<td><p>X</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Axis-angle
+<img class="math" src="_images/math/70583ffeb32a0843b74c661c2ffb65fd2fc0daa1.png" alt="(\hat{\pmb{\omega}}, \theta)"/></p></td>
+<td><p>(4,)</p></td>
+<td><p>X</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Logarithm of rotation
+<img class="math" src="_images/math/0b9e14c5cc096d7fbff8198de5f08cb44ba42af5.png" alt="\left[\pmb{\omega}\right]"/></p></td>
+<td><p>(3, 3)</p></td>
+<td><p>X</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Quaternion
+<img class="math" src="_images/math/4093d557bd0321bf32c1cd4263badce666a9d0e2.png" alt="\pmb{q}"/></p></td>
+<td><p>(4,)</p></td>
+<td><p>X</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Euler angles
+<img class="math" src="_images/math/83c71b6e07feeb9e154a6ba4919e7e3455f0e5ed.png" alt="(\alpha, \beta, \gamma)"/></p></td>
+<td><p>(3,)</p></td>
+<td><p>X</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Transformation matrix
+<img class="math" src="_images/math/61e965b7223799883275328ccbeb7ba76f10e9e3.png" alt="\pmb{T}"/></p></td>
+<td><p>(4, 4)</p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+</tr>
+<tr class="row-odd"><td><p>Exponential coordinates
+<img class="math" src="_images/math/16ee41698f9a41eba6c6019455fcef3a4df24cac.png" alt="\mathcal{S}\theta"/></p></td>
+<td><p>(6,)</p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+</tr>
+<tr class="row-even"><td><p>Logarithm of transformation
+<img class="math" src="_images/math/c777dd25813bfe414ee8c60f19ffa57c031a1b12.png" alt="\left[\mathcal{S}\right]\theta"/></p></td>
+<td><p>(4, 4)</p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+</tr>
+<tr class="row-odd"><td><p>Position and quaternion
+<img class="math" src="_images/math/5bb46b3bdeb47ed87d265be808edce62a7c63d93.png" alt="(\pmb{p}, \pmb{q})"/></p></td>
+<td><p>(7,)</p></td>
+<td><p>X</p></td>
+<td><p>X</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="duality-of-transformations-and-poses">
+<h2>Duality of Transformations and Poses<a class="headerlink" href="#duality-of-transformations-and-poses" title="Permalink to this headline">¶</a></h2>
+<p>We can use a transformation matrix <img class="math" src="_images/math/cd7cb76e2991b36b6cabdc58ee51ad4acd629d07.png" alt="\boldsymbol{T}_{BA}"/> that represents
+a transformation from frame A to frame B to represent the pose (position and
+orientation) of frame A in frame B (if we use the active transformation
+convention; see <a class="reference internal" href="transformation_ambiguities.html#transformation-ambiguities"><span class="std std-ref">Transformation Ambiguities</span></a> for details). This is just
+a different interpretation of the same matrix and similar to our interpretation
+of a vector from A to P <img class="math" src="_images/math/86506bb7665c2b0d7e590c06c503e988c758d7d6.png" alt="_A\boldsymbol{t}_{AP}"/> as a point
+<img class="math" src="_images/math/29e9c2923fc1360492231a654bb1005efd62f3e6.png" alt="_A\boldsymbol{p}"/>.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Representing Robot Pose: The good, the bad, and the ugly (slides): <a class="reference external" href="http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf">http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf</a></p></li>
+<li><p>Representing Robot Pose: The good, the bad, and the ugly (blog): <a class="reference external" href="http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly">http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly</a></p></li>
+</ul>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Dec 28, 2020.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

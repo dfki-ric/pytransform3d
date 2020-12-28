@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d.plot_utils &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
@@ -36,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -52,14 +55,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -136,7 +141,7 @@
 
 <span class="sd">        Other arguments except &#39;c&#39; and &#39;color&#39; are passed on to Line3D.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Frame.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.Frame.html#pytransform3d.plot_utils.Frame.__init__">[docs]</a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">Frame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="s2">&quot;c&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -157,7 +162,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">label_text</span> <span class="o">=</span> <span class="n">Text3D</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">zdir</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Frame.set_data"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.Frame.html#pytransform3d.plot_utils.Frame.set_data">[docs]</a>        <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Set the transformation data.</span>
@@ -228,11 +233,11 @@
 
 <span class="sd">        Other arguments except &#39;c&#39; and &#39;color&#39; are passed on to Line3D.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="LabeledFrame.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame.__init__">[docs]</a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">x_label</span> <span class="o">=</span> <span class="n">Text3D</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">zdir</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">y_label</span> <span class="o">=</span> <span class="n">Text3D</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">zdir</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">z_label</span> <span class="o">=</span> <span class="n">Text3D</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">zdir</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">LabeledFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">LabeledFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LabeledFrame.set_data"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame.set_data">[docs]</a>        <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Set the transformation data.</span>
@@ -300,7 +305,7 @@
 
 <span class="sd">        Other arguments are passed onto Line3D.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Trajectory.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory.__init__">[docs]</a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">Trajectory</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">show_direction</span> <span class="o">=</span> <span class="n">show_direction</span>
@@ -314,7 +319,7 @@
                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                     <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">H</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trajectory.set_data"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory.set_data">[docs]</a>        <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Set the trajectory data.</span>
@@ -360,9 +365,9 @@
 
 <div class="viewcode-block" id="Arrow3D"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.Arrow3D.html#pytransform3d.plot_utils.Arrow3D">[docs]</a>    <span class="k">class</span> <span class="nc">Arrow3D</span><span class="p">(</span><span class="n">FancyArrowPatch</span><span class="p">):</span>  <span class="c1"># http://stackoverflow.com/a/11156353/915743</span>
         <span class="sd">&quot;&quot;&quot;A Matplotlib patch that represents an arrow in 3D.&quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Arrow3D.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.Arrow3D.html#pytransform3d.plot_utils.Arrow3D.__init__">[docs]</a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">Arrow3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_verts3d</span> <span class="o">=</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_verts3d</span> <span class="o">=</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span></div>
 
 <div class="viewcode-block" id="Arrow3D.set_data"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.Arrow3D.html#pytransform3d.plot_utils.Arrow3D.set_data">[docs]</a>        <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Set the arrow data.</span>
@@ -827,6 +832,30 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">add_collection3d</span><span class="p">(</span><span class="n">p3c</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ax</span></div>
 
+
+<div class="viewcode-block" id="remove_frame"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.remove_frame.html#pytransform3d.plot_utils.remove_frame">[docs]</a>    <span class="k">def</span> <span class="nf">remove_frame</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove axis and scale bbox.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ax : Matplotlib 3d axis</span>
+<span class="sd">            Axis from which we remove the frame</span>
+
+<span class="sd">        left : float, optional (default: 0)</span>
+<span class="sd">            Position of left border (between 0 and 1)</span>
+
+<span class="sd">        bottom : float, optional (default: 0)</span>
+<span class="sd">            Position of bottom border (between 0 and 1)</span>
+
+<span class="sd">        right : float, optional (default: 1)</span>
+<span class="sd">            Position of right border (between 0 and 1)</span>
+
+<span class="sd">        top : float, optional (default: 1)</span>
+<span class="sd">            Position of top border (between 0 and 1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)</span></div>
+
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Matplotlib is not installed, visualization is not available&quot;</span><span class="p">)</span>
 </pre></div>
@@ -843,7 +872,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

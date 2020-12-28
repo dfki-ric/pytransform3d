@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -38,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -54,14 +57,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../animations.html">Animations</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -75,7 +80,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.Arrow3D</a></li>
+<li><a class="reference internal" href="#">pytransform3d.plot_utils.Arrow3D</a><ul>
+<li><a class="reference internal" href="#examples-using-pytransform3d-plot-utils-arrow3d">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.plot_utils.Arrow3D</span></code></a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -120,27 +128,212 @@
     <div class="body col-md-12 content" role="main">
       
   <div class="section" id="pytransform3d-plot-utils-arrow3d">
-<h1><a class="reference internal" href="../api.html#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a>.Arrow3D<a class="headerlink" href="#pytransform3d-plot-utils-arrow3d" title="Permalink to this headline">¶</a></h1>
+<h1>pytransform3d.plot_utils.Arrow3D<a class="headerlink" href="#pytransform3d-plot-utils-arrow3d" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pytransform3d.plot_utils.Arrow3D">
 <em class="property">class </em><code class="sig-prename descclassname">pytransform3d.plot_utils.</code><code class="sig-name descname">Arrow3D</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xs</span></em>, <em class="sig-param"><span class="n">ys</span></em>, <em class="sig-param"><span class="n">zs</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D" title="Permalink to this definition">¶</a></dt>
-<dd><p>A Matplotlib patch that represents an arrow in 3D.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Attributes</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">axes</span></code></dt><dd><p>The <cite>~.axes.Axes</cite> instance the artist resides in, or <em>None</em>.</p>
+<dd><p>Bases: <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.patches.FancyArrowPatch.html#matplotlib.patches.FancyArrowPatch" title="(in Matplotlib v3.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.patches.FancyArrowPatch</span></code></a></p>
+<p>A Matplotlib patch that represents an arrow in 3D.</p>
+<dl class="py method">
+<dt id="pytransform3d.plot_utils.Arrow3D.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xs</span></em>, <em class="sig-param"><span class="n">ys</span></em>, <em class="sig-param"><span class="n">zs</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Arrow3D.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are two ways for defining an arrow:</p>
+<ul class="simple">
+<li><p>If <em>posA</em> and <em>posB</em> are given, a path connecting two points is
+created according to <em>connectionstyle</em>. The path will be
+clipped with <em>patchA</em> and <em>patchB</em> and further shrunken by
+<em>shrinkA</em> and <em>shrinkB</em>. An arrow is drawn along this
+resulting path using the <em>arrowstyle</em> parameter.</p></li>
+<li><p>Alternatively if <em>path</em> is provided, an arrow is drawn along this
+path and <em>patchA</em>, <em>patchB</em>, <em>shrinkA</em>, and <em>shrinkB</em> are ignored.</p></li>
+</ul>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>posA, posB</strong><span class="classifier">(float, float), default: None</span></dt><dd><p>(x, y) coordinates of arrow tail and arrow head respectively.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill</span></code></dt><dd><p>Return whether the patch is filled.</p>
+<dt><strong>path</strong><span class="classifier"><cite>~matplotlib.path.Path</cite>, default: None</span></dt><dd><p>If provided, an arrow is drawn along this path and <em>patchA</em>,
+<em>patchB</em>, <em>shrinkA</em>, and <em>shrinkB</em> are ignored.</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">mouseover</span></code></dt><dd><p>If this property is set to <em>True</em>, the artist will be queried for custom context information when the mouse cursor moves over it.</p>
+<dt><strong>arrowstyle</strong><span class="classifier">str or <cite>.ArrowStyle</cite>, default: ‘simple’</span></dt><dd><blockquote>
+<div><p>The <cite>.ArrowStyle</cite> with which the fancy arrow is drawn.  If a
+string, it should be one of the available arrowstyle names, with
+optional comma-separated attributes.  The optional attributes are
+meant to be scaled with the <em>mutation_scale</em>.  The following arrow
+styles are available:</p>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 10%" />
+<col style="width: 76%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Attrs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Curve</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-</span></code></p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p>CurveB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>BracketB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-[</span></code></p></td>
+<td><p>widthB=1.0, lengthB=0.2, angleB=None</p></td>
+</tr>
+<tr class="row-odd"><td><p>CurveFilledB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-|&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>CurveA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;-</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>CurveAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;-&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>CurveFilledA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;|-</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>CurveFilledAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;|-|&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>BracketA</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">]-</span></code></p></td>
+<td><p>widthA=1.0, lengthA=0.2, angleA=None</p></td>
+</tr>
+<tr class="row-odd"><td><p>BracketAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">]-[</span></code></p></td>
+<td><p>widthA=1.0, lengthA=0.2, angleA=None, widthB=1.0, lengthB=0.2, angleB=None</p></td>
+</tr>
+<tr class="row-even"><td><p>Fancy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fancy</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.4, tail_width=0.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Simple</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">simple</span></code></p></td>
+<td><p>head_length=0.5, head_width=0.5, tail_width=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>Wedge</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wedge</span></code></p></td>
+<td><p>tail_width=0.3, shrink_factor=0.5</p></td>
+</tr>
+<tr class="row-odd"><td><p>BarAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|-|</span></code></p></td>
+<td><p>widthA=1.0, angleA=None, widthB=1.0, angleB=None</p></td>
+</tr>
+</tbody>
+</table>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">stale</span></code></dt><dd><p>Whether the artist is ‘stale’ and needs to be re-drawn for the output to match the internal state of the artist.</p>
+<dt><strong>connectionstyle</strong><span class="classifier">str or <cite>.ConnectionStyle</cite> or None, optional, default: ‘arc3’</span></dt><dd><blockquote>
+<div><p>The <cite>.ConnectionStyle</cite> with which <em>posA</em> and <em>posB</em> are connected.
+If a string, it should be one of the available connectionstyle
+names, with optional comma-separated attributes.  The following
+connection styles are available:</p>
+</div></blockquote>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Attrs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Angle</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">angle</span></code></p></td>
+<td><p>angleA=90, angleB=0, rad=0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Angle3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">angle3</span></code></p></td>
+<td><p>angleA=90, angleB=0</p></td>
+</tr>
+<tr class="row-even"><td><p>Arc</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arc</span></code></p></td>
+<td><p>angleA=0, angleB=0, armA=None, armB=None, rad=0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Arc3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arc3</span></code></p></td>
+<td><p>rad=0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>Bar</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bar</span></code></p></td>
+<td><p>armA=0.0, armB=0.0, fraction=0.3, angle=None</p></td>
+</tr>
+</tbody>
+</table>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">sticky_edges</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> sticky edge lists for autoscaling.</p>
+<dt><strong>patchA, patchB</strong><span class="classifier"><cite>.Patch</cite>, default: None</span></dt><dd><p>Head and tail patches, respectively.</p>
+</dd>
+<dt><strong>shrinkA, shrinkB</strong><span class="classifier">float, default: 2</span></dt><dd><p>Shrinking factor of the tail and head of the arrow respectively.</p>
+</dd>
+<dt><strong>mutation_scale</strong><span class="classifier">float, default: 1</span></dt><dd><p>Value with which attributes of <em>arrowstyle</em> (e.g., <em>head_length</em>)
+will be scaled.</p>
+</dd>
+<dt><strong>mutation_aspect</strong><span class="classifier">None or float, default: None</span></dt><dd><p>The height of the rectangle will be squeezed by this value before
+the mutation and the mutated box will be stretched by the inverse
+of it.</p>
+</dd>
+<dt><strong>dpi_cor</strong><span class="classifier">float, default: 1</span></dt><dd><p>dpi_cor is currently used for linewidth-related things and shrink
+factor. Mutation scale is affected by this.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Other Parameters</dt>
+<dd class="field-even"><dl>
+<dt><strong>**kwargs</strong><span class="classifier"><cite>.Patch</cite> properties, optional</span></dt><dd><p>Here is a list of available <cite>.Patch</cite> properties:</p>
+</dd>
+<dt><strong>Properties:</strong></dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array
+alpha: float or None
+animated: bool
+antialiased or aa: unknown
+capstyle: {‘butt’, ‘round’, ‘projecting’}
+clip_box: <cite>.Bbox</cite>
+clip_on: bool
+clip_path: Patch or (Path, Transform) or None
+color: color
+contains: unknown
+edgecolor or ec: color or None or ‘auto’
+facecolor or fc: color or None
+figure: <cite>.Figure</cite>
+fill: bool
+gid: str
+hatch: {‘/’, ‘\’, ‘|’, ‘-‘, ‘+’, ‘x’, ‘o’, ‘O’, ‘.’, ‘*’}
+in_layout: bool
+joinstyle: {‘miter’, ‘round’, ‘bevel’}
+label: object
+linestyle or ls: {‘-‘, ‘–’, ‘-.’, ‘:’, ‘’, (offset, on-off-seq), …}
+linewidth or lw: float or None
+path_effects: <cite>.AbstractPathEffect</cite>
+picker: None or bool or callable
+rasterized: bool or None
+sketch_params: (scale: float, length: float, randomness: float)
+snap: bool or None
+transform: <cite>.Transform</cite>
+url: str
+visible: bool
+zorder: float</p>
+<p>In contrast to other patches, the default <code class="docutils literal notranslate"><span class="pre">capstyle</span></code> and
+<code class="docutils literal notranslate"><span class="pre">joinstyle</span></code> for <cite>FancyArrowPatch</cite> are set to <code class="docutils literal notranslate"><span class="pre">&quot;round&quot;</span></code>.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -148,356 +341,24 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_callback</span></code>(func)</p></td>
-<td><p>Add a callback function that will be called whenever one of the <cite>.Artist</cite>’s properties changes.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.__init__" title="pytransform3d.plot_utils.Arrow3D.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(xs, ys, zs, *args, **kwargs)</p></td>
+<td><p>There are two ways for defining an arrow:</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains</span></code>(mouseevent[, radius])</p></td>
-<td><p>Test whether the mouse event occurred in the patch.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains_point</span></code>(point[, radius])</p></td>
-<td><p>Return whether the given point is inside the patch.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">contains_points</span></code>(points[, radius])</p></td>
-<td><p>Return whether the given points are inside the patch.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_xunits</span></code>(x)</p></td>
-<td><p>Convert <em>x</em> using the unit type of the xaxis.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_yunits</span></code>(y)</p></td>
-<td><p>Convert <em>y</em> using the unit type of the yaxis.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.draw" title="pytransform3d.plot_utils.Arrow3D.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw</span></code></a>(renderer)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.draw" title="pytransform3d.plot_utils.Arrow3D.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw</span></code></a>(renderer)</p></td>
 <td><p>Draw the patch.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">findobj</span></code>([match, include_self])</p></td>
-<td><p>Find artist objects.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_cursor_data</span></code>(data)</p></td>
-<td><p>Return a string representation of <em>data</em>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_aa</span></code>()</p></td>
-<td><p>Alias for <cite>get_antialiased</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_agg_filter</span></code>()</p></td>
-<td><p>Return filter function to be used for agg filter.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_alpha</span></code>()</p></td>
-<td><p>Return the alpha value used for blending - not supported on all backends.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_animated</span></code>()</p></td>
-<td><p>Return whether the artist is animated.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_antialiased</span></code>()</p></td>
-<td><p>Return whether antialiasing is used for drawing.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_arrowstyle</span></code>()</p></td>
-<td><p>Return the arrowstyle object.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_capstyle</span></code>()</p></td>
-<td><p>Return the capstyle.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_children</span></code>()</p></td>
-<td><p>Return a list of the child <cite>.Artist</cite>s of this <cite>.Artist</cite>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clip_box</span></code>()</p></td>
-<td><p>Return the clipbox.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clip_on</span></code>()</p></td>
-<td><p>Return whether the artist uses clipping.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clip_path</span></code>()</p></td>
-<td><p>Return the clip path.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_connectionstyle</span></code>()</p></td>
-<td><p>Return the <cite>ConnectionStyle</cite> used.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contains</span></code>()</p></td>
-<td><p>[<em>Deprecated</em>] Return the custom contains function of the artist if set, or <em>None</em>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cursor_data</span></code>(event)</p></td>
-<td><p>Return the cursor data for a given event.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_transform</span></code>()</p></td>
-<td><p>Return the <cite>~.transforms.Transform</cite> mapping data coordinates to physical coordinates.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dpi_cor</span></code>()</p></td>
-<td><p>dpi_cor is currently used for linewidth-related things and shrink factor.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ec</span></code>()</p></td>
-<td><p>Alias for <cite>get_edgecolor</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edgecolor</span></code>()</p></td>
-<td><p>Return the edge color.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_extents</span></code>()</p></td>
-<td><p>Return the <cite>Patch</cite>’s axis-aligned extents as a <cite>~.transforms.Bbox</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_facecolor</span></code>()</p></td>
-<td><p>Return the face color.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fc</span></code>()</p></td>
-<td><p>Alias for <cite>get_facecolor</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_figure</span></code>()</p></td>
-<td><p>Return the <cite>.Figure</cite> instance the artist belongs to.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fill</span></code>()</p></td>
-<td><p>Return whether the patch is filled.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_gid</span></code>()</p></td>
-<td><p>Return the group id.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_hatch</span></code>()</p></td>
-<td><p>Return the hatching pattern.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_in_layout</span></code>()</p></td>
-<td><p>Return boolean flag, <code class="docutils literal notranslate"><span class="pre">True</span></code> if artist is included in layout calculations.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_joinstyle</span></code>()</p></td>
-<td><p>Return the joinstyle.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label</span></code>()</p></td>
-<td><p>Return the label used for this artist in the legend.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_linestyle</span></code>()</p></td>
-<td><p>Return the linestyle.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_linewidth</span></code>()</p></td>
-<td><p>Return the line width in points.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ls</span></code>()</p></td>
-<td><p>Alias for <cite>get_linestyle</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_lw</span></code>()</p></td>
-<td><p>Alias for <cite>get_linewidth</cite>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mutation_aspect</span></code>()</p></td>
-<td><p>Return the aspect ratio of the bbox mutation.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mutation_scale</span></code>()</p></td>
-<td><p>Return the mutation scale.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_patch_transform</span></code>()</p></td>
-<td><p>Return the <cite>~.transforms.Transform</cite> instance mapping patch coordinates to data coordinates.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_path</span></code>()</p></td>
-<td><p>Return the path of the arrow in the data coordinates.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_path_in_displaycoord</span></code>()</p></td>
-<td><p>Return the mutated path of the arrow in display coordinates.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_picker</span></code>()</p></td>
-<td><p>Return the picking behavior of the artist.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rasterized</span></code>()</p></td>
-<td><p>Return whether the artist is to be rasterized.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_sketch_params</span></code>()</p></td>
-<td><p>Return the sketch parameters for the artist.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_snap</span></code>()</p></td>
-<td><p>Return the snap setting.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tightbbox</span></code>(renderer)</p></td>
-<td><p>Like <cite>.Artist.get_window_extent</cite>, but includes any clipping.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_transform</span></code>()</p></td>
-<td><p>Return the <cite>~.transforms.Transform</cite> applied to the <cite>Patch</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_transformed_clip_path_and_affine</span></code>()</p></td>
-<td><p>Return the clip path with the non-affine part of its transformation applied, and the remaining affine part of its transformation.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_url</span></code>()</p></td>
-<td><p>Return the url.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_verts</span></code>()</p></td>
-<td><p>Return a copy of the vertices used in this patch.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_visible</span></code>()</p></td>
-<td><p>Return the visibility.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_window_extent</span></code>([renderer])</p></td>
-<td><p>Get the axes bounding box in display space.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_zorder</span></code>()</p></td>
-<td><p>Return the artist’s zorder.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">have_units</span></code>()</p></td>
-<td><p>Return <em>True</em> if units are set on any axis.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_transform_set</span></code>()</p></td>
-<td><p>Return whether the Artist has an explicitly set transform.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pchanged</span></code>()</p></td>
-<td><p>Call all of the registered callbacks.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pick</span></code>(mouseevent)</p></td>
-<td><p>Process a pick event.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pickable</span></code>()</p></td>
-<td><p>Return whether the artist is pickable.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code>()</p></td>
-<td><p>Return a dictionary of all the properties of the artist.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove</span></code>()</p></td>
-<td><p>Remove the artist from the figure if possible.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_callback</span></code>(oid)</p></td>
-<td><p>Remove a callback based on its observer id.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(**kwargs)</p></td>
-<td><p>A property batch setter.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_aa</span></code>(aa)</p></td>
-<td><p>Alias for <cite>set_antialiased</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_agg_filter</span></code>(filter_func)</p></td>
-<td><p>Set the agg filter.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_alpha</span></code>(alpha)</p></td>
-<td><p>Set the alpha value used for blending - not supported on all backends.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_animated</span></code>(b)</p></td>
-<td><p>Set the artist’s animation state.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_antialiased</span></code>(aa)</p></td>
-<td><p>Set whether to use antialiased rendering.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_arrowstyle</span></code>([arrowstyle])</p></td>
-<td><p>Set the arrow style.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_capstyle</span></code>(s)</p></td>
-<td><p>Set the capstyle.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_clip_box</span></code>(clipbox)</p></td>
-<td><p>Set the artist’s clip <cite>.Bbox</cite>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_clip_on</span></code>(b)</p></td>
-<td><p>Set whether the artist uses clipping.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_clip_path</span></code>(path[, transform])</p></td>
-<td><p>Set the artist’s clip path.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_color</span></code>(c)</p></td>
-<td><p>Set both the edgecolor and the facecolor.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_connectionstyle</span></code>(connectionstyle, **kw)</p></td>
-<td><p>Set the connection style.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_contains</span></code>(picker)</p></td>
-<td><p>[<em>Deprecated</em>] Define a custom contains test for the artist.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.set_data" title="pytransform3d.plot_utils.Arrow3D.set_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data</span></code></a>(xs, ys, zs)</p></td>
 <td><p>Set the arrow data.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_dpi_cor</span></code>(dpi_cor)</p></td>
-<td><p>dpi_cor is currently used for linewidth-related things and shrink factor.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_ec</span></code>(color)</p></td>
-<td><p>Alias for <cite>set_edgecolor</cite>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_edgecolor</span></code>(color)</p></td>
-<td><p>Set the patch edge color.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_facecolor</span></code>(color)</p></td>
-<td><p>Set the patch face color.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_fc</span></code>(color)</p></td>
-<td><p>Alias for <cite>set_facecolor</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_figure</span></code>(fig)</p></td>
-<td><p>Set the <cite>.Figure</cite> instance the artist belongs to.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_fill</span></code>(b)</p></td>
-<td><p>Set whether to fill the patch.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_gid</span></code>(gid)</p></td>
-<td><p>Set the (group) id for the artist.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_hatch</span></code>(hatch)</p></td>
-<td><p>Set the hatching pattern.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_in_layout</span></code>(in_layout)</p></td>
-<td><p>Set if artist is to be included in layout calculations, E.g.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_joinstyle</span></code>(s)</p></td>
-<td><p>Set the joinstyle.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_label</span></code>(s)</p></td>
-<td><p>Set a label that will be displayed in the legend.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_linestyle</span></code>(ls)</p></td>
-<td><p>Set the patch linestyle.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_linewidth</span></code>(w)</p></td>
-<td><p>Set the patch linewidth in points.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_ls</span></code>(ls)</p></td>
-<td><p>Alias for <cite>set_linestyle</cite>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_lw</span></code>(w)</p></td>
-<td><p>Alias for <cite>set_linewidth</cite>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_mutation_aspect</span></code>(aspect)</p></td>
-<td><p>Set the aspect ratio of the bbox mutation.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_mutation_scale</span></code>(scale)</p></td>
-<td><p>Set the mutation scale.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_patchA</span></code>(patchA)</p></td>
-<td><p>Set the tail patch.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_patchB</span></code>(patchB)</p></td>
-<td><p>Set the head patch.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_path_effects</span></code>(path_effects)</p></td>
-<td><p>Set the path effects.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_picker</span></code>(picker)</p></td>
-<td><p>Define the picking behavior of the artist.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_positions</span></code>(posA, posB)</p></td>
-<td><p>Set the begin and end positions of the connecting path.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_rasterized</span></code>(rasterized)</p></td>
-<td><p>Force rasterized (bitmap) drawing in vector backend output.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_sketch_params</span></code>([scale, length, randomness])</p></td>
-<td><p>Sets the sketch parameters.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_snap</span></code>(snap)</p></td>
-<td><p>Set the snapping behavior.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_transform</span></code>(t)</p></td>
-<td><p>Set the artist transform.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_url</span></code>(url)</p></td>
-<td><p>Set the url for the artist.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_visible</span></code>(b)</p></td>
-<td><p>Set the artist’s visibility.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_zorder</span></code>(level)</p></td>
-<td><p>Set the zorder for the artist.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code>(props)</p></td>
-<td><p>Update this artist’s properties from the dict <em>props</em>.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_from</span></code>(other)</p></td>
-<td><p>Copy properties from <em>other</em> to <em>self</em>.</p></td>
-</tr>
 </tbody>
 </table>
-<table class="docutils align-default">
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
 <colgroup>
-<col style="width: 67%" />
-<col style="width: 33%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><strong>get_path_effects</strong></p></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <dl class="py method">
@@ -526,6 +387,9 @@
 
 </dd></dl>
 
+<div class="section" id="examples-using-pytransform3d-plot-utils-arrow3d">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.plot_utils.Arrow3D</span></code><a class="headerlink" href="#examples-using-pytransform3d-plot-utils-arrow3d" title="Permalink to this headline">¶</a></h2>
+<div class="sphx-glr-clear"></div></div>
 </div>
 
 
@@ -541,7 +405,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>

@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.urdf &#8212; pytransform3d 1.4 documentation</title>
+    <title>pytransform3d.urdf &#8212; pytransform3d 1.5 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
@@ -36,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -52,14 +55,16 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">3D Rotations: SO(3)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">3D Transformations: SE(3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Transform Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_auto_examples/index.html">Examples</a></li>
 </ul>
 </ul>
 </li>
@@ -107,7 +112,10 @@
     <div class="body col-md-12 content" role="main">
       
   <h1>Source code for pytransform3d.urdf</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Load transformations from URDF files.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Load transformations from URDF files.</span>
+
+<span class="sd">See :doc:`transform_manager` for more information.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
@@ -144,11 +152,11 @@
 <span class="sd">        Check if transformation matrices are valid and requested nodes exist,</span>
 <span class="sd">        which might significantly slow down some operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="UrdfTransformManager.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">UrdfTransformManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">strict_check</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="UrdfTransformManager.add_joint"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.add_joint">[docs]</a>    <span class="k">def</span> <span class="nf">add_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span>
                   <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)),</span> <span class="n">joint_type</span><span class="o">=</span><span class="s2">&quot;revolute&quot;</span><span class="p">):</span>
@@ -662,7 +670,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 14, 2020.<br/>
+      Last updated on Dec 28, 2020.<br/>
     </p>
   </div>
 </footer>
