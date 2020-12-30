@@ -612,6 +612,44 @@ def test_active_matrix_from_extrinsic_euler_zyz():
     )
 
 
+def test_active_matrix_from_intrinsic_zyx():
+    """Test conversion from intrinsic zyx Euler angles."""
+    random_state = np.random.RandomState(844)
+    for _ in range(5):
+        euler_zyx = (random_state.rand(3) - 0.5) * np.array([np.pi, 0.5 * np.pi, np.pi])
+        s = np.sin(euler_zyx)
+        c = np.cos(euler_zyx)
+        R_from_formula = np.array([
+            [c[0] * c[1], c[0] * s[1] * s[2] - s[0] * c[2], c[0] * s[1] * c[2] + s[0] * s[2]],
+            [s[0] * c[1], s[0] * s[1] * s[2] + c[0] * c[2], s[0] * s[1] * c[2] - c[0] * s[2]],
+            [-s[1], c[1] * s[2], c[1] * c[2]]
+        ])  # See Lynch, Park: Modern Robotics, page 576
+
+        # Normal case, we can reconstruct original angles
+        R = active_matrix_from_intrinsic_euler_zyx(euler_zyx)
+        assert_array_almost_equal(R_from_formula, R)
+        euler_zyx2 = intrinsic_euler_zyx_from_active_matrix(R)
+        assert_array_almost_equal(euler_zyx, euler_zyx2)
+
+        # Gimbal lock 1, infinite solutions with constraint
+        # alpha - gamma = constant
+        euler_zyx[1] = 0.5 * np.pi
+        R = active_matrix_from_intrinsic_euler_zyx(euler_zyx)
+        euler_zyx2 = intrinsic_euler_zyx_from_active_matrix(R)
+        assert_almost_equal(euler_zyx2[1], 0.5 * np.pi)
+        assert_almost_equal(
+            euler_zyx[0] - euler_zyx[2], euler_zyx2[0] - euler_zyx2[2])
+
+        # Gimbal lock 1, infinite solutions with constraint
+        # alpha + gamma = constant
+        euler_zyx[1] = -0.5 * np.pi
+        R = active_matrix_from_intrinsic_euler_zyx(euler_zyx)
+        euler_zyx2 = intrinsic_euler_zyx_from_active_matrix(R)
+        assert_almost_equal(euler_zyx2[1], -0.5 * np.pi)
+        assert_almost_equal(
+            euler_zyx[0] + euler_zyx[2], euler_zyx2[0] + euler_zyx2[2])
+
+
 def test_active_matrix_from_extrinsic_roll_pitch_yaw():
     """Test conversion from extrinsic zyz Euler angles."""
     assert_array_almost_equal(
