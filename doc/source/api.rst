@@ -57,22 +57,19 @@ Conversions to Rotation Matrix
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.matrix_from_angle
    ~pytransform3d.rotations.passive_matrix_from_angle
    ~pytransform3d.rotations.active_matrix_from_angle
    ~pytransform3d.rotations.matrix_from_two_vectors
    ~pytransform3d.rotations.matrix_from_axis_angle
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
-   ~pytransform3d.rotations.matrix_from_euler_xyz
-   ~pytransform3d.rotations.matrix_from_euler_zyx
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz
    ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz
    ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx
+   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx
    ~pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw
-   ~pytransform3d.rotations.matrix_from
 
 Conversions to Euler Angles
 ---------------------------
@@ -81,9 +78,8 @@ Conversions to Euler Angles
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.euler_xyz_from_matrix
-   ~pytransform3d.rotations.euler_zyx_from_matrix
    ~pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix
+   ~pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix
 
 Conversions to Axis-Angle
 -------------------------
@@ -150,9 +146,24 @@ Testing
    ~pytransform3d.rotations.assert_axis_angle_equal
    ~pytransform3d.rotations.assert_compact_axis_angle_equal
    ~pytransform3d.rotations.assert_quaternion_equal
+   ~pytransform3d.rotations.assert_rotation_matrix
+
+
+Deprecated Functions
+--------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.matrix_from
+   ~pytransform3d.rotations.matrix_from_angle
+   ~pytransform3d.rotations.matrix_from_euler_xyz
+   ~pytransform3d.rotations.matrix_from_euler_zyx
+   ~pytransform3d.rotations.euler_xyz_from_matrix
+   ~pytransform3d.rotations.euler_zyx_from_matrix
    ~pytransform3d.rotations.assert_euler_xyz_equal
    ~pytransform3d.rotations.assert_euler_zyx_equal
-   ~pytransform3d.rotations.assert_rotation_matrix
 
 
 :mod:`pytransform3d.transformations`
