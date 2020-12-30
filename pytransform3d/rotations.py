@@ -1331,6 +1331,67 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     raise ValueError("Cannot compute rotation matrix from no rotation.")
 
 
+def _general_extrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, strict_check=True):
+    """TODO
+
+    https://arc.aiaa.org/doi/abs/10.2514/1.16622
+    """
+    # TODO https://github.com/scipy/scipy/blob/master/scipy/spatial/transform/rotation.pyx#L89
+    D = check_matrix(R, strict_check=strict_check)
+
+    # Step 2
+    # - Equation 5
+    n1_cross_n2 = np.cross(n1, n2)
+    lmbda = np.arctan2(
+        np.dot(n1_cross_n2, n3),
+        np.dot(n1, n3)
+    )
+    # - Equation 6
+    C = np.vstack((n2, n1_cross_n2, n1))  # same as column_stack(...).T
+    CDCT = np.dot(np.dot(C, D), C.T)
+
+    # Step 3
+    # - Equation 8
+    O = np.dot(active_matrix_from_angle(0, -lmbda), CDCT)
+
+    # Step 4
+    # - Equation 10a
+    beta = lmbda + np.arccos(O[2, 2])
+
+    safe1 = abs(beta - lmbda) >= np.finfo(float).eps
+    safe2 = abs(beta - lmbda - np.pi) >= np.finfo(float).eps
+    if safe1 and safe2:  # Default case, no gimbal lock
+        # Step 5
+        # - Equation 10b
+        alpha = np.arctan2(O[2, 0], -O[2, 1])
+        # - Equation 10c
+        gamma = np.arctan2(O[0, 2], O[1, 2])
+
+        # Step 7
+        if proper_euler:
+            valid_beta = 0.0 <= beta <= np.pi
+        else:
+            valid_beta = -0.5 * np.pi <= beta <= 0.5 * np.pi
+        # - Equation 12
+        if not valid_beta:
+            print("adjusting angles")
+            alpha += np.pi
+            beta = 2.0 * lmbda - beta
+            gamma -= np.pi
+    else:
+        # Step 6
+        # a)
+        gamma = 0.0
+        if not safe1:
+            # b)
+            alpha = np.arctan2(O[0, 1] - O[1, 0], O[0, 0] + O[1, 1])
+        else:
+            # c)
+            alpha = np.arctan2(O[0, 1] + O[1, 0], O[0, 0] - O[1, 1])
+    print(alpha, beta, gamma)
+    return norm_angle([alpha, beta, gamma])
+
+
 def euler_xyz_from_matrix(R, strict_check=True):
     """Compute xyz Euler angles from passive rotation matrix.
 
@@ -1454,6 +1515,9 @@ def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y-, and x-axes (extrinsic rotations)
     """
+    return _general_extrinsic_euler_from_active_matrix(R, unitz, unity, unitx, False, strict_check)
+
+    # TODO remove deprecated code
     R = check_matrix(R, strict_check=strict_check)
     if abs(R[0, 2]) != 1.0:
         beta = np.arctan2(R[0, 2], np.sqrt(R[1, 2] ** 2 + R[2, 2] ** 2))
