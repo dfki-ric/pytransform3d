@@ -669,7 +669,7 @@ def test_active_matrix_from_extrinsic_zyx():
         R = active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = extrinsic_euler_zyx_from_active_matrix(R)
         R2 = active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
-        #assert_array_almost_equal(R, R2) # TODO
+        assert_array_almost_equal(R, R2)
 
         # Gimbal lock 2, infinite solutions with constraint
         # alpha - gamma = constant
@@ -677,7 +677,7 @@ def test_active_matrix_from_extrinsic_zyx():
         R = active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = extrinsic_euler_zyx_from_active_matrix(R)
         R2 = active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
-        #assert_array_almost_equal(R, R2) # TODO
+        assert_array_almost_equal(R, R2)
 
 
 def test_active_matrix_from_extrinsic_roll_pitch_yaw():

@@ -1331,7 +1331,7 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     raise ValueError("Cannot compute rotation matrix from no rotation.")
 
 
-def _general_extrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, strict_check=True):
+def _general_extrinsic_euler_from_active_matrix(R, n3, n2, n1, proper_euler, strict_check=True):
     """TODO
 
     https://arc.aiaa.org/doi/abs/10.2514/1.16622
@@ -1352,7 +1352,7 @@ def _general_extrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, str
 
     # Step 3
     # - Equation 8
-    O = np.dot(active_matrix_from_angle(0, -lmbda), CDCT)
+    O = np.dot(CDCT, active_matrix_from_angle(0, lmbda).T)
 
     # Step 4
     # - Equation 10a
@@ -1363,14 +1363,14 @@ def _general_extrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, str
     if safe1 and safe2:  # Default case, no gimbal lock
         # Step 5
         # - Equation 10b
-        alpha = np.arctan2(O[2, 0], -O[2, 1])
+        alpha = np.arctan2(O[0, 2], -O[1, 2])
         # - Equation 10c
-        gamma = np.arctan2(O[0, 2], O[1, 2])
+        gamma = np.arctan2(O[2, 0], O[2, 1])
 
         # Step 7
         if proper_euler:
             valid_beta = 0.0 <= beta <= np.pi
-        else:
+        else:  # Cardan / Tait-Bryan angles
             valid_beta = -0.5 * np.pi <= beta <= 0.5 * np.pi
         # - Equation 12
         if not valid_beta:
@@ -1384,12 +1384,13 @@ def _general_extrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, str
         gamma = 0.0
         if not safe1:
             # b)
-            alpha = np.arctan2(O[0, 1] - O[1, 0], O[0, 0] + O[1, 1])
+            alpha = np.arctan2(O[1, 0] - O[0, 1], O[0, 0] + O[1, 1])
         else:
             # c)
-            alpha = np.arctan2(O[0, 1] + O[1, 0], O[0, 0] - O[1, 1])
-    print(alpha, beta, gamma)
-    return norm_angle([alpha, beta, gamma])
+            alpha = np.arctan2(O[1, 0] + O[0, 1], O[0, 0] - O[1, 1])
+    euler_angles = norm_angle([alpha, beta, gamma])[::-1]
+    print(euler_angles)
+    return euler_angles
 
 
 def euler_xyz_from_matrix(R, strict_check=True):
