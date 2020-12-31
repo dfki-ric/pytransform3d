@@ -1516,23 +1516,6 @@ def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
     """
     return _general_intrinsic_euler_from_active_matrix(R, unitx, unity, unitz, False, strict_check)[::-1]
 
-    # TODO remove deprecated code
-    R = check_matrix(R, strict_check=strict_check)
-    if abs(R[0, 2]) != 1.0:
-        beta = np.arctan2(R[0, 2], np.sqrt(R[1, 2] ** 2 + R[2, 2] ** 2))
-        gamma = np.arctan2(-R[1, 2], R[2, 2])
-        alpha = np.arctan2(-R[0, 1], R[0, 0])
-    else:
-        if R[0, 2] == -1.0:
-            beta = -0.5 * np.pi
-            alpha = 0.0
-            gamma = -np.arctan2(R[1, 0], R[1, 1])
-        else:
-            beta = 0.5 * np.pi
-            alpha = 0.0
-            gamma = np.arctan2(R[1, 0], R[1, 1])
-    return np.array([alpha, beta, gamma])
-
 
 def axis_angle_from_matrix(R, strict_check=True):
     """Compute axis-angle from rotation matrix.
