@@ -1331,7 +1331,7 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     raise ValueError("Cannot compute rotation matrix from no rotation.")
 
 
-def _general_extrinsic_euler_from_active_matrix(R, n3, n2, n1, proper_euler, strict_check=True):
+def _general_intrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, strict_check=True):
     """TODO
 
     https://arc.aiaa.org/doi/abs/10.2514/1.16622
@@ -1374,7 +1374,6 @@ def _general_extrinsic_euler_from_active_matrix(R, n3, n2, n1, proper_euler, str
             valid_beta = -0.5 * np.pi <= beta <= 0.5 * np.pi
         # - Equation 12
         if not valid_beta:
-            print("adjusting angles")
             alpha += np.pi
             beta = 2.0 * lmbda - beta
             gamma -= np.pi
@@ -1388,8 +1387,7 @@ def _general_extrinsic_euler_from_active_matrix(R, n3, n2, n1, proper_euler, str
         else:
             # c)
             alpha = np.arctan2(O[1, 0] + O[0, 1], O[0, 0] - O[1, 1])
-    euler_angles = norm_angle([alpha, beta, gamma])[::-1]
-    print(euler_angles)
+    euler_angles = norm_angle([alpha, beta, gamma])
     return euler_angles
 
 
@@ -1516,7 +1514,7 @@ def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y-, and x-axes (extrinsic rotations)
     """
-    return _general_extrinsic_euler_from_active_matrix(R, unitz, unity, unitx, False, strict_check)
+    return _general_intrinsic_euler_from_active_matrix(R, unitx, unity, unitz, False, strict_check)[::-1]
 
     # TODO remove deprecated code
     R = check_matrix(R, strict_check=strict_check)

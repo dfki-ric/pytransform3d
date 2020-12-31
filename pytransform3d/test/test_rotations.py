@@ -655,11 +655,11 @@ def test_active_matrix_from_extrinsic_zyx():
     random_state = np.random.RandomState(844)
     for _ in range(5):
         euler_zyx = (random_state.rand(3) - 0.5) * np.array([np.pi, 0.5 * np.pi, np.pi])
-        print(euler_zyx)
 
         # Normal case, we can reconstruct original angles
         R = active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = extrinsic_euler_zyx_from_active_matrix(R)
+        assert_array_almost_equal(euler_zyx, euler_zyx2)
         R2 = active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
         assert_array_almost_equal(R, R2)
 
@@ -668,6 +668,9 @@ def test_active_matrix_from_extrinsic_zyx():
         euler_zyx[1] = 0.5 * np.pi
         R = active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = extrinsic_euler_zyx_from_active_matrix(R)
+        assert_almost_equal(euler_zyx2[1], 0.5 * np.pi)
+        assert_almost_equal(
+            euler_zyx[0] + euler_zyx[2], euler_zyx2[0] + euler_zyx2[2])
         R2 = active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
         assert_array_almost_equal(R, R2)
 
@@ -676,6 +679,9 @@ def test_active_matrix_from_extrinsic_zyx():
         euler_zyx[1] = -0.5 * np.pi
         R = active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = extrinsic_euler_zyx_from_active_matrix(R)
+        assert_almost_equal(euler_zyx2[1], -0.5 * np.pi)
+        assert_almost_equal(
+            euler_zyx[0] - euler_zyx[2], euler_zyx2[0] - euler_zyx2[2])
         R2 = active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
         assert_array_almost_equal(R, R2)
 
