@@ -727,6 +727,22 @@ def test_active_matrix_from_extrinsic_zyx():
 def test_all_euler_matrix_conversions():
     """Test all conversion between Euler angles and matrices."""
     _test_conversion_matrix_euler(
+        active_matrix_from_intrinsic_euler_xzy,
+        intrinsic_euler_xzy_from_active_matrix,
+        proper_euler=False)
+    _test_conversion_matrix_euler(
+        active_matrix_from_extrinsic_euler_xzy,
+        extrinsic_euler_xzy_from_active_matrix,
+        proper_euler=False)
+    _test_conversion_matrix_euler(
+        active_matrix_from_intrinsic_euler_xyz,
+        intrinsic_euler_xyz_from_active_matrix,
+        proper_euler=False)
+    _test_conversion_matrix_euler(
+        active_matrix_from_extrinsic_euler_xyz,
+        extrinsic_euler_xyz_from_active_matrix,
+        proper_euler=False)
+    _test_conversion_matrix_euler(
         active_matrix_from_intrinsic_euler_yxz,
         intrinsic_euler_yxz_from_active_matrix,
         proper_euler=False)
