@@ -1463,6 +1463,40 @@ def euler_zyx_from_matrix(R, strict_check=True):
     return np.array([angle1, angle2, angle3])
 
 
+def intrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
+    """Compute intrinsic zxz Euler angles from active rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Returns
+    -------
+    e : array-like, shape (3,)
+        Angles for rotation around z-, x'-, and z''-axes (intrinsic rotations)
+    """
+    return _general_intrinsic_euler_from_active_matrix(
+        R, unitz, unitx, unitz, True, strict_check)
+
+
+def extrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
+    """Compute extrinsic zxz Euler angles from active rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Returns
+    -------
+    e : array-like, shape (3,)
+        Angles for rotation around z-, x-, and z-axes (extrinsic rotations)
+    """
+    return _general_intrinsic_euler_from_active_matrix(
+        R, unitz, unitx, unitz, True, strict_check)[::-1]
+
+
 def intrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
     """Compute intrinsic xzy Cardan angles from active rotation matrix.
 
