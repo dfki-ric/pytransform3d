@@ -1328,13 +1328,56 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     raise ValueError("Cannot compute rotation matrix from no rotation.")
 
 
-def _general_intrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, strict_check=True):
-    """TODO
+def _general_intrinsic_euler_from_active_matrix(
+        R, n1, n2, n3, proper_euler, strict_check=True):
+    """General algorithm to extract intrinsic euler angles from a matrix.
 
+    The implementation is based on SciPy's implementation:
+    https://github.com/scipy/scipy/blob/master/scipy/spatial/transform/rotation.pyx
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Active rotation matrix
+
+    n1 : array, shape (3,)
+        First rotation axis (basis vector)
+
+    n2 : array, shape (3,)
+        Second rotation axis (basis vector)
+
+    n3 : array, shape (3,)
+        Third rotation axis (basis vector)
+
+    proper_euler : bool
+        Is this an Euler angle convention or a Cardan / Tait-Bryan convention?
+        Proper Euler angles rotate about the same axis twice, for example,
+        z, y', and z''.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
+    Returns
+    -------
+    euler_angles : array, shape (3,)
+        Extracted intrinsic rotation angles in radians about the axes
+        n1, n2, and n3 in this order. The first and last angle are
+        normalized to [-pi, pi]. The middle angle is normalized to
+        either [0, pi] (proper Euler angles) or [-pi/2, pi/2]
+        (Cardan / Tait-Bryan angles).
+
+    References
+    ----------
+    Shuster, Markley: General Formula for Extracting the Euler Angles,
     https://arc.aiaa.org/doi/abs/10.2514/1.16622
     """
-    # TODO https://github.com/scipy/scipy/blob/master/scipy/spatial/transform/rotation.pyx#L89
     D = check_matrix(R, strict_check=strict_check)
+
+    # Differences to the paper:
+    # - we call the angles alpha, beta, and gamma
+    # - we obtain angles from intrinsic rotations, thus some matrices are
+    #   transposed like in SciPy's implementation
 
     # Step 2
     # - Equation 5
@@ -1344,11 +1387,11 @@ def _general_intrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, str
         np.dot(n1, n3)
     )
     # - Equation 6
-    C = np.vstack((n2, n1_cross_n2, n1))  # same as column_stack(...).T
-    CDCT = np.dot(np.dot(C, D), C.T)
+    C = np.vstack((n2, n1_cross_n2, n1))
 
     # Step 3
     # - Equation 8
+    CDCT = np.dot(np.dot(C, D), C.T)
     O = np.dot(CDCT, active_matrix_from_angle(0, lmbda).T)
 
     # Step 4
@@ -1375,7 +1418,7 @@ def _general_intrinsic_euler_from_active_matrix(R, n1, n2, n3, proper_euler, str
             beta = 2.0 * lmbda - beta
             gamma -= np.pi
     else:
-        # Step 6
+        # Step 6 - Handle gimbal locks
         # a)
         gamma = 0.0
         if not safe1:
