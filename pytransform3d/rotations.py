@@ -1254,7 +1254,7 @@ def active_matrix_from_intrinsic_euler_zxy(e):
 
 
 def active_matrix_from_extrinsic_euler_zxy(e):
-    """Compute active rotation matrix from extrinsic zyx Cardan angles.
+    """Compute active rotation matrix from extrinsic zxy Cardan angles.
 
     Parameters
     ----------
