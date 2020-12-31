@@ -1480,21 +1480,8 @@ def intrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
     """
-    R = check_matrix(R, strict_check=strict_check)
-    if abs(R[2, 0]) != 1.0:
-        beta = np.arctan2(-R[2, 0], np.sqrt(R[0, 0] ** 2 + R[1, 0] ** 2))
-        alpha = np.arctan2(R[1, 0], R[0, 0])
-        gamma = np.arctan2(R[2, 1], R[2, 2])
-    else:
-        if R[2, 0] == 1.0:
-            beta = -0.5 * np.pi
-            alpha = 0.0
-            gamma = -np.arctan2(R[0, 1], R[1, 1])
-        else:
-            beta = 0.5 * np.pi
-            alpha = 0.0
-            gamma = np.arctan2(R[0, 1], R[1, 1])
-    return np.array([alpha, beta, gamma])
+    return _general_intrinsic_euler_from_active_matrix(
+        R, unitz, unity, unitx, False, strict_check)
 
 
 def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
@@ -1514,7 +1501,8 @@ def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y-, and x-axes (extrinsic rotations)
     """
-    return _general_intrinsic_euler_from_active_matrix(R, unitx, unity, unitz, False, strict_check)[::-1]
+    return _general_intrinsic_euler_from_active_matrix(
+        R, unitx, unity, unitz, False, strict_check)[::-1]
 
 
 def axis_angle_from_matrix(R, strict_check=True):
