@@ -1505,6 +1505,48 @@ def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
         R, unitx, unity, unitz, False, strict_check)[::-1]
 
 
+def intrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
+    """Compute intrinsic zxy Cardan angles from active rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
+    Returns
+    -------
+    e : array, shape (3,)
+        Angles for rotation around z-, x'-, and y''-axes (intrinsic rotations)
+    """
+    return _general_intrinsic_euler_from_active_matrix(
+        R, unitz, unitx, unity, False, strict_check)
+
+
+def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
+    """Compute extrinsic zyx Cardan angles from active rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
+    Returns
+    -------
+    e : array-like, shape (3,)
+        Angles for rotation around z-, x-, and y-axes (extrinsic rotations)
+    """
+    return _general_intrinsic_euler_from_active_matrix(
+        R, unity, unitx, unitz, False, strict_check)[::-1]
+
+
 def axis_angle_from_matrix(R, strict_check=True):
     """Compute axis-angle from rotation matrix.
 

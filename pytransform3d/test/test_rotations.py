@@ -686,6 +686,66 @@ def test_active_matrix_from_extrinsic_zyx():
         assert_array_almost_equal(R, R2)
 
 
+def test_active_matrix_from_intrinsic_zxy():
+    """Test conversion from intrinsic zxy Euler angles."""
+    random_state = np.random.RandomState(844)
+    for _ in range(5):
+        euler_zxy = (random_state.rand(3) - 0.5) * np.array([np.pi, 0.5 * np.pi, np.pi])
+
+        # Normal case, we can reconstruct original angles
+        R = active_matrix_from_intrinsic_euler_zxy(euler_zxy)
+        euler_zxy2 = intrinsic_euler_zxy_from_active_matrix(R)
+        assert_array_almost_equal(euler_zxy, euler_zxy2)
+        R2 = active_matrix_from_intrinsic_euler_zxy(euler_zxy2)
+        assert_array_almost_equal(R, R2)
+
+        # Gimbal lock 1
+        euler_zxy[1] = 0.5 * np.pi
+        R = active_matrix_from_intrinsic_euler_zxy(euler_zxy)
+        euler_zxy2 = intrinsic_euler_zxy_from_active_matrix(R)
+        assert_almost_equal(euler_zxy2[1], 0.5 * np.pi)
+        R2 = active_matrix_from_intrinsic_euler_zxy(euler_zxy2)
+        assert_array_almost_equal(R, R2)
+
+        # Gimbal lock 2
+        euler_zxy[1] = -0.5 * np.pi
+        R = active_matrix_from_intrinsic_euler_zxy(euler_zxy)
+        euler_zxy2 = intrinsic_euler_zxy_from_active_matrix(R)
+        assert_almost_equal(euler_zxy2[1], -0.5 * np.pi)
+        R2 = active_matrix_from_intrinsic_euler_zxy(euler_zxy2)
+        assert_array_almost_equal(R, R2)
+
+
+def test_active_matrix_from_extrinsic_zxy():
+    """Test conversion from extrinsic zxy Euler angles."""
+    random_state = np.random.RandomState(844)
+    for _ in range(5):
+        euler_zxy = (random_state.rand(3) - 0.5) * np.array([np.pi, 0.5 * np.pi, np.pi])
+
+        # Normal case, we can reconstruct original angles
+        R = active_matrix_from_extrinsic_euler_zxy(euler_zxy)
+        euler_zxy2 = extrinsic_euler_zxy_from_active_matrix(R)
+        assert_array_almost_equal(euler_zxy, euler_zxy2)
+        R2 = active_matrix_from_extrinsic_euler_zxy(euler_zxy2)
+        assert_array_almost_equal(R, R2)
+
+        # Gimbal lock 1
+        euler_zxy[1] = 0.5 * np.pi
+        R = active_matrix_from_extrinsic_euler_zxy(euler_zxy)
+        euler_zxy2 = extrinsic_euler_zxy_from_active_matrix(R)
+        assert_almost_equal(euler_zxy2[1], 0.5 * np.pi)
+        R2 = active_matrix_from_extrinsic_euler_zxy(euler_zxy2)
+        assert_array_almost_equal(R, R2)
+
+        # Gimbal lock 2
+        euler_zxy[1] = -0.5 * np.pi
+        R = active_matrix_from_extrinsic_euler_zxy(euler_zxy)
+        euler_zxy2 = extrinsic_euler_zxy_from_active_matrix(R)
+        assert_almost_equal(euler_zxy2[1], -0.5 * np.pi)
+        R2 = active_matrix_from_extrinsic_euler_zxy(euler_zxy2)
+        assert_array_almost_equal(R, R2)
+
+
 def test_active_matrix_from_extrinsic_roll_pitch_yaw():
     """Test conversion from extrinsic zyz Euler angles."""
     assert_array_almost_equal(
