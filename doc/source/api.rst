@@ -64,6 +64,10 @@ Conversions to Rotation Matrix
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
 
+   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx
+   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx
+   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx
+   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy
    ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy
@@ -93,6 +97,10 @@ Conversions to Euler Angles
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix
+   ~pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix
+   ~pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix
+   ~pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix
    ~pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix
    ~pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix
    ~pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix
