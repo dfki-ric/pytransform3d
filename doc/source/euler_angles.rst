@@ -5,8 +5,8 @@ Euler Angles
 ============
 
 Since Euler angles are an intuitive way to specify a rotation in 3D, they
-are often used at user interfaces. However, there are 24 different
-conventions that can be used. Furthermore, you have to make sure whether
+are often exposed at user interfaces. However, there are 24 different
+conventions that could be used. Furthermore, you have to find out whether
 degrees or radians are used to express the angles (we will only use
 radians in pytransform3d).
 

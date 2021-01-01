@@ -15,27 +15,6 @@ You can search for specific modules, classes, or functions in the
     :no-members:
     :no-inherited-members:
 
-Utility Functions
------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform3d.rotations.norm_vector
-   ~pytransform3d.rotations.norm_matrix
-   ~pytransform3d.rotations.norm_angle
-   ~pytransform3d.rotations.norm_axis_angle
-   ~pytransform3d.rotations.norm_compact_axis_angle
-   ~pytransform3d.rotations.perpendicular_to_vectors
-   ~pytransform3d.rotations.angle_between_vectors
-   ~pytransform3d.rotations.vector_projection
-   ~pytransform3d.rotations.random_vector
-   ~pytransform3d.rotations.random_axis_angle
-   ~pytransform3d.rotations.random_compact_axis_angle
-   ~pytransform3d.rotations.random_quaternion
-   ~pytransform3d.rotations.cross_product_matrix
-
 Input Validation Functions
 --------------------------
 
@@ -133,6 +112,27 @@ Testing
    ~pytransform3d.rotations.assert_compact_axis_angle_equal
    ~pytransform3d.rotations.assert_quaternion_equal
    ~pytransform3d.rotations.assert_rotation_matrix
+
+Utility Functions
+-----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.norm_vector
+   ~pytransform3d.rotations.norm_matrix
+   ~pytransform3d.rotations.norm_angle
+   ~pytransform3d.rotations.norm_axis_angle
+   ~pytransform3d.rotations.norm_compact_axis_angle
+   ~pytransform3d.rotations.perpendicular_to_vectors
+   ~pytransform3d.rotations.angle_between_vectors
+   ~pytransform3d.rotations.vector_projection
+   ~pytransform3d.rotations.random_vector
+   ~pytransform3d.rotations.random_axis_angle
+   ~pytransform3d.rotations.random_compact_axis_angle
+   ~pytransform3d.rotations.random_quaternion
+   ~pytransform3d.rotations.cross_product_matrix
 
 
 Deprecated Functions

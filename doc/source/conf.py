@@ -52,7 +52,18 @@ show_authors = True
 pygments_style = 'sphinx'
 html_theme = 'bootstrap'
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-html_theme_options = {'bootswatch_theme': "readable"}
+html_theme_options = {
+    "bootswatch_theme": "readable",
+    "navbar_sidebarrel": False,
+    "bootstrap_version": "3",
+    "nosidebar": True,
+    "body_max_width": '100%',
+    "navbar_links": [
+        ("Contents", "index"),
+        ("Examples", "_auto_examples/index"),
+        ("API", "api"),
+    ],
+}
 html_static_path = ['_static']
 html_last_updated_fmt = '%b %d, %Y'
 html_use_smartypants = True
