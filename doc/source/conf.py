@@ -4,6 +4,7 @@ import sys
 import os
 import glob
 import shutil
+import time
 from sphinx_gallery.scrapers import figure_rst
 from sphinx_gallery.sorting import ExplicitOrder
 
@@ -41,7 +42,7 @@ source_suffix = '.rst'
 source_encoding = 'utf-8-sig'
 master_doc = 'index'
 project = u'pytransform3d'
-copyright = u'2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center'
+copyright = u"2014-{}, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center".format(time.strftime("%Y"))
 version = __import__("pytransform3d").__version__
 release = __import__("pytransform3d").__version__
 language = 'en'
