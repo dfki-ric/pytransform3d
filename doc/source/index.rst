@@ -42,6 +42,7 @@ Table of Contents
    rotations
    transformations
    transformation_ambiguities
+   euler_angles
    transformation_modeling
    transform_manager
    camera

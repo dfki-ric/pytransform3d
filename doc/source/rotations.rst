@@ -285,18 +285,15 @@ A complete rotation can be split into three rotations around basis vectors.
 pytransform3d uses a numpy array of shape (3,) for Euler angles, where
 each entry corresponds to a rotation angle in radians around one basis
 vector. The basis vector that will be used and the order of rotation
-is defined by the convention that we use.
+is defined by the convention that we use. See :doc:`euler_angles` for more
+information.
 
 .. warning::
 
     There are 24 different conventions for defining euler angles. There are
     12 different valid ways to sequence rotation axes that can be interpreted
     as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
-    XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
-    ZYX convention with intrinsic rotations.
-
-.. plot:: ../../examples/plots/plot_euler_angles.py
-    :include-source:
+    XYZ, YXZ, YZX, ZYX, and ZXY.
 
 **Pros**
 

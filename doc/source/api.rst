@@ -53,6 +53,9 @@ Input Validation Functions
 Conversions to Rotation Matrix
 ------------------------------
 
+See also :doc:`euler_angles` for conversions from and to Euler angles
+that have been omitted here for the sake of brevity.
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
@@ -63,64 +66,6 @@ Conversions to Rotation Matrix
    ~pytransform3d.rotations.matrix_from_axis_angle
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
-
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw
-
-Conversions to Euler Angles
----------------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix
 
 Conversions to Axis-Angle
 -------------------------

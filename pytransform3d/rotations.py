@@ -665,7 +665,7 @@ def matrix_from_quaternion(q):
 
 
 def matrix_from_angle(basis, angle):
-    """Compute passive rotation matrix from rotation around basis vector.
+    """Compute passive rotation matrix from rotation about basis vector.
 
     Parameters
     ----------
@@ -705,7 +705,7 @@ passive_matrix_from_angle = matrix_from_angle
 
 
 def active_matrix_from_angle(basis, angle):
-    """Compute active rotation matrix from rotation around basis vector.
+    """Compute active rotation matrix from rotation about basis vector.
 
     Parameters
     ----------
