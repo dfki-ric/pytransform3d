@@ -866,15 +866,15 @@ def test_conversions_matrix_axis_angle():
     a = axis_angle_from_matrix(R)
     assert_axis_angle_equal(a, np.array([1, 0, 0, 0]))
 
-    R = matrix_from_euler_xyz(np.array([np.pi, np.pi, 0.0]))
+    R = active_matrix_from_intrinsic_euler_xyz(np.array([-np.pi, -np.pi, 0.0]))
     a = axis_angle_from_matrix(R)
     assert_axis_angle_equal(a, np.array([0, 0, 1, np.pi]))
 
-    R = matrix_from_euler_xyz(np.array([np.pi, 0.0, np.pi]))
+    R = active_matrix_from_intrinsic_euler_xyz(np.array([-np.pi, 0.0, -np.pi]))
     a = axis_angle_from_matrix(R)
     assert_axis_angle_equal(a, np.array([0, 1, 0, np.pi]))
 
-    R = matrix_from_euler_xyz(np.array([0.0, np.pi, np.pi]))
+    R = active_matrix_from_intrinsic_euler_xyz(np.array([0.0, -np.pi, -np.pi]))
     a = axis_angle_from_matrix(R)
     assert_axis_angle_equal(a, np.array([1, 0, 0, np.pi]))
 
@@ -903,15 +903,15 @@ def test_conversions_matrix_compact_axis_angle():
     a = compact_axis_angle_from_matrix(R)
     assert_compact_axis_angle_equal(a, np.zeros(3))
 
-    R = matrix_from_euler_xyz(np.array([np.pi, np.pi, 0.0]))
+    R = active_matrix_from_intrinsic_euler_xyz(np.array([-np.pi, -np.pi, 0.0]))
     a = compact_axis_angle_from_matrix(R)
     assert_compact_axis_angle_equal(a, np.array([0, 0, np.pi]))
 
-    R = matrix_from_euler_xyz(np.array([np.pi, 0.0, np.pi]))
+    R = active_matrix_from_intrinsic_euler_xyz(np.array([-np.pi, 0.0, -np.pi]))
     a = compact_axis_angle_from_matrix(R)
     assert_compact_axis_angle_equal(a, np.array([0, np.pi, 0]))
 
-    R = matrix_from_euler_xyz(np.array([0.0, np.pi, np.pi]))
+    R = active_matrix_from_intrinsic_euler_xyz(np.array([0.0, -np.pi, -np.pi]))
     a = compact_axis_angle_from_matrix(R)
     assert_compact_axis_angle_equal(a, np.array([np.pi, 0, 0]))
 

@@ -4,7 +4,7 @@ import warnings
 import platform
 import tempfile
 import numpy as np
-from pytransform3d.rotations import q_id, matrix_from_euler_xyz
+from pytransform3d.rotations import q_id, active_matrix_from_intrinsic_euler_xyz
 from pytransform3d.transformations import (random_transform, invert_transform,
                                            concat, transform_from_pq,
                                            random_quaternion, transform_from)
@@ -202,7 +202,7 @@ def test_png_export():
     cam2robot = transform_from_pq(
         np.hstack((np.array([0.0, 0.0, 0.8]), q_id)))
     object2cam = transform_from(
-        matrix_from_euler_xyz(np.array([0.0, 0.0, 0.5])),
+        active_matrix_from_intrinsic_euler_xyz(np.array([0.0, 0.0, 0.5])),
         np.array([0.5, 0.1, 0.1]))
 
     tm = TransformManager()

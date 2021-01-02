@@ -1,7 +1,7 @@
 import numpy as np
 from pytransform3d.camera import (make_world_line, make_world_grid, cam2sensor,
                                   sensor2img, world2image)
-from pytransform3d.rotations import matrix_from_euler_xyz
+from pytransform3d.rotations import active_matrix_from_intrinsic_euler_xyz
 from pytransform3d.transformations import transform_from
 from nose.tools import (assert_raises_regexp, assert_false, assert_in,
                         assert_equal)
@@ -73,8 +73,9 @@ def test_sensor2img():
 
 
 def test_world2image():
-    cam2world = transform_from(matrix_from_euler_xyz([np.pi, 0, 0]),
-                               [0, 0, 1.5])
+    cam2world = transform_from(
+        active_matrix_from_intrinsic_euler_xyz([np.pi, 0, 0]),
+        [0, 0, 1.5])
     focal_length = 0.0036
     sensor_size = (0.00367, 0.00274)
     image_size = (640, 480)
