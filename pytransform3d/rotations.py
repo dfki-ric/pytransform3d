@@ -2502,7 +2502,7 @@ def q_conj(q):
 
 def _slerp_weights(angle, t):
     if angle == 0.0:
-        return (np.ones_like(t), np.zeros_like(t))
+        return np.ones_like(t), np.zeros_like(t)
     else:
         return (np.sin((1.0 - t) * angle) / np.sin(angle),
                 np.sin(t * angle) / np.sin(angle))
