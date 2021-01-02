@@ -30,7 +30,7 @@ if qt_available:
     from mpl_toolkits.mplot3d import Axes3D
     import numpy as np
     from .transform_manager import TransformManager
-    from .rotations import matrix_from_euler_xyz, euler_xyz_from_matrix
+    from .rotations import active_matrix_from_intrinsic_euler_xyz, intrinsic_euler_xyz_from_active_matrix
     from .transformations import transform_from
 
 
@@ -125,14 +125,14 @@ if qt_available:
         def _internal_repr(self, A2B):
             p = A2B[:3, 3]
             R = A2B[:3, :3]
-            e = euler_xyz_from_matrix(R)
+            e = intrinsic_euler_xyz_from_active_matrix(R)
             return np.hstack((p, e))
 
         def _on_pos_edited(self, dim, pos):
             """Slot: value in spinbox changed."""
             pose = self._internal_repr(self.A2B)
             pose[dim] = pos
-            self.A2B = transform_from(matrix_from_euler_xyz(
+            self.A2B = transform_from(active_matrix_from_intrinsic_euler_xyz(
                 pose[3:]), pose[:3])
 
             for i in range(6):
@@ -147,7 +147,7 @@ if qt_available:
             pose = self._internal_repr(self.A2B)
             v = self._slider_pos_to_pos(dim, step)
             pose[dim] = v
-            self.A2B = transform_from(matrix_from_euler_xyz(
+            self.A2B = transform_from(active_matrix_from_intrinsic_euler_xyz(
                 pose[3:]), pose[:3])
 
             self.spinboxes[dim].setValue(v)
