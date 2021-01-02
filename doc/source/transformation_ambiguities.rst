@@ -263,7 +263,7 @@ Its transformed version is usually used for a passive transformation:
         0 & 0 & 1\\
     \end{array} \right)
 
-.. note::
+.. warning::
 
     The standard in pytransform3d is an active rotation.
     Note that there are some functions to generate rotation matrices that

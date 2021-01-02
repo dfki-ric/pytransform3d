@@ -15,27 +15,6 @@ You can search for specific modules, classes, or functions in the
     :no-members:
     :no-inherited-members:
 
-Utility Functions
------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform3d.rotations.norm_vector
-   ~pytransform3d.rotations.norm_matrix
-   ~pytransform3d.rotations.norm_angle
-   ~pytransform3d.rotations.norm_axis_angle
-   ~pytransform3d.rotations.norm_compact_axis_angle
-   ~pytransform3d.rotations.perpendicular_to_vectors
-   ~pytransform3d.rotations.angle_between_vectors
-   ~pytransform3d.rotations.vector_projection
-   ~pytransform3d.rotations.random_vector
-   ~pytransform3d.rotations.random_axis_angle
-   ~pytransform3d.rotations.random_compact_axis_angle
-   ~pytransform3d.rotations.random_quaternion
-   ~pytransform3d.rotations.cross_product_matrix
-
 Input Validation Functions
 --------------------------
 
@@ -53,35 +32,19 @@ Input Validation Functions
 Conversions to Rotation Matrix
 ------------------------------
 
+See also :doc:`euler_angles` for conversions from and to Euler angles
+that have been omitted here for the sake of brevity.
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.matrix_from_angle
    ~pytransform3d.rotations.passive_matrix_from_angle
    ~pytransform3d.rotations.active_matrix_from_angle
    ~pytransform3d.rotations.matrix_from_two_vectors
    ~pytransform3d.rotations.matrix_from_axis_angle
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
-   ~pytransform3d.rotations.matrix_from_euler_xyz
-   ~pytransform3d.rotations.matrix_from_euler_zyx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw
-   ~pytransform3d.rotations.matrix_from
-
-Conversions to Euler Angles
----------------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform3d.rotations.euler_xyz_from_matrix
-   ~pytransform3d.rotations.euler_zyx_from_matrix
 
 Conversions to Axis-Angle
 -------------------------
@@ -148,9 +111,45 @@ Testing
    ~pytransform3d.rotations.assert_axis_angle_equal
    ~pytransform3d.rotations.assert_compact_axis_angle_equal
    ~pytransform3d.rotations.assert_quaternion_equal
+   ~pytransform3d.rotations.assert_rotation_matrix
+
+Utility Functions
+-----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.norm_vector
+   ~pytransform3d.rotations.norm_matrix
+   ~pytransform3d.rotations.norm_angle
+   ~pytransform3d.rotations.norm_axis_angle
+   ~pytransform3d.rotations.norm_compact_axis_angle
+   ~pytransform3d.rotations.perpendicular_to_vectors
+   ~pytransform3d.rotations.angle_between_vectors
+   ~pytransform3d.rotations.vector_projection
+   ~pytransform3d.rotations.random_vector
+   ~pytransform3d.rotations.random_axis_angle
+   ~pytransform3d.rotations.random_compact_axis_angle
+   ~pytransform3d.rotations.random_quaternion
+   ~pytransform3d.rotations.cross_product_matrix
+
+
+Deprecated Functions
+--------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.matrix_from
+   ~pytransform3d.rotations.matrix_from_angle
+   ~pytransform3d.rotations.matrix_from_euler_xyz
+   ~pytransform3d.rotations.matrix_from_euler_zyx
+   ~pytransform3d.rotations.euler_xyz_from_matrix
+   ~pytransform3d.rotations.euler_zyx_from_matrix
    ~pytransform3d.rotations.assert_euler_xyz_equal
    ~pytransform3d.rotations.assert_euler_zyx_equal
-   ~pytransform3d.rotations.assert_rotation_matrix
 
 
 :mod:`pytransform3d.transformations`

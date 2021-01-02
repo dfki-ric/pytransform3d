@@ -4,6 +4,7 @@ import sys
 import os
 import glob
 import shutil
+import time
 from sphinx_gallery.scrapers import figure_rst
 from sphinx_gallery.sorting import ExplicitOrder
 
@@ -41,7 +42,7 @@ source_suffix = '.rst'
 source_encoding = 'utf-8-sig'
 master_doc = 'index'
 project = u'pytransform3d'
-copyright = u'2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center'
+copyright = u"2014-{}, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center".format(time.strftime("%Y"))
 version = __import__("pytransform3d").__version__
 release = __import__("pytransform3d").__version__
 language = 'en'
@@ -51,7 +52,18 @@ show_authors = True
 pygments_style = 'sphinx'
 html_theme = 'bootstrap'
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-html_theme_options = {'bootswatch_theme': "readable"}
+html_theme_options = {
+    "bootswatch_theme": "readable",
+    "navbar_sidebarrel": False,
+    "bootstrap_version": "3",
+    "nosidebar": True,
+    "body_max_width": '100%',
+    "navbar_links": [
+        ("Contents", "index"),
+        ("Examples", "_auto_examples/index"),
+        ("API", "api"),
+    ],
+}
 html_static_path = ['_static']
 html_last_updated_fmt = '%b %d, %Y'
 html_use_smartypants = True
