@@ -13,13 +13,15 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.rotations import matrix_from_euler_xyz
+from mpl_toolkits.mplot3d import proj3d
+from pytransform3d.rotations import active_matrix_from_intrinsic_euler_xyz
 from pytransform3d.transformations import transform_from, plot_transform
 from pytransform3d.camera import make_world_grid, world2image
 
 
-cam2world = transform_from(matrix_from_euler_xyz([np.pi - 1, 0.2, 0.2]),
-                           [0.2, -1, 0.5])
+cam2world = transform_from(
+    active_matrix_from_intrinsic_euler_xyz([-np.pi + 1, -0.1, 0.3]),
+    [0.2, -1, 0.5])
 focal_length = 0.0036
 sensor_size = (0.00367, 0.00274)
 image_size = (640, 480)
@@ -43,14 +45,11 @@ ax.set_xlabel("X")
 ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 plot_transform(ax)
-plot_transform(ax, A2B=cam2world)
+plot_transform(ax, A2B=cam2world, s=0.3, name="Camera")
 ax.set_title("Camera and world frames")
-ax.scatter(world_grid[:, 0], world_grid[:, 1], world_grid[:, 2])
+ax.scatter(world_grid[:, 0], world_grid[:, 1], world_grid[:, 2], alpha=0.2)
 ax.scatter(world_grid[-1, 0], world_grid[-1, 1], world_grid[-1, 2], color="r")
-for p in world_grid[::10]:
-    ax.plot([p[0], cam2world[0, 3]],
-            [p[1], cam2world[1, 3]],
-            [p[2], cam2world[2, 3]], c="k", alpha=0.2, lw=2)
+ax.view_init(elev=25, azim=-130)
 
 ax = plt.subplot(122, aspect="equal")
 ax.set_title("Camera image")
