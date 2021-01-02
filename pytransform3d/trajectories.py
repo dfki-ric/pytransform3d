@@ -1,10 +1,10 @@
 """Trajectories in three dimensions (position and orientation)."""
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
-from .rotations import matrix_from_quaternion
+from .batch_rotations import norm_vectors, matrices_from_quaternions
 
 
-def matrices_from_pos_quat(P):
+def matrices_from_pos_quat(P, normalize_quaternions=True):
     """Get sequence of homogeneous matrices from positions and quaternions.
 
     Parameters
@@ -13,22 +13,31 @@ def matrices_from_pos_quat(P):
         Sequence of poses represented by positions and quaternions in the
         order (x, y, z, w, vx, vy, vz) for each step
 
+    normalize_quaternions : bool, optional (default: True)
+        Normalize quaternions before conversion
+
     Returns
     -------
     H : array-like, shape (n_steps, 4, 4)
         Sequence of poses represented by homogeneous matrices
     """
-    n_steps = len(P)
-    H = np.empty((n_steps, 4, 4))
+    P = np.asarray(P)
+    H = np.empty((len(P), 4, 4))
     H[:, :3, 3] = P[:, :3]
     H[:, 3, :3] = 0.0
     H[:, 3, 3] = 1.0
-    for t in range(n_steps):
-        H[t, :3, :3] = matrix_from_quaternion(P[t, 3:])
+
+    if normalize_quaternions:
+        Q = norm_vectors(P[:, 3:])
+    else:
+        Q = P[:, 3:]
+
+    matrices_from_quaternions(Q, out=H[:, :3, :3])
+
     return H
 
 
-def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
+def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
     """Plot pose trajectory.
 
     Parameters
@@ -39,6 +48,9 @@ def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10, s=1.0, ax
     P : array-like, shape (n_steps, 7), optional (default: None)
         Sequence of poses represented by positions and quaternions in the
         order (x, y, z, w, vx, vy, vz) for each step
+
+    normalize_quaternions : bool, optional (default: True)
+        Normalize quaternions before plotting
 
     show_direction : bool, optional (default: True)
         Plot an arrow to indicate the direction of the trajectory
@@ -66,7 +78,7 @@ def plot_trajectory(ax=None, P=None, show_direction=True, n_frames=10, s=1.0, ax
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    H = matrices_from_pos_quat(P)
+    H = matrices_from_pos_quat(P, normalize_quaternions)
     trajectory = Trajectory(H, show_direction, n_frames, s, **kwargs)
     trajectory.add_trajectory(ax)
 
