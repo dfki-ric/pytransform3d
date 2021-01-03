@@ -965,3 +965,25 @@ def test_parse_material_local():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
     assert_array_almost_equal(tm.visuals[0].color, np.array([1, 0, 0, 1]))
+
+
+def test_plot_mesh_smoke_with_package_dir():
+    if not matplotlib_available:
+        raise SkipTest("matplotlib is required for this test")
+
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="cone">
+          <visual name="cone">
+            <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+            <geometry>
+            <mesh filename="package://test/test_data/cone.stl"/>
+            </geometry>
+          </visual>
+        </link>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf, package_dir="./")
+    tm.plot_visuals("cone")

@@ -43,6 +43,8 @@ class UrdfTransformManager(TransformManager):
         self._joints = {}
         self.collision_objects = []
         self.visuals = []
+        self.mesh_path = None
+        self.package_dir = None
 
     def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis,
                   limits=(float("-inf"), float("inf")), joint_type="revolute"):
@@ -126,7 +128,7 @@ class UrdfTransformManager(TransformManager):
             raise KeyError("Joint '%s' is not known" % joint_name)
         return self._joints[joint_name][4]
 
-    def load_urdf(self, urdf_xml, mesh_path=None):
+    def load_urdf(self, urdf_xml, mesh_path=None, package_dir=None):
         """Load URDF file into transformation manager.
 
         Parameters
@@ -136,9 +138,16 @@ class UrdfTransformManager(TransformManager):
 
         mesh_path : str, optional (default: None)
             Path in which we search for meshes that are defined in the URDF.
-            Meshes will be ignored if it is set to None.
+            Meshes will be ignored if it is set to None and no 'package_dir'
+            is given.
+
+        package_dir : str, optional (default: None)
+            Some URDFs start file names with 'package://' to refer to the ROS
+            package in which these files (textures, meshes) are located. This
+            variable defines to which path this prefix will be resolved.
         """
         self.mesh_path = mesh_path
+        self.package_dir = package_dir
         urdf = BeautifulSoup(urdf_xml, "xml")
 
         # URDF XML schema:
@@ -242,7 +251,9 @@ class UrdfTransformManager(TransformManager):
             shapes = geometry.findAll(shape_type)
             Cls = shape_classes[shape_type]
             for shape in shapes:
-                shape_object = Cls(name, mesh_path=self.mesh_path, color=color)
+                shape_object = Cls(
+                    name, mesh_path=self.mesh_path,
+                    package_dir=self.package_dir, color=color)
                 shape_object.parse(shape)
                 result.append(shape_object)
         return result
@@ -457,14 +468,14 @@ class Joint(object):
 
 
 class Box(object):
-    def __init__(self, frame, mesh_path, color):
+    def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.color = color
+        self.size = np.zeros(3)
 
     def parse(self, box):
-        self.size = np.zeros(3)
         if box.has_attr("size"):
-            self.size = np.fromstring(box["size"], sep=" ")
+            self.size[:] = np.fromstring(box["size"], sep=" ")
 
     def plot(self, tm, frame, ax=None, wireframe=True):
         A2B = tm.get_transform(self.frame, frame)
@@ -473,9 +484,10 @@ class Box(object):
 
 
 class Sphere(object):
-    def __init__(self, frame, mesh_path, color):
+    def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.color = color
+        self.radius = 0.0
 
     def parse(self, sphere):
         if not sphere.has_attr("radius"):
@@ -489,9 +501,11 @@ class Sphere(object):
 
 
 class Cylinder(object):
-    def __init__(self, frame, mesh_path, color):
+    def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.color = color
+        self.radius = 0.0
+        self.length = 0.0
 
     def parse(self, cylinder):
         if not cylinder.has_attr("radius"):
@@ -508,24 +522,28 @@ class Cylinder(object):
 
 
 class Mesh(object):
-    def __init__(self, frame, mesh_path, color):
+    def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.mesh_path = mesh_path
+        self.package_dir = package_dir
         self.color = color
+        self.filename = None
+        self.scale = np.zeros(3)
 
     def parse(self, mesh):
-        if self.mesh_path is None:
+        if self.mesh_path is None and self.package_dir is None:
             self.filename = None
-            self.scale = 1.0
         else:
             if not mesh.has_attr("filename"):
                 raise UrdfException("Mesh has no filename.")
-            self.filename = mesh["filename"]
-            self.filename = os.path.join(self.mesh_path, self.filename)
+            if self.mesh_path is not None:
+                self.filename = os.path.join(self.mesh_path, mesh["filename"])
+            else:
+                assert self.package_dir is not None
+                self.filename = mesh["filename"].replace(
+                    "package://", self.package_dir)
             if mesh.has_attr("scale"):
                 self.scale = np.fromstring(mesh["scale"], sep=" ")
-            else:
-                self.scale = np.ones(3)
 
     def plot(self, tm, frame, ax=None, alpha=0.3, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
