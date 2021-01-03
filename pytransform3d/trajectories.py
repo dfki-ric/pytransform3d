@@ -1,10 +1,10 @@
 """Trajectories in three dimensions (position and orientation)."""
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
-from .batch_rotations import norm_vectors, matrices_from_quaternions
+from .batch_rotations import norm_vectors, matrices_from_quaternions, quaternions_from_matrices
 
 
-def matrices_from_pos_quat(P, normalize_quaternions=True):
+def transforms_from_pqs(P, normalize_quaternions=True):
     """Get sequence of homogeneous matrices from positions and quaternions.
 
     Parameters
@@ -18,7 +18,7 @@ def matrices_from_pos_quat(P, normalize_quaternions=True):
 
     Returns
     -------
-    H : array-like, shape (n_steps, 4, 4)
+    H : array, shape (n_steps, 4, 4)
         Sequence of poses represented by homogeneous matrices
     """
     P = np.asarray(P)
@@ -35,6 +35,30 @@ def matrices_from_pos_quat(P, normalize_quaternions=True):
     matrices_from_quaternions(Q, out=H[:, :3, :3])
 
     return H
+
+
+matrices_from_pos_quat = transforms_from_pqs
+
+
+def pqs_from_transforms(H):
+    """Get sequence of positions and quaternions from homogeneous matrices.
+
+    Parameters
+    ----------
+    H : array-like, shape (n_steps, 4, 4)
+        Sequence of poses represented by homogeneous matrices
+
+    Returns
+    -------
+    P : array, shape (n_steps, 7)
+        Sequence of poses represented by positions and quaternions in the
+        order (x, y, z, w, vx, vy, vz) for each step
+    """
+    H = np.asarray(H)
+    P = np.empty((len(H), 7))
+    P[:, :3] = H[:, :3, 3]
+    quaternions_from_matrices(H[:, :3, :3], out=P[:, 3:])
+    return P
 
 
 def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
@@ -78,7 +102,7 @@ def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    H = matrices_from_pos_quat(P, normalize_quaternions)
+    H = transforms_from_pqs(P, normalize_quaternions)
     trajectory = Trajectory(H, show_direction, n_frames, s, **kwargs)
     trajectory.add_trajectory(ax)
 
