@@ -31,11 +31,19 @@ def test_transforms_from_exponential_coordinates():
     assert_array_almost_equal(Stheta, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     A2B2 = transforms_from_exponential_coordinates([Stheta])[0]
     assert_array_almost_equal(A2B, A2B2)
+    A2B2 = transforms_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(A2B, A2B2)
+    A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[0, 0]
+    assert_array_almost_equal(A2B, A2B2)
 
     A2B = translate_transform(np.eye(4), [1.0, 5.0, 0.0])
     Stheta = exponential_coordinates_from_transform(A2B)
     assert_array_almost_equal(Stheta, [0.0, 0.0, 0.0, 1.0, 5.0, 0.0])
     A2B2 = transforms_from_exponential_coordinates([Stheta])[0]
+    assert_array_almost_equal(A2B, A2B2)
+    A2B2 = transforms_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(A2B, A2B2)
+    A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[0, 0]
     assert_array_almost_equal(A2B, A2B2)
 
     A2B = rotate_transform(np.eye(4), active_matrix_from_angle(2, 0.5 * np.pi))
@@ -43,10 +51,18 @@ def test_transforms_from_exponential_coordinates():
     assert_array_almost_equal(Stheta, [0.0, 0.0, 0.5 * np.pi, 0.0, 0.0, 0.0])
     A2B2 = transforms_from_exponential_coordinates([Stheta])[0]
     assert_array_almost_equal(A2B, A2B2)
+    A2B2 = transforms_from_exponential_coordinates(Stheta)
+    assert_array_almost_equal(A2B, A2B2)
+    A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[0, 0]
+    assert_array_almost_equal(A2B, A2B2)
 
     random_state = np.random.RandomState(53)
     for _ in range(5):
         A2B = random_transform(random_state)
         Stheta = exponential_coordinates_from_transform(A2B)
         A2B2 = transforms_from_exponential_coordinates([Stheta])[0]
+        assert_array_almost_equal(A2B, A2B2)
+        A2B2 = transforms_from_exponential_coordinates(Stheta)
+        assert_array_almost_equal(A2B, A2B2)
+        A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[0, 0]
         assert_array_almost_equal(A2B, A2B2)
