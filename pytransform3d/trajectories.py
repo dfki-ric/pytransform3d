@@ -81,7 +81,7 @@ def transforms_from_exponential_coordinates(Sthetas):
         t[ind_only_translation] = 1.0
         screw_axes = Sthetas / t[..., np.newaxis]
 
-        matrix_from_compact_axis_angles(Sthetas[..., :3], out=H[..., :3, :3])
+        matrix_from_compact_axis_angles(axes=screw_axes[..., :3], angles=t, out=H[..., :3, :3])
 
         # from sympy import *
         # omega0, omega1, omega2, vx, vy, vz, theta = symbols("omega_0 omega_1 omega_2 v_x v_y v_z theta")
@@ -108,22 +108,28 @@ def transforms_from_exponential_coordinates(Sthetas):
         v0 = screw_axes[..., 3]
         v1 = screw_axes[..., 4]
         v2 = screw_axes[..., 5]
+        o01tms = o0 * o1 * tms
+        o12tms = o1 * o2 * tms
+        o02tms = o0 * o2 * tms
+        o0cm1 = o0 * cm1
+        o1cm1 = o1 * cm1
+        o2cm1 = o2 * cm1
+        o00tms = o0 * o0 * tms
+        o11tms = o1 * o1 * tms
+        o22tms = o2 * o2 * tms
         if instances_shape:
-            o0 = o0.reshape(*instances_shape)
-            o1 = o1.reshape(*instances_shape)
-            o2 = o2.reshape(*instances_shape)
             v0 = v0.reshape(*instances_shape)
             v1 = v1.reshape(*instances_shape)
             v2 = v2.reshape(*instances_shape)
-        H[..., 0, 3] = (-v0 * (o1 ** 2 * tms + o2 ** 2 * tms - t)
-                        + v1 * (o0 * o1 * tms + o2 * cm1)
-                        + v2 * (o0 * o2 * tms - o1 * cm1))
-        H[..., 1, 3] = (v0 * (o0 * o1 * tms - o2 * cm1)
-                        - v1 * (o0 ** 2 * tms + o2 ** 2 * tms - t)
-                        + v2 * (o0 * cm1 + o1 * o2 * tms))
-        H[..., 2, 3] = (v0 * (o0 * o2 * tms + o1 * cm1)
-                        - v1 * (o0 * cm1 - o1 * o2 * tms)
-                        - v2 * (o0 ** 2 * tms + o1 ** 2 * tms - t))
+        H[..., 0, 3] = (-v0 * (o11tms + o22tms - t)
+                        + v1 * (o01tms + o2cm1)
+                        + v2 * (o02tms - o1cm1))
+        H[..., 1, 3] = (v0 * (o01tms - o2cm1)
+                        - v1 * (o00tms + o22tms - t)
+                        + v2 * (o0cm1 + o12tms))
+        H[..., 2, 3] = (v0 * (o02tms + o1cm1)
+                        - v1 * (o0cm1 - o12tms)
+                        - v2 * (o00tms + o11tms - t))
 
     H[ind_only_translation, :3, :3] = np.eye(3)
     H[ind_only_translation, :3, 3] = Sthetas[ind_only_translation, 3:]
