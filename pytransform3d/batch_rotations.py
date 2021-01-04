@@ -80,7 +80,7 @@ def active_matrices_from_extrinsic_euler_angles(basis1, basis2, basis3, e, out=N
     return out
 
 
-def matrix_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
+def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
     """TODO update
 
     Compute rotation matrix from axis-angle.

@@ -1,7 +1,7 @@
 """Trajectories in three dimensions (position and orientation)."""
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
-from .batch_rotations import norm_vectors, matrices_from_quaternions, quaternions_from_matrices, matrix_from_compact_axis_angles
+from .batch_rotations import norm_vectors, matrices_from_quaternions, quaternions_from_matrices, matrices_from_compact_axis_angles
 from .transformations import transform_from_exponential_coordinates
 
 
@@ -81,7 +81,7 @@ def transforms_from_exponential_coordinates(Sthetas):
         t[ind_only_translation] = 1.0
         screw_axes = Sthetas / t[..., np.newaxis]
 
-        matrix_from_compact_axis_angles(axes=screw_axes[..., :3], angles=t, out=H[..., :3, :3])
+        matrices_from_compact_axis_angles(axes=screw_axes[..., :3], angles=t, out=H[..., :3, :3])
 
         # from sympy import *
         # omega0, omega1, omega2, vx, vy, vz, theta = symbols("omega_0 omega_1 omega_2 v_x v_y v_z theta")
