@@ -80,7 +80,7 @@ def active_matrices_from_extrinsic_euler_angles(basis1, basis2, basis3, e, out=N
     return out
 
 
-def matrix_from_compact_axis_angles(a, out=None):
+def matrix_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
     """TODO update
 
     Compute rotation matrix from axis-angle.
@@ -101,8 +101,14 @@ def matrix_from_compact_axis_angles(a, out=None):
     """
     # TODO case norm == 0? don't allow it?
     # TODO test
-    thetas = np.linalg.norm(a, axis=-1)
-    omega_unit = a / thetas[..., np.newaxis]
+    if angles is None:
+        thetas = np.linalg.norm(a, axis=-1)
+    else:
+        thetas = np.asarray(angles)
+    if axes is None:
+        omega_unit = a / thetas[..., np.newaxis]
+    else:
+        omega_unit = axes
 
     c = np.cos(thetas)
     s = np.sin(thetas)
@@ -111,16 +117,26 @@ def matrix_from_compact_axis_angles(a, out=None):
     uy = omega_unit[..., 1]
     uz = omega_unit[..., 2]
 
+    uxs = ux * s
+    uys = uy * s
+    uzs = uz * s
+    ciux = ci * ux
+    ciuy = ci * uy
+    ciuxuy = ciux * uy
+    ciuxuz = ciux * uz
+    ciuyuz = ciuy * uz
+
     if out is None:
         out = np.empty(a.shape[:-1] + (3, 3))
-    out[..., 0, 0] = ci * ux * ux + c
-    out[..., 0, 1] = ci * ux * uy - uz * s
-    out[..., 0, 2] = ci * ux * uz + uy * s
-    out[..., 1, 0] = ci * uy * ux + uz * s
-    out[..., 1, 1] = ci * uy * uy + c
-    out[..., 1, 2] = ci * uy * uz - ux * s
-    out[..., 2, 0] = ci * uz * ux - uy * s
-    out[..., 2, 1] = ci * uz * uy + ux * s
+
+    out[..., 0, 0] = ciux * ux + c
+    out[..., 0, 1] = ciuxuy - uzs
+    out[..., 0, 2] = ciuxuz + uys
+    out[..., 1, 0] = ciuxuy + uzs
+    out[..., 1, 1] = ciuy * uy + c
+    out[..., 1, 2] = ciuyuz - uxs
+    out[..., 2, 0] = ciuxuz - uys
+    out[..., 2, 1] = ciuyuz + uxs
     out[..., 2, 2] = ci * uz * uz + c
 
     return out
