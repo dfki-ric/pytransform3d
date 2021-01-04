@@ -70,8 +70,6 @@ def transforms_from_exponential_coordinates(Sthetas):
 
     H = np.empty(instances_shape + (4, 4))
     H[..., 3, :] = (0, 0, 0, 1)
-    #H[..., 3, :3] = 0.0
-    #H[..., 3, 3] = 1.0
 
     ind_only_translation = thetas == 0.0
     H[ind_only_translation, :3, :3] = np.eye(3)
@@ -80,12 +78,10 @@ def transforms_from_exponential_coordinates(Sthetas):
         return H
 
     ind = thetas != 0.0
-    thetas_ind = thetas[ind]
+    t = thetas[ind]
     if instances_shape:
-        thetas_ind = thetas_ind.reshape(*instances_shape)
-    screw_axes = Sthetas[ind] / thetas_ind
-    omega_ind = screw_axes[..., :3]
-    v_ind = screw_axes[..., 3:]
+        t = t.reshape(*instances_shape)
+    screw_axes = Sthetas[ind] / t
 
     H[ind, :3, :3] = matrix_from_compact_axis_angles(Sthetas[ind, :3])
 
@@ -94,44 +90,42 @@ def transforms_from_exponential_coordinates(Sthetas):
     # w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])
     # v = Matrix([[vx], [vy], [vz]])
     # p = (eye(3) * theta + (1 - cos(theta)) * w + (theta - sin(theta)) * w * w) * v
+    #
     # Result:
-    # -v_x*(omega_1**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta) + v_y*(omega_0*omega_1*(theta - sin(theta)) + omega_2*(cos(theta) - 1)) + v_z*(omega_0*omega_2*(theta - sin(theta)) - omega_1*(cos(theta) - 1))
-    # v_x*(omega_0*omega_1*(theta - sin(theta)) - omega_2*(cos(theta) - 1)) - v_y*(omega_0**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta) + v_z*(omega_0*(cos(theta) - 1) + omega_1*omega_2*(theta - sin(theta)))
-    # v_x*(omega_0*omega_2*(theta - sin(theta)) + omega_1*(cos(theta) - 1)) - v_y*(omega_0*(cos(theta) - 1) - omega_1*omega_2*(theta - sin(theta))) - v_z*(omega_0**2*(theta - sin(theta)) + omega_1**2*(theta - sin(theta)) - theta)
+    # -v_x*(omega_1**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
+    #     + v_y*(omega_0*omega_1*(theta - sin(theta)) + omega_2*(cos(theta) - 1))
+    #     + v_z*(omega_0*omega_2*(theta - sin(theta)) - omega_1*(cos(theta) - 1))
+    # v_x*(omega_0*omega_1*(theta - sin(theta)) - omega_2*(cos(theta) - 1))
+    #     - v_y*(omega_0**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
+    #     + v_z*(omega_0*(cos(theta) - 1) + omega_1*omega_2*(theta - sin(theta)))
+    # v_x*(omega_0*omega_2*(theta - sin(theta)) + omega_1*(cos(theta) - 1))
+    #     - v_y*(omega_0*(cos(theta) - 1) - omega_1*omega_2*(theta - sin(theta)))
+    #     - v_z*(omega_0**2*(theta - sin(theta)) + omega_1**2*(theta - sin(theta)) - theta)
 
-    thetas_minus_sin_thetas_ind = thetas_ind - np.sin(thetas_ind)
-    cos_thetas_minus_1_ind = np.cos(thetas_ind) - 1.0
-    v_ind_0 = v_ind[..., 0]
-    v_ind_1 = v_ind[..., 1]
-    v_ind_2 = v_ind[..., 2]
-    omega_ind_0 = omega_ind[..., 0]
-    omega_ind_1 = omega_ind[..., 1]
-    omega_ind_2 = omega_ind[..., 2]
+    tms = t - np.sin(t)
+    cm1 = np.cos(t) - 1.0
+    o0 = screw_axes[..., 0]
+    o1 = screw_axes[..., 1]
+    o2 = screw_axes[..., 2]
+    v0 = screw_axes[..., 3]
+    v1 = screw_axes[..., 4]
+    v2 = screw_axes[..., 5]
     if instances_shape:
-        v_ind_0 = v_ind_0.reshape(*instances_shape)
-        v_ind_1 = v_ind_1.reshape(*instances_shape)
-        v_ind_2 = v_ind_2.reshape(*instances_shape)
-        omega_ind_0 = omega_ind_0.reshape(*instances_shape)
-        omega_ind_1 = omega_ind_1.reshape(*instances_shape)
-        omega_ind_2 = omega_ind_2.reshape(*instances_shape)
-    H[ind, 0, 3] = (-v_ind_0 * (omega_ind_1 ** 2 * thetas_minus_sin_thetas_ind
-                                 + omega_ind_2 ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)
-                    + v_ind_1 * (omega_ind_0 * omega_ind_1 * thetas_minus_sin_thetas_ind
-                                  + omega_ind_2 * cos_thetas_minus_1_ind)
-                    + v_ind_2 * (omega_ind_0 * omega_ind_2 * thetas_minus_sin_thetas_ind
-                                  - omega_ind_1 * cos_thetas_minus_1_ind)).squeeze()
-    H[ind, 1, 3] = (v_ind_0 * (omega_ind_0 * omega_ind_1 * thetas_minus_sin_thetas_ind
-                                - omega_ind_2 * cos_thetas_minus_1_ind)
-                    - v_ind_1 * (omega_ind_0 ** 2 * thetas_minus_sin_thetas_ind
-                                  + omega_ind_2 ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)
-                    + v_ind_2 * (omega_ind_0 * cos_thetas_minus_1_ind
-                                  + omega_ind_1 * omega_ind_2 * thetas_minus_sin_thetas_ind)).squeeze()
-    H[ind, 2, 3] = (v_ind_0 * (omega_ind_0 * omega_ind_2 * thetas_minus_sin_thetas_ind
-                                + omega_ind_1 * cos_thetas_minus_1_ind)
-                    - v_ind_1 * (omega_ind_0 * cos_thetas_minus_1_ind
-                                  - omega_ind_1 * omega_ind_2 * thetas_minus_sin_thetas_ind)
-                    - v_ind_2 * (omega_ind_0 ** 2 * thetas_minus_sin_thetas_ind
-                                  + omega_ind_1 ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)).squeeze()
+        o0 = o0.reshape(*instances_shape)
+        o1 = o1.reshape(*instances_shape)
+        o2 = o2.reshape(*instances_shape)
+        v0 = v0.reshape(*instances_shape)
+        v1 = v1.reshape(*instances_shape)
+        v2 = v2.reshape(*instances_shape)
+    H[ind, 0, 3] = (-v0 * (o1 ** 2 * tms + o2 ** 2 * tms - t)
+                    + v1 * (o0 * o1 * tms + o2 * cm1)
+                    + v2 * (o0 * o2 * tms - o1 * cm1)).squeeze()
+    H[ind, 1, 3] = (v0 * (o0 * o1 * tms - o2 * cm1)
+                    - v1 * (o0 ** 2 * tms + o2 ** 2 * tms - t)
+                    + v2 * (o0 * cm1 + o1 * o2 * tms)).squeeze()
+    H[ind, 2, 3] = (v0 * (o0 * o2 * tms + o1 * cm1)
+                    - v1 * (o0 * cm1 - o1 * o2 * tms)
+                    - v2 * (o0 ** 2 * tms + o1 ** 2 * tms - t)).squeeze()
 
     return H
 
