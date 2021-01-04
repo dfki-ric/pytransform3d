@@ -80,6 +80,51 @@ def active_matrices_from_extrinsic_euler_angles(basis1, basis2, basis3, e, out=N
     return out
 
 
+def matrix_from_compact_axis_angles(a):
+    """TODO update
+
+    Compute rotation matrix from axis-angle.
+
+    This is called exponential map or Rodrigues' formula.
+
+    This typically results in an active rotation matrix.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle in compact representation: angle * (x, y, z)
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    # TODO case norm == 0? don't allow it?
+    # TODO test
+    thetas = np.linalg.norm(a, axis=-1)
+    omega_unit = a / thetas
+
+    c = np.cos(thetas)
+    s = np.sin(thetas)
+    ci = 1.0 - c
+    ux = omega_unit[..., 0]
+    uy = omega_unit[..., 1]
+    uz = omega_unit[..., 2]
+
+    Rs = np.empty(a.shape[:-1] + (3, 3))
+    Rs[..., 0, 0] = ci * ux * ux + c
+    Rs[..., 0, 1] = ci * ux * uy - uz * s
+    Rs[..., 0, 2] = ci * ux * uz + uy * s
+    Rs[..., 1, 0] = ci * uy * ux + uz * s
+    Rs[..., 1, 1] = ci * uy * uy + c
+    Rs[..., 1, 2] = ci * uy * uz - ux * s
+    Rs[..., 2, 0] = ci * uz * ux - uy * s
+    Rs[..., 2, 1] = ci * uz * uy + ux * s
+    Rs[..., 2, 2] = ci * uz * uz + c
+
+    return Rs
+
+
 def matrices_from_quaternions(Q, out=None):  # only normalized quaternions!
     Q = np.asarray(Q)
 
