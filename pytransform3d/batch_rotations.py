@@ -80,7 +80,7 @@ def active_matrices_from_extrinsic_euler_angles(basis1, basis2, basis3, e, out=N
     return out
 
 
-def matrix_from_compact_axis_angles(a):
+def matrix_from_compact_axis_angles(a, out=None):
     """TODO update
 
     Compute rotation matrix from axis-angle.
@@ -101,7 +101,6 @@ def matrix_from_compact_axis_angles(a):
     """
     # TODO case norm == 0? don't allow it?
     # TODO test
-    # TODO output variable
     thetas = np.linalg.norm(a, axis=-1)
     omega_unit = a / thetas[..., np.newaxis]
 
@@ -112,18 +111,19 @@ def matrix_from_compact_axis_angles(a):
     uy = omega_unit[..., 1]
     uz = omega_unit[..., 2]
 
-    Rs = np.empty(a.shape[:-1] + (3, 3))
-    Rs[..., 0, 0] = ci * ux * ux + c
-    Rs[..., 0, 1] = ci * ux * uy - uz * s
-    Rs[..., 0, 2] = ci * ux * uz + uy * s
-    Rs[..., 1, 0] = ci * uy * ux + uz * s
-    Rs[..., 1, 1] = ci * uy * uy + c
-    Rs[..., 1, 2] = ci * uy * uz - ux * s
-    Rs[..., 2, 0] = ci * uz * ux - uy * s
-    Rs[..., 2, 1] = ci * uz * uy + ux * s
-    Rs[..., 2, 2] = ci * uz * uz + c
+    if out is None:
+        out = np.empty(a.shape[:-1] + (3, 3))
+    out[..., 0, 0] = ci * ux * ux + c
+    out[..., 0, 1] = ci * ux * uy - uz * s
+    out[..., 0, 2] = ci * ux * uz + uy * s
+    out[..., 1, 0] = ci * uy * ux + uz * s
+    out[..., 1, 1] = ci * uy * uy + c
+    out[..., 1, 2] = ci * uy * uz - ux * s
+    out[..., 2, 0] = ci * uz * ux - uy * s
+    out[..., 2, 1] = ci * uz * uy + ux * s
+    out[..., 2, 2] = ci * uz * uz + c
 
-    return Rs
+    return out
 
 
 def matrices_from_quaternions(Q, out=None):  # only normalized quaternions!
