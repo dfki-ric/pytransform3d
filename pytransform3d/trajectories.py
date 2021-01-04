@@ -64,17 +64,16 @@ def pqs_from_transforms(H):
 def transforms_from_exponential_coordinates(Sthetas):
     """TODO"""
     Sthetas = np.asarray(Sthetas)
-    print(Sthetas.shape)
+    instances_shape = Sthetas.shape[:-1]
 
     thetas = np.linalg.norm(Sthetas[..., :3], axis=-1)
 
-    H = np.empty(Sthetas.shape[:-1] + (4, 4))
+    H = np.empty(instances_shape + (4, 4))
     H[..., 3, :] = (0, 0, 0, 1)
     #H[..., 3, :3] = 0.0
     #H[..., 3, 3] = 1.0
 
     ind_only_translation = thetas == 0.0
-    # TODO 1d case
     H[ind_only_translation, :3, :3] = np.eye(3)
     H[ind_only_translation, :3, 3] = Sthetas[ind_only_translation, 3:]
     if np.all(ind_only_translation):
@@ -82,6 +81,8 @@ def transforms_from_exponential_coordinates(Sthetas):
 
     ind = thetas != 0.0
     thetas_ind = thetas[ind]
+    if instances_shape:
+        thetas_ind = thetas_ind.reshape(*instances_shape)
     screw_axes = Sthetas[ind] / thetas_ind
     omega_ind = screw_axes[..., :3]
     v_ind = screw_axes[..., 3:]
@@ -100,24 +101,37 @@ def transforms_from_exponential_coordinates(Sthetas):
 
     thetas_minus_sin_thetas_ind = thetas_ind - np.sin(thetas_ind)
     cos_thetas_minus_1_ind = np.cos(thetas_ind) - 1.0
-    H[ind, 0, 3] = (-v_ind[..., 0] * (omega_ind[..., 1] ** 2 * thetas_minus_sin_thetas_ind
-                                      + omega_ind[..., 2] ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)
-                    + v_ind[..., 1] * (omega_ind[..., 0] * omega_ind[..., 1] * thetas_minus_sin_thetas_ind
-                                       + omega_ind[..., 2] * cos_thetas_minus_1_ind)
-                    + v_ind[..., 2] * (omega_ind[..., 0] * omega_ind[..., 2] * thetas_minus_sin_thetas_ind
-                                       - omega_ind[..., 1] * cos_thetas_minus_1_ind))
-    H[ind, 1, 3] = (v_ind[..., 0] * (omega_ind[..., 0] * omega_ind[..., 1] * thetas_minus_sin_thetas_ind
-                                     - omega_ind[..., 2] * cos_thetas_minus_1_ind)
-                    - v_ind[..., 1] * (omega_ind[..., 0] ** 2 * thetas_minus_sin_thetas_ind
-                                       + omega_ind[..., 2] ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)
-                    + v_ind[..., 2] * (omega_ind[..., 0] * cos_thetas_minus_1_ind
-                                       + omega_ind[..., 1] * omega_ind[..., 2] * thetas_minus_sin_thetas_ind))
-    H[ind, 2, 3] = (v_ind[..., 0] * (omega_ind[..., 0] * omega_ind[..., 2] * thetas_minus_sin_thetas_ind
-                                     + omega_ind[..., 1] * cos_thetas_minus_1_ind)
-                    - v_ind[..., 1] * (omega_ind[..., 0] * cos_thetas_minus_1_ind
-                                       - omega_ind[..., 1] * omega_ind[..., 2] * thetas_minus_sin_thetas_ind)
-                    - v_ind[..., 2] * (omega_ind[..., 0] ** 2 * thetas_minus_sin_thetas_ind
-                                       + omega_ind[..., 1] ** 2 * thetas_minus_sin_thetas_ind - thetas_ind))
+    v_ind_0 = v_ind[..., 0]
+    v_ind_1 = v_ind[..., 1]
+    v_ind_2 = v_ind[..., 2]
+    omega_ind_0 = omega_ind[..., 0]
+    omega_ind_1 = omega_ind[..., 1]
+    omega_ind_2 = omega_ind[..., 2]
+    if instances_shape:
+        v_ind_0 = v_ind_0.reshape(*instances_shape)
+        v_ind_1 = v_ind_1.reshape(*instances_shape)
+        v_ind_2 = v_ind_2.reshape(*instances_shape)
+        omega_ind_0 = omega_ind_0.reshape(*instances_shape)
+        omega_ind_1 = omega_ind_1.reshape(*instances_shape)
+        omega_ind_2 = omega_ind_2.reshape(*instances_shape)
+    H[ind, 0, 3] = (-v_ind_0 * (omega_ind_1 ** 2 * thetas_minus_sin_thetas_ind
+                                 + omega_ind_2 ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)
+                    + v_ind_1 * (omega_ind_0 * omega_ind_1 * thetas_minus_sin_thetas_ind
+                                  + omega_ind_2 * cos_thetas_minus_1_ind)
+                    + v_ind_2 * (omega_ind_0 * omega_ind_2 * thetas_minus_sin_thetas_ind
+                                  - omega_ind_1 * cos_thetas_minus_1_ind)).squeeze()
+    H[ind, 1, 3] = (v_ind_0 * (omega_ind_0 * omega_ind_1 * thetas_minus_sin_thetas_ind
+                                - omega_ind_2 * cos_thetas_minus_1_ind)
+                    - v_ind_1 * (omega_ind_0 ** 2 * thetas_minus_sin_thetas_ind
+                                  + omega_ind_2 ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)
+                    + v_ind_2 * (omega_ind_0 * cos_thetas_minus_1_ind
+                                  + omega_ind_1 * omega_ind_2 * thetas_minus_sin_thetas_ind)).squeeze()
+    H[ind, 2, 3] = (v_ind_0 * (omega_ind_0 * omega_ind_2 * thetas_minus_sin_thetas_ind
+                                + omega_ind_1 * cos_thetas_minus_1_ind)
+                    - v_ind_1 * (omega_ind_0 * cos_thetas_minus_1_ind
+                                  - omega_ind_1 * omega_ind_2 * thetas_minus_sin_thetas_ind)
+                    - v_ind_2 * (omega_ind_0 ** 2 * thetas_minus_sin_thetas_ind
+                                  + omega_ind_1 ** 2 * thetas_minus_sin_thetas_ind - thetas_ind)).squeeze()
 
     return H
 

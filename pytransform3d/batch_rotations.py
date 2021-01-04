@@ -101,8 +101,9 @@ def matrix_from_compact_axis_angles(a):
     """
     # TODO case norm == 0? don't allow it?
     # TODO test
+    # TODO output variable
     thetas = np.linalg.norm(a, axis=-1)
-    omega_unit = a / thetas
+    omega_unit = a / thetas[..., np.newaxis]
 
     c = np.cos(thetas)
     s = np.sin(thetas)
