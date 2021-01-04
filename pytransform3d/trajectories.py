@@ -2,6 +2,7 @@
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
 from .batch_rotations import norm_vectors, matrices_from_quaternions, quaternions_from_matrices, matrix_from_compact_axis_angles
+from .transformations import transform_from_exponential_coordinates
 
 
 def transforms_from_pqs(P, normalize_quaternions=True):
@@ -64,68 +65,68 @@ def pqs_from_transforms(H):
 def transforms_from_exponential_coordinates(Sthetas):
     """TODO"""
     Sthetas = np.asarray(Sthetas)
+    if Sthetas.ndim == 1:
+        return transform_from_exponential_coordinates(Sthetas)
+
     instances_shape = Sthetas.shape[:-1]
 
-    thetas = np.linalg.norm(Sthetas[..., :3], axis=-1)
+    t = np.linalg.norm(Sthetas[..., :3], axis=-1)
 
     H = np.empty(instances_shape + (4, 4))
     H[..., 3, :] = (0, 0, 0, 1)
 
-    ind_only_translation = thetas == 0.0
+    ind_only_translation = t == 0.0
+
+    if not np.all(ind_only_translation):
+        t[ind_only_translation] = 1.0
+        screw_axes = Sthetas / t[..., np.newaxis]
+
+        matrix_from_compact_axis_angles(Sthetas[..., :3], out=H[..., :3, :3])
+
+        # from sympy import *
+        # omega0, omega1, omega2, vx, vy, vz, theta = symbols("omega_0 omega_1 omega_2 v_x v_y v_z theta")
+        # w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])
+        # v = Matrix([[vx], [vy], [vz]])
+        # p = (eye(3) * theta + (1 - cos(theta)) * w + (theta - sin(theta)) * w * w) * v
+        #
+        # Result:
+        # -v_x*(omega_1**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
+        #     + v_y*(omega_0*omega_1*(theta - sin(theta)) + omega_2*(cos(theta) - 1))
+        #     + v_z*(omega_0*omega_2*(theta - sin(theta)) - omega_1*(cos(theta) - 1))
+        # v_x*(omega_0*omega_1*(theta - sin(theta)) - omega_2*(cos(theta) - 1))
+        #     - v_y*(omega_0**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
+        #     + v_z*(omega_0*(cos(theta) - 1) + omega_1*omega_2*(theta - sin(theta)))
+        # v_x*(omega_0*omega_2*(theta - sin(theta)) + omega_1*(cos(theta) - 1))
+        #     - v_y*(omega_0*(cos(theta) - 1) - omega_1*omega_2*(theta - sin(theta)))
+        #     - v_z*(omega_0**2*(theta - sin(theta)) + omega_1**2*(theta - sin(theta)) - theta)
+
+        tms = t - np.sin(t)
+        cm1 = np.cos(t) - 1.0
+        o0 = screw_axes[..., 0]
+        o1 = screw_axes[..., 1]
+        o2 = screw_axes[..., 2]
+        v0 = screw_axes[..., 3]
+        v1 = screw_axes[..., 4]
+        v2 = screw_axes[..., 5]
+        if instances_shape:
+            o0 = o0.reshape(*instances_shape)
+            o1 = o1.reshape(*instances_shape)
+            o2 = o2.reshape(*instances_shape)
+            v0 = v0.reshape(*instances_shape)
+            v1 = v1.reshape(*instances_shape)
+            v2 = v2.reshape(*instances_shape)
+        H[..., 0, 3] = (-v0 * (o1 ** 2 * tms + o2 ** 2 * tms - t)
+                        + v1 * (o0 * o1 * tms + o2 * cm1)
+                        + v2 * (o0 * o2 * tms - o1 * cm1))
+        H[..., 1, 3] = (v0 * (o0 * o1 * tms - o2 * cm1)
+                        - v1 * (o0 ** 2 * tms + o2 ** 2 * tms - t)
+                        + v2 * (o0 * cm1 + o1 * o2 * tms))
+        H[..., 2, 3] = (v0 * (o0 * o2 * tms + o1 * cm1)
+                        - v1 * (o0 * cm1 - o1 * o2 * tms)
+                        - v2 * (o0 ** 2 * tms + o1 ** 2 * tms - t))
+
     H[ind_only_translation, :3, :3] = np.eye(3)
     H[ind_only_translation, :3, 3] = Sthetas[ind_only_translation, 3:]
-    if np.all(ind_only_translation):
-        return H
-
-    ind = thetas != 0.0
-    t = thetas[ind]
-    if instances_shape:
-        t = t.reshape(*instances_shape)
-    screw_axes = Sthetas[ind] / t
-
-    H[ind, :3, :3] = matrix_from_compact_axis_angles(Sthetas[ind, :3])
-
-    # from sympy import *
-    # omega0, omega1, omega2, vx, vy, vz, theta = symbols("omega_0 omega_1 omega_2 v_x v_y v_z theta")
-    # w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])
-    # v = Matrix([[vx], [vy], [vz]])
-    # p = (eye(3) * theta + (1 - cos(theta)) * w + (theta - sin(theta)) * w * w) * v
-    #
-    # Result:
-    # -v_x*(omega_1**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
-    #     + v_y*(omega_0*omega_1*(theta - sin(theta)) + omega_2*(cos(theta) - 1))
-    #     + v_z*(omega_0*omega_2*(theta - sin(theta)) - omega_1*(cos(theta) - 1))
-    # v_x*(omega_0*omega_1*(theta - sin(theta)) - omega_2*(cos(theta) - 1))
-    #     - v_y*(omega_0**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
-    #     + v_z*(omega_0*(cos(theta) - 1) + omega_1*omega_2*(theta - sin(theta)))
-    # v_x*(omega_0*omega_2*(theta - sin(theta)) + omega_1*(cos(theta) - 1))
-    #     - v_y*(omega_0*(cos(theta) - 1) - omega_1*omega_2*(theta - sin(theta)))
-    #     - v_z*(omega_0**2*(theta - sin(theta)) + omega_1**2*(theta - sin(theta)) - theta)
-
-    tms = t - np.sin(t)
-    cm1 = np.cos(t) - 1.0
-    o0 = screw_axes[..., 0]
-    o1 = screw_axes[..., 1]
-    o2 = screw_axes[..., 2]
-    v0 = screw_axes[..., 3]
-    v1 = screw_axes[..., 4]
-    v2 = screw_axes[..., 5]
-    if instances_shape:
-        o0 = o0.reshape(*instances_shape)
-        o1 = o1.reshape(*instances_shape)
-        o2 = o2.reshape(*instances_shape)
-        v0 = v0.reshape(*instances_shape)
-        v1 = v1.reshape(*instances_shape)
-        v2 = v2.reshape(*instances_shape)
-    H[ind, 0, 3] = (-v0 * (o1 ** 2 * tms + o2 ** 2 * tms - t)
-                    + v1 * (o0 * o1 * tms + o2 * cm1)
-                    + v2 * (o0 * o2 * tms - o1 * cm1)).squeeze()
-    H[ind, 1, 3] = (v0 * (o0 * o1 * tms - o2 * cm1)
-                    - v1 * (o0 ** 2 * tms + o2 ** 2 * tms - t)
-                    + v2 * (o0 * cm1 + o1 * o2 * tms)).squeeze()
-    H[ind, 2, 3] = (v0 * (o0 * o2 * tms + o1 * cm1)
-                    - v1 * (o0 * cm1 - o1 * o2 * tms)
-                    - v2 * (o0 ** 2 * tms + o1 ** 2 * tms - t)).squeeze()
 
     return H
 
