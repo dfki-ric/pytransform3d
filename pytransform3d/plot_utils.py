@@ -6,7 +6,7 @@ try:
     from matplotlib import artist
     from matplotlib.patches import FancyArrowPatch
     from mpl_toolkits.mplot3d import proj3d
-    from mpl_toolkits.mplot3d.art3d import Line3D, Text3D, Poly3DCollection
+    from mpl_toolkits.mplot3d.art3d import Line3D, Text3D, Poly3DCollection, Line3DCollection
     from .transformations import transform
     from .rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
 
@@ -651,7 +651,7 @@ try:
         return ax
 
 
-    def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, convex_hull=False, alpha=1.0, color="k"):
+    def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, wireframe=False, convex_hull=False, alpha=1.0, color="k"):
         """Plot mesh.
 
         Note that this function requires the additional library 'trimesh'. It will
@@ -673,6 +673,9 @@ try:
 
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
+
+        wireframe : bool, optional (default: True)
+            Plot wireframe of mesh and surface otherwise
 
         convex_hull : bool, optional (default: False)
             Show convex hull instead of the original mesh. This can be much
@@ -712,10 +715,13 @@ try:
         vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
         vertices = transform(A2B, vertices)[:, :3]
         vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
-        p3c = Poly3DCollection(vectors)
-        p3c.set_alpha(alpha)
-        p3c.set_facecolor(color)
-        ax.add_collection3d(p3c)
+        if wireframe:
+            surface = Line3DCollection(vectors)
+        else:
+            surface = Poly3DCollection(vectors)
+        surface.set_alpha(alpha)
+        surface.set_facecolor(color)
+        ax.add_collection3d(surface)
         return ax
 
 

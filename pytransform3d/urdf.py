@@ -343,7 +343,7 @@ class UrdfTransformManager(TransformManager):
                 upper = float(limit["upper"])
         return lower, upper
 
-    def plot_visuals(self, frame, ax=None, ax_s=1):
+    def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False, convex_hull_of_mesh=True, alpha=0.3):
         """Plot all visuals in a given reference frame.
 
         Visuals can be boxes, spheres, cylinders, or meshes. Note that visuals
@@ -360,14 +360,25 @@ class UrdfTransformManager(TransformManager):
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
 
+        wireframe : bool, optional (default: False)
+            Plot wireframe (surface otherwise)
+
+        convex_hull_of_mesh : bool, optional (default: True)
+            Displays convex hull of meshes instead of the original mesh. This
+            makes plotting a lot faster with complex meshes.
+
+        alpha : float, optional (default: 0.3)
+            Alpha value of the surface / wireframe that will be plotted
+
         Returns
         -------
         ax : Matplotlib 3d axis
             New or old axis
         """
-        return self._plot_objects(self.visuals, frame, ax, ax_s)
+        return self._plot_objects(
+            self.visuals, frame, ax, ax_s, wireframe, convex_hull_of_mesh, alpha)
 
-    def plot_collision_objects(self, frame, ax=None, ax_s=1):
+    def plot_collision_objects(self, frame, ax=None, ax_s=1, wireframe=True, convex_hull_of_mesh=True, alpha=1.0):
         """Plot all collision objects in a given reference frame.
 
         Collision objects can be boxes, spheres, cylinders, or meshes. Note
@@ -385,14 +396,25 @@ class UrdfTransformManager(TransformManager):
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
 
+        wireframe : bool, optional (default: True)
+            Plot wireframe (surface otherwise)
+
+        convex_hull_of_mesh : bool, optional (default: True)
+            Displays convex hull of meshes instead of the original mesh. This
+            makes plotting a lot faster with complex meshes.
+
+        alpha : float, optional (default: 1)
+            Alpha value of the surface / wireframe that will be plotted
+
         Returns
         -------
         ax : Matplotlib 3d axis
             New or old axis
         """
-        return self._plot_objects(self.collision_objects, frame, ax, ax_s)
+        return self._plot_objects(
+            self.collision_objects, frame, ax, ax_s, wireframe, convex_hull_of_mesh, alpha)
 
-    def _plot_objects(self, objects, frame, ax=None, ax_s=1):
+    def _plot_objects(self, objects, frame, ax=None, ax_s=1, wireframe=True, convex_hull_of_mesh=True, alpha=1.0):
         """Plot all objects in a given reference frame.
 
         Objects can be boxes, spheres, cylinders, or meshes. Note that objects
@@ -400,6 +422,9 @@ class UrdfTransformManager(TransformManager):
 
         Parameters
         ----------
+        objects : list
+            Objects that will be plotted
+
         frame : string
             Reference frame
 
@@ -409,6 +434,16 @@ class UrdfTransformManager(TransformManager):
         ax_s : float, optional (default: 1)
             Scaling of the new matplotlib 3d axis
 
+        wireframe : bool, optional (default: True)
+            Plot wireframe (surface otherwise)
+
+        convex_hull_of_mesh : bool, optional (default: True)
+            Displays convex hull of meshes instead of the original mesh. This
+            makes plotting a lot faster with complex meshes.
+
+        alpha : float, optional (default: 1)
+            Alpha value of the surface / wireframe that will be plotted
+
         Returns
         -------
         ax : Matplotlib 3d axis
@@ -417,7 +452,9 @@ class UrdfTransformManager(TransformManager):
         if ax is None:
             ax = make_3d_axis(ax_s)
         for obj in objects:
-            ax = obj.plot(self, frame, ax)
+            ax = obj.plot(
+                self, frame, ax, wireframe=wireframe,
+                convex_hull=convex_hull_of_mesh, alpha=alpha)
         return ax
 
 
@@ -477,10 +514,10 @@ class Box(object):
         if box.has_attr("size"):
             self.size[:] = np.fromstring(box["size"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, wireframe=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
-        return plot_box(ax, self.size, A2B, wireframe=wireframe, color=color)
+        return plot_box(ax, self.size, A2B, wireframe=wireframe, alpha=alpha, color=color)
 
 
 class Sphere(object):
@@ -494,10 +531,10 @@ class Sphere(object):
             raise UrdfException("Sphere has no radius.")
         self.radius = float(sphere["radius"])
 
-    def plot(self, tm, frame, ax=None, wireframe=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         center = tm.get_transform(self.frame, frame)[:3, 3]
         color = self.color if self.color is not None else "k"
-        return plot_sphere(ax, self.radius, center, wireframe=wireframe, color=color)
+        return plot_sphere(ax, self.radius, center, wireframe=wireframe, alpha=alpha, color=color)
 
 
 class Cylinder(object):
@@ -515,10 +552,10 @@ class Cylinder(object):
             raise UrdfException("Cylinder has no length.")
         self.length = float(cylinder["length"])
 
-    def plot(self, tm, frame, ax=None, wireframe=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
-        return plot_cylinder(ax, self.length, self.radius, 0.0, A2B, wireframe, color)
+        return plot_cylinder(ax, self.length, self.radius, 0.0, A2B, wireframe=wireframe, alpha=alpha, color=color)
 
 
 class Mesh(object):
@@ -545,7 +582,7 @@ class Mesh(object):
             if mesh.has_attr("scale"):
                 self.scale = np.fromstring(mesh["scale"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, convex_hull=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         return plot_mesh(ax, self.filename, A2B, self.scale, convex_hull=convex_hull, alpha=alpha, color=color)
