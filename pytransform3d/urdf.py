@@ -517,7 +517,8 @@ class Box(object):
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
-        return plot_box(ax, self.size, A2B, wireframe=wireframe, alpha=alpha, color=color)
+        return plot_box(
+            ax, self.size, A2B, wireframe=wireframe, alpha=alpha, color=color)
 
 
 class Sphere(object):
@@ -534,7 +535,9 @@ class Sphere(object):
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         center = tm.get_transform(self.frame, frame)[:3, 3]
         color = self.color if self.color is not None else "k"
-        return plot_sphere(ax, self.radius, center, wireframe=wireframe, alpha=alpha, color=color)
+        return plot_sphere(
+            ax, self.radius, center, wireframe=wireframe, alpha=alpha,
+            color=color)
 
 
 class Cylinder(object):
@@ -555,7 +558,9 @@ class Cylinder(object):
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
-        return plot_cylinder(ax, self.length, self.radius, 0.0, A2B, wireframe=wireframe, alpha=alpha, color=color)
+        return plot_cylinder(
+            ax, self.length, self.radius, 0.0, A2B, wireframe=wireframe,
+            alpha=alpha, color=color)
 
 
 class Mesh(object):
@@ -585,7 +590,9 @@ class Mesh(object):
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
-        return plot_mesh(ax, self.filename, A2B, self.scale, convex_hull=convex_hull, alpha=alpha, color=color)
+        return plot_mesh(
+            ax, self.filename, A2B, self.scale, wireframe=wireframe,
+            convex_hull=convex_hull, alpha=alpha, color=color)
 
 
 shape_classes = {"box": Box,

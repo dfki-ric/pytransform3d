@@ -717,10 +717,11 @@ try:
         vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
         if wireframe:
             surface = Line3DCollection(vectors)
+            surface.set_color(color)
         else:
             surface = Poly3DCollection(vectors)
+            surface.set_facecolor(color)
         surface.set_alpha(alpha)
-        surface.set_facecolor(color)
         ax.add_collection3d(surface)
         return ax
 
