@@ -570,7 +570,7 @@ class Mesh(object):
         self.package_dir = package_dir
         self.color = color
         self.filename = None
-        self.scale = np.zeros(3)
+        self.scale = np.ones(3)
 
     def parse(self, mesh):
         if self.mesh_path is None and self.package_dir is None:
