@@ -10,7 +10,7 @@ try:
     from itertools import chain
 
 
-    def figure(window_name="Open3D", width=1920, height=1080, with_key_callbacks=False):
+    def figure(window_name="Open3D", width=1920, height=1080):
         """Create a new figure.
 
         Parameters
@@ -24,16 +24,12 @@ try:
         height : int, optional (default: 1080)
             Height of the window.
 
-        with_key_callbacks : bool, optional (default: False)
-            Creates a visualizer that allows to register callbacks
-            for keys.
-
         Returns
         -------
         figure : Figure
             New figure.
         """
-        return Figure(window_name, width, height, with_key_callbacks)
+        return Figure(window_name, width, height)
 
 
     class Figure:
@@ -51,29 +47,42 @@ try:
 
         height : int, optional (default: 1080)
             Height of the window.
-
-        with_key_callbacks : bool, optional (default: False)
-            Creates a visualizer that allows to register callbacks
-            for keys.
         """
-        def __init__(self, window_name="Open3D", width=1920, height=1080,
-                     with_key_callbacks=False):
-            if with_key_callbacks:
-                self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
-            else:
-                self.visualizer = o3d.visualization.Visualizer()
-            self.visualizer.create_window(
-                window_name=window_name, width=width, height=height)
+        def __init__(self, window_name="Open3D", width=1920, height=1080):
+            o3d.visualization.gui.Application.instance.initialize()
+            self.window = o3d.visualization.gui.Application.instance.create_window(
+                title=window_name, width=width, height=height)
+            self.scene = o3d.visualization.gui.SceneWidget()
+            self.scene.scene = o3d.visualization.rendering.Open3DScene(self.window.renderer)
+            self.bounds = o3d.geometry.AxisAlignedBoundingBox(-np.ones(3), np.ones(3))
+            self.scene.setup_camera(60, self.bounds, self.bounds.get_center())
+            self.window.add_child(self.scene)
 
-        def add_geometry(self, geometry):
+            menu = o3d.visualization.gui.Menu()
+            QUIT_ID = 1
+            menu.add_item("Quit", QUIT_ID)
+            main_menu = o3d.visualization.gui.Menu()
+            main_menu.add_menu("Menu", menu)
+            o3d.visualization.gui.Application.instance.menubar = main_menu
+            self.window.set_on_menu_item_activated(QUIT_ID, o3d.visualization.gui.Application.instance.quit)
+            self.main_scene = self.scene.scene
+            self.geometry_names = []
+
+        def add_geometry(self, geometry, material=None):
             """Add geometry to visualizer.
 
             Parameters
             ----------
             geometry : Geometry
                 Open3D geometry.
+
+            material : Material, optional (default: None)
+                Open3D material.
             """
-            self.visualizer.add_geometry(geometry)
+            name = str(len(self.geometry_names))
+            self.geometry_names.append(name)
+            material = o3d.visualization.rendering.Material()
+            self.main_scene.add_geometry(name, geometry, material)
 
         def update_geometry(self, geometry):
             """Indicate that geometry has been updated.
@@ -83,7 +92,7 @@ try:
             geometry : Geometry
                 Open3D geometry.
             """
-            self.visualizer.update_geometry(geometry)
+            self.main_scene.update_geometry(geometry)
 
         def set_line_width(self, line_width):
             """Set render option line width.
@@ -96,8 +105,8 @@ try:
             line_width : float
                 Line width.
             """
-            self.visualizer.get_render_option().line_width = line_width
-            self.visualizer.update_renderer()
+            self.main_scene.get_render_option().line_width = line_width
+            self.main_scene.update_renderer()
 
         def set_zoom(self, zoom):
             """Set zoom.
@@ -107,7 +116,7 @@ try:
             zoom : float
                 Zoom of the visualizer.
             """
-            self.visualizer.get_view_control().set_zoom(zoom)
+            self.main_scene.get_view_control().set_zoom(zoom)
 
         def animate(self, callback, n_frames, loop=False, fargs=()):
             """Make animation with callback.
@@ -148,10 +157,10 @@ try:
                         for geometry in a.geometries:
                             self.update_geometry(geometry)
 
-                    window_open = self.visualizer.poll_events()
+                    window_open = self.main_scene.poll_events()
                     if not window_open:
                         break
-                    self.visualizer.update_renderer()
+                    self.main_scene.update_renderer()
                 initialized = True
 
         def view_init(self, azim=-60, elev=30):
@@ -165,22 +174,11 @@ try:
             elev : float, optional (default: 30)
                 Elevation angle in the z plane.
             """
-            vc = self.visualizer.get_view_control()
-            pcp = vc.convert_to_pinhole_camera_parameters()
-            distance = np.linalg.norm(pcp.extrinsic[:3, 3])
-            R_azim_elev_0_world2camera = np.array([
-                [0, 1, 0],
-                [0, 0, -1],
-                [-1, 0, 0]])
-            R_azim_elev_0_camera2world = R_azim_elev_0_world2camera.T
-            # azimuth and elevation are defined in world frame
-            R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
-            R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
-            R_elev_azim_camera2world = R_azim.dot(R_elev).dot(R_azim_elev_0_camera2world)
-            pcp.extrinsic = pt.transform_from(  # world2camera
-                R=R_elev_azim_camera2world.T,
-                p=[0, 0, distance])
-            vc.convert_from_pinhole_camera_parameters(pcp)
+            center = np.zeros(3)
+            eye = pr.active_matrix_from_extrinsic_euler_zyx(
+                np.deg2rad([azim, -elev, 0])).dot(5 * pr.unitx)
+            up = pr.unitz.copy()
+            self.main_scene.camera.look_at(center, eye, up)
 
         def plot(self, P, c=(0, 0, 0)):
             """Plot line.
@@ -460,12 +458,11 @@ try:
             filename : str
                 Path to file in which the rendered image should be stored
             """
-            self.visualizer.capture_screen_image(filename, True)
+            self.main_scene.capture_screen_image(filename, True)
 
         def show(self):
-            """Display the figure window."""
-            self.visualizer.run()
-            self.visualizer.destroy_window()
+            """Run GUI thread."""
+            o3d.visualization.gui.Application.instance.run()
 
 
     class Artist:

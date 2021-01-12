@@ -24,7 +24,6 @@ fig.plot_transform(A2B=np.eye(4))
 fig.plot_cylinder(length=1.0, radius=0.3, A2B=A2B)
 fig.plot_transform(A2B=A2B)
 fig.view_init()
-fig.set_zoom(2)
 if "__file__" in globals():
     fig.show()
 else:

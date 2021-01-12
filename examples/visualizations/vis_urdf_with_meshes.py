@@ -33,7 +33,6 @@ fig.plot_graph(tm, "lower_cone", s=0.1, show_frames=True,
                whitelist=["upper_cone", "lower_cone"],
                show_connections=True, show_visuals=True, show_name=False)
 fig.view_init()
-fig.set_zoom(1.2)
 if "__file__" in globals():
     fig.show()
 else:
