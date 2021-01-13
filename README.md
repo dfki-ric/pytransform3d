@@ -14,12 +14,13 @@ library you can easily extract the relevant code and implement it more
 efficiently in a language of your choice.
 
 The library integrates well with the
-[scientific Python ecosystem](https://www.scipy-lectures.org/)
+[scientific Python ecosystem](https://scipy-lectures.org/)
 with its core libraries Numpy, Scipy and Matplotlib.
-We rely on [Numpy](https://www.numpy.org/) for linear algebra and on
+We rely on [Numpy](https://numpy.org/) for linear algebra and on
 [Matplotlib](https://matplotlib.org/) to offer plotting functionalities.
-[Scipy](https://www.scipy.org/) is used if you want to automatically
-compute new transformations from a graph of existing transformations.
+[Scipy](https://scipy.org/scipylib/index.html) is used if you want to
+automatically compute new transformations from a graph of existing
+transformations.
 
 Heterogenous software systems that consist of proprietary and open source
 software are often combined when we work with transformations.
