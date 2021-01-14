@@ -972,11 +972,12 @@ try:
                         except KeyError:
                             pass  # Frame is not connected to the reference frame
 
-            self.objects = {}
+            self.visuals = {}
             if show_visuals:
-                self.objects.update(self._objects_to_artists(self.tm.visuals))
+                self.visuals.update(self._objects_to_artists(self.tm.visuals))
+            self.collision_objects = {}
             if show_collision_objects:
-                self.objects.update(self._objects_to_artists(self.tm.collision_objects))
+                self.collision_objects.update(self._objects_to_artists(self.tm.collision_objects))
 
             self.set_data()
 
@@ -1023,7 +1024,11 @@ try:
                     except KeyError:
                         pass  # Frame is not connected to the reference frame
 
-            for frame, obj in self.objects.items():
+            for frame, obj in self.visuals.items():
+                A2B = self.tm.get_transform(frame, self.frame)
+                obj.set_data(A2B)
+
+            for frame, obj in self.collision_objects.items():
                 A2B = self.tm.get_transform(frame, self.frame)
                 obj.set_data(A2B)
 
@@ -1042,7 +1047,9 @@ try:
                     geometries += f.geometries
             if self.show_connections:
                 geometries += list(self.connections.values())
-            for object in self.objects.values():
+            for object in self.visuals.values():
+                geometries += object.geometries
+            for object in self.collision_objects.values():
                 geometries += object.geometries
             return geometries
 
