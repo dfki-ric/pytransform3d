@@ -696,6 +696,7 @@ try:
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
                 self.sphere.vertex_colors = o3d.utility.Vector3dVector(colors)
+            self.sphere.compute_vertex_normals()
             self.A2B = None
             self.set_data(A2B)
 
@@ -751,6 +752,7 @@ try:
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
                 self.box.vertex_colors = o3d.utility.Vector3dVector(colors)
+            self.box.compute_vertex_normals()
             self.A2B = None
             self.set_data(A2B)
 
@@ -814,6 +816,7 @@ try:
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
                 self.cylinder.vertex_colors = o3d.utility.Vector3dVector(colors)
+            self.cylinder.compute_vertex_normals()
             self.A2B = None
             self.set_data(A2B)
 
