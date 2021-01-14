@@ -866,6 +866,7 @@ try:
             self.mesh = o3d.io.read_triangle_mesh(filename)
             self.mesh.vertices = o3d.utility.Vector3dVector(
                 np.asarray(self.mesh.vertices) * s)
+            self.mesh.compute_vertex_normals()
             if c is not None:
                 n_vertices = len(self.mesh.vertices)
                 colors = np.zeros((n_vertices, 3))
