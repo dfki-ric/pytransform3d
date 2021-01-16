@@ -696,6 +696,7 @@ try:
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
                 self.sphere.vertex_colors = o3d.utility.Vector3dVector(colors)
+            self.sphere.compute_vertex_normals()
             self.A2B = None
             self.set_data(A2B)
 
@@ -751,6 +752,7 @@ try:
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
                 self.box.vertex_colors = o3d.utility.Vector3dVector(colors)
+            self.box.compute_vertex_normals()
             self.A2B = None
             self.set_data(A2B)
 
@@ -814,6 +816,7 @@ try:
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
                 self.cylinder.vertex_colors = o3d.utility.Vector3dVector(colors)
+            self.cylinder.compute_vertex_normals()
             self.A2B = None
             self.set_data(A2B)
 
@@ -866,6 +869,7 @@ try:
             self.mesh = o3d.io.read_triangle_mesh(filename)
             self.mesh.vertices = o3d.utility.Vector3dVector(
                 np.asarray(self.mesh.vertices) * s)
+            self.mesh.compute_vertex_normals()
             if c is not None:
                 n_vertices = len(self.mesh.vertices)
                 colors = np.zeros((n_vertices, 3))
@@ -968,11 +972,12 @@ try:
                         except KeyError:
                             pass  # Frame is not connected to the reference frame
 
-            self.objects = {}
+            self.visuals = {}
             if show_visuals:
-                self.objects.update(self._objects_to_artists(self.tm.visuals))
+                self.visuals.update(self._objects_to_artists(self.tm.visuals))
+            self.collision_objects = {}
             if show_collision_objects:
-                self.objects.update(self._objects_to_artists(self.tm.collision_objects))
+                self.collision_objects.update(self._objects_to_artists(self.tm.collision_objects))
 
             self.set_data()
 
@@ -1019,7 +1024,11 @@ try:
                     except KeyError:
                         pass  # Frame is not connected to the reference frame
 
-            for frame, obj in self.objects.items():
+            for frame, obj in self.visuals.items():
+                A2B = self.tm.get_transform(frame, self.frame)
+                obj.set_data(A2B)
+
+            for frame, obj in self.collision_objects.items():
                 A2B = self.tm.get_transform(frame, self.frame)
                 obj.set_data(A2B)
 
@@ -1038,7 +1047,9 @@ try:
                     geometries += f.geometries
             if self.show_connections:
                 geometries += list(self.connections.values())
-            for object in self.objects.values():
+            for object in self.visuals.values():
+                geometries += object.geometries
+            for object in self.collision_objects.values():
                 geometries += object.geometries
             return geometries
 
