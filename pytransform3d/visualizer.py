@@ -973,10 +973,10 @@ try:
                             pass  # Frame is not connected to the reference frame
 
             self.visuals = {}
-            if show_visuals:
+            if show_visuals and hasattr(self.tm, "visuals"):
                 self.visuals.update(self._objects_to_artists(self.tm.visuals))
             self.collision_objects = {}
-            if show_collision_objects:
+            if show_collision_objects and hasattr(self.tm, "collision_objects"):
                 self.collision_objects.update(self._objects_to_artists(self.tm.collision_objects))
 
             self.set_data()
