@@ -7,23 +7,25 @@ def norm_vectors(V, out=None):
 
     Parameters
     ----------
-    V : array-like, shape (n_vectors, n)
+    V : array-like, shape (..., n)
         nd vectors
 
-    out : array-like, shape (n_vectors, n), optional (default: new array)
+    out : array-like, shape (..., n), optional (default: new array)
         Output array to which we write the result
 
     Returns
     -------
-    V : array, shape (n_vectors, n)
+    V_unit : array, shape (..., n)
         nd unit vectors with norm 1 or zero vectors
     """
     V = np.asarray(V)
     norms = np.linalg.norm(V, axis=-1)
     if out is None:
         out = np.empty_like(V)
-    out[...] = V / np.maximum(norms[..., np.newaxis], np.finfo(float).eps)
-    out[norms == 0.0] = 0.0
+    # Avoid division by zero with np.maximum(..., smallest positive float).
+    # The norm is zero only when the vector is zero so this case does not
+    # require further processing.
+    out[...] = V / np.maximum(norms[..., np.newaxis], np.finfo(float).tiny)
     return out
 
 
@@ -106,7 +108,7 @@ def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
         thetas = np.asarray(angles)
 
     if axes is None:
-        omega_unit = a / np.maximum(thetas[..., np.newaxis], np.finfo(float).eps)
+        omega_unit = a / np.maximum(thetas[..., np.newaxis], np.finfo(float).tiny)
         omega_unit[thetas == 0.0] = 0.0
     else:
         omega_unit = axes
