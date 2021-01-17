@@ -10,7 +10,7 @@ def norm_vectors(V, out=None):
     V : array-like, shape (..., n)
         nd vectors
 
-    out : array-like, shape (..., n), optional (default: new array)
+    out : array, shape (..., n), optional (default: new array)
         Output array to which we write the result
 
     Returns
@@ -30,6 +30,24 @@ def norm_vectors(V, out=None):
 
 
 def active_matrices_from_angles(basis, angles, out=None):
+    """Compute active rotation matrices from rotation about basis vectors.
+
+    Parameters
+    ----------
+    basis : int from [0, 1, 2]
+        The rotation axis (0: x, 1: y, 2: z)
+
+    angles : array-like, shape (...)
+        Rotation angles
+
+    out : array, shape (..., 3, 3), optional (default: new array)
+        Output array to which we write the result
+
+    Returns
+    -------
+    Rs : array, shape (..., 3, 3)
+        Rotation matrices
+    """
     angles = np.asarray(angles)
     c = np.cos(angles)
     s = np.sin(angles)
