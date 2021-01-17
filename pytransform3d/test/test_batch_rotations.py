@@ -96,9 +96,15 @@ def test_matrices_from_quaternions():
     random_state = np.random.RandomState(83)
     for _ in range(5):
         q = pr.random_quaternion(random_state)
-        R = pbr.matrices_from_quaternions([q])[0]
+        R = pbr.matrices_from_quaternions([q], normalize_quaternions=False)[0]
         q2 = pr.quaternion_from_matrix(R)
         pr.assert_quaternion_equal(q, q2)
+
+    for _ in range(5):
+        q = random_state.randn(4)
+        R = pbr.matrices_from_quaternions([q], normalize_quaternions=True)[0]
+        q2 = pr.quaternion_from_matrix(R)
+        pr.assert_quaternion_equal(q / np.linalg.norm(q), q2)
 
 
 def test_quaternions_from_matrices():
