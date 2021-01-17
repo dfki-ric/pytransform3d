@@ -68,7 +68,16 @@ def test_transforms_from_exponential_coordinates():
         assert_array_almost_equal(A2B, A2B2)
 
 
-def test_exponential_coordinates_from_transforms():
+def test_exponential_coordinates_from_transforms_0dims():
+    random_state = np.random.RandomState(842)
+    Sthetas = random_state.randn(6)
+    H = transforms_from_exponential_coordinates(Sthetas)
+    Sthetas2 = exponential_coordinates_from_transforms(H)
+    H2 = transforms_from_exponential_coordinates(Sthetas2)
+    assert_array_almost_equal(H, H2)
+
+
+def test_exponential_coordinates_from_transforms_2dims():
     random_state = np.random.RandomState(843)
     Sthetas = random_state.randn(4, 4, 6)
     H = transforms_from_exponential_coordinates(Sthetas)
