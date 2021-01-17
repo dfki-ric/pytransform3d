@@ -68,3 +68,16 @@ def test_quaternions_from_matrices_4d():
         pr.assert_quaternion_equal(q, q2[0, 1])
         pr.assert_quaternion_equal(q, q2[1, 0])
         pr.assert_quaternion_equal(q, q2[1, 1])
+
+
+def test_axis_angles_from_matrices():
+    random_state = np.random.RandomState(84)
+    A = random_state.randn(2, 3, 3)
+    A /= np.linalg.norm(A, axis=-1)[..., np.newaxis]
+    A *= random_state.rand(2, 3, 1) * np.pi
+    A[0, 0, :] = 0.0
+
+    Rs = pbr.matrices_from_compact_axis_angles(A)
+    A2 = pbr.axis_angles_from_matrices(Rs)
+    A2_compact = A2[..., :3] * A2[..., 3, np.newaxis]
+    assert_array_almost_equal(A, A2_compact)

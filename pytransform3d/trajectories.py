@@ -1,7 +1,7 @@
 """Trajectories in three dimensions (position and orientation)."""
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
-from .batch_rotations import norm_vectors, matrices_from_quaternions, quaternions_from_matrices, matrices_from_compact_axis_angles
+from .batch_rotations import norm_vectors, matrices_from_quaternions, quaternions_from_matrices, matrices_from_compact_axis_angles, axis_angles_from_matrices, cross_product_matrices
 from .transformations import transform_from_exponential_coordinates
 
 
@@ -60,6 +60,84 @@ def pqs_from_transforms(H):
     P[:, :3] = H[:, :3, 3]
     quaternions_from_matrices(H[:, :3, :3], out=P[:, 3:])
     return P
+
+
+def exponential_coordinates_from_transforms(H):
+    """TODO"""
+    H = np.asarray(H)
+
+    instances_shape = H.shape[:-2]
+
+    Rs = H[..., :3, :3]
+    ps = H[..., :3, 3]
+
+    traces = np.einsum("nii", Rs.reshape(-1, 3, 3))
+    if instances_shape:
+        traces = traces.reshape(*instances_shape)
+    else:
+        # this works because indX will be a single boolean and
+        # out[True, n] = value will assign value to out[n], while
+        # out[False, n] = value will not assign value to out[n]
+        traces = traces[0]
+
+    Sthetas = np.empty(instances_shape + (6,))
+
+    omega_thetas = axis_angles_from_matrices(Rs)
+    Sthetas[..., :3] = omega_thetas[..., :3]
+    thetas = omega_thetas[..., 3]
+
+    # from sympy import *
+    # omega0, omega1, omega2, px, py, pz, theta = symbols("o0 o1 o2 p0 p1 p2 theta")
+    # w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])
+    # p = Matrix([[px], [py], [pz]])
+    # v = (eye(3) / theta - 0.5 * w + (1.0 / theta - 0.5 / tan(theta / 2.0)) * w * w) * p
+
+    # Result:
+    # p0*(-o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)
+    #     + p1*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o2)
+    #     + p2*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o1)
+    # p0*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o2)
+    #     + p1*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)
+    #     + p2*(0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))
+    # p0*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o1)
+    #     + p1*(-0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))
+    #     + p2*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)
+
+    thetas = np.maximum(thetas, np.finfo(float).eps)
+    ti = 1.0 / thetas
+    tan_term = -0.5 / np.tan(thetas / 2.0) + ti
+    o0 = omega_thetas[..., 0]
+    o1 = omega_thetas[..., 1]
+    o2 = omega_thetas[..., 2]
+    p0 = ps[..., 0]
+    p1 = ps[..., 1]
+    p2 = ps[..., 2]
+    o00 = o0 * o0
+    o01 = o0 * o1
+    o02 = o0 * o2
+    o11 = o1 * o1
+    o12 = o1 * o2
+    o22 = o2 * o2
+    Sthetas[..., 3] = (p0 * ((-o11 - o22) * tan_term + ti)
+                       + p1 * (o01 * tan_term + 0.5 * o2)
+                       + p2 * (o02 * tan_term - 0.5 * o1)
+                       )
+    Sthetas[..., 4] = (p0 * (o01 * tan_term - 0.5 * o2)
+                       + p1 * ((-o00 - o22) * tan_term + ti)
+                       + p2 * (0.5 * o0 + o12 * tan_term)
+                       )
+    Sthetas[..., 5] = (p0 * (o02 * tan_term + 0.5 * o1)
+                       + p1 * (-0.5 * o0 + o12 * tan_term)
+                       + p2 * ((-o00 - o11) * tan_term + ti)
+                       )
+
+    Sthetas *= thetas[..., np.newaxis]
+
+    ind_only_translation = traces >= 3.0 - np.finfo(float).eps
+    Sthetas[ind_only_translation, :3] = 0.0
+    Sthetas[ind_only_translation, 3:] = ps[ind_only_translation]
+
+    return Sthetas
 
 
 def transforms_from_exponential_coordinates(Sthetas):

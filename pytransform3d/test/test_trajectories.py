@@ -1,5 +1,5 @@
 import numpy as np
-from pytransform3d.trajectories import transforms_from_pqs, pqs_from_transforms, transforms_from_exponential_coordinates
+from pytransform3d.trajectories import transforms_from_pqs, pqs_from_transforms, transforms_from_exponential_coordinates, exponential_coordinates_from_transforms
 from pytransform3d.rotations import (quaternion_from_matrix,
                                      assert_quaternion_equal, active_matrix_from_angle)
 from pytransform3d.transformations import exponential_coordinates_from_transform, translate_transform, rotate_transform, random_transform
@@ -66,3 +66,12 @@ def test_transforms_from_exponential_coordinates():
         assert_array_almost_equal(A2B, A2B2)
         A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[0, 0]
         assert_array_almost_equal(A2B, A2B2)
+
+
+def test_exponential_coordinates_from_transforms():
+    random_state = np.random.RandomState(843)
+    Sthetas = random_state.randn(4, 4, 6)
+    H = transforms_from_exponential_coordinates(Sthetas)
+    Sthetas2 = exponential_coordinates_from_transforms(H)
+    H2 = transforms_from_exponential_coordinates(Sthetas2)
+    assert_array_almost_equal(H, H2)
