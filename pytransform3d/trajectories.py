@@ -1,7 +1,10 @@
-"""Trajectories in three dimensions (position and orientation)."""
+"""Trajectories in three dimensions - SE(3)."""
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
-from .batch_rotations import norm_vectors, matrices_from_quaternions, quaternions_from_matrices, matrices_from_compact_axis_angles, axis_angles_from_matrices, cross_product_matrices
+from .batch_rotations import (matrices_from_quaternions,
+                              quaternions_from_matrices,
+                              matrices_from_compact_axis_angles,
+                              axis_angles_from_matrices)
 from .transformations import transform_from_exponential_coordinates
 
 
