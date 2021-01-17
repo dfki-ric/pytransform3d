@@ -1,4 +1,11 @@
-"""Batch operations on rotations in three dimensions - SO(3)."""
+"""Batch operations on rotations in three dimensions - SO(3).
+
+Conversions from this module operate on batches of orientations or rotations
+and can be orders of magnitude faster than a loop of individual conversions.
+
+All functions operate on nd arrays, where the last dimension (vectors) or
+the last two dimensions (matrices) contain individual rotations.
+"""
 import numpy as np
 from .rotations import angle_between_vectors
 

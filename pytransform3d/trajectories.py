@@ -1,4 +1,8 @@
-"""Trajectories in three dimensions - SE(3)."""
+"""Trajectories in three dimensions - SE(3).
+
+Conversions from this module operate on batches of poses or transformations
+and can be 400 to 1000 times faster than a loop of individual conversions.
+"""
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
 from .batch_rotations import (matrices_from_quaternions,
