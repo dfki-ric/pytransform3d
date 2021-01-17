@@ -29,7 +29,7 @@ def norm_vectors(V, out=None):
     return out
 
 
-def angles_between_vectors(A, B):  # TODO test einsum
+def angles_between_vectors(A, B):
     """Compute angle between two vectors.
 
     Parameters
