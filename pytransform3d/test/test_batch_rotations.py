@@ -1,7 +1,37 @@
 import numpy as np
 from pytransform3d import rotations as pr
 from pytransform3d import batch_rotations as pbr
+from nose.tools import assert_almost_equal
 from numpy.testing import assert_array_almost_equal
+
+
+def test_norm_vectors_0dims():
+    random_state = np.random.RandomState(8380)
+    V = random_state.randn(3)
+    V_unit = pbr.norm_vectors(V)
+    assert_almost_equal(np.linalg.norm(V_unit), 1.0)
+
+
+def test_norm_vectors_1dim():
+    random_state = np.random.RandomState(8381)
+    V = random_state.randn(100, 3)
+    V_unit = pbr.norm_vectors(V)
+    assert_array_almost_equal(
+        np.linalg.norm(V_unit, axis=1), np.ones(len(V)))
+
+
+def test_norm_vectors_3dims():
+    random_state = np.random.RandomState(8382)
+    V = random_state.randn(8, 2, 8, 3)
+    V_unit = pbr.norm_vectors(V)
+    assert_array_almost_equal(
+        np.linalg.norm(V_unit, axis=-1), np.ones(V_unit.shape[:-1]))
+
+
+def test_norm_vectors_zero():
+    V = np.zeros((3, 8, 1, 2))
+    V_unit = pbr.norm_vectors(V)
+    assert_array_almost_equal(V_unit, V)
 
 
 def test_quaternions_from_matrices():

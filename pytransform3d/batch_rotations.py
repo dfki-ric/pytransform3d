@@ -19,11 +19,10 @@ def norm_vectors(V, out=None):
         nd unit vectors with norm 1 or zero vectors
     """
     V = np.asarray(V)
-    norms = np.linalg.norm(V, axis=1)
-    nonzero = np.nonzero(norms)
+    norms = np.linalg.norm(V, axis=-1)
     if out is None:
         out = np.empty_like(V)
-    out[nonzero] = V[nonzero] / norms[nonzero, np.newaxis]
+    out[...] = V / np.maximum(norms[..., np.newaxis], np.finfo(float).eps)
     out[norms == 0.0] = 0.0
     return out
 
