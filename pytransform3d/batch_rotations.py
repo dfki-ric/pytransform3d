@@ -372,6 +372,21 @@ def matrices_from_quaternions(Q, normalize_quaternions=True, out=None):
 
 
 def quaternions_from_matrices(Rs, out=None):
+    """Compute quaternions from rotation matrices.
+
+    Parameters
+    ----------
+    Rs : array-like, shape (..., 3, 3)
+        Rotation matrices
+
+    out : array, shape (..., 4), optional (default: new array)
+        Output array to which we write the result
+
+    Returns
+    -------
+    Q : array, shape (..., 4)
+        Unit quaternions to represent rotations: (w, x, y, z)
+    """
     Rs = np.asarray(Rs)
     instances_shape = Rs.shape[:-2]
 
