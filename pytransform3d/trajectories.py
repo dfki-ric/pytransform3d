@@ -38,7 +38,7 @@ def transforms_from_pqs(P, normalize_quaternions=True):
     return A2Bs
 
 
-# for backwards compatibility only!
+# DEPRECATED: for backwards compatibility only!
 matrices_from_pos_quat = transforms_from_pqs
 
 
@@ -64,7 +64,22 @@ def pqs_from_transforms(A2Bs):
 
 
 def exponential_coordinates_from_transforms(A2Bs):
-    """TODO"""
+    """Compute exponential coordinates from transformations.
+
+    Parameters
+    ----------
+    A2Bs : array-like, shape (..., 4, 4)
+        Poses represented by homogeneous matrices
+
+    Returns
+    -------
+    Sthetas : array, shape (..., 6)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
+    """
     A2Bs = np.asarray(A2Bs)
 
     instances_shape = A2Bs.shape[:-2]
@@ -142,7 +157,22 @@ def exponential_coordinates_from_transforms(A2Bs):
 
 
 def transforms_from_exponential_coordinates(Sthetas):
-    """TODO"""
+    """Compute transformations from exponential coordinates.
+
+    Parameters
+    ----------
+    Sthetas : array-like, shape (..., 6)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
+
+    Returns
+    -------
+    A2Bs : array, shape (..., 4, 4)
+        Poses represented by homogeneous matrices
+    """
     Sthetas = np.asarray(Sthetas)
     if Sthetas.ndim == 1:
         return transform_from_exponential_coordinates(Sthetas)
