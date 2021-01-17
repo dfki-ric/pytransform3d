@@ -297,6 +297,30 @@ Testing
    ~pytransform3d.transformations.assert_transform
 
 
+:mod:`pytransform3d.batch_rotations`
+====================================
+
+.. automodule:: pytransform3d.batch_rotations
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.batch_rotations.norm_vectors
+   ~pytransform3d.batch_rotations.angles_between_vectors
+   ~pytransform3d.batch_rotations.active_matrices_from_angles
+   ~pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles
+   ~pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles
+   ~pytransform3d.batch_rotations.matrices_from_compact_axis_angles
+   ~pytransform3d.batch_rotations.axis_angles_from_matrices
+   ~pytransform3d.batch_rotations.cross_product_matrices
+   ~pytransform3d.batch_rotations.matrices_from_quaternions
+   ~pytransform3d.batch_rotations.quaternions_from_matrices
+   ~pytransform3d.batch_rotations.quaternion_slerp_batch
+
+
 :mod:`pytransform3d.trajectories`
 =================================
 
@@ -308,7 +332,10 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.trajectories.matrices_from_pos_quat
+   ~pytransform3d.trajectories.transforms_from_pqs
+   ~pytransform3d.trajectories.pqs_from_transforms
+   ~pytransform3d.trajectories.exponential_coordinates_from_transforms
+   ~pytransform3d.trajectories.transforms_from_exponential_coordinates
    ~pytransform3d.trajectories.plot_trajectory
 
 

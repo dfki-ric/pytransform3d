@@ -1,3 +1,4 @@
+"""Batch operations on rotations in three dimensions - SO(3)."""
 import numpy as np
 from .rotations import angle_between_vectors
 
