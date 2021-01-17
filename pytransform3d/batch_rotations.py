@@ -91,12 +91,12 @@ def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
 
     Parameters
     ----------
-    a : array-like, shape (3,)
+    a : array-like, shape (..., 3,)
         Axis of rotation and rotation angle in compact representation: angle * (x, y, z)
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array-like, shape (..., 3, 3)
         Rotation matrix
     """
     # TODO case norm == 0? don't allow it?
@@ -105,8 +105,10 @@ def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
         thetas = np.linalg.norm(a, axis=-1)
     else:
         thetas = np.asarray(angles)
+
     if axes is None:
-        omega_unit = a / thetas[..., np.newaxis]
+        omega_unit = a / np.maximum(thetas[..., np.newaxis], np.finfo(float).eps)
+        omega_unit[thetas == 0.0] = 0.0
     else:
         omega_unit = axes
 
@@ -140,6 +142,79 @@ def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
     out[..., 2, 2] = ci * uz * uz + c
 
     return out
+
+
+def axis_angles_from_matrices(Rs, traces=None, out=None):
+    Rs = np.asarray(Rs)
+
+    instances_shape = Rs.shape[:-2]
+
+    if traces is None:
+        traces = np.einsum("nii", Rs.reshape(-1, 3, 3))
+        if instances_shape:
+            traces = traces.reshape(*instances_shape)
+        else:
+            # this works because indX will be a single boolean and
+            # out[True, n] = value will assign value to out[n], while
+            # out[False, n] = value will not assign value to out[n]
+            traces = traces[0]
+
+    angles = np.arccos((traces - 1.0) / 2.0)
+
+    if out is None:
+        out = np.empty(instances_shape + (4,))
+
+    # We can usually determine the rotation axis by inverting Rodrigues'
+    # formula. Subtracting opposing off-diagonal elements gives us
+    # 2 * sin(angle) * e,
+    # where e is the normalized rotation axis.
+    out[..., 0] = Rs[..., 2, 1] - Rs[..., 1, 2]
+    out[..., 1] = Rs[..., 0, 2] - Rs[..., 2, 0]
+    out[..., 2] = Rs[..., 1, 0] - Rs[..., 0, 1]
+
+    # The threshold is a result from this discussion:
+    # https://github.com/rock-learning/pytransform3d/issues/43
+    # The standard formula becomes numerically unstable, however,
+    # Rodrigues' formula reduces to R = I + 2 (ee^T - I), with the
+    # rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the
+    # squared values of the rotation axis on the diagonal of this matrix.
+    # We can still use the original formula to reconstruct the signs of
+    # the rotation axis correctly.
+    angle_close_to_pi = np.abs(angles - np.pi) < 1e-4
+    angle_not_zero = np.abs(angles) != 0.0
+
+    Rs_diag = np.einsum("nii->ni", Rs.reshape(-1, 3, 3))
+    if instances_shape:
+        Rs_diag = Rs_diag.reshape(*(instances_shape + (3,)))
+    else:
+        Rs_diag = Rs_diag[0]
+    out[angle_close_to_pi, :3] = np.sqrt(0.5 * (Rs_diag[angle_close_to_pi] + 1.0)) * np.sign(out[angle_close_to_pi, :3])
+    # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we
+    # could normalize with a[:3] = a[:3] / (2.0 * np.sin(angle)),
+    # but the following is much more precise for angles close to 0 or pi:
+    out[angle_not_zero, :3] /= np.linalg.norm(out[angle_not_zero, :3], axis=-1)[..., np.newaxis]
+
+    out[..., 3] = angles
+
+    return out
+
+
+def cross_product_matrices(V):
+    V = np.asarray(V)
+
+    instances_shape = V.shape[:-1]
+
+    V_matrices = np.empty(instances_shape + (3, 3))
+    V_matrices[..., 0, 0] = 0.0
+    V_matrices[..., 0, 1] = -V[..., 2]
+    V_matrices[..., 0, 2] = V[..., 1]
+    V_matrices[..., 1, 0] = V[..., 2]
+    V_matrices[..., 1, 1] = 0.0
+    V_matrices[..., 1, 2] = -V[..., 0]
+    V_matrices[..., 2, 0] = -V[..., 1]
+    V_matrices[..., 2, 1] = V[..., 0]
+    V_matrices[..., 2, 2] = 0.0
+    return V_matrices
 
 
 def matrices_from_quaternions(Q, out=None):  # only normalized quaternions!
