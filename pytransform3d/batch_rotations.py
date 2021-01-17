@@ -247,11 +247,33 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
 
 
 def cross_product_matrices(V):
+    """Generate the cross-product matrices of vectors.
+
+    The cross-product matrix :math:`\\boldsymbol{V}` satisfies the equation
+
+    .. math::
+
+        \\boldsymbol{V} \\boldsymbol{w} = \\boldsymbol{v} \\times
+        \\boldsymbol{w}
+
+    It is a skew-symmetric (antisymmetric) matrix, i.e.
+    :math:`-\\boldsymbol{V} = \\boldsymbol{V}^T`.
+
+    Parameters
+    ----------
+    V : array-like, shape (..., 3)
+        3d vectors
+
+    Returns
+    -------
+    V_cross_product_matrices : array, shape (..., 3, 3)
+        Cross-product matrices of V
+    """
     V = np.asarray(V)
 
     instances_shape = V.shape[:-1]
-
     V_matrices = np.empty(instances_shape + (3, 3))
+
     V_matrices[..., 0, 0] = 0.0
     V_matrices[..., 0, 1] = -V[..., 2]
     V_matrices[..., 0, 2] = V[..., 1]
@@ -261,6 +283,7 @@ def cross_product_matrices(V):
     V_matrices[..., 2, 0] = -V[..., 1]
     V_matrices[..., 2, 1] = V[..., 0]
     V_matrices[..., 2, 2] = 0.0
+
     return V_matrices
 
 
