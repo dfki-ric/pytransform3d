@@ -34,6 +34,34 @@ def test_norm_vectors_zero():
     assert_array_almost_equal(V_unit, V)
 
 
+def test_angles_between_vectors_0dims():
+    random_state = np.random.RandomState(228)
+    A = random_state.randn(3)
+    B = random_state.randn(3)
+    angles = pbr.angles_between_vectors(A, B)
+    angles2 = pr.angle_between_vectors(A, B)
+    assert_array_almost_equal(angles, angles2)
+
+
+def test_angles_between_vectors_1dim():
+    random_state = np.random.RandomState(229)
+    A = random_state.randn(100, 3)
+    B = random_state.randn(100, 3)
+    angles = pbr.angles_between_vectors(A, B)
+    angles2 = [pr.angle_between_vectors(a, b) for a, b in zip(A, B)]
+    assert_array_almost_equal(angles, angles2)
+
+
+def test_angles_between_vectors_3dims():
+    random_state = np.random.RandomState(230)
+    A = random_state.randn(2, 4, 3, 4)
+    B = random_state.randn(2, 4, 3, 4)
+    angles = pbr.angles_between_vectors(A, B).ravel()
+    angles2 = [pr.angle_between_vectors(a, b)
+               for a, b in zip(A.reshape(-1, 4), B.reshape(-1, 4))]
+    assert_array_almost_equal(angles, angles2)
+
+
 def test_active_matrices_from_angles_0dims():
     R = pbr.active_matrices_from_angles(0, 0.4)
     assert_array_almost_equal(R, pr.active_matrix_from_angle(0, 0.4))
