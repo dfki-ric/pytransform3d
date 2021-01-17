@@ -29,6 +29,33 @@ def norm_vectors(V, out=None):
     return out
 
 
+def angles_between_vectors(A, B):  # TODO test einsum
+    """Compute angle between two vectors.
+
+    Parameters
+    ----------
+    A : array-like, shape (..., n)
+        nd vectors
+
+    B : array-like, shape (..., n)
+        nd vectors
+
+    Returns
+    -------
+    angles : array, shape (...)
+        Angles between pairs of vectors from A and B
+    """
+    A = np.asarray(A)
+    B = np.asarray(B)
+    n_dims = A.shape[-1]
+    A_norms = np.linalg.norm(A, axis=-1)
+    B_norms = np.linalg.norm(B, axis=-1)
+    AdotB = np.einsum(
+        "ni,ni->n", A.reshape(-1, n_dims), B.reshape(-1, n_dims)
+    ).reshape(A.shape[:-1])
+    return np.arccos(np.clip(AdotB / (A_norms * B_norms), -1.0, 1.0))
+
+
 def active_matrices_from_angles(basis, angles, out=None):
     """Compute active rotation matrices from rotation about basis vectors.
 
@@ -404,27 +431,3 @@ def _slerp_weights(angle, t):
     else:
         return (np.sin((1.0 - t) * angle) / np.sin(angle),
                 np.sin(t * angle) / np.sin(angle))
-
-
-def angles_between_vectors(A, B):  # TODO test einsum
-    """Compute angle between two vectors.
-
-    Parameters
-    ----------
-    A : array-like, shape (n_vectors, n)
-        nd vector
-
-    B : array-like, shape (n_vectors, n)
-        nd vector
-
-    fast : bool, optional (default: False)
-        Use fast implementation instead of numerically stable solution
-
-    Returns
-    -------
-    angles : array, shape (n_vectors,)
-        Angles between pairs of vectors from A and B
-    """
-    A_norms = np.linalg.norm(A, axis=1)
-    B_norms = np.linalg.norm(B, axis=1)
-    return np.arccos(np.clip(np.einsum("ni,ni->ni", A, B) / (A_norms * B_norms)), -1.0, 1.0)
