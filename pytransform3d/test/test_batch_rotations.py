@@ -55,6 +55,15 @@ def test_active_matrices_from_angles_3dims():
     assert_array_almost_equal(Rs, Rs2)
 
 
+def test_cross_product_matrices():
+    random_state = np.random.RandomState(3820)
+    V = random_state.randn(2, 2, 3, 3)
+    V_cpm = pbr.cross_product_matrices(V)
+    V_cpm = V_cpm.reshape(-1, 3, 3)
+    V_cpm2 = [pr.cross_product_matrix(v) for v in V.reshape(-1, 3)]
+    assert_array_almost_equal(V_cpm, V_cpm2)
+
+
 def test_quaternions_from_matrices():
     random_state = np.random.RandomState(84)
     for _ in range(5):
