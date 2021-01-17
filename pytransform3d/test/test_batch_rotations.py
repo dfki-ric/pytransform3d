@@ -34,6 +34,27 @@ def test_norm_vectors_zero():
     assert_array_almost_equal(V_unit, V)
 
 
+def test_active_matrices_from_angles_0dims():
+    R = pbr.active_matrices_from_angles(0, 0.4)
+    assert_array_almost_equal(R, pr.active_matrix_from_angle(0, 0.4))
+
+
+def test_active_matrices_from_angles_1dim():
+    Rs = pbr.active_matrices_from_angles(1, [0.4, 0.5, 0.6])
+    assert_array_almost_equal(Rs[0], pr.active_matrix_from_angle(1, 0.4))
+    assert_array_almost_equal(Rs[1], pr.active_matrix_from_angle(1, 0.5))
+    assert_array_almost_equal(Rs[2], pr.active_matrix_from_angle(1, 0.6))
+
+
+def test_active_matrices_from_angles_3dims():
+    random_state = np.random.RandomState(8383)
+    angles = random_state.randn(2, 3, 4)
+    Rs = pbr.active_matrices_from_angles(2, angles)
+    Rs = Rs.reshape(-1, 3, 3)
+    Rs2 = [pr.active_matrix_from_angle(2, angle) for angle in angles.reshape(-1)]
+    assert_array_almost_equal(Rs, Rs2)
+
+
 def test_quaternions_from_matrices():
     random_state = np.random.RandomState(84)
     for _ in range(5):
