@@ -29,16 +29,13 @@ def transforms_from_pqs(P, normalize_quaternions=True):
     A2Bs[..., 3, :3] = 0.0
     A2Bs[..., 3, 3] = 1.0
 
-    if normalize_quaternions:
-        Q = norm_vectors(P[..., 3:])
-    else:
-        Q = P[..., 3:]
-
-    matrices_from_quaternions(Q, out=A2Bs[..., :3, :3])
+    matrices_from_quaternions(
+        P[..., 3:], normalize_quaternions, out=A2Bs[..., :3, :3])
 
     return A2Bs
 
 
+# for backwards compatibility only!
 matrices_from_pos_quat = transforms_from_pqs
 
 

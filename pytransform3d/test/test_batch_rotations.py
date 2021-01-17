@@ -92,6 +92,15 @@ def test_cross_product_matrices():
     assert_array_almost_equal(V_cpm, V_cpm2)
 
 
+def test_matrices_from_quaternions():
+    random_state = np.random.RandomState(83)
+    for _ in range(5):
+        q = pr.random_quaternion(random_state)
+        R = pbr.matrices_from_quaternions([q])[0]
+        q2 = pr.quaternion_from_matrix(R)
+        pr.assert_quaternion_equal(q, q2)
+
+
 def test_quaternions_from_matrices():
     random_state = np.random.RandomState(84)
     for _ in range(5):

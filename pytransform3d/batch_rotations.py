@@ -97,6 +97,7 @@ def active_matrices_from_angles(basis, angles, out=None):
 
 
 def active_matrices_from_intrinsic_euler_angles(basis1, basis2, basis3, e, out=None):
+    """TODO"""
     e = np.asarray(e)
     R_shape = e.shape + (3,)
     R_alpha = active_matrices_from_angles(basis1, e[..., 0].flat)
@@ -112,6 +113,7 @@ def active_matrices_from_intrinsic_euler_angles(basis1, basis2, basis3, e, out=N
 
 
 def active_matrices_from_extrinsic_euler_angles(basis1, basis2, basis3, e, out=None):
+    """TODO"""
     e = np.asarray(e)
     R_shape = e.shape + (3,)
     R_alpha = active_matrices_from_angles(basis1, e[..., 0].flat)
@@ -314,8 +316,29 @@ def cross_product_matrices(V):
     return V_matrices
 
 
-def matrices_from_quaternions(Q, out=None):  # only normalized quaternions!
+def matrices_from_quaternions(Q, normalize_quaternions=True, out=None):
+    """Compute rotation matrices from quaternions.
+
+    Parameters
+    ----------
+    Q : array-like, shape (..., 4)
+        Unit quaternions to represent rotations: (w, x, y, z)
+
+    normalize_quaternions : bool, optional (default: True)
+        Normalize quaternions before conversion
+
+    out : array, shape (..., 3, 3), optional (default: new array)
+        Output array to which we write the result
+
+    Returns
+    -------
+    Rs : array, shape (..., 3, 3)
+        Rotation matrices
+    """
     Q = np.asarray(Q)
+
+    if normalize_quaternions:
+        Q = norm_vectors(Q)
 
     w = Q[..., 0]
     x = Q[..., 1]
@@ -426,6 +449,7 @@ def quaternion_slerp_batch(start, end, t):
 
 
 def _slerp_weights(angle, t):
+    """Weights for spherical linear interpolation (SLERP)."""
     if angle == 0.0:
         return np.ones_like(t), np.zeros_like(t)
     else:
