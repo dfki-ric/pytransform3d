@@ -99,10 +99,8 @@ def active_matrices_from_extrinsic_euler_angles(basis1, basis2, basis3, e, out=N
     return out
 
 
-def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
-    """TODO update
-
-    Compute rotation matrix from axis-angle.
+def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
+    """Compute rotation matrices from compact axis-angle representations.
 
     This is called exponential map or Rodrigues' formula.
 
@@ -110,24 +108,33 @@ def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
 
     Parameters
     ----------
-    a : array-like, shape (..., 3,)
-        Axis of rotation and rotation angle in compact representation: angle * (x, y, z)
+    A : array-like, shape (..., 3)
+        Axes of rotation and rotation angles in compact representation:
+        angle * (x, y, z)
+
+    axes : array, shape (..., 3)
+        If the unit axes of rotation have been precomputed, you can pass them
+        here.
+
+    angles : array, shape (...)
+        If the angles have been precomputed, you can pass them here.
+
+    out : array, shape (..., 3, 3), optional (default: new array)
+        Output array to which we write the result
 
     Returns
     -------
-    R : array-like, shape (..., 3, 3)
-        Rotation matrix
+    Rs : array, shape (..., 3, 3)
+        Rotation matrices
     """
-    # TODO case norm == 0? don't allow it?
     # TODO test
     if angles is None:
-        thetas = np.linalg.norm(a, axis=-1)
+        thetas = np.linalg.norm(A, axis=-1)
     else:
         thetas = np.asarray(angles)
 
     if axes is None:
-        omega_unit = a / np.maximum(thetas[..., np.newaxis], np.finfo(float).tiny)
-        omega_unit[thetas == 0.0] = 0.0
+        omega_unit = norm_vectors(A)
     else:
         omega_unit = axes
 
@@ -148,7 +155,7 @@ def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
     ciuyuz = ciuy * uz
 
     if out is None:
-        out = np.empty(a.shape[:-1] + (3, 3))
+        out = np.empty(A.shape[:-1] + (3, 3))
 
     out[..., 0, 0] = ciux * ux + c
     out[..., 0, 1] = ciuxuy - uzs
@@ -164,6 +171,27 @@ def matrices_from_compact_axis_angles(a=None, axes=None, angles=None, out=None):
 
 
 def axis_angles_from_matrices(Rs, traces=None, out=None):
+    """Compute compact axis-angle representations from rotation matrices.
+
+    This is called logarithmic map.
+
+    Parameters
+    ----------
+    Rs : array-like, shape (..., 3, 3)
+        Rotation matrices
+
+    traces : array, shape (..., 3)
+        If the traces of rotation matrices been precomputed, you can pass them
+        here.
+
+    out : array, shape (..., 4), optional (default: new array)
+        Output array to which we write the result
+
+    Returns
+    -------
+    A : array, shape (..., 4)
+        Axes of rotation and rotation angles: (x, y, z, angle)
+    """
     Rs = np.asarray(Rs)
 
     instances_shape = Rs.shape[:-2]
