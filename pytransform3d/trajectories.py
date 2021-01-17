@@ -19,34 +19,35 @@ def transforms_from_pqs(P, normalize_quaternions=True):
 
     Returns
     -------
-    H : array, shape (n_steps, 4, 4)
+    A2Bs : array, shape (n_steps, 4, 4)
         Sequence of poses represented by homogeneous matrices
     """
     P = np.asarray(P)
-    H = np.empty((len(P), 4, 4))
-    H[:, :3, 3] = P[:, :3]
-    H[:, 3, :3] = 0.0
-    H[:, 3, 3] = 1.0
+    instances_shape = P.shape[:-1]
+    A2Bs = np.empty(instances_shape + (4, 4))
+    A2Bs[..., :3, 3] = P[..., :3]
+    A2Bs[..., 3, :3] = 0.0
+    A2Bs[..., 3, 3] = 1.0
 
     if normalize_quaternions:
-        Q = norm_vectors(P[:, 3:])
+        Q = norm_vectors(P[..., 3:])
     else:
-        Q = P[:, 3:]
+        Q = P[..., 3:]
 
-    matrices_from_quaternions(Q, out=H[:, :3, :3])
+    matrices_from_quaternions(Q, out=A2Bs[..., :3, :3])
 
-    return H
+    return A2Bs
 
 
 matrices_from_pos_quat = transforms_from_pqs
 
 
-def pqs_from_transforms(H):
+def pqs_from_transforms(A2Bs):
     """Get sequence of positions and quaternions from homogeneous matrices.
 
     Parameters
     ----------
-    H : array-like, shape (n_steps, 4, 4)
+    A2Bs : array-like, shape (n_steps, 4, 4)
         Sequence of poses represented by homogeneous matrices
 
     Returns
@@ -55,21 +56,21 @@ def pqs_from_transforms(H):
         Sequence of poses represented by positions and quaternions in the
         order (x, y, z, w, vx, vy, vz) for each step
     """
-    H = np.asarray(H)
-    P = np.empty((len(H), 7))
-    P[:, :3] = H[:, :3, 3]
-    quaternions_from_matrices(H[:, :3, :3], out=P[:, 3:])
+    A2Bs = np.asarray(A2Bs)
+    P = np.empty((len(A2Bs), 7))
+    P[:, :3] = A2Bs[:, :3, 3]
+    quaternions_from_matrices(A2Bs[:, :3, :3], out=P[:, 3:])
     return P
 
 
-def exponential_coordinates_from_transforms(H):
+def exponential_coordinates_from_transforms(A2Bs):
     """TODO"""
-    H = np.asarray(H)
+    A2Bs = np.asarray(A2Bs)
 
-    instances_shape = H.shape[:-2]
+    instances_shape = A2Bs.shape[:-2]
 
-    Rs = H[..., :3, :3]
-    ps = H[..., :3, 3]
+    Rs = A2Bs[..., :3, :3]
+    ps = A2Bs[..., :3, 3]
 
     traces = np.einsum("nii", Rs.reshape(-1, 3, 3))
     if instances_shape:
@@ -103,7 +104,7 @@ def exponential_coordinates_from_transforms(H):
     #     + p1*(-0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))
     #     + p2*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)
 
-    thetas = np.maximum(thetas, np.finfo(float).eps)
+    thetas = np.maximum(thetas, np.finfo(float).tiny)
     ti = 1.0 / thetas
     tan_term = -0.5 / np.tan(thetas / 2.0) + ti
     o0 = omega_thetas[..., 0]
@@ -150,8 +151,8 @@ def transforms_from_exponential_coordinates(Sthetas):
 
     t = np.linalg.norm(Sthetas[..., :3], axis=-1)
 
-    H = np.empty(instances_shape + (4, 4))
-    H[..., 3, :] = (0, 0, 0, 1)
+    A2Bs = np.empty(instances_shape + (4, 4))
+    A2Bs[..., 3, :] = (0, 0, 0, 1)
 
     ind_only_translation = t == 0.0
 
@@ -159,7 +160,7 @@ def transforms_from_exponential_coordinates(Sthetas):
         t[ind_only_translation] = 1.0
         screw_axes = Sthetas / t[..., np.newaxis]
 
-        matrices_from_compact_axis_angles(axes=screw_axes[..., :3], angles=t, out=H[..., :3, :3])
+        matrices_from_compact_axis_angles(axes=screw_axes[..., :3], angles=t, out=A2Bs[..., :3, :3])
 
         # from sympy import *
         # omega0, omega1, omega2, vx, vy, vz, theta = symbols("omega_0 omega_1 omega_2 v_x v_y v_z theta")
@@ -199,20 +200,20 @@ def transforms_from_exponential_coordinates(Sthetas):
             v0 = v0.reshape(*instances_shape)
             v1 = v1.reshape(*instances_shape)
             v2 = v2.reshape(*instances_shape)
-        H[..., 0, 3] = (-v0 * (o11tms + o22tms - t)
-                        + v1 * (o01tms + o2cm1)
-                        + v2 * (o02tms - o1cm1))
-        H[..., 1, 3] = (v0 * (o01tms - o2cm1)
-                        - v1 * (o00tms + o22tms - t)
-                        + v2 * (o0cm1 + o12tms))
-        H[..., 2, 3] = (v0 * (o02tms + o1cm1)
-                        - v1 * (o0cm1 - o12tms)
-                        - v2 * (o00tms + o11tms - t))
+        A2Bs[..., 0, 3] = (-v0 * (o11tms + o22tms - t)
+                           + v1 * (o01tms + o2cm1)
+                           + v2 * (o02tms - o1cm1))
+        A2Bs[..., 1, 3] = (v0 * (o01tms - o2cm1)
+                           - v1 * (o00tms + o22tms - t)
+                           + v2 * (o0cm1 + o12tms))
+        A2Bs[..., 2, 3] = (v0 * (o02tms + o1cm1)
+                           - v1 * (o0cm1 - o12tms)
+                           - v2 * (o00tms + o11tms - t))
 
-    H[ind_only_translation, :3, :3] = np.eye(3)
-    H[ind_only_translation, :3, 3] = Sthetas[ind_only_translation, 3:]
+    A2Bs[ind_only_translation, :3, :3] = np.eye(3)
+    A2Bs[ind_only_translation, :3, 3] = Sthetas[ind_only_translation, 3:]
 
-    return H
+    return A2Bs
 
 
 def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
@@ -256,8 +257,8 @@ def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    H = transforms_from_pqs(P, normalize_quaternions)
-    trajectory = Trajectory(H, show_direction, n_frames, s, **kwargs)
+    A2Bs = transforms_from_pqs(P, normalize_quaternions)
+    trajectory = Trajectory(A2Bs, show_direction, n_frames, s, **kwargs)
     trajectory.add_trajectory(ax)
 
     return ax
