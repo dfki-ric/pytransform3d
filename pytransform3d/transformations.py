@@ -10,7 +10,7 @@ from .rotations import (random_quaternion, random_vector,
                         assert_rotation_matrix, check_matrix,
                         norm_vector, axis_angle_from_matrix,
                         matrix_from_axis_angle, cross_product_matrix,
-                        check_skew_symmetric_matrix)
+                        check_skew_symmetric_matrix, norm_angle)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -521,6 +521,41 @@ def assert_transform(A2B, *args, **kwargs):
     assert_rotation_matrix(A2B[:3, :3], *args, **kwargs)
     assert_array_almost_equal(A2B[3], np.array([0.0, 0.0, 0.0, 1.0]),
                               *args, **kwargs)
+
+
+def norm_exponential_coordinates(Stheta):
+    """Normalize exponential coordinates of transformation.
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation. Theta is the rotation angle
+        and h * theta the translation. Theta should be >= 0. Negative rotations
+        will be represented by a negative screw axis instead. This is relevant
+        if you want to recover theta from exponential coordinates.
+
+    Returns
+    -------
+    Stheta : array, shape (6,)
+        Normalized exponential coordinates of transformation with theta in
+        (-pi, pi]. Note that in the case of pure translation no normalization
+        is required because the representation is unique.
+    """
+    theta = np.linalg.norm(Stheta[:3])
+    if theta == 0.0:
+        return Stheta
+
+    theta_normed = norm_angle(theta)
+
+    screw_axis = Stheta / theta
+    q, s_axis, h = screw_parameters_from_screw_axis(screw_axis)
+    h_normalized = h * theta / theta_normed
+    screw_axis = screw_axis_from_screw_parameters(q, s_axis, h_normalized)
+
+    return screw_axis * theta_normed
 
 
 def check_screw_parameters(q, s_axis, h):
