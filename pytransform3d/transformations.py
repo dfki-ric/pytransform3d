@@ -14,6 +14,9 @@ from .rotations import (random_quaternion, random_vector,
 from numpy.testing import assert_array_almost_equal
 
 
+eps = 1e-7
+
+
 def check_transform(A2B, strict_check=True):
     """Input validation of transform.
 
@@ -541,17 +544,21 @@ def norm_exponential_coordinates(Stheta):
     -------
     Stheta : array, shape (6,)
         Normalized exponential coordinates of transformation with theta in
-        (-pi, pi]. Note that in the case of pure translation no normalization
-        is required because the representation is unique.
+        [0, pi]. Note that in the case of pure translation no normalization
+        is required because the representation is unique. In the case of
+        rotation by pi, there is an ambiguity that will be resolved so that
+        the screw pitch is positive.
     """
     theta = np.linalg.norm(Stheta[:3])
     if theta == 0.0:
         return Stheta
 
-    theta_normed = norm_angle(theta)
-
     screw_axis = Stheta / theta
     q, s_axis, h = screw_parameters_from_screw_axis(screw_axis)
+    if abs(theta - np.pi) < eps and h < 0:
+        h *= -1.0
+        s_axis *= -1.0
+    theta_normed = norm_angle(theta)
     h_normalized = h * theta / theta_normed
     screw_axis = screw_axis_from_screw_parameters(q, s_axis, h_normalized)
 
