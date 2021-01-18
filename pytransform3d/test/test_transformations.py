@@ -278,7 +278,7 @@ def test_deactivate_transform_precision_error():
         warnings.filterwarnings("default", category=UserWarning)
 
 
-def test_norm_screw_axis():
+def test_norm_exponential_coordinates():
     Stheta_only_translation = np.array([0.0, 0.0, 0.0, 100.0, 25.0, -23.0])
     Stheta_only_translation2 = norm_exponential_coordinates(
         Stheta_only_translation)
@@ -286,6 +286,20 @@ def test_norm_screw_axis():
         Stheta_only_translation, Stheta_only_translation2)
 
     random_state = np.random.RandomState(381)
+
+    # 180 degree rotation ambiguity
+    for _ in range(10):
+        q = random_state.randn(3)
+        s = norm_vector(random_state.randn(3))
+        h = random_state.randn()
+        print(q, s, h)
+        Stheta = screw_axis_from_screw_parameters(q, s, h) * np.pi
+        Stheta2 = screw_axis_from_screw_parameters(q, -s, -h) * np.pi
+        assert_array_almost_equal(transform_from_exponential_coordinates(Stheta),
+                                  transform_from_exponential_coordinates(Stheta2))
+        assert_array_almost_equal(norm_exponential_coordinates(Stheta),
+                                  norm_exponential_coordinates(Stheta2))
+
     for _ in range(10):
         Stheta = random_state.randn(6)
         # ensure that theta is not within [-pi, pi]
