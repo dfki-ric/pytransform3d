@@ -292,7 +292,6 @@ def test_norm_exponential_coordinates():
         q = random_state.randn(3)
         s = norm_vector(random_state.randn(3))
         h = random_state.randn()
-        print(q, s, h)
         Stheta = screw_axis_from_screw_parameters(q, s, h) * np.pi
         Stheta2 = screw_axis_from_screw_parameters(q, -s, -h) * np.pi
         assert_array_almost_equal(transform_from_exponential_coordinates(Stheta),
