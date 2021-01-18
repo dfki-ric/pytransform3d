@@ -168,6 +168,7 @@ Utility Functions
 
    ~pytransform3d.transformations.random_transform
    ~pytransform3d.transformations.random_screw_axis
+   ~pytransform3d.transformations.norm_exponential_coordinates
 
 Input Validation Functions
 --------------------------

@@ -29,12 +29,13 @@ from pytransform3d.transformations import (random_transform, transform_from,
                                            transform_from_transform_log,
                                            transform_log_from_transform,
                                            check_screw_matrix, check_transform_log,
-                                           adjoint_from_transform)
+                                           adjoint_from_transform, norm_exponential_coordinates)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
                                      active_matrix_from_angle)
-from nose.tools import assert_equal, assert_almost_equal, assert_raises_regexp
+from nose.tools import (assert_equal, assert_almost_equal,
+                        assert_raises_regexp, assert_false)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -275,6 +276,26 @@ def test_deactivate_transform_precision_error():
             assert_equal(len(w), n_expected_warnings)
     finally:
         warnings.filterwarnings("default", category=UserWarning)
+
+
+def test_norm_screw_axis():
+    Stheta_only_translation = np.array([0.0, 0.0, 0.0, 100.0, 25.0, -23.0])
+    Stheta_only_translation2 = norm_exponential_coordinates(
+        Stheta_only_translation)
+    assert_array_almost_equal(
+        Stheta_only_translation, Stheta_only_translation2)
+
+    random_state = np.random.RandomState(381)
+    for _ in range(10):
+        Stheta = random_state.randn(6)
+        # ensure that theta is not within [-pi, pi]
+        Stheta[random_state.randint(0, 3)] += np.pi + random_state.rand()
+        Stheta_norm = norm_exponential_coordinates(Stheta)
+        assert_false(np.all(Stheta == Stheta_norm))
+
+        A2B = transform_from_exponential_coordinates(Stheta)
+        Stheta2 = exponential_coordinates_from_transform(A2B)
+        assert_array_almost_equal(Stheta2, Stheta_norm)
 
 
 def test_check_screw_parameters():
