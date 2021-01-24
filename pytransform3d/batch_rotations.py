@@ -248,10 +248,6 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     if out is None:
         out = np.empty(instances_shape + (4,))
 
-    # We can usually determine the rotation axis by inverting Rodrigues'
-    # formula. Subtracting opposing off-diagonal elements gives us
-    # 2 * sin(angle) * e,
-    # where e is the normalized rotation axis.
     out[..., 0] = Rs[..., 2, 1] - Rs[..., 1, 2]
     out[..., 1] = Rs[..., 0, 2] - Rs[..., 2, 0]
     out[..., 2] = Rs[..., 1, 0] - Rs[..., 0, 1]
@@ -273,9 +269,6 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     else:
         Rs_diag = Rs_diag[0]
     out[angle_close_to_pi, :3] = np.sqrt(0.5 * (Rs_diag[angle_close_to_pi] + 1.0)) * np.sign(out[angle_close_to_pi, :3])
-    # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we
-    # could normalize with a[:3] = a[:3] / (2.0 * np.sin(angle)),
-    # but the following is much more precise for angles close to 0 or pi:
     out[angle_not_zero, :3] /= np.linalg.norm(out[angle_not_zero, :3], axis=-1)[..., np.newaxis]
 
     out[..., 3] = angles
