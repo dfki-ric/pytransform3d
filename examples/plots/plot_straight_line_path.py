@@ -1,7 +1,11 @@
 """
-====
-TODO
-====
+========================
+Plot Straight Line Paths
+========================
+
+We will compose a trajectory of multiple straight line paths in exponential
+coordinates. This is a demonstration of batch conversion from exponential
+coordinates to transformation matrices.
 """
 print(__doc__)
 
@@ -15,12 +19,12 @@ from pytransform3d.rotations import active_matrix_from_angle
 
 
 def time_scaling(t, t_max):
-    """TODO"""
+    """Linear time scaling."""
     return np.asarray(t) / t_max
 
 
 def straight_line_path(start, goal, s):
-    """TODO"""
+    """Compute straight line path in exponential coordinates."""
     start = np.asarray(start)
     goal = np.asarray(goal)
     return (start[np.newaxis] * (1.0 - s)[:, np.newaxis]
