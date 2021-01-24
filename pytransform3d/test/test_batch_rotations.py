@@ -83,6 +83,24 @@ def test_active_matrices_from_angles_3dims():
     assert_array_almost_equal(Rs, Rs2)
 
 
+def test_active_matrices_from_intrinsic_euler_angles_1dim():
+    random_state = np.random.RandomState(8384)
+    e = random_state.randn(10, 3)
+    Rs = pbr.active_matrices_from_intrinsic_euler_angles(2, 1, 0, e)
+    for i in range(len(e)):
+        Ri = pr.active_matrix_from_intrinsic_euler_zyx(e[i])
+        assert_array_almost_equal(Rs[i], Ri)
+
+
+def test_active_matrices_from_extrinsic_euler_angles_1dim():
+    random_state = np.random.RandomState(8384)
+    e = random_state.randn(10, 3)
+    Rs = pbr.active_matrices_from_extrinsic_euler_angles(2, 1, 0, e)
+    for i in range(len(e)):
+        Ri = pr.active_matrix_from_extrinsic_euler_zyx(e[i])
+        assert_array_almost_equal(Rs[i], Ri)
+
+
 def test_cross_product_matrices():
     random_state = np.random.RandomState(3820)
     V = random_state.randn(2, 2, 3, 3)
