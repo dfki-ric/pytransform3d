@@ -230,10 +230,9 @@ def transforms_from_exponential_coordinates(Sthetas):
         o00tms = o0 * o0 * tms
         o11tms = o1 * o1 * tms
         o22tms = o2 * o2 * tms
-        if instances_shape:
-            v0 = v0.reshape(*instances_shape)
-            v1 = v1.reshape(*instances_shape)
-            v2 = v2.reshape(*instances_shape)
+        v0 = v0.reshape(*instances_shape)
+        v1 = v1.reshape(*instances_shape)
+        v2 = v2.reshape(*instances_shape)
         A2Bs[..., 0, 3] = (-v0 * (o11tms + o22tms - t)
                            + v1 * (o01tms + o2cm1)
                            + v2 * (o02tms - o1cm1))
