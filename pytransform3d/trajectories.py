@@ -103,7 +103,7 @@ def exponential_coordinates_from_transforms(A2Bs):
 
     Sthetas = np.empty(instances_shape + (6,))
 
-    omega_thetas = axis_angles_from_matrices(Rs)
+    omega_thetas = axis_angles_from_matrices(Rs, traces=traces)
     Sthetas[..., :3] = omega_thetas[..., :3]
     thetas = omega_thetas[..., 3]
 
