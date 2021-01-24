@@ -20,6 +20,14 @@ def test_norm_vectors_1dim():
         np.linalg.norm(V_unit, axis=1), np.ones(len(V)))
 
 
+def test_norm_vectors_1dim_output_variable():
+    random_state = np.random.RandomState(8381)
+    V = random_state.randn(100, 3)
+    pbr.norm_vectors(V, out=V)
+    assert_array_almost_equal(
+        np.linalg.norm(V, axis=1), np.ones(len(V)))
+
+
 def test_norm_vectors_3dims():
     random_state = np.random.RandomState(8382)
     V = random_state.randn(8, 2, 8, 3)
@@ -83,6 +91,16 @@ def test_active_matrices_from_angles_3dims():
     assert_array_almost_equal(Rs, Rs2)
 
 
+def test_active_matrices_from_angles_3dims_output_variable():
+    random_state = np.random.RandomState(8384)
+    angles = random_state.randn(2, 3, 4)
+    Rs = np.empty((2, 3, 4, 3, 3))
+    pbr.active_matrices_from_angles(2, angles, out=Rs)
+    Rs = Rs.reshape(-1, 3, 3)
+    Rs2 = [pr.active_matrix_from_angle(2, angle) for angle in angles.reshape(-1)]
+    assert_array_almost_equal(Rs, Rs2)
+
+
 def test_active_matrices_from_intrinsic_euler_angles_1dim():
     random_state = np.random.RandomState(8384)
     e = random_state.randn(10, 3)
@@ -92,10 +110,30 @@ def test_active_matrices_from_intrinsic_euler_angles_1dim():
         assert_array_almost_equal(Rs[i], Ri)
 
 
+def test_active_matrices_from_intrinsic_euler_angles_1dim_output_variables():
+    random_state = np.random.RandomState(8384)
+    e = random_state.randn(10, 3)
+    Rs = np.empty((10, 3, 3))
+    pbr.active_matrices_from_intrinsic_euler_angles(2, 1, 0, e, out=Rs)
+    for i in range(len(e)):
+        Ri = pr.active_matrix_from_intrinsic_euler_zyx(e[i])
+        assert_array_almost_equal(Rs[i], Ri)
+
+
 def test_active_matrices_from_extrinsic_euler_angles_1dim():
     random_state = np.random.RandomState(8384)
     e = random_state.randn(10, 3)
     Rs = pbr.active_matrices_from_extrinsic_euler_angles(2, 1, 0, e)
+    for i in range(len(e)):
+        Ri = pr.active_matrix_from_extrinsic_euler_zyx(e[i])
+        assert_array_almost_equal(Rs[i], Ri)
+
+
+def test_active_matrices_from_extrinsic_euler_angles_1dim_output_variable():
+    random_state = np.random.RandomState(8385)
+    e = random_state.randn(10, 3)
+    Rs = np.empty((10, 3, 3))
+    pbr.active_matrices_from_extrinsic_euler_angles(2, 1, 0, e, out=Rs)
     for i in range(len(e)):
         Ri = pr.active_matrix_from_extrinsic_euler_zyx(e[i])
         assert_array_almost_equal(Rs[i], Ri)
@@ -200,6 +238,21 @@ def test_axis_angles_from_matrices():
 
     Rs = pbr.matrices_from_compact_axis_angles(A)
     A2 = pbr.axis_angles_from_matrices(Rs)
+    A2_compact = A2[..., :3] * A2[..., 3, np.newaxis]
+    assert_array_almost_equal(A, A2_compact)
+
+
+def test_axis_angles_from_matrices_output_variable():
+    random_state = np.random.RandomState(84)
+    A = random_state.randn(2, 3, 3)
+    A /= np.linalg.norm(A, axis=-1)[..., np.newaxis]
+    A *= random_state.rand(2, 3, 1) * np.pi
+    A[0, 0, :] = 0.0
+
+    Rs = np.empty((2, 3, 3, 3))
+    pbr.matrices_from_compact_axis_angles(A, out=Rs)
+    A2 = np.empty((2, 3, 4))
+    pbr.axis_angles_from_matrices(Rs, out=A2)
     A2_compact = A2[..., :3] * A2[..., 3, np.newaxis]
     assert_array_almost_equal(A, A2_compact)
 
