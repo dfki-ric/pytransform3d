@@ -17,17 +17,17 @@ def transforms_from_pqs(P, normalize_quaternions=True):
 
     Parameters
     ----------
-    P : array-like, shape (n_steps, 7)
-        Sequence of poses represented by positions and quaternions in the
-        order (x, y, z, w, vx, vy, vz) for each step
+    P : array-like, shape (..., 7)
+        Poses represented by positions and quaternions in the
+        order (x, y, z, qw, qx, qy, qz)
 
     normalize_quaternions : bool, optional (default: True)
         Normalize quaternions before conversion
 
     Returns
     -------
-    A2Bs : array, shape (n_steps, 4, 4)
-        Sequence of poses represented by homogeneous matrices
+    A2Bs : array, shape (..., 4, 4)
+        Poses represented by homogeneous matrices
     """
     P = np.asarray(P)
     instances_shape = P.shape[:-1]
@@ -51,19 +51,20 @@ def pqs_from_transforms(A2Bs):
 
     Parameters
     ----------
-    A2Bs : array-like, shape (n_steps, 4, 4)
-        Sequence of poses represented by homogeneous matrices
+    A2Bs : array-like, shape (..., 4, 4)
+        Poses represented by homogeneous matrices
 
     Returns
     -------
     P : array, shape (n_steps, 7)
-        Sequence of poses represented by positions and quaternions in the
-        order (x, y, z, w, vx, vy, vz) for each step
+        Poses represented by positions and quaternions in the
+        order (x, y, z, qw, qx, qy, qz) for each step
     """
     A2Bs = np.asarray(A2Bs)
-    P = np.empty((len(A2Bs), 7))
-    P[:, :3] = A2Bs[:, :3, 3]
-    quaternions_from_matrices(A2Bs[:, :3, :3], out=P[:, 3:])
+    instances_shape = A2Bs.shape[:-2]
+    P = np.empty(instances_shape + (7,))
+    P[..., :3] = A2Bs[..., :3, 3]
+    quaternions_from_matrices(A2Bs[..., :3, :3], out=P[..., 3:])
     return P
 
 
