@@ -202,3 +202,21 @@ def test_axis_angles_from_matrices():
     A2 = pbr.axis_angles_from_matrices(Rs)
     A2_compact = A2[..., :3] * A2[..., 3, np.newaxis]
     assert_array_almost_equal(A, A2_compact)
+
+
+def test_quaternion_slerp_batch_zero_angle():
+    random_state = np.random.RandomState(228)
+    q = pr.random_quaternion(random_state)
+    Q = pbr.quaternion_slerp_batch(q, q, [0.5])
+    pr.assert_quaternion_equal(q, Q[0])
+
+
+def test_quaternion_slerp_batch():
+    random_state = np.random.RandomState(229)
+    q_start = pr.random_quaternion(random_state)
+    q_end = pr.random_quaternion(random_state)
+    t = np.linspace(0, 1, 101)
+    Q = pbr.quaternion_slerp_batch(q_start, q_end, t)
+    for i in range(len(t)):
+        qi = pr.quaternion_slerp(q_start, q_end, t[i])
+        pr.assert_quaternion_equal(Q[i], qi)

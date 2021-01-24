@@ -222,7 +222,6 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
     Rs : array, shape (..., 3, 3)
         Rotation matrices
     """
-    # TODO test
     if angles is None:
         thetas = np.linalg.norm(A, axis=-1)
     else:
@@ -517,6 +516,7 @@ def quaternion_slerp_batch(start, end, t):
     q : array-like, shape (n_steps, 4)
         Interpolated unit quaternions
     """
+    t = np.asarray(t)
     angle = angle_between_vectors(start, end)
     w1, w2 = _slerp_weights(angle, t)
     return w1[:, np.newaxis] * start[np.newaxis] + w2[:, np.newaxis] * end[np.newaxis]
