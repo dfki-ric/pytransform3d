@@ -340,6 +340,16 @@ Testing
    ~pytransform3d.trajectories.plot_trajectory
 
 
+Deprecated Functions
+--------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.trajectories.matrices_from_pos_quat
+
+
 :mod:`pytransform3d.transform_manager`
 ======================================
 
