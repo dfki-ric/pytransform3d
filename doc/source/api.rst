@@ -4,8 +4,13 @@
 API Documentation
 =================
 
-You can search for specific modules, classes, or functions in the
+This is the detailed documentation of all public classes and functions.
+You can also search for specific modules, classes, or functions in the
 :ref:`genindex`.
+
+
+.. contents:: :local:
+    :depth: 1
 
 
 :mod:`pytransform3d.rotations`
