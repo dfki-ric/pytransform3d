@@ -71,7 +71,9 @@ pytransform3d is used in various domains, for example:
 
 Use pip to install the package from PyPI:
 
-    [sudo] pip[3] install [--user] pytransform3d[all,doc,test]
+```bash
+[sudo] pip[3] install [--user] pytransform3d[all,doc,test]
+```
 
 You can install pytransform3d[all] if you want to have support for pydot
 export. Make sure to install graphviz (on Ubuntu: `sudo apt install graphviz`)
@@ -82,15 +84,21 @@ conda: `conda install pyqt`).
 You can also install from the current git version: clone the repository and go
 to the main folder. Install dependencies with:
 
-    pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
 Install the package with:
 
-    python setup.py install
+```bash
+python setup.py install
+```
 
 Also pip supports installation from a git repository:
 
-    pip install git+https://github.com/rock-learning/pytransform3d.git
+```bash
+pip install git+https://github.com/rock-learning/pytransform3d.git
+```
 
 ## Documentation
 
@@ -100,13 +108,17 @@ The API documentation can be found
 The docmentation of this project can be found in the directory `doc`.
 To build the documentation, run e.g. (on unix):
 
-    cd doc
-    make html
+```bash
+cd doc
+make html
+```
 
 The HTML documentation is now located at `doc/build/html/index.html`.
 You need the following packages to build the documentation:
 
-    pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
+```bash
+pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
+```
 
 ## Example
 
