@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Managing Transformations &#8212; pytransform3d 1.5 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <title>Managing Transformations &#8212; pytransform3d 1.6 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
@@ -14,7 +14,6 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Camera" href="camera.html" />
@@ -41,11 +40,15 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
+            
+                <li><a href="index.html">Contents</a></li>
+                <li><a href="_auto_examples/index.html">Examples</a></li>
+                <li><a href="api.html">API</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -61,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
@@ -86,18 +90,6 @@
 </li>
               
             
-            
-              
-                
-  <li>
-    <a href="transformation_modeling.html" title="Previous Chapter: Modeling Transformations"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Modeling Tran...</span>
-    </a>
-  </li>
-  <li>
-    <a href="camera.html" title="Next Chapter: Camera"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Camera &raquo;</span>
-    </a>
-  </li>
-              
             
             
             
@@ -146,20 +138,21 @@ for you.</p>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">random_quaternion</span><span class="p">,</span> <span class="n">matrix_from_euler_xyz</span><span class="p">,</span>
-                                     <span class="n">q_id</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <span class="n">transform_from_pq</span><span class="p">,</span> <span class="n">transform_from</span>
+<span class="kn">from</span> <span class="nn">pytransform3d</span> <span class="kn">import</span> <span class="n">rotations</span> <span class="k">as</span> <span class="n">pr</span>
+<span class="kn">from</span> <span class="nn">pytransform3d</span> <span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
 <span class="kn">from</span> <span class="nn">pytransform3d.transform_manager</span> <span class="kn">import</span> <span class="n">TransformManager</span>
 
 
 <span class="n">random_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">ee2robot</span> <span class="o">=</span> <span class="n">transform_from_pq</span><span class="p">(</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">random_quaternion</span><span class="p">(</span><span class="n">random_state</span><span class="p">))))</span>
-<span class="n">cam2robot</span> <span class="o">=</span> <span class="n">transform_from_pq</span><span class="p">(</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]),</span> <span class="n">q_id</span><span class="p">)))</span>
-<span class="n">object2cam</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
-    <span class="n">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]))</span>
+<span class="n">ee2robot</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform_from_pq</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span>
+               <span class="n">pr</span><span class="o">.</span><span class="n">random_quaternion</span><span class="p">(</span><span class="n">random_state</span><span class="p">))))</span>
+<span class="n">cam2robot</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform_from_pq</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]),</span> <span class="n">pr</span><span class="o">.</span><span class="n">q_id</span><span class="p">)))</span>
+<span class="n">object2cam</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform_from</span><span class="p">(</span>
+    <span class="n">pr</span><span class="o">.</span><span class="n">active_matrix_from_intrinsic_euler_xyz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">])),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]))</span>
 
 <span class="n">tm</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="p">()</span>
 <span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;end-effector&quot;</span><span class="p">,</span> <span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">ee2robot</span><span class="p">)</span>
@@ -244,8 +237,8 @@ meshes. Here is a simple example with one visual that is used for two links:</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 28, 2020.<br/>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 26, 2021.<br/>
     </p>
   </div>
 </footer>

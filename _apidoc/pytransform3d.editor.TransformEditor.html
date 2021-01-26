@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.editor.TransformEditor &#8212; pytransform3d 1.5 documentation</title>
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <title>pytransform3d.editor.TransformEditor &#8212; pytransform3d 1.6 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
@@ -14,7 +14,6 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytransform3d.urdf.UrdfTransformManager" href="pytransform3d.urdf.UrdfTransformManager.html" />
@@ -41,11 +40,15 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
+            
+                <li><a href="../index.html">Contents</a></li>
+                <li><a href="../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -61,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
@@ -89,18 +93,6 @@
 </li>
               
             
-            
-              
-                
-  <li>
-    <a href="pytransform3d.transform_manager.TransformManager.html" title="Previous Chapter: pytransform3d.transform_manager.TransformManager"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pytransform3d...</span>
-    </a>
-  </li>
-  <li>
-    <a href="pytransform3d.urdf.UrdfTransformManager.html" title="Next Chapter: pytransform3d.urdf.UrdfTransformManager"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pytransform3d... &raquo;</span>
-    </a>
-  </li>
-              
             
             
             
@@ -131,7 +123,7 @@
 <h1>pytransform3d.editor.TransformEditor<a class="headerlink" href="#pytransform3d-editor-transformeditor" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pytransform3d.editor.TransformEditor">
-<em class="property">class </em><code class="sig-prename descclassname">pytransform3d.editor.</code><code class="sig-name descname">TransformEditor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform_manager</span></em>, <em class="sig-param"><span class="n">base_frame</span></em>, <em class="sig-param"><span class="n">xlim</span><span class="o">=</span><span class="default_value">- 1.0, 1.0</span></em>, <em class="sig-param"><span class="n">ylim</span><span class="o">=</span><span class="default_value">- 1.0, 1.0</span></em>, <em class="sig-param"><span class="n">zlim</span><span class="o">=</span><span class="default_value">- 1.0, 1.0</span></em>, <em class="sig-param"><span class="n">s</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">10, 10</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">500, 600</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/editor.html#TransformEditor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.editor.TransformEditor" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytransform3d.editor.</code><code class="sig-name descname">TransformEditor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform_manager</span></em>, <em class="sig-param"><span class="n">base_frame</span></em>, <em class="sig-param"><span class="n">xlim</span><span class="o">=</span><span class="default_value">(- 1.0, 1.0)</span></em>, <em class="sig-param"><span class="n">ylim</span><span class="o">=</span><span class="default_value">(- 1.0, 1.0)</span></em>, <em class="sig-param"><span class="n">zlim</span><span class="o">=</span><span class="default_value">(- 1.0, 1.0)</span></em>, <em class="sig-param"><span class="n">s</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">(10, 10)</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">(500, 600)</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/editor.html#TransformEditor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.editor.TransformEditor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PyQt5.QtWidgets.QMainWindow</span></code></p>
 <p>GUI to edit transformations.</p>
 <div class="admonition warning">
@@ -173,7 +165,7 @@ plot and the range of the slider.</p>
 </dl>
 <dl class="py method">
 <dt id="pytransform3d.editor.TransformEditor.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform_manager</span></em>, <em class="sig-param"><span class="n">base_frame</span></em>, <em class="sig-param"><span class="n">xlim</span><span class="o">=</span><span class="default_value">- 1.0, 1.0</span></em>, <em class="sig-param"><span class="n">ylim</span><span class="o">=</span><span class="default_value">- 1.0, 1.0</span></em>, <em class="sig-param"><span class="n">zlim</span><span class="o">=</span><span class="default_value">- 1.0, 1.0</span></em>, <em class="sig-param"><span class="n">s</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">10, 10</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">500, 600</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/editor.html#TransformEditor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.editor.TransformEditor.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform_manager</span></em>, <em class="sig-param"><span class="n">base_frame</span></em>, <em class="sig-param"><span class="n">xlim</span><span class="o">=</span><span class="default_value">(- 1.0, 1.0)</span></em>, <em class="sig-param"><span class="n">ylim</span><span class="o">=</span><span class="default_value">(- 1.0, 1.0)</span></em>, <em class="sig-param"><span class="n">zlim</span><span class="o">=</span><span class="default_value">(- 1.0, 1.0)</span></em>, <em class="sig-param"><span class="n">s</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">(10, 10)</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">(500, 600)</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/editor.html#TransformEditor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.editor.TransformEditor.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -230,8 +222,8 @@ plot and the range of the slider.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 28, 2020.<br/>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 26, 2021.<br/>
     </p>
   </div>
 </footer>

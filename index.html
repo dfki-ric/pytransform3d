@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d &#8212; pytransform3d 1.5 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <title>pytransform3d &#8212; pytransform3d 1.6 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
@@ -14,7 +14,6 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Notation" href="notation.html" />
@@ -40,11 +39,15 @@
         </button>
         <a class="navbar-brand" href="#">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
+            
+                <li><a href="#">Contents</a></li>
+                <li><a href="_auto_examples/index.html">Examples</a></li>
+                <li><a href="api.html">API</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -60,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
@@ -81,7 +85,6 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">pytransform3d</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
 </ul>
 </li>
 </ul>
@@ -89,14 +92,6 @@
 </li>
               
             
-            
-              
-                
-  <li>
-    <a href="notation.html" title="Next Chapter: Notation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Notation &raquo;</span>
-    </a>
-  </li>
-              
             
             
             
@@ -125,7 +120,35 @@
       
   <div class="section" id="pytransform3d">
 <h1>pytransform3d<a class="headerlink" href="#pytransform3d" title="Permalink to this headline">¶</a></h1>
-<p>pytransform3d covers the following groups of transformations.</p>
+<div class="container-fluid">
+  <div class="row">
+
+
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Contents</h3>
+        </div>
+        <div class="panel-body"><div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_auto_examples/index.html">Examples</a></li>
+</ul>
+</div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-8"><p>pytransform3d covers the following groups of transformations.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -162,24 +185,10 @@ transformation</p></td>
 The readme there contains installation instructions. This documentation
 explains how you can work with pytransform3d and with 3D transformations
 in general.</p>
-</div>
-<div class="section" id="table-of-contents">
-<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="_auto_examples/index.html">Examples</a></li>
-</ul>
-</div>
-</div>
+    </div>
+
+  </div>
+</div></div>
 </div>
 
 
@@ -194,8 +203,8 @@ in general.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 28, 2020.<br/>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 26, 2021.<br/>
     </p>
   </div>
 </footer>

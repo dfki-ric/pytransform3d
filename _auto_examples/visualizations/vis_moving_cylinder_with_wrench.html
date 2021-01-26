@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visualize Cylinder with Wrench &#8212; pytransform3d 1.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <title>Visualize Cylinder with Wrench &#8212; pytransform3d 1.6 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
@@ -14,7 +14,6 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="URDF Joints" href="vis_urdf.html" />
@@ -41,11 +40,15 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
+            
+                <li><a href="../../index.html">Contents</a></li>
+                <li><a href="../index.html">Examples</a></li>
+                <li><a href="../../api.html">API</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -61,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
@@ -86,18 +90,6 @@
 </li>
               
             
-            
-              
-                
-  <li>
-    <a href="vis_moving_robot.html" title="Previous Chapter: Animated Robot"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Animated Robot</span>
-    </a>
-  </li>
-  <li>
-    <a href="vis_urdf.html" title="Next Chapter: URDF Joints"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">URDF Joints &raquo;</span>
-    </a>
-  </li>
-              
             
             
             
@@ -138,7 +130,7 @@ to finally compute the new pose of the cylinder.</p>
 
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform.html#pytransform3d.transformations.exponential_coordinates_from_transform" title="pytransform3d.transformations.exponential_coordinates_from_transform" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">exponential_coordinates_from_transform</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates" title="pytransform3d.transformations.transform_from_exponential_coordinates" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from_exponential_coordinates</span></a>
+<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates" title="pytransform3d.transformations.transform_from_exponential_coordinates" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from_exponential_coordinates</span></a>
 <span class="kn">import</span> <span class="nn">pytransform3d.visualizer</span> <span class="k">as</span> <span class="nn">pv</span>
 
 
@@ -158,22 +150,19 @@ to finally compute the new pose of the cylinder.</p>
         <span class="n">prev_cylinder2world</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.eye.html#numpy.eye" title="numpy.eye" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">eye</span></a><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">Stheta_dot</span><span class="p">[:]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-    <span class="n">Stheta</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform.html#pytransform3d.transformations.exponential_coordinates_from_transform" title="pytransform3d.transformations.exponential_coordinates_from_transform" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">exponential_coordinates_from_transform</span></a><span class="p">(</span><span class="n">prev_cylinder2world</span><span class="p">)</span>
-
     <span class="c1"># Apply constant wrench</span>
     <span class="n">wrench_in_cylinder</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.0005</span>
 
     <span class="n">Stheta_ddot</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.dot.html#numpy.dot" title="numpy.dot" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">dot</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">inertia_inv</span></a><span class="p">,</span> <span class="n">wrench_in_cylinder</span><span class="p">)</span>
     <span class="n">Stheta_dot</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">Stheta_ddot</span>
-    <span class="n">Stheta</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">Stheta_dot</span>
-    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cylinder2world</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates" title="pytransform3d.transformations.transform_from_exponential_coordinates" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from_exponential_coordinates</span></a><span class="p">(</span><span class="n">Stheta</span><span class="p">)</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cylinder2world</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates" title="pytransform3d.transformations.transform_from_exponential_coordinates" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from_exponential_coordinates</span></a><span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">Stheta_dot</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">prev_cylinder2world</span><span class="p">)</span>
 
     <span class="c1"># Update visualization</span>
     <a href="../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame.set_data" title="pytransform3d.visualizer.Frame.set_data" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">cylinder_frame</span><span class="o">.</span><span class="n">set_data</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cylinder2world</span></a><span class="p">)</span>
     <a href="../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder.set_data" title="pytransform3d.visualizer.Cylinder.set_data" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">cylinder</span><span class="o">.</span><span class="n">set_data</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cylinder2world</span></a><span class="p">)</span>
 
-    <span class="n">prev_cylinder2world</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates" title="pytransform3d.transformations.transform_from_exponential_coordinates" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from_exponential_coordinates</span></a><span class="p">(</span><span class="n">Stheta</span><span class="p">)</span>
+    <span class="n">prev_cylinder2world</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cylinder2world</span></a>
 
     <span class="k">return</span> <a href="../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame" title="pytransform3d.visualizer.Frame" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cylinder_frame</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder" title="pytransform3d.visualizer.Cylinder" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cylinder</span></a>
 
@@ -208,7 +197,7 @@ to finally compute the new pose of the cylinder.</p>
     <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">save_image</span></a><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.124 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.121 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-moving-cylinder-with-wrench-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d986f5f97475b412bf42b792e6cebe96/vis_moving_cylinder_with_wrench.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_moving_cylinder_with_wrench.py</span></code></a></p>
@@ -232,8 +221,8 @@ to finally compute the new pose of the cylinder.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 28, 2020.<br/>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 26, 2021.<br/>
     </p>
   </div>
 </footer>

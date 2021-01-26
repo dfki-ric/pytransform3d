@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SO(3): 3D Rotations &#8212; pytransform3d 1.5 documentation</title>
-    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <title>SO(3): 3D Rotations &#8212; pytransform3d 1.6 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
@@ -14,7 +14,6 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="SE(3): 3D Transformations" href="transformations.html" />
@@ -41,11 +40,15 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
+            
+                <li><a href="index.html">Contents</a></li>
+                <li><a href="_auto_examples/index.html">Examples</a></li>
+                <li><a href="api.html">API</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -61,6 +64,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
@@ -93,18 +97,6 @@
 </li>
               
             
-            
-              
-                
-  <li>
-    <a href="notation.html" title="Previous Chapter: Notation"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Notation</span>
-    </a>
-  </li>
-  <li>
-    <a href="transformations.html" title="Next Chapter: SE(3): 3D Transformations"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">SE(3): 3D Tra... &raquo;</span>
-    </a>
-  </li>
-              
             
             
             
@@ -372,57 +364,14 @@ rotation</p></li>
 pytransform3d uses a numpy array of shape (3,) for Euler angles, where
 each entry corresponds to a rotation angle in radians around one basis
 vector. The basis vector that will be used and the order of rotation
-is defined by the convention that we use.</p>
+is defined by the convention that we use. See <a class="reference internal" href="euler_angles.html"><span class="doc">Euler Angles</span></a> for more
+information.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>There are 24 different conventions for defining euler angles. There are
 12 different valid ways to sequence rotation axes that can be interpreted
 as extrinsic or intrinsic rotations: XZX, XYX, YXY, YZY, ZYZ, ZXZ, XZY,
-XYZ, YXZ, YZX, ZYX, and ZXY. We will only use the XYZ convention and the
-ZYX convention with intrinsic rotations.</p>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">============</span>
-<span class="sd">Euler Angles</span>
-<span class="sd">============</span>
-
-<span class="sd">Any rotation can be represented by three consecutive rotations about three</span>
-<span class="sd">basis vectors. Here we use either the x-y-z convention or the z-y-x convention.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
-
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="o">*</span>
-
-
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_basis</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">])</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span>
-
-<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">])</span>
-<span class="n">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>(<a class="reference external" href="./../../examples/plots/plot_euler_angles.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_euler_angles.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_euler_angles.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_euler_angles.pdf">pdf</a>)</p>
-<div class="figure align-default">
-<img alt="_images/plot_euler_angles.png" src="_images/plot_euler_angles.png" />
+XYZ, YXZ, YZX, ZYX, and ZXY.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
@@ -457,8 +406,8 @@ matrix or quaternion</p></li>
       
     </p>
     <p>
-        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 28, 2020.<br/>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 26, 2021.<br/>
     </p>
   </div>
 </footer>

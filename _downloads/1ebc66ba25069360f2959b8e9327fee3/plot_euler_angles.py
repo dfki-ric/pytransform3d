@@ -4,34 +4,37 @@ Euler Angles
 ============
 
 Any rotation can be represented by three consecutive rotations about three
-basis vectors. Here we use either the x-y-z convention or the z-y-x convention.
+basis vectors. Here we use the extrinsic xyz convention.
 """
 print(__doc__)
 
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from pytransform3d.rotations import *
+from pytransform3d import rotations as pr
+from pytransform3d.plot_utils import remove_frame
 
 
-ax = plot_basis(R=np.eye(3), ax_s=2)
-alpha, beta, gamma = np.pi, np.pi, np.pi
+alpha, beta, gamma = 0.5 * np.pi, 0.5 * np.pi, 0.5 * np.pi
+p = np.array([1, 1, 1])
 
-p = np.array([0.6, 0.4, 0.4])
-R = matrix_from_euler_xyz([alpha, 0, 0])
-plot_basis(ax, R, p)
-R = matrix_from_euler_xyz([alpha, beta, 0])
-plot_basis(ax, R, 2 * p)
-R = matrix_from_euler_xyz([alpha, beta, gamma])
-plot_basis(ax, R, 3 * p)
+plt.figure(figsize=(5, 5))
 
-p = np.array([0.4, 0.6, 0.4])
-R = matrix_from_euler_zyx([alpha, 0, 0])
-plot_basis(ax, R, p, alpha=0.5)
-R = matrix_from_euler_zyx([alpha, beta, 0])
-plot_basis(ax, R, 2 * p, alpha=0.5)
-R = matrix_from_euler_zyx([alpha, beta, gamma])
-plot_basis(ax, R, 3 * p, alpha=0.5)
+ax = pr.plot_basis(R=np.eye(3), p=-1.5 * p, ax_s=2)
+pr.plot_axis_angle(ax, [1, 0, 0, alpha], -1.5 * p)
+
+pr.plot_basis(
+    ax, pr.active_matrix_from_extrinsic_euler_xyz([alpha, 0, 0]), -0.5 * p)
+pr.plot_axis_angle(ax, [0, 1, 0, beta], p=-0.5 * p)
+
+pr.plot_basis(
+    ax, pr.active_matrix_from_extrinsic_euler_xyz([alpha, beta, 0]), 0.5 * p)
+pr.plot_axis_angle(ax, [0, 0, 1, gamma], 0.5 * p)
+
+pr.plot_basis(
+    ax, pr.active_matrix_from_extrinsic_euler_xyz([alpha, beta, gamma]), 1.5 * p,
+    lw=5)
+
+remove_frame(ax)
 
 plt.show()

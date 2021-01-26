@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations &#8212; pytransform3d 1.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <title>pytransform3d.rotations &#8212; pytransform3d 1.6 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
@@ -14,7 +14,6 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -39,11 +38,15 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
           <ul class="nav navbar-nav">
+            
+                <li><a href="../../index.html">Contents</a></li>
+                <li><a href="../../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../../api.html">API</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -59,6 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
@@ -81,10 +85,6 @@
 </li>
               
             
-            
-              
-                
-              
             
             
             
@@ -779,7 +779,7 @@
 
 
 <div class="viewcode-block" id="matrix_from_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from_angle.html#pytransform3d.rotations.matrix_from_angle">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_angle</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute passive rotation matrix from rotation around basis vector.</span>
+    <span class="sd">&quot;&quot;&quot;Compute passive rotation matrix from rotation about basis vector.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -819,7 +819,7 @@
 
 
 <div class="viewcode-block" id="active_matrix_from_angle"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_angle.html#pytransform3d.rotations.active_matrix_from_angle">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_angle</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from rotation around basis vector.</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from rotation about basis vector.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -895,13 +895,13 @@
     <span class="k">return</span> <span class="n">R</span></div>
 
 
-<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zxz Euler angles.</span>
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xzx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xzx Euler angles.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    e : array-like, shape (3,)</span>
-<span class="sd">        Angles for rotation around z-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">        Angles for rotation around x-, z&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -909,25 +909,19 @@
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R</span></div>
 
 
-<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zxz Euler angles.</span>
-
-<span class="sd">    .. warning::</span>
-
-<span class="sd">        This function was not implemented correctly in versions 1.3 and 1.4</span>
-<span class="sd">        as the order of the angles was reversed, which actually corresponds</span>
-<span class="sd">        to intrinsic rotations. This has been fixed in version 1.5.</span>
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xzx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xzx Euler angles.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    e : array-like, shape (3,)</span>
-<span class="sd">        Angles for rotation around z-, x-, and z-axes (extrinsic rotations)</span>
+<span class="sd">        Angles for rotation around x-, z-, and x-axes (extrinsic rotations)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -935,9 +929,129 @@
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xyx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xyx Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xyx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xyx Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y-, and x-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yxy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yxy Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
         <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yxy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yxy Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x-, and y-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yzy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yzy Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yzy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yzy Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z-, and y-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R</span></div>
 
 
@@ -987,24 +1101,307 @@
     <span class="k">return</span> <span class="n">R</span></div>
 
 
-<div class="viewcode-block" id="active_matrix_from_extrinsic_roll_pitch_yaw"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html#pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">(</span><span class="n">rpy</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic roll, pitch, and yaw.</span>
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zxz Euler angles.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    rpy : array-like, shape (3,)</span>
-<span class="sd">        Angles for rotation around x- (roll), y- (pitch), and z-axes (yaw), extrinsic rotations</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">roll</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">yaw</span> <span class="o">=</span> <span class="n">rpy</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">yaw</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pitch</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">roll</span><span class="p">))</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zxz Euler angles.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        This function was not implemented correctly in versions 1.3 and 1.4</span>
+<span class="sd">        as the order of the angles was reversed, which actually corresponds</span>
+<span class="sd">        to intrinsic rotations. This has been fixed in version 1.5.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x-, and z-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xzy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xzy Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, z&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xzy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xzy Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, z-, and y-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xyz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xyz Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xyz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xyz Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y-, and z-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yxz Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yxz"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yxz Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x-, and z-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yzx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yzx Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yzx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yzx Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z-, and x-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zyx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zyx Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zyx"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zyx Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y-, and x-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zxy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zxy Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zxy"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zxy Cardan angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x-, and y-axes (extrinsic rotations)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="active_matrix_from_extrinsic_roll_pitch_yaw"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html#pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw">[docs]</a><span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">(</span><span class="n">rpy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic roll, pitch, and yaw.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rpy : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x- (roll), y- (pitch), and z-axes (yaw),</span>
+<span class="sd">        extrinsic rotations</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">active_matrix_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">rpy</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="matrix_from"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.matrix_from.html#pytransform3d.rotations.matrix_from">[docs]</a><span class="k">def</span> <span class="nf">matrix_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e_xyz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e_zyx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1043,6 +1440,109 @@
     <span class="k">if</span> <span class="n">e_zyx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">matrix_from_euler_zyx</span><span class="p">(</span><span class="n">e_zyx</span><span class="p">)</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot compute rotation matrix from no rotation.&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">proper_euler</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;General algorithm to extract intrinsic euler angles from a matrix.</span>
+
+<span class="sd">    The implementation is based on SciPy&#39;s implementation:</span>
+<span class="sd">    https://github.com/scipy/scipy/blob/master/scipy/spatial/transform/rotation.pyx</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Active rotation matrix</span>
+
+<span class="sd">    n1 : array, shape (3,)</span>
+<span class="sd">        First rotation axis (basis vector)</span>
+
+<span class="sd">    n2 : array, shape (3,)</span>
+<span class="sd">        Second rotation axis (basis vector)</span>
+
+<span class="sd">    n3 : array, shape (3,)</span>
+<span class="sd">        Third rotation axis (basis vector)</span>
+
+<span class="sd">    proper_euler : bool</span>
+<span class="sd">        Is this an Euler angle convention or a Cardan / Tait-Bryan convention?</span>
+<span class="sd">        Proper Euler angles rotate about the same axis twice, for example,</span>
+<span class="sd">        z, y&#39;, and z&#39;&#39;.</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    euler_angles : array, shape (3,)</span>
+<span class="sd">        Extracted intrinsic rotation angles in radians about the axes</span>
+<span class="sd">        n1, n2, and n3 in this order. The first and last angle are</span>
+<span class="sd">        normalized to [-pi, pi]. The middle angle is normalized to</span>
+<span class="sd">        either [0, pi] (proper Euler angles) or [-pi/2, pi/2]</span>
+<span class="sd">        (Cardan / Tait-Bryan angles).</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Shuster, Markley: General Formula for Extracting the Euler Angles,</span>
+<span class="sd">    https://arc.aiaa.org/doi/abs/10.2514/1.16622</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
+
+    <span class="c1"># Differences to the paper:</span>
+    <span class="c1"># - we call the angles alpha, beta, and gamma</span>
+    <span class="c1"># - we obtain angles from intrinsic rotations, thus some matrices are</span>
+    <span class="c1">#   transposed like in SciPy&#39;s implementation</span>
+
+    <span class="c1"># Step 2</span>
+    <span class="c1"># - Equation 5</span>
+    <span class="n">n1_cross_n2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span>
+    <span class="n">lmbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">n1_cross_n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n3</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># - Equation 6</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">n2</span><span class="p">,</span> <span class="n">n1_cross_n2</span><span class="p">,</span> <span class="n">n1</span><span class="p">))</span>
+
+    <span class="c1"># Step 3</span>
+    <span class="c1"># - Equation 8</span>
+    <span class="n">CDCT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">C</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">O</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">CDCT</span><span class="p">,</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lmbda</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Step 4</span>
+    <span class="c1"># - Equation 10a</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">lmbda</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">O</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+    <span class="n">safe1</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="n">lmbda</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    <span class="n">safe2</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="n">lmbda</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    <span class="k">if</span> <span class="n">safe1</span> <span class="ow">and</span> <span class="n">safe2</span><span class="p">:</span>  <span class="c1"># Default case, no gimbal lock</span>
+        <span class="c1"># Step 5</span>
+        <span class="c1"># - Equation 10b</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">O</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">O</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="c1"># - Equation 10c</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">O</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">O</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Step 7</span>
+        <span class="k">if</span> <span class="n">proper_euler</span><span class="p">:</span>
+            <span class="n">valid_beta</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Cardan / Tait-Bryan angles</span>
+            <span class="n">valid_beta</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">&lt;=</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="c1"># - Equation 12</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_beta</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="n">beta</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">lmbda</span> <span class="o">-</span> <span class="n">beta</span>
+            <span class="n">gamma</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Step 6 - Handle gimbal locks</span>
+        <span class="c1"># a)</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">safe1</span><span class="p">:</span>
+            <span class="c1"># b)</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">O</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">O</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">O</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">O</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># c)</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">O</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">O</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">O</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">O</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">euler_angles</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">euler_angles</span>
 
 
 <div class="viewcode-block" id="euler_xyz_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.euler_xyz_from_matrix.html#pytransform3d.rotations.euler_xyz_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_xyz_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -1115,6 +1615,510 @@
             <span class="n">angle2</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
             <span class="n">angle1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle1</span><span class="p">,</span> <span class="n">angle2</span><span class="p">,</span> <span class="n">angle3</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_xzx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_xzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic xzx Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, z&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_xzx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_xzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xzx Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, z-, and x-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_xyx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_xyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic xyx Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_xyx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_xyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic xyx Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y-, and x-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_yxy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_yxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic yxy Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_yxy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_yxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic yxy Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x-, and y-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_yzy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_yzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic yzy Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_yzy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_yzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic yzy Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z-, and y-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_zyz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_zyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic zyz Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_zyz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_zyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic zyz Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y-, and z-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_zxz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_zxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic zxz Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_zxz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_zxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic zxz Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x-, and z-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_xzy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_xzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic xzy Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, z&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_xzy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_xzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic xzy Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, z-, and y-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_xyz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_xyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic xyz Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_xyz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_xyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic xyz Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y-, and z-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_yxz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_yxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic yxz Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_yxz_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_yxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic yxz Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, x-, and z-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_yzx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_yzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic yzx Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_yzx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_yzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic yzx Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around y-, z-, and x-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_zyx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_zyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic zyx Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_zyx_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_zyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic zyx Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y-, and x-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="intrinsic_euler_zxy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">intrinsic_euler_zxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute intrinsic zxy Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extrinsic_euler_zxy_from_active_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_zxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic zxy Cardan angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, x-, and y-axes (extrinsic rotations)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="axis_angle_from_matrix"><a class="viewcode-back" href="../../_apidoc/pytransform3d.rotations.axis_angle_from_matrix.html#pytransform3d.rotations.axis_angle_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -1956,8 +2960,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2020, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 28, 2020.<br/>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 26, 2021.<br/>
     </p>
   </div>
 </footer>
