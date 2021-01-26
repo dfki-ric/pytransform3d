@@ -176,6 +176,13 @@ def test_active_matrices_from_extrinsic_euler_angles_1dim_output_variable():
         assert_array_almost_equal(Rs[i], Ri)
 
 
+def test_cross_product_matrix():
+    random_state = np.random.RandomState(3820)
+    v = random_state.randn(3)
+    assert_array_almost_equal(
+        pbr.cross_product_matrices(v), pr.cross_product_matrix(v))
+
+
 def test_cross_product_matrices():
     random_state = np.random.RandomState(3820)
     V = random_state.randn(2, 2, 3, 3)
