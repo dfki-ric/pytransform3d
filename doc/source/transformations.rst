@@ -6,7 +6,12 @@ The group of all transformations in the 3D Cartesian space is :math:`SE(3)`
 (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
-in different ways. For most representations of orientations we can find
+in different ways.
+
+.. contents:: :local:
+    :depth: 1
+
+For most representations of orientations we can find
 an analogous representation of transformations:
 
 * A **transformation matrix** :math:`\boldsymbol T` is similar to a rotation
@@ -19,8 +24,8 @@ an analogous representation of transformations:
 * The **logarithm of a transformation** :math:`\left[\mathcal{S}\right] \theta`
   is similar to a cross-product matrix of the angle-axis representation
   :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta`.
-* Exponential coordinates :math:`\mathcal{S} \theta` for rigid body motions
-  are similar to exponential coordinates
+* The **exponential coordinates** :math:`\mathcal{S} \theta` for rigid body
+  motions are similar to exponential coordinates
   :math:`\hat{\boldsymbol{\omega}} \theta` for rotations (axis-angle
   representation).
 * A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is similar to
@@ -32,6 +37,7 @@ that are available in pytransform3d.
 .. image:: _static/transformations.svg
    :alt: Transformations
    :align: center
+
 
 ---------------------
 Transformation Matrix
