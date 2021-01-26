@@ -194,7 +194,8 @@ def active_matrices_from_extrinsic_euler_angles(
     return out
 
 
-def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
+def matrices_from_compact_axis_angles(
+        A=None, axes=None, angles=None, out=None):
     """Compute rotation matrices from compact axis-angle representations.
 
     This is called exponential map or Rodrigues' formula.
@@ -325,8 +326,11 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
         Rs_diag = Rs_diag.reshape(*(instances_shape + (3,)))
     else:
         Rs_diag = Rs_diag[0]
-    out[angle_close_to_pi, :3] = np.sqrt(0.5 * (Rs_diag[angle_close_to_pi] + 1.0)) * np.sign(out[angle_close_to_pi, :3])
-    out[angle_not_zero, :3] /= np.linalg.norm(out[angle_not_zero, :3], axis=-1)[..., np.newaxis]
+    out[angle_close_to_pi, :3] = (
+            np.sqrt(0.5 * (Rs_diag[angle_close_to_pi] + 1.0))
+            * np.sign(out[angle_close_to_pi, :3]))
+    out[angle_not_zero, :3] /= np.linalg.norm(
+        out[angle_not_zero, :3], axis=-1)[..., np.newaxis]
 
     out[..., 3] = angles
 
@@ -519,7 +523,8 @@ def quaternion_slerp_batch(start, end, t):
     t = np.asarray(t)
     angle = angle_between_vectors(start, end)
     w1, w2 = _slerp_weights(angle, t)
-    return w1[:, np.newaxis] * start[np.newaxis] + w2[:, np.newaxis] * end[np.newaxis]
+    return (w1[:, np.newaxis] * start[np.newaxis]
+            + w2[:, np.newaxis] * end[np.newaxis])
 
 
 def _slerp_weights(angle, t):

@@ -195,7 +195,8 @@ def transforms_from_exponential_coordinates(Sthetas):
         t[ind_only_translation] = 1.0
         screw_axes = Sthetas / t[..., np.newaxis]
 
-        matrices_from_compact_axis_angles(axes=screw_axes[..., :3], angles=t, out=A2Bs[..., :3, :3])
+        matrices_from_compact_axis_angles(
+            axes=screw_axes[..., :3], angles=t, out=A2Bs[..., :3, :3])
 
         # from sympy import *
         # omega0, omega1, omega2, vx, vy, vz, theta = symbols("omega_0 omega_1 omega_2 v_x v_y v_z theta")
