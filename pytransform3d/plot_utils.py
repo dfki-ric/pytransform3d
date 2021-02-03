@@ -697,8 +697,9 @@ try:
 
         if filename is None:
             warnings.warn(
-                "Mesh will be ignored. You have to set a mesh path to "
-                "plot meshes.")
+                "No filename given for mesh. When you use the "
+                "UrdfTransformManager, make sure to set the mesh path or "
+                "package directory.")
             return ax
 
         try:
