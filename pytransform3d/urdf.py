@@ -223,9 +223,9 @@ class UrdfTransformManager(TransformManager):
         shape_objects = []
         for i, child in enumerate(children):
             if child.has_attr("name"):
-                name = child["name"]
+                name = "%s:%s/%s" % (child_type, link["name"], child["name"])
             else:
-                name = "%s/%s_%s" % (link["name"], child_type, i)
+                name = "%s:%s/%s" % (child_type, link["name"], i)
 
             color = None
             if child_type == "visual":
