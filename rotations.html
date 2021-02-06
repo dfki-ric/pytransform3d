@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SO(3): 3D Rotations &#8212; pytransform3d 1.6 documentation</title>
+    <title>SO(3): 3D Rotations &#8212; pytransform3d 1.7 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -132,10 +132,19 @@ any rotation from <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029
 is non-redundant, continuous, and free of singularities. We will now take a
 closer look at competing representations of rotations and the orientations they
 can describe.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#rotation-matrix" id="id1">Rotation Matrix</a></p></li>
+<li><p><a class="reference internal" href="#axis-angle" id="id2">Axis-Angle</a></p></li>
+<li><p><a class="reference internal" href="#quaternions" id="id3">Quaternions</a></p></li>
+<li><p><a class="reference internal" href="#euler-angles" id="id4">Euler Angles</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id5">References</a></p></li>
+</ul>
+</div>
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
 <img alt="Rotations" class="align-center" src="_images/rotations.svg" /><div class="section" id="rotation-matrix">
-<h2>Rotation Matrix<a class="headerlink" href="#rotation-matrix" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1">Rotation Matrix</a><a class="headerlink" href="#rotation-matrix" title="Permalink to this headline">¶</a></h2>
 <p>The most practical representation of orientation is a rotation matrix</p>
 <div class="math">
 <p><img src="_images/math/cb15c782df330807e2eeeb7be2b9ee810eae9f11.png" alt="\boldsymbol R =
@@ -237,7 +246,7 @@ or interpolate between rotation matrices</p></li>
 </ul>
 </div>
 <div class="section" id="axis-angle">
-<h2>Axis-Angle<a class="headerlink" href="#axis-angle" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Axis-Angle</a><a class="headerlink" href="#axis-angle" title="Permalink to this headline">¶</a></h2>
 <p>(<a class="reference external" href="./../../examples/plots/plot_axis_angle.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_axis_angle.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_axis_angle.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_axis_angle.pdf">pdf</a>)</p>
 <div class="figure align-default">
 <img alt="_images/plot_axis_angle.png" src="_images/plot_axis_angle.png" />
@@ -294,7 +303,7 @@ which makes numerical integration and differentiation easy.</p></li>
 </ul>
 </div>
 <div class="section" id="quaternions">
-<h2>Quaternions<a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Quaternions</a><a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h2>
 <p>Quaternions are represented by a scalar / real part <img class="math" src="_images/math/cc87ee665749db882f94e0d3707eb23e39638650.png" alt="w"/>
 and an vector / imaginary part
 <img class="math" src="_images/math/296b7098a4e3f5fcb52474893f620ff2889fb5b6.png" alt="x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}"/>.</p>
@@ -359,7 +368,7 @@ rotation</p></li>
 </ul>
 </div>
 <div class="section" id="euler-angles">
-<h2>Euler Angles<a class="headerlink" href="#euler-angles" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Euler Angles</a><a class="headerlink" href="#euler-angles" title="Permalink to this headline">¶</a></h2>
 <p>A complete rotation can be split into three rotations around basis vectors.
 pytransform3d uses a numpy array of shape (3,) for Euler angles, where
 each entry corresponds to a rotation angle in radians around one basis
@@ -386,7 +395,7 @@ matrix or quaternion</p></li>
 </ul>
 </div>
 <div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Why and How to Avoid the Flipped Quaternion Multiplication: <a class="reference external" href="https://arxiv.org/pdf/1801.07478.pdf">https://arxiv.org/pdf/1801.07478.pdf</a></p></li>
 <li><p>Kindr cheat sheet: <a class="reference external" href="https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf">https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf</a></p></li>
@@ -407,7 +416,7 @@ matrix or quaternion</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 26, 2021.<br/>
+      Last updated on Feb 06, 2021.<br/>
     </p>
   </div>
 </footer>

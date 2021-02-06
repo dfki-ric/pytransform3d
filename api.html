@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API Documentation &#8212; pytransform3d 1.6 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 1.7 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -112,7 +112,11 @@
 <li><a class="reference internal" href="#id4">Testing</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pytransform3d.trajectories"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code></a></li>
+<li><a class="reference internal" href="#module-pytransform3d.batch_rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code></a></li>
+<li><a class="reference internal" href="#module-pytransform3d.trajectories"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code></a><ul>
+<li><a class="reference internal" href="#id5">Deprecated Functions</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-pytransform3d.transform_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transform_manager</span></code></a></li>
 <li><a class="reference internal" href="#module-pytransform3d.editor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.editor</span></code></a></li>
 <li><a class="reference internal" href="#module-pytransform3d.urdf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code></a></li>
@@ -158,10 +162,25 @@
       
   <div class="section" id="api-documentation">
 <span id="api"></span><h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
-<p>You can search for specific modules, classes, or functions in the
+<p>This is the detailed documentation of all public classes and functions.
+You can also search for specific modules, classes, or functions in the
 <a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a>.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#module-pytransform3d.rotations" id="id6"><a class="reference internal" href="#module-pytransform3d.rotations" title="pytransform3d.rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.transformations" id="id7"><a class="reference internal" href="#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.batch_rotations" id="id8"><a class="reference internal" href="#module-pytransform3d.batch_rotations" title="pytransform3d.batch_rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.trajectories" id="id9"><a class="reference internal" href="#module-pytransform3d.trajectories" title="pytransform3d.trajectories"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.transform_manager" id="id10"><a class="reference internal" href="#module-pytransform3d.transform_manager" title="pytransform3d.transform_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transform_manager</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.editor" id="id11"><a class="reference internal" href="#module-pytransform3d.editor" title="pytransform3d.editor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.editor</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.urdf" id="id12"><a class="reference internal" href="#module-pytransform3d.urdf" title="pytransform3d.urdf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.camera" id="id13"><a class="reference internal" href="#module-pytransform3d.camera" title="pytransform3d.camera"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.plot_utils" id="id14"><a class="reference internal" href="#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pytransform3d.visualizer" id="id15"><a class="reference internal" href="#module-pytransform3d.visualizer" title="pytransform3d.visualizer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code></a></a></p></li>
+</ul>
+</div>
 <div class="section" id="module-pytransform3d.rotations">
-<span id="pytransform3d-rotations"></span><h2><a class="reference internal" href="#module-pytransform3d.rotations" title="pytransform3d.rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code></a><a class="headerlink" href="#module-pytransform3d.rotations" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-rotations"></span><h2><a class="toc-backref" href="#id6"><a class="reference internal" href="#module-pytransform3d.rotations" title="pytransform3d.rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code></a></a><a class="headerlink" href="#module-pytransform3d.rotations" title="Permalink to this headline">¶</a></h2>
 <p>Rotations in three dimensions - SO(3).</p>
 <p>See <a class="reference internal" href="rotations.html"><span class="doc">SO(3): 3D Rotations</span></a> for more information.</p>
 <div class="section" id="input-validation-functions">
@@ -447,7 +466,7 @@ that have been omitted here for the sake of brevity.</p>
 </div>
 </div>
 <div class="section" id="module-pytransform3d.transformations">
-<span id="pytransform3d-transformations"></span><h2><a class="reference internal" href="#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a><a class="headerlink" href="#module-pytransform3d.transformations" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-transformations"></span><h2><a class="toc-backref" href="#id7"><a class="reference internal" href="#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a></a><a class="headerlink" href="#module-pytransform3d.transformations" title="Permalink to this headline">¶</a></h2>
 <p>Transformations in three dimensions - SE(3).</p>
 <p>See <a class="reference internal" href="transformations.html"><span class="doc">SE(3): 3D Transformations</span></a> for more information.</p>
 <div class="section" id="id1">
@@ -463,6 +482,9 @@ that have been omitted here for the sake of brevity.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.random_screw_axis.html#pytransform3d.transformations.random_screw_axis" title="pytransform3d.transformations.random_screw_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_screw_axis</span></code></a>([random_state])</p></td>
 <td><p>Generate random screw axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.norm_exponential_coordinates.html#pytransform3d.transformations.norm_exponential_coordinates" title="pytransform3d.transformations.norm_exponential_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_exponential_coordinates</span></code></a>(Stheta)</p></td>
+<td><p>Normalize exponential coordinates of transformation.</p></td>
 </tr>
 </tbody>
 </table>
@@ -703,26 +725,100 @@ that have been omitted here for the sake of brevity.</p>
 </table>
 </div>
 </div>
-<div class="section" id="module-pytransform3d.trajectories">
-<span id="pytransform3d-trajectories"></span><h2><a class="reference internal" href="#module-pytransform3d.trajectories" title="pytransform3d.trajectories"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code></a><a class="headerlink" href="#module-pytransform3d.trajectories" title="Permalink to this headline">¶</a></h2>
-<p>Trajectories in three dimensions (position and orientation).</p>
+<div class="section" id="module-pytransform3d.batch_rotations">
+<span id="pytransform3d-batch-rotations"></span><h2><a class="toc-backref" href="#id8"><a class="reference internal" href="#module-pytransform3d.batch_rotations" title="pytransform3d.batch_rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code></a></a><a class="headerlink" href="#module-pytransform3d.batch_rotations" title="Permalink to this headline">¶</a></h2>
+<p>Batch operations on rotations in three dimensions - SO(3).</p>
+<p>Conversions from this module operate on batches of orientations or rotations
+and can be orders of magnitude faster than a loop of individual conversions.</p>
+<p>All functions operate on nd arrays, where the last dimension (vectors) or
+the last two dimensions (matrices) contain individual rotations.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.matrices_from_pos_quat.html#pytransform3d.trajectories.matrices_from_pos_quat" title="pytransform3d.trajectories.matrices_from_pos_quat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrices_from_pos_quat</span></code></a>(P)</p></td>
-<td><p>Get sequence of homogeneous matrices from positions and quaternions.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.norm_vectors.html#pytransform3d.batch_rotations.norm_vectors" title="pytransform3d.batch_rotations.norm_vectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_vectors</span></code></a>(V[, out])</p></td>
+<td><p>Normalize vectors.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory" title="pytransform3d.trajectories.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>([ax, P, show_direction, …])</p></td>
-<td><p>Plot pose trajectory.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.angles_between_vectors.html#pytransform3d.batch_rotations.angles_between_vectors" title="pytransform3d.batch_rotations.angles_between_vectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">angles_between_vectors</span></code></a>(A, B)</p></td>
+<td><p>Compute angle between two vectors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.active_matrices_from_angles.html#pytransform3d.batch_rotations.active_matrices_from_angles" title="pytransform3d.batch_rotations.active_matrices_from_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrices_from_angles</span></code></a>(basis, angles[, out])</p></td>
+<td><p>Compute active rotation matrices from rotation about basis vectors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles.html#pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles" title="pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrices_from_intrinsic_euler_angles</span></code></a>(…)</p></td>
+<td><p>Compute active rotation matrices from intrinsic Euler angles.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles.html#pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles" title="pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrices_from_extrinsic_euler_angles</span></code></a>(…)</p></td>
+<td><p>Compute active rotation matrices from extrinsic Euler angles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.matrices_from_compact_axis_angles.html#pytransform3d.batch_rotations.matrices_from_compact_axis_angles" title="pytransform3d.batch_rotations.matrices_from_compact_axis_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrices_from_compact_axis_angles</span></code></a>([A, axes, …])</p></td>
+<td><p>Compute rotation matrices from compact axis-angle representations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.axis_angles_from_matrices.html#pytransform3d.batch_rotations.axis_angles_from_matrices" title="pytransform3d.batch_rotations.axis_angles_from_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">axis_angles_from_matrices</span></code></a>(Rs[, traces, out])</p></td>
+<td><p>Compute compact axis-angle representations from rotation matrices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.cross_product_matrices.html#pytransform3d.batch_rotations.cross_product_matrices" title="pytransform3d.batch_rotations.cross_product_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_product_matrices</span></code></a>(V)</p></td>
+<td><p>Generate the cross-product matrices of vectors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.matrices_from_quaternions.html#pytransform3d.batch_rotations.matrices_from_quaternions" title="pytransform3d.batch_rotations.matrices_from_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrices_from_quaternions</span></code></a>(Q[, …])</p></td>
+<td><p>Compute rotation matrices from quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.quaternions_from_matrices.html#pytransform3d.batch_rotations.quaternions_from_matrices" title="pytransform3d.batch_rotations.quaternions_from_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternions_from_matrices</span></code></a>(Rs[, out])</p></td>
+<td><p>Compute quaternions from rotation matrices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.quaternion_slerp_batch.html#pytransform3d.batch_rotations.quaternion_slerp_batch" title="pytransform3d.batch_rotations.quaternion_slerp_batch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_slerp_batch</span></code></a>(start, end, t)</p></td>
+<td><p>Spherical linear interpolation for a batch of steps.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<div class="section" id="module-pytransform3d.trajectories">
+<span id="pytransform3d-trajectories"></span><h2><a class="toc-backref" href="#id9"><a class="reference internal" href="#module-pytransform3d.trajectories" title="pytransform3d.trajectories"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code></a></a><a class="headerlink" href="#module-pytransform3d.trajectories" title="Permalink to this headline">¶</a></h2>
+<p>Trajectories in three dimensions - SE(3).</p>
+<p>Conversions from this module operate on batches of poses or transformations
+and can be 400 to 1000 times faster than a loop of individual conversions.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs" title="pytransform3d.trajectories.transforms_from_pqs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_pqs</span></code></a>(P[, normalize_quaternions])</p></td>
+<td><p>Get sequence of homogeneous matrices from positions and quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.pqs_from_transforms.html#pytransform3d.trajectories.pqs_from_transforms" title="pytransform3d.trajectories.pqs_from_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pqs_from_transforms</span></code></a>(A2Bs)</p></td>
+<td><p>Get sequence of positions and quaternions from homogeneous matrices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.exponential_coordinates_from_transforms.html#pytransform3d.trajectories.exponential_coordinates_from_transforms" title="pytransform3d.trajectories.exponential_coordinates_from_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_coordinates_from_transforms</span></code></a>(A2Bs)</p></td>
+<td><p>Compute exponential coordinates from transformations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates" title="pytransform3d.trajectories.transforms_from_exponential_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_exponential_coordinates</span></code></a>(Sthetas)</p></td>
+<td><p>Compute transformations from exponential coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory" title="pytransform3d.trajectories.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>([ax, P, …])</p></td>
+<td><p>Plot pose trajectory.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id5">
+<h3>Deprecated Functions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.matrices_from_pos_quat.html#pytransform3d.trajectories.matrices_from_pos_quat" title="pytransform3d.trajectories.matrices_from_pos_quat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrices_from_pos_quat</span></code></a>(P[, …])</p></td>
+<td><p>Get sequence of homogeneous matrices from positions and quaternions.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="section" id="module-pytransform3d.transform_manager">
-<span id="pytransform3d-transform-manager"></span><h2><a class="reference internal" href="#module-pytransform3d.transform_manager" title="pytransform3d.transform_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transform_manager</span></code></a><a class="headerlink" href="#module-pytransform3d.transform_manager" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-transform-manager"></span><h2><a class="toc-backref" href="#id10"><a class="reference internal" href="#module-pytransform3d.transform_manager" title="pytransform3d.transform_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transform_manager</span></code></a></a><a class="headerlink" href="#module-pytransform3d.transform_manager" title="Permalink to this headline">¶</a></h2>
 <p>Manage complex chains of transformations.</p>
 <p>See <a class="reference internal" href="transform_manager.html"><span class="doc">Managing Transformations</span></a> for more information.</p>
 <table class="longtable docutils align-default">
@@ -738,7 +834,7 @@ that have been omitted here for the sake of brevity.</p>
 </table>
 </div>
 <div class="section" id="module-pytransform3d.editor">
-<span id="pytransform3d-editor"></span><h2><a class="reference internal" href="#module-pytransform3d.editor" title="pytransform3d.editor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.editor</span></code></a><a class="headerlink" href="#module-pytransform3d.editor" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-editor"></span><h2><a class="toc-backref" href="#id11"><a class="reference internal" href="#module-pytransform3d.editor" title="pytransform3d.editor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.editor</span></code></a></a><a class="headerlink" href="#module-pytransform3d.editor" title="Permalink to this headline">¶</a></h2>
 <p>Modify transformations visually.</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -753,7 +849,7 @@ that have been omitted here for the sake of brevity.</p>
 </table>
 </div>
 <div class="section" id="module-pytransform3d.urdf">
-<span id="pytransform3d-urdf"></span><h2><a class="reference internal" href="#module-pytransform3d.urdf" title="pytransform3d.urdf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code></a><a class="headerlink" href="#module-pytransform3d.urdf" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-urdf"></span><h2><a class="toc-backref" href="#id12"><a class="reference internal" href="#module-pytransform3d.urdf" title="pytransform3d.urdf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code></a></a><a class="headerlink" href="#module-pytransform3d.urdf" title="Permalink to this headline">¶</a></h2>
 <p>Load transformations from URDF files.</p>
 <p>See <a class="reference internal" href="transform_manager.html"><span class="doc">Managing Transformations</span></a> for more information.</p>
 <table class="longtable docutils align-default">
@@ -769,7 +865,7 @@ that have been omitted here for the sake of brevity.</p>
 </table>
 </div>
 <div class="section" id="module-pytransform3d.camera">
-<span id="pytransform3d-camera"></span><h2><a class="reference internal" href="#module-pytransform3d.camera" title="pytransform3d.camera"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code></a><a class="headerlink" href="#module-pytransform3d.camera" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-camera"></span><h2><a class="toc-backref" href="#id13"><a class="reference internal" href="#module-pytransform3d.camera" title="pytransform3d.camera"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code></a></a><a class="headerlink" href="#module-pytransform3d.camera" title="Permalink to this headline">¶</a></h2>
 <p>Transformations related to cameras.</p>
 <p>See <a class="reference internal" href="camera.html"><span class="doc">Camera</span></a> for more information.</p>
 <table class="longtable docutils align-default">
@@ -797,7 +893,7 @@ that have been omitted here for the sake of brevity.</p>
 </table>
 </div>
 <div class="section" id="module-pytransform3d.plot_utils">
-<span id="pytransform3d-plot-utils"></span><h2><a class="reference internal" href="#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a><a class="headerlink" href="#module-pytransform3d.plot_utils" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-plot-utils"></span><h2><a class="toc-backref" href="#id14"><a class="reference internal" href="#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a></a><a class="headerlink" href="#module-pytransform3d.plot_utils" title="Permalink to this headline">¶</a></h2>
 <p>Utilities for plotting.</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -853,7 +949,7 @@ that have been omitted here for the sake of brevity.</p>
 </table>
 </div>
 <div class="section" id="module-pytransform3d.visualizer">
-<span id="pytransform3d-visualizer"></span><h2><a class="reference internal" href="#module-pytransform3d.visualizer" title="pytransform3d.visualizer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code></a><a class="headerlink" href="#module-pytransform3d.visualizer" title="Permalink to this headline">¶</a></h2>
+<span id="pytransform3d-visualizer"></span><h2><a class="toc-backref" href="#id15"><a class="reference internal" href="#module-pytransform3d.visualizer" title="pytransform3d.visualizer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code></a></a><a class="headerlink" href="#module-pytransform3d.visualizer" title="Permalink to this headline">¶</a></h2>
 <p>Optional 3D renderer based on Open3D’s visualizer.</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -920,7 +1016,7 @@ that have been omitted here for the sake of brevity.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 26, 2021.<br/>
+      Last updated on Feb 06, 2021.<br/>
     </p>
   </div>
 </footer>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Animated Robot &#8212; pytransform3d 1.6 documentation</title>
+    <title>Animated Robot &#8212; pytransform3d 1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -134,7 +134,7 @@
 
 
 <span class="k">def</span> <span class="nf">animation_callback</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">):</span>
-    <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.cos.html#numpy.cos" title="numpy.cos" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">))</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">))</span>
     <span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">:</span>
         <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint" title="pytransform3d.urdf.UrdfTransformManager.set_joint" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
     <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.set_data" title="pytransform3d.visualizer.Graph.set_data" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">graph</span><span class="o">.</span><span class="n">set_data</span></a><span class="p">()</span>
@@ -172,7 +172,7 @@
     <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">save_image</span></a><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.191 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.210 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-moving-robot-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/f53689eb52e7298e06e3804403ee8e45/vis_moving_robot.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_moving_robot.py</span></code></a></p>
@@ -197,7 +197,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 26, 2021.<br/>
+      Last updated on Feb 06, 2021.<br/>
     </p>
   </div>
 </footer>

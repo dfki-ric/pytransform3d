@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.6 documentation</title>
+    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.7 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -130,7 +130,18 @@
 (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
-in different ways. For most representations of orientations we can find
+in different ways.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#transformation-matrix" id="id1">Transformation Matrix</a></p></li>
+<li><p><a class="reference internal" href="#position-and-quaternion" id="id2">Position and Quaternion</a></p></li>
+<li><p><a class="reference internal" href="#exponential-coordinates" id="id3">Exponential Coordinates</a></p></li>
+<li><p><a class="reference internal" href="#logarithm-of-transformation" id="id4">Logarithm of Transformation</a></p></li>
+<li><p><a class="reference internal" href="#twist" id="id5">Twist</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id6">References</a></p></li>
+</ul>
+</div>
+<p>For most representations of orientations we can find
 an analogous representation of transformations:</p>
 <ul class="simple">
 <li><p>A <strong>transformation matrix</strong> <img class="math" src="_images/math/65d78a49d93488a5fe84f65679785b9847ad8ea0.png" alt="\boldsymbol T"/> is similar to a rotation
@@ -143,8 +154,8 @@ a cross-product matrix of a unit rotation axis
 <li><p>The <strong>logarithm of a transformation</strong> <img class="math" src="_images/math/f131ca536fd877d7d4b581adefa7866b29f8264a.png" alt="\left[\mathcal{S}\right] \theta"/>
 is similar to a cross-product matrix of the angle-axis representation
 <img class="math" src="_images/math/df885cda063aa71320c69bb2645e3d4f76c950c4.png" alt="\left[\hat{\boldsymbol{\omega}}\right] \theta"/>.</p></li>
-<li><p>Exponential coordinates <img class="math" src="_images/math/b0fc8148a38892fd6769ae863cbaf7d049296a97.png" alt="\mathcal{S} \theta"/> for rigid body motions
-are similar to exponential coordinates
+<li><p>The <strong>exponential coordinates</strong> <img class="math" src="_images/math/b0fc8148a38892fd6769ae863cbaf7d049296a97.png" alt="\mathcal{S} \theta"/> for rigid body
+motions are similar to exponential coordinates
 <img class="math" src="_images/math/a6ad2947566b056c289bcb03a106d6f4e03ad208.png" alt="\hat{\boldsymbol{\omega}} \theta"/> for rotations (axis-angle
 representation).</p></li>
 <li><p>A <strong>twist</strong> <img class="math" src="_images/math/f16b5e3f358fa1b26b006ca1141c21379a1d583c.png" alt="\mathcal V = \mathcal{S} \dot{\theta}"/> is similar to
@@ -153,7 +164,7 @@ angular velocity <img class="math" src="_images/math/c43c330a71600e506e90a2c5ebc
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
 <img alt="Transformations" class="align-center" src="_images/transformations.svg" /><div class="section" id="transformation-matrix">
-<h2>Transformation Matrix<a class="headerlink" href="#transformation-matrix" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1">Transformation Matrix</a><a class="headerlink" href="#transformation-matrix" title="Permalink to this headline">¶</a></h2>
 <p>One of the most convenient ways to represent transformations are
 transformation matrices. A transformation matrix is a 4x4 matrix of
 the form</p>
@@ -199,7 +210,7 @@ result:</p>
 \end{array} \right)"/></p>
 </div></div>
 <div class="section" id="position-and-quaternion">
-<h2>Position and Quaternion<a class="headerlink" href="#position-and-quaternion" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2">Position and Quaternion</a><a class="headerlink" href="#position-and-quaternion" title="Permalink to this headline">¶</a></h2>
 <p>An alternative to transformation matrices is the representation in a
 7-dimensional vector that consists of the translation and a rotation
 quaternion:</p>
@@ -214,7 +225,7 @@ a 2D array.</p>
 quaternion and typically we use the variable name pq.</p>
 </div>
 <div class="section" id="exponential-coordinates">
-<h2>Exponential Coordinates<a class="headerlink" href="#exponential-coordinates" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Exponential Coordinates</a><a class="headerlink" href="#exponential-coordinates" title="Permalink to this headline">¶</a></h2>
 <p>(<a class="reference external" href="./../../examples/plots/plot_screw.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_screw.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_screw.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_screw.pdf">pdf</a>)</p>
 <div class="figure align-default">
 <img alt="_images/plot_screw.png" src="_images/plot_screw.png" />
@@ -253,7 +264,7 @@ This is a minimal representation as it only needs 6 values.</p>
 coordinates of transformation and typically we use the variable name Stheta.</p>
 </div>
 <div class="section" id="logarithm-of-transformation">
-<h2>Logarithm of Transformation<a class="headerlink" href="#logarithm-of-transformation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Logarithm of Transformation</a><a class="headerlink" href="#logarithm-of-transformation" title="Permalink to this headline">¶</a></h2>
 <p>Alternatively, we can represent a screw axis <img class="math" src="_images/math/a963cd5439e5cc46202152a776b3120cde7c21a8.png" alt="\mathcal S"/> in a matrix</p>
 <div class="math">
 <p><img src="_images/math/9ed263e5bd353ad700157286c1f96fd8af1d3598.png" alt="\left[\mathcal S\right]
@@ -286,7 +297,7 @@ algebra of Lie group <img class="math" src="_images/math/5a44cb9fa5269d4e3bc13d6
 of a transformation and typically we use the variable name <cite>transform_log</cite>.</p>
 </div>
 <div class="section" id="twist">
-<h2>Twist<a class="headerlink" href="#twist" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">Twist</a><a class="headerlink" href="#twist" title="Permalink to this headline">¶</a></h2>
 <p>We call spatial velocity (translation and rotation) <strong>twist</strong>. Similarly
 to the matrix logarithm, a twist <img class="math" src="_images/math/4816c2d12935420656a91d4af4b7064bab3a7d57.png" alt="\mathcal{V} = \mathcal{S} \dot{\theta}"/>
 is described by a screw axis <img class="math" src="_images/math/b988975be41fd13b4d091c10202ba19374643586.png" alt="S"/> and a scalar <img class="math" src="_images/math/156be057a637fe3140b40c304b4c9a44631b057b.png" alt="\dot{\theta}"/>
@@ -294,7 +305,7 @@ and <img class="math" src="_images/math/f87d4f393d61af90cf1449502258e60a1dd057e6
 is the matrix representation of a twist.</p>
 </div>
 <div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p>Lynch, Park: Modern Robotics (Section 3.3); available at
 <a class="reference external" href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">http://hades.mech.northwestern.edu/index.php/Modern_Robotics</a></p>
 </div>
@@ -313,7 +324,7 @@ is the matrix representation of a twist.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 26, 2021.<br/>
+      Last updated on Feb 06, 2021.<br/>
     </p>
   </div>
 </footer>

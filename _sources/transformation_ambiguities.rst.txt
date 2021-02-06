@@ -7,6 +7,9 @@ Transformation Ambiguities
 There are lots of ambiguities in the world of transformations. We try to
 explain them all here.
 
+.. contents:: :local:
+    :depth: 1
+
 ----------------------------------------------
 Right-handed vs. Left-handed Coordinate System
 ----------------------------------------------

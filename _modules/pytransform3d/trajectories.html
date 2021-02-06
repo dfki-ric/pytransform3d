@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.trajectories &#8212; pytransform3d 1.6 documentation</title>
+    <title>pytransform3d.trajectories &#8212; pytransform3d 1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
@@ -38,7 +38,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -112,37 +112,260 @@
     <div class="body col-md-12 content" role="main">
       
   <h1>Source code for pytransform3d.trajectories</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Trajectories in three dimensions (position and orientation).&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Trajectories in three dimensions - SE(3).</span>
+
+<span class="sd">Conversions from this module operate on batches of poses or transformations</span>
+<span class="sd">and can be 400 to 1000 times faster than a loop of individual conversions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">Trajectory</span><span class="p">,</span> <span class="n">make_3d_axis</span>
-<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="n">matrix_from_quaternion</span>
+<span class="kn">from</span> <span class="nn">.batch_rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">matrices_from_quaternions</span><span class="p">,</span>
+                              <span class="n">quaternions_from_matrices</span><span class="p">,</span>
+                              <span class="n">matrices_from_compact_axis_angles</span><span class="p">,</span>
+                              <span class="n">axis_angles_from_matrices</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform_from_exponential_coordinates</span>
 
 
-<div class="viewcode-block" id="matrices_from_pos_quat"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.matrices_from_pos_quat.html#pytransform3d.trajectories.matrices_from_pos_quat">[docs]</a><span class="k">def</span> <span class="nf">matrices_from_pos_quat</span><span class="p">(</span><span class="n">P</span><span class="p">):</span>
+<div class="viewcode-block" id="transforms_from_pqs"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs">[docs]</a><span class="k">def</span> <span class="nf">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get sequence of homogeneous matrices from positions and quaternions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    P : array-like, shape (n_steps, 7)</span>
-<span class="sd">        Sequence of poses represented by positions and quaternions in the</span>
-<span class="sd">        order (x, y, z, w, vx, vy, vz) for each step</span>
+<span class="sd">    P : array-like, shape (..., 7)</span>
+<span class="sd">        Poses represented by positions and quaternions in the</span>
+<span class="sd">        order (x, y, z, qw, qx, qy, qz)</span>
+
+<span class="sd">    normalize_quaternions : bool, optional (default: True)</span>
+<span class="sd">        Normalize quaternions before conversion</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    H : array-like, shape (n_steps, 4, 4)</span>
-<span class="sd">        Sequence of poses represented by homogeneous matrices</span>
+<span class="sd">    A2Bs : array, shape (..., 4, 4)</span>
+<span class="sd">        Poses represented by homogeneous matrices</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_steps</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-    <span class="n">H</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">H</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">H</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
-        <span class="n">H</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_from_quaternion</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="mi">3</span><span class="p">:])</span>
-    <span class="k">return</span> <span class="n">H</span></div>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">instances_shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">matrices_from_quaternions</span><span class="p">(</span>
+        <span class="n">P</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:],</span> <span class="n">normalize_quaternions</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">A2Bs</span></div>
 
 
-<div class="viewcode-block" id="plot_trajectory"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">[docs]</a><span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="c1"># DEPRECATED: for backwards compatibility only!</span>
+<span class="n">matrices_from_pos_quat</span> <span class="o">=</span> <span class="n">transforms_from_pqs</span>
+
+
+<div class="viewcode-block" id="pqs_from_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.pqs_from_transforms.html#pytransform3d.trajectories.pqs_from_transforms">[docs]</a><span class="k">def</span> <span class="nf">pqs_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get sequence of positions and quaternions from homogeneous matrices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2Bs : array-like, shape (..., 4, 4)</span>
+<span class="sd">        Poses represented by homogeneous matrices</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P : array, shape (n_steps, 7)</span>
+<span class="sd">        Poses represented by positions and quaternions in the</span>
+<span class="sd">        order (x, y, z, qw, qx, qy, qz) for each step</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">instances_shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">7</span><span class="p">,))</span>
+    <span class="n">P</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">quaternions_from_matrices</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">out</span><span class="o">=</span><span class="n">P</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">P</span></div>
+
+
+<div class="viewcode-block" id="exponential_coordinates_from_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.exponential_coordinates_from_transforms.html#pytransform3d.trajectories.exponential_coordinates_from_transforms">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute exponential coordinates from transformations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2Bs : array-like, shape (..., 4, 4)</span>
+<span class="sd">        Poses represented by homogeneous matrices</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Sthetas : array, shape (..., 6)</span>
+<span class="sd">        Exponential coordinates of transformation:</span>
+<span class="sd">        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,</span>
+<span class="sd">        where S is the screw axis, the first 3 components are related to</span>
+<span class="sd">        rotation and the last 3 components are related to translation.</span>
+<span class="sd">        Theta is the rotation angle and h * theta the translation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">)</span>
+
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">Rs</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">traces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;nii&quot;</span><span class="p">,</span> <span class="n">Rs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">instances_shape</span><span class="p">:</span>
+        <span class="n">traces</span> <span class="o">=</span> <span class="n">traces</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">instances_shape</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># this works because indX will be a single boolean and</span>
+        <span class="c1"># out[True, n] = value will assign value to out[n], while</span>
+        <span class="c1"># out[False, n] = value will not assign value to out[n]</span>
+        <span class="n">traces</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">Sthetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">instances_shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">6</span><span class="p">,))</span>
+
+    <span class="n">omega_thetas</span> <span class="o">=</span> <span class="n">axis_angles_from_matrices</span><span class="p">(</span><span class="n">Rs</span><span class="p">,</span> <span class="n">traces</span><span class="o">=</span><span class="n">traces</span><span class="p">)</span>
+    <span class="n">Sthetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">omega_thetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">thetas</span> <span class="o">=</span> <span class="n">omega_thetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+    <span class="c1"># from sympy import *</span>
+    <span class="c1"># omega0, omega1, omega2, px, py, pz, theta = symbols(&quot;o0 o1 o2 p0 p1 p2 theta&quot;)</span>
+    <span class="c1"># w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])</span>
+    <span class="c1"># p = Matrix([[px], [py], [pz]])</span>
+    <span class="c1"># v = (eye(3) / theta - 0.5 * w + (1.0 / theta - 0.5 / tan(theta / 2.0)) * w * w) * p</span>
+
+    <span class="c1"># Result:</span>
+    <span class="c1"># p0*(-o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)</span>
+    <span class="c1">#     + p1*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o2)</span>
+    <span class="c1">#     + p2*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o1)</span>
+    <span class="c1"># p0*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o2)</span>
+    <span class="c1">#     + p1*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)</span>
+    <span class="c1">#     + p2*(0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))</span>
+    <span class="c1"># p0*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o1)</span>
+    <span class="c1">#     + p1*(-0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))</span>
+    <span class="c1">#     + p2*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)</span>
+
+    <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">thetas</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span><span class="p">)</span>
+    <span class="n">ti</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">thetas</span>
+    <span class="n">tan_term</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">thetas</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">ti</span>
+    <span class="n">o0</span> <span class="o">=</span> <span class="n">omega_thetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">o1</span> <span class="o">=</span> <span class="n">omega_thetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">o2</span> <span class="o">=</span> <span class="n">omega_thetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="n">ps</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">ps</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">ps</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">o00</span> <span class="o">=</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">o0</span>
+    <span class="n">o01</span> <span class="o">=</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">o1</span>
+    <span class="n">o02</span> <span class="o">=</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">o2</span>
+    <span class="n">o11</span> <span class="o">=</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">o1</span>
+    <span class="n">o12</span> <span class="o">=</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">o2</span>
+    <span class="n">o22</span> <span class="o">=</span> <span class="n">o2</span> <span class="o">*</span> <span class="n">o2</span>
+    <span class="n">Sthetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">p0</span> <span class="o">*</span> <span class="p">((</span><span class="o">-</span><span class="n">o11</span> <span class="o">-</span> <span class="n">o22</span><span class="p">)</span> <span class="o">*</span> <span class="n">tan_term</span> <span class="o">+</span> <span class="n">ti</span><span class="p">)</span>
+                       <span class="o">+</span> <span class="n">p1</span> <span class="o">*</span> <span class="p">(</span><span class="n">o01</span> <span class="o">*</span> <span class="n">tan_term</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">o2</span><span class="p">)</span>
+                       <span class="o">+</span> <span class="n">p2</span> <span class="o">*</span> <span class="p">(</span><span class="n">o02</span> <span class="o">*</span> <span class="n">tan_term</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">o1</span><span class="p">)</span>
+                       <span class="p">)</span>
+    <span class="n">Sthetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">p0</span> <span class="o">*</span> <span class="p">(</span><span class="n">o01</span> <span class="o">*</span> <span class="n">tan_term</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">o2</span><span class="p">)</span>
+                       <span class="o">+</span> <span class="n">p1</span> <span class="o">*</span> <span class="p">((</span><span class="o">-</span><span class="n">o00</span> <span class="o">-</span> <span class="n">o22</span><span class="p">)</span> <span class="o">*</span> <span class="n">tan_term</span> <span class="o">+</span> <span class="n">ti</span><span class="p">)</span>
+                       <span class="o">+</span> <span class="n">p2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">o0</span> <span class="o">+</span> <span class="n">o12</span> <span class="o">*</span> <span class="n">tan_term</span><span class="p">)</span>
+                       <span class="p">)</span>
+    <span class="n">Sthetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">p0</span> <span class="o">*</span> <span class="p">(</span><span class="n">o02</span> <span class="o">*</span> <span class="n">tan_term</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">o1</span><span class="p">)</span>
+                       <span class="o">+</span> <span class="n">p1</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">o0</span> <span class="o">+</span> <span class="n">o12</span> <span class="o">*</span> <span class="n">tan_term</span><span class="p">)</span>
+                       <span class="o">+</span> <span class="n">p2</span> <span class="o">*</span> <span class="p">((</span><span class="o">-</span><span class="n">o00</span> <span class="o">-</span> <span class="n">o11</span><span class="p">)</span> <span class="o">*</span> <span class="n">tan_term</span> <span class="o">+</span> <span class="n">ti</span><span class="p">)</span>
+                       <span class="p">)</span>
+
+    <span class="n">Sthetas</span> <span class="o">*=</span> <span class="n">thetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+    <span class="n">ind_only_translation</span> <span class="o">=</span> <span class="n">traces</span> <span class="o">&gt;=</span> <span class="mf">3.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    <span class="n">Sthetas</span><span class="p">[</span><span class="n">ind_only_translation</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">Sthetas</span><span class="p">[</span><span class="n">ind_only_translation</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="n">ps</span><span class="p">[</span><span class="n">ind_only_translation</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">Sthetas</span></div>
+
+
+<div class="viewcode-block" id="transforms_from_exponential_coordinates"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">transforms_from_exponential_coordinates</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute transformations from exponential coordinates.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Sthetas : array-like, shape (..., 6)</span>
+<span class="sd">        Exponential coordinates of transformation:</span>
+<span class="sd">        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,</span>
+<span class="sd">        where S is the screw axis, the first 3 components are related to</span>
+<span class="sd">        rotation and the last 3 components are related to translation.</span>
+<span class="sd">        Theta is the rotation angle and h * theta the translation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A2Bs : array, shape (..., 4, 4)</span>
+<span class="sd">        Poses represented by homogeneous matrices</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Sthetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Sthetas</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">)</span>
+
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">Sthetas</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">instances_shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">ind_only_translation</span> <span class="o">=</span> <span class="n">t</span> <span class="o">==</span> <span class="mf">0.0</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">ind_only_translation</span><span class="p">):</span>
+        <span class="n">t</span><span class="p">[</span><span class="n">ind_only_translation</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">screw_axes</span> <span class="o">=</span> <span class="n">Sthetas</span> <span class="o">/</span> <span class="n">t</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+        <span class="n">matrices_from_compact_axis_angles</span><span class="p">(</span>
+            <span class="n">axes</span><span class="o">=</span><span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">angles</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="c1"># from sympy import *</span>
+        <span class="c1"># omega0, omega1, omega2, vx, vy, vz, theta = symbols(&quot;omega_0 omega_1 omega_2 v_x v_y v_z theta&quot;)</span>
+        <span class="c1"># w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])</span>
+        <span class="c1"># v = Matrix([[vx], [vy], [vz]])</span>
+        <span class="c1"># p = (eye(3) * theta + (1 - cos(theta)) * w + (theta - sin(theta)) * w * w) * v</span>
+        <span class="c1">#</span>
+        <span class="c1"># Result:</span>
+        <span class="c1"># -v_x*(omega_1**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)</span>
+        <span class="c1">#     + v_y*(omega_0*omega_1*(theta - sin(theta)) + omega_2*(cos(theta) - 1))</span>
+        <span class="c1">#     + v_z*(omega_0*omega_2*(theta - sin(theta)) - omega_1*(cos(theta) - 1))</span>
+        <span class="c1"># v_x*(omega_0*omega_1*(theta - sin(theta)) - omega_2*(cos(theta) - 1))</span>
+        <span class="c1">#     - v_y*(omega_0**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)</span>
+        <span class="c1">#     + v_z*(omega_0*(cos(theta) - 1) + omega_1*omega_2*(theta - sin(theta)))</span>
+        <span class="c1"># v_x*(omega_0*omega_2*(theta - sin(theta)) + omega_1*(cos(theta) - 1))</span>
+        <span class="c1">#     - v_y*(omega_0*(cos(theta) - 1) - omega_1*omega_2*(theta - sin(theta)))</span>
+        <span class="c1">#     - v_z*(omega_0**2*(theta - sin(theta)) + omega_1**2*(theta - sin(theta)) - theta)</span>
+
+        <span class="n">tms</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">cm1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="n">o0</span> <span class="o">=</span> <span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">o1</span> <span class="o">=</span> <span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">o2</span> <span class="o">=</span> <span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">v0</span> <span class="o">=</span> <span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+        <span class="n">o01tms</span> <span class="o">=</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">tms</span>
+        <span class="n">o12tms</span> <span class="o">=</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">o2</span> <span class="o">*</span> <span class="n">tms</span>
+        <span class="n">o02tms</span> <span class="o">=</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">o2</span> <span class="o">*</span> <span class="n">tms</span>
+        <span class="n">o0cm1</span> <span class="o">=</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">cm1</span>
+        <span class="n">o1cm1</span> <span class="o">=</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">cm1</span>
+        <span class="n">o2cm1</span> <span class="o">=</span> <span class="n">o2</span> <span class="o">*</span> <span class="n">cm1</span>
+        <span class="n">o00tms</span> <span class="o">=</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">o0</span> <span class="o">*</span> <span class="n">tms</span>
+        <span class="n">o11tms</span> <span class="o">=</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">tms</span>
+        <span class="n">o22tms</span> <span class="o">=</span> <span class="n">o2</span> <span class="o">*</span> <span class="n">o2</span> <span class="o">*</span> <span class="n">tms</span>
+        <span class="n">v0</span> <span class="o">=</span> <span class="n">v0</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">instances_shape</span><span class="p">)</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">instances_shape</span><span class="p">)</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">v2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">instances_shape</span><span class="p">)</span>
+        <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">o11tms</span> <span class="o">+</span> <span class="n">o22tms</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+                           <span class="o">+</span> <span class="n">v1</span> <span class="o">*</span> <span class="p">(</span><span class="n">o01tms</span> <span class="o">+</span> <span class="n">o2cm1</span><span class="p">)</span>
+                           <span class="o">+</span> <span class="n">v2</span> <span class="o">*</span> <span class="p">(</span><span class="n">o02tms</span> <span class="o">-</span> <span class="n">o1cm1</span><span class="p">))</span>
+        <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">o01tms</span> <span class="o">-</span> <span class="n">o2cm1</span><span class="p">)</span>
+                           <span class="o">-</span> <span class="n">v1</span> <span class="o">*</span> <span class="p">(</span><span class="n">o00tms</span> <span class="o">+</span> <span class="n">o22tms</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+                           <span class="o">+</span> <span class="n">v2</span> <span class="o">*</span> <span class="p">(</span><span class="n">o0cm1</span> <span class="o">+</span> <span class="n">o12tms</span><span class="p">))</span>
+        <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">o02tms</span> <span class="o">+</span> <span class="n">o1cm1</span><span class="p">)</span>
+                           <span class="o">-</span> <span class="n">v1</span> <span class="o">*</span> <span class="p">(</span><span class="n">o0cm1</span> <span class="o">-</span> <span class="n">o12tms</span><span class="p">)</span>
+                           <span class="o">-</span> <span class="n">v2</span> <span class="o">*</span> <span class="p">(</span><span class="n">o00tms</span> <span class="o">+</span> <span class="n">o11tms</span> <span class="o">-</span> <span class="n">t</span><span class="p">))</span>
+
+    <span class="n">A2Bs</span><span class="p">[</span><span class="n">ind_only_translation</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="n">ind_only_translation</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sthetas</span><span class="p">[</span><span class="n">ind_only_translation</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span>
+
+    <span class="k">return</span> <span class="n">A2Bs</span></div>
+
+
+<div class="viewcode-block" id="plot_trajectory"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">[docs]</a><span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot pose trajectory.</span>
 
 <span class="sd">    Parameters</span>
@@ -153,6 +376,9 @@
 <span class="sd">    P : array-like, shape (n_steps, 7), optional (default: None)</span>
 <span class="sd">        Sequence of poses represented by positions and quaternions in the</span>
 <span class="sd">        order (x, y, z, w, vx, vy, vz) for each step</span>
+
+<span class="sd">    normalize_quaternions : bool, optional (default: True)</span>
+<span class="sd">        Normalize quaternions before plotting</span>
 
 <span class="sd">    show_direction : bool, optional (default: True)</span>
 <span class="sd">        Plot an arrow to indicate the direction of the trajectory</span>
@@ -180,8 +406,8 @@
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
-    <span class="n">H</span> <span class="o">=</span> <span class="n">matrices_from_pos_quat</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
-    <span class="n">trajectory</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">show_direction</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="p">)</span>
+    <span class="n">trajectory</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">,</span> <span class="n">show_direction</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">trajectory</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ax</span></div>
@@ -199,7 +425,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 26, 2021.<br/>
+      Last updated on Feb 06, 2021.<br/>
     </p>
   </div>
 </footer>
