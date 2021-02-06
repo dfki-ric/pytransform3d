@@ -8,7 +8,7 @@ import numpy as np
 from pytransform3d.urdf import UrdfTransformManager, UrdfException
 from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_raises, assert_equal, assert_true
+from nose.tools import assert_raises, assert_equal, assert_true, assert_in
 from nose import SkipTest
 
 
@@ -422,7 +422,7 @@ def test_visual():
     expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 1, 0]))
     assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
 
-    link1_to_link0 = tm.get_transform("link1_visual", "link0")
+    link1_to_link0 = tm.get_transform("visual:link1/link1_visual", "link0")
     expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 1, 1]))
     assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
 
@@ -451,9 +451,41 @@ def test_collision():
     expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 0, 1]))
     assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
 
-    link1_to_link0 = tm.get_transform("link1/collision_0", "link0")
+    link1_to_link0 = tm.get_transform("collision:link1/0", "link0")
     expected_link1_to_link0 = transform_from(np.eye(3), np.array([0, 0, 2]))
     assert_array_almost_equal(link1_to_link0, expected_link1_to_link0)
+
+
+def test_unique_frame_names():
+    urdf = """
+    <robot name="robot_name">
+    <link name="link0"/>
+    <link name="link1">
+        <collision name="link1_geometry">
+            <origin xyz="0 0 1"/>
+            <geometry/>
+        </collision>
+        <visual name="link1_geometry">
+            <origin xyz="0 0 1"/>
+            <geometry/>
+        </visual>
+    </link>
+    <joint name="joint0" type="fixed">
+        <parent link="link0"/>
+        <child link="link1"/>
+        <origin xyz="0 0 1"/>
+    </joint>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    assert_in("robot_name", tm.nodes)
+    assert_in("link0", tm.nodes)
+    assert_in("link1", tm.nodes)
+    assert_in("visual:link1/link1_geometry", tm.nodes)
+    assert_in("collision:link1/link1_geometry", tm.nodes)
+    assert_equal(len(tm.nodes), 5)
 
 
 def test_collision_box():
