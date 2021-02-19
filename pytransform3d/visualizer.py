@@ -74,6 +74,16 @@ try:
                 Open3D geometry.
             """
             self.visualizer.add_geometry(geometry)
+            
+        def remove_geometry(self, geometry):
+            """Remove geometry to visualizer.
+
+            Parameters
+            ----------
+            geometry : Geometry
+                Open3D geometry.
+            """
+            self.visualizer.remove_geometry(geometry)
 
         def update_geometry(self, geometry):
             """Indicate that geometry has been updated.
@@ -481,6 +491,17 @@ try:
             """
             for g in self.geometries:
                 figure.add_geometry(g)
+                
+        def remove_artist(self, figure):
+            """Add artist to figure.
+
+            Parameters
+            ----------
+            figure : Figure
+                Figure to which the artist will be added.
+            """
+            for g in self.geometries:
+                figure.remove_geometry(g)
 
         @property
         def geometries(self):
@@ -726,6 +747,7 @@ try:
                 List of geometries that can be added to the visualizer.
             """
             return [self.sphere]
+            
 
 
     class Box(Artist):
