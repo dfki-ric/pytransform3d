@@ -5,6 +5,7 @@ try:
     import matplotlib.pyplot as plt
     from matplotlib import artist
     from matplotlib.patches import FancyArrowPatch
+    from matplotlib.ticker import MaxNLocator
     from mpl_toolkits.mplot3d import proj3d
     from mpl_toolkits.mplot3d.art3d import Line3D, Text3D, Poly3DCollection, Line3DCollection
     from .transformations import transform
@@ -279,7 +280,7 @@ try:
             super(Arrow3D, self).draw(renderer)
 
 
-    def make_3d_axis(ax_s, pos=111):
+    def make_3d_axis(ax_s, pos=111, unit=None, n_ticks=5):
         """Generate new 3D axis.
 
         Parameters
@@ -289,6 +290,14 @@ try:
 
         pos : int, optional (default: 111)
             Position indicator (nrows, ncols, plot_number)
+
+        unit : str, optional (default: None)
+            Unit of axes. For example, 'm', 'cm', 'km', ...
+            The unit will be shown in the axis label, for example,
+            as 'X [m]'.
+
+        n_ticks : int, optional (default: 5)
+            Number of ticks on each axis
 
         Returns
         -------
@@ -301,8 +310,27 @@ try:
             # HACK: workaround for bug in new matplotlib versions (ca. 3.02):
             # "It is not currently possible to manually set the aspect"
             ax = plt.subplot(pos, projection="3d")
+
+        if unit is None:
+            xlabel = "X"
+            ylabel = "Y"
+            zlabel = "Z"
+        else:
+            xlabel = "X [%s]" % unit
+            ylabel = "Y [%s]" % unit
+            zlabel = "Z [%s]" % unit
+
         plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
-                 xlabel="X", ylabel="Y", zlabel="Z")
+                 xlabel=xlabel, ylabel=ylabel, zlabel=zlabel)
+
+        ax.xaxis.set_major_locator(MaxNLocator(n_ticks))
+        ax.yaxis.set_major_locator(MaxNLocator(n_ticks))
+        ax.zaxis.set_major_locator(MaxNLocator(n_ticks))
+
+        ax.w_xaxis.pane.set_color("white")
+        ax.w_yaxis.pane.set_color("white")
+        ax.w_zaxis.pane.set_color("white")
+
         return ax
 
 
