@@ -90,7 +90,7 @@ right-handed system and with the left hand in a left-handed system.
 Active (Alibi) vs. Passive (Alias) Transformation
 -------------------------------------------------
 
-.. image:: _static/active_passive.svg
+.. image:: _static/active_passive.png
    :alt: Passive vs. active transformation
    :align: center
 

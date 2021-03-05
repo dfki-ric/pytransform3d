@@ -34,7 +34,7 @@ an analogous representation of transformations:
 Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.
 
-.. image:: _static/transformations.svg
+.. image:: _static/transformations.png
    :alt: Transformations
    :align: center
 
@@ -134,7 +134,7 @@ along the screw axis and rotates about it.
 pytransform3d uses two vectors q and `s_axis` of shape (3,) and a scalar
 h to represent the parameters of a screw.
 
-.. image:: _static/screw_axis.svg
+.. image:: _static/screw_axis.png
    :alt: Screw axis
    :width: 80%
    :align: center
