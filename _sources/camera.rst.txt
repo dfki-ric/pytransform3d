@@ -11,7 +11,7 @@ However, we have to know some parameters of the camera:
 * sensor width and height
 * image width and height
 
-.. image:: _static/camera.svg
+.. image:: _static/camera.png
    :alt: Camera
    :align: center
 

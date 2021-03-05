@@ -4,12 +4,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils.Trajectory &#8212; pytransform3d 1.7 documentation</title>
+    <title>pytransform3d.plot_utils.Trajectory &#8212; pytransform3d 1.7.1 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -40,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -123,8 +124,8 @@
 <h1>pytransform3d.plot_utils.Trajectory<a class="headerlink" href="#pytransform3d-plot-utils-trajectory" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pytransform3d.plot_utils.Trajectory">
-<em class="property">class </em><code class="sig-prename descclassname">pytransform3d.plot_utils.</code><code class="sig-name descname">Trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em>, <em class="sig-param"><span class="n">show_direction</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">n_frames</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">s</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matplotlib.org/api/artist_api.html#matplotlib.artist.Artist" title="(in Matplotlib v3.3.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.artist.Artist</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytransform3d.plot_utils.</span></code><code class="sig-name descname"><span class="pre">Trajectory</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_frames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://matplotlib.org/api/artist_api.html#matplotlib.artist.Artist" title="(in Matplotlib v3.3.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.artist.Artist</span></code></a></p>
 <p>A Matplotlib artist that displays a trajectory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -143,7 +144,7 @@
 </dl>
 <dl class="py method">
 <dt id="pytransform3d.plot_utils.Trajectory.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em>, <em class="sig-param"><span class="n">show_direction</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">n_frames</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">s</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_frames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -179,7 +180,7 @@
 </table>
 <dl class="py method">
 <dt id="pytransform3d.plot_utils.Trajectory.set_data">
-<code class="sig-name descname">set_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.set_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.set_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.set_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.set_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the trajectory data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -193,13 +194,13 @@
 
 <dl class="py method">
 <dt id="pytransform3d.plot_utils.Trajectory.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">renderer</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">draw</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renderer</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the artist.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytransform3d.plot_utils.Trajectory.add_trajectory">
-<code class="sig-name descname">add_trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.add_trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.add_trajectory" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">add_trajectory</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#Trajectory.add_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.Trajectory.add_trajectory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the trajectory to a 3D axis.</p>
 </dd></dl>
 
@@ -231,7 +232,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 06, 2021.<br/>
+      Last updated on Mar 05, 2021.<br/>
     </p>
   </div>
 </footer>

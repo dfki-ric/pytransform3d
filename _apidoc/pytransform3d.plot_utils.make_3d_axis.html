@@ -4,12 +4,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils.make_3d_axis &#8212; pytransform3d 1.7 documentation</title>
+    <title>pytransform3d.plot_utils.make_3d_axis &#8212; pytransform3d 1.7.1 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -40,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -123,7 +124,7 @@
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a>.make_3d_axis<a class="headerlink" href="#pytransform3d-plot-utils-make-3d-axis" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="pytransform3d.plot_utils.make_3d_axis">
-<code class="sig-prename descclassname">pytransform3d.plot_utils.</code><code class="sig-name descname">make_3d_axis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax_s</span></em>, <em class="sig-param"><span class="n">pos</span><span class="o">=</span><span class="default_value">111</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#make_3d_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytransform3d.plot_utils.make_3d_axis" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytransform3d.plot_utils.</span></code><code class="sig-name descname"><span class="pre">make_3d_axis</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax_s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">111</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#make_3d_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.make_3d_axis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate new 3D axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -131,6 +132,12 @@
 <dt><strong>ax_s</strong><span class="classifier">float, optional (default: 1)</span></dt><dd><p>Scaling of the new matplotlib 3d axis</p>
 </dd>
 <dt><strong>pos</strong><span class="classifier">int, optional (default: 111)</span></dt><dd><p>Position indicator (nrows, ncols, plot_number)</p>
+</dd>
+<dt><strong>unit</strong><span class="classifier">str, optional (default: None)</span></dt><dd><p>Unit of axes. For example, ‘m’, ‘cm’, ‘km’, …
+The unit will be shown in the axis label, for example,
+as ‘X [m]’.</p>
+</dd>
+<dt><strong>n_ticks</strong><span class="classifier">int, optional (default: 5)</span></dt><dd><p>Number of ticks on each axis</p>
 </dd>
 </dl>
 </dd>
@@ -145,17 +152,21 @@
 
 <div class="section" id="examples-using-pytransform3d-plot-utils-make-3d-axis">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.plot_utils.make_3d_axis</span></code><a class="headerlink" href="#examples-using-pytransform3d-plot-utils-make-3d-axis" title="Permalink to this headline">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><div class="figure align-default" id="id1">
+<div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate fr..."><div class="figure align-default" id="id1">
+<img alt="Plot Transformation" src="../_images/sphx_glr_plot_transform_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_transform.html#sphx-glr-auto-examples-plots-plot-transform-py"><span class="std std-ref">Plot Transformation</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><div class="figure align-default" id="id2">
 <img alt="Axis-Angle Representation from Two Direction Vectors" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><div class="figure align-default" id="id2">
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><div class="figure align-default" id="id3">
 <img alt="Plot with Respect to Different Reference Frames" src="../_images/sphx_glr_plot_frames_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i..."><div class="figure align-default" id="id3">
+</div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i..."><div class="figure align-default" id="id4">
 <img alt="Plot Straight Line Paths" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_straight_line_path.html#sphx-glr-auto-examples-plots-plot-straight-line-path-py"><span class="std std-ref">Plot Straight Line Paths</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_straight_line_path.html#sphx-glr-auto-examples-plots-plot-straight-line-path-py"><span class="std std-ref">Plot Straight Line Paths</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="sphx-glr-clear"></div></div>
 </div>
@@ -173,7 +184,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 06, 2021.<br/>
+      Last updated on Mar 05, 2021.<br/>
     </p>
   </div>
 </footer>

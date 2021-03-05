@@ -4,12 +4,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.7 documentation</title>
+    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.7.1 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -40,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -163,7 +164,8 @@ angular velocity <img class="math" src="_images/math/c43c330a71600e506e90a2c5ebc
 </ul>
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
-<img alt="Transformations" class="align-center" src="_images/transformations.svg" /><div class="section" id="transformation-matrix">
+<img alt="Transformations" class="align-center" src="_images/transformations.png" />
+<div class="section" id="transformation-matrix">
 <h2><a class="toc-backref" href="#id1">Transformation Matrix</a><a class="headerlink" href="#transformation-matrix" title="Permalink to this headline">¶</a></h2>
 <p>One of the most convenient ways to represent transformations are
 transformation matrices. A transformation matrix is a 4x4 matrix of
@@ -240,7 +242,7 @@ represents the ratio of translation and rotation. A screw motion translates
 along the screw axis and rotates about it.</p>
 <p>pytransform3d uses two vectors q and <cite>s_axis</cite> of shape (3,) and a scalar
 h to represent the parameters of a screw.</p>
-<a class="reference internal image-reference" href="_images/screw_axis.svg"><img alt="Screw axis" class="align-center" src="_images/screw_axis.svg" width="80%" /></a>
+<a class="reference internal image-reference" href="_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="_images/screw_axis.png" style="width: 80%;" /></a>
 <p>A <strong>screw axis</strong> is typically represented by
 <img class="math" src="_images/math/58c32940b342ea5d8f0a0c032e9d632d47281bec.png" alt="\mathcal{S} = \left[\begin{array}{c}\boldsymbol{\omega}\\\boldsymbol{v}\end{array}\right] \in \mathbb{R}^6"/>,
 where either</p>
@@ -324,7 +326,7 @@ is the matrix representation of a twist.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 06, 2021.<br/>
+      Last updated on Mar 05, 2021.<br/>
     </p>
   </div>
 </footer>

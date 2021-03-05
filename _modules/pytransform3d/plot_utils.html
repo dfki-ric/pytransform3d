@@ -4,12 +4,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils &#8212; pytransform3d 1.7 documentation</title>
+    <title>pytransform3d.plot_utils &#8212; pytransform3d 1.7.1 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
@@ -38,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -119,6 +120,7 @@
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
     <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">artist</span>
     <span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">FancyArrowPatch</span>
+    <span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">MaxNLocator</span>
     <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">proj3d</span>
     <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d.art3d</span> <span class="kn">import</span> <span class="n">Line3D</span><span class="p">,</span> <span class="n">Text3D</span><span class="p">,</span> <span class="n">Poly3DCollection</span><span class="p">,</span> <span class="n">Line3DCollection</span>
     <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform</span>
@@ -393,7 +395,7 @@
             <span class="nb">super</span><span class="p">(</span><span class="n">Arrow3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="make_3d_axis"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.make_3d_axis.html#pytransform3d.plot_utils.make_3d_axis">[docs]</a>    <span class="k">def</span> <span class="nf">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">111</span><span class="p">):</span>
+<div class="viewcode-block" id="make_3d_axis"><a class="viewcode-back" href="../../_apidoc/pytransform3d.plot_utils.make_3d_axis.html#pytransform3d.plot_utils.make_3d_axis">[docs]</a>    <span class="k">def</span> <span class="nf">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">111</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_ticks</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Generate new 3D axis.</span>
 
 <span class="sd">        Parameters</span>
@@ -403,6 +405,14 @@
 
 <span class="sd">        pos : int, optional (default: 111)</span>
 <span class="sd">            Position indicator (nrows, ncols, plot_number)</span>
+
+<span class="sd">        unit : str, optional (default: None)</span>
+<span class="sd">            Unit of axes. For example, &#39;m&#39;, &#39;cm&#39;, &#39;km&#39;, ...</span>
+<span class="sd">            The unit will be shown in the axis label, for example,</span>
+<span class="sd">            as &#39;X [m]&#39;.</span>
+
+<span class="sd">        n_ticks : int, optional (default: 5)</span>
+<span class="sd">            Number of ticks on each axis</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -415,8 +425,27 @@
             <span class="c1"># HACK: workaround for bug in new matplotlib versions (ca. 3.02):</span>
             <span class="c1"># &quot;It is not currently possible to manually set the aspect&quot;</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span>
+            <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;Y&quot;</span>
+            <span class="n">zlabel</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;X [</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">unit</span>
+            <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;Y [</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">unit</span>
+            <span class="n">zlabel</span> <span class="o">=</span> <span class="s2">&quot;Z [</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">unit</span>
+
         <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ax_s</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ax_s</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">),</span> <span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ax_s</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">),</span>
-                 <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s2">&quot;Z&quot;</span><span class="p">)</span>
+                 <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="n">zlabel</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">n_ticks</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">n_ticks</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">n_ticks</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">w_xaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">w_yaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">w_zaxis</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">ax</span></div>
 
 
@@ -880,7 +909,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 06, 2021.<br/>
+      Last updated on Mar 05, 2021.<br/>
     </p>
   </div>
 </footer>

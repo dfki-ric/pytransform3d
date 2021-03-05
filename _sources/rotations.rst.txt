@@ -16,7 +16,7 @@ can describe.
 Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.
 
-.. image:: _static/rotations.svg
+.. image:: _static/rotations.png
    :alt: Rotations
    :align: center
 
