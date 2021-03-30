@@ -8,14 +8,15 @@ Integrate angular accelerations to a quaternion sequence and animate it.
 print(__doc__)
 
 
+import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
-from pytransform3d.rotations import *
+from pytransform3d import rotations as pr
 
 
 def update_lines(step, Q, rot):
-    R = matrix_from_quaternion(Q[step])
+    R = pr.matrix_from_quaternion(Q[step])
 
     # Draw new frame
     rot[0].set_data(np.array([0, R[0, 0]]), [0, R[1, 0]])
@@ -32,17 +33,17 @@ def update_lines(step, Q, rot):
 
 if __name__ == "__main__":
     random_state = np.random.RandomState(3)
-    start = random_quaternion(random_state)
+    start = pr.random_quaternion(random_state)
     n_frames = 1000
     dt = 0.01
     angular_accelerations = np.empty((n_frames, 3))
     for i in range(n_frames):
-        angular_accelerations[i] = random_compact_axis_angle(random_state)
+        angular_accelerations[i] = pr.random_compact_axis_angle(random_state)
     # Integrate angular accelerations to velocities
     angular_velocities = np.vstack(
         (np.zeros((1, 3)), np.cumsum(angular_accelerations * dt, axis=0)))
     # Integrate angular velocities to quaternions
-    Q = quaternion_integrate(angular_velocities, q0=start, dt=dt)
+    Q = pr.quaternion_integrate(angular_velocities, q0=start, dt=dt)
 
     fig = plt.figure(figsize=(4, 3))
 
@@ -54,7 +55,7 @@ if __name__ == "__main__":
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
 
-    R = matrix_from_quaternion(start)
+    R = pr.matrix_from_quaternion(start)
 
     rot = [
         ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],

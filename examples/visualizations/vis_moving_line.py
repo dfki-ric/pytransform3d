@@ -8,8 +8,8 @@ Animates a line.
 print(__doc__)
 
 
+import numpy as np
 import pytransform3d.visualizer as pv
-from pytransform3d.rotations import *
 
 
 def animation_callback(step, n_frames, line):
@@ -33,7 +33,8 @@ fig.view_init()
 
 n_frames = 100
 if "__file__" in globals():
-    fig.animate(animation_callback, n_frames, fargs=(n_frames, line), loop=True)
+    fig.animate(
+        animation_callback, n_frames, fargs=(n_frames, line), loop=True)
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")

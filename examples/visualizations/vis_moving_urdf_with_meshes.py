@@ -43,7 +43,8 @@ fig.view_init()
 fig.set_zoom(1.2)
 n_frames = 100
 if "__file__" in globals():
-    fig.animate(animation_callback, n_frames, loop=True, fargs=(n_frames, tm, graph))
+    fig.animate(
+        animation_callback, n_frames, loop=True, fargs=(n_frames, tm, graph))
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")

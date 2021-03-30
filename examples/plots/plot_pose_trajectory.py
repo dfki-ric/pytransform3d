@@ -23,5 +23,6 @@ P[:, 2] = np.linspace(-1, 1, n_steps)
 q_end = np.array([0.0, 0.0, np.sqrt(0.5), np.sqrt(0.5)])
 P[:, 3:] = quaternion_slerp_batch(q_id, q_end, np.linspace(0, 1, n_steps))
 
-ax = plot_trajectory(P=P, s=0.3, n_frames=100, normalize_quaternions=False, lw=2, c="k")
+ax = plot_trajectory(
+    P=P, s=0.3, n_frames=100, normalize_quaternions=False, lw=2, c="k")
 plt.show()

@@ -9,14 +9,16 @@ rotations and extrinsic and intrinsic concatenation of rotations.
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import proj3d
-from pytransform3d.rotations import passive_matrix_from_angle, active_matrix_from_angle, plot_basis
+from pytransform3d.rotations import (
+    passive_matrix_from_angle, active_matrix_from_angle, plot_basis)
 
 plt.figure(figsize=(8, 8))
-plt.subplots_adjust(left=0, right=1, bottom=0.05, top=0.95, wspace=0, hspace=0.3)
+plt.subplots_adjust(
+    left=0, right=1, bottom=0.05, top=0.95, wspace=0, hspace=0.3)
 axes = [plt.subplot(4, 3, 1 + i, projection="3d") for i in range(12)]
 for i in range(len(axes)):
     plt.setp(axes[i], xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
-            xlabel="X", ylabel="Y", zlabel="Z")
+             xlabel="X", ylabel="Y", zlabel="Z")
     axes[i].view_init(elev=20, azim=60)
 
 Rx45 = passive_matrix_from_angle(0, np.deg2rad(45))

@@ -87,7 +87,8 @@ def test_active_matrices_from_angles_3dims():
     angles = random_state.randn(2, 3, 4)
     Rs = pbr.active_matrices_from_angles(2, angles)
     Rs = Rs.reshape(-1, 3, 3)
-    Rs2 = [pr.active_matrix_from_angle(2, angle) for angle in angles.reshape(-1)]
+    Rs2 = [pr.active_matrix_from_angle(2, angle)
+           for angle in angles.reshape(-1)]
     assert_array_almost_equal(Rs, Rs2)
 
 
@@ -97,7 +98,8 @@ def test_active_matrices_from_angles_3dims_output_variable():
     Rs = np.empty((2, 3, 4, 3, 3))
     pbr.active_matrices_from_angles(2, angles, out=Rs)
     Rs = Rs.reshape(-1, 3, 3)
-    Rs2 = [pr.active_matrix_from_angle(2, angle) for angle in angles.reshape(-1)]
+    Rs2 = [pr.active_matrix_from_angle(2, angle)
+           for angle in angles.reshape(-1)]
     assert_array_almost_equal(Rs, Rs2)
 
 
@@ -131,7 +133,8 @@ def test_active_matrices_from_intrinsic_euler_angles_1dim_output_variables():
 def test_active_matrices_from_intrinsic_euler_angles_3dims():
     random_state = np.random.RandomState(8385)
     e = random_state.randn(2, 3, 4, 3)
-    Rs = pbr.active_matrices_from_intrinsic_euler_angles(2, 1, 0, e).reshape(-1, 3, 3)
+    Rs = pbr.active_matrices_from_intrinsic_euler_angles(
+        2, 1, 0, e).reshape(-1, 3, 3)
     e = e.reshape(-1, 3)
     for i in range(len(e)):
         Ri = pr.active_matrix_from_intrinsic_euler_zyx(e[i])

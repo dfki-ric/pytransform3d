@@ -62,7 +62,8 @@ def check_pq(pq):
     Returns
     -------
     pq : array, shape (7,)
-        Validated position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
+        Validated position and orientation quaternion:
+         (x, y, z, qw, qx, qy, qz)
     """
     pq = np.asarray(pq, dtype=np.float)
     if pq.ndim != 1 or pq.shape[0] != 7:
@@ -568,8 +569,8 @@ def norm_exponential_coordinates(Stheta):
 def check_screw_parameters(q, s_axis, h):
     """Input validation of screw parameters.
 
-    The parameters :math:`(\\boldsymbol{q}, \\hat{\\boldsymbol{s}}, h)` describe
-    a screw.
+    The parameters :math:`(\\boldsymbol{q}, \\hat{\\boldsymbol{s}}, h)`
+    describe a screw.
 
     Parameters
     ----------
@@ -620,7 +621,9 @@ def check_screw_axis(screw_axis):
 
     .. math::
 
-        \\mathcal{S} = \\left[\\begin{array}{c}\\boldsymbol{\\omega}\\\\\\boldsymbol{v}\\end{array}\\right] \in \\mathbb{R}^6
+        \\mathcal{S}
+        = \\left[\\begin{array}{c}\\boldsymbol{\\omega}\\\\
+          \\boldsymbol{v}\\end{array}\\right] \in \\mathbb{R}^6
 
     consists of a part that describes rotation and a part that describes
     translation.
@@ -745,8 +748,9 @@ def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
     screw_matrix = np.asarray(screw_matrix, dtype=np.float)
     if (screw_matrix.ndim != 2 or screw_matrix.shape[0] != 4
             or screw_matrix.shape[1] != 4):
-        raise ValueError("Expected array-like with shape (4, 4), got array-like "
-                         "object with shape %s" % (screw_matrix.shape,))
+        raise ValueError(
+            "Expected array-like with shape (4, 4), got array-like "
+            "object with shape %s" % (screw_matrix.shape,))
     if any(screw_matrix[3] != 0.0):
         raise ValueError("Last row of screw matrix must only contains zeros.")
 
@@ -798,8 +802,9 @@ def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     transform_log = np.asarray(transform_log, dtype=np.float)
     if (transform_log.ndim != 2 or transform_log.shape[0] != 4
             or transform_log.shape[1] != 4):
-        raise ValueError("Expected array-like with shape (4, 4), got array-like "
-                         "object with shape %s" % (transform_log.shape,))
+        raise ValueError(
+            "Expected array-like with shape (4, 4), got array-like "
+            "object with shape %s" % (transform_log.shape,))
     if any(transform_log[3] != 0.0):
         raise ValueError(
             "Last row of logarithm of transformation must only "
@@ -1297,7 +1302,8 @@ def transform_from_transform_log(transform_log):
     omega_unit_matrix = transform_log[:3, :3] / theta
     G = (np.eye(3) * theta
          + (1.0 - math.cos(theta)) * omega_unit_matrix
-         + (theta - math.sin(theta)) * np.dot(omega_unit_matrix, omega_unit_matrix))
+         + (theta - math.sin(theta)) * np.dot(omega_unit_matrix,
+                                              omega_unit_matrix))
     A2B[:3, 3] = np.dot(G, v)
     return A2B
 
@@ -1312,21 +1318,24 @@ def adjoint_from_transform(A2B):
 
     .. math::
 
-        \\mathcal{V}_{B} = \\left[Ad_{\\boldsymbol{T}_{BA}}\\right] \\mathcal{V}_A
+        \\mathcal{V}_{B}
+        = \\left[Ad_{\\boldsymbol{T}_{BA}}\\right] \\mathcal{V}_A
 
     The corresponding matrix form is
 
     .. math::
 
         \\left[\\mathcal{V}_{B}\\right]
-        = \\boldsymbol{T}_{BA} \\left[\\mathcal{V}_A\\right] \\boldsymbol{T}_{BA}^{-1}
+        = \\boldsymbol{T}_{BA} \\left[\\mathcal{V}_A\\right]
+        \\boldsymbol{T}_{BA}^{-1}
 
     We can also use the adjoint representation to transform a wrench from frame
     A to frame B:
 
     .. math::
 
-        \\mathcal{F}_B = \\left[ Ad_{\\boldsymbol{T}_{AB}} \\right]^T \\mathcal{F}_A
+        \\mathcal{F}_B
+        = \\left[ Ad_{\\boldsymbol{T}_{AB}} \\right]^T \\mathcal{F}_A
 
     Note that not only the adjoint is transposed but also the transformation is
     inverted.
@@ -1336,11 +1345,13 @@ def adjoint_from_transform(A2B):
     .. math::
 
         \\left[Ad_{\\boldsymbol{T}_1 \\boldsymbol{T}_2}\\right]
-        = \\left[Ad_{\\boldsymbol{T}_1}\\right] \\left[Ad_{\\boldsymbol{T}_2}\\right]
+        = \\left[Ad_{\\boldsymbol{T}_1}\\right]
+        \\left[Ad_{\\boldsymbol{T}_2}\\right]
 
     .. math::
 
-        \\left[Ad_{\\boldsymbol{T}}\\right]^{-1} = \\left[Ad_{\\boldsymbol{T}^{-1}}\\right]
+        \\left[Ad_{\\boldsymbol{T}}\\right]^{-1} =
+        \\left[Ad_{\\boldsymbol{T}^{-1}}\\right]
 
     Parameters
     ----------
@@ -1423,12 +1434,15 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
 
     if not pure_translation:
         screw_axis_to_old_frame = -origin_projected_on_screw_axis
-        screw_axis_to_rotated_frame = perpendicular_to_vectors(s_axis, screw_axis_to_old_frame)
+        screw_axis_to_rotated_frame = perpendicular_to_vectors(
+            s_axis, screw_axis_to_old_frame)
         screw_axis_to_translated_frame = h * s_axis
 
         arc = np.empty((100, 3))
-        angle = angle_between_vectors(screw_axis_to_old_frame, screw_axis_to_rotated_frame)
-        for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)), np.linspace(0.0, 1.0, len(arc)))):
+        angle = angle_between_vectors(
+            screw_axis_to_old_frame, screw_axis_to_rotated_frame)
+        for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)),
+                                  np.linspace(0.0, 1.0, len(arc)))):
             t1, t2 = t
             w1, w2 = _slerp_weights(angle, t1)
             arc[i] = (origin_projected_on_screw_axis
@@ -1440,13 +1454,15 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
     s_axis = transform(A2B, vector_to_direction(s_axis))[:3]
     if not pure_translation:
         arc = transform(A2B, vectors_to_points(arc))[:, :3]
-        origin_projected_on_screw_axis = transform(A2B, vector_to_point(origin_projected_on_screw_axis))[:3]
+        origin_projected_on_screw_axis = transform(
+            A2B, vector_to_point(origin_projected_on_screw_axis))[:3]
 
     # Screw axis
     ax.scatter(q[0], q[1], q[2], color="r")
     if pure_translation:
         s_axis *= theta
-        ax.scatter(q[0] + s_axis[0], q[1] + s_axis[1], q[2] + s_axis[2], color="r")
+        ax.scatter(q[0] + s_axis[0], q[1] + s_axis[1], q[2] + s_axis[2],
+                   color="r")
     ax.plot(
         [q[0] - s * s_axis[0], q[0] + (1 + s) * s_axis[0]],
         [q[1] - s * s_axis[1], q[1] + (1 + s) * s_axis[1]],
@@ -1471,6 +1487,7 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
 
         for i in [0, -1]:
             arc_bound = np.vstack((origin_projected_on_screw_axis, arc[i])).T
-            ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k", alpha=alpha)
+            ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k",
+                    alpha=alpha)
 
     return ax
