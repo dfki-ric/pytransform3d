@@ -14,78 +14,78 @@ from nose import SkipTest
 
 COMPI_URDF = """
 <?xml version="1.0"?>
-  <robot name="compi">
-    <link name="linkmount"/>
-    <link name="link1"/>
-    <link name="link2"/>
-    <link name="link3"/>
-    <link name="link4"/>
-    <link name="link5"/>
-    <link name="link6"/>
-    <link name="tcp"/>
+<robot name="compi">
+<link name="linkmount"/>
+<link name="link1"/>
+<link name="link2"/>
+<link name="link3"/>
+<link name="link4"/>
+<link name="link5"/>
+<link name="link6"/>
+<link name="tcp"/>
 
-    <joint name="joint1" type="revolute">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="linkmount"/>
-      <child link="link1"/>
-      <axis xyz="0 0 1.0"/>
-      <limit lower="-1" upper="1"/>
-    </joint>
+<joint name="joint1" type="revolute">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent link="linkmount"/>
+  <child link="link1"/>
+  <axis xyz="0 0 1.0"/>
+  <limit lower="-1" upper="1"/>
+</joint>
 
-    <joint name="joint2" type="revolute">
-      <origin xyz="0 0 0.158" rpy="1.570796 0 0"/>
-      <parent link="link1"/>
-      <child link="link2"/>
-      <axis xyz="0 0 -1.0"/>
-      <limit lower="-1"/>
-    </joint>
+<joint name="joint2" type="revolute">
+  <origin xyz="0 0 0.158" rpy="1.570796 0 0"/>
+  <parent link="link1"/>
+  <child link="link2"/>
+  <axis xyz="0 0 -1.0"/>
+  <limit lower="-1"/>
+</joint>
 
-    <joint name="joint3" type="revolute">
-      <origin xyz="0 0.28 0" rpy="0 0 0"/>
-      <parent link="link2"/>
-      <child link="link3"/>
-      <axis xyz="0 0 -1.0"/>
-      <limit upper="1"/>
-    </joint>
+<joint name="joint3" type="revolute">
+  <origin xyz="0 0.28 0" rpy="0 0 0"/>
+  <parent link="link2"/>
+  <child link="link3"/>
+  <axis xyz="0 0 -1.0"/>
+  <limit upper="1"/>
+</joint>
 
-    <joint name="joint4" type="revolute">
-      <origin xyz="0 0 0" rpy="-1.570796 0 0"/>
-      <parent link="link3"/>
-      <child link="link4"/>
-      <axis xyz="0 0 1.0"/>
-    </joint>
+<joint name="joint4" type="revolute">
+  <origin xyz="0 0 0" rpy="-1.570796 0 0"/>
+  <parent link="link3"/>
+  <child link="link4"/>
+  <axis xyz="0 0 1.0"/>
+</joint>
 
-    <joint name="joint5" type="revolute">
-      <origin xyz="0 0 0.34" rpy="1.570796 0 0"/>
-      <parent link="link4"/>
-      <child link="link5"/>
-      <axis xyz="0 0 -1.0"/>
-    </joint>
+<joint name="joint5" type="revolute">
+  <origin xyz="0 0 0.34" rpy="1.570796 0 0"/>
+  <parent link="link4"/>
+  <child link="link5"/>
+  <axis xyz="0 0 -1.0"/>
+</joint>
 
-    <joint name="joint6" type="revolute">
-      <origin xyz="0 0.346 0" rpy="-1.570796 0 0"/>
-      <parent link="link5"/>
-      <child link="link6"/>
-      <axis xyz="0 0 1.0"/>
-    </joint>
+<joint name="joint6" type="revolute">
+  <origin xyz="0 0.346 0" rpy="-1.570796 0 0"/>
+  <parent link="link5"/>
+  <child link="link6"/>
+  <axis xyz="0 0 1.0"/>
+</joint>
 
-    <joint name="jointtcp" type="fixed">
-      <origin xyz="0 0 0.05" rpy="0 0 0"/>
-      <parent link="link6"/>
-      <child link="tcp"/>
-    </joint>
-    
-    <transmission name="joint1_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <joint name="joint1">
-        <hardwareInterface>PositionJointInterface</hardwareInterface>
-      </joint>
-      <actuator name="joint1_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-    </transmission>
-  </robot>
-"""
+<joint name="jointtcp" type="fixed">
+  <origin xyz="0 0 0.05" rpy="0 0 0"/>
+  <parent link="link6"/>
+  <child link="tcp"/>
+</joint>
+
+<transmission name="joint1_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="joint1">
+    <hardwareInterface>PositionJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="joint1_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+</robot>
+    """
 
 
 def test_missing_robot_tag():
@@ -778,7 +778,8 @@ def test_plot_mesh_smoke_without_scale():
     tm.load_urdf(urdf, mesh_path=BASE_DIR)
     tm.set_joint("joint", -1.1)
     ax = tm.plot_frames_in(
-        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
+        show_name=True)
     ax = tm.plot_connections_in("lower_cone", ax=ax)
     tm.plot_visuals("lower_cone", ax=ax)
 
@@ -851,7 +852,8 @@ def test_plot_mesh_smoke_with_scale():
         tm.load_urdf(f.read(), mesh_path=BASE_DIR)
     tm.set_joint("joint", -1.1)
     ax = tm.plot_frames_in(
-        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
+        show_name=True)
     ax = tm.plot_connections_in("lower_cone", ax=ax)
     tm.plot_visuals("lower_cone", ax=ax)
 
@@ -866,7 +868,8 @@ def test_plot_without_mesh():
         tm.load_urdf(f.read(), mesh_path=None)
     tm.set_joint("joint", -1.1)
     ax = tm.plot_frames_in(
-        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
+        show_name=True)
     ax = tm.plot_connections_in("lower_cone", ax=ax)
 
     with warnings.catch_warnings(record=True) as w:

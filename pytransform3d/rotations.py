@@ -7,7 +7,6 @@ import math
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
-
 unitx = np.array([1.0, 0.0, 0.0])
 unity = np.array([0.0, 1.0, 0.0])
 unitz = np.array([0.0, 0.0, 1.0])
@@ -517,8 +516,9 @@ def check_quaternions(Q, unit=True):
     """
     Q_checked = np.asarray(Q, dtype=np.float)
     if Q_checked.ndim != 2 or Q_checked.shape[1] != 4:
-        raise ValueError("Expected quaternion array with shape (n_steps, 4), got "
-                         "array-like object with shape %s" % (Q_checked.shape,))
+        raise ValueError(
+            "Expected quaternion array with shape (n_steps, 4), got "
+            "array-like object with shape %s" % (Q_checked.shape,))
     if unit:
         for i in range(len(Q)):
             Q_checked[i] = norm_vector(Q_checked[i])
@@ -2422,11 +2422,14 @@ def quaternion_gradient(Q, dt=1.0):
     """
     Q = check_quaternions(Q)
     Qd = np.empty((len(Q), 3))
-    Qd[0] = compact_axis_angle_from_quaternion(concatenate_quaternions(Q[1], q_conj(Q[0]))) / dt
+    Qd[0] = compact_axis_angle_from_quaternion(
+        concatenate_quaternions(Q[1], q_conj(Q[0]))) / dt
     for t in range(1, len(Q) - 1):
         # divided by two because of central differences
-        Qd[t] = compact_axis_angle_from_quaternion(concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / (2.0 * dt)
-    Qd[-1] = compact_axis_angle_from_quaternion(concatenate_quaternions(Q[-1], q_conj(Q[-2]))) / dt
+        Qd[t] = compact_axis_angle_from_quaternion(
+            concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / (2.0 * dt)
+    Qd[-1] = compact_axis_angle_from_quaternion(
+        concatenate_quaternions(Q[-1], q_conj(Q[-2]))) / dt
     return Qd
 
 
@@ -2777,7 +2780,7 @@ def assert_compact_axis_angle_equal(a1, a2, *args, **kwargs):
     angle2 = np.linalg.norm(a2)
     # required despite normalization in case of 180 degree rotation
     if (abs(angle1) == np.pi and abs(angle2) == np.pi and
-        any(np.sign(a1) != np.sign(a2))):
+            any(np.sign(a1) != np.sign(a2))):
         a1 = -a1
     a1 = norm_compact_axis_angle(a1)
     a2 = norm_compact_axis_angle(a2)

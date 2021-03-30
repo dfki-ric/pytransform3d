@@ -7,7 +7,8 @@ try:
     from matplotlib.patches import FancyArrowPatch
     from matplotlib.ticker import MaxNLocator
     from mpl_toolkits.mplot3d import proj3d
-    from mpl_toolkits.mplot3d.art3d import Line3D, Text3D, Poly3DCollection, Line3DCollection
+    from mpl_toolkits.mplot3d.art3d import (
+        Line3D, Text3D, Poly3DCollection, Line3DCollection)
     from .transformations import transform
     from .rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
 
@@ -124,7 +125,8 @@ try:
             self.x_label = Text3D(0, 0, 0, text="", zdir="x")
             self.y_label = Text3D(0, 0, 0, text="", zdir="x")
             self.z_label = Text3D(0, 0, 0, text="", zdir="x")
-            super(LabeledFrame, self).__init__(A2B, label=None, s=1.0, **kwargs)
+            super(LabeledFrame, self).__init__(
+                A2B, label=None, s=1.0, **kwargs)
 
         def set_data(self, A2B, label=None):
             """Set the transformation data.
@@ -250,8 +252,11 @@ try:
                 axis.add_artist(self.direction_arrow)
 
 
-    class Arrow3D(FancyArrowPatch):  # http://stackoverflow.com/a/11156353/915743
-        """A Matplotlib patch that represents an arrow in 3D."""
+    class Arrow3D(FancyArrowPatch):
+        """A Matplotlib patch that represents an arrow in 3D.
+
+        Source: http://stackoverflow.com/a/11156353/915743
+        """
         def __init__(self, xs, ys, zs, *args, **kwargs):
             super(Arrow3D, self).__init__((0, 0), (0, 0), *args, **kwargs)
             self._verts3d = xs, ys, zs
@@ -320,8 +325,9 @@ try:
             ylabel = "Y [%s]" % unit
             zlabel = "Z [%s]" % unit
 
-        plt.setp(ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
-                 xlabel=xlabel, ylabel=ylabel, zlabel=zlabel)
+        plt.setp(
+            ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
+            xlabel=xlabel, ylabel=ylabel, zlabel=zlabel)
 
         ax.xaxis.set_major_locator(MaxNLocator(n_ticks))
         ax.yaxis.set_major_locator(MaxNLocator(n_ticks))
@@ -417,19 +423,23 @@ try:
         length = np.linalg.norm(direction)
 
         if above:
-            ax.plot([start[0], end[0]], [start[1], end[1]], [start[2], end[2]], color=color)
+            ax.plot([start[0], end[0]], [start[1], end[1]],
+                    [start[2], end[2]], color=color)
         else:
             mid1 = start + 0.4 * direction
             mid2 = start + 0.6 * direction
-            ax.plot([start[0], mid1[0]], [start[1], mid1[1]], [start[2], mid1[2]], color=color)
-            ax.plot([end[0], mid2[0]], [end[1], mid2[1]], [end[2], mid2[2]], color=color)
+            ax.plot([start[0], mid1[0]], [start[1], mid1[1]],
+                    [start[2], mid1[2]], color=color)
+            ax.plot([end[0], mid2[0]], [end[1], mid2[1]],
+                    [end[2], mid2[2]], color=color)
 
         if np.linalg.norm(direction / length - unitz) < np.finfo(float).eps:
             axis = unitx
         else:
             axis = unitz
 
-        mark = norm_vector(perpendicular_to_vectors(direction, axis)) * 0.03 * length
+        mark = (norm_vector(perpendicular_to_vectors(direction, axis))
+                * 0.03 * length)
         mark_start1 = start + mark
         mark_start2 = start - mark
         mark_end1 = end + mark
@@ -445,7 +455,8 @@ try:
         text_location = start + 0.45 * direction
         if above:
             text_location[2] += 0.3 * length
-        ax.text(text_location[0], text_location[1], text_location[2], name, zdir="x", **kwargs)
+        ax.text(text_location[0], text_location[1], text_location[2], name,
+                zdir="x", **kwargs)
 
         return ax
 
@@ -570,13 +581,15 @@ try:
         if ax is None:
             ax = make_3d_axis(ax_s)
 
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
+        phi, theta = np.mgrid[
+            0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
         x = p[0] + radius * np.sin(phi) * np.cos(theta)
         y = p[1] + radius * np.sin(phi) * np.sin(theta)
         z = p[2] + radius * np.cos(phi)
 
         if wireframe:
-            ax.plot_wireframe(x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
+            ax.plot_wireframe(
+                x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
         else:
             ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
 
@@ -682,8 +695,8 @@ try:
     def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, wireframe=False, convex_hull=False, alpha=1.0, color="k"):
         """Plot mesh.
 
-        Note that this function requires the additional library 'trimesh'. It will
-        print a warning if trimesh is not available.
+        Note that this function requires the additional library 'trimesh'.
+        It will print a warning if trimesh is not available.
 
         Parameters
         ----------
@@ -779,4 +792,5 @@ try:
         plt.subplots_adjust(left=left, bottom=bottom, right=right, top=top)
 
 except ImportError:
-    warnings.warn("Matplotlib is not installed, visualization is not available")
+    warnings.warn("Matplotlib is not installed, visualization is not "
+                  "available")

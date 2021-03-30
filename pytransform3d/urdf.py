@@ -7,8 +7,11 @@ import numpy as np
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat
-from .rotations import active_matrix_from_extrinsic_roll_pitch_yaw, matrix_from_axis_angle, norm_vector
-from .plot_utils import make_3d_axis, plot_mesh, plot_cylinder, plot_sphere, plot_box
+from .rotations import (
+    active_matrix_from_extrinsic_roll_pitch_yaw, matrix_from_axis_angle,
+    norm_vector)
+from .plot_utils import (
+    make_3d_axis, plot_mesh, plot_cylinder, plot_sphere, plot_box)
 
 
 class UrdfTransformManager(TransformManager):
@@ -75,8 +78,9 @@ class UrdfTransformManager(TransformManager):
             revolute)
         """
         self.add_transform(from_frame, to_frame, child2parent)
-        self._joints[joint_name] = (from_frame, to_frame, child2parent, norm_vector(axis),
-                                    limits, joint_type)
+        self._joints[joint_name] = (
+            from_frame, to_frame, child2parent, norm_vector(axis), limits,
+            joint_type)
 
     def set_joint(self, joint_name, value):
         """Set joint position.
@@ -94,7 +98,8 @@ class UrdfTransformManager(TransformManager):
         """
         if joint_name not in self._joints:
             raise KeyError("Joint '%s' is not known" % joint_name)
-        from_frame, to_frame, child2parent, axis, limits, joint_type = self._joints[joint_name]
+        from_frame, to_frame, child2parent, axis, limits, joint_type = \
+            self._joints[joint_name]
         # this is way faster than np.clip:
         value = min(max(value, limits[0]), limits[1])
         if joint_type == "revolute":
@@ -212,7 +217,8 @@ class UrdfTransformManager(TransformManager):
         """Create link."""
         if not link.has_attr("name"):
             raise UrdfException("Link name is missing.")
-        self.visuals.extend(self._parse_link_children(link, "visual", materials))
+        self.visuals.extend(
+            self._parse_link_children(link, "visual", materials))
         self.collision_objects.extend(
             self._parse_link_children(link, "collision", dict()))
         return link["name"]
@@ -298,7 +304,8 @@ class UrdfTransformManager(TransformManager):
 
         if j.joint_type in ["planar", "floating"]:
             raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
-        elif j.joint_type not in ["revolute", "continuous", "prismatic", "fixed"]:
+        elif j.joint_type not in ["revolute", "continuous", "prismatic",
+                                  "fixed"]:
             raise UrdfException("Joint type '%s' is not allowed in a URDF "
                                 "document." % j.joint_type)
 
@@ -324,8 +331,8 @@ class UrdfTransformManager(TransformManager):
             if origin.has_attr("rpy"):
                 roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
                 # URDF and KDL use the active convention for rotation matrices.
-                # For more details on how the URDF parser handles the conversion
-                # from Euler angles, see this blog post:
+                # For more details on how the URDF parser handles the
+                # conversion from Euler angles, see this blog post:
                 # https://orbitalstation.wordpress.com/tag/quaternion/
                 rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
                     roll_pitch_yaw)
@@ -376,7 +383,8 @@ class UrdfTransformManager(TransformManager):
             New or old axis
         """
         return self._plot_objects(
-            self.visuals, frame, ax, ax_s, wireframe, convex_hull_of_mesh, alpha)
+            self.visuals, frame, ax, ax_s, wireframe, convex_hull_of_mesh,
+            alpha)
 
     def plot_collision_objects(self, frame, ax=None, ax_s=1, wireframe=True, convex_hull_of_mesh=True, alpha=1.0):
         """Plot all collision objects in a given reference frame.
@@ -412,7 +420,8 @@ class UrdfTransformManager(TransformManager):
             New or old axis
         """
         return self._plot_objects(
-            self.collision_objects, frame, ax, ax_s, wireframe, convex_hull_of_mesh, alpha)
+            self.collision_objects, frame, ax, ax_s, wireframe,
+            convex_hull_of_mesh, alpha)
 
     def _plot_objects(self, objects, frame, ax=None, ax_s=1, wireframe=True, convex_hull_of_mesh=True, alpha=1.0):
         """Plot all objects in a given reference frame.

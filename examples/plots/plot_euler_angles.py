@@ -32,7 +32,8 @@ pr.plot_basis(
 pr.plot_axis_angle(ax, [0, 0, 1, gamma], 0.5 * p)
 
 pr.plot_basis(
-    ax, pr.active_matrix_from_extrinsic_euler_xyz([alpha, beta, gamma]), 1.5 * p,
+    ax,
+    pr.active_matrix_from_extrinsic_euler_xyz([alpha, beta, gamma]), 1.5 * p,
     lw=5)
 
 remove_frame(ax)

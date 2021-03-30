@@ -10,7 +10,8 @@ try:
     from itertools import chain
 
 
-    def figure(window_name="Open3D", width=1920, height=1080, with_key_callbacks=False):
+    def figure(window_name="Open3D", width=1920, height=1080,
+               with_key_callbacks=False):
         """Create a new figure.
 
         Parameters
@@ -137,8 +138,9 @@ try:
                     drawn_artists = callback(i, *fargs)
 
                     if drawn_artists is None:
-                        raise RuntimeError('The animation function must return a '
-                                           'sequence of Artist objects.')
+                        raise RuntimeError(
+                            "The animation function must return a "
+                            "sequence of Artist objects.")
                     try:
                         drawn_artists = [a for a in drawn_artists]
                     except TypeError:
@@ -176,7 +178,8 @@ try:
             # azimuth and elevation are defined in world frame
             R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
             R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
-            R_elev_azim_camera2world = R_azim.dot(R_elev).dot(R_azim_elev_0_camera2world)
+            R_elev_azim_camera2world = R_azim.dot(R_elev).dot(
+                R_azim_elev_0_camera2world)
             pcp.extrinsic = pt.transform_from(  # world2camera
                 R=R_elev_azim_camera2world.T,
                 p=[0, 0, distance])
@@ -191,9 +194,10 @@ try:
                 Points of which the line consists.
 
             c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
-                Color can be given as individual colors per line segment or as one
-                color for each segment. A color is represented by 3 values between
-                0 and 1 indicate representing red, green, and blue respectively.
+                Color can be given as individual colors per line segment or
+                as one color for each segment. A color is represented by 3
+                values between 0 and 1 indicate representing red, green, and
+                blue respectively.
 
             Returns
             -------
@@ -219,8 +223,9 @@ try:
                 Scaling of the frame that will be drawn
 
             strict_check : bool, optional (default: True)
-                Raise a ValueError if the rotation matrix is not numerically close
-                enough to a real rotation matrix. Otherwise we print a warning.
+                Raise a ValueError if the rotation matrix is not numerically
+                close enough to a real rotation matrix. Otherwise we print a
+                warning.
 
             Returns
             -------
@@ -251,9 +256,9 @@ try:
                 Name of the frame
 
             strict_check : bool, optional (default: True)
-                Raise a ValueError if the transformation matrix is not numerically
-                close enough to a real transformation matrix. Otherwise we print a
-                warning.
+                Raise a ValueError if the transformation matrix is not
+                numerically close enough to a real transformation matrix.
+                Otherwise we print a warning.
 
             Returns
             -------
@@ -275,11 +280,12 @@ try:
             Parameters
             ----------
             P : array-like, shape (n_steps, 7), optional (default: None)
-                Sequence of poses represented by positions and quaternions in the
-                order (x, y, z, w, vx, vy, vz) for each step
+                Sequence of poses represented by positions and quaternions in
+                the order (x, y, z, w, vx, vy, vz) for each step
 
             n_frames : int, optional (default: 10)
-                Number of frames that should be plotted to indicate the rotation
+                Number of frames that should be plotted to indicate the
+                rotation
 
             s : float, optional (default: 1)
                 Scaling of the frames that will be drawn
@@ -311,10 +317,10 @@ try:
 
             resolution : int, optianal (default: 20)
                 The resolution of the sphere. The longitues will be split into
-                resolution segments (i.e. there are resolution + 1 latitude lines
-                including the north and south pole). The latitudes will be split
-                into 2 * resolution segments (i.e. there are 2 * resolution
-                longitude lines.)
+                resolution segments (i.e. there are resolution + 1 latitude
+                lines including the north and south pole). The latitudes will
+                be split into 2 * resolution segments (i.e. there are
+                2 * resolution longitude lines.)
 
             c : array-like, shape (3,), optional (default: None)
                 Color
@@ -520,9 +526,10 @@ try:
                 Points of which the line consists.
 
             c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
-                Color can be given as individual colors per line segment or as one
-                color for each segment. A color is represented by 3 values between
-                0 and 1 indicate representing red, green, and blue respectively.
+                Color can be given as individual colors per line segment or
+                as one color for each segment. A color is represented by 3
+                values between 0 and 1 indicate representing red, green, and
+                blue respectively.
             """
             self.line_set.points = o3d.utility.Vector3dVector(P)
             self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
@@ -594,7 +601,8 @@ try:
                     "This viewer does not support text. Frame label "
                     "will be ignored.")
 
-            self.frame.transform(pt.invert_transform(previous_A2B, check=False))
+            self.frame.transform(
+                pt.invert_transform(previous_A2B, check=False))
             self.frame.transform(self.A2B)
 
         @property
@@ -664,7 +672,8 @@ try:
             geometries : list
                 List of geometries that can be added to the visualizer.
             """
-            return self.line.geometries + list(chain(*[kf.geometries for kf in self.key_frames]))
+            return self.line.geometries + list(
+                chain(*[kf.geometries for kf in self.key_frames]))
 
 
     class Sphere(Artist):
@@ -713,7 +722,8 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.sphere.transform(pt.invert_transform(previous_A2B, check=False))
+            self.sphere.transform(
+                pt.invert_transform(previous_A2B, check=False))
             self.sphere.transform(self.A2B)
 
         @property
@@ -766,7 +776,8 @@ try:
             """
             previous_A2B = self.A2B
             if previous_A2B is None:
-                self.box.transform(pt.transform_from(R=np.eye(3), p=-self.half_size))
+                self.box.transform(
+                    pt.transform_from(R=np.eye(3), p=-self.half_size))
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
@@ -810,12 +821,14 @@ try:
         """
         def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
             self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
-                radius=radius, height=length, resolution=resolution, split=split)
+                radius=radius, height=length, resolution=resolution,
+                split=split)
             if c is not None:
                 n_vertices = len(self.cylinder.vertices)
                 colors = np.zeros((n_vertices, 3))
                 colors[:] = c
-                self.cylinder.vertex_colors = o3d.utility.Vector3dVector(colors)
+                self.cylinder.vertex_colors = \
+                    o3d.utility.Vector3dVector(colors)
             self.cylinder.compute_vertex_normals()
             self.A2B = None
             self.set_data(A2B)
@@ -833,7 +846,8 @@ try:
                 previous_A2B = np.eye(4)
             self.A2B = A2B
 
-            self.cylinder.transform(pt.invert_transform(previous_A2B, check=False))
+            self.cylinder.transform(
+                pt.invert_transform(previous_A2B, check=False))
             self.cylinder.transform(self.A2B)
 
         @property
@@ -964,20 +978,24 @@ try:
             if self.show_connections:
                 for frame_names in self.tm.transforms.keys():
                     from_frame, to_frame = frame_names
-                    if from_frame in self.tm.nodes and to_frame in self.tm.nodes:
+                    if (from_frame in self.tm.nodes and
+                            to_frame in self.tm.nodes):
                         try:
                             self.tm.get_transform(from_frame, self.frame)
                             self.tm.get_transform(to_frame, self.frame)
-                            self.connections[frame_names] = o3d.geometry.LineSet()
+                            self.connections[frame_names] = \
+                                o3d.geometry.LineSet()
                         except KeyError:
-                            pass  # Frame is not connected to the reference frame
+                            pass  # Frame is not connected to reference frame
 
             self.visuals = {}
             if show_visuals and hasattr(self.tm, "visuals"):
                 self.visuals.update(self._objects_to_artists(self.tm.visuals))
             self.collision_objects = {}
-            if show_collision_objects and hasattr(self.tm, "collision_objects"):
-                self.collision_objects.update(self._objects_to_artists(self.tm.collision_objects))
+            if show_collision_objects and hasattr(
+                    self.tm, "collision_objects"):
+                self.collision_objects.update(
+                    self._objects_to_artists(self.tm.collision_objects))
 
             self.set_data()
 
@@ -987,7 +1005,8 @@ try:
                 if obj.color is None:
                     color = None
                 else:
-                    # we loose the alpha channel as it is not supported by Open3D
+                    # we loose the alpha channel as it is not supported by
+                    # Open3D
                     color = (obj.color[0], obj.color[1], obj.color[2])
                 if isinstance(obj, urdf.Sphere):
                     artist = Sphere(radius=obj.radius, c=color)
@@ -1015,12 +1034,15 @@ try:
                 for frame_names in self.connections.keys():
                     from_frame, to_frame = frame_names
                     try:
-                        from2ref = self.tm.get_transform(from_frame, self.frame)
+                        from2ref = self.tm.get_transform(
+                            from_frame, self.frame)
                         to2ref = self.tm.get_transform(to_frame, self.frame)
 
                         points = np.vstack((from2ref[:3, 3], to2ref[:3, 3]))
-                        self.connections[frame_names].points = o3d.utility.Vector3dVector(points)
-                        self.connections[frame_names].lines = o3d.utility.Vector2iVector(np.array([[0, 1]]))
+                        self.connections[frame_names].points = \
+                            o3d.utility.Vector3dVector(points)
+                        self.connections[frame_names].lines = \
+                            o3d.utility.Vector2iVector(np.array([[0, 1]]))
                     except KeyError:
                         pass  # Frame is not connected to the reference frame
 
