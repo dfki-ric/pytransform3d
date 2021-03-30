@@ -897,6 +897,33 @@ def test_conversions_matrix_axis_angle():
         assert_rotation_matrix(R2)
 
 
+def test_compare_axis_angle_from_matrix_to_lynch_park():
+    """Compare log(R) to the version of Lynch, Park: Modern Robotics."""
+    R = np.eye(3)
+    a = axis_angle_from_matrix(R)
+    assert_axis_angle_equal(a, [0, 0, 0, 0])
+
+    R = matrix_from_angle(2, np.pi)
+    assert_almost_equal(np.trace(R), -1)
+    a = axis_angle_from_matrix(R)
+    axis = 1.0 / np.sqrt(2.0 * (1 + R[2, 2])) * np.array([R[0, 2], R[1, 2], 1 + R[2, 2]])
+    assert_axis_angle_equal(a, np.hstack((axis, (np.pi,))))
+
+    R = matrix_from_angle(1, np.pi)
+    assert_almost_equal(np.trace(R), -1)
+    a = axis_angle_from_matrix(R)
+    axis = 1.0 / np.sqrt(2.0 * (1 + R[1, 1])) * np.array([R[0, 1], 1 + R[1, 1], R[2, 1]])
+    assert_axis_angle_equal(a, np.hstack((axis, (np.pi,))))
+
+    R = matrix_from_angle(0, np.pi)
+    assert_almost_equal(np.trace(R), -1)
+    a = axis_angle_from_matrix(R)
+    axis = 1.0 / np.sqrt(2.0 * (1 + R[0, 0])) * np.array([1 + R[0, 0], R[1, 0], R[2, 0]])
+    assert_axis_angle_equal(a, np.hstack((axis, (np.pi,))))
+
+    # normal case is omitted here
+
+
 def test_conversions_matrix_compact_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
     R = np.eye(3)
