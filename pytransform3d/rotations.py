@@ -2033,7 +2033,7 @@ def axis_angle_from_matrix(R, strict_check=True):
     R = check_matrix(R, strict_check=strict_check)
     angle = np.arccos((np.trace(R) - 1.0) / 2.0)
 
-    if angle == 0.0:
+    if angle == 0.0:  # R == np.eye(3)
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     a = np.empty(4)
@@ -2045,7 +2045,7 @@ def axis_angle_from_matrix(R, strict_check=True):
     axis_unnormalized = np.array(
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
 
-    if abs(angle - np.pi) < 1e-4:
+    if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
         # The threshold is a result from this discussion:
         # https://github.com/rock-learning/pytransform3d/issues/43
         # The standard formula becomes numerically unstable, however,
