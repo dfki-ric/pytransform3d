@@ -4,10 +4,11 @@ import warnings
 import platform
 import tempfile
 import numpy as np
-from pytransform3d.rotations import q_id, active_matrix_from_intrinsic_euler_xyz
-from pytransform3d.transformations import (random_transform, invert_transform,
-                                           concat, transform_from_pq,
-                                           random_quaternion, transform_from)
+from pytransform3d.rotations import (
+    q_id, active_matrix_from_intrinsic_euler_xyz)
+from pytransform3d.transformations import (
+    random_transform, invert_transform, concat, transform_from_pq,
+    random_quaternion, transform_from)
 from pytransform3d.transform_manager import TransformManager
 from pytransform3d import transform_manager
 from numpy.testing import assert_array_almost_equal

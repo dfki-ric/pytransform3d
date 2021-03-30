@@ -82,7 +82,9 @@ joint_angles = [0, 0.5, 0.5, 0, 0.5, 0]
 for name, angle in zip(joint_names, joint_angles):
     tm.set_joint(name, angle)
 fig = pv.figure("URDF")
-fig.plot_graph(tm, "compi", show_frames=True, show_connections=True, whitelist=["link%d" % d for d in range(1, 7)], s=0.05)
+fig.plot_graph(
+    tm, "compi", show_frames=True, show_connections=True,
+    whitelist=["link%d" % d for d in range(1, 7)], s=0.05)
 fig.view_init()
 if "__file__" in globals():
     fig.show()

@@ -1,9 +1,14 @@
 import numpy as np
-from pytransform3d.trajectories import transforms_from_pqs, pqs_from_transforms, transforms_from_exponential_coordinates, exponential_coordinates_from_transforms
-from pytransform3d.rotations import (quaternion_from_matrix,
-                                     assert_quaternion_equal, active_matrix_from_angle,
-                                     random_quaternion)
-from pytransform3d.transformations import exponential_coordinates_from_transform, translate_transform, rotate_transform, random_transform, transform_from_pq
+from pytransform3d.trajectories import (
+    transforms_from_pqs, pqs_from_transforms,
+    transforms_from_exponential_coordinates,
+    exponential_coordinates_from_transforms)
+from pytransform3d.rotations import (
+    quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
+    random_quaternion)
+from pytransform3d.transformations import (
+    exponential_coordinates_from_transform, translate_transform,
+    rotate_transform, random_transform, transform_from_pq)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -85,7 +90,8 @@ def test_transforms_from_exponential_coordinates():
         assert_array_almost_equal(A2B, A2B2)
         A2B2 = transforms_from_exponential_coordinates(Stheta)
         assert_array_almost_equal(A2B, A2B2)
-        A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[0, 0]
+        A2B2 = transforms_from_exponential_coordinates(
+            [[Stheta], [Stheta]])[0, 0]
         assert_array_almost_equal(A2B, A2B2)
 
 

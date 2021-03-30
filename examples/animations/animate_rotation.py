@@ -8,16 +8,17 @@ Animates a rotation about the x-axis.
 print(__doc__)
 
 
+import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
 from pytransform3d.plot_utils import Frame
-from pytransform3d.rotations import *
+from pytransform3d import rotations as pr
 
 
 def update_frame(step, n_frames, frame):
     angle = 2.0 * np.pi * (step + 1) / n_frames
-    R = matrix_from_angle(0, angle)
+    R = pr.matrix_from_angle(0, angle)
     A2B = np.eye(4)
     A2B[:3, :3] = R
     frame.set_data(A2B)

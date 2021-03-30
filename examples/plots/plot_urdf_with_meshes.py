@@ -25,7 +25,8 @@ with open(os.path.join(data_dir, "simple_mechanism.urdf"), "r") as f:
     tm.load_urdf(f.read(), mesh_path=data_dir)
 tm.set_joint("joint", -1.1)
 ax = tm.plot_frames_in(
-    "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+    "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
+    show_name=True)
 ax = tm.plot_connections_in("lower_cone", ax=ax)
 tm.plot_visuals("lower_cone", ax=ax)
 ax.set_xlim((-0.1, 0.15))

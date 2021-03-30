@@ -1,35 +1,24 @@
 import warnings
 import platform
 import numpy as np
-from pytransform3d.transformations import (random_transform, transform_from,
-                                           translate_transform, rotate_transform,
-                                           invert_transform, vector_to_point,
-                                           vectors_to_points, vector_to_direction,
-                                           vectors_to_directions,
-                                           concat, transform, scale_transform,
-                                           assert_transform, check_transform,
-                                           check_pq, pq_from_transform,
-                                           transform_from_pq,
-                                           check_screw_parameters,
-                                           check_screw_axis,
-                                           check_exponential_coordinates,
-                                           screw_axis_from_screw_parameters,
-                                           screw_parameters_from_screw_axis,
-                                           transform_from_exponential_coordinates,
-                                           exponential_coordinates_from_transform,
-                                           random_screw_axis,
-                                           exponential_coordinates_from_screw_axis,
-                                           screw_axis_from_exponential_coordinates,
-                                           transform_log_from_exponential_coordinates,
-                                           exponential_coordinates_from_transform_log,
-                                           screw_matrix_from_screw_axis,
-                                           screw_axis_from_screw_matrix,
-                                           transform_log_from_screw_matrix,
-                                           screw_matrix_from_transform_log,
-                                           transform_from_transform_log,
-                                           transform_log_from_transform,
-                                           check_screw_matrix, check_transform_log,
-                                           adjoint_from_transform, norm_exponential_coordinates)
+from pytransform3d.transformations import (
+    random_transform, transform_from, translate_transform, rotate_transform,
+    invert_transform, vector_to_point, vectors_to_points, vector_to_direction,
+    vectors_to_directions, concat, transform, scale_transform,
+    assert_transform, check_transform, check_pq, pq_from_transform,
+    transform_from_pq, check_screw_parameters, check_screw_axis,
+    check_exponential_coordinates, screw_axis_from_screw_parameters,
+    screw_parameters_from_screw_axis, transform_from_exponential_coordinates,
+    exponential_coordinates_from_transform, random_screw_axis,
+    exponential_coordinates_from_screw_axis,
+    screw_axis_from_exponential_coordinates,
+    transform_log_from_exponential_coordinates,
+    exponential_coordinates_from_transform_log,
+    screw_matrix_from_screw_axis, screw_axis_from_screw_matrix,
+    transform_log_from_screw_matrix, screw_matrix_from_transform_log,
+    transform_from_transform_log, transform_log_from_transform,
+    check_screw_matrix, check_transform_log,
+    adjoint_from_transform, norm_exponential_coordinates)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -132,7 +121,7 @@ def test_vector_to_point():
     p = random_vector(random_state)
     A2B = transform_from(R, p)
     assert_transform(A2B)
-    pB = transform(A2B, pA)
+    _ = transform(A2B, pA)
 
 
 def test_vectors_to_points():
@@ -158,7 +147,7 @@ def test_vector_to_direction():
     p = random_vector(random_state)
     A2B = transform_from(R, p)
     assert_transform(A2B)
-    dB = transform(A2B, dA)
+    _ = transform(A2B, dA)
 
 
 def test_vectors_to_directions():
@@ -247,7 +236,8 @@ def test_pq_from_transform():
     """Test conversion from homogeneous matrix to position and quaternion."""
     A2B = np.eye(4)
     pq = pq_from_transform(A2B)
-    assert_array_almost_equal(pq, np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]))
+    assert_array_almost_equal(
+        pq, np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]))
 
 
 def test_transform_from_pq():
@@ -294,8 +284,9 @@ def test_norm_exponential_coordinates():
         h = random_state.randn()
         Stheta = screw_axis_from_screw_parameters(q, s, h) * np.pi
         Stheta2 = screw_axis_from_screw_parameters(q, -s, -h) * np.pi
-        assert_array_almost_equal(transform_from_exponential_coordinates(Stheta),
-                                  transform_from_exponential_coordinates(Stheta2))
+        assert_array_almost_equal(
+            transform_from_exponential_coordinates(Stheta),
+            transform_from_exponential_coordinates(Stheta2))
         assert_array_almost_equal(norm_exponential_coordinates(Stheta),
                                   norm_exponential_coordinates(Stheta2))
 
