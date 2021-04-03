@@ -10,7 +10,8 @@ from .rotations import (random_quaternion, random_vector,
                         assert_rotation_matrix, check_matrix,
                         norm_vector, axis_angle_from_matrix,
                         matrix_from_axis_angle, cross_product_matrix,
-                        check_skew_symmetric_matrix, norm_angle)
+                        check_skew_symmetric_matrix, norm_angle, q_conj,
+                        concatenate_quaternions)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -1306,6 +1307,46 @@ def transform_from_transform_log(transform_log):
                                               omega_unit_matrix))
     A2B[:3, 3] = np.dot(G, v)
     return A2B
+
+
+def check_dual_quaternion(dq):  # TODO http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
+    """TODO"""
+    raise NotImplementedError("TODO")
+
+
+def dq_conj(dq):
+    """Conjugate of dual quaternion.
+
+    TODO
+    """
+    dq = check_dual_quaternion(dq)
+    return np.hstack((q_conj(dq[:4]), q_conj(dq[4:])))
+
+
+def concatenate_dual_quaternions(dq1, dq2):
+    """TODO"""
+    dq1 = check_dual_quaternion(dq1)
+    dq2 = check_dual_quaternion(dq2)
+    return np.hstack((
+        concatenate_quaternions(dq1[:4], dq2[:4]),
+        concatenate_quaternions(dq1[4:], dq2[4:])
+    ))
+
+
+def dq_prod_vector(dq, v):
+    """TODO"""
+    # http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf, page 7
+    raise NotImplementedError("TODO")
+
+
+def transform_from_dual_quaternion(dq):
+    """TODO"""
+    real = dq[:4]
+    dual = dq[4:]
+    R = matrix_from_quaternion(real)
+    t = 2 * concatenate_quaternions(dual, q_conj(real))
+    # TODO http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf, page 6
+    return None
 
 
 def adjoint_from_transform(A2B):
