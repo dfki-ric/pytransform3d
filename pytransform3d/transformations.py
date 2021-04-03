@@ -1309,9 +1309,41 @@ def transform_from_transform_log(transform_log):
     return A2B
 
 
-def check_dual_quaternion(dq):  # TODO http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
-    """TODO"""
-    raise NotImplementedError("TODO")
+def check_dual_quaternion(dq, unit=True):
+    """Input validation of dual quaternion representation.
+
+    See http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
+
+    A dual quaternion is defined as
+
+    .. math::
+
+        \\sigma = p + \\epsilon q,
+
+    where :math:`p` and :math:`q` are both quaternions and :math:`\\epsilon`
+    is the dual unit with :math:`\\epsilon^2 = 0`. The first quaternion is
+    also called the real part and the second quaternion is called the dual
+    part.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Quaternion to represent rotation: (pw, px, py, pz, qw, qx, qy, qz)
+
+    unit : bool, optional (default: True)
+        Normalize the dual quaternion so that it is a unit dual quaternion.
+        A unit dual quaternion has the properties
+        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
+        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
+    """
+    dq = np.asarray(dq, dtype=np.float)
+    if dq.ndim != 1 or dq.shape[0] != 8:
+        raise ValueError("Expected dual quaternion with shape (8,), got "
+                         "array-like object with shape %s" % (dq.shape,))
+    if unit:
+        return np.r_[norm_vector(dq[:4]), ]  # TODO
+    else:
+        return q
 
 
 def dq_conj(dq):
@@ -1335,8 +1367,10 @@ def concatenate_dual_quaternions(dq1, dq2):
 
 def dq_prod_vector(dq, v):
     """TODO"""
-    # http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf, page 7
-    raise NotImplementedError("TODO")
+    v_dq = np.r_[1, 0, 0, 0, 0, v]
+    return concatenate_dual_quaternions(
+        concatenate_dual_quaternions(dq, v_dq),
+        q_conj(dq))
 
 
 def transform_from_dual_quaternion(dq):
@@ -1344,9 +1378,17 @@ def transform_from_dual_quaternion(dq):
     real = dq[:4]
     dual = dq[4:]
     R = matrix_from_quaternion(real)
-    t = 2 * concatenate_quaternions(dual, q_conj(real))
-    # TODO http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf, page 6
-    return None
+    p = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
+    return transform_from(R=R, p=p)
+
+
+def dual_quaternion_from_transform(A2B):
+    """TODO"""
+    A2B = check_transform(A2B)
+    real = quaternion_from_matrix(A2B[:3, :3])
+    dual = 0.5 * concatenate_quaternions(
+        np.r_[0, A2B[:3, 3]], real)
+    return np.hstack((real, dual))
 
 
 def adjoint_from_transform(A2B):
