@@ -1343,7 +1343,7 @@ def check_dual_quaternion(dq, unit=True):
     if unit:
         return np.hstack((norm_vector(dq[:4]), dq[4:]))  # TODO how to ensure the second condition?
     else:
-        return q
+        return dq
 
 
 def dq_conj(dq):
