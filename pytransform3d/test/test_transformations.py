@@ -20,7 +20,7 @@ from pytransform3d.transformations import (
     check_screw_matrix, check_transform_log,
     adjoint_from_transform, norm_exponential_coordinates,
     dual_quaternion_from_transform, transform_from_dual_quaternion,
-    concatenate_dual_quaternions)
+    concatenate_dual_quaternions, dq_prod_vector)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -639,3 +639,13 @@ def test_dual_quaternion_concatenation():
         dq3 = concatenate_dual_quaternions(dq2, dq1)
         A2C2 = transform_from_dual_quaternion(dq3)
         assert_array_almost_equal(A2C, A2C2)
+
+
+def test_dual_quaternion_applied_to_point():
+    random_state = np.random.RandomState(1000)
+    for _ in range(5):
+        p_A = random_vector(random_state, 3)
+        A2B = random_transform(random_state)
+        dq = dual_quaternion_from_transform(A2B)
+        p_B = dq_prod_vector(dq, p_A)
+        assert_array_almost_equal(p_B, transform(A2B, vector_to_point(p_A))[:3])

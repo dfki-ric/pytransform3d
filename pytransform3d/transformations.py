@@ -1352,7 +1352,7 @@ def dq_conj(dq):
     TODO
     """
     dq = check_dual_quaternion(dq)
-    return np.hstack((q_conj(dq[:4]), q_conj(dq[4:])))
+    return np.hstack((q_conj(dq[:4]), q_conj(dq[4:])))  # TODO which of the 3 conjugates do we use?
 
 
 def concatenate_dual_quaternions(dq1, dq2):
@@ -1383,7 +1383,6 @@ def concatenate_dual_quaternions(dq1, dq2):
     """
     dq1 = check_dual_quaternion(dq1)
     dq2 = check_dual_quaternion(dq2)
-    # TODO check semantics and compare it to transform and quaternion concatenation.
     real = concatenate_quaternions(dq1[:4], dq2[:4])
     dual = (concatenate_quaternions(dq1[:4], dq2[4:]) +
             concatenate_quaternions(dq1[4:], dq2[:4]))
@@ -1396,10 +1395,12 @@ def dq_prod_vector(dq, v):
     TODO
     """
     dq = check_dual_quaternion(dq)
+    # TODO check v
     v_dq = np.r_[1, 0, 0, 0, 0, v]
-    return concatenate_dual_quaternions(
+    v_dq_transformed = concatenate_dual_quaternions(
         concatenate_dual_quaternions(dq, v_dq),
-        q_conj(dq))
+        dq_conj(dq))
+    return v_dq_transformed[5:]
 
 
 def transform_from_dual_quaternion(dq):
