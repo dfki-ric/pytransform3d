@@ -1358,7 +1358,28 @@ def dq_conj(dq):
 def concatenate_dual_quaternions(dq1, dq2):
     """Concatenate dual quaternions.
 
-    TODO
+    Suppose we want to apply two extrinsic transforms given by dual
+    quaternions dq1 and dq2 to a vector v. We can either apply dq2 to v and
+    then dq1 to the result or we can concatenate dq1 and dq2 and apply the
+    result to v.
+
+    .. warning::
+
+        Note that the order of arguments is different than the order in
+        :func:`concat`.
+
+    Parameters
+    ----------
+    dq1 : array-like, shape (8,)
+        TODO
+
+    dq2 : array-like, shape (8,)
+        TODO
+
+    Returns
+    -------
+    dq3 : array-like, shape (8,)
+        TODO
     """
     dq1 = check_dual_quaternion(dq1)
     dq2 = check_dual_quaternion(dq2)
