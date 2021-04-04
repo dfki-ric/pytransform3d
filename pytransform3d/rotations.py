@@ -2438,6 +2438,10 @@ def concatenate_quaternions(q1, q2):
 
     We use Hamilton's quaternion multiplication.
 
+    Suppose we want to apply two extrinsic rotations given by quaternions
+    q1 and q2 to a vector v. We can either apply q2 to v and then q1 to
+    the result or we can concatenate q1 and q2 and apply the result to v.
+
     Parameters
     ----------
     q1 : array-like, shape (4,)
