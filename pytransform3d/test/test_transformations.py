@@ -20,7 +20,8 @@ from pytransform3d.transformations import (
     check_screw_matrix, check_transform_log,
     adjoint_from_transform, norm_exponential_coordinates,
     dual_quaternion_from_transform, transform_from_dual_quaternion,
-    concatenate_dual_quaternions, dq_prod_vector)
+    concatenate_dual_quaternions, dq_prod_vector, check_dual_quaternion,
+    assert_unit_dual_quaternion)
 from pytransform3d.rotations import (matrix_from, random_axis_angle,
                                      random_vector, axis_angle_from_matrix,
                                      norm_vector, perpendicular_to_vector,
@@ -617,6 +618,35 @@ def test_adjoint_of_transformation():
         V_mat_B2 = screw_matrix_from_screw_axis(S_B) * theta_dot2
         assert_almost_equal(theta_dot, theta_dot2)
         assert_array_almost_equal(V_mat_B, V_mat_B2)
+
+
+def test_check_dual_quaternion():
+    dq = [0, 0]
+    assert_raises_regexp(
+        ValueError, "Expected dual quaternion",
+        check_dual_quaternion, dq)
+
+    dq = [[0, 0]]
+    assert_raises_regexp(
+        ValueError, "Expected dual quaternion",
+        check_dual_quaternion, dq)
+
+    dq = [0] * 8
+    dq = check_dual_quaternion(dq, unit=False)
+    assert_equal(dq.shape[0], 8)
+
+
+def test_normalize_dual_quaternion():
+    dq = [1, 0, 0, 0, 0, 0, 0, 0]
+    dq_norm = check_dual_quaternion(dq)
+    assert_unit_dual_quaternion(dq_norm)
+    assert_array_almost_equal(dq, dq_norm)
+
+    random_state = np.random.RandomState(999)
+    for _ in range(5):
+        dq = random_vector(random_state, 8)
+        dq_norm = check_dual_quaternion(dq)
+        assert_unit_dual_quaternion(dq_norm)
 
 
 def test_conversions_between_dual_quternion_and_transform():
