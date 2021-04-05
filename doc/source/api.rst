@@ -189,6 +189,7 @@ Input Validation Functions
    ~pytransform3d.transformations.check_exponential_coordinates
    ~pytransform3d.transformations.check_screw_matrix
    ~pytransform3d.transformations.check_transform_log
+   ~pytransform3d.transformations.check_dual_quaternion
 
 Conversions to Transformation Matrix
 ------------------------------------
@@ -204,6 +205,7 @@ Conversions to Transformation Matrix
    ~pytransform3d.transformations.transform_from_pq
    ~pytransform3d.transformations.transform_from_exponential_coordinates
    ~pytransform3d.transformations.transform_from_transform_log
+   ~pytransform3d.transformations.transform_from_dual_quaternion
 
 Conversions to Position and Quaternion
 --------------------------------------
@@ -266,6 +268,15 @@ Conversions to Matrix Logarithm
    ~pytransform3d.transformations.transform_log_from_screw_matrix
    ~pytransform3d.transformations.transform_log_from_transform
 
+Conversions to Dual Quaternions
+-------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.dual_quaternion_from_transform
+
 Apply Transformations
 ---------------------
 
@@ -282,6 +293,19 @@ Apply Transformations
    ~pytransform3d.transformations.vectors_to_directions
    ~pytransform3d.transformations.scale_transform
    ~pytransform3d.transformations.adjoint_from_transform
+
+Dual Quaternion Operations
+--------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.dq_conj
+   ~pytransform3d.transformations.dq_q_conj
+   ~pytransform3d.transformations.concatenate_dual_quaternions
+   ~pytransform3d.transformations.dq_prod_vector
+   ~pytransform3d.transformations.assert_unit_dual_quaternion
 
 Plotting
 --------

@@ -1415,15 +1415,18 @@ def concatenate_dual_quaternions(dq1, dq2):
     Parameters
     ----------
     dq1 : array-like, shape (8,)
-        TODO
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
 
     dq2 : array-like, shape (8,)
-        TODO
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
 
     Returns
     -------
     dq3 : array-like, shape (8,)
-        TODO
+        Product of the two dual quaternions:
+        (pw, px, py, pz, qw, qx, qy, qz)
     """
     dq1 = check_dual_quaternion(dq1)
     dq2 = check_dual_quaternion(dq2)
@@ -1436,10 +1439,20 @@ def concatenate_dual_quaternions(dq1, dq2):
 def dq_prod_vector(dq, v):
     """Apply transform represented by a dual quaternion to a vector.
 
-    TODO
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion
+
+    v : array-like, shape (3,)
+        3d vector
+
+    Returns
+    -------
+    w : array-like, shape (3,)
+        3d vector
     """
     dq = check_dual_quaternion(dq)
-    # TODO check v
     v_dq = np.r_[1, 0, 0, 0, 0, v]
     v_dq_transformed = concatenate_dual_quaternions(
         concatenate_dual_quaternions(dq, v_dq),
@@ -1450,7 +1463,15 @@ def dq_prod_vector(dq, v):
 def transform_from_dual_quaternion(dq):
     """Compute transformation matrix from dual quaternion.
 
-    TODO
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion
+
+    Returns
+    -------
+    A2B : array, shape (4, 4)
+        Transform from frame A to frame B
     """
     dq = check_dual_quaternion(dq)
     real = dq[:4]
@@ -1463,7 +1484,15 @@ def transform_from_dual_quaternion(dq):
 def dual_quaternion_from_transform(A2B):
     """Compute dual quaternion from transformation matrix.
 
-    TODO
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion
     """
     A2B = check_transform(A2B)
     real = quaternion_from_matrix(A2B[:3, :3])
@@ -1473,7 +1502,11 @@ def dual_quaternion_from_transform(A2B):
 
 
 def assert_unit_dual_quaternion(dq, *args, **kwargs):
-    """TODO"""
+    """Raise an assertion if the dual quaternion does not have unit norm.
+
+    See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+    """
     real = dq[:4]
     dual = dq[4:]
 
@@ -1483,6 +1516,9 @@ def assert_unit_dual_quaternion(dq, *args, **kwargs):
     real_dual_dot = np.dot(real, dual)
     assert_array_almost_equal(real_dual_dot, 0.0, *args, **kwargs)
 
+    # The two previous checks are consequences of the unit norm requirement.
+    # The norm of a dual quaternion is defined as the product of a dual
+    # quaternion and its quaternion conjugate.
     dq_conj = dq_q_conj(dq)
     dq_prod_dq_conj = concatenate_dual_quaternions(dq, dq_conj)
     assert_array_almost_equal(dq_prod_dq_conj, [1, 0, 0, 0, 0, 0, 0, 0],
