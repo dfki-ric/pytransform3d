@@ -30,6 +30,9 @@ an analogous representation of transformations:
   representation).
 * A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is similar to
   angular velocity :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`.
+* A (unit) **dual quaternion**
+  :math:`p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k)`
+  is similar to a (unit) quaternion :math:`w + x i + y j + z k`.
 
 Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.
@@ -218,9 +221,42 @@ is described by a screw axis :math:`S` and a scalar :math:`\dot{\theta}`
 and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \theta \in se(3)`
 is the matrix representation of a twist.
 
+----------------
+Dual Quaternions
+----------------
+
+Similarly to unit quaternions for rotations, unit dual quaternions are
+an alternative to represent transformations. They support similar operations
+as transformation matrices.
+
+A dual quaternion consists of a real quaternion and a dual quaternion:
+
+.. math::
+
+    \boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),
+
+where :math:`\epsilon^2 = 0`. We use unit dual quaternions to represent
+transformations. In this case, the real quaternion is a unit quaternion
+and the dual quaternion is orthogonal to the real quaternion.
+The real quaternion is used to represent the rotation and the dual
+quaternion contains information about the rotation and translation.
+
+Dual quaternions support similar operations as transformation matrices,
+they can be renormalized efficiently, and interpolation between two
+dual quaternions is possible.
+
 ----------
 References
 ----------
 
 Lynch, Park: Modern Robotics (Section 3.3); available at
 http://hades.mech.northwestern.edu/index.php/Modern_Robotics
+
+Wikipedia: Dual Quaternion; available at
+https://en.wikipedia.org/wiki/Dual_quaternion
+
+Yan-Bin Jia: Dual Quaternions; available at
+http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
+
+Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
+http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
