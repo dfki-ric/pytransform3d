@@ -1341,8 +1341,14 @@ def check_dual_quaternion(dq, unit=True):
     if dq.ndim != 1 or dq.shape[0] != 8:
         raise ValueError("Expected dual quaternion with shape (8,), got "
                          "array-like object with shape %s" % (dq.shape,))
-    if unit:
-        return np.hstack((norm_vector(dq[:4]), dq[4:]))  # TODO how to ensure the second condition?
+    if unit:  # TODO make sure that real * dual == 0
+        # Norm of a dual quaternion only depends on the real part because
+        # the dual part vanishes with epsilon ** 2 = 0.
+        norm = np.linalg.norm(dq[:4])
+        if norm == 0.0:
+            return np.r_[1, 0, 0, 0, dq[4:]]
+        else:
+            return dq / norm
     else:
         return dq
 
@@ -1440,6 +1446,22 @@ def dual_quaternion_from_transform(A2B):
     dual = 0.5 * concatenate_quaternions(
         np.r_[0, A2B[:3, 3]], real)
     return np.hstack((real, dual))
+
+
+def assert_unit_dual_quaternion(dq, *args, **kwargs):
+    """TODO"""
+    real = dq[:4]
+    dual = dq[4:]
+
+    real_norm = np.linalg.norm(real)
+    assert_array_almost_equal(real_norm, 1.0, *args, **kwargs)
+
+    real_dual_dot = np.dot(real, dual)
+    assert_array_almost_equal(real_dual_dot, 0.0, *args, **kwargs)
+
+    dq_prod_dq_conj = concatenate_dual_quaternions(dq, dq_conj(dq))
+    assert_array_almost_equal(dq_prod_dq_conj, [1, 0, 0, 0, 0, 0, 0, 0],
+                              *args, **kwargs)
 
 
 def adjoint_from_transform(A2B):
