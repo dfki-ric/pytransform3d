@@ -1344,11 +1344,29 @@ def check_dual_quaternion(dq, unit=True):
     if unit:  # TODO make sure that real * dual == 0
         # Norm of a dual quaternion only depends on the real part because
         # the dual part vanishes with epsilon ** 2 = 0.
-        norm = np.linalg.norm(dq[:4])
-        if norm == 0.0:
-            return np.r_[1, 0, 0, 0, dq[4:]]
+        real = dq[:4]
+        real_norm = np.linalg.norm(real)
+        dual = dq[4:]
+        if real_norm == 0.0:
+            dq = np.r_[1, 0, 0, 0, dual]
         else:
-            return dq / norm
+            dq = dq / real_norm
+        print(dq)
+        real = dq[:4]
+        dual = dq[4:]
+
+        dual_norm_squared = np.dot(dual, dual)
+        if dual_norm_squared == 0.0:
+            return np.r_[real, 0, 0, 0, 0]
+
+        dual_on_real_projection = np.dot(real, dual) * dual / dual_norm_squared
+        dual_on_real_rejection = dual - dual_on_real_projection
+        print(np.dot(real, dual_on_real_rejection))  # TODO why is this not orthogonal?
+        dual = norm_vector(dual_on_real_rejection) * np.sqrt(dual_norm_squared)
+
+        print(real, dual)
+        print(np.dot(real, dual))
+        return np.hstack((real, dual))
     else:
         return dq
 
