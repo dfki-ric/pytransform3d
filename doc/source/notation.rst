@@ -69,6 +69,9 @@ representations on the following pages.
 | Position and quaternion                | (7,)                | X        | X           |
 | :math:`(\pmb{p}, \pmb{q})`             |                     |          |             |
 +----------------------------------------+---------------------+----------+-------------+
+| Dual quaternion                        | (8,)                | X        | X           |
+| :math:`\pmb{p} + \epsilon\pmb{q}`      |                     |          |             |
++----------------------------------------+---------------------+----------+-------------+
 
 ------------------------------------
 Duality of Transformations and Poses

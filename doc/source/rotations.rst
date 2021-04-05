@@ -133,10 +133,11 @@ by applying the rotation
 
 **Cons**
 
-* We use 9 values for 3 degrees of freedom
+* We use 9 values for 3 degrees of freedom.
 * Not every 3x3 matrix is a valid rotation matrix, which means for example
   that we cannot simply apply an optimization algorithm to rotation matrices
-  or interpolate between rotation matrices
+  or interpolate between rotation matrices. Renormalization is
+  computationally expensive in comparison to quaternions.
 
 ----------
 Axis-Angle
@@ -204,6 +205,9 @@ the Lie group :math:`SO(3)`.
 
 **Cons**
 
+* There might be discontinuities during interpolation as an angle of 0 and
+  any multiple of :math:`2\pi` represent the same orientation. This has to
+  be considered.
 * Concatenation involves conversion to another representation
 
 -----------
@@ -273,6 +277,8 @@ typically we use the variable name q.
 * Concatenation is simple and computationally cheaper with the quaternion
   product than with rotation matrices
 * No singularities
+* Renormalization is cheap in comparison to rotation matrices: we only
+  have to divide by the norm of the quaternion.
 
 **Cons**
 
