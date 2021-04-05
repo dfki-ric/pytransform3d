@@ -1328,7 +1328,8 @@ def check_dual_quaternion(dq, unit=True):
     Parameters
     ----------
     dq : array-like, shape (8,)
-        Quaternion to represent rotation: (pw, px, py, pz, qw, qx, qy, qz)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
 
     unit : bool, optional (default: True)
         Normalize the dual quaternion so that it is a unit dual quaternion.
@@ -1349,10 +1350,23 @@ def check_dual_quaternion(dq, unit=True):
 def dq_conj(dq):
     """Conjugate of dual quaternion.
 
-    TODO
+    There are three different conjugates for dual quaternions. The one that we
+    use converts (pw, px, py, pz, qw, qx, qy, qz) to
+    (pw, -px, -py, -pz, -qw, qx, qy, qz).
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dq_conjugate : array-like, shape (8,)
+        Conjugate of dual quaternion: (pw, -px, -py, -pz, -qw, qx, qy, qz)
     """
     dq = check_dual_quaternion(dq)
-    return np.hstack((q_conj(dq[:4]), q_conj(dq[4:])))  # TODO which of the 3 conjugates do we use?
+    return np.r_[dq[0], -dq[1:5], dq[5:]]
 
 
 def concatenate_dual_quaternions(dq1, dq2):
