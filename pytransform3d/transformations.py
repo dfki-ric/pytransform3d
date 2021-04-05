@@ -1341,32 +1341,14 @@ def check_dual_quaternion(dq, unit=True):
     if dq.ndim != 1 or dq.shape[0] != 8:
         raise ValueError("Expected dual quaternion with shape (8,), got "
                          "array-like object with shape %s" % (dq.shape,))
-    if unit:  # TODO make sure that real * dual == 0
+    if unit:
         # Norm of a dual quaternion only depends on the real part because
         # the dual part vanishes with epsilon ** 2 = 0.
-        real = dq[:4]
-        real_norm = np.linalg.norm(real)
-        dual = dq[4:]
+        real_norm = np.linalg.norm(dq[:4])
         if real_norm == 0.0:
-            dq = np.r_[1, 0, 0, 0, dual]
+            return np.r_[1, 0, 0, 0, dq[4:]]
         else:
-            dq = dq / real_norm
-        print(dq)
-        real = dq[:4]
-        dual = dq[4:]
-
-        dual_norm_squared = np.dot(dual, dual)
-        if dual_norm_squared == 0.0:
-            return np.r_[real, 0, 0, 0, 0]
-
-        dual_on_real_projection = np.dot(real, dual) * dual / dual_norm_squared
-        dual_on_real_rejection = dual - dual_on_real_projection
-        print(np.dot(real, dual_on_real_rejection))  # TODO why is this not orthogonal?
-        dual = norm_vector(dual_on_real_rejection) * np.sqrt(dual_norm_squared)
-
-        print(real, dual)
-        print(np.dot(real, dual))
-        return np.hstack((real, dual))
+            return dq / real_norm
     else:
         return dq
 
@@ -1375,8 +1357,9 @@ def dq_conj(dq):
     """Conjugate of dual quaternion.
 
     There are three different conjugates for dual quaternions. The one that we
-    use converts (pw, px, py, pz, qw, qx, qy, qz) to
-    (pw, -px, -py, -pz, -qw, qx, qy, qz).
+    use here converts (pw, px, py, pz, qw, qx, qy, qz) to
+    (pw, -px, -py, -pz, -qw, qx, qy, qz). It is a combination of the quaternion
+    conjugate and the dual number conjugate.
 
     Parameters
     ----------
@@ -1391,6 +1374,29 @@ def dq_conj(dq):
     """
     dq = check_dual_quaternion(dq)
     return np.r_[dq[0], -dq[1:5], dq[5:]]
+
+
+def dq_q_conj(dq):
+    """Quaternion conjugate of dual quaternion.
+
+    There are three different conjugates for dual quaternions. The one that we
+    use here converts (pw, px, py, pz, qw, qx, qy, qz) to
+    (pw, -px, -py, -pz, qw, -qx, -qy, -qz). It is the quaternion conjugate
+    applied to each of the two quaternions.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dq_q_conjugate : array-like, shape (8,)
+        Conjugate of dual quaternion: (pw, -px, -py, -pz, qw, -qx, -qy, -qz)
+    """
+    dq = check_dual_quaternion(dq)
+    return np.r_[dq[0], -dq[1:4], dq[4], -dq[5:]]
 
 
 def concatenate_dual_quaternions(dq1, dq2):
@@ -1477,7 +1483,8 @@ def assert_unit_dual_quaternion(dq, *args, **kwargs):
     real_dual_dot = np.dot(real, dual)
     assert_array_almost_equal(real_dual_dot, 0.0, *args, **kwargs)
 
-    dq_prod_dq_conj = concatenate_dual_quaternions(dq, dq_conj(dq))
+    dq_conj = dq_q_conj(dq)
+    dq_prod_dq_conj = concatenate_dual_quaternions(dq, dq_conj)
     assert_array_almost_equal(dq_prod_dq_conj, [1, 0, 0, 0, 0, 0, 0, 0],
                               *args, **kwargs)
 

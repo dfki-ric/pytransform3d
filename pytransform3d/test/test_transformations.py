@@ -644,7 +644,8 @@ def test_normalize_dual_quaternion():
 
     random_state = np.random.RandomState(999)
     for _ in range(5):
-        dq = random_vector(random_state, 8)
+        A2B = random_transform(random_state)
+        dq = random_state.randn() * dual_quaternion_from_transform(A2B)
         dq_norm = check_dual_quaternion(dq)
         assert_unit_dual_quaternion(dq_norm)
 
