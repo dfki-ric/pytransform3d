@@ -215,6 +215,7 @@ Conversions to Position and Quaternion
    :template: function.rst
 
    ~pytransform3d.transformations.pq_from_transform
+   ~pytransform3d.transformations.pq_from_dual_quaternion
 
 Conversions to Screw Parameters
 -------------------------------
@@ -276,6 +277,7 @@ Conversions to Dual Quaternions
    :template: function.rst
 
    ~pytransform3d.transformations.dual_quaternion_from_transform
+   ~pytransform3d.transformations.dual_quaternion_from_pq
 
 Apply Transformations
 ---------------------
