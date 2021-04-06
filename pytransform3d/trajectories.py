@@ -283,6 +283,15 @@ def pqs_from_dual_quaternions(dqs):
     return out
 
 
+def batch_concatenate_dual_quaternions(dqs1, dqs2):
+    """TODO"""
+    out = np.empty_like(dqs1)
+    out[..., :4] = batch_concatenate_quaternions(dqs1[:4], dqs2[:4])
+    out[..., 4:] = (batch_concatenate_quaternions(dqs1[:4], dqs2[4:]) +
+                    batch_concatenate_quaternions(dqs1[4:], dqs2[:4]))
+    return out
+
+
 def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
     """Plot pose trajectory.
 
