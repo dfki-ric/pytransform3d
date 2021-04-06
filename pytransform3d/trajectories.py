@@ -251,7 +251,7 @@ def transforms_from_exponential_coordinates(Sthetas):
     return A2Bs
 
 
-def dqs_conj(dqs):
+def batch_dq_conj(dqs):
     """TODO"""
     out = np.empty_like(dqs)
     out[..., 0] = dqs[..., 0]
@@ -290,6 +290,18 @@ def batch_concatenate_dual_quaternions(dqs1, dqs2):
     out[..., 4:] = (batch_concatenate_quaternions(dqs1[:4], dqs2[4:]) +
                     batch_concatenate_quaternions(dqs1[4:], dqs2[:4]))
     return out
+
+
+def batch_dq_prod_vector(dqs, v):
+    """TODO"""
+    v_dqs = np.empty_like(dqs)
+    v_dqs[..., 0] = 1.0
+    v_dqs[..., 1:5] = 0.0
+    v_dqs[..., 5:] = v
+    v_dq_transformed = batch_concatenate_dual_quaternions(
+        batch_concatenate_quaternions(dqs, v_dqs),
+        batch_dq_conj(dqs))
+    return v_dq_transformed[5:]
 
 
 def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
