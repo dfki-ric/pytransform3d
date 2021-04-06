@@ -54,7 +54,7 @@ pytransform3d covers the following groups of transformations.
 | SE(3) | 3D transformations | transformation matrix, translation      |
 |       | (rotation and      | and unit quaternion, exponential        |
 |       | translation)       | coordinates, logarithm of               |
-|       |                    | transformation                          |
+|       |                    | transformation, unit dual quaternion    |
 +-------+--------------------+-----------------------------------------+
 
 ------------
