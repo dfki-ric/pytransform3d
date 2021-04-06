@@ -5,10 +5,10 @@ and can be 400 to 1000 times faster than a loop of individual conversions.
 """
 import numpy as np
 from .plot_utils import Trajectory, make_3d_axis
-from .batch_rotations import (matrices_from_quaternions,
-                              quaternions_from_matrices,
-                              matrices_from_compact_axis_angles,
-                              axis_angles_from_matrices)
+from .batch_rotations import (
+    matrices_from_quaternions, quaternions_from_matrices,
+    matrices_from_compact_axis_angles, axis_angles_from_matrices,
+    batch_concatenate_quaternions)
 from .transformations import transform_from_exponential_coordinates
 
 
@@ -249,6 +249,19 @@ def transforms_from_exponential_coordinates(Sthetas):
     A2Bs[ind_only_translation, :3, 3] = Sthetas[ind_only_translation, 3:]
 
     return A2Bs
+
+
+def dual_quaternions_from_pqs(pqs):
+    """TODO"""
+    instances_shape = pqs.shape[:-1]
+    out = np.empty(list(instances_shape) + [8])
+    out[..., :4] = pqs[..., 3:]
+    # use memory temporarily to store position
+    out[..., 4] = 0
+    out[..., 5:] = pqs[..., :3]
+    out[..., 4:] = 0.5 * batch_concatenate_quaternions(
+        out[..., 4:], out[..., :4])
+    return out
 
 
 def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
