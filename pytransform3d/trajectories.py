@@ -8,7 +8,7 @@ from .plot_utils import Trajectory, make_3d_axis
 from .batch_rotations import (
     matrices_from_quaternions, quaternions_from_matrices,
     matrices_from_compact_axis_angles, axis_angles_from_matrices,
-    batch_concatenate_quaternions)
+    batch_concatenate_quaternions, batch_q_conj)
 from .transformations import transform_from_exponential_coordinates
 
 
@@ -251,6 +251,15 @@ def transforms_from_exponential_coordinates(Sthetas):
     return A2Bs
 
 
+def dqs_conj(dqs):
+    """TODO"""
+    out = np.empty_like(dqs)
+    out[..., 0] = dqs[..., 0]
+    out[..., 1:5] = -dqs[..., 1:5]
+    out[..., 5:] = dqs[..., 5:]
+    return out
+
+
 def dual_quaternions_from_pqs(pqs):
     """TODO"""
     instances_shape = pqs.shape[:-1]
@@ -261,6 +270,16 @@ def dual_quaternions_from_pqs(pqs):
     out[..., 5:] = pqs[..., :3]
     out[..., 4:] = 0.5 * batch_concatenate_quaternions(
         out[..., 4:], out[..., :4])
+    return out
+
+
+def pqs_from_dual_quaternions(dqs):
+    """TODO"""
+    instances_shape = dqs.shape[:-1]
+    out = np.empty(list(instances_shape) + [7])
+    out[..., 3:] = dqs[..., :4]
+    out[..., :3] = 2 * batch_concatenate_quaternions(
+        dqs[..., 4:], batch_q_conj(out[..., 3:]))[..., 1:]
     return out
 
 
