@@ -642,6 +642,11 @@ def test_normalize_dual_quaternion():
     assert_unit_dual_quaternion(dq_norm)
     assert_array_almost_equal(dq, dq_norm)
 
+    dq = [0, 0, 0, 0, 0, 0, 0, 0]
+    dq_norm = check_dual_quaternion(dq)
+    assert_unit_dual_quaternion(dq_norm)
+    assert_array_almost_equal([1, 0, 0, 0, 0, 0, 0, 0], dq_norm)
+
     random_state = np.random.RandomState(999)
     for _ in range(5):
         A2B = random_transform(random_state)
