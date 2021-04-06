@@ -1460,6 +1460,46 @@ def dq_prod_vector(dq, v):
     return v_dq_transformed[5:]
 
 
+def dual_quaternion_from_transform(A2B):
+    """Compute dual quaternion from transformation matrix.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion
+    """
+    A2B = check_transform(A2B)
+    real = quaternion_from_matrix(A2B[:3, :3])
+    dual = 0.5 * concatenate_quaternions(
+        np.r_[0, A2B[:3, 3]], real)
+    return np.hstack((real, dual))
+
+
+def dual_quaternion_from_pq(pq):
+    """Compute dual quaternion from position and quaternion.
+
+    Parameters
+    ----------
+    pq : array-like, shape (7,)
+        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion
+    """
+    pq = check_pq(pq)
+    real = pq[3:]
+    dual = 0.5 * concatenate_quaternions(
+        np.r_[0, pq[:3]], real)
+    return np.hstack((real, dual))
+
+
 def transform_from_dual_quaternion(dq):
     """Compute transformation matrix from dual quaternion.
 
@@ -1481,24 +1521,24 @@ def transform_from_dual_quaternion(dq):
     return transform_from(R=R, p=p)
 
 
-def dual_quaternion_from_transform(A2B):
-    """Compute dual quaternion from transformation matrix.
+def pq_from_dual_quaternion(dq):
+    """Compute position and quaternion from dual quaternion.
 
     Parameters
     ----------
-    A2B : array-like, shape (4, 4)
-        Transform from frame A to frame B
+    dq : array-like, shape (8,)
+        Unit dual quaternion
 
     Returns
     -------
-    dq : array, shape (8,)
-        Unit dual quaternion
+    pq : array, shape (7,)
+        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
     """
-    A2B = check_transform(A2B)
-    real = quaternion_from_matrix(A2B[:3, :3])
-    dual = 0.5 * concatenate_quaternions(
-        np.r_[0, A2B[:3, 3]], real)
-    return np.hstack((real, dual))
+    dq = check_dual_quaternion(dq)
+    real = dq[:4]
+    dual = dq[4:]
+    p = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
+    return np.hstack((p, real))
 
 
 def assert_unit_dual_quaternion(dq, *args, **kwargs):
