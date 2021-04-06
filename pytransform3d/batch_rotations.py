@@ -547,3 +547,11 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
     out[1:] = (Q1[..., 0] * Q2[..., 1:] + Q2[..., 0] * Q1[..., 1:] +
                np.cross(Q1[..., 1:], Q2[..., 1:]))
     return out
+
+
+def batch_q_conj(Q):
+    """TODO"""
+    out = np.empty_like(Q)
+    out[..., 0] = Q[..., 0]
+    out[..., 1:] = -Q[..., 1:]
+    return out
