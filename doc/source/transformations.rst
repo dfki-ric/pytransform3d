@@ -39,6 +39,7 @@ that are available in pytransform3d.
 
 .. image:: _static/transformations.png
    :alt: Transformations
+   :width: 50%
    :align: center
 
 

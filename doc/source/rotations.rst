@@ -18,6 +18,7 @@ that are available in pytransform3d.
 
 .. image:: _static/rotations.png
    :alt: Rotations
+   :width: 50%
    :align: center
 
 ---------------
