@@ -534,3 +534,16 @@ def _slerp_weights(angle, t):
     else:
         return (np.sin((1.0 - t) * angle) / np.sin(angle),
                 np.sin(t * angle) / np.sin(angle))
+
+
+def batch_concatenate_quaternions(Q1, Q2, out=None):
+    """TODO"""
+    instances_shape = Q1.shape[:-1]
+
+    if out is None:
+        out = np.empty(instances_shape + (4,))
+
+    out[0] = Q1[..., 0] * Q2[..., 0] - np.dot(Q1[..., 1:], Q2[..., 1:])
+    out[1:] = (Q1[..., 0] * Q2[..., 1:] + Q2[..., 0] * Q1[..., 1:] +
+               np.cross(Q1[..., 1:], Q2[..., 1:]))
+    return out
