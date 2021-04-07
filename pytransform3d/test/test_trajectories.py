@@ -3,13 +3,15 @@ from pytransform3d.trajectories import (
     transforms_from_pqs, pqs_from_transforms,
     transforms_from_exponential_coordinates,
     exponential_coordinates_from_transforms,
-    pqs_from_dual_quaternions, dual_quaternions_from_pqs)
+    pqs_from_dual_quaternions, dual_quaternions_from_pqs,
+    batch_concatenate_dual_quaternions)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
 from pytransform3d.transformations import (
     exponential_coordinates_from_transform, translate_transform,
-    rotate_transform, random_transform, transform_from_pq)
+    rotate_transform, random_transform, transform_from_pq,
+    concatenate_dual_quaternions)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -123,3 +125,20 @@ def test_dual_quaternions_from_pqs_2dims():
     for pq, pq2 in zip(pqs.reshape(-1, 7), pqs2.reshape(-1, 7)):
         assert_array_almost_equal(pq[:3], pq2[:3])
         assert_quaternion_equal(pq[3:], pq2[3:])
+
+
+def test_batch_concatenate_dual_quaternions():
+    random_state = np.random.RandomState(845)
+    pqs = random_state.randn(2, 2, 2, 7)
+    pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
+    dqs = dual_quaternions_from_pqs(pqs)
+    dqs1 = dqs[0]
+    dqs2 = dqs[1]
+
+    dqs_result = batch_concatenate_dual_quaternions(dqs1, dqs2)
+    for dq_result, dq1, dq2 in zip(
+            dqs_result.reshape(-1, 8), dqs1.reshape(-1, 8),
+            dqs2.reshape(-1, 8)):
+        assert_array_almost_equal(
+            concatenate_dual_quaternions(dq1, dq2),
+            dq_result)
