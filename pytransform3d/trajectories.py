@@ -290,9 +290,11 @@ def pqs_from_dual_quaternions(dqs):
 def batch_concatenate_dual_quaternions(dqs1, dqs2):
     """TODO"""
     out = np.empty_like(dqs1)
-    out[..., :4] = batch_concatenate_quaternions(dqs1[:4], dqs2[:4])
-    out[..., 4:] = (batch_concatenate_quaternions(dqs1[:4], dqs2[4:]) +
-                    batch_concatenate_quaternions(dqs1[4:], dqs2[:4]))
+    out[..., :4] = batch_concatenate_quaternions(
+        dqs1[..., :4], dqs2[..., :4])
+    out[..., 4:] = (
+            batch_concatenate_quaternions(dqs1[..., :4], dqs2[..., 4:]) +
+            batch_concatenate_quaternions(dqs1[..., 4:], dqs2[..., :4]))
     return out
 
 
