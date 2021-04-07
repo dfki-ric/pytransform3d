@@ -264,10 +264,14 @@ def dual_quaternions_from_pqs(pqs):
     """TODO"""
     instances_shape = pqs.shape[:-1]
     out = np.empty(list(instances_shape) + [8])
+
+    # orientation quaternion
     out[..., :4] = pqs[..., 3:]
+
     # use memory temporarily to store position
     out[..., 4] = 0
     out[..., 5:] = pqs[..., :3]
+
     out[..., 4:] = 0.5 * batch_concatenate_quaternions(
         out[..., 4:], out[..., :4])
     return out
