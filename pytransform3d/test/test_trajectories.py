@@ -2,7 +2,8 @@ import numpy as np
 from pytransform3d.trajectories import (
     transforms_from_pqs, pqs_from_transforms,
     transforms_from_exponential_coordinates,
-    exponential_coordinates_from_transforms)
+    exponential_coordinates_from_transforms,
+    pqs_from_dual_quaternions, dual_quaternions_from_pqs)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -111,3 +112,14 @@ def test_exponential_coordinates_from_transforms_2dims():
     Sthetas2 = exponential_coordinates_from_transforms(H)
     H2 = transforms_from_exponential_coordinates(Sthetas2)
     assert_array_almost_equal(H, H2)
+
+
+def test_dual_quaternions_from_pqs_2dims():
+    random_state = np.random.RandomState(844)
+    pqs = random_state.randn(5, 5, 7)
+    pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
+    dqs = dual_quaternions_from_pqs(pqs)
+    pqs2 = pqs_from_dual_quaternions(dqs)
+    for pq, pq2 in zip(pqs.reshape(-1, 7), pqs2.reshape(-1, 7)):
+        assert_array_almost_equal(pq[:3], pq2[:3])
+        assert_quaternion_equal(pq[3:], pq2[3:])

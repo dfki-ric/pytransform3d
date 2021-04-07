@@ -543,9 +543,11 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
     if out is None:
         out = np.empty(instances_shape + (4,))
 
-    out[0] = Q1[..., 0] * Q2[..., 0] - np.dot(Q1[..., 1:], Q2[..., 1:])
-    out[1:] = (Q1[..., 0] * Q2[..., 1:] + Q2[..., 0] * Q1[..., 1:] +
-               np.cross(Q1[..., 1:], Q2[..., 1:]))
+    vector_inner_products = np.sum(Q1[..., 1:] * Q2[..., 1:], axis=-1)
+    out[..., 0] = Q1[..., 0] * Q2[..., 0] - vector_inner_products
+    out[..., 1:] = (Q1[..., 0, np.newaxis] * Q2[..., 1:] +
+                    Q2[..., 0, np.newaxis] * Q1[..., 1:] +
+                    np.cross(Q1[..., 1:], Q2[..., 1:]))
     return out
 
 
