@@ -517,7 +517,7 @@ def quaternion_slerp_batch(start, end, t):
 
     Returns
     -------
-    q : array-like, shape (n_steps, 4)
+    Q : array, shape (n_steps, 4)
         Interpolated unit quaternions
     """
     t = np.asarray(t)
@@ -552,7 +552,23 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
 
 
 def batch_q_conj(Q):
-    """TODO"""
+    """Conjugate of quaternion.
+
+    The conjugate of a unit quaternion inverts the rotation represented by
+    this unit quaternion. The conjugate of a quaternion q is often denoted
+    as q*.
+
+    Parameters
+    ----------
+    Q : array-like, shape (..., 4)
+        Unit quaternions to represent rotations: (w, x, y, z)
+
+    Returns
+    -------
+    Q_c : array-like, shape (..., 4,)
+        Conjugates (w, -x, -y, -z)
+    """
+    Q = np.asarray(Q)
     out = np.empty_like(Q)
     out[..., 0] = Q[..., 0]
     out[..., 1:] = -Q[..., 1:]
