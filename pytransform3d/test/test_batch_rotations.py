@@ -1,7 +1,7 @@
 import numpy as np
 from pytransform3d import rotations as pr
 from pytransform3d import batch_rotations as pbr
-from nose.tools import assert_almost_equal
+from nose.tools import assert_almost_equal, assert_raises_regexp
 from numpy.testing import assert_array_almost_equal
 
 
@@ -332,6 +332,42 @@ def test_quaternion_slerp_batch():
     for i in range(len(t)):
         qi = pr.quaternion_slerp(q_start, q_end, t[i])
         pr.assert_quaternion_equal(Q[i], qi)
+
+
+def test_batch_concatenate_quaternions_mismatch():
+    Q1 = np.zeros((1, 2, 4))
+    Q2 = np.zeros((1, 2, 3, 4))
+    assert_raises_regexp(
+        ValueError, "Number of dimensions must be the same.",
+        pbr.batch_concatenate_quaternions, Q1, Q2)
+
+    Q1 = np.zeros((1, 2, 4, 4))
+    Q2 = np.zeros((1, 2, 3, 4))
+    assert_raises_regexp(
+        ValueError, "Size of dimension 3 does not match",
+        pbr.batch_concatenate_quaternions, Q1, Q2)
+
+    Q1 = np.zeros((1, 2, 3, 3))
+    Q2 = np.zeros((1, 2, 3, 4))
+    assert_raises_regexp(
+        ValueError, "Last dimension of first argument does not match.",
+        pbr.batch_concatenate_quaternions, Q1, Q2)
+
+    Q1 = np.zeros((1, 2, 3, 4))
+    Q2 = np.zeros((1, 2, 3, 3))
+    assert_raises_regexp(
+        ValueError, "Last dimension of second argument does not match.",
+        pbr.batch_concatenate_quaternions, Q1, Q2)
+
+
+def test_batch_concatenate_quaternions_1d():
+    random_state = np.random.RandomState(230)
+    q1 = pr.random_quaternion(random_state)
+    q2 = pr.random_quaternion(random_state)
+    q12 = np.empty(4)
+    pbr.batch_concatenate_quaternions(q1, q2, out=q12)
+    assert_array_almost_equal(
+        q12, pr.concatenate_quaternions(q1, q2))
 
 
 def test_batch_q_conj_1d():
