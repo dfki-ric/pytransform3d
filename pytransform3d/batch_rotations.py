@@ -537,7 +537,27 @@ def _slerp_weights(angle, t):
 
 
 def batch_concatenate_quaternions(Q1, Q2, out=None):
-    """TODO"""
+    """Concatenate two batches of quaternions.
+
+    We use Hamilton's quaternion multiplication.
+
+    Suppose we want to apply two extrinsic rotations given by quaternions
+    q1 and q2 to a vector v. We can either apply q2 to v and then q1 to
+    the result or we can concatenate q1 and q2 and apply the result to v.
+
+    Parameters
+    ----------
+    Q1 : array-like, shape (..., 4,)
+        First batch of quaternions
+
+    Q2 : array-like, shape (..., 4,)
+        Second batch of quaternions
+
+    Returns
+    -------
+    Q12 : array-like, shape (..., 4,)
+        Batch of quaternions that represents the concatenated rotations
+    """
     instances_shape = Q1.shape[:-1]
 
     if out is None:
@@ -552,7 +572,7 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
 
 
 def batch_q_conj(Q):
-    """Conjugate of quaternion.
+    """Conjugate of quaternions.
 
     The conjugate of a unit quaternion inverts the rotation represented by
     this unit quaternion. The conjugate of a quaternion q is often denoted
