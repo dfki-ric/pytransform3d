@@ -558,10 +558,28 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
     Q12 : array-like, shape (..., 4,)
         Batch of quaternions that represents the concatenated rotations
     """
-    instances_shape = Q1.shape[:-1]
+    Q1 = np.asarray(Q1)
+    Q2 = np.asarray(Q2)
+
+    if Q1.ndim != Q2.ndim:
+        raise ValueError("Number of dimensions must be the same. "
+                         "Got %d for Q1 and %d for Q2." % (Q1.ndim, Q2.ndim))
+    for d in range(Q1.ndim - 1):
+        if Q1.shape[d] != Q2.shape[d]:
+            raise ValueError(
+                "Size of dimension %d does not match: %d != %d"
+                % (d + 1, Q1.shape[d], Q2.shape[d]))
+    if Q1.shape[-1] != 4:
+        raise ValueError(
+            "Last dimension of first argument does not match. A quaternion "
+            "must have 4 entries, got %d" % Q1.shape[-1])
+    if Q2.shape[-1] != 4:
+        raise ValueError(
+            "Last dimension of second argument does not match. A quaternion "
+            "must have 4 entries, got %d" % Q2.shape[-1])
 
     if out is None:
-        out = np.empty(instances_shape + (4,))
+        out = np.empty_like(Q1)
 
     vector_inner_products = np.sum(Q1[..., 1:] * Q2[..., 1:], axis=-1)
     out[..., 0] = Q1[..., 0] * Q2[..., 0] - vector_inner_products
