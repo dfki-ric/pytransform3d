@@ -307,7 +307,6 @@ Dual Quaternion Operations
    ~pytransform3d.transformations.dq_q_conj
    ~pytransform3d.transformations.concatenate_dual_quaternions
    ~pytransform3d.transformations.dq_prod_vector
-   ~pytransform3d.transformations.assert_unit_dual_quaternion
 
 Plotting
 --------
@@ -327,6 +326,7 @@ Testing
    :template: function.rst
 
    ~pytransform3d.transformations.assert_transform
+   ~pytransform3d.transformations.assert_unit_dual_quaternion
 
 
 :mod:`pytransform3d.batch_rotations`
