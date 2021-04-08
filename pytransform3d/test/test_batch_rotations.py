@@ -332,3 +332,23 @@ def test_quaternion_slerp_batch():
     for i in range(len(t)):
         qi = pr.quaternion_slerp(q_start, q_end, t[i])
         pr.assert_quaternion_equal(Q[i], qi)
+
+
+def test_batch_q_conj_1d():
+    random_state = np.random.RandomState(230)
+    q = pr.random_quaternion(random_state)
+    assert_array_almost_equal(pr.q_conj(q), pbr.batch_q_conj(q))
+
+
+def test_batch_concatenate_q_conj():
+    random_state = np.random.RandomState(231)
+    Q = np.array([pr.random_quaternion(random_state)
+                  for _ in range(10)])
+    Q = Q.reshape(2, 5, 4)
+
+    Q_conj = pbr.batch_q_conj(Q)
+    Q_Q_conj = pbr.batch_concatenate_quaternions(Q, Q_conj)
+
+    assert_array_almost_equal(
+        Q_Q_conj.reshape(-1, 4),
+        np.array([[1, 0, 0, 0]] * 10))
