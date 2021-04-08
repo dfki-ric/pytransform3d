@@ -305,7 +305,7 @@ def batch_dq_prod_vector(dqs, v):
     v_dqs[..., 1:5] = 0.0
     v_dqs[..., 5:] = v
     v_dq_transformed = batch_concatenate_dual_quaternions(
-        batch_concatenate_quaternions(dqs, v_dqs),
+        batch_concatenate_dual_quaternions(dqs, v_dqs),
         batch_dq_conj(dqs))
     return v_dq_transformed[5:]
 
