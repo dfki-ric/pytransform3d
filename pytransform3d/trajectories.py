@@ -309,7 +309,21 @@ def dual_quaternions_from_pqs(pqs):
 
 
 def pqs_from_dual_quaternions(dqs):
-    """TODO"""
+    """Get positions and quaternions from dual quaternions.
+
+    Parameters
+    ----------
+    dqs : array-like, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    pqs : array, shape (..., 7)
+        Poses represented by positions and quaternions in the
+        order (x, y, z, qw, qx, qy, qz)
+    """
+    dqs = np.asarray(dqs)
     instances_shape = dqs.shape[:-1]
     out = np.empty(list(instances_shape) + [7])
     out[..., 3:] = dqs[..., :4]
