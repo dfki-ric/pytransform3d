@@ -252,7 +252,24 @@ def transforms_from_exponential_coordinates(Sthetas):
 
 
 def batch_dq_conj(dqs):
-    """TODO"""
+    """Conjugate of dual quaternions.
+
+    There are three different conjugates for dual quaternions. The one that we
+    use here converts (pw, px, py, pz, qw, qx, qy, qz) to
+    (pw, -px, -py, -pz, -qw, qx, qy, qz). It is a combination of the quaternion
+    conjugate and the dual number conjugate.
+
+    Parameters
+    ----------
+    dqs : array-like, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dq_conjugates : array-like, shape (..., 8)
+        Conjugates of dual quaternions: (pw, -px, -py, -pz, -qw, qx, qy, qz)
+    """
     out = np.empty_like(dqs)
     out[..., 0] = dqs[..., 0]
     out[..., 1:5] = -dqs[..., 1:5]
@@ -261,7 +278,21 @@ def batch_dq_conj(dqs):
 
 
 def dual_quaternions_from_pqs(pqs):
-    """TODO"""
+    """Get dual quaternions from positions and quaternions.
+
+    Parameters
+    ----------
+    pqs : array-like, shape (..., 7)
+        Poses represented by positions and quaternions in the
+        order (x, y, z, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dqs : array, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+    """
+    pqs = np.asarray(pqs)
     instances_shape = pqs.shape[:-1]
     out = np.empty(list(instances_shape) + [8])
 
@@ -288,7 +319,32 @@ def pqs_from_dual_quaternions(dqs):
 
 
 def batch_concatenate_dual_quaternions(dqs1, dqs2):
-    """TODO"""
+    """Concatenate dual quaternions.
+
+    Suppose we want to apply two extrinsic transforms given by dual
+    quaternions dq1 and dq2 to a vector v. We can either apply dq2 to v and
+    then dq1 to the result or we can concatenate dq1 and dq2 and apply the
+    result to v.
+
+    Parameters
+    ----------
+    dqs1 : array-like, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    dqs2 : array-like, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dqs3 : array, shape (8,)
+        Products of the two batches of dual quaternions:
+        (pw, px, py, pz, qw, qx, qy, qz)
+    """
+    dqs1 = np.asarray(dqs1)
+    dqs2 = np.asarray(dqs2)
+
     out = np.empty_like(dqs1)
     out[..., :4] = batch_concatenate_quaternions(
         dqs1[..., :4], dqs2[..., :4])
@@ -298,12 +354,28 @@ def batch_concatenate_dual_quaternions(dqs1, dqs2):
     return out
 
 
-def batch_dq_prod_vector(dqs, v):
-    """TODO"""
+def batch_dq_prod_vector(dqs, V):
+    """Apply transforms represented by a dual quaternions to vectors.
+
+    Parameters
+    ----------
+    dqs : array-like, shape (..., 8)
+        Unit dual quaternions
+
+    V : array-like, shape (..., 3)
+        3d vectors
+
+    Returns
+    -------
+    W : array, shape (3,)
+        3d vectors
+    """
+    dqs = np.asarray(dqs)
+
     v_dqs = np.empty_like(dqs)
     v_dqs[..., 0] = 1.0
     v_dqs[..., 1:5] = 0.0
-    v_dqs[..., 5:] = v
+    v_dqs[..., 5:] = V
     v_dq_transformed = batch_concatenate_dual_quaternions(
         batch_concatenate_dual_quaternions(dqs, v_dqs),
         batch_dq_conj(dqs))
