@@ -251,32 +251,6 @@ def transforms_from_exponential_coordinates(Sthetas):
     return A2Bs
 
 
-def batch_dq_conj(dqs):
-    """Conjugate of dual quaternions.
-
-    There are three different conjugates for dual quaternions. The one that we
-    use here converts (pw, px, py, pz, qw, qx, qy, qz) to
-    (pw, -px, -py, -pz, -qw, qx, qy, qz). It is a combination of the quaternion
-    conjugate and the dual number conjugate.
-
-    Parameters
-    ----------
-    dqs : array-like, shape (..., 8)
-        Dual quaternions to represent transforms:
-        (pw, px, py, pz, qw, qx, qy, qz)
-
-    Returns
-    -------
-    dq_conjugates : array-like, shape (..., 8)
-        Conjugates of dual quaternions: (pw, -px, -py, -pz, -qw, qx, qy, qz)
-    """
-    out = np.empty_like(dqs)
-    out[..., 0] = dqs[..., 0]
-    out[..., 1:5] = -dqs[..., 1:5]
-    out[..., 5:] = dqs[..., 5:]
-    return out
-
-
 def dual_quaternions_from_pqs(pqs):
     """Get dual quaternions from positions and quaternions.
 
@@ -332,6 +306,32 @@ def pqs_from_dual_quaternions(dqs):
     return out
 
 
+def batch_dq_conj(dqs):
+    """Conjugate of dual quaternions.
+
+    There are three different conjugates for dual quaternions. The one that we
+    use here converts (pw, px, py, pz, qw, qx, qy, qz) to
+    (pw, -px, -py, -pz, -qw, qx, qy, qz). It is a combination of the quaternion
+    conjugate and the dual number conjugate.
+
+    Parameters
+    ----------
+    dqs : array-like, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dq_conjugates : array-like, shape (..., 8)
+        Conjugates of dual quaternions: (pw, -px, -py, -pz, -qw, qx, qy, qz)
+    """
+    out = np.empty_like(dqs)
+    out[..., 0] = dqs[..., 0]
+    out[..., 1:5] = -dqs[..., 1:5]
+    out[..., 5:] = dqs[..., 5:]
+    return out
+
+
 def batch_concatenate_dual_quaternions(dqs1, dqs2):
     """Concatenate dual quaternions.
 
@@ -363,8 +363,8 @@ def batch_concatenate_dual_quaternions(dqs1, dqs2):
     out[..., :4] = batch_concatenate_quaternions(
         dqs1[..., :4], dqs2[..., :4])
     out[..., 4:] = (
-            batch_concatenate_quaternions(dqs1[..., :4], dqs2[..., 4:]) +
-            batch_concatenate_quaternions(dqs1[..., 4:], dqs2[..., :4]))
+        batch_concatenate_quaternions(dqs1[..., :4], dqs2[..., 4:]) +
+        batch_concatenate_quaternions(dqs1[..., 4:], dqs2[..., :4]))
     return out
 
 
