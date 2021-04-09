@@ -547,15 +547,15 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
 
     Parameters
     ----------
-    Q1 : array-like, shape (..., 4,)
+    Q1 : array-like, shape (..., 4)
         First batch of quaternions
 
-    Q2 : array-like, shape (..., 4,)
+    Q2 : array-like, shape (..., 4)
         Second batch of quaternions
 
     Returns
     -------
-    Q12 : array-like, shape (..., 4,)
+    Q12 : array, shape (..., 4)
         Batch of quaternions that represents the concatenated rotations
     """
     Q1 = np.asarray(Q1)
@@ -603,7 +603,7 @@ def batch_q_conj(Q):
 
     Returns
     -------
-    Q_c : array-like, shape (..., 4,)
+    Q_c : array, shape (..., 4,)
         Conjugates (w, -x, -y, -z)
     """
     Q = np.asarray(Q)

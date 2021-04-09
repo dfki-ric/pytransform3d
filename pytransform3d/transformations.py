@@ -1424,7 +1424,7 @@ def concatenate_dual_quaternions(dq1, dq2):
 
     Returns
     -------
-    dq3 : array-like, shape (8,)
+    dq3 : array, shape (8,)
         Product of the two dual quaternions:
         (pw, px, py, pz, qw, qx, qy, qz)
     """
@@ -1449,7 +1449,7 @@ def dq_prod_vector(dq, v):
 
     Returns
     -------
-    w : array-like, shape (3,)
+    w : array, shape (3,)
         3d vector
     """
     dq = check_dual_quaternion(dq)
