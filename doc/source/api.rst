@@ -368,6 +368,11 @@ Testing
    ~pytransform3d.trajectories.pqs_from_transforms
    ~pytransform3d.trajectories.exponential_coordinates_from_transforms
    ~pytransform3d.trajectories.transforms_from_exponential_coordinates
+   ~pytransform3d.trajectories.dual_quaternions_from_pqs
+   ~pytransform3d.trajectories.pqs_from_dual_quaternions
+   ~pytransform3d.trajectories.batch_dq_conj
+   ~pytransform3d.trajectories.batch_concatenate_dual_quaternions
+   ~pytransform3d.trajectories.batch_dq_prod_vector
    ~pytransform3d.trajectories.plot_trajectory
 
 
