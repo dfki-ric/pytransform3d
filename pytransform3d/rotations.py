@@ -368,7 +368,7 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
     V : array-like, shape (3, 3)
         Validated cross-product matrix
     """
-    V = np.asarray(V, dtype=np.float)
+    V = np.asarray(V, dtype=np.float64)
     if V.ndim != 2 or V.shape[0] != 3 or V.shape[1] != 3:
         raise ValueError("Expected skew-symmetric matrix with shape (3, 3), "
                          "got array-like object with shape %s" % (V.shape,))
@@ -406,7 +406,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
     R : array, shape (3, 3)
         Validated rotation matrix
     """
-    R = np.asarray(R, dtype=np.float)
+    R = np.asarray(R, dtype=np.float64)
     if R.ndim != 2 or R.shape[0] != 3 or R.shape[1] != 3:
         raise ValueError("Expected rotation matrix with shape (3, 3), got "
                          "array-like object with shape %s" % (R.shape,))
@@ -445,7 +445,7 @@ def check_axis_angle(a):
     a : array, shape (4,)
         Validated axis of rotation and rotation angle: (x, y, z, angle)
     """
-    a = np.asarray(a, dtype=np.float)
+    a = np.asarray(a, dtype=np.float64)
     if a.ndim != 1 or a.shape[0] != 4:
         raise ValueError("Expected axis and angle in array with shape (4,), "
                          "got array-like object with shape %s" % (a.shape,))
@@ -465,7 +465,7 @@ def check_compact_axis_angle(a):
     a : array, shape (3,)
         Validated axis of rotation and rotation angle: angle * (x, y, z)
     """
-    a = np.asarray(a, dtype=np.float)
+    a = np.asarray(a, dtype=np.float64)
     if a.ndim != 1 or a.shape[0] != 3:
         raise ValueError("Expected axis and angle in array with shape (3,), "
                          "got array-like object with shape %s" % (a.shape,))
@@ -488,7 +488,7 @@ def check_quaternion(q, unit=True):
     q : array-like, shape (4,)
         Validated quaternion to represent rotation: (w, x, y, z)
     """
-    q = np.asarray(q, dtype=np.float)
+    q = np.asarray(q, dtype=np.float64)
     if q.ndim != 1 or q.shape[0] != 4:
         raise ValueError("Expected quaternion with shape (4,), got "
                          "array-like object with shape %s" % (q.shape,))
@@ -514,7 +514,7 @@ def check_quaternions(Q, unit=True):
     Q : array-like, shape (n_steps, 4)
         Validated quaternions to represent rotations: (w, x, y, z)
     """
-    Q_checked = np.asarray(Q, dtype=np.float)
+    Q_checked = np.asarray(Q, dtype=np.float64)
     if Q_checked.ndim != 2 or Q_checked.shape[1] != 4:
         raise ValueError(
             "Expected quaternion array with shape (n_steps, 4), got "
