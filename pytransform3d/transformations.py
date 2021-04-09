@@ -36,7 +36,7 @@ def check_transform(A2B, strict_check=True):
     A2B : array, shape (4, 4)
         Validated transform from frame A to frame B
     """
-    A2B = np.asarray(A2B, dtype=np.float)
+    A2B = np.asarray(A2B, dtype=np.float64)
     if A2B.ndim != 2 or A2B.shape[0] != 4 or A2B.shape[1] != 4:
         raise ValueError("Expected homogeneous transformation matrix with "
                          "shape (4, 4), got array-like object with shape %s"
@@ -66,7 +66,7 @@ def check_pq(pq):
         Validated position and orientation quaternion:
          (x, y, z, qw, qx, qy, qz)
     """
-    pq = np.asarray(pq, dtype=np.float)
+    pq = np.asarray(pq, dtype=np.float64)
     if pq.ndim != 1 or pq.shape[0] != 7:
         raise ValueError("Expected position and orientation quaternion in a "
                          "1D array, got array-like object with shape %s"
@@ -598,14 +598,14 @@ def check_screw_parameters(q, s_axis, h):
         Pitch of the screw. The pitch is the ratio of translation and rotation
         of the screw axis. Infinite pitch indicates pure translation.
     """
-    s_axis = np.asarray(s_axis, dtype=np.float)
+    s_axis = np.asarray(s_axis, dtype=np.float64)
     if s_axis.ndim != 1 or s_axis.shape[0] != 3:
         raise ValueError("Expected 3D vector with shape (3,), got array-like "
                          "object with shape %s" % (s_axis.shape,))
     if np.linalg.norm(s_axis) == 0.0:
         raise ValueError("s_axis must not have norm 0")
 
-    q = np.asarray(q, dtype=np.float)
+    q = np.asarray(q, dtype=np.float64)
     if q.ndim != 1 or q.shape[0] != 3:
         raise ValueError("Expected 3D vector with shape (3,), got array-like "
                          "object with shape %s" % (q.shape,))
@@ -645,7 +645,7 @@ def check_screw_axis(screw_axis):
         where the first 3 components are related to rotation and the last 3
         components are related to translation.
     """
-    screw_axis = np.asarray(screw_axis, dtype=np.float)
+    screw_axis = np.asarray(screw_axis, dtype=np.float64)
     if screw_axis.ndim != 1 or screw_axis.shape[0] != 6:
         raise ValueError("Expected 3D vector with shape (6,), got array-like "
                          "object with shape %s" % (screw_axis.shape,))
@@ -695,7 +695,7 @@ def check_exponential_coordinates(Stheta):
         will be represented by a negative screw axis instead. This is relevant
         if you want to recover theta from exponential coordinates.
     """
-    Stheta = np.asarray(Stheta, dtype=np.float)
+    Stheta = np.asarray(Stheta, dtype=np.float64)
     if Stheta.ndim != 1 or Stheta.shape[0] != 6:
         raise ValueError("Expected array-like with shape (6,), got array-like "
                          "object with shape %s" % (Stheta.shape,))
@@ -746,7 +746,7 @@ def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
         A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
     """
-    screw_matrix = np.asarray(screw_matrix, dtype=np.float)
+    screw_matrix = np.asarray(screw_matrix, dtype=np.float64)
     if (screw_matrix.ndim != 2 or screw_matrix.shape[0] != 4
             or screw_matrix.shape[1] != 4):
         raise ValueError(
@@ -800,7 +800,7 @@ def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     transform_log : array, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
     """
-    transform_log = np.asarray(transform_log, dtype=np.float)
+    transform_log = np.asarray(transform_log, dtype=np.float64)
     if (transform_log.ndim != 2 or transform_log.shape[0] != 4
             or transform_log.shape[1] != 4):
         raise ValueError(
@@ -1337,7 +1337,7 @@ def check_dual_quaternion(dq, unit=True):
         :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
         :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
     """
-    dq = np.asarray(dq, dtype=np.float)
+    dq = np.asarray(dq, dtype=np.float64)
     if dq.ndim != 1 or dq.shape[0] != 8:
         raise ValueError("Expected dual quaternion with shape (8,), got "
                          "array-like object with shape %s" % (dq.shape,))

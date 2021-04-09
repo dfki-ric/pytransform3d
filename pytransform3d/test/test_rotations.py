@@ -248,12 +248,12 @@ def test_check_matrix():
     R_list = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     R = pr.check_matrix(R_list)
     assert_equal(type(R), np.ndarray)
-    assert_equal(R.dtype, np.float)
+    assert_equal(R.dtype, np.float64)
 
     R_int_array = np.eye(3, dtype=np.int)
     R = pr.check_matrix(R_int_array)
     assert_equal(type(R), np.ndarray)
-    assert_equal(R.dtype, np.float)
+    assert_equal(R.dtype, np.float64)
 
     R_array = np.eye(3)
     R = pr.check_matrix(R_array)
@@ -282,7 +282,7 @@ def test_check_axis_angle():
     a = pr.check_axis_angle(a_list)
     assert_array_almost_equal(a_list, a)
     assert_equal(type(a), np.ndarray)
-    assert_equal(a.dtype, np.float)
+    assert_equal(a.dtype, np.float64)
 
     random_state = np.random.RandomState(0)
     a = np.empty(4)
@@ -308,7 +308,7 @@ def test_check_compact_axis_angle():
     a = pr.check_compact_axis_angle(a_list)
     assert_array_almost_equal(a_list, a)
     assert_equal(type(a), np.ndarray)
-    assert_equal(a.dtype, np.float)
+    assert_equal(a.dtype, np.float64)
 
     random_state = np.random.RandomState(0)
     a = pr.norm_vector(pr.random_vector(random_state, 3))
@@ -332,7 +332,7 @@ def test_check_quaternion():
     q = pr.check_quaternion(q_list)
     assert_array_almost_equal(q_list, q)
     assert_equal(type(q), np.ndarray)
-    assert_equal(q.dtype, np.float)
+    assert_equal(q.dtype, np.float64)
 
     random_state = np.random.RandomState(0)
     q = random_state.randn(4)
@@ -355,7 +355,7 @@ def test_check_quaternions():
     Q = pr.check_quaternions(Q_list)
     assert_array_almost_equal(Q_list, Q)
     assert_equal(type(Q), np.ndarray)
-    assert_equal(Q.dtype, np.float)
+    assert_equal(Q.dtype, np.float64)
     assert_equal(Q.ndim, 2)
     assert_array_equal(Q.shape, (1, 4))
 
