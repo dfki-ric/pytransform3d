@@ -192,8 +192,12 @@ def world2image(P_world, cam2world, sensor_size, image_size, focal_length,
     return P_img
 
 
-def plot_camera(ax=None, M=None, cam2world=None, image_size=(1920, 1080), ax_s=1, strict_check=True, **kwargs):
+def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sensor_size=(1920, 1080), ax_s=1, strict_check=True, **kwargs):
     """Plot image plane in world coordinates.
+
+    This function is inspired by Blender's camera visualization. It will
+    show the camera center, a virtual image plane, and the top of the virtual
+    image plane.
 
     Parameters
     ----------
@@ -201,15 +205,25 @@ def plot_camera(ax=None, M=None, cam2world=None, image_size=(1920, 1080), ax_s=1
         If the axis is None, a new 3d axis will be created
 
     M : array-like, shape (3, 3)
-        Intrinsic camera matrix that contains the focal lengths in pixels on
-        the diagonal and the center of the the image in pixels in the last
-        column.
+        Intrinsic camera matrix that contains the focal lengths on the diagonal
+        and the center of the the image in the last column. We assume that
+        these values are given in meters, that is, the focal length is the
+        distance between the pinhole and the principal point on the sensor
+        and the principal point offset is given with respect to the bottom
+        left corner of the sensor. If the units are not meters, that is not
+        a problem because the image plane will only be scaled. Make sure
+        to get the order of magnitude right though.
 
     cam2world : array-like, shape (4, 4), optional (default: I)
-        Camera in world frame
+        Camera in world frame. We assume that the position is given in meters.
 
-    image_size : array-like, shape (2,)
-        Size of the camera image: (width, height)
+    virtual_image_distance : float, optional (default: 1)
+        Distance from pinhole to virtual image plane that will be displayed.
+        We assume that this distance is given in meters.
+
+    sensor_size : array-like, shape (2,)
+        Size of the image sensor: (width, height). We will again assume that
+        these values are given in meters.
 
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
@@ -228,7 +242,10 @@ def plot_camera(ax=None, M=None, cam2world=None, image_size=(1920, 1080), ax_s=1
         New or old axis
     """
     from .plot_utils import make_3d_axis
-    from .transformations import check_transform, invert_transform, transform, vectors_to_points
+    from .transformations import check_transform, transform, vector_to_point, vectors_to_points
+
+    # TODO PEP8
+    # TODO extrinsic camera matrix: pytransform3d vs. blender
 
     if ax is None:
         ax = make_3d_axis(ax_s)
@@ -238,35 +255,62 @@ def plot_camera(ax=None, M=None, cam2world=None, image_size=(1920, 1080), ax_s=1
 
     if cam2world is None:
         cam2world = np.eye(4)
+
     cam2world = check_transform(cam2world, strict_check=strict_check)
 
-    corners_in_image = np.array([
-        [0, 0, 1],
-        [0, image_size[1], 1],
-        [image_size[0], image_size[1], 1],
-        [image_size[0], 0, 1]
+    camera_center_in_cam = np.zeros(3)
+    camera_center_in_world = transform(cam2world, vector_to_point(camera_center_in_cam))
+    focal_length = np.mean(np.diag(M[:2, :2]))
+    sensor_corners_in_cam = np.array([
+        [-M[0, 2], -M[1, 2], focal_length],
+        [-M[0, 2], sensor_size[1] - M[1, 2], focal_length],
+        [sensor_size[0] - M[0, 2], sensor_size[1] - M[1, 2], focal_length],
+        [sensor_size[0] - M[0, 2], -M[1, 2], focal_length],
     ])
-    M_inv = np.linalg.inv(M)
-    corners_in_camera = corners_in_image.dot(M_inv.T)
-    corners_in_camera[:, 2] = 0.0
-    origin = np.mean(corners_in_camera, axis=0)
+    sensor_corners_in_world = transform(
+        cam2world, vectors_to_points(sensor_corners_in_cam))[:, :3]
+    virtual_image_corners = (
+            sensor_corners_in_world - camera_center_in_world[np.newaxis, :3])
+    virtual_image_corners = (
+            virtual_image_distance / focal_length * virtual_image_corners +
+            camera_center_in_world[np.newaxis, :3])
 
-    frame = transform(cam2world, vectors_to_points(np.array([
-        corners_in_camera[0],
-        origin,
-        corners_in_camera[0],
-        corners_in_camera[1],
-        origin,
-        corners_in_camera[1],
-        corners_in_camera[2],
-        origin,
-        corners_in_camera[2],
-        corners_in_camera[3],
-        origin,
-        corners_in_camera[3],
-        corners_in_camera[0],
-    ])))
+    camera_frame = np.vstack((
+        virtual_image_corners[0],
+        camera_center_in_world[:3],
+        virtual_image_corners[0],
+        virtual_image_corners[1],
+        camera_center_in_world[:3],
+        virtual_image_corners[1],
+        virtual_image_corners[2],
+        camera_center_in_world[:3],
+        virtual_image_corners[2],
+        virtual_image_corners[3],
+        camera_center_in_world[:3],
+        virtual_image_corners[3],
+        virtual_image_corners[0],
+    ))
 
-    ax.plot(frame[:, 0], frame[:, 1], frame[:, 2], **kwargs)
+    up = virtual_image_corners[0] - virtual_image_corners[1]
+    camera_top = np.array([
+        virtual_image_corners[0] + 0.1 * up,
+        0.5 * (virtual_image_corners[0] + virtual_image_corners[3]) + 0.5 * up,
+        virtual_image_corners[3] + 0.1 * up,
+        virtual_image_corners[0] + 0.1 * up
+    ])
+
+    if "c" in kwargs:
+        color = kwargs.pop("c")
+    elif "color" in kwargs:
+        color = kwargs.pop("color")
+    else:
+        color = "k"
+
+    ax.plot(camera_frame[:, 0], camera_frame[:, 1], camera_frame[:, 2],
+            color=color, **kwargs)
+    ax.plot(camera_top[:, 0], camera_top[:, 1], camera_top[:, 2],
+            color=color, **kwargs)
+    ax.scatter(camera_center_in_world[0], camera_center_in_world[1],
+               camera_center_in_world[2], color=color, **kwargs)
 
     return ax

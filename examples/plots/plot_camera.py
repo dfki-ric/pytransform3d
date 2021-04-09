@@ -26,8 +26,8 @@ focal_length = 0.0036
 sensor_size = (0.00367, 0.00274)
 image_size = (640, 480)
 intrinsic_camera_matrix = np.array([
-    [image_size[0] / 2, 0, image_size[0] / 2],
-    [0, image_size[1] / 2, image_size[1] / 2],
+    [focal_length, 0, sensor_size[0] / 2],
+    [0, focal_length, sensor_size[1] / 2],
     [0, 0, 1]
 ])
 
@@ -51,7 +51,7 @@ ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 plot_transform(ax)
 plot_transform(ax, A2B=cam2world, s=0.3, name="Camera")
-plot_camera(ax, intrinsic_camera_matrix, cam2world, image_size, color="y")
+plot_camera(ax, intrinsic_camera_matrix, cam2world, sensor_size=sensor_size)
 ax.set_title("Camera and world frames")
 ax.scatter(
     world_grid[:, 0], world_grid[:, 1], world_grid[:, 2], s=1, alpha=0.2)

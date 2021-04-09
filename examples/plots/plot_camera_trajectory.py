@@ -35,14 +35,23 @@ q_vec = trajectory[:, 3:6]
 trajectory[:, 3] = q_scalar
 trajectory[:, 4:] = q_vec
 
+# TODO check frame orientation
 H = ptr.transforms_from_pqs(trajectory)
 
 ax = pt.plot_transform(s=0.3)
 ax = ptr.plot_trajectory(ax, P=trajectory, s=0.1)
 
+image_size = np.array([1920, 1440])  # in pixels
+sensor_size = np.array([0.036, 0.024])  # in meters
+factor = sensor_size / image_size
+intrinsic_matrix[:2, :2] *= np.eye(2).dot(factor)
+intrinsic_matrix[:2, 2] *= factor
+
 key_frames_indices = np.linspace(0, len(trajectory) - 1, 3, dtype=int)
-#for i in key_frames_indices:
-#    pc.plot_camera(ax, intrinsic_matrix, H[i], (1920, 1440))
+colors = "rgb"
+for i, c in zip(key_frames_indices, colors):
+    pc.plot_camera(ax, intrinsic_matrix, H[i], sensor_size=(1920, 1440),
+                   virtual_image_distance=0.1, c=c)
 
 pos_min = np.min(trajectory[:, :3], axis=0)
 pos_max = np.max(trajectory[:, :3], axis=0)
