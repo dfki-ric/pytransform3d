@@ -42,7 +42,7 @@ def test_check_transform():
     A2B = np.eye(4, dtype=int)
     A2B = check_transform(A2B)
     assert_equal(type(A2B), np.ndarray)
-    assert_equal(A2B.dtype, np.float)
+    assert_equal(A2B.dtype, np.float64)
 
     A2B[:3, :3] = np.array([[1, 1, 1], [0, 0, 0], [2, 2, 2]])
     assert_raises_regexp(ValueError, "rotation matrix", check_transform, A2B)
