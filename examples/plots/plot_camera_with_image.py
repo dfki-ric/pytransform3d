@@ -51,7 +51,8 @@ ax.set_ylabel("Y")
 ax.set_zlabel("Z")
 plot_transform(ax)
 plot_transform(ax, A2B=cam2world, s=0.3, name="Camera")
-plot_camera(ax, intrinsic_camera_matrix, cam2world, sensor_size=sensor_size)
+plot_camera(ax, intrinsic_camera_matrix, cam2world,
+            sensor_size=sensor_size, virtual_image_distance=0.5)
 ax.set_title("Camera and world frames")
 ax.scatter(
     world_grid[:, 0], world_grid[:, 1], world_grid[:, 2], s=1, alpha=0.2)
