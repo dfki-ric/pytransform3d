@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.transformations as pt
 import pytransform3d.trajectories as ptr
+import pytransform3d.rotations as pr
 import pytransform3d.camera as pc
 from cycler import cycle
 
@@ -26,32 +27,25 @@ with open(os.path.join(
     intrinsic_matrix = np.array([[float(entry) for entry in row]
                                  for row in reader])
 
-with open(os.path.join(data_dir, "reconstruction_odometry.csv"), "r") as f:
-    reader = csv.reader(f, delimiter=",")
-    next(reader)  # ignore column labels
-    trajectory = np.array([[float(entry) for entry in row] for row in reader])
-
-q_scalar = trajectory[:, -1]
-q_vec = trajectory[:, 3:6]
-trajectory[:, 3] = q_scalar
-trajectory[:, 4:] = q_vec
-
-# TODO check frame orientation
-H = ptr.transforms_from_pqs(trajectory)
+P = np.loadtxt(os.path.join(data_dir, "reconstruction_odometry.csv"),
+               delimiter=",", skiprows=1)
+for t in range(len(P)):
+    P[t, 3:] = pr.quaternion_wxyz_from_xyzw(P[t, 3:])
+cam2world_trajectory = ptr.transforms_from_pqs(P)
 
 ax = pt.plot_transform(s=0.3)
-ax = ptr.plot_trajectory(ax, P=trajectory, s=0.1)
+ax = ptr.plot_trajectory(ax, P=P, s=0.1, n_frames=10)
 
-image_size = np.array([1920, 1440])  # in pixels
+image_size = np.array([1920, 1440])
 
-key_frames_indices = np.linspace(0, len(trajectory) - 1, 10, dtype=int)
+key_frames_indices = np.linspace(0, len(P) - 1, 10, dtype=int)
 colors = cycle("rgb")
 for i, c in zip(key_frames_indices, colors):
-    pc.plot_camera(ax, intrinsic_matrix, H[i], sensor_size=image_size,
-                   virtual_image_distance=0.2, c=c)
+    pc.plot_camera(ax, intrinsic_matrix, cam2world_trajectory[i],
+                   sensor_size=image_size, virtual_image_distance=0.2, c=c)
 
-pos_min = np.min(trajectory[:, :3], axis=0)
-pos_max = np.max(trajectory[:, :3], axis=0)
+pos_min = np.min(P[:, :3], axis=0)
+pos_max = np.max(P[:, :3], axis=0)
 center = (pos_max + pos_min) / 2.0
 max_half_extent = max(pos_max - pos_min) / 2.0
 ax.set_xlim((center[0] - max_half_extent, center[0] + max_half_extent))
