@@ -242,9 +242,9 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sen
         New or old axis
     """
     from .plot_utils import make_3d_axis
-    from .transformations import check_transform, transform, vector_to_point, vectors_to_points
+    from .transformations import (check_transform, transform, vector_to_point,
+                                  vectors_to_points)
 
-    # TODO PEP8
     # TODO extrinsic camera matrix: pytransform3d vs. blender
 
     if ax is None:
@@ -259,7 +259,8 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sen
     cam2world = check_transform(cam2world, strict_check=strict_check)
 
     camera_center_in_cam = np.zeros(3)
-    camera_center_in_world = transform(cam2world, vector_to_point(camera_center_in_cam))
+    camera_center_in_world = transform(
+        cam2world, vector_to_point(camera_center_in_cam))
     focal_length = np.mean(np.diag(M[:2, :2]))
     sensor_corners_in_cam = np.array([
         [-M[0, 2], -M[1, 2], focal_length],
