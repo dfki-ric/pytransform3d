@@ -16,8 +16,8 @@ from pytransform3d.transformations import plot_transform
 from pytransform3d.camera import make_world_grid, cam2sensor, sensor2img
 
 
-focal_length = 0.02
-sensor_size = (0.02, 0.015)
+focal_length = 0.2
+sensor_size = (0.2, 0.15)
 image_size = (640, 480)
 
 plt.figure(figsize=(12, 5))
