@@ -3,7 +3,6 @@ print(__doc__)
 
 
 import os
-import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.transformations as pt
@@ -21,11 +20,8 @@ while (not os.path.exists(data_dir) and
     search_path = os.path.join(search_path, "..")
     data_dir = os.path.join(search_path, BASE_DIR)
 
-with open(os.path.join(
-        data_dir, "reconstruction_camera_matrix.csv"), "r") as f:
-    reader = csv.reader(f, delimiter=",")
-    intrinsic_matrix = np.array([[float(entry) for entry in row]
-                                 for row in reader])
+intrinsic_matrix = np.loadtxt(os.path.join(
+    data_dir, "reconstruction_camera_matrix.csv"), delimiter=",")
 
 P = np.loadtxt(os.path.join(data_dir, "reconstruction_odometry.csv"),
                delimiter=",", skiprows=1)
