@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pytransform3d.transformations as pt
 import pytransform3d.trajectories as ptr
 import pytransform3d.camera as pc
+from cycler import cycle
 
 
 BASE_DIR = "test/test_data/"
@@ -47,11 +48,11 @@ factor = sensor_size / image_size
 intrinsic_matrix[:2, :2] *= np.eye(2).dot(factor)
 intrinsic_matrix[:2, 2] *= factor
 
-key_frames_indices = np.linspace(0, len(trajectory) - 1, 3, dtype=int)
-colors = "rgb"
+key_frames_indices = np.linspace(0, len(trajectory) - 1, 10, dtype=int)
+colors = cycle("rgb")
 for i, c in zip(key_frames_indices, colors):
-    pc.plot_camera(ax, intrinsic_matrix, H[i], sensor_size=(1920, 1440),
-                   virtual_image_distance=0.1, c=c)
+    pc.plot_camera(ax, intrinsic_matrix, H[i], sensor_size=sensor_size,
+                   virtual_image_distance=0.2, c=c)
 
 pos_min = np.min(trajectory[:, :3], axis=0)
 pos_max = np.max(trajectory[:, :3], axis=0)
