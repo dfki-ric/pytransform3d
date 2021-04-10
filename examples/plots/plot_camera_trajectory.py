@@ -43,15 +43,11 @@ ax = pt.plot_transform(s=0.3)
 ax = ptr.plot_trajectory(ax, P=trajectory, s=0.1)
 
 image_size = np.array([1920, 1440])  # in pixels
-sensor_size = np.array([0.036, 0.024])  # in meters
-factor = sensor_size / image_size
-intrinsic_matrix[:2, :2] *= np.eye(2).dot(factor)
-intrinsic_matrix[:2, 2] *= factor
 
 key_frames_indices = np.linspace(0, len(trajectory) - 1, 10, dtype=int)
 colors = cycle("rgb")
 for i, c in zip(key_frames_indices, colors):
-    pc.plot_camera(ax, intrinsic_matrix, H[i], sensor_size=sensor_size,
+    pc.plot_camera(ax, intrinsic_matrix, H[i], sensor_size=image_size,
                    virtual_image_distance=0.2, c=c)
 
 pos_min = np.min(trajectory[:, :3], axis=0)
