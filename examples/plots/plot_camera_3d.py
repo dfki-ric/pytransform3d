@@ -9,6 +9,7 @@ import pytransform3d.transformations as pt
 
 
 cam2world = np.eye(4)
+# default parameters of a camera in Blender
 sensor_size = np.array([0.036, 0.024])
 intrinsic_matrix = np.array([
     [0.05, 0, sensor_size[0] / 2.0],
