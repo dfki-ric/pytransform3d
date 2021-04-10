@@ -244,8 +244,6 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sen
     from .transformations import (check_transform, transform, vector_to_point,
                                   vectors_to_points)
 
-    # TODO extrinsic camera matrix: pytransform3d vs. blender
-
     if ax is None:
         ax = make_3d_axis(ax_s)
 
