@@ -193,7 +193,7 @@ def world2image(P_world, cam2world, sensor_size, image_size, focal_length,
 
 
 def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sensor_size=(1920, 1080), ax_s=1, strict_check=True, **kwargs):
-    """Plot image plane in world coordinates.
+    """Plot camera in world coordinates.
 
     This function is inspired by Blender's camera visualization. It will
     show the camera center, a virtual image plane, and the top of the virtual
@@ -202,31 +202,30 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sen
     Parameters
     ----------
     ax : Matplotlib 3d axis, optional (default: None)
-        If the axis is None, a new 3d axis will be created
+        If the axis is None, a new 3d axis will be created.
 
     M : array-like, shape (3, 3)
         Intrinsic camera matrix that contains the focal lengths on the diagonal
-        and the center of the the image in the last column. We assume that
-        these values are given in meters, that is, the focal length is the
-        distance between the pinhole and the principal point on the sensor
-        and the principal point offset is given with respect to the bottom
-        left corner of the sensor. If the units are not meters, that is not
-        a problem because the image plane will only be scaled. Make sure
-        to get the order of magnitude right though.
+        and the center of the the image in the last column. It does not matter
+        whether values are given in meters or pixels as long as the unit is the
+        same as for the sensor size.
 
     cam2world : array-like, shape (4, 4), optional (default: I)
-        Camera in world frame. We assume that the position is given in meters.
+        Transformation matrix of camera in world frame. We assume that the
+        position is given in meters.
 
     virtual_image_distance : float, optional (default: 1)
         Distance from pinhole to virtual image plane that will be displayed.
-        We assume that this distance is given in meters.
+        We assume that this distance is given in meters. The unit has to be
+        consistent with the unit of the position in cam2world.
 
-    sensor_size : array-like, shape (2,)
-        Size of the image sensor: (width, height). We will again assume that
-        these values are given in meters.
+    sensor_size : array-like, shape (2,), optional (default: [1920, 1080])
+        Size of the image sensor: (width, height). It does not matter whether
+        values are given in meters or pixels as long as the unit is the same as
+        for the sensor size.
 
     ax_s : float, optional (default: 1)
-        Scaling of the new matplotlib 3d axis
+        Scaling of the new matplotlib 3d axis.
 
     strict_check : bool, optional (default: True)
         Raise a ValueError if the transformation matrix is not numerically
@@ -234,7 +233,7 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sen
         warning.
 
     kwargs : dict, optional (default: {})
-        Additional arguments for the plotting functions, e.g. alpha
+        Additional arguments for the plotting functions, e.g. alpha.
 
     Returns
     -------
