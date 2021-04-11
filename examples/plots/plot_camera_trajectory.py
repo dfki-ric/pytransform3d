@@ -1,4 +1,12 @@
-"""TODO description of example"""
+"""
+=================
+Camera Trajectory
+=================
+
+The following illustration shows a camera's trajectory that has has been
+estimated from odometry. This specific trajectory has been used to reconstruct
+a colored mesh from a depth camera and an RGB camera.
+"""
 print(__doc__)
 
 
@@ -29,6 +37,7 @@ for t in range(len(P)):
     P[t, 3:] = pr.quaternion_wxyz_from_xyzw(P[t, 3:])
 cam2world_trajectory = ptr.transforms_from_pqs(P)
 
+plt.figure(figsize=(5, 5))
 ax = pt.plot_transform(s=0.3)
 ax = ptr.plot_trajectory(ax, P=P, s=0.1, n_frames=10)
 
@@ -47,4 +56,7 @@ max_half_extent = max(pos_max - pos_min) / 2.0
 ax.set_xlim((center[0] - max_half_extent, center[0] + max_half_extent))
 ax.set_ylim((center[1] - max_half_extent, center[1] + max_half_extent))
 ax.set_zlim((center[2] - max_half_extent, center[2] + max_half_extent))
+
+ax.view_init(azim=110, elev=40)
+
 plt.show()
