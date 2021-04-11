@@ -97,7 +97,7 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
         Focal length of the camera
 
     kappa : float, optional (default: 0)
-        TODO document
+        Camera distortion parameter
 
     Returns
     -------
@@ -178,7 +178,7 @@ def world2image(P_world, cam2world, sensor_size, image_size, focal_length,
         Center of the image
 
     kappa : float, optional (default: 0)
-        TODO document
+        Camera distortion parameter
 
     Returns
     -------
