@@ -13,7 +13,7 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import proj3d
+from pytransform3d.plot_utils import make_3d_axis
 from pytransform3d.rotations import active_matrix_from_intrinsic_euler_xyz
 from pytransform3d.transformations import transform_from, plot_transform
 from pytransform3d.camera import make_world_grid, world2image, plot_camera
@@ -36,12 +36,7 @@ image_grid = world2image(world_grid, cam2world, sensor_size, image_size,
                          focal_length)
 
 plt.figure(figsize=(12, 5))
-try:
-    ax = plt.subplot(121, projection="3d", aspect="equal")
-except NotImplementedError:
-    # HACK: workaround for bug in new matplotlib versions (ca. 3.02):
-    # "It is not currently possible to manually set the aspect"
-    ax = plt.subplot(121, projection="3d")
+ax = make_3d_axis(1, 121, unit="[m]")
 ax.view_init(elev=30, azim=-70)
 ax.set_xlim((-1, 1))
 ax.set_ylim((-1, 1))

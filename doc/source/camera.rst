@@ -14,8 +14,24 @@ However, we have to know some parameters of the camera:
 .. image:: _static/camera.png
    :alt: Camera
    :align: center
+   :width: 60%
+
+|
 
 The following example shows how a grid is projected on an image.
 
 .. plot:: ../../examples/plots/plot_camera_with_image.py
-    :include-source:
+
+|
+
+Camera poses and configurations can be visualized in three dimensions
+in the following way. The arrow at the top shows the up direction of
+the image. The z-axis points from the camera center to a virtual image
+plane. The field of view is determined from the intrinsic camera
+matrix.
+
+.. plot:: ../../examples/plots/plot_camera_3d.py
+
+You can use this to display a trajectory of camera poses.
+
+.. plot:: ../../examples/plots/plot_camera_trajectory.py
