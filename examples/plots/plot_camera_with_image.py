@@ -36,14 +36,8 @@ image_grid = world2image(world_grid, cam2world, sensor_size, image_size,
                          focal_length, kappa=0.4)
 
 plt.figure(figsize=(12, 5))
-ax = make_3d_axis(1, 121, unit="[m]")
+ax = make_3d_axis(1, 121, unit="m")
 ax.view_init(elev=30, azim=-70)
-ax.set_xlim((-1, 1))
-ax.set_ylim((-1, 1))
-ax.set_zlim((-1, 1))
-ax.set_xlabel("X")
-ax.set_ylabel("Y")
-ax.set_zlabel("Z")
 plot_transform(ax)
 plot_transform(ax, A2B=cam2world, s=0.3, name="Camera")
 plot_camera(ax, intrinsic_camera_matrix, cam2world,
