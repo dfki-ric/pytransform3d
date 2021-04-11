@@ -33,7 +33,7 @@ intrinsic_camera_matrix = np.array([
 
 world_grid = make_world_grid(n_points_per_line=101)
 image_grid = world2image(world_grid, cam2world, sensor_size, image_size,
-                         focal_length)
+                         focal_length, kappa=0.4)
 
 plt.figure(figsize=(12, 5))
 ax = make_3d_axis(1, 121, unit="[m]")
