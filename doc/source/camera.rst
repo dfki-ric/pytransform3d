@@ -18,6 +18,11 @@ However, we have to know some parameters of the camera:
 
 |
 
+Note that light passes through a pinhole in a real pinhole camera before it
+will be measured from the sensor so that pixels will be mirrored in the x-y
+plane. The sensor that we show here actually corresponds to the virtual
+image plane.
+
 The following example shows how a grid is projected on an image.
 
 .. plot:: ../../examples/plots/plot_camera_with_image.py
