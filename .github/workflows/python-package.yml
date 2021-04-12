@@ -37,3 +37,5 @@ jobs:
     - name: Test with nosetests
       run: |
         MPLBACKEND=Agg nosetests -sv pytransform3d/test/ --with-coverage
+    - name: Codecov
+      uses: codecov/codecov-action@v1.3.2
