@@ -282,6 +282,36 @@ def dual_quaternions_from_pqs(pqs):
     return out
 
 
+def dual_quaternions_from_transforms(A2Bs):
+    """Get dual quaternions from transformations.
+
+    Parameters
+    ----------
+    A2Bs : array-like, shape (..., 4, 4)
+        Poses represented by homogeneous matrices
+
+    Returns
+    -------
+    dqs : array, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+    """
+    A2Bs = np.asarray(A2Bs)
+    instances_shape = A2Bs.shape[:-2]
+    out = np.empty(list(instances_shape) + [8])
+
+    # orientation quaternion
+    out[..., :4] = quaternions_from_matrices(A2Bs[..., :3, :3])
+
+    # use memory temporarily to store position
+    out[..., 4] = 0
+    out[..., 5:] = A2Bs[..., :3, 3]
+
+    out[..., 4:] = 0.5 * batch_concatenate_quaternions(
+        out[..., 4:], out[..., :4])
+    return out
+
+
 def pqs_from_dual_quaternions(dqs):
     """Get positions and quaternions from dual quaternions.
 
@@ -303,6 +333,31 @@ def pqs_from_dual_quaternions(dqs):
     out[..., 3:] = dqs[..., :4]
     out[..., :3] = 2 * batch_concatenate_quaternions(
         dqs[..., 4:], batch_q_conj(out[..., 3:]))[..., 1:]
+    return out
+
+
+def transforms_from_dual_quaternions(dqs):
+    """Get transformations from dual quaternions.
+
+    Parameters
+    ----------
+    dqs : array-like, shape (..., 8)
+        Dual quaternions to represent transforms:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    A2Bs : array, shape (..., 4, 4)
+        Poses represented by homogeneous matrices
+    """
+    dqs = np.asarray(dqs)
+    instances_shape = dqs.shape[:-1]
+    out = np.empty(list(instances_shape) + [4, 4])
+    out[..., :3, :3] = matrices_from_quaternions(dqs[..., :4])
+    out[..., :3, 3] = 2 * batch_concatenate_quaternions(
+        dqs[..., 4:], batch_q_conj(dqs[..., :4]))[..., 1:]
+    out[..., 3, :3] = 0.0
+    out[..., 3, 3] = 1.0
     return out
 
 
