@@ -22,11 +22,11 @@ from pytransform3d.transformations import (
     dual_quaternion_from_transform, transform_from_dual_quaternion,
     concatenate_dual_quaternions, dq_prod_vector, check_dual_quaternion,
     assert_unit_dual_quaternion, dual_quaternion_from_pq,
-    pq_from_dual_quaternion)
-from pytransform3d.rotations import (matrix_from, random_axis_angle,
-                                     random_vector, axis_angle_from_matrix,
-                                     norm_vector, perpendicular_to_vector,
-                                     active_matrix_from_angle)
+    pq_from_dual_quaternion, assert_unit_dual_quaternion_equal)
+from pytransform3d.rotations import (
+    matrix_from, random_axis_angle, random_vector, axis_angle_from_matrix,
+    norm_vector, perpendicular_to_vector, active_matrix_from_angle,
+    matrix_from_quaternion, random_quaternion)
 from nose.tools import (assert_equal, assert_almost_equal,
                         assert_raises_regexp, assert_false)
 from numpy.testing import assert_array_almost_equal
@@ -663,6 +663,17 @@ def test_conversions_between_dual_quternion_and_transform():
         dq = dual_quaternion_from_transform(A2B)
         A2B2 = transform_from_dual_quaternion(dq)
         assert_array_almost_equal(A2B, A2B2)
+        dq2 = dual_quaternion_from_transform(A2B2)
+        assert_unit_dual_quaternion_equal(dq, dq2)
+    for _ in range(5):
+        p = random_vector(random_state, 3)
+        q = random_quaternion(random_state)
+        dq = dual_quaternion_from_pq(np.hstack((p, q)))
+        A2B = transform_from_dual_quaternion(dq)
+        dq2 = dual_quaternion_from_transform(A2B)
+        assert_unit_dual_quaternion_equal(dq, dq2)
+        A2B2 = transform_from_dual_quaternion(dq2)
+        assert_array_almost_equal(A2B, A2B2)
 
 
 def test_conversions_between_dual_quternion_and_pq():
@@ -673,6 +684,8 @@ def test_conversions_between_dual_quternion_and_pq():
         dq = dual_quaternion_from_pq(pq)
         pq2 = pq_from_dual_quaternion(dq)
         assert_array_almost_equal(pq, pq2)
+        dq2 = dual_quaternion_from_pq(pq2)
+        assert_unit_dual_quaternion_equal(dq, dq2)
 
 
 def test_dual_quaternion_concatenation():
