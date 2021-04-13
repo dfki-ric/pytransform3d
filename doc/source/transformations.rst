@@ -246,6 +246,19 @@ Dual quaternions support similar operations as transformation matrices,
 they can be renormalized efficiently, and interpolation between two
 dual quaternions is possible.
 
+.. warning::
+
+    The unit dual quaternions :math:`\boldsymbol{p} + \epsilon \boldsymbol{q}`
+    and :math:`-\boldsymbol{p} - \epsilon \boldsymbol{q}` represent exactly
+    the same transformation.
+
+The reason for this ambiguity is that the real quaternion
+:math:`\boldsymbol{p}` represents the orientation component, the dual
+quaternion encodes the translation component as
+:math:`\boldsymbol{q} = 0.5 \boldsymbol{t} \boldsymbol{p}`, where
+:math:`\boldsymbol{t}` is a quaternion with the translation in the vector
+component and the scalar 0, and rotation quaternions have the same ambiguity.
+
 ----------
 References
 ----------
