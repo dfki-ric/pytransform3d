@@ -12,7 +12,8 @@ from pytransform3d.rotations import (
 from pytransform3d.transformations import (
     exponential_coordinates_from_transform, translate_transform,
     rotate_transform, random_transform, transform_from_pq,
-    concatenate_dual_quaternions, dq_prod_vector)
+    concatenate_dual_quaternions, dq_prod_vector,
+    assert_unit_dual_quaternion_equal)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -166,5 +167,7 @@ def test_batch_conversions_dual_quaternions_transforms():
 
     A2Bs = transforms_from_dual_quaternions(dqs)
     dqs2 = dual_quaternions_from_transforms(A2Bs)
+    for dq1, dq2 in zip(dqs.reshape(-1, 8), dqs2.reshape(-1, 8)):
+        assert_unit_dual_quaternion_equal(dq1, dq2)
     A2Bs2 = transforms_from_dual_quaternions(dqs2)
     assert_array_almost_equal(A2Bs, A2Bs2)
