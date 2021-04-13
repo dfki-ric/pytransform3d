@@ -1565,6 +1565,19 @@ def assert_unit_dual_quaternion(dq, *args, **kwargs):
                               *args, **kwargs)
 
 
+def assert_unit_dual_quaternion_equal(dq1, dq2, *args, **kwargs):
+    """Raise an assertion if unit dual quaternions are not approximately equal.
+
+    Note that unit dual quaternions are equal either if dq1 == dq2 or if
+    dq1 == -dq2. See numpy.testing.assert_array_almost_equal for a more
+    detailed documentation of the other parameters.
+    """
+    try:
+        assert_array_almost_equal(dq1, dq2, *args, **kwargs)
+    except AssertionError:
+        assert_array_almost_equal(dq1, -dq2, *args, **kwargs)
+
+
 def adjoint_from_transform(A2B):
     """Compute adjoint representation of a transformation matrix.
 
