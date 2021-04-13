@@ -327,6 +327,7 @@ Testing
 
    ~pytransform3d.transformations.assert_transform
    ~pytransform3d.transformations.assert_unit_dual_quaternion
+   ~pytransform3d.transformations.assert_unit_dual_quaternion_equal
 
 
 :mod:`pytransform3d.batch_rotations`
