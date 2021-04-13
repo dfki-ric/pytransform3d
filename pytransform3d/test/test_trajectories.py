@@ -118,8 +118,29 @@ def test_exponential_coordinates_from_transforms_2dims():
     assert_array_almost_equal(H, H2)
 
 
-def test_dual_quaternions_from_pqs_2dims():
+def test_dual_quaternions_from_pqs_0dims():
     random_state = np.random.RandomState(844)
+    pq = random_state.randn(7)
+    pq[3:] /= np.linalg.norm(pq[3:], axis=-1)[..., np.newaxis]
+    dq = dual_quaternions_from_pqs(pq)
+    pq2 = pqs_from_dual_quaternions(dq)
+    assert_array_almost_equal(pq[:3], pq2[:3])
+    assert_quaternion_equal(pq[3:], pq2[3:])
+
+
+def test_dual_quaternions_from_pqs_1dim():
+    random_state = np.random.RandomState(845)
+    pqs = random_state.randn(20, 7)
+    pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
+    dqs = dual_quaternions_from_pqs(pqs)
+    pqs2 = pqs_from_dual_quaternions(dqs)
+    for pq, pq2 in zip(pqs, pqs2):
+        assert_array_almost_equal(pq[:3], pq2[:3])
+        assert_quaternion_equal(pq[3:], pq2[3:])
+
+
+def test_dual_quaternions_from_pqs_2dims():
+    random_state = np.random.RandomState(846)
     pqs = random_state.randn(5, 5, 7)
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
@@ -129,8 +150,21 @@ def test_dual_quaternions_from_pqs_2dims():
         assert_quaternion_equal(pq[3:], pq2[3:])
 
 
-def test_batch_concatenate_dual_quaternions():
-    random_state = np.random.RandomState(845)
+def test_batch_concatenate_dual_quaternions_0dims():
+    random_state = np.random.RandomState(847)
+    pqs = random_state.randn(2, 7)
+    pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
+    dqs = dual_quaternions_from_pqs(pqs)
+    dq1 = dqs[0]
+    dq2 = dqs[1]
+
+    assert_array_almost_equal(
+        batch_concatenate_dual_quaternions(dq1, dq2),
+        concatenate_dual_quaternions(dq1, dq2))
+
+
+def test_batch_concatenate_dual_quaternions_2dims():
+    random_state = np.random.RandomState(848)
     pqs = random_state.randn(2, 2, 2, 7)
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
@@ -146,8 +180,19 @@ def test_batch_concatenate_dual_quaternions():
             dq_result)
 
 
-def test_batch_dual_quaternion_vector_product():
-    random_state = np.random.RandomState(846)
+def test_batch_dual_quaternion_vector_product_0dims():
+    random_state = np.random.RandomState(849)
+    pq = random_state.randn(7)
+    pq[3:] /= np.linalg.norm(pq[3:], axis=-1)[..., np.newaxis]
+    dq = dual_quaternions_from_pqs(pq)
+    v = random_state.randn(3)
+
+    assert_array_almost_equal(
+        batch_dq_prod_vector(dq, v), dq_prod_vector(dq, v))
+
+
+def test_batch_dual_quaternion_vector_product_2dims():
+    random_state = np.random.RandomState(850)
     pqs = random_state.randn(3, 4, 7)
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
@@ -156,11 +201,24 @@ def test_batch_dual_quaternion_vector_product():
     V_transformed = batch_dq_prod_vector(dqs, V)
     for v_t, dq, v in zip(V_transformed.reshape(-1, 3), dqs.reshape(-1, 8),
                           V.reshape(-1, 3)):
-        assert_quaternion_equal(v_t, dq_prod_vector(dq, v))
+        assert_array_almost_equal(v_t, dq_prod_vector(dq, v))
 
 
-def test_batch_conversions_dual_quaternions_transforms():
-    random_state = np.random.RandomState(847)
+def test_batch_conversions_dual_quaternions_transforms_0dims():
+    random_state = np.random.RandomState(851)
+    pq = random_state.randn(7)
+    pq[3:] /= np.linalg.norm(pq[3:], axis=-1)[..., np.newaxis]
+    dq = dual_quaternions_from_pqs(pq)
+
+    A2B = transforms_from_dual_quaternions(dq)
+    dq2 = dual_quaternions_from_transforms(A2B)
+    assert_unit_dual_quaternion_equal(dq, dq2)
+    A2B2 = transforms_from_dual_quaternions(dq2)
+    assert_array_almost_equal(A2B, A2B2)
+
+
+def test_batch_conversions_dual_quaternions_transforms_3dims():
+    random_state = np.random.RandomState(852)
     pqs = random_state.randn(3, 4, 5, 7)
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
