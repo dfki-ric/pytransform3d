@@ -1,22 +1,25 @@
 """Modify transformations visually."""
 qt_available = False
+qt_version = None
 try:
-    import PyQt4.QtCore as QtCore
-    from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QSlider,
-                             QDoubleSpinBox, QGridLayout, QLabel, QGroupBox,
-                             QHBoxLayout, QComboBox, QVBoxLayout)
+    import PyQt5.QtCore as QtCore
+    from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget,
+                                    QSlider, QDoubleSpinBox, QGridLayout,
+                                    QLabel, QGroupBox, QHBoxLayout, QComboBox,
+                                    QVBoxLayout)
     qt_available = True
+    qt_version = 5
 except ImportError:
     try:
-        import PyQt5.QtCore as QtCore
-        from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget,
-                                     QSlider, QDoubleSpinBox, QGridLayout,
-                                     QLabel, QGroupBox, QHBoxLayout, QComboBox,
-                                     QVBoxLayout)
+        import PyQt4.QtCore as QtCore
+        from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QSlider,
+                                QDoubleSpinBox, QGridLayout, QLabel, QGroupBox,
+                                QHBoxLayout, QComboBox, QVBoxLayout)
         qt_available = True
+        qt_version = 4
     except ImportError:
         import warnings
-        warnings.warn("Cannot import PyQt4. TransformEditor won't be available.")
+        warnings.warn("Cannot import PyQt. TransformEditor won't be available.")
         TransformEditor = None
 
 
@@ -24,14 +27,19 @@ if qt_available:
     import sys
     from functools import partial
     from contextlib import contextmanager
-    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-    from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
     from matplotlib.figure import Figure
     from mpl_toolkits.mplot3d import Axes3D
     import numpy as np
     from .transform_manager import TransformManager
     from .rotations import active_matrix_from_intrinsic_euler_xyz, intrinsic_euler_xyz_from_active_matrix
     from .transformations import transform_from
+    if qt_version == 5:
+        from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+        from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
+    else:
+        assert qt_version == 4
+        from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
+        from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT
 
 
     @contextmanager
@@ -289,10 +297,10 @@ if qt_available:
             canvas_group = QGridLayout()
             self.fig = Figure(self.figsize, dpi=self.dpi)
             self.fig.subplots_adjust(left=0, right=1, bottom=0, top=1)
-            self.canvas = FigureCanvas(self.fig)
+            self.canvas = FigureCanvasQTAgg(self.fig)
             self.canvas.setParent(self.main_frame)
             canvas_group.addWidget(self.canvas, 1, 0)
-            mpl_toolbar = NavigationToolbar(self.canvas, self.main_frame)
+            mpl_toolbar = NavigationToolbar2QT(self.canvas, self.main_frame)
             canvas_group.addWidget(mpl_toolbar, 2, 0)
             plot.setLayout(canvas_group)
             return plot
