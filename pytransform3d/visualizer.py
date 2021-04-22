@@ -458,6 +458,46 @@ try:
             graph.add_artist(self)
             return graph
 
+        def plot_camera(self, M, cam2world=None, virtual_image_distance=1,
+                        sensor_size=(1920, 1080), strict_check=True):
+            """Plot camera in world coordinates.
+
+            This function is inspired by Blender's camera visualization. It will
+            show the camera center, a virtual image plane, and the top of the virtual
+            image plane.
+
+            Parameters
+            ----------
+            M : array-like, shape (3, 3)
+                Intrinsic camera matrix that contains the focal lengths on the diagonal
+                and the center of the the image in the last column. It does not matter
+                whether values are given in meters or pixels as long as the unit is the
+                same as for the sensor size.
+
+            cam2world : array-like, shape (4, 4), optional (default: I)
+                Transformation matrix of camera in world frame. We assume that the
+                position is given in meters.
+
+            virtual_image_distance : float, optional (default: 1)
+                Distance from pinhole to virtual image plane that will be displayed.
+                We assume that this distance is given in meters. The unit has to be
+                consistent with the unit of the position in cam2world.
+
+            sensor_size : array-like, shape (2,), optional (default: [1920, 1080])
+                Size of the image sensor: (width, height). It does not matter whether
+                values are given in meters or pixels as long as the unit is the same as
+                for the sensor size.
+
+            strict_check : bool, optional (default: True)
+                Raise a ValueError if the transformation matrix is not numerically
+                close enough to a real transformation matrix. Otherwise we print a
+                warning.
+            """
+            camera = Camera(M, cam2world, virtual_image_distance, sensor_size,
+                            strict_check)
+            camera.add_artist(self)
+            return camera
+
         def save_image(self, filename):
             """Save rendered image to file.
 
@@ -918,6 +958,141 @@ try:
                 List of geometries that can be added to the visualizer.
             """
             return [self.mesh]
+
+
+    class Camera(Artist):
+        """Camera.
+
+        Parameters
+        ----------
+        M : array-like, shape (3, 3)
+            Intrinsic camera matrix that contains the focal lengths on the diagonal
+            and the center of the the image in the last column. It does not matter
+            whether values are given in meters or pixels as long as the unit is the
+            same as for the sensor size.
+
+        cam2world : array-like, shape (4, 4), optional (default: I)
+            Transformation matrix of camera in world frame. We assume that the
+            position is given in meters.
+
+        virtual_image_distance : float, optional (default: 1)
+            Distance from pinhole to virtual image plane that will be displayed.
+            We assume that this distance is given in meters. The unit has to be
+            consistent with the unit of the position in cam2world.
+
+        sensor_size : array-like, shape (2,), optional (default: [1920, 1080])
+            Size of the image sensor: (width, height). It does not matter whether
+            values are given in meters or pixels as long as the unit is the same as
+            for the sensor size.
+
+        strict_check : bool, optional (default: True)
+            Raise a ValueError if the transformation matrix is not numerically
+            close enough to a real transformation matrix. Otherwise we print a
+            warning.
+        """
+        def __init__(self, M, cam2world=None, virtual_image_distance=1,
+                     sensor_size=(1920, 1080), strict_check=True):
+            self.M = None
+            self.cam2world = None
+            self.virtual_image_distance = None
+            self.sensor_size = None
+            self.strict_check = strict_check
+
+            self.line_set = o3d.geometry.LineSet()
+
+            if cam2world is None:
+                cam2world = np.eye(4)
+
+            self.set_data(M, cam2world, virtual_image_distance, sensor_size)
+
+        def set_data(self, M=None, cam2world=None, virtual_image_distance=None,
+                     sensor_size=None):
+            """Update camera parameters.
+
+            Parameters
+            ----------
+            M : array-like, shape (3, 3), optional (default: old value)
+                Intrinsic camera matrix that contains the focal lengths on the
+                diagonal and the center of the the image in the last column. It
+                does not matter whether values are given in meters or pixels as
+                long as the unit is the same as for the sensor size.
+
+            cam2world : array-like, shape (4, 4), optional (default: old value)
+                Transformation matrix of camera in world frame. We assume that
+                the position is given in meters.
+
+            virtual_image_distance : float, optional (default: old value)
+                Distance from pinhole to virtual image plane that will be
+                displayed. We assume that this distance is given in meters.
+                The unit has to be consistent with the unit of the position
+                in cam2world.
+
+            sensor_size : array-like, shape (2,), optional (default: old value)
+                Size of the image sensor: (width, height). It does not matter
+                whether values are given in meters or pixels as long as the
+                unit is the same as for the sensor size.
+            """
+            if M is not None:
+                self.M = M
+            if cam2world is not None:
+                self.cam2world = pt.check_transform(
+                    cam2world, strict_check=self.strict_check)
+            if virtual_image_distance is not None:
+                self.virtual_image_distance = virtual_image_distance
+            if sensor_size is not None:
+                self.sensor_size = sensor_size
+
+            camera_center_in_cam = np.zeros(3)
+            camera_center_in_world = pt.transform(
+                cam2world, pt.vector_to_point(camera_center_in_cam))
+            focal_length = np.mean(np.diag(M[:2, :2]))
+            sensor_corners_in_cam = np.array([
+                [-M[0, 2], -M[1, 2], focal_length],
+                [-M[0, 2], sensor_size[1] - M[1, 2], focal_length],
+                [sensor_size[0] - M[0, 2], sensor_size[1] - M[1, 2],
+                 focal_length],
+                [sensor_size[0] - M[0, 2], -M[1, 2], focal_length],
+            ])
+            sensor_corners_in_world = pt.transform(
+                cam2world, pt.vectors_to_points(sensor_corners_in_cam))[:, :3]
+            virtual_image_corners = (
+                    sensor_corners_in_world -
+                    camera_center_in_world[np.newaxis, :3])
+            virtual_image_corners = (
+                    virtual_image_distance / focal_length *
+                    virtual_image_corners +
+                    camera_center_in_world[np.newaxis, :3])
+
+            up = virtual_image_corners[0] - virtual_image_corners[1]
+            camera_line_points = np.vstack((
+                camera_center_in_world[:3],
+                virtual_image_corners[0],
+                virtual_image_corners[1],
+                virtual_image_corners[2],
+                virtual_image_corners[3],
+                virtual_image_corners[0] + 0.1 * up,
+                0.5 * (virtual_image_corners[0] +
+                       virtual_image_corners[3]) + 0.5 * up,
+                virtual_image_corners[3] + 0.1 * up
+            ))
+
+            self.line_set.points = o3d.utility.Vector3dVector(
+                camera_line_points)
+            self.line_set.lines = o3d.utility.Vector2iVector(
+                np.array([[0, 1], [0, 2], [0, 3], [0, 4],
+                          [1, 2], [2, 3], [3, 4], [4, 1],
+                          [5, 6], [6, 7], [7, 5]]))
+
+        @property
+        def geometries(self):
+            """Expose geometries.
+
+            Returns
+            -------
+            geometries : list
+                List of geometries that can be added to the visualizer.
+            """
+            return [self.line_set]
 
 
     class Graph(Artist):
