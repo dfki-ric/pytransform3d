@@ -30,4 +30,7 @@ fig.plot_transform(A2B=cam2world, s=0.2)
 fig.plot_camera(
     cam2world=cam2world, M=intrinsic_matrix, sensor_size=sensor_size,
     virtual_image_distance=virtual_image_distance)
-fig.show()
+if "__file__" in globals():
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")
