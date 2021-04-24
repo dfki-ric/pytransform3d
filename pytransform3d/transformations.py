@@ -5,13 +5,12 @@ See :doc:`transformations` for more information.
 import warnings
 import math
 import numpy as np
-from .rotations import (random_quaternion, random_vector,
-                        matrix_from_quaternion, quaternion_from_matrix,
-                        assert_rotation_matrix, check_matrix,
-                        norm_vector, axis_angle_from_matrix,
-                        matrix_from_axis_angle, cross_product_matrix,
-                        check_skew_symmetric_matrix, norm_angle, q_conj,
-                        concatenate_quaternions)
+from .rotations import (
+    random_quaternion, random_vector, matrix_from_quaternion,
+    quaternion_from_matrix, assert_rotation_matrix, check_matrix, norm_vector,
+    axis_angle_from_matrix, matrix_from_axis_angle, cross_product_matrix,
+    check_skew_symmetric_matrix, norm_angle, q_conj, concatenate_quaternions,
+    axis_angle_from_quaternion)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -879,8 +878,8 @@ def screw_parameters_from_screw_axis(screw_axis):
     else:
         s_axis = omega
         h = omega.dot(v)
-        q_cross_s_axis = v - h * s_axis
-        q = np.cross(s_axis, q_cross_s_axis)
+        moment = v - h * s_axis
+        q = np.cross(s_axis, moment)
     return q, s_axis, h
 
 
@@ -1460,6 +1459,15 @@ def dq_prod_vector(dq, v):
     return v_dq_transformed[5:]
 
 
+def dual_quaternion_sclerp(start, end, t):
+    """TODO"""
+    start = check_dual_quaternion(start)
+    end = check_dual_quaternion(end)
+    end_conj_end = concatenate_dual_quaternions(dq_conj(end), end)
+    return concatenate_dual_quaternions(
+        start, dual_quaternion_power(end_conj_end, t))
+
+
 def dual_quaternion_from_transform(A2B):
     """Compute dual quaternion from transformation matrix.
 
@@ -1498,6 +1506,39 @@ def dual_quaternion_from_pq(pq):
     dual = 0.5 * concatenate_quaternions(
         np.r_[0, pq[:3]], real)
     return np.hstack((real, dual))
+
+
+def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
+    """TODO"""
+    q, s_axis, h = check_screw_parameters(q, s_axis, h)
+    if np.isinf(h):  # pure translation
+        dual_angle = np.array([0.0, theta])
+    else:
+        dual_angle = np.array([theta, h * theta])
+    moment = np.cross(q, s_axis)
+    half_dual_angle = 0.5 * dual_angle
+    cos_dual_angle = np.cos(half_dual_angle)
+    sin_dual_angle = np.sin(half_dual_angle)
+    return np.r_[cos_dual_angle[0], sin_dual_angle[0] * s_axis,
+                 cos_dual_angle[1], sin_dual_angle[1] * moment]
+
+
+def dual_quaternion_power(dq, t):
+    """TODO"""
+    dq = check_dual_quaternion(dq)
+    q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
+    if np.isinf(h):  # pure translation
+        distance = theta
+        dual_angle = np.array([0, distance])
+    else:
+        distance = h * theta
+        dual_angle = np.array([theta, distance])
+    moment = np.cross(q, s_axis)
+    modified_dual_angle = t * 0.5 * dual_angle
+    cos_dual_angle = np.cos(modified_dual_angle)
+    sin_dual_angle = np.sin(modified_dual_angle)
+    return np.r_[cos_dual_angle[0], sin_dual_angle[0] * s_axis,
+                 cos_dual_angle[1], sin_dual_angle[1] * moment]
 
 
 def transform_from_dual_quaternion(dq):
@@ -1541,6 +1582,28 @@ def pq_from_dual_quaternion(dq):
     return np.hstack((p, real))
 
 
+def screw_parameters_from_dual_quaternion(dq):
+    """TODO"""
+    p = dq[:4]
+    q = dq[4:]
+    a = axis_angle_from_quaternion(p)
+    s_axis = a[:3]
+    theta = a[3]
+    if (abs(theta) < np.finfo(float).eps or
+            abs(theta - np.pi) < np.finfo(float).eps):
+        # pure translation (?)
+        raise NotImplementedError("TODO")
+    else:
+        translation = 2 * concatenate_quaternions(q, q_conj(p))[1:]
+        distance = np.dot(translation, s_axis)
+        moment = 0.5 * (np.cross(translation, s_axis) +
+                        (translation - distance * s_axis)
+                        / np.tan(0.5 * theta))
+        q = np.cross(s_axis, moment)
+        h = distance / theta
+        return q, s_axis, h, theta
+
+
 def assert_unit_dual_quaternion(dq, *args, **kwargs):
     """Raise an assertion if the dual quaternion does not have unit norm.
 
@@ -1576,6 +1639,40 @@ def assert_unit_dual_quaternion_equal(dq1, dq2, *args, **kwargs):
         assert_array_almost_equal(dq1, dq2, *args, **kwargs)
     except AssertionError:
         assert_array_almost_equal(dq1, -dq2, *args, **kwargs)
+
+
+def assert_screw_parameters_equal(
+        q1, s_axis1, h1, theta1, q2, s_axis2, h2, theta2, *args, **kwargs):
+    """Raise an assertion if two sets of screw parameters are not similar.
+
+    Note that the screw axis can be inverted. In this case theta and h have
+    to be adapted.
+
+    This function needs the dependency nose.
+    """
+    from nose.tools import assert_almost_equal
+
+    # normalize thetas
+    theta1_new = norm_angle(theta1)
+    h1 *= theta1_new / theta1
+    theta1 = theta1_new
+
+    theta2_new = norm_angle(theta2)
+    h2 *= theta2_new / theta2
+    theta2 = theta2_new
+
+    assert_array_almost_equal(q1, q2)  # TODO any point on the screw axis
+    try:
+        assert_array_almost_equal(s_axis1, s_axis2, *args, **kwargs)
+        assert_almost_equal(h1, h2)
+        assert_almost_equal(theta1, theta2)
+    except AssertionError:  # possibly mirrored screw axis
+        s_axis1_new = -s_axis1
+        theta1_new = 2.0 * np.pi - theta1
+        h1_new = -h1 * theta1_new / theta1
+        assert_array_almost_equal(s_axis1_new, s_axis2, *args, **kwargs)
+        assert_almost_equal(h1_new, h2)
+        assert_almost_equal(theta1_new, theta2)
 
 
 def adjoint_from_transform(A2B):
