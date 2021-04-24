@@ -22,11 +22,13 @@ from pytransform3d.transformations import (
     dual_quaternion_from_transform, transform_from_dual_quaternion,
     concatenate_dual_quaternions, dq_prod_vector, check_dual_quaternion,
     assert_unit_dual_quaternion, dual_quaternion_from_pq,
-    pq_from_dual_quaternion, assert_unit_dual_quaternion_equal)
+    pq_from_dual_quaternion, assert_unit_dual_quaternion_equal,
+    screw_parameters_from_dual_quaternion, assert_screw_parameters_equal,
+    dual_quaternion_from_screw_parameters)
 from pytransform3d.rotations import (
     matrix_from, random_axis_angle, random_vector, axis_angle_from_matrix,
     norm_vector, perpendicular_to_vector, active_matrix_from_angle,
-    matrix_from_quaternion, random_quaternion)
+    random_quaternion)
 from nose.tools import (assert_equal, assert_almost_equal,
                         assert_raises_regexp, assert_false)
 from numpy.testing import assert_array_almost_equal
@@ -709,3 +711,30 @@ def test_dual_quaternion_applied_to_point():
         dq = dual_quaternion_from_transform(A2B)
         p_B = dq_prod_vector(dq, p_A)
         assert_array_almost_equal(p_B, transform(A2B, vector_to_point(p_A))[:3])
+
+
+def test_screw_parameters_from_dual_quaternion():
+    random_state = np.random.RandomState(1001)
+    for _ in range(5):
+        A2B = random_transform(random_state)
+        dq = dual_quaternion_from_transform(A2B)
+        Stheta = exponential_coordinates_from_transform(A2B)
+        S, theta = screw_axis_from_exponential_coordinates(Stheta)
+        q, s_axis, h = screw_parameters_from_screw_axis(S)
+        q2, s_axis2, h2, theta2 = screw_parameters_from_dual_quaternion(dq)
+        assert_screw_parameters_equal(
+            q, s_axis, h, theta, q2, s_axis2, h2, theta2)
+
+
+def test_dual_quaternion_from_screw_parameters():
+    random_state = np.random.RandomState(1001)
+    for _ in range(5):
+        A2B = random_transform(random_state)
+        Stheta = exponential_coordinates_from_transform(A2B)
+        S, theta = screw_axis_from_exponential_coordinates(Stheta)
+        q, s_axis, h = screw_parameters_from_screw_axis(S)
+        dq = dual_quaternion_from_screw_parameters(q, s_axis, h, theta)
+        assert_unit_dual_quaternion(dq)
+
+        dq_expected = dual_quaternion_from_transform(A2B)
+        assert_unit_dual_quaternion_equal(dq, dq_expected)
