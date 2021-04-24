@@ -2092,7 +2092,7 @@ def axis_angle_from_quaternion(q):
     else:
         axis = p / p_norm
         angle = (2.0 * np.arccos(q[0]),)
-        return np.hstack((axis, angle))
+        return norm_axis_angle(np.hstack((axis, angle)))
 
 
 def axis_angle_from_compact_axis_angle(a):
