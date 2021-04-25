@@ -1463,6 +1463,10 @@ def dual_quaternion_sclerp(start, end, t):
     """TODO"""
     start = check_dual_quaternion(start)
     end = check_dual_quaternion(end)
+
+    if np.dot(start[:4], end[:4]) < 0:  # TODO same for quaternion slerp?
+        end = -end
+
     end_conj_end = concatenate_dual_quaternions(dq_conj(end), end)
     return concatenate_dual_quaternions(
         start, dual_quaternion_power(end_conj_end, t))
@@ -1520,7 +1524,7 @@ def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
     cos_dual_angle = np.cos(half_dual_angle)
     sin_dual_angle = np.sin(half_dual_angle)
     return np.r_[cos_dual_angle[0], sin_dual_angle[0] * s_axis,
-                 cos_dual_angle[1], sin_dual_angle[1] * moment]
+                 -h * sin_dual_angle[0], sin_dual_angle[0] * moment + h * cos_dual_angle[0] * s_axis]
 
 
 def dual_quaternion_power(dq, t):
