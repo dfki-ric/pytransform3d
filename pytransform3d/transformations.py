@@ -1383,6 +1383,9 @@ def dq_q_conj(dq):
     (pw, -px, -py, -pz, qw, -qx, -qy, -qz). It is the quaternion conjugate
     applied to each of the two quaternions.
 
+    For unit dual quaternions that represent transformations, this function
+    is equivalent to the inverse of the corresponding transformation matrix.
+
     Parameters
     ----------
     dq : array-like, shape (8,)
@@ -1467,9 +1470,8 @@ def dual_quaternion_sclerp(start, end, t):
     if np.dot(start[:4], end[:4]) < 0:  # TODO same for quaternion slerp?
         end = -end
 
-    end_conj_end = concatenate_dual_quaternions(dq_conj(end), end)
-    return concatenate_dual_quaternions(
-        start, dual_quaternion_power(end_conj_end, t))
+    diff = concatenate_dual_quaternions(dq_q_conj(start), end)
+    return concatenate_dual_quaternions(start, dual_quaternion_power(diff, t))
 
 
 def dual_quaternion_from_transform(A2B):
@@ -1515,34 +1517,54 @@ def dual_quaternion_from_pq(pq):
 def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
     """TODO"""
     q, s_axis, h = check_screw_parameters(q, s_axis, h)
+
     if np.isinf(h):  # pure translation
-        dual_angle = np.array([0.0, theta])
+        d = theta
+        theta = 0
     else:
-        dual_angle = np.array([theta, h * theta])
+        d = h * theta
     moment = np.cross(q, s_axis)
-    half_dual_angle = 0.5 * dual_angle
-    cos_dual_angle = np.cos(half_dual_angle)
-    sin_dual_angle = np.sin(half_dual_angle)
-    return np.r_[cos_dual_angle[0], sin_dual_angle[0] * s_axis,
-                 -h * sin_dual_angle[0], sin_dual_angle[0] * moment + h * cos_dual_angle[0] * s_axis]
+
+    half_distance = 0.5 * d
+    sin_half_angle = np.sin(0.5 * theta)
+    cos_half_angle = np.cos(0.5 * theta)
+
+    real_w = cos_half_angle
+    real_vec = sin_half_angle * s_axis
+    dual_w = -half_distance * sin_half_angle
+    dual_vec = (sin_half_angle * moment +
+                half_distance * cos_half_angle * s_axis)
+
+    return np.r_[real_w, real_vec, dual_w, dual_vec]
 
 
 def dual_quaternion_power(dq, t):
     """TODO"""
     dq = check_dual_quaternion(dq)
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
+
     if np.isinf(h):  # pure translation
-        distance = theta
-        dual_angle = np.array([0, distance])
+        d = theta
+        theta = 0
     else:
-        distance = h * theta
-        dual_angle = np.array([theta, distance])
+        d = h * theta
+
+    theta *= t
+    d *= t
+
     moment = np.cross(q, s_axis)
-    modified_dual_angle = t * 0.5 * dual_angle
-    cos_dual_angle = np.cos(modified_dual_angle)
-    sin_dual_angle = np.sin(modified_dual_angle)
-    return np.r_[cos_dual_angle[0], sin_dual_angle[0] * s_axis,
-                 cos_dual_angle[1], sin_dual_angle[1] * moment]
+
+    half_distance = 0.5 * d
+    sin_half_angle = np.sin(0.5 * theta)
+    cos_half_angle = np.cos(0.5 * theta)
+
+    real_w = cos_half_angle
+    real_vec = sin_half_angle * s_axis
+    dual_w = -half_distance * sin_half_angle
+    dual_vec = (sin_half_angle * moment +
+                half_distance * cos_half_angle * s_axis)
+
+    return np.r_[real_w, real_vec, dual_w, dual_vec]
 
 
 def transform_from_dual_quaternion(dq):
@@ -1588,24 +1610,33 @@ def pq_from_dual_quaternion(dq):
 
 def screw_parameters_from_dual_quaternion(dq):
     """TODO"""
-    p = dq[:4]
-    q = dq[4:]
-    a = axis_angle_from_quaternion(p)
+    real = dq[:4]
+    dual = dq[4:]
+
+    a = axis_angle_from_quaternion(real)
     s_axis = a[:3]
     theta = a[3]
-    if (abs(theta) < np.finfo(float).eps or
-            abs(theta - np.pi) < np.finfo(float).eps):
-        # pure translation (?)
-        raise NotImplementedError("TODO")
+
+    translation = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
+    if abs(theta) < np.finfo(float).eps:
+        # pure translation
+        d = np.linalg.norm(translation)
+        if d < np.finfo(float).eps:
+            s_axis = np.array([1, 0, 0])
+        else:
+            s_axis = translation / d
+        q = np.zeros(3)
+        theta = d
+        h = np.inf
+        return q, s_axis, h, theta
     else:
-        translation = 2 * concatenate_quaternions(q, q_conj(p))[1:]
         distance = np.dot(translation, s_axis)
         moment = 0.5 * (np.cross(translation, s_axis) +
                         (translation - distance * s_axis)
                         / np.tan(0.5 * theta))
-        q = np.cross(s_axis, moment)
+        dual = np.cross(s_axis, moment)
         h = distance / theta
-        return q, s_axis, h, theta
+        return dual, s_axis, h, theta
 
 
 def assert_unit_dual_quaternion(dq, *args, **kwargs):

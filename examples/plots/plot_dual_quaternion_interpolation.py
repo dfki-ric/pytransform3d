@@ -4,8 +4,10 @@ Dual Quaternion Interpolation
 =============================
 
 This example shows interpolated trajectories between two random poses.
-The red line corresponds to an interpolation with exponential coordinates
-and the green line corresponds to an interpolation with dual quaternions.
+The red line corresponds to linear interpolation with exponential coordinates,
+the green line corresponds to linear interpolation with dual quaternions,
+and the blue line corresponds to screw linear interpolation (ScLERP) with
+dual quaternions.
 """
 print(__doc__)
 
@@ -33,6 +35,11 @@ interpolated_dqs /= np.linalg.norm(
     interpolated_dqs[:, :4], axis=1)[:, np.newaxis]
 interpolated_poses_from_dqs = np.array([
     pt.transform_from_dual_quaternion(dq) for dq in interpolated_dqs])
+sclerp_interpolated_dqs = np.vstack([
+    pt.dual_quaternion_sclerp(dq1, dq2, t)
+    for t in np.linspace(0, 1, n_steps)])
+sclerp_interpolated_poses_from_dqs = np.array([
+    pt.transform_from_dual_quaternion(dq) for dq in sclerp_interpolated_dqs])
 interpolated_ecs = (np.linspace(1, 0, n_steps)[:, np.newaxis] * Stheta1 +
                     np.linspace(0, 1, n_steps)[:, np.newaxis] * Stheta2)
 interpolates_poses_from_ecs = ptr.transforms_from_exponential_coordinates(
@@ -44,4 +51,7 @@ traj_from_dqs = ppu.Trajectory(interpolated_poses_from_dqs, s=0.1, c="g")
 traj_from_dqs.add_trajectory(ax)
 traj_from_ecs = ppu.Trajectory(interpolates_poses_from_ecs, s=0.1, c="r")
 traj_from_ecs.add_trajectory(ax)
+traj_from_dqs_sclerp = ppu.Trajectory(
+    sclerp_interpolated_poses_from_dqs, s=0.1, c="b")
+traj_from_dqs_sclerp.add_trajectory(ax)
 plt.show()
