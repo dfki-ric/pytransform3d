@@ -1542,29 +1542,7 @@ def dual_quaternion_power(dq, t):
     """TODO"""
     dq = check_dual_quaternion(dq)
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
-
-    if np.isinf(h):  # pure translation
-        d = theta
-        theta = 0
-    else:
-        d = h * theta
-
-    theta *= t
-    d *= t
-
-    moment = np.cross(q, s_axis)
-
-    half_distance = 0.5 * d
-    sin_half_angle = np.sin(0.5 * theta)
-    cos_half_angle = np.cos(0.5 * theta)
-
-    real_w = cos_half_angle
-    real_vec = sin_half_angle * s_axis
-    dual_w = -half_distance * sin_half_angle
-    dual_vec = (sin_half_angle * moment +
-                half_distance * cos_half_angle * s_axis)
-
-    return np.r_[real_w, real_vec, dual_w, dual_vec]
+    return dual_quaternion_from_screw_parameters(q, s_axis, h, theta * t)
 
 
 def transform_from_dual_quaternion(dq):
