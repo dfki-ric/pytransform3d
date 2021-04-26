@@ -28,7 +28,7 @@ from pytransform3d.transformations import (
 from pytransform3d.rotations import (
     matrix_from, random_axis_angle, random_vector, axis_angle_from_matrix,
     norm_vector, perpendicular_to_vector, active_matrix_from_angle,
-    random_quaternion)
+    random_quaternion, axis_angle_from_quaternion, norm_axis_angle)
 from nose.tools import (assert_equal, assert_almost_equal,
                         assert_raises_regexp, assert_false, assert_true)
 from numpy.testing import assert_array_almost_equal
@@ -752,6 +752,16 @@ def test_screw_parameters_from_dual_quaternion():
     assert_almost_equal(theta, np.linalg.norm(np.array([1.2, 1.3, 1.4])))
 
     random_state = np.random.RandomState(1001)
+    quat = random_quaternion(random_state)
+    a = axis_angle_from_quaternion(quat)
+    dq = dual_quaternion_from_pq(
+        np.r_[0, 0, 0, quat])
+    q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
+    assert_array_almost_equal(q, np.zeros(3))
+    assert_array_almost_equal(s_axis, a[:3])
+    assert_array_almost_equal(h, 0)
+    assert_array_almost_equal(theta, a[3])
+
     for _ in range(5):
         A2B = random_transform(random_state)
         dq = dual_quaternion_from_transform(A2B)
@@ -778,6 +788,17 @@ def test_dual_quaternion_from_screw_parameters():
     dq = dual_quaternion_from_screw_parameters(q, s_axis, h, theta)
     pq = pq_from_dual_quaternion(dq)
     assert_array_almost_equal(pq, np.r_[s_axis * theta, 1, 0, 0, 0])
+
+    q = np.zeros(3)
+    s_axis = norm_vector(np.array([2.4, 2.5, 2.6]))
+    h = 0
+    theta = 4.1
+    dq = dual_quaternion_from_screw_parameters(q, s_axis, h, theta)
+    pq = pq_from_dual_quaternion(dq)
+    assert_array_almost_equal(pq[:3], [0, 0, 0])
+    assert_array_almost_equal(
+        axis_angle_from_quaternion(pq[3:]),
+        norm_axis_angle(np.r_[s_axis, theta]))
 
     random_state = np.random.RandomState(1001)
     for _ in range(5):
