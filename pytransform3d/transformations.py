@@ -1363,7 +1363,7 @@ def dq_conj(dq):
     Parameters
     ----------
     dq : array-like, shape (8,)
-        Dual quaternion to represent transform:
+        Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
     Returns
@@ -1389,7 +1389,7 @@ def dq_q_conj(dq):
     Parameters
     ----------
     dq : array-like, shape (8,)
-        Dual quaternion to represent transform:
+        Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
     Returns
@@ -1444,7 +1444,8 @@ def dq_prod_vector(dq, v):
     Parameters
     ----------
     dq : array-like, shape (8,)
-        Unit dual quaternion
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
 
     v : array-like, shape (3,)
         3d vector
@@ -1463,7 +1464,30 @@ def dq_prod_vector(dq, v):
 
 
 def dual_quaternion_sclerp(start, end, t):
-    """TODO"""
+    """Screw linear interpolation (ScLERP) for dual quaternions.
+
+    Although linear interpolation of dual quaternions is possible, this does
+    not result in constant velocities. If you want to generate interpolations
+    with constant velocity, you have to use ScLERP.
+
+    Parameters
+    ----------
+    start : array-like, shape (8,)
+        Unit dual quaternion to represent start pose:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    end : array-like, shape (8,)
+        Unit dual quaternion to represent end pose:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    t : float in [0, 1]
+        Position between start and goal
+
+    Returns
+    -------
+    a : array, shape (8,)
+        Interpolated unit dual quaternion: (pw, px, py, pz, qw, qx, qy, qz)
+    """
     start = check_dual_quaternion(start)
     end = check_dual_quaternion(end)
     diff = concatenate_dual_quaternions(dq_q_conj(start), end)
@@ -1481,7 +1505,8 @@ def dual_quaternion_from_transform(A2B):
     Returns
     -------
     dq : array, shape (8,)
-        Unit dual quaternion
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
     """
     A2B = check_transform(A2B)
     real = quaternion_from_matrix(A2B[:3, :3])
@@ -1501,7 +1526,8 @@ def dual_quaternion_from_pq(pq):
     Returns
     -------
     dq : array, shape (8,)
-        Unit dual quaternion
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
     """
     pq = check_pq(pq)
     real = pq[3:]
@@ -1511,7 +1537,30 @@ def dual_quaternion_from_pq(pq):
 
 
 def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
-    """TODO"""
+    """Compute dual quaternion from screw parameters.
+
+    Parameters
+    ----------
+    q : array-like, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array-like, shape (3,)
+        Direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+    """
     q, s_axis, h = check_screw_parameters(q, s_axis, h)
 
     if np.isinf(h):  # pure translation
@@ -1535,7 +1584,27 @@ def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
 
 
 def dual_quaternion_power(dq, t):
-    """TODO"""
+    """Compute power of unit dual quaternion with respect to scalar.
+
+    .. math::
+
+        (p + \epsilon q)^t
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    t : float
+        Exponent
+
+    Returns
+    -------
+    dq_t : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz) ** t
+    """
     dq = check_dual_quaternion(dq)
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
     return dual_quaternion_from_screw_parameters(q, s_axis, h, theta * t)
@@ -1547,7 +1616,8 @@ def transform_from_dual_quaternion(dq):
     Parameters
     ----------
     dq : array-like, shape (8,)
-        Unit dual quaternion
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
 
     Returns
     -------
@@ -1568,7 +1638,8 @@ def pq_from_dual_quaternion(dq):
     Parameters
     ----------
     dq : array-like, shape (8,)
-        Unit dual quaternion
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
 
     Returns
     -------
@@ -1583,7 +1654,32 @@ def pq_from_dual_quaternion(dq):
 
 
 def screw_parameters_from_dual_quaternion(dq):
-    """TODO"""
+    """Compute screw parameters from dual quaternion.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    q : array, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array, shape (3,)
+        Direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+    """
+    dq = check_dual_quaternion(dq, unit=True)
+
     real = dq[:4]
     dual = dq[4:]
 
@@ -1663,25 +1759,40 @@ def assert_screw_parameters_equal(
 
     # normalize thetas
     theta1_new = norm_angle(theta1)
-    h1 *= theta1_new / theta1
+    h1 *= theta1 / theta1_new
     theta1 = theta1_new
 
     theta2_new = norm_angle(theta2)
-    h2 *= theta2_new / theta2
+    h2 *= theta2 / theta2_new
     theta2 = theta2_new
 
-    assert_array_almost_equal(q1, q2)  # TODO any point on the screw axis
+    # q1 and q2 can be any points on the screw axis, that is, they must be a
+    # linear combination of each other and the screw axis (which one does not
+    # matter since they should be identical or mirrored)
+    q1_to_q2 = q2 - q1
+    factors = q1_to_q2 / s_axis2
+    assert_almost_equal(factors[0], factors[1])
+    assert_almost_equal(factors[1], factors[2])
     try:
         assert_array_almost_equal(s_axis1, s_axis2, *args, **kwargs)
         assert_almost_equal(h1, h2)
         assert_almost_equal(theta1, theta2)
     except AssertionError:  # possibly mirrored screw axis
         s_axis1_new = -s_axis1
+        # make sure that we keep the direction of rotation
         theta1_new = 2.0 * np.pi - theta1
-        h1_new = -h1 * theta1_new / theta1
+        # adjust pitch: switch sign and update rotation component
+        h1 = -h1 / theta1_new * theta1
+        theta1 = theta1_new
+
+        # we have to normalize the angle again
+        theta1_new = norm_angle(theta1)
+        h1 *= theta1 / theta1_new
+        theta1 = theta1_new
+
         assert_array_almost_equal(s_axis1_new, s_axis2, *args, **kwargs)
-        assert_almost_equal(h1_new, h2)
-        assert_almost_equal(theta1_new, theta2)
+        assert_almost_equal(h1, h2)
+        assert_almost_equal(theta1, theta2)
 
 
 def adjoint_from_transform(A2B):

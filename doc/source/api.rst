@@ -225,6 +225,7 @@ Conversions to Screw Parameters
    :template: function.rst
 
    ~pytransform3d.transformations.screw_parameters_from_screw_axis
+   ~pytransform3d.transformations.screw_parameters_from_dual_quaternion
 
 Conversions to Screw Axis
 -------------------------
@@ -278,6 +279,7 @@ Conversions to Dual Quaternions
 
    ~pytransform3d.transformations.dual_quaternion_from_transform
    ~pytransform3d.transformations.dual_quaternion_from_pq
+   ~pytransform3d.transformations.dual_quaternion_from_screw_parameters
 
 Apply Transformations
 ---------------------
@@ -307,6 +309,8 @@ Dual Quaternion Operations
    ~pytransform3d.transformations.dq_q_conj
    ~pytransform3d.transformations.concatenate_dual_quaternions
    ~pytransform3d.transformations.dq_prod_vector
+   ~pytransform3d.transformations.dual_quaternion_power
+   ~pytransform3d.transformations.dual_quaternion_sclerp
 
 Plotting
 --------
@@ -328,6 +332,7 @@ Testing
    ~pytransform3d.transformations.assert_transform
    ~pytransform3d.transformations.assert_unit_dual_quaternion
    ~pytransform3d.transformations.assert_unit_dual_quaternion_equal
+   ~pytransform3d.transformations.assert_screw_parameters_equal
 
 
 :mod:`pytransform3d.batch_rotations`

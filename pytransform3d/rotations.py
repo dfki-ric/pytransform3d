@@ -2531,7 +2531,7 @@ def axis_angle_slerp(start, end, t):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Interpolated axis of rotation and rotation angle: (x, y, z, angle)
     """
     start = check_axis_angle(start)
