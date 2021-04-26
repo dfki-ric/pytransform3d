@@ -713,6 +713,29 @@ def test_dual_quaternion_applied_to_point():
         assert_array_almost_equal(p_B, transform(A2B, vector_to_point(p_A))[:3])
 
 
+def test_assert_screw_parameters_equal():
+    q = np.array([1, 2, 3])
+    s_axis = norm_vector(np.array([-2, 3, 5]))
+    h = 2
+    theta = 1
+    assert_screw_parameters_equal(
+        q, s_axis, h, theta,
+        q + 484.3 * s_axis, s_axis, h, theta)
+
+    assert_raises_regexp(
+        AssertionError, "-1492.7128508189376 != 995.1419005459584",
+        assert_screw_parameters_equal,
+        q, s_axis, h, theta,
+        q + 484.3, s_axis, h, theta)
+
+    s_axis_mirrored = -s_axis
+    theta_mirrored = 2.0 * np.pi - theta
+    h_mirrored = -h * theta / theta_mirrored
+    assert_screw_parameters_equal(
+        q, s_axis_mirrored, h_mirrored, theta_mirrored,
+        q, s_axis, h, theta)
+
+
 def test_screw_parameters_from_dual_quaternion():
     dq = np.array([1, 0, 0, 0, 0, 0, 0, 0])
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
