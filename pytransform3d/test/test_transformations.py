@@ -24,7 +24,7 @@ from pytransform3d.transformations import (
     assert_unit_dual_quaternion, dual_quaternion_from_pq,
     pq_from_dual_quaternion, assert_unit_dual_quaternion_equal,
     screw_parameters_from_dual_quaternion, assert_screw_parameters_equal,
-    dual_quaternion_from_screw_parameters)
+    dual_quaternion_from_screw_parameters, dual_quaternion_sclerp)
 from pytransform3d.rotations import (
     matrix_from, random_axis_angle, random_vector, axis_angle_from_matrix,
     norm_vector, perpendicular_to_vector, active_matrix_from_angle,
@@ -790,3 +790,34 @@ def test_dual_quaternion_from_screw_parameters():
 
         dq_expected = dual_quaternion_from_transform(A2B)
         assert_unit_dual_quaternion_equal(dq, dq_expected)
+
+
+def test_dual_quaternion_sclerp():
+    random_state = np.random.RandomState(22)
+    pose1 = random_transform(random_state)
+    pose2 = random_transform(random_state)
+    dq1 = dual_quaternion_from_transform(pose1)
+    dq2 = dual_quaternion_from_transform(pose2)
+
+    n_steps = 100
+
+    # Ground truth: screw linear interpolation
+    pose12pose2 = concat(pose2, invert_transform(pose1))
+    screw_axis, theta = screw_axis_from_exponential_coordinates(
+        exponential_coordinates_from_transform(pose12pose2))
+    offsets = np.array(
+        [transform_from_exponential_coordinates(screw_axis * t * theta)
+         for t in np.linspace(0, 1, n_steps)])
+    interpolated_poses = np.array([
+        concat(offset, pose1) for offset in offsets])
+
+    # Dual quaternion ScLERP
+    sclerp_interpolated_dqs = np.vstack([
+        dual_quaternion_sclerp(dq1, dq2, t)
+        for t in np.linspace(0, 1, n_steps)])
+    sclerp_interpolated_poses_from_dqs = np.array([
+        transform_from_dual_quaternion(dq) for dq in sclerp_interpolated_dqs])
+
+    for t in range(n_steps):
+        assert_array_almost_equal(
+            interpolated_poses[t], sclerp_interpolated_poses_from_dqs[t])
