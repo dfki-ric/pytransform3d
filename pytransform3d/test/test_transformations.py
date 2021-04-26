@@ -30,7 +30,7 @@ from pytransform3d.rotations import (
     norm_vector, perpendicular_to_vector, active_matrix_from_angle,
     random_quaternion)
 from nose.tools import (assert_equal, assert_almost_equal,
-                        assert_raises_regexp, assert_false)
+                        assert_raises_regexp, assert_false, assert_true)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -714,6 +714,20 @@ def test_dual_quaternion_applied_to_point():
 
 
 def test_screw_parameters_from_dual_quaternion():
+    dq = np.array([1, 0, 0, 0, 0, 0, 0, 0])
+    q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
+    assert_array_almost_equal(q, np.zeros(3))
+    assert_array_almost_equal(s_axis, np.array([1, 0, 0]))
+    assert_true(np.isinf(h))
+    assert_almost_equal(theta, 0)
+
+    dq = dual_quaternion_from_pq(np.array([1.2, 1.3, 1.4, 1, 0, 0, 0]))
+    q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
+    assert_array_almost_equal(q, np.zeros(3))
+    assert_array_almost_equal(s_axis, norm_vector(np.array([1.2, 1.3, 1.4])))
+    assert_true(np.isinf(h))
+    assert_almost_equal(theta, np.linalg.norm(np.array([1.2, 1.3, 1.4])))
+
     random_state = np.random.RandomState(1001)
     for _ in range(5):
         A2B = random_transform(random_state)
@@ -727,6 +741,21 @@ def test_screw_parameters_from_dual_quaternion():
 
 
 def test_dual_quaternion_from_screw_parameters():
+    q = np.zeros(3)
+    s_axis = np.array([1, 0, 0])
+    h = np.inf
+    theta = 0
+    dq = dual_quaternion_from_screw_parameters(q, s_axis, h, theta)
+    assert_array_almost_equal(dq, np.array([1, 0, 0, 0, 0, 0, 0, 0]))
+
+    q = np.zeros(3)
+    s_axis = norm_vector(np.array([2.3, 2.4, 2.5]))
+    h = np.inf
+    theta = 3.6
+    dq = dual_quaternion_from_screw_parameters(q, s_axis, h, theta)
+    pq = pq_from_dual_quaternion(dq)
+    assert_array_almost_equal(pq, np.r_[s_axis * theta, 1, 0, 0, 0])
+
     random_state = np.random.RandomState(1001)
     for _ in range(5):
         A2B = random_transform(random_state)
