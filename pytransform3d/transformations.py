@@ -1466,10 +1466,6 @@ def dual_quaternion_sclerp(start, end, t):
     """TODO"""
     start = check_dual_quaternion(start)
     end = check_dual_quaternion(end)
-
-    if np.dot(start[:4], end[:4]) < 0:  # TODO same for quaternion slerp?
-        end = -end
-
     diff = concatenate_dual_quaternions(dq_q_conj(start), end)
     return concatenate_dual_quaternions(start, dual_quaternion_power(diff, t))
 
