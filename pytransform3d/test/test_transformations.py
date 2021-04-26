@@ -792,6 +792,14 @@ def test_dual_quaternion_from_screw_parameters():
         assert_unit_dual_quaternion_equal(dq, dq_expected)
 
 
+def test_dual_quaternion_sclerp_same_dual_quaternions():
+    random_state = np.random.RandomState(19)
+    pose = random_transform(random_state)
+    dq = dual_quaternion_from_transform(pose)
+    dq2 = dual_quaternion_sclerp(dq, dq, 0.5)
+    assert_array_almost_equal(dq, dq2)
+
+
 def test_dual_quaternion_sclerp():
     random_state = np.random.RandomState(22)
     pose1 = random_transform(random_state)
