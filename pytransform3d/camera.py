@@ -106,7 +106,7 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
         camera will be a vector of nans.
     """
     n_points, n_dims = P_cam.shape
-    if n_dims != 3 and n_dims != 4:
+    if n_dims not in (3, 4):
         raise ValueError("Expected 3- or 4-dimensional points, got %d "
                          "dimensions" % n_dims)
     if focal_length <= 0.0:
