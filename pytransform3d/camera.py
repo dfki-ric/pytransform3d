@@ -241,7 +241,7 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sen
         New or old axis
     """
     from .plot_utils import make_3d_axis
-    from .transformations import (check_transform, transform, vector_to_point,
+    from .transformations import (check_transform, vector_to_point,
                                   vectors_to_points)
 
     if ax is None:
