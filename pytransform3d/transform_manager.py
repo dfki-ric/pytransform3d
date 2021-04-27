@@ -325,7 +325,7 @@ class TransformManager(object):
         if "c" not in kwargs and "color" not in kwargs:
             kwargs["color"] = "black"
 
-        for frame_names, transform in self.transforms.items():
+        for frame_names in self.transforms.keys():
             from_frame, to_frame = frame_names
             if from_frame in nodes and to_frame in nodes:
                 try:
