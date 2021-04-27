@@ -612,4 +612,3 @@ shape_classes = {"box": Box,
 
 class UrdfException(Exception):
     """Exception while parsing URDF files."""
-    pass
