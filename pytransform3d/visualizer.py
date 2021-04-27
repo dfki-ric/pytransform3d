@@ -76,17 +76,6 @@ try:
             """
             self.visualizer.add_geometry(geometry)
 
-        def remove_artist(self, artist):
-            """Add artist to figure.
-
-            Parameters
-            ----------
-            artist : Artist
-                Artist that should be removed from this figure.
-            """
-            for g in artist.geometries:
-                self._remove_geometry(g)
-
         def _remove_geometry(self, geometry):
             """Remove geometry to visualizer.
 
@@ -112,6 +101,17 @@ try:
                 Open3D geometry.
             """
             self.visualizer.update_geometry(geometry)
+
+        def remove_artist(self, artist):
+            """Remove artist from visualizer.
+
+            Parameters
+            ----------
+            artist : Artist
+                Artist that should be removed from this figure.
+            """
+            for g in artist.geometries:
+                self._remove_geometry(g)
 
         def set_line_width(self, line_width):
             """Set render option line width.
