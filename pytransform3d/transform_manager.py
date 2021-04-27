@@ -382,16 +382,16 @@ class TransformManager(object):
             of B2A?
         """
         consistent = True
-        for n1 in self.nodes:
-            for n2 in self.nodes:
+        for node1 in self.nodes:
+            for node2 in self.nodes:
                 try:
-                    n1_to_n2 = self.get_transform(n1, n2)
-                    n2_to_n1 = self.get_transform(n2, n1)
-                    n1_to_n2_inv = invert_transform(
-                        n2_to_n1, strict_check=self.strict_check,
+                    node1_to_node2 = self.get_transform(node1, node2)
+                    node2_to_node1 = self.get_transform(node2, node1)
+                    node1_to_node2_inv = invert_transform(
+                        node2_to_node1, strict_check=self.strict_check,
                         check=self.check)
-                    consistent = (consistent and
-                                  np.allclose(n1_to_n2, n1_to_n2_inv))
+                    consistent = consistent and np.allclose(node1_to_node2,
+                                                            node1_to_node2_inv)
                 except KeyError:
                     pass  # Frames are not connected
         return consistent
