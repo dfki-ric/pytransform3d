@@ -7,9 +7,9 @@ import scipy.sparse as sp
 from scipy.sparse import csgraph
 try:
     import pydot
-    pydot_available = True
+    PYDOT_AVAILABLE = True
 except ImportError:
-    pydot_available = False
+    PYDOT_AVAILABLE = False
 from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
 from .plot_utils import make_3d_axis
@@ -428,7 +428,7 @@ class TransformManager(object):
             absolute path to GraphViz executable. Possible options are, for
             example, 'dot', 'twopi', 'neato', 'circo', 'fdp', 'sfdp'.
         """
-        if not pydot_available:
+        if not PYDOT_AVAILABLE:
             raise ImportError("pydot must be installed to use this feature.")
 
         graph = pydot.Dot(graph_type="graph")
