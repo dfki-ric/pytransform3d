@@ -76,6 +76,33 @@ try:
             """
             self.visualizer.add_geometry(geometry)
 
+        def remove_artist(self, artist):
+            """Add artist to figure.
+
+            Parameters
+            ----------
+            artist : Artist
+                Artist that should be removed from this figure.
+            """
+            for g in artist.geometries:
+                self._remove_geometry(g)
+
+        def _remove_geometry(self, geometry):
+            """Remove geometry to visualizer.
+
+            .. warning::
+
+                This function is not public because the interface of the
+                underlying visualizer might change in the future causing the
+                signature of this function to change as well.
+
+            Parameters
+            ----------
+            geometry : Geometry
+                Open3D geometry.
+            """
+            self.visualizer.remove_geometry(geometry)
+
         def update_geometry(self, geometry):
             """Indicate that geometry has been updated.
 
