@@ -227,15 +227,15 @@ def test_png_export():
 
 def test_png_export_without_pydot_fails():
     """Test graph export without pydot."""
-    pydot_available = transform_manager.pydot_available
+    pydot_available = transform_manager.PYDOT_AVAILABLE
     tm = TransformManager()
     try:
-        transform_manager.pydot_available = False
+        transform_manager.PYDOT_AVAILABLE = False
         assert_raises_regexp(
             ImportError, "pydot must be installed to use this feature.",
             tm.write_png, "bla")
     finally:
-        transform_manager.pydot_available = pydot_available
+        transform_manager.PYDOT_AVAILABLE = pydot_available
 
 
 def test_deactivate_transform_manager_precision_error():
