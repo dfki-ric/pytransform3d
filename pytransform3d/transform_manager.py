@@ -437,26 +437,27 @@ class TransformManager(object):
 
         for frame in self.nodes:
             node = pydot.Node(
-                self.__display_name(frame), style="filled",
+                _dot_display_name(frame), style="filled",
                 fillcolor=frame_color, shape="egg")
             graph.add_node(node)
         for frames, A2B in self.transforms.items():
             a, b = frames
             connection_name = "%s to %s\n%s" % (
-                self.__display_name(a), self.__display_name(b),
+                _dot_display_name(a), _dot_display_name(b),
                 str(np.round(A2B, 3)))
             node = pydot.Node(
                 connection_name, style="filled", fillcolor=connection_color,
                 shape="note")
             graph.add_node(node)
-            a_name = self.__display_name(a)
+            a_name = _dot_display_name(a)
             a_edge = pydot.Edge(connection_name, a_name, penwidth=3)
             graph.add_edge(a_edge)
-            b_name = self.__display_name(b)
+            b_name = _dot_display_name(b)
             b_edge = pydot.Edge(connection_name, b_name, penwidth=3)
             graph.add_edge(b_edge)
 
         graph.write_png(filename, prog=prog)
 
-    def __display_name(self, name):
-        return name.replace("/", "")
+
+def _dot_display_name(name):
+    return name.replace("/", "")
