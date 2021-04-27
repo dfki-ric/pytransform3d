@@ -24,7 +24,7 @@ Animate Trajectory
 
 Animates a trajectory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-51
+.. GENERATED FROM PYTHON SOURCE LINES 8-52
 
 
 
@@ -77,7 +77,8 @@ Animates a trajectory.
     fig.set_zoom(0.5)
 
     if "__file__" in globals():
-        fig.animate(update_trajectory, n_frames, fargs=(n_frames, trajectory), loop=True)
+        fig.animate(
+            update_trajectory, n_frames, fargs=(n_frames, trajectory), loop=True)
         fig.show()
     else:
         fig.save_image("__open3d_rendered_image.jpg")
@@ -85,7 +86,7 @@ Animates a trajectory.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.201 seconds)
+   **Total running time of the script:** ( 0 minutes  0.095 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_moving_trajectory.py:

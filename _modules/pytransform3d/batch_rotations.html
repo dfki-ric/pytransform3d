@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.batch_rotations &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>pytransform3d.batch_rotations &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -442,8 +442,8 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">Rs_diag</span> <span class="o">=</span> <span class="n">Rs_diag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">out</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">Rs_diag</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span>
-            <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">Rs_diag</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
     <span class="n">out</span><span class="p">[</span><span class="n">angle_not_zero</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
         <span class="n">out</span><span class="p">[</span><span class="n">angle_not_zero</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 
@@ -632,7 +632,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q : array-like, shape (n_steps, 4)</span>
+<span class="sd">    Q : array, shape (n_steps, 4)</span>
 <span class="sd">        Interpolated unit quaternions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
@@ -649,6 +649,83 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">batch_concatenate_quaternions</span><span class="p">(</span><span class="n">Q1</span><span class="p">,</span> <span class="n">Q2</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate two batches of quaternions.</span>
+
+<span class="sd">    We use Hamilton&#39;s quaternion multiplication.</span>
+
+<span class="sd">    Suppose we want to apply two extrinsic rotations given by quaternions</span>
+<span class="sd">    q1 and q2 to a vector v. We can either apply q2 to v and then q1 to</span>
+<span class="sd">    the result or we can concatenate q1 and q2 and apply the result to v.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q1 : array-like, shape (..., 4)</span>
+<span class="sd">        First batch of quaternions</span>
+
+<span class="sd">    Q2 : array-like, shape (..., 4)</span>
+<span class="sd">        Second batch of quaternions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Q12 : array, shape (..., 4)</span>
+<span class="sd">        Batch of quaternions that represents the concatenated rotations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q1</span><span class="p">)</span>
+    <span class="n">Q2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">Q1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="n">Q2</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of dimensions must be the same. &quot;</span>
+                         <span class="s2">&quot;Got </span><span class="si">%d</span><span class="s2"> for Q1 and </span><span class="si">%d</span><span class="s2"> for Q2.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Q1</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">Q2</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Q1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">Q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">!=</span> <span class="n">Q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">d</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Size of dimension </span><span class="si">%d</span><span class="s2"> does not match: </span><span class="si">%d</span><span class="s2"> != </span><span class="si">%d</span><span class="s2">&quot;</span>
+                <span class="o">%</span> <span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">d</span><span class="p">],</span> <span class="n">Q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">d</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">Q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Last dimension of first argument does not match. A quaternion &quot;</span>
+            <span class="s2">&quot;must have 4 entries, got </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">Q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">Q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Last dimension of second argument does not match. A quaternion &quot;</span>
+            <span class="s2">&quot;must have 4 entries, got </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">Q2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">Q1</span><span class="p">)</span>
+
+    <span class="n">vector_inner_products</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Q1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">Q2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">vector_inner_products</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">+</span>
+                    <span class="n">Q2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">+</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Q1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">Q2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span> <span class="nf">batch_q_conj</span><span class="p">(</span><span class="n">Q</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Conjugate of quaternions.</span>
+
+<span class="sd">    The conjugate of a unit quaternion inverts the rotation represented by</span>
+<span class="sd">    this unit quaternion. The conjugate of a quaternion q is often denoted</span>
+<span class="sd">    as q*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q : array-like, shape (..., 4)</span>
+<span class="sd">        Unit quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Q_c : array, shape (..., 4,)</span>
+<span class="sd">        Conjugates (w, -x, -y, -z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Q</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 
     </div>
@@ -663,7 +740,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

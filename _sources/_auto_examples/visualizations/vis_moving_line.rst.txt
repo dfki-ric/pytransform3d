@@ -24,7 +24,7 @@ Animate Line
 
 Animates a line.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-40
+.. GENERATED FROM PYTHON SOURCE LINES 8-41
 
 
 
@@ -41,8 +41,8 @@ Animates a line.
     print(__doc__)
 
 
+    import numpy as np
     import pytransform3d.visualizer as pv
-    from pytransform3d.rotations import *
 
 
     def animation_callback(step, n_frames, line):
@@ -66,7 +66,8 @@ Animates a line.
 
     n_frames = 100
     if "__file__" in globals():
-        fig.animate(animation_callback, n_frames, fargs=(n_frames, line), loop=True)
+        fig.animate(
+            animation_callback, n_frames, fargs=(n_frames, line), loop=True)
         fig.show()
     else:
         fig.save_image("__open3d_rendered_image.jpg")
@@ -74,7 +75,7 @@ Animates a line.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.173 seconds)
+   **Total running time of the script:** ( 0 minutes  0.111 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_moving_line.py:

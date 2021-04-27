@@ -26,7 +26,8 @@ import pytransform3d.transformations as pt
 import pytransform3d.visualizer as pv
 
 
-def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0):
+def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]),
+               h=1.0, theta=1.0, A2B=None, s=1.0):
     """Plot transformation about and along screw axis.
 
     Parameters
@@ -53,9 +54,12 @@ def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, t
     s : float, optional (default: 1)
         Scaling of the axis and angle that will be drawn
     """
-    from pytransform3d.rotations import (vector_projection, angle_between_vectors,
-                                         perpendicular_to_vectors, _slerp_weights)
-    from pytransform3d.transformations import check_screw_parameters, transform, translate_transform, vector_to_point, vector_to_direction, vectors_to_points
+    from pytransform3d.rotations import (
+        vector_projection, angle_between_vectors, perpendicular_to_vectors,
+        _slerp_weights)
+    from pytransform3d.transformations import (
+        check_screw_parameters, transform, translate_transform,
+        vector_to_point, vector_to_direction, vectors_to_points)
 
     if A2B is None:
         A2B = np.eye(4)
@@ -68,12 +72,15 @@ def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, t
 
     if not pure_translation:
         screw_axis_to_old_frame = -origin_projected_on_screw_axis
-        screw_axis_to_rotated_frame = perpendicular_to_vectors(s_axis, screw_axis_to_old_frame)
+        screw_axis_to_rotated_frame = perpendicular_to_vectors(
+            s_axis, screw_axis_to_old_frame)
         screw_axis_to_translated_frame = h * s_axis
 
         arc = np.empty((100, 3))
-        angle = angle_between_vectors(screw_axis_to_old_frame, screw_axis_to_rotated_frame)
-        for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)), np.linspace(0.0, 1.0, len(arc)))):
+        angle = angle_between_vectors(screw_axis_to_old_frame,
+                                      screw_axis_to_rotated_frame)
+        for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)),
+                                  np.linspace(0.0, 1.0, len(arc)))):
             t1, t2 = t
             w1, w2 = _slerp_weights(angle, t1)
             arc[i] = (origin_projected_on_screw_axis
@@ -85,7 +92,8 @@ def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, t
     s_axis = transform(A2B, vector_to_direction(s_axis))[:3]
     if not pure_translation:
         arc = transform(A2B, vectors_to_points(arc))[:, :3]
-        origin_projected_on_screw_axis = transform(A2B, vector_to_point(origin_projected_on_screw_axis))[:3]
+        origin_projected_on_screw_axis = transform(
+            A2B, vector_to_point(origin_projected_on_screw_axis))[:3]
 
     # Screw axis
     Q = translate_transform(np.eye(4), q)
@@ -96,7 +104,8 @@ def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, t
         fig.plot_sphere(radius=s * 0.02, A2B=Q_plus_S_axis, c=[0, 1, 0])
     P = np.array([
         [q[0] - s * s_axis[0], q[1] - s * s_axis[1], q[2] - s * s_axis[2]],
-        [q[0] + (1 + s) * s_axis[0], q[1] + (1 + s) * s_axis[1], q[2] + (1 + s) * s_axis[2]]
+        [q[0] + (1 + s) * s_axis[0],
+         q[1] + (1 + s) * s_axis[1], q[2] + (1 + s) * s_axis[2]]
     ])
     figure.plot(P=P, c=[0, 0, 0])
 

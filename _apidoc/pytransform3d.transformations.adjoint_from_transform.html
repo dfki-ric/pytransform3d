@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations.adjoint_from_transform &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>pytransform3d.transformations.adjoint_from_transform &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
@@ -17,7 +17,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.transformations.plot_transform" href="pytransform3d.transformations.plot_transform.html" />
+    <link rel="next" title="pytransform3d.transformations.dq_conj" href="pytransform3d.transformations.dq_conj.html" />
     <link rel="prev" title="pytransform3d.transformations.scale_transform" href="pytransform3d.transformations.scale_transform.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -131,23 +131,28 @@
 from frame A to frame B translates a twist from frame A to frame B
 through the adjoint map</p>
 <div class="math">
-<p><img src="../_images/math/c94b129754841c826ad2c747f342866169d1103f.png" alt="\mathcal{V}_{B} = \left[Ad_{\boldsymbol{T}_{BA}}\right] \mathcal{V}_A"/></p>
+<p><img src="../_images/math/e037125c7686e5ec1effdc1990d32203083d7812.png" alt="\mathcal{V}_{B}
+= \left[Ad_{\boldsymbol{T}_{BA}}\right] \mathcal{V}_A"/></p>
 </div><p>The corresponding matrix form is</p>
 <div class="math">
-<p><img src="../_images/math/cd3120c67bcba49fce3ed530ba78cec2ff656e71.png" alt="\left[\mathcal{V}_{B}\right]
-= \boldsymbol{T}_{BA} \left[\mathcal{V}_A\right] \boldsymbol{T}_{BA}^{-1}"/></p>
+<p><img src="../_images/math/acf9c2d701183c22959d90c80e7782db2747367f.png" alt="\left[\mathcal{V}_{B}\right]
+= \boldsymbol{T}_{BA} \left[\mathcal{V}_A\right]
+\boldsymbol{T}_{BA}^{-1}"/></p>
 </div><p>We can also use the adjoint representation to transform a wrench from frame
 A to frame B:</p>
 <div class="math">
-<p><img src="../_images/math/a53002c1b83ab4ef591f83eb66aa41523e55d0d9.png" alt="\mathcal{F}_B = \left[ Ad_{\boldsymbol{T}_{AB}} \right]^T \mathcal{F}_A"/></p>
+<p><img src="../_images/math/b962d61f9caadbd5b44c2e4f2ca1fc27f0767824.png" alt="\mathcal{F}_B
+= \left[ Ad_{\boldsymbol{T}_{AB}} \right]^T \mathcal{F}_A"/></p>
 </div><p>Note that not only the adjoint is transposed but also the transformation is
 inverted.</p>
 <p>Adjoint representations have the following properties:</p>
 <div class="math">
-<p><img src="../_images/math/e7610911f885ac5d508578dd5fd2cc836539297f.png" alt="\left[Ad_{\boldsymbol{T}_1 \boldsymbol{T}_2}\right]
-= \left[Ad_{\boldsymbol{T}_1}\right] \left[Ad_{\boldsymbol{T}_2}\right]"/></p>
+<p><img src="../_images/math/6093cacac99fd633e42403a37434a33f54429b29.png" alt="\left[Ad_{\boldsymbol{T}_1 \boldsymbol{T}_2}\right]
+= \left[Ad_{\boldsymbol{T}_1}\right]
+\left[Ad_{\boldsymbol{T}_2}\right]"/></p>
 </div><div class="math">
-<p><img src="../_images/math/7f402660d490871db22c71b1ac57bda77b1c7c0c.png" alt="\left[Ad_{\boldsymbol{T}}\right]^{-1} = \left[Ad_{\boldsymbol{T}^{-1}}\right]"/></p>
+<p><img src="../_images/math/f8065e5964f877027ee4cbfa2018af7882cfc2a3.png" alt="\left[Ad_{\boldsymbol{T}}\right]^{-1} =
+\left[Ad_{\boldsymbol{T}^{-1}}\right]"/></p>
 </div><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -186,7 +191,7 @@ inverted.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

@@ -26,7 +26,7 @@ This example shows how to load a URDF with STL meshes. This example must be
 run from within the examples folder or the main folder because it uses a
 hard-coded path to the URDF file and the meshes.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-35
+.. GENERATED FROM PYTHON SOURCE LINES 10-36
 
 
 
@@ -58,7 +58,8 @@ hard-coded path to the URDF file and the meshes.
         tm.load_urdf(f.read(), mesh_path=data_dir)
     tm.set_joint("joint", -1.1)
     ax = tm.plot_frames_in(
-        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"], show_name=True)
+        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
+        show_name=True)
     ax = tm.plot_connections_in("lower_cone", ax=ax)
     tm.plot_visuals("lower_cone", ax=ax)
     ax.set_xlim((-0.1, 0.15))
@@ -69,7 +70,7 @@ hard-coded path to the URDF file and the meshes.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.122 seconds)
+   **Total running time of the script:** ( 0 minutes  0.120 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_urdf_with_meshes.py:

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -91,6 +91,7 @@
 <li><a class="reference internal" href="#exponential-coordinates">Exponential Coordinates</a></li>
 <li><a class="reference internal" href="#logarithm-of-transformation">Logarithm of Transformation</a></li>
 <li><a class="reference internal" href="#twist">Twist</a></li>
+<li><a class="reference internal" href="#dual-quaternions">Dual Quaternions</a></li>
 <li><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
@@ -139,7 +140,8 @@ in different ways.</p>
 <li><p><a class="reference internal" href="#exponential-coordinates" id="id3">Exponential Coordinates</a></p></li>
 <li><p><a class="reference internal" href="#logarithm-of-transformation" id="id4">Logarithm of Transformation</a></p></li>
 <li><p><a class="reference internal" href="#twist" id="id5">Twist</a></p></li>
-<li><p><a class="reference internal" href="#references" id="id6">References</a></p></li>
+<li><p><a class="reference internal" href="#dual-quaternions" id="id6">Dual Quaternions</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id7">References</a></p></li>
 </ul>
 </div>
 <p>For most representations of orientations we can find
@@ -161,10 +163,13 @@ motions are similar to exponential coordinates
 representation).</p></li>
 <li><p>A <strong>twist</strong> <img class="math" src="_images/math/f16b5e3f358fa1b26b006ca1141c21379a1d583c.png" alt="\mathcal V = \mathcal{S} \dot{\theta}"/> is similar to
 angular velocity <img class="math" src="_images/math/c43c330a71600e506e90a2c5ebc290ff588dd510.png" alt="\hat{\boldsymbol{\omega}} \dot{\theta}"/>.</p></li>
+<li><p>A (unit) <strong>dual quaternion</strong>
+<img class="math" src="_images/math/e6c41aa927e8d244c8cea2be8da72bc02938f9f5.png" alt="p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k)"/>
+is similar to a (unit) quaternion <img class="math" src="_images/math/b5277b002cc5d89a40edd9f23d69960e9f2d2b22.png" alt="w + x i + y j + z k"/>.</p></li>
 </ul>
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
-<img alt="Transformations" class="align-center" src="_images/transformations.png" />
+<a class="reference internal image-reference" href="_images/transformations.png"><img alt="Transformations" class="align-center" src="_images/transformations.png" style="width: 50%;" /></a>
 <div class="section" id="transformation-matrix">
 <h2><a class="toc-backref" href="#id1">Transformation Matrix</a><a class="headerlink" href="#transformation-matrix" title="Permalink to this headline">¶</a></h2>
 <p>One of the most convenient ways to represent transformations are
@@ -306,10 +311,45 @@ is described by a screw axis <img class="math" src="_images/math/b988975be41fd13
 and <img class="math" src="_images/math/f87d4f393d61af90cf1449502258e60a1dd057e6.png" alt="\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \theta \in se(3)"/>
 is the matrix representation of a twist.</p>
 </div>
+<div class="section" id="dual-quaternions">
+<h2><a class="toc-backref" href="#id6">Dual Quaternions</a><a class="headerlink" href="#dual-quaternions" title="Permalink to this headline">¶</a></h2>
+<p>Similarly to unit quaternions for rotations, unit dual quaternions are
+an alternative to represent transformations. They support similar operations
+as transformation matrices.</p>
+<p>A dual quaternion consists of a real quaternion and a dual quaternion:</p>
+<div class="math">
+<p><img src="_images/math/faf9c70f68012720e6f87876bba404a3d36a0b4b.png" alt="\boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),"/></p>
+</div><p>where <img class="math" src="_images/math/82903f2362f9dbb93c956d03b7e52bf8fdfe0886.png" alt="\epsilon^2 = 0"/>. We use unit dual quaternions to represent
+transformations. In this case, the real quaternion is a unit quaternion
+and the dual quaternion is orthogonal to the real quaternion.
+The real quaternion is used to represent the rotation and the dual
+quaternion contains information about the rotation and translation.</p>
+<p>Dual quaternions support similar operations as transformation matrices,
+they can be renormalized efficiently, and interpolation between two
+dual quaternions is possible.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The unit dual quaternions <img class="math" src="_images/math/06235415c6b82863663e2dcda2bd52ea9d934f8a.png" alt="\boldsymbol{p} + \epsilon \boldsymbol{q}"/>
+and <img class="math" src="_images/math/b1267caf6b5550c948934e747f0ded2b162247c2.png" alt="-\boldsymbol{p} - \epsilon \boldsymbol{q}"/> represent exactly
+the same transformation.</p>
+</div>
+<p>The reason for this ambiguity is that the real quaternion
+<img class="math" src="_images/math/e50416324791ac0f58cfcfcb36327d286a9850dc.png" alt="\boldsymbol{p}"/> represents the orientation component, the dual
+quaternion encodes the translation component as
+<img class="math" src="_images/math/f70c2c05a381f2d41407bf79ece6228291096363.png" alt="\boldsymbol{q} = 0.5 \boldsymbol{t} \boldsymbol{p}"/>, where
+<img class="math" src="_images/math/769daf01d3b707f492f7968fc2b188ba3677c5e8.png" alt="\boldsymbol{t}"/> is a quaternion with the translation in the vector
+component and the scalar 0, and rotation quaternions have the same ambiguity.</p>
+</div>
 <div class="section" id="references">
-<h2><a class="toc-backref" href="#id6">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p>Lynch, Park: Modern Robotics (Section 3.3); available at
 <a class="reference external" href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">http://hades.mech.northwestern.edu/index.php/Modern_Robotics</a></p>
+<p>Wikipedia: Dual Quaternion; available at
+<a class="reference external" href="https://en.wikipedia.org/wiki/Dual_quaternion">https://en.wikipedia.org/wiki/Dual_quaternion</a></p>
+<p>Yan-Bin Jia: Dual Quaternions; available at
+<a class="reference external" href="http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf">http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf</a></p>
+<p>Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
+<a class="reference external" href="http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf">http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf</a></p>
 </div>
 </div>
 
@@ -326,7 +366,7 @@ is the matrix representation of a twist.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

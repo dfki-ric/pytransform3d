@@ -28,7 +28,7 @@ significant differences as you can see in this example. The outer circle uses
 linear interpolation and the inner circle uses SLERP. You can play around with
 the value of 'end_angle' in this example.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-48
+.. GENERATED FROM PYTHON SOURCE LINES 12-52
 
 
 
@@ -44,7 +44,8 @@ the value of 'end_angle' in this example.
 
     import numpy as np
     import matplotlib.pyplot as plt
-    from pytransform3d.rotations import matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp
+    from pytransform3d.rotations import (
+        matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp)
     from pytransform3d.trajectories import plot_trajectory
 
 
@@ -73,16 +74,19 @@ the value of 'end_angle' in this example.
     for i, t in enumerate(T):
         Y_slerp[i, 3:] = quaternion_slerp(q_start, q_end, t)
 
-    ax = plot_trajectory(P=Y[:, :7], show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
-    ax = plot_trajectory(P=Y_slerp[:, :7], show_direction=False, n_frames=40, s=0.05, ax=ax)
+    ax = plot_trajectory(
+        P=Y[:, :7], show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
+    ax = plot_trajectory(
+        P=Y_slerp[:, :7], show_direction=False, n_frames=40, s=0.05, ax=ax)
     ax.text(0.1, 0, 0, "SLERP")
     ax.text(0.4, 0, 0.6, "Naive linear interpolation")
     ax.view_init(elev=10, azim=90)
     plt.show()
 
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.265 seconds)
+   **Total running time of the script:** ( 0 minutes  0.267 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_quaternion_slerp.py:

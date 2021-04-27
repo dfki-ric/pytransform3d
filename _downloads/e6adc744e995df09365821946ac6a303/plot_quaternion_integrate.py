@@ -7,7 +7,8 @@ Integrate angular velocities to a sequence of quaternions.
 """
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.rotations import quaternion_integrate, matrix_from_quaternion, plot_basis
+from pytransform3d.rotations import (
+    quaternion_integrate, matrix_from_quaternion, plot_basis)
 
 
 angular_velocities = np.empty((21, 3))

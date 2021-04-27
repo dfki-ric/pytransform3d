@@ -11,7 +11,8 @@ the value of 'end_angle' in this example.
 """
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.rotations import matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp
+from pytransform3d.rotations import (
+    matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp)
 from pytransform3d.trajectories import plot_trajectory
 
 
@@ -40,8 +41,10 @@ Y_slerp[:, 2] = 0.7 * radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
 for i, t in enumerate(T):
     Y_slerp[i, 3:] = quaternion_slerp(q_start, q_end, t)
 
-ax = plot_trajectory(P=Y[:, :7], show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
-ax = plot_trajectory(P=Y_slerp[:, :7], show_direction=False, n_frames=40, s=0.05, ax=ax)
+ax = plot_trajectory(
+    P=Y[:, :7], show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
+ax = plot_trajectory(
+    P=Y_slerp[:, :7], show_direction=False, n_frames=40, s=0.05, ax=ax)
 ax.text(0.1, 0, 0, "SLERP")
 ax.text(0.4, 0, 0.6, "Naive linear interpolation")
 ax.view_init(elev=10, azim=90)

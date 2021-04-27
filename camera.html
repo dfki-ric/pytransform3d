@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Camera &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>Camera &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -128,74 +128,50 @@ However, we have to know some parameters of the camera:</p>
 <li><p>sensor width and height</p></li>
 <li><p>image width and height</p></li>
 </ul>
-<img alt="Camera" class="align-center" src="_images/camera.png" />
-<p>The following example shows how a grid is projected on an image.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">================</span>
-<span class="sd">Camera Transform</span>
-<span class="sd">================</span>
-
-<span class="sd">We can see the camera frame and the world frame. There is a grid of points from</span>
-<span class="sd">which we know the world coordinates. If we know the location and orientation of</span>
-<span class="sd">the camera in the world, we can easily compute the location of the points on</span>
-<span class="sd">the image.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
-
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">proj3d</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">active_matrix_from_intrinsic_euler_xyz</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">plot_transform</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.camera</span> <span class="kn">import</span> <span class="n">make_world_grid</span><span class="p">,</span> <span class="n">world2image</span>
-
-
-<span class="n">cam2world</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
-    <span class="n">active_matrix_from_intrinsic_euler_xyz</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span>
-    <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
-<span class="n">focal_length</span> <span class="o">=</span> <span class="mf">0.0036</span>
-<span class="n">sensor_size</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.00367</span><span class="p">,</span> <span class="mf">0.00274</span><span class="p">)</span>
-<span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">)</span>
-
-<span class="n">world_grid</span> <span class="o">=</span> <span class="n">make_world_grid</span><span class="p">()</span>
-<span class="n">image_grid</span> <span class="o">=</span> <span class="n">world2image</span><span class="p">(</span><span class="n">world_grid</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span> <span class="n">image_size</span><span class="p">,</span>
-                         <span class="n">focal_length</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
-    <span class="c1"># HACK: workaround for bug in new matplotlib versions (ca. 3.02):</span>
-    <span class="c1"># &quot;It is not currently possible to manually set the aspect&quot;</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">70</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;Z&quot;</span><span class="p">)</span>
-<span class="n">plot_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-<span class="n">plot_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">cam2world</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Camera&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Camera and world frames&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">world_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">world_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">130</span><span class="p">)</span>
-
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Camera image&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+<a class="reference internal image-reference" href="_images/camera.png"><img alt="Camera" class="align-center" src="_images/camera.png" style="width: 60%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
 </div>
-<p>(<a class="reference external" href="./../../examples/plots/plot_camera.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_camera.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_camera.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_camera.pdf">pdf</a>)</p>
+<p>Note that light passes through a pinhole in a real pinhole camera before it
+will be measured from the sensor so that pixels will be mirrored in the x-y
+plane. The sensor that we show here actually corresponds to the virtual
+image plane.</p>
+<p>The following example shows how a grid is projected on an image.</p>
+<p>(<a class="reference external" href="./../../examples/plots/plot_camera_with_image.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_camera_with_image.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_with_image.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_with_image.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="_images/plot_camera.png" src="_images/plot_camera.png" />
+<img alt="_images/plot_camera_with_image.png" src="_images/plot_camera_with_image.png" />
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Extrinsic and intrinsic camera parameters can be visualized in the following
+way. The extrinsic camera parameters are fully determined by a transform
+from world coordinates to camera coordinates or by the pose of the camera in
+the world. In this illustration, the point indicates the camera center /
+center of projection, which is the position component of the pose. The
+orientation determines the direction to and orientation of the virtual image
+plane. The arrow at the top of the virtual image plane shows the up direction
+of the image.</p>
+<p>The field of view is determined from the intrinsic camera parameters. These
+are given by a matrix</p>
+<div class="math">
+<p><img src="_images/math/1374512e0f68c88da11e4594f053a7385c96597c.png" alt="\left( \begin{array}{ccc}
+f_x &amp; 0 &amp; c_x\\
+0 &amp; f_y &amp; c_y\\
+0 &amp; 0 &amp; 1
+\end{array} \right),"/></p>
+</div><p>where <img class="math" src="_images/math/dc401583ccb69badecabcbe7c2855f04f8a6dc93.png" alt="f_x, f_y"/> are focal lengths and <img class="math" src="_images/math/203a40dc283de2339489b44417657e23bcf9ec71.png" alt="c_x, c_y"/> is the position
+of the camera center. Together with the image size we can determine the field
+of view. Values of the intrinsic camera matrix and the image size can be given
+in pixels or meters to generate the following visualization.</p>
+<p>(<a class="reference external" href="./../../examples/plots/plot_camera_3d.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_camera_3d.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_3d.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_3d.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot_camera_3d.png" src="_images/plot_camera_3d.png" />
+</div>
+<p>You can use this to display a trajectory of camera poses.</p>
+<p>(<a class="reference external" href="./../../examples/plots/plot_camera_trajectory.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_camera_trajectory.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_trajectory.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_trajectory.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot_camera_trajectory.png" src="_images/plot_camera_trajectory.png" />
 </div>
 </div>
 
@@ -212,7 +188,7 @@ However, we have to know some parameters of the camera:</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

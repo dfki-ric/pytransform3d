@@ -6,6 +6,9 @@ Rotate Cylinder
 In this example, we apply a constant torque (tau) to a cylinder at its
 center of gravity and plot it at several steps during the acceleration.
 """
+print(__doc__)
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import matrix_from_compact_axis_angle

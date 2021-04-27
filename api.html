@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API Documentation &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -108,7 +108,9 @@
 <li><a class="reference internal" href="#conversions-to-exponential-coordinates">Conversions to Exponential Coordinates</a></li>
 <li><a class="reference internal" href="#conversions-to-screw-matrix">Conversions to Screw Matrix</a></li>
 <li><a class="reference internal" href="#conversions-to-matrix-logarithm">Conversions to Matrix Logarithm</a></li>
+<li><a class="reference internal" href="#conversions-to-dual-quaternions">Conversions to Dual Quaternions</a></li>
 <li><a class="reference internal" href="#apply-transformations">Apply Transformations</a></li>
+<li><a class="reference internal" href="#dual-quaternion-operations">Dual Quaternion Operations</a></li>
 <li><a class="reference internal" href="#id3">Plotting</a></li>
 <li><a class="reference internal" href="#id4">Testing</a></li>
 </ul>
@@ -519,6 +521,9 @@ that have been omitted here for the sake of brevity.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.check_transform_log.html#pytransform3d.transformations.check_transform_log" title="pytransform3d.transformations.check_transform_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_transform_log</span></code></a>(transform_log[, …])</p></td>
 <td><p>Input validation for logarithm of transformation.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion" title="pytransform3d.transformations.check_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_dual_quaternion</span></code></a>(dq[, unit])</p></td>
+<td><p>Input validation of dual quaternion representation.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -548,6 +553,9 @@ that have been omitted here for the sake of brevity.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.transform_from_transform_log.html#pytransform3d.transformations.transform_from_transform_log" title="pytransform3d.transformations.transform_from_transform_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_from_transform_log</span></code></a>(transform_log)</p></td>
 <td><p>Compute transformation from matrix logarithm of transformation.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.transform_from_dual_quaternion.html#pytransform3d.transformations.transform_from_dual_quaternion" title="pytransform3d.transformations.transform_from_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_from_dual_quaternion</span></code></a>(dq)</p></td>
+<td><p>Compute transformation matrix from dual quaternion.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -562,6 +570,9 @@ that have been omitted here for the sake of brevity.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.pq_from_transform.html#pytransform3d.transformations.pq_from_transform" title="pytransform3d.transformations.pq_from_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pq_from_transform</span></code></a>(A2B[, strict_check])</p></td>
 <td><p>Compute position and quaternion from transformation matrix.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.pq_from_dual_quaternion.html#pytransform3d.transformations.pq_from_dual_quaternion" title="pytransform3d.transformations.pq_from_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pq_from_dual_quaternion</span></code></a>(dq)</p></td>
+<td><p>Compute position and quaternion from dual quaternion.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -575,6 +586,9 @@ that have been omitted here for the sake of brevity.</p>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.screw_parameters_from_screw_axis.html#pytransform3d.transformations.screw_parameters_from_screw_axis" title="pytransform3d.transformations.screw_parameters_from_screw_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">screw_parameters_from_screw_axis</span></code></a>(screw_axis)</p></td>
 <td><p>Compute screw parameters from screw axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.screw_parameters_from_dual_quaternion.html#pytransform3d.transformations.screw_parameters_from_dual_quaternion" title="pytransform3d.transformations.screw_parameters_from_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">screw_parameters_from_dual_quaternion</span></code></a>(dq)</p></td>
+<td><p>Compute screw parameters from dual quaternion.</p></td>
 </tr>
 </tbody>
 </table>
@@ -656,6 +670,26 @@ that have been omitted here for the sake of brevity.</p>
 </tbody>
 </table>
 </div>
+<div class="section" id="conversions-to-dual-quaternions">
+<h3>Conversions to Dual Quaternions<a class="headerlink" href="#conversions-to-dual-quaternions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dual_quaternion_from_transform.html#pytransform3d.transformations.dual_quaternion_from_transform" title="pytransform3d.transformations.dual_quaternion_from_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual_quaternion_from_transform</span></code></a>(A2B)</p></td>
+<td><p>Compute dual quaternion from transformation matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dual_quaternion_from_pq.html#pytransform3d.transformations.dual_quaternion_from_pq" title="pytransform3d.transformations.dual_quaternion_from_pq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual_quaternion_from_pq</span></code></a>(pq)</p></td>
+<td><p>Compute dual quaternion from position and quaternion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dual_quaternion_from_screw_parameters.html#pytransform3d.transformations.dual_quaternion_from_screw_parameters" title="pytransform3d.transformations.dual_quaternion_from_screw_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual_quaternion_from_screw_parameters</span></code></a>(q, …)</p></td>
+<td><p>Compute dual quaternion from screw parameters.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="apply-transformations">
 <h3>Apply Transformations<a class="headerlink" href="#apply-transformations" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-default">
@@ -694,6 +728,35 @@ that have been omitted here for the sake of brevity.</p>
 </tbody>
 </table>
 </div>
+<div class="section" id="dual-quaternion-operations">
+<h3>Dual Quaternion Operations<a class="headerlink" href="#dual-quaternion-operations" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dq_conj.html#pytransform3d.transformations.dq_conj" title="pytransform3d.transformations.dq_conj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dq_conj</span></code></a>(dq)</p></td>
+<td><p>Conjugate of dual quaternion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dq_q_conj.html#pytransform3d.transformations.dq_q_conj" title="pytransform3d.transformations.dq_q_conj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dq_q_conj</span></code></a>(dq)</p></td>
+<td><p>Quaternion conjugate of dual quaternion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.concatenate_dual_quaternions.html#pytransform3d.transformations.concatenate_dual_quaternions" title="pytransform3d.transformations.concatenate_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate_dual_quaternions</span></code></a>(dq1, dq2)</p></td>
+<td><p>Concatenate dual quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector" title="pytransform3d.transformations.dq_prod_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dq_prod_vector</span></code></a>(dq, v)</p></td>
+<td><p>Apply transform represented by a dual quaternion to a vector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dual_quaternion_power.html#pytransform3d.transformations.dual_quaternion_power" title="pytransform3d.transformations.dual_quaternion_power"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual_quaternion_power</span></code></a>(dq, t)</p></td>
+<td><p>Compute power of unit dual quaternion with respect to scalar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp" title="pytransform3d.transformations.dual_quaternion_sclerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual_quaternion_sclerp</span></code></a>(start, end, t)</p></td>
+<td><p>Screw linear interpolation (ScLERP) for dual quaternions.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="id3">
 <h3>Plotting<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-default">
@@ -721,6 +784,15 @@ that have been omitted here for the sake of brevity.</p>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.assert_transform.html#pytransform3d.transformations.assert_transform" title="pytransform3d.transformations.assert_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_transform</span></code></a>(A2B, *args, **kwargs)</p></td>
 <td><p>Raise an assertion if the transform is not a homogeneous matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.assert_unit_dual_quaternion.html#pytransform3d.transformations.assert_unit_dual_quaternion" title="pytransform3d.transformations.assert_unit_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_unit_dual_quaternion</span></code></a>(dq, *args, **kwargs)</p></td>
+<td><p>Raise an assertion if the dual quaternion does not have unit norm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.assert_unit_dual_quaternion_equal.html#pytransform3d.transformations.assert_unit_dual_quaternion_equal" title="pytransform3d.transformations.assert_unit_dual_quaternion_equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_unit_dual_quaternion_equal</span></code></a>(dq1, dq2, …)</p></td>
+<td><p>Raise an assertion if unit dual quaternions are not approximately equal.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.assert_screw_parameters_equal.html#pytransform3d.transformations.assert_screw_parameters_equal" title="pytransform3d.transformations.assert_screw_parameters_equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_screw_parameters_equal</span></code></a>(q1, s_axis1, …)</p></td>
+<td><p>Raise an assertion if two sets of screw parameters are not similar.</p></td>
 </tr>
 </tbody>
 </table>
@@ -798,7 +870,22 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates" title="pytransform3d.trajectories.transforms_from_exponential_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_exponential_coordinates</span></code></a>(Sthetas)</p></td>
 <td><p>Compute transformations from exponential coordinates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory" title="pytransform3d.trajectories.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>([ax, P, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.dual_quaternions_from_pqs.html#pytransform3d.trajectories.dual_quaternions_from_pqs" title="pytransform3d.trajectories.dual_quaternions_from_pqs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual_quaternions_from_pqs</span></code></a>(pqs)</p></td>
+<td><p>Get dual quaternions from positions and quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.pqs_from_dual_quaternions.html#pytransform3d.trajectories.pqs_from_dual_quaternions" title="pytransform3d.trajectories.pqs_from_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pqs_from_dual_quaternions</span></code></a>(dqs)</p></td>
+<td><p>Get positions and quaternions from dual quaternions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.batch_dq_conj.html#pytransform3d.trajectories.batch_dq_conj" title="pytransform3d.trajectories.batch_dq_conj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_dq_conj</span></code></a>(dqs)</p></td>
+<td><p>Conjugate of dual quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.batch_concatenate_dual_quaternions.html#pytransform3d.trajectories.batch_concatenate_dual_quaternions" title="pytransform3d.trajectories.batch_concatenate_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_concatenate_dual_quaternions</span></code></a>(dqs1, dqs2)</p></td>
+<td><p>Concatenate dual quaternions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.batch_dq_prod_vector.html#pytransform3d.trajectories.batch_dq_prod_vector" title="pytransform3d.trajectories.batch_dq_prod_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_dq_prod_vector</span></code></a>(dqs, V)</p></td>
+<td><p>Apply transforms represented by a dual quaternions to vectors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory" title="pytransform3d.trajectories.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>([ax, P, …])</p></td>
 <td><p>Plot pose trajectory.</p></td>
 </tr>
 </tbody>
@@ -889,6 +976,9 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.camera.world2image.html#pytransform3d.camera.world2image" title="pytransform3d.camera.world2image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">world2image</span></code></a>(P_world, cam2world, sensor_size, …)</p></td>
 <td><p>Project points from 3D world coordinate system to 2D image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.camera.plot_camera.html#pytransform3d.camera.plot_camera" title="pytransform3d.camera.plot_camera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_camera</span></code></a>([ax, M, cam2world, …])</p></td>
+<td><p>Plot camera in world coordinates.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1017,7 +1107,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

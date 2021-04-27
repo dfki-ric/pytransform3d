@@ -189,6 +189,7 @@ Input Validation Functions
    ~pytransform3d.transformations.check_exponential_coordinates
    ~pytransform3d.transformations.check_screw_matrix
    ~pytransform3d.transformations.check_transform_log
+   ~pytransform3d.transformations.check_dual_quaternion
 
 Conversions to Transformation Matrix
 ------------------------------------
@@ -204,6 +205,7 @@ Conversions to Transformation Matrix
    ~pytransform3d.transformations.transform_from_pq
    ~pytransform3d.transformations.transform_from_exponential_coordinates
    ~pytransform3d.transformations.transform_from_transform_log
+   ~pytransform3d.transformations.transform_from_dual_quaternion
 
 Conversions to Position and Quaternion
 --------------------------------------
@@ -213,6 +215,7 @@ Conversions to Position and Quaternion
    :template: function.rst
 
    ~pytransform3d.transformations.pq_from_transform
+   ~pytransform3d.transformations.pq_from_dual_quaternion
 
 Conversions to Screw Parameters
 -------------------------------
@@ -222,6 +225,7 @@ Conversions to Screw Parameters
    :template: function.rst
 
    ~pytransform3d.transformations.screw_parameters_from_screw_axis
+   ~pytransform3d.transformations.screw_parameters_from_dual_quaternion
 
 Conversions to Screw Axis
 -------------------------
@@ -266,6 +270,17 @@ Conversions to Matrix Logarithm
    ~pytransform3d.transformations.transform_log_from_screw_matrix
    ~pytransform3d.transformations.transform_log_from_transform
 
+Conversions to Dual Quaternions
+-------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.dual_quaternion_from_transform
+   ~pytransform3d.transformations.dual_quaternion_from_pq
+   ~pytransform3d.transformations.dual_quaternion_from_screw_parameters
+
 Apply Transformations
 ---------------------
 
@@ -282,6 +297,20 @@ Apply Transformations
    ~pytransform3d.transformations.vectors_to_directions
    ~pytransform3d.transformations.scale_transform
    ~pytransform3d.transformations.adjoint_from_transform
+
+Dual Quaternion Operations
+--------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.dq_conj
+   ~pytransform3d.transformations.dq_q_conj
+   ~pytransform3d.transformations.concatenate_dual_quaternions
+   ~pytransform3d.transformations.dq_prod_vector
+   ~pytransform3d.transformations.dual_quaternion_power
+   ~pytransform3d.transformations.dual_quaternion_sclerp
 
 Plotting
 --------
@@ -301,6 +330,9 @@ Testing
    :template: function.rst
 
    ~pytransform3d.transformations.assert_transform
+   ~pytransform3d.transformations.assert_unit_dual_quaternion
+   ~pytransform3d.transformations.assert_unit_dual_quaternion_equal
+   ~pytransform3d.transformations.assert_screw_parameters_equal
 
 
 :mod:`pytransform3d.batch_rotations`
@@ -342,6 +374,11 @@ Testing
    ~pytransform3d.trajectories.pqs_from_transforms
    ~pytransform3d.trajectories.exponential_coordinates_from_transforms
    ~pytransform3d.trajectories.transforms_from_exponential_coordinates
+   ~pytransform3d.trajectories.dual_quaternions_from_pqs
+   ~pytransform3d.trajectories.pqs_from_dual_quaternions
+   ~pytransform3d.trajectories.batch_dq_conj
+   ~pytransform3d.trajectories.batch_concatenate_dual_quaternions
+   ~pytransform3d.trajectories.batch_dq_prod_vector
    ~pytransform3d.trajectories.plot_trajectory
 
 
@@ -413,6 +450,7 @@ Deprecated Functions
    ~pytransform3d.camera.cam2sensor
    ~pytransform3d.camera.sensor2img
    ~pytransform3d.camera.world2image
+   ~pytransform3d.camera.plot_camera
 
 
 :mod:`pytransform3d.plot_utils`

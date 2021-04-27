@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>pytransform3d.transformations &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -120,12 +120,12 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">random_quaternion</span><span class="p">,</span> <span class="n">random_vector</span><span class="p">,</span>
-                        <span class="n">matrix_from_quaternion</span><span class="p">,</span> <span class="n">quaternion_from_matrix</span><span class="p">,</span>
-                        <span class="n">assert_rotation_matrix</span><span class="p">,</span> <span class="n">check_matrix</span><span class="p">,</span>
-                        <span class="n">norm_vector</span><span class="p">,</span> <span class="n">axis_angle_from_matrix</span><span class="p">,</span>
-                        <span class="n">matrix_from_axis_angle</span><span class="p">,</span> <span class="n">cross_product_matrix</span><span class="p">,</span>
-                        <span class="n">check_skew_symmetric_matrix</span><span class="p">,</span> <span class="n">norm_angle</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">random_quaternion</span><span class="p">,</span> <span class="n">random_vector</span><span class="p">,</span> <span class="n">matrix_from_quaternion</span><span class="p">,</span>
+    <span class="n">quaternion_from_matrix</span><span class="p">,</span> <span class="n">assert_rotation_matrix</span><span class="p">,</span> <span class="n">check_matrix</span><span class="p">,</span> <span class="n">norm_vector</span><span class="p">,</span>
+    <span class="n">axis_angle_from_matrix</span><span class="p">,</span> <span class="n">matrix_from_axis_angle</span><span class="p">,</span> <span class="n">cross_product_matrix</span><span class="p">,</span>
+    <span class="n">check_skew_symmetric_matrix</span><span class="p">,</span> <span class="n">norm_angle</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">,</span> <span class="n">concatenate_quaternions</span><span class="p">,</span>
+    <span class="n">axis_angle_from_quaternion</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">assert_array_almost_equal</span>
 
 
@@ -150,7 +150,7 @@
 <span class="sd">    A2B : array, shape (4, 4)</span>
 <span class="sd">        Validated transform from frame A to frame B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">A2B</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">A2B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">A2B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected homogeneous transformation matrix with &quot;</span>
                          <span class="s2">&quot;shape (4, 4), got array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span>
@@ -177,9 +177,10 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pq : array, shape (7,)</span>
-<span class="sd">        Validated position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
+<span class="sd">        Validated position and orientation quaternion:</span>
+<span class="sd">         (x, y, z, qw, qx, qy, qz)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">pq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pq</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">pq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">7</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected position and orientation quaternion in a &quot;</span>
                          <span class="s2">&quot;1D array, got array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span>
@@ -683,8 +684,8 @@
 <div class="viewcode-block" id="check_screw_parameters"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.check_screw_parameters.html#pytransform3d.transformations.check_screw_parameters">[docs]</a><span class="k">def</span> <span class="nf">check_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Input validation of screw parameters.</span>
 
-<span class="sd">    The parameters :math:`(\\boldsymbol{q}, \\hat{\\boldsymbol{s}}, h)` describe</span>
-<span class="sd">    a screw.</span>
+<span class="sd">    The parameters :math:`(\\boldsymbol{q}, \\hat{\\boldsymbol{s}}, h)`</span>
+<span class="sd">    describe a screw.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -711,14 +712,14 @@
 <span class="sd">        Pitch of the screw. The pitch is the ratio of translation and rotation</span>
 <span class="sd">        of the screw axis. Infinite pitch indicates pure translation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">s_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s_axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">s_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">s_axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">s_axis</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">s_axis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected 3D vector with shape (3,), got array-like &quot;</span>
                          <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s_axis</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s_axis</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;s_axis must not have norm 0&quot;</span><span class="p">)</span>
 
-    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected 3D vector with shape (3,), got array-like &quot;</span>
                          <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
@@ -735,7 +736,9 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \\mathcal{S} = \\left[\\begin{array}{c}\\boldsymbol{\\omega}\\\\\\boldsymbol{v}\\end{array}\\right] \in \\mathbb{R}^6</span>
+<span class="sd">        \\mathcal{S}</span>
+<span class="sd">        = \\left[\\begin{array}{c}\\boldsymbol{\\omega}\\\\</span>
+<span class="sd">          \\boldsymbol{v}\\end{array}\\right] \in \\mathbb{R}^6</span>
 
 <span class="sd">    consists of a part that describes rotation and a part that describes</span>
 <span class="sd">    translation.</span>
@@ -756,7 +759,7 @@
 <span class="sd">        where the first 3 components are related to rotation and the last 3</span>
 <span class="sd">        components are related to translation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">screw_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">screw_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">screw_axis</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">screw_axis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected 3D vector with shape (6,), got array-like &quot;</span>
                          <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">screw_axis</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
@@ -806,7 +809,7 @@
 <span class="sd">        will be represented by a negative screw axis instead. This is relevant</span>
 <span class="sd">        if you want to recover theta from exponential coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Stheta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Stheta</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">Stheta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Stheta</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">Stheta</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">Stheta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected array-like with shape (6,), got array-like &quot;</span>
                          <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Stheta</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
@@ -857,11 +860,12 @@
 <span class="sd">        A screw matrix consists of a cross-product matrix that represents an</span>
 <span class="sd">        axis of rotation, a translation, and a row of zeros.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">screw_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">screw_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">screw_matrix</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">screw_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span>
             <span class="ow">or</span> <span class="n">screw_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected array-like with shape (4, 4), got array-like &quot;</span>
-                         <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">screw_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Expected array-like with shape (4, 4), got array-like &quot;</span>
+            <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">screw_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Last row of screw matrix must only contains zeros.&quot;</span><span class="p">)</span>
 
@@ -910,11 +914,12 @@
 <span class="sd">    transform_log : array, shape (4, 4)</span>
 <span class="sd">        Matrix logarithm of transformation matrix: [S] * theta.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">transform_log</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">transform_log</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">transform_log</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">transform_log</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">transform_log</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">transform_log</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span>
             <span class="ow">or</span> <span class="n">transform_log</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected array-like with shape (4, 4), got array-like &quot;</span>
-                         <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transform_log</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Expected array-like with shape (4, 4), got array-like &quot;</span>
+            <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">transform_log</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">transform_log</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;Last row of logarithm of transformation must only &quot;</span>
@@ -988,8 +993,8 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">s_axis</span> <span class="o">=</span> <span class="n">omega</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">omega</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-        <span class="n">q_cross_s_axis</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">h</span> <span class="o">*</span> <span class="n">s_axis</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">s_axis</span><span class="p">,</span> <span class="n">q_cross_s_axis</span><span class="p">)</span>
+        <span class="n">moment</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">h</span> <span class="o">*</span> <span class="n">s_axis</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">s_axis</span><span class="p">,</span> <span class="n">moment</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span></div>
 
 
@@ -1412,9 +1417,497 @@
     <span class="n">omega_unit_matrix</span> <span class="o">=</span> <span class="n">transform_log</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">theta</span>
     <span class="n">G</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span>
          <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="n">omega_unit_matrix</span>
-         <span class="o">+</span> <span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega_unit_matrix</span><span class="p">,</span> <span class="n">omega_unit_matrix</span><span class="p">))</span>
+         <span class="o">+</span> <span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega_unit_matrix</span><span class="p">,</span>
+                                              <span class="n">omega_unit_matrix</span><span class="p">))</span>
     <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">A2B</span></div>
+
+
+<div class="viewcode-block" id="check_dual_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of dual quaternion representation.</span>
+
+<span class="sd">    See http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf</span>
+
+<span class="sd">    A dual quaternion is defined as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \\sigma = p + \\epsilon q,</span>
+
+<span class="sd">    where :math:`p` and :math:`q` are both quaternions and :math:`\\epsilon`</span>
+<span class="sd">    is the dual unit with :math:`\\epsilon^2 = 0`. The first quaternion is</span>
+<span class="sd">    also called the real part and the second quaternion is called the dual</span>
+<span class="sd">    part.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    unit : bool, optional (default: True)</span>
+<span class="sd">        Normalize the dual quaternion so that it is a unit dual quaternion.</span>
+<span class="sd">        A unit dual quaternion has the properties</span>
+<span class="sd">        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and</span>
+<span class="sd">        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dq</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">dq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected dual quaternion with shape (8,), got &quot;</span>
+                         <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">dq</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
+        <span class="c1"># Norm of a dual quaternion only depends on the real part because</span>
+        <span class="c1"># the dual part vanishes with epsilon ** 2 = 0.</span>
+        <span class="n">real_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">real_norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dq</span> <span class="o">/</span> <span class="n">real_norm</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dq</span></div>
+
+
+<div class="viewcode-block" id="dq_conj"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dq_conj.html#pytransform3d.transformations.dq_conj">[docs]</a><span class="k">def</span> <span class="nf">dq_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Conjugate of dual quaternion.</span>
+
+<span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
+<span class="sd">    use here converts (pw, px, py, pz, qw, qx, qy, qz) to</span>
+<span class="sd">    (pw, -px, -py, -pz, -qw, qx, qy, qz). It is a combination of the quaternion</span>
+<span class="sd">    conjugate and the dual number conjugate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq_conjugate : array-like, shape (8,)</span>
+<span class="sd">        Conjugate of dual quaternion: (pw, -px, -py, -pz, -qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">dq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">dq</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">dq</span><span class="p">[</span><span class="mi">5</span><span class="p">:]]</span></div>
+
+
+<div class="viewcode-block" id="dq_q_conj"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dq_q_conj.html#pytransform3d.transformations.dq_q_conj">[docs]</a><span class="k">def</span> <span class="nf">dq_q_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Quaternion conjugate of dual quaternion.</span>
+
+<span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
+<span class="sd">    use here converts (pw, px, py, pz, qw, qx, qy, qz) to</span>
+<span class="sd">    (pw, -px, -py, -pz, qw, -qx, -qy, -qz). It is the quaternion conjugate</span>
+<span class="sd">    applied to each of the two quaternions.</span>
+
+<span class="sd">    For unit dual quaternions that represent transformations, this function</span>
+<span class="sd">    is equivalent to the inverse of the corresponding transformation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq_q_conjugate : array-like, shape (8,)</span>
+<span class="sd">        Conjugate of dual quaternion: (pw, -px, -py, -pz, qw, -qx, -qy, -qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">dq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">dq</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="o">-</span><span class="n">dq</span><span class="p">[</span><span class="mi">5</span><span class="p">:]]</span></div>
+
+
+<div class="viewcode-block" id="concatenate_dual_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.concatenate_dual_quaternions.html#pytransform3d.transformations.concatenate_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate dual quaternions.</span>
+
+<span class="sd">    Suppose we want to apply two extrinsic transforms given by dual</span>
+<span class="sd">    quaternions dq1 and dq2 to a vector v. We can either apply dq2 to v and</span>
+<span class="sd">    then dq1 to the result or we can concatenate dq1 and dq2 and apply the</span>
+<span class="sd">    result to v.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        Note that the order of arguments is different than the order in</span>
+<span class="sd">        :func:`concat`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq1 : array-like, shape (8,)</span>
+<span class="sd">        Dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    dq2 : array-like, shape (8,)</span>
+<span class="sd">        Dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq3 : array, shape (8,)</span>
+<span class="sd">        Product of the two dual quaternions:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq1</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq1</span><span class="p">)</span>
+    <span class="n">dq2</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq2</span><span class="p">)</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">dq1</span><span class="p">[:</span><span class="mi">4</span><span class="p">],</span> <span class="n">dq2</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="p">(</span><span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">dq1</span><span class="p">[:</span><span class="mi">4</span><span class="p">],</span> <span class="n">dq2</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span> <span class="o">+</span>
+            <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">dq1</span><span class="p">[</span><span class="mi">4</span><span class="p">:],</span> <span class="n">dq2</span><span class="p">[:</span><span class="mi">4</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="dq_prod_vector"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector">[docs]</a><span class="k">def</span> <span class="nf">dq_prod_vector</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply transform represented by a dual quaternion to a vector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    v : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    w : array, shape (3,)</span>
+<span class="sd">        3d vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="n">v_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
+    <span class="n">v_dq_transformed</span> <span class="o">=</span> <span class="n">concatenate_dual_quaternions</span><span class="p">(</span>
+        <span class="n">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">v_dq</span><span class="p">),</span>
+        <span class="n">dq_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">v_dq_transformed</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="dual_quaternion_sclerp"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_sclerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Screw linear interpolation (ScLERP) for dual quaternions.</span>
+
+<span class="sd">    Although linear interpolation of dual quaternions is possible, this does</span>
+<span class="sd">    not result in constant velocities. If you want to generate interpolations</span>
+<span class="sd">    with constant velocity, you have to use ScLERP.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent start pose:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    end : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent end pose:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    t : float in [0, 1]</span>
+<span class="sd">        Position between start and goal</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array, shape (8,)</span>
+<span class="sd">        Interpolated unit dual quaternion: (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq_q_conj</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="n">end</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">dual_quaternion_power</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="dual_quaternion_from_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dual_quaternion_from_transform.html#pytransform3d.transformations.dual_quaternion_from_transform">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute dual quaternion from transformation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Transform from frame A to frame B</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq : array, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">quaternion_from_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">real</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="dual_quaternion_from_pq"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dual_quaternion_from_pq.html#pytransform3d.transformations.dual_quaternion_from_pq">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute dual quaternion from position and quaternion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pq : array-like, shape (7,)</span>
+<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq : array, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pq</span> <span class="o">=</span> <span class="n">check_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">)</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">pq</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">pq</span><span class="p">[:</span><span class="mi">3</span><span class="p">]],</span> <span class="n">real</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="dual_quaternion_from_screw_parameters"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dual_quaternion_from_screw_parameters.html#pytransform3d.transformations.dual_quaternion_from_screw_parameters">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute dual quaternion from screw parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : array-like, shape (3,)</span>
+<span class="sd">        Vector to a point on the screw axis</span>
+
+<span class="sd">    s_axis : array-like, shape (3,)</span>
+<span class="sd">        Direction vector of the screw axis</span>
+
+<span class="sd">    h : float</span>
+<span class="sd">        Pitch of the screw. The pitch is the ratio of translation and rotation</span>
+<span class="sd">        of the screw axis. Infinite pitch indicates pure translation.</span>
+
+<span class="sd">    theta : float</span>
+<span class="sd">        Parameter of the transformation: theta is the angle of rotation</span>
+<span class="sd">        and h * theta the translation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq : array, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">check_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>  <span class="c1"># pure translation</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">theta</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">theta</span>
+    <span class="n">moment</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">)</span>
+
+    <span class="n">half_distance</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">d</span>
+    <span class="n">sin_half_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span>
+    <span class="n">cos_half_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span>
+
+    <span class="n">real_w</span> <span class="o">=</span> <span class="n">cos_half_angle</span>
+    <span class="n">real_vec</span> <span class="o">=</span> <span class="n">sin_half_angle</span> <span class="o">*</span> <span class="n">s_axis</span>
+    <span class="n">dual_w</span> <span class="o">=</span> <span class="o">-</span><span class="n">half_distance</span> <span class="o">*</span> <span class="n">sin_half_angle</span>
+    <span class="n">dual_vec</span> <span class="o">=</span> <span class="p">(</span><span class="n">sin_half_angle</span> <span class="o">*</span> <span class="n">moment</span> <span class="o">+</span>
+                <span class="n">half_distance</span> <span class="o">*</span> <span class="n">cos_half_angle</span> <span class="o">*</span> <span class="n">s_axis</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">real_w</span><span class="p">,</span> <span class="n">real_vec</span><span class="p">,</span> <span class="n">dual_w</span><span class="p">,</span> <span class="n">dual_vec</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="dual_quaternion_power"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.dual_quaternion_power.html#pytransform3d.transformations.dual_quaternion_power">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_power</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute power of unit dual quaternion with respect to scalar.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        (p + \epsilon q)^t</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    t : float</span>
+<span class="sd">        Exponent</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq_t : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz) ** t</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">screw_parameters_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dual_quaternion_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="transform_from_dual_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.transform_from_dual_quaternion.html#pytransform3d.transformations.transform_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">transform_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute transformation matrix from dual quaternion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A2B : array, shape (4, 4)</span>
+<span class="sd">        Transform from frame A to frame B</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_quaternion</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">dual</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">real</span><span class="p">))[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="pq_from_dual_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.pq_from_dual_quaternion.html#pytransform3d.transformations.pq_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">pq_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute position and quaternion from dual quaternion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pq : array, shape (7,)</span>
+<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">dual</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">real</span><span class="p">))[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">real</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="screw_parameters_from_dual_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.screw_parameters_from_dual_quaternion.html#pytransform3d.transformations.screw_parameters_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">screw_parameters_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute screw parameters from dual quaternion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q : array, shape (3,)</span>
+<span class="sd">        Vector to a point on the screw axis</span>
+
+<span class="sd">    s_axis : array, shape (3,)</span>
+<span class="sd">        Direction vector of the screw axis</span>
+
+<span class="sd">    h : float</span>
+<span class="sd">        Pitch of the screw. The pitch is the ratio of translation and rotation</span>
+<span class="sd">        of the screw axis. Infinite pitch indicates pure translation.</span>
+
+<span class="sd">    theta : float</span>
+<span class="sd">        Parameter of the transformation: theta is the angle of rotation</span>
+<span class="sd">        and h * theta the translation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">real</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="n">axis_angle_from_quaternion</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
+    <span class="n">s_axis</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">translation</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">dual</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">real</span><span class="p">))[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+        <span class="c1"># pure translation</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">translation</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+            <span class="n">s_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s_axis</span> <span class="o">=</span> <span class="n">translation</span> <span class="o">/</span> <span class="n">d</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">return</span> <span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">)</span>
+        <span class="n">moment</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">)</span> <span class="o">+</span>
+                        <span class="p">(</span><span class="n">translation</span> <span class="o">-</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">s_axis</span><span class="p">)</span>
+                        <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">theta</span><span class="p">))</span>
+        <span class="n">dual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">s_axis</span><span class="p">,</span> <span class="n">moment</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">theta</span>
+        <span class="k">return</span> <span class="n">dual</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span></div>
+
+
+<div class="viewcode-block" id="assert_unit_dual_quaternion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.assert_unit_dual_quaternion.html#pytransform3d.transformations.assert_unit_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">assert_unit_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if the dual quaternion does not have unit norm.</span>
+
+<span class="sd">    See numpy.testing.assert_array_almost_equal for a more detailed</span>
+<span class="sd">    documentation of the other parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+
+    <span class="n">real_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">real_norm</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">real_dual_dot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">real_dual_dot</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># The two previous checks are consequences of the unit norm requirement.</span>
+    <span class="c1"># The norm of a dual quaternion is defined as the product of a dual</span>
+    <span class="c1"># quaternion and its quaternion conjugate.</span>
+    <span class="n">dq_conj</span> <span class="o">=</span> <span class="n">dq_q_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="n">dq_prod_dq_conj</span> <span class="o">=</span> <span class="n">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">dq_conj</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">dq_prod_dq_conj</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                              <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_unit_dual_quaternion_equal"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.assert_unit_dual_quaternion_equal.html#pytransform3d.transformations.assert_unit_dual_quaternion_equal">[docs]</a><span class="k">def</span> <span class="nf">assert_unit_dual_quaternion_equal</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if unit dual quaternions are not approximately equal.</span>
+
+<span class="sd">    Note that unit dual quaternions are equal either if dq1 == dq2 or if</span>
+<span class="sd">    dq1 == -dq2. See numpy.testing.assert_array_almost_equal for a more</span>
+<span class="sd">    detailed documentation of the other parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="o">-</span><span class="n">dq2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_screw_parameters_equal"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.assert_screw_parameters_equal.html#pytransform3d.transformations.assert_screw_parameters_equal">[docs]</a><span class="k">def</span> <span class="nf">assert_screw_parameters_equal</span><span class="p">(</span>
+        <span class="n">q1</span><span class="p">,</span> <span class="n">s_axis1</span><span class="p">,</span> <span class="n">h1</span><span class="p">,</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if two sets of screw parameters are not similar.</span>
+
+<span class="sd">    Note that the screw axis can be inverted. In this case theta and h have</span>
+<span class="sd">    to be adapted.</span>
+
+<span class="sd">    This function needs the dependency nose.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">nose.tools</span> <span class="kn">import</span> <span class="n">assert_almost_equal</span>
+
+    <span class="c1"># normalize thetas</span>
+    <span class="n">theta1_new</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span>
+    <span class="n">h1</span> <span class="o">*=</span> <span class="n">theta1</span> <span class="o">/</span> <span class="n">theta1_new</span>
+    <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_new</span>
+
+    <span class="n">theta2_new</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span>
+    <span class="n">h2</span> <span class="o">*=</span> <span class="n">theta2</span> <span class="o">/</span> <span class="n">theta2_new</span>
+    <span class="n">theta2</span> <span class="o">=</span> <span class="n">theta2_new</span>
+
+    <span class="c1"># q1 and q2 can be any points on the screw axis, that is, they must be a</span>
+    <span class="c1"># linear combination of each other and the screw axis (which one does not</span>
+    <span class="c1"># matter since they should be identical or mirrored)</span>
+    <span class="n">q1_to_q2</span> <span class="o">=</span> <span class="n">q2</span> <span class="o">-</span> <span class="n">q1</span>
+    <span class="n">factors</span> <span class="o">=</span> <span class="n">q1_to_q2</span> <span class="o">/</span> <span class="n">s_axis2</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">factors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">s_axis1</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>  <span class="c1"># possibly mirrored screw axis</span>
+        <span class="n">s_axis1_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">s_axis1</span>
+        <span class="c1"># make sure that we keep the direction of rotation</span>
+        <span class="n">theta1_new</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">theta1</span>
+        <span class="c1"># adjust pitch: switch sign and update rotation component</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="o">-</span><span class="n">h1</span> <span class="o">/</span> <span class="n">theta1_new</span> <span class="o">*</span> <span class="n">theta1</span>
+        <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_new</span>
+
+        <span class="c1"># we have to normalize the angle again</span>
+        <span class="n">theta1_new</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span>
+        <span class="n">h1</span> <span class="o">*=</span> <span class="n">theta1</span> <span class="o">/</span> <span class="n">theta1_new</span>
+        <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_new</span>
+
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">s_axis1_new</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="adjoint_from_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.transformations.adjoint_from_transform.html#pytransform3d.transformations.adjoint_from_transform">[docs]</a><span class="k">def</span> <span class="nf">adjoint_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
@@ -1427,21 +1920,24 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \\mathcal{V}_{B} = \\left[Ad_{\\boldsymbol{T}_{BA}}\\right] \\mathcal{V}_A</span>
+<span class="sd">        \\mathcal{V}_{B}</span>
+<span class="sd">        = \\left[Ad_{\\boldsymbol{T}_{BA}}\\right] \\mathcal{V}_A</span>
 
 <span class="sd">    The corresponding matrix form is</span>
 
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \\left[\\mathcal{V}_{B}\\right]</span>
-<span class="sd">        = \\boldsymbol{T}_{BA} \\left[\\mathcal{V}_A\\right] \\boldsymbol{T}_{BA}^{-1}</span>
+<span class="sd">        = \\boldsymbol{T}_{BA} \\left[\\mathcal{V}_A\\right]</span>
+<span class="sd">        \\boldsymbol{T}_{BA}^{-1}</span>
 
 <span class="sd">    We can also use the adjoint representation to transform a wrench from frame</span>
 <span class="sd">    A to frame B:</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \\mathcal{F}_B = \\left[ Ad_{\\boldsymbol{T}_{AB}} \\right]^T \\mathcal{F}_A</span>
+<span class="sd">        \\mathcal{F}_B</span>
+<span class="sd">        = \\left[ Ad_{\\boldsymbol{T}_{AB}} \\right]^T \\mathcal{F}_A</span>
 
 <span class="sd">    Note that not only the adjoint is transposed but also the transformation is</span>
 <span class="sd">    inverted.</span>
@@ -1451,11 +1947,13 @@
 <span class="sd">    .. math::</span>
 
 <span class="sd">        \\left[Ad_{\\boldsymbol{T}_1 \\boldsymbol{T}_2}\\right]</span>
-<span class="sd">        = \\left[Ad_{\\boldsymbol{T}_1}\\right] \\left[Ad_{\\boldsymbol{T}_2}\\right]</span>
+<span class="sd">        = \\left[Ad_{\\boldsymbol{T}_1}\\right]</span>
+<span class="sd">        \\left[Ad_{\\boldsymbol{T}_2}\\right]</span>
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \\left[Ad_{\\boldsymbol{T}}\\right]^{-1} = \\left[Ad_{\\boldsymbol{T}^{-1}}\\right]</span>
+<span class="sd">        \\left[Ad_{\\boldsymbol{T}}\\right]^{-1} =</span>
+<span class="sd">        \\left[Ad_{\\boldsymbol{T}^{-1}}\\right]</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1538,12 +2036,15 @@
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pure_translation</span><span class="p">:</span>
         <span class="n">screw_axis_to_old_frame</span> <span class="o">=</span> <span class="o">-</span><span class="n">origin_projected_on_screw_axis</span>
-        <span class="n">screw_axis_to_rotated_frame</span> <span class="o">=</span> <span class="n">perpendicular_to_vectors</span><span class="p">(</span><span class="n">s_axis</span><span class="p">,</span> <span class="n">screw_axis_to_old_frame</span><span class="p">)</span>
+        <span class="n">screw_axis_to_rotated_frame</span> <span class="o">=</span> <span class="n">perpendicular_to_vectors</span><span class="p">(</span>
+            <span class="n">s_axis</span><span class="p">,</span> <span class="n">screw_axis_to_old_frame</span><span class="p">)</span>
         <span class="n">screw_axis_to_translated_frame</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">s_axis</span>
 
         <span class="n">arc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="n">angle</span> <span class="o">=</span> <span class="n">angle_between_vectors</span><span class="p">(</span><span class="n">screw_axis_to_old_frame</span><span class="p">,</span> <span class="n">screw_axis_to_rotated_frame</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arc</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arc</span><span class="p">)))):</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">angle_between_vectors</span><span class="p">(</span>
+            <span class="n">screw_axis_to_old_frame</span><span class="p">,</span> <span class="n">screw_axis_to_rotated_frame</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arc</span><span class="p">)),</span>
+                                  <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arc</span><span class="p">)))):</span>
             <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">t</span>
             <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">_slerp_weights</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
             <span class="n">arc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">origin_projected_on_screw_axis</span>
@@ -1555,13 +2056,15 @@
     <span class="n">s_axis</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">vector_to_direction</span><span class="p">(</span><span class="n">s_axis</span><span class="p">))[:</span><span class="mi">3</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pure_translation</span><span class="p">:</span>
         <span class="n">arc</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">vectors_to_points</span><span class="p">(</span><span class="n">arc</span><span class="p">))[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">origin_projected_on_screw_axis</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">vector_to_point</span><span class="p">(</span><span class="n">origin_projected_on_screw_axis</span><span class="p">))[:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">origin_projected_on_screw_axis</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span>
+            <span class="n">A2B</span><span class="p">,</span> <span class="n">vector_to_point</span><span class="p">(</span><span class="n">origin_projected_on_screw_axis</span><span class="p">))[:</span><span class="mi">3</span><span class="p">]</span>
 
     <span class="c1"># Screw axis</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pure_translation</span><span class="p">:</span>
         <span class="n">s_axis</span> <span class="o">*=</span> <span class="n">theta</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                   <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
         <span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">s_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
@@ -1586,7 +2089,8 @@
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">arc_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">origin_projected_on_screw_axis</span><span class="p">,</span> <span class="n">arc</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">arc_bound</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arc_bound</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arc_bound</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">arc_bound</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arc_bound</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arc_bound</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ax</span></div>
 </pre></div>
@@ -1603,7 +2107,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

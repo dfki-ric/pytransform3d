@@ -25,7 +25,7 @@ URDF Joints
 This example shows how to load a URDF description of a robot, set some joint
 angles and display relevant frames.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-91
+.. GENERATED FROM PYTHON SOURCE LINES 9-93
 
 
 
@@ -115,7 +115,9 @@ angles and display relevant frames.
     for name, angle in zip(joint_names, joint_angles):
         tm.set_joint(name, angle)
     fig = pv.figure("URDF")
-    fig.plot_graph(tm, "compi", show_frames=True, show_connections=True, whitelist=["link%d" % d for d in range(1, 7)], s=0.05)
+    fig.plot_graph(
+        tm, "compi", show_frames=True, show_connections=True,
+        whitelist=["link%d" % d for d in range(1, 7)], s=0.05)
     fig.view_init()
     if "__file__" in globals():
         fig.show()
@@ -125,7 +127,7 @@ angles and display relevant frames.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.256 seconds)
+   **Total running time of the script:** ( 0 minutes  0.164 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_urdf.py:

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.camera.world2image &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>pytransform3d.camera.world2image &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
@@ -17,7 +17,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.plot_utils.make_3d_axis" href="pytransform3d.plot_utils.make_3d_axis.html" />
+    <link rel="next" title="pytransform3d.camera.plot_camera" href="pytransform3d.camera.plot_camera.html" />
     <link rel="prev" title="pytransform3d.camera.sensor2img" href="pytransform3d.camera.sensor2img.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -131,15 +131,17 @@
 <dd class="field-odd"><dl class="simple">
 <dt><strong>P_world</strong><span class="classifier">array-like, shape (n_points, 4)</span></dt><dd><p>Points in world coordinates</p>
 </dd>
+<dt><strong>cam2world</strong><span class="classifier">array-like, shape (4, 4), optional (default: I)</span></dt><dd><p>Camera in world frame</p>
+</dd>
 <dt><strong>sensor_size</strong><span class="classifier">array-like, shape (2,)</span></dt><dd><p>Size of the sensor array</p>
 </dd>
-<dt><strong>image_size</strong><span class="classifier">array-like, shape (2,)</span></dt><dd><p>Size of the camera image</p>
+<dt><strong>image_size</strong><span class="classifier">array-like, shape (2,)</span></dt><dd><p>Size of the camera image: (width, height)</p>
 </dd>
 <dt><strong>focal_length</strong><span class="classifier">float</span></dt><dd><p>Focal length of the camera</p>
 </dd>
 <dt><strong>image_center</strong><span class="classifier">array-like, shape (2,), optional (default: image_size / 2)</span></dt><dd><p>Center of the image</p>
 </dd>
-<dt><strong>kappa</strong><span class="classifier">float, optional (default: 0)</span></dt><dd><p>TODO document</p>
+<dt><strong>kappa</strong><span class="classifier">float, optional (default: 0)</span></dt><dd><p>Camera distortion parameter</p>
 </dd>
 </dl>
 </dd>
@@ -155,8 +157,8 @@
 <div class="section" id="examples-using-pytransform3d-camera-world2image">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.camera.world2image</span></code><a class="headerlink" href="#examples-using-pytransform3d-camera-world2image" title="Permalink to this headline">¶</a></h2>
 <div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know t..."><div class="figure align-default" id="id1">
-<img alt="Camera Transform" src="../_images/sphx_glr_plot_camera_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_camera.html#sphx-glr-auto-examples-plots-plot-camera-py"><span class="std std-ref">Camera Transform</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<img alt="Camera Transform" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_camera_with_image.html#sphx-glr-auto-examples-plots-plot-camera-with-image-py"><span class="std std-ref">Camera Transform</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="sphx-glr-clear"></div></div>
 </div>
@@ -174,7 +176,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

@@ -25,7 +25,7 @@ Euler Angles
 Any rotation can be represented by three consecutive rotations about three
 basis vectors. Here we use the extrinsic xyz convention.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-41
+.. GENERATED FROM PYTHON SOURCE LINES 9-42
 
 
 
@@ -65,7 +65,8 @@ basis vectors. Here we use the extrinsic xyz convention.
     pr.plot_axis_angle(ax, [0, 0, 1, gamma], 0.5 * p)
 
     pr.plot_basis(
-        ax, pr.active_matrix_from_extrinsic_euler_xyz([alpha, beta, gamma]), 1.5 * p,
+        ax,
+        pr.active_matrix_from_extrinsic_euler_xyz([alpha, beta, gamma]), 1.5 * p,
         lw=5)
 
     remove_frame(ax)
@@ -75,7 +76,7 @@ basis vectors. Here we use the extrinsic xyz convention.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.068 seconds)
+   **Total running time of the script:** ( 0 minutes  0.064 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_euler_angles.py:

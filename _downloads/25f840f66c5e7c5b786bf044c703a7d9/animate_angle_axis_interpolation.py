@@ -12,13 +12,11 @@ interpolate with slerp.
 """
 print(__doc__)
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import matplotlib.animation as animation
-from pytransform3d.rotations import *
-
+from pytransform3d import rotations as pr
 
 velocity = None
 last_a = None
@@ -39,12 +37,12 @@ def update_lines(step, start, end, n_frames, rot, profile):
 
     if step <= n_frames / 2:
         t = step / float(n_frames / 2 - 1)
-        a = axis_angle_slerp(start, end, t)
+        a = pr.axis_angle_slerp(start, end, t)
     else:
         t = (step - n_frames / 2) / float(n_frames / 2 - 1)
         a = interpolate_linear(end, start, t)
 
-    R = matrix_from_axis_angle(a)
+    R = pr.matrix_from_axis_angle(a)
 
     # Draw new frame
     rot[0].set_data(np.array([0, R[0, 0]]), [0, R[1, 0]])
@@ -58,10 +56,12 @@ def update_lines(step, start, end, n_frames, rot, profile):
 
     # Update vector in frame
     test = R.dot(np.ones(3) / np.sqrt(3.0))
-    rot[3].set_data(np.array([test[0] / 2.0, test[0]]), [test[1] / 2.0, test[1]])
+    rot[3].set_data(
+        np.array([test[0] / 2.0, test[0]]), [test[1] / 2.0, test[1]])
     rot[3].set_3d_properties([test[2] / 2.0, test[2]])
 
-    velocity.append(angle_between_vectors(a[:3], last_a[:3]) + a[3] - last_a[3])
+    velocity.append(
+        pr.angle_between_vectors(a[:3], last_a[:3]) + a[3] - last_a[3])
     last_a = a
     profile.set_data(np.linspace(0, 1, n_frames)[:len(velocity)], velocity)
 
@@ -72,9 +72,9 @@ if __name__ == "__main__":
     # Generate random start and goal
     np.random.seed(3)
     start = np.array([0, 0, 0, np.pi])
-    start[:3] = norm_vector(np.random.randn(3))
+    start[:3] = pr.norm_vector(np.random.randn(3))
     end = np.array([0, 0, 0, np.pi])
-    end[:3] = norm_vector(np.random.randn(3))
+    end[:3] = pr.norm_vector(np.random.randn(3))
     n_frames = 100
 
     fig = plt.figure(figsize=(12, 5))
@@ -87,8 +87,8 @@ if __name__ == "__main__":
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
 
-    Rs = matrix_from_axis_angle(start)
-    Re = matrix_from_axis_angle(end)
+    Rs = pr.matrix_from_axis_angle(start)
+    Re = pr.matrix_from_axis_angle(end)
 
     rot = [ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],
            ax.plot([0, 0], [0, 1], [0, 0], c="g", lw=3)[0],
@@ -105,9 +105,9 @@ if __name__ == "__main__":
            ax.plot([0, Re[0, 0]], [0, Re[1, 0]], [0, Re[2, 0]], c="orange",
                    lw=3, alpha=0.5)[0],
            ax.plot([0, Re[0, 1]], [0, Re[1, 1]], [0, Re[2, 1]], c="turquoise",
-                    lw=3, alpha=0.5)[0],
+                   lw=3, alpha=0.5)[0],
            ax.plot([0, Re[0, 2]], [0, Re[1, 2]], [0, Re[2, 2]], c="violet",
-                    lw=3, alpha=0.5)[0],]
+                   lw=3, alpha=0.5)[0]]
 
     ax = fig.add_subplot(122)
     ax.set_xlim((0, 1))

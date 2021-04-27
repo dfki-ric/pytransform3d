@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer.Figure &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>pytransform3d.visualizer.Figure &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -174,23 +174,29 @@ for keys.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_box" title="pytransform3d.visualizer.Figure.plot_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_box</span></code></a>([size, A2B, c])</p></td>
 <td><p>Plot box.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_cylinder" title="pytransform3d.visualizer.Figure.plot_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cylinder</span></code></a>([length, radius, A2B, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_camera" title="pytransform3d.visualizer.Figure.plot_camera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_camera</span></code></a>(M[, cam2world, …])</p></td>
+<td><p>Plot camera in world coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_cylinder" title="pytransform3d.visualizer.Figure.plot_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cylinder</span></code></a>([length, radius, A2B, …])</p></td>
 <td><p>Plot cylinder.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_graph</span></code></a>(tm, frame[, show_frames, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_graph</span></code></a>(tm, frame[, show_frames, …])</p></td>
 <td><p>Plot graph of connected frames.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_mesh" title="pytransform3d.visualizer.Figure.plot_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_mesh</span></code></a>(filename[, A2B, s, c])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_mesh" title="pytransform3d.visualizer.Figure.plot_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_mesh</span></code></a>(filename[, A2B, s, c])</p></td>
 <td><p>Plot mesh.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_sphere" title="pytransform3d.visualizer.Figure.plot_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sphere</span></code></a>([radius, A2B, resolution, c])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_sphere" title="pytransform3d.visualizer.Figure.plot_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sphere</span></code></a>([radius, A2B, resolution, c])</p></td>
 <td><p>Plot sphere.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_trajectory" title="pytransform3d.visualizer.Figure.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>(P[, n_frames, s, c])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_trajectory" title="pytransform3d.visualizer.Figure.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>(P[, n_frames, s, c])</p></td>
 <td><p>Trajectory of poses.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_transform" title="pytransform3d.visualizer.Figure.plot_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_transform</span></code></a>([A2B, s, name, strict_check])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_transform" title="pytransform3d.visualizer.Figure.plot_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_transform</span></code></a>([A2B, s, name, strict_check])</p></td>
 <td><p>Plot coordinate frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.remove_artist" title="pytransform3d.visualizer.Figure.remove_artist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_artist</span></code></a>(artist)</p></td>
+<td><p>Remove artist from visualizer.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_image</span></code></a>(filename)</p></td>
 <td><p>Save rendered image to file.</p></td>
@@ -234,6 +240,20 @@ for keys.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>geometry</strong><span class="classifier">Geometry</span></dt><dd><p>Open3D geometry.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytransform3d.visualizer.Figure.remove_artist">
+<code class="sig-name descname"><span class="pre">remove_artist</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer.html#Figure.remove_artist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure.remove_artist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove artist from visualizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>artist</strong><span class="classifier">Artist</span></dt><dd><p>Artist that should be removed from this figure.</p>
 </dd>
 </dl>
 </dd>
@@ -319,9 +339,10 @@ list of artists that have been updated.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>P</strong><span class="classifier">array-like, shape (n_points, 3)</span></dt><dd><p>Points of which the line consists.</p>
 </dd>
-<dt><strong>c</strong><span class="classifier">array-like, shape (n_points - 1, 3) or (3,), optional (default: black)</span></dt><dd><p>Color can be given as individual colors per line segment or as one
-color for each segment. A color is represented by 3 values between
-0 and 1 indicate representing red, green, and blue respectively.</p>
+<dt><strong>c</strong><span class="classifier">array-like, shape (n_points - 1, 3) or (3,), optional (default: black)</span></dt><dd><p>Color can be given as individual colors per line segment or
+as one color for each segment. A color is represented by 3
+values between 0 and 1 indicate representing red, green, and
+blue respectively.</p>
 </dd>
 </dl>
 </dd>
@@ -347,8 +368,9 @@ color for each segment. A color is represented by 3 values between
 </dd>
 <dt><strong>s</strong><span class="classifier">float, optional (default: 1)</span></dt><dd><p>Scaling of the frame that will be drawn</p>
 </dd>
-<dt><strong>strict_check</strong><span class="classifier">bool, optional (default: True)</span></dt><dd><p>Raise a ValueError if the rotation matrix is not numerically close
-enough to a real rotation matrix. Otherwise we print a warning.</p>
+<dt><strong>strict_check</strong><span class="classifier">bool, optional (default: True)</span></dt><dd><p>Raise a ValueError if the rotation matrix is not numerically
+close enough to a real rotation matrix. Otherwise we print a
+warning.</p>
 </dd>
 </dl>
 </dd>
@@ -374,9 +396,9 @@ enough to a real rotation matrix. Otherwise we print a warning.</p>
 </dd>
 <dt><strong>label</strong><span class="classifier">str, optional (default: None)</span></dt><dd><p>Name of the frame</p>
 </dd>
-<dt><strong>strict_check</strong><span class="classifier">bool, optional (default: True)</span></dt><dd><p>Raise a ValueError if the transformation matrix is not numerically
-close enough to a real transformation matrix. Otherwise we print a
-warning.</p>
+<dt><strong>strict_check</strong><span class="classifier">bool, optional (default: True)</span></dt><dd><p>Raise a ValueError if the transformation matrix is not
+numerically close enough to a real transformation matrix.
+Otherwise we print a warning.</p>
 </dd>
 </dl>
 </dd>
@@ -396,10 +418,11 @@ warning.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>P</strong><span class="classifier">array-like, shape (n_steps, 7), optional (default: None)</span></dt><dd><p>Sequence of poses represented by positions and quaternions in the
-order (x, y, z, w, vx, vy, vz) for each step</p>
+<dt><strong>P</strong><span class="classifier">array-like, shape (n_steps, 7), optional (default: None)</span></dt><dd><p>Sequence of poses represented by positions and quaternions in
+the order (x, y, z, w, vx, vy, vz) for each step</p>
 </dd>
-<dt><strong>n_frames</strong><span class="classifier">int, optional (default: 10)</span></dt><dd><p>Number of frames that should be plotted to indicate the rotation</p>
+<dt><strong>n_frames</strong><span class="classifier">int, optional (default: 10)</span></dt><dd><p>Number of frames that should be plotted to indicate the
+rotation</p>
 </dd>
 <dt><strong>s</strong><span class="classifier">float, optional (default: 1)</span></dt><dd><p>Scaling of the frames that will be drawn</p>
 </dd>
@@ -429,10 +452,10 @@ representing red, green, and blue respectively.</p>
 <dt><strong>A2B</strong><span class="classifier">array-like, shape (4, 4)</span></dt><dd><p>Transform from frame A to frame B</p>
 </dd>
 <dt><strong>resolution</strong><span class="classifier">int, optianal (default: 20)</span></dt><dd><p>The resolution of the sphere. The longitues will be split into
-resolution segments (i.e. there are resolution + 1 latitude lines
-including the north and south pole). The latitudes will be split
-into 2 * resolution segments (i.e. there are 2 * resolution
-longitude lines.)</p>
+resolution segments (i.e. there are resolution + 1 latitude
+lines including the north and south pole). The latitudes will
+be split into 2 * resolution segments (i.e. there are
+2 * resolution longitude lines.)</p>
 </dd>
 <dt><strong>c</strong><span class="classifier">array-like, shape (3,), optional (default: None)</span></dt><dd><p>Color</p>
 </dd>
@@ -562,6 +585,41 @@ longitude lines.)</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pytransform3d.visualizer.Figure.plot_camera">
+<code class="sig-name descname"><span class="pre">plot_camera</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cam2world</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virtual_image_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensor_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1920,</span> <span class="pre">1080)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer.html#Figure.plot_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure.plot_camera" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot camera in world coordinates.</p>
+<p>This function is inspired by Blender’s camera visualization. It will
+show the camera center, a virtual image plane, and the top of the virtual
+image plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>M</strong><span class="classifier">array-like, shape (3, 3)</span></dt><dd><p>Intrinsic camera matrix that contains the focal lengths on the diagonal
+and the center of the the image in the last column. It does not matter
+whether values are given in meters or pixels as long as the unit is the
+same as for the sensor size.</p>
+</dd>
+<dt><strong>cam2world</strong><span class="classifier">array-like, shape (4, 4), optional (default: I)</span></dt><dd><p>Transformation matrix of camera in world frame. We assume that the
+position is given in meters.</p>
+</dd>
+<dt><strong>virtual_image_distance</strong><span class="classifier">float, optional (default: 1)</span></dt><dd><p>Distance from pinhole to virtual image plane that will be displayed.
+We assume that this distance is given in meters. The unit has to be
+consistent with the unit of the position in cam2world.</p>
+</dd>
+<dt><strong>sensor_size</strong><span class="classifier">array-like, shape (2,), optional (default: [1920, 1080])</span></dt><dd><p>Size of the image sensor: (width, height). It does not matter whether
+values are given in meters or pixels as long as the unit is the same as
+for the sensor size.</p>
+</dd>
+<dt><strong>strict_check</strong><span class="classifier">bool, optional (default: True)</span></dt><dd><p>Raise a ValueError if the transformation matrix is not numerically
+close enough to a real transformation matrix. Otherwise we print a
+warning.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pytransform3d.visualizer.Figure.save_image">
 <code class="sig-name descname"><span class="pre">save_image</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer.html#Figure.save_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure.save_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save rendered image to file.</p>
@@ -609,37 +667,45 @@ longitude lines.)</p>
 <img alt="Visualize Transformed Cylinders" src="../_images/sphx_glr_vis_cylinder_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_cylinder.html#sphx-glr-auto-examples-visualizations-vis-cylinder-py"><span class="std std-ref">Visualize Transformed Cylinders</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a line."><div class="figure align-default" id="id7">
+</div><div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente..."><div class="figure align-default" id="id7">
+<img alt="Camera Representation in 3D" src="../_images/sphx_glr_vis_camera_3d_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_camera_3d.html#sphx-glr-auto-examples-visualizations-vis-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a line."><div class="figure align-default" id="id8">
 <img alt="Animate Line" src="../_images/sphx_glr_vis_moving_line_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_line.html#sphx-glr-auto-examples-visualizations-vis-moving-line-py"><span class="std std-ref">Animate Line</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_line.html#sphx-glr-auto-examples-visualizations-vis-moving-line-py"><span class="std std-ref">Animate Line</span></a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><div class="figure align-default" id="id8">
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><div class="figure align-default" id="id9">
 <img alt="URDF with Meshes" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ..."><div class="figure align-default" id="id9">
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ..."><div class="figure align-default" id="id10">
 <img alt="Animated URDF with Meshes" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><div class="figure align-default" id="id10">
+</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><div class="figure align-default" id="id11">
+<img alt="Add and Remove Artist" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><div class="figure align-default" id="id12">
 <img alt="Animate Trajectory" src="../_images/sphx_glr_vis_moving_trajectory_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_trajectory.html#sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_trajectory.html#sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><div class="figure align-default" id="id11">
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><div class="figure align-default" id="id13">
 <img alt="Animated Robot" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exp..."><div class="figure align-default" id="id12">
+</div><div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exp..."><div class="figure align-default" id="id14">
 <img alt="Visualize Cylinder with Wrench" src="../_images/sphx_glr_vis_moving_cylinder_with_wrench_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_cylinder_with_wrench.html#sphx-glr-auto-examples-visualizations-vis-moving-cylinder-with-wrench-py"><span class="std std-ref">Visualize Cylinder with Wrench</span></a></span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_cylinder_with_wrench.html#sphx-glr-auto-examples-visualizations-vis-moving-cylinder-with-wrench-py"><span class="std std-ref">Visualize Cylinder with Wrench</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><div class="figure align-default" id="id13">
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><div class="figure align-default" id="id15">
 <img alt="URDF Joints" src="../_images/sphx_glr_vis_urdf_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm and we assume that we have a force/torque sensor that measures the for..."><div class="figure align-default" id="id14">
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm and we assume that we have a force/torque sensor that measures the for..."><div class="figure align-default" id="id16">
 <img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
 </div>
 </div><div class="sphx-glr-clear"></div></div>
 </div>
@@ -657,7 +723,7 @@ longitude lines.)</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

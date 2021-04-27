@@ -34,7 +34,7 @@ indicates the position of q, which is a point on the screw axis. A straight
 arrow shows the direction of the screw axis. The spiral path represents
 a displacement of length theta along the screw axis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-48
+.. GENERATED FROM PYTHON SOURCE LINES 18-49
 
 
 
@@ -74,7 +74,8 @@ a displacement of length theta along the screw axis.
 
     ax = plot_transform(A2B=origin, s=0.4)
     plot_transform(ax=ax, A2B=concat(A2B, origin), s=0.2)
-    plot_screw(ax=ax, q=q, s_axis=s_axis, h=h, theta=theta, A2B=origin, s=1.5, alpha=0.6)
+    plot_screw(
+        ax=ax, q=q, s_axis=s_axis, h=h, theta=theta, A2B=origin, s=1.5, alpha=0.6)
     ax.view_init(elev=40, azim=170)
     plt.subplots_adjust(0, 0, 1, 1)
     plt.show()

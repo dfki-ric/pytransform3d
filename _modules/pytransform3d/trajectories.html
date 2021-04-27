@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.trajectories &#8212; pytransform3d 1.7.1 documentation</title>
+    <title>pytransform3d.trajectories &#8212; pytransform3d 1.8 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.7.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -120,10 +120,10 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">Trajectory</span><span class="p">,</span> <span class="n">make_3d_axis</span>
-<span class="kn">from</span> <span class="nn">.batch_rotations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">matrices_from_quaternions</span><span class="p">,</span>
-                              <span class="n">quaternions_from_matrices</span><span class="p">,</span>
-                              <span class="n">matrices_from_compact_axis_angles</span><span class="p">,</span>
-                              <span class="n">axis_angles_from_matrices</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.batch_rotations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">matrices_from_quaternions</span><span class="p">,</span> <span class="n">quaternions_from_matrices</span><span class="p">,</span>
+    <span class="n">matrices_from_compact_axis_angles</span><span class="p">,</span> <span class="n">axis_angles_from_matrices</span><span class="p">,</span>
+    <span class="n">batch_concatenate_quaternions</span><span class="p">,</span> <span class="n">batch_q_conj</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform_from_exponential_coordinates</span>
 
 
@@ -366,6 +366,206 @@
     <span class="k">return</span> <span class="n">A2Bs</span></div>
 
 
+<div class="viewcode-block" id="dual_quaternions_from_pqs"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.dual_quaternions_from_pqs.html#pytransform3d.trajectories.dual_quaternions_from_pqs">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternions_from_pqs</span><span class="p">(</span><span class="n">pqs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get dual quaternions from positions and quaternions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pqs : array-like, shape (..., 7)</span>
+<span class="sd">        Poses represented by positions and quaternions in the</span>
+<span class="sd">        order (x, y, z, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dqs : array, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pqs</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">pqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">instances_shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+
+    <span class="c1"># orientation quaternion</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">pqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span>
+
+    <span class="c1"># use memory temporarily to store position</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">:]</span> <span class="o">=</span> <span class="n">pqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">batch_concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:],</span> <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<span class="k">def</span> <span class="nf">dual_quaternions_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get dual quaternions from transformations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2Bs : array-like, shape (..., 4, 4)</span>
+<span class="sd">        Poses represented by homogeneous matrices</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dqs : array, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">instances_shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+
+    <span class="c1"># orientation quaternion</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">quaternions_from_matrices</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="c1"># use memory temporarily to store position</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">:]</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">batch_concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:],</span> <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<div class="viewcode-block" id="pqs_from_dual_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.pqs_from_dual_quaternions.html#pytransform3d.trajectories.pqs_from_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">pqs_from_dual_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get positions and quaternions from dual quaternions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dqs : array-like, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pqs : array, shape (..., 7)</span>
+<span class="sd">        Poses represented by positions and quaternions in the</span>
+<span class="sd">        order (x, y, z, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dqs</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">dqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">instances_shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">batch_concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:],</span> <span class="n">batch_q_conj</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]))[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<span class="k">def</span> <span class="nf">transforms_from_dual_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get transformations from dual quaternions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dqs : array-like, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A2Bs : array, shape (..., 4, 4)</span>
+<span class="sd">        Poses represented by homogeneous matrices</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dqs</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">dqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">instances_shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrices_from_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">batch_concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:],</span> <span class="n">batch_q_conj</span><span class="p">(</span><span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]))[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<div class="viewcode-block" id="batch_dq_conj"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_dq_conj.html#pytransform3d.trajectories.batch_dq_conj">[docs]</a><span class="k">def</span> <span class="nf">batch_dq_conj</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Conjugate of dual quaternions.</span>
+
+<span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
+<span class="sd">    use here converts (pw, px, py, pz, qw, qx, qy, qz) to</span>
+<span class="sd">    (pw, -px, -py, -pz, -qw, qx, qy, qz). It is a combination of the quaternion</span>
+<span class="sd">    conjugate and the dual number conjugate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dqs : array-like, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dq_conjugates : array-like, shape (..., 8)</span>
+<span class="sd">        Conjugates of dual quaternions: (pw, -px, -py, -pz, -qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">dqs</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">:]</span> <span class="o">=</span> <span class="n">dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="batch_concatenate_dual_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_concatenate_dual_quaternions.html#pytransform3d.trajectories.batch_concatenate_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">batch_concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dqs1</span><span class="p">,</span> <span class="n">dqs2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate dual quaternions.</span>
+
+<span class="sd">    Suppose we want to apply two extrinsic transforms given by dual</span>
+<span class="sd">    quaternions dq1 and dq2 to a vector v. We can either apply dq2 to v and</span>
+<span class="sd">    then dq1 to the result or we can concatenate dq1 and dq2 and apply the</span>
+<span class="sd">    result to v.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dqs1 : array-like, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    dqs2 : array-like, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dqs3 : array, shape (8,)</span>
+<span class="sd">        Products of the two batches of dual quaternions:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dqs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dqs1</span><span class="p">)</span>
+    <span class="n">dqs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dqs2</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">dqs1</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch_concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">dqs1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">dqs2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">batch_concatenate_quaternions</span><span class="p">(</span><span class="n">dqs1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">dqs2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:])</span> <span class="o">+</span>
+        <span class="n">batch_concatenate_quaternions</span><span class="p">(</span><span class="n">dqs1</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:],</span> <span class="n">dqs2</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="batch_dq_prod_vector"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_dq_prod_vector.html#pytransform3d.trajectories.batch_dq_prod_vector">[docs]</a><span class="k">def</span> <span class="nf">batch_dq_prod_vector</span><span class="p">(</span><span class="n">dqs</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply transforms represented by a dual quaternions to vectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dqs : array-like, shape (..., 8)</span>
+<span class="sd">        Unit dual quaternions</span>
+
+<span class="sd">    V : array-like, shape (..., 3)</span>
+<span class="sd">        3d vectors</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    W : array, shape (3,)</span>
+<span class="sd">        3d vectors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dqs</span><span class="p">)</span>
+
+    <span class="n">v_dqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">dqs</span><span class="p">)</span>
+    <span class="n">v_dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">v_dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">v_dqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">:]</span> <span class="o">=</span> <span class="n">V</span>
+    <span class="n">v_dq_transformed</span> <span class="o">=</span> <span class="n">batch_concatenate_dual_quaternions</span><span class="p">(</span>
+        <span class="n">batch_concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">,</span> <span class="n">v_dqs</span><span class="p">),</span>
+        <span class="n">batch_dq_conj</span><span class="p">(</span><span class="n">dqs</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">v_dq_transformed</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span></div>
+
+
 <div class="viewcode-block" id="plot_trajectory"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">[docs]</a><span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot pose trajectory.</span>
 
@@ -426,7 +626,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 05, 2021.<br/>
+      Last updated on Apr 27, 2021.<br/>
     </p>
   </div>
 </footer>

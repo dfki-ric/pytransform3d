@@ -11,7 +11,8 @@ print(__doc__)
 
 
 import numpy as np
-from pytransform3d.transformations import transform_from_exponential_coordinates
+from pytransform3d.transformations import (
+    transform_from_exponential_coordinates)
 import pytransform3d.visualizer as pv
 
 
@@ -37,7 +38,8 @@ def animation_callback(
 
     Stheta_ddot = np.dot(inertia_inv, wrench_in_cylinder)
     Stheta_dot += dt * Stheta_ddot
-    cylinder2world = transform_from_exponential_coordinates(dt * Stheta_dot).dot(prev_cylinder2world)
+    cylinder2world = transform_from_exponential_coordinates(
+        dt * Stheta_dot).dot(prev_cylinder2world)
 
     # Update visualization
     cylinder_frame.set_data(cylinder2world)

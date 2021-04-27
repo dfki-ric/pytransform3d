@@ -8,7 +8,8 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.plot_utils import plot_box, plot_length_variable, remove_frame
+from pytransform3d.plot_utils import (plot_box, plot_length_variable,
+                                      remove_frame)
 from pytransform3d.transformations import plot_transform
 
 
