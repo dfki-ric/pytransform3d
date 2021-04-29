@@ -27,12 +27,13 @@ if qt_available:
     import sys
     from functools import partial
     from contextlib import contextmanager
-    from matplotlib.figure import Figure
-    from mpl_toolkits.mplot3d import Axes3D
     import numpy as np
     from .transform_manager import TransformManager
-    from .rotations import active_matrix_from_intrinsic_euler_xyz, intrinsic_euler_xyz_from_active_matrix
+    from .rotations import (active_matrix_from_intrinsic_euler_xyz,
+                            intrinsic_euler_xyz_from_active_matrix)
     from .transformations import transform_from
+    from mpl_toolkits.mplot3d import Axes3D
+    from matplotlib.figure import Figure
     if qt_version == 5:
         from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
         from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
@@ -86,6 +87,7 @@ if qt_available:
             self.n_slider_steps = [int(100 * (upper - lower)) + 1
                                    for lower, upper in self.limits]
             self.setLayout(self._create(base_frame))
+            self.A2B = None
 
         def _create(self, base_frame):
             self.sliders = []
@@ -120,6 +122,13 @@ if qt_available:
             return layout
 
         def set_frame(self, A2B):
+            """Set pose of frame.
+
+            Parameters
+            ----------
+            A2B : array
+                Transformation matrix
+            """
             self.A2B = A2B
             pose = self._internal_repr(self.A2B)
 
@@ -131,6 +140,7 @@ if qt_available:
                     spinbox.setValue(pose[i])
 
         def _internal_repr(self, A2B):
+            """Compute internal representation of transform."""
             p = A2B[:3, 3]
             R = A2B[:3, :3]
             e = intrinsic_euler_xyz_from_active_matrix(R)
@@ -240,6 +250,8 @@ if qt_available:
             self.window_size = window_size
 
             self.setWindowTitle("Transformation Editor")
+            self.canvas = None
+            self.fig = None
             self.axis = None
 
             self._create_main_frame()
