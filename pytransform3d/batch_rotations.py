@@ -7,7 +7,7 @@ All functions operate on nd arrays, where the last dimension (vectors) or
 the last two dimensions (matrices) contain individual rotations.
 """
 import numpy as np
-from .rotations import angle_between_vectors
+from .rotations import angle_between_vectors, slerp_weights
 
 
 def norm_vectors(V, out=None):
@@ -522,18 +522,9 @@ def quaternion_slerp_batch(start, end, t):
     """
     t = np.asarray(t)
     angle = angle_between_vectors(start, end)
-    w1, w2 = _slerp_weights(angle, t)
+    w1, w2 = slerp_weights(angle, t)
     return (w1[:, np.newaxis] * start[np.newaxis]
             + w2[:, np.newaxis] * end[np.newaxis])
-
-
-def _slerp_weights(angle, t):
-    """Weights for spherical linear interpolation (SLERP)."""
-    if angle == 0.0:
-        return np.ones_like(t), np.zeros_like(t)
-    else:
-        return (np.sin((1.0 - t) * angle) / np.sin(angle),
-                np.sin(t * angle) / np.sin(angle))
 
 
 def batch_concatenate_quaternions(Q1, Q2, out=None):
