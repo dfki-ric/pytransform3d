@@ -24,7 +24,7 @@ def axis_angle_slerp(start, end, t):
     start = check_axis_angle(start)
     end = check_axis_angle(end)
     angle = angle_between_vectors(start[:3], end[:3])
-    w1, w2 = _slerp_weights(angle, t)
+    w1, w2 = slerp_weights(angle, t)
     w1 = np.array([w1, w1, w1, (1.0 - t)])
     w2 = np.array([w2, w2, w2, t])
     return w1 * start + w2 * end
@@ -52,11 +52,12 @@ def quaternion_slerp(start, end, t):
     start = check_quaternion(start)
     end = check_quaternion(end)
     angle = angle_between_vectors(start, end)
-    w1, w2 = _slerp_weights(angle, t)
+    w1, w2 = slerp_weights(angle, t)
     return w1 * start + w2 * end
 
 
-def _slerp_weights(angle, t):
+def slerp_weights(angle, t):
+    """Compute weights of start and end for spherical linear interpolation."""
     if angle == 0.0:
         return np.ones_like(t), np.zeros_like(t)
     else:

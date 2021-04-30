@@ -2,7 +2,7 @@ import numpy as np
 from ._utils import (check_matrix, check_axis_angle,
                      perpendicular_to_vectors, angle_between_vectors)
 from ._constants import a_id, p0, unitx, unity
-from ._slerp import _slerp_weights
+from ._slerp import slerp_weights
 
 
 def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, strict_check=True, **kwargs):
@@ -102,7 +102,7 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
     angle_p1p2 = angle_between_vectors(p1, p2)
     arc = np.empty((100, 3))
     for i, t in enumerate(np.linspace(0, 2 * a[3] / np.pi, len(arc))):
-        w1, w2 = _slerp_weights(angle_p1p2, t)
+        w1, w2 = slerp_weights(angle_p1p2, t)
         arc[i] = p + 0.5 * s * (a[:3] + w1 * p1 + w2 * p2)
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
 
