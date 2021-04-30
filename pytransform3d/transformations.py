@@ -1905,7 +1905,7 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
     """
     from .plot_utils import make_3d_axis, Arrow3D
     from .rotations import (vector_projection, angle_between_vectors,
-                            perpendicular_to_vectors, _slerp_weights)
+                            perpendicular_to_vectors, slerp_weights)
 
     if ax is None:
         ax = make_3d_axis(ax_s)
@@ -1931,7 +1931,7 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, 
         for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)),
                                   np.linspace(0.0, 1.0, len(arc)))):
             t1, t2 = t
-            w1, w2 = _slerp_weights(angle, t1)
+            w1, w2 = slerp_weights(angle, t1)
             arc[i] = (origin_projected_on_screw_axis
                       + w1 * screw_axis_to_old_frame
                       + w2 * screw_axis_to_rotated_frame
