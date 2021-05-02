@@ -2,7 +2,7 @@
 [![CircleCI Status](https://circleci.com/gh/rock-learning/pytransform3d/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/pytransform3d)
 [![codecov](https://codecov.io/gh/rock-learning/pytransform3d/branch/master/graph/badge.svg?token=jB10RM3Ujj)](https://codecov.io/gh/rock-learning/pytransform3d)
 [![Paper DOI](http://joss.theoj.org/papers/10.21105/joss.01159/status.svg)](https://doi.org/10.21105/joss.01159)
-[![Release DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4723612.svg)](https://doi.org/10.5281/zenodo.4723612)
+[![Release DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2553450.svg)](https://doi.org/10.5281/zenodo.2553450)
 
 # pytransform3d
 
