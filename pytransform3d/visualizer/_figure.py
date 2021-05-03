@@ -381,7 +381,8 @@ class Figure:
         box.add_artist(self)
         return box
 
-    def plot_cylinder(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
+    def plot_cylinder(self, length=2.0, radius=1.0, A2B=np.eye(4),
+                      resolution=20, split=4, c=None):
         """Plot cylinder.
 
         Parameters
@@ -487,30 +488,31 @@ class Figure:
         """Plot camera in world coordinates.
 
         This function is inspired by Blender's camera visualization. It will
-        show the camera center, a virtual image plane, and the top of the virtual
-        image plane.
+        show the camera center, a virtual image plane, and the top of the
+        virtual image plane.
 
         Parameters
         ----------
         M : array-like, shape (3, 3)
-            Intrinsic camera matrix that contains the focal lengths on the diagonal
-            and the center of the the image in the last column. It does not matter
-            whether values are given in meters or pixels as long as the unit is the
-            same as for the sensor size.
+            Intrinsic camera matrix that contains the focal lengths on the
+            diagonal and the center of the the image in the last column. It
+            does not matter whether values are given in meters or pixels as
+            long as the unit is the same as for the sensor size.
 
         cam2world : array-like, shape (4, 4), optional (default: I)
             Transformation matrix of camera in world frame. We assume that the
             position is given in meters.
 
         virtual_image_distance : float, optional (default: 1)
-            Distance from pinhole to virtual image plane that will be displayed.
-            We assume that this distance is given in meters. The unit has to be
-            consistent with the unit of the position in cam2world.
+            Distance from pinhole to virtual image plane that will be
+            displayed. We assume that this distance is given in meters. The
+            unit has to be consistent with the unit of the position in
+            cam2world.
 
         sensor_size : array-like, shape (2,), optional (default: [1920, 1080])
-            Size of the image sensor: (width, height). It does not matter whether
-            values are given in meters or pixels as long as the unit is the same as
-            for the sensor size.
+            Size of the image sensor: (width, height). It does not matter
+            whether values are given in meters or pixels as long as the unit is
+            the same as for the sensor size.
 
         strict_check : bool, optional (default: True)
             Raise a ValueError if the transformation matrix is not numerically
