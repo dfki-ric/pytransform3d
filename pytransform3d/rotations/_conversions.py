@@ -1597,12 +1597,13 @@ def axis_angle_from_quaternion(q):
     q = check_quaternion(q)
     p = q[1:]
     p_norm = np.linalg.norm(p)
+
     if p_norm < np.finfo(float).eps:
         return np.array([1.0, 0.0, 0.0, 0.0])
-    else:
-        axis = p / p_norm
-        angle = (2.0 * np.arccos(q[0]),)
-        return norm_axis_angle(np.hstack((axis, angle)))
+
+    axis = p / p_norm
+    angle = (2.0 * np.arccos(q[0]),)
+    return norm_axis_angle(np.hstack((axis, angle)))
 
 
 def axis_angle_from_compact_axis_angle(a):
@@ -1623,11 +1624,12 @@ def axis_angle_from_compact_axis_angle(a):
     """
     a = check_compact_axis_angle(a)
     angle = np.linalg.norm(a)
+
     if angle == 0.0:
         return np.array([1.0, 0.0, 0.0, 0.0])
-    else:
-        axis = a / angle
-        return np.hstack((axis, (angle,)))
+
+    axis = a / angle
+    return np.hstack((axis, (angle,)))
 
 
 def axis_angle_from_two_directions(a, b):

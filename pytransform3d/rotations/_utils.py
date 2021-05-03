@@ -19,8 +19,8 @@ def norm_vector(v):
     norm = np.linalg.norm(v)
     if norm == 0.0:
         return v
-    else:
-        return np.asarray(v) / norm
+
+    return np.asarray(v) / norm
 
 
 def norm_matrix(R):
