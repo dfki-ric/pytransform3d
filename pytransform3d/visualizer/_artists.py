@@ -182,7 +182,7 @@ class Trajectory(Artist):
 
         self.key_frames_indices = np.linspace(
             0, len(self.H) - 1, self.n_frames, dtype=np.int)
-        for i, key_frame_idx in enumerate(self.key_frames_indices):
+        for key_frame_idx in self.key_frames_indices:
             self.key_frames.append(Frame(self.H[key_frame_idx], s=self.s))
 
         self.set_data(H)
