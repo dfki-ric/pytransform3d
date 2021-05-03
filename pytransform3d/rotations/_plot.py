@@ -6,7 +6,8 @@ from ._constants import a_id, p0, unitx, unity
 from ._slerp import slerp_weights
 
 
-def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, strict_check=True, **kwargs):
+def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1,
+               strict_check=True, **kwargs):
     """Plot basis of a rotation matrix.
 
     Parameters

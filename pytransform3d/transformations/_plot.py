@@ -5,7 +5,8 @@ from ._transform_operations import (
     transform, vector_to_point, vector_to_direction, vectors_to_points)
 
 
-def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, strict_check=True, **kwargs):
+def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None,
+                   strict_check=True, **kwargs):
     """Plot transform.
 
     Parameters
@@ -52,7 +53,8 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None, strict_check=Tru
     return ax
 
 
-def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0, theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
+def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0,
+               theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
     """Plot transformation about and along screw axis.
 
     Parameters
