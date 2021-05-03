@@ -304,8 +304,8 @@ class UrdfTransformManager(TransformManager):
 
         if j.joint_type in ["planar", "floating"]:
             raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
-        elif j.joint_type not in ["revolute", "continuous", "prismatic",
-                                  "fixed"]:
+        if j.joint_type not in ["revolute", "continuous", "prismatic",
+                                "fixed"]:
             raise UrdfException("Joint type '%s' is not allowed in a URDF "
                                 "document." % j.joint_type)
 
