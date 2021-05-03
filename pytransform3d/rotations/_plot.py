@@ -1,3 +1,4 @@
+"""Plotting functions."""
 import numpy as np
 from ._utils import (check_matrix, check_axis_angle,
                      perpendicular_to_vectors, angle_between_vectors)

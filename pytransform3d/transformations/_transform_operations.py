@@ -1,3 +1,4 @@
+"""Transform operations."""
 import numpy as np
 from ..rotations import (
     axis_angle_from_matrix, matrix_from_axis_angle, norm_vector)

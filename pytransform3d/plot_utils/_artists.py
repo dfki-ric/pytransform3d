@@ -1,3 +1,4 @@
+"""Matplotlib artists."""
 import numpy as np
 from matplotlib import artist
 from matplotlib.patches import FancyArrowPatch

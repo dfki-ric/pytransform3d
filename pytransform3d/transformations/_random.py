@@ -1,3 +1,4 @@
+"""Random transform generation."""
 import numpy as np
 from ..rotations import (
     random_quaternion, random_vector, matrix_from_quaternion, norm_vector)

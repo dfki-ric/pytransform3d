@@ -1,3 +1,4 @@
+"""Dual quaternion operations."""
 import numpy as np
 from ._utils import check_dual_quaternion
 from ._conversions import (screw_parameters_from_dual_quaternion,

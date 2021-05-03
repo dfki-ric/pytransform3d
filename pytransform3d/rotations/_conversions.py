@@ -1,3 +1,4 @@
+"""Conversions between rotation representations."""
 import math
 import numpy as np
 from ._utils import (

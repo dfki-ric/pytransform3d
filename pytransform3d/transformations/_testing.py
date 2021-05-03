@@ -1,3 +1,4 @@
+"""Testing utilities."""
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 from ..rotations import assert_rotation_matrix, norm_angle

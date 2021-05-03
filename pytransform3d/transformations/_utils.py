@@ -1,3 +1,4 @@
+"""Utility functions for transforms."""
 import warnings
 import numpy as np
 from ..rotations import check_matrix, norm_vector, check_skew_symmetric_matrix

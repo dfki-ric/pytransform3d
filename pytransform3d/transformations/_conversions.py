@@ -1,3 +1,4 @@
+"""Conversions between transform representations."""
 import math
 import numpy as np
 from ._utils import (check_transform, check_pq, check_screw_axis,

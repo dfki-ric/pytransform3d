@@ -1,3 +1,4 @@
+"""Spherical linear interpolation (SLERP)."""
 import numpy as np
 from ._utils import check_axis_angle, check_quaternion, angle_between_vectors
 

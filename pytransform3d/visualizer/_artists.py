@@ -1,3 +1,4 @@
+"""Visualizer artists."""
 import warnings
 from itertools import chain
 import numpy as np
