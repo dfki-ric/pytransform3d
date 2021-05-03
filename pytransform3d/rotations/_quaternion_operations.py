@@ -1,3 +1,4 @@
+"""Quaternion operations."""
 import numpy as np
 from ._utils import check_quaternion, check_quaternions
 from ._conversions import (quaternion_from_compact_axis_angle,

@@ -1,3 +1,4 @@
+"""Plotting functions."""
 import warnings
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection

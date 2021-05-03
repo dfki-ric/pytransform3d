@@ -1,3 +1,4 @@
+"""Constants of rotation module."""
 import numpy as np
 
 

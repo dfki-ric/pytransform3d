@@ -1,3 +1,4 @@
+"""Figure based on Open3D's visualizer."""
 import numpy as np
 import open3d as o3d
 from .. import rotations as pr
