@@ -7,7 +7,8 @@ from ..transformations import transform
 from ..rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
 
 
-def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True, color="k", alpha=1.0):
+def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
+             color="k", alpha=1.0):
     """Plot box.
 
     Parameters
@@ -90,7 +91,8 @@ def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True, co
     return ax
 
 
-def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True, n_steps=100, color="k", alpha=1.0):
+def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
+                n_steps=100, color="k", alpha=1.0):
     """Plot cylinder.
 
     Parameters
@@ -142,7 +144,9 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True, n_st
     return ax
 
 
-def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0, A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100, alpha=1.0, color="k"):
+def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
+                  A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100,
+                  alpha=1.0, color="k"):
     """Plot cylinder.
 
     Parameters
@@ -238,7 +242,9 @@ def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0, A2B=np.eye(4),
     return ax
 
 
-def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0]), ax_s=1, wireframe=False, convex_hull=False, alpha=1.0, color="k"):
+def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
+              s=np.array([1.0, 1.0, 1.0]), ax_s=1, wireframe=False,
+              convex_hull=False, alpha=1.0, color="k"):
     """Plot mesh.
 
     Note that this function requires the additional library 'trimesh'.
@@ -314,7 +320,8 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4), s=np.array([1.0, 1.0, 1.0])
     return ax
 
 
-def plot_vector(ax=None, start=np.zeros(3), direction=np.array([1, 0, 0]), s=1.0, arrowstyle="simple", ax_s=1, **kwargs):
+def plot_vector(ax=None, start=np.zeros(3), direction=np.array([1, 0, 0]),
+                s=1.0, arrowstyle="simple", ax_s=1, **kwargs):
     """Plot Vector.
 
     Draws an arrow from start to start + s * direction.
@@ -361,7 +368,8 @@ def plot_vector(ax=None, start=np.zeros(3), direction=np.array([1, 0, 0]), s=1.0
     return ax
 
 
-def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l", above=False, ax_s=1, color="k", **kwargs):
+def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l",
+                         above=False, ax_s=1, color="k", **kwargs):
     """Plot length with text at its center.
 
     Parameters
