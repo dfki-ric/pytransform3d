@@ -168,15 +168,20 @@ class UrdfTransformManager(TransformManager):
         robot_name = robot["name"]
 
         materials = dict([
-            self._parse_material(material)
+            _parse_material(material)
             for material in robot.findAll("material", recursive=False)])
 
         links = [self._parse_link(link, materials)
                  for link in robot.findAll("link", recursive=False)]
-        joints = [self._parse_joint(joint, links)
+        joints = [_parse_joint(joint, links, self.strict_check)
                   for joint in robot.findAll("joint", recursive=False)]
 
         self.add_transform(links[0], robot_name, np.eye(4))
+
+        self._add_joints(joints)
+
+    def _add_joints(self, joints):
+        """Add previously parsed joints."""
         for joint in joints:
             if joint.joint_type in ["revolute", "continuous"]:
                 self.add_joint(
@@ -192,26 +197,6 @@ class UrdfTransformManager(TransformManager):
                 assert joint.joint_type == "fixed"
                 self.add_transform(
                     joint.child, joint.parent, joint.child2parent)
-
-    def _parse_material(self, material):
-        """Parse material."""
-        if not material.has_attr("name"):
-            raise UrdfException("Material name is missing.")
-        colors = material.findAll("color")
-        if len(colors) not in [0, 1]:
-            raise UrdfException("More than one color is not allowed.")
-        if len(colors) == 1:
-            color = self._parse_color(colors[0])
-        else:
-            color = None
-        # TODO texture is currently ignored
-        return material["name"], color
-
-    def _parse_color(self, color):
-        """Parse color."""
-        if not color.has_attr("rgba"):
-            raise UrdfException("Attribute 'rgba' of color tag is missing.")
-        return np.fromstring(color["rgba"], sep=" ")
 
     def _parse_link(self, link, materials):
         """Create link."""
@@ -237,11 +222,11 @@ class UrdfTransformManager(TransformManager):
             if child_type == "visual":
                 material = child.find("material")
                 if material is not None:
-                    material_name, color = self._parse_material(material)
+                    material_name, color = _parse_material(material)
                     if color is None and material_name in materials:
                         color = materials[material_name]
 
-            child2link = self._parse_origin(child)
+            child2link = _parse_origin(child, self.strict_check)
             self.add_transform(name, link["name"], child2link)
 
             shape_objects.extend(self._parse_geometry(child, name, color))
@@ -263,92 +248,6 @@ class UrdfTransformManager(TransformManager):
                 shape_object.parse(shape)
                 result.append(shape_object)
         return result
-
-    def _parse_joint(self, joint, links):
-        """Create joint object."""
-        j = Joint()
-
-        if not joint.has_attr("name"):
-            raise UrdfException("Joint name is missing.")
-        j.joint_name = joint["name"]
-
-        if not joint.has_attr("type"):
-            raise UrdfException("Joint type is missing in joint '%s'."
-                                % j.joint_name)
-
-        parent = joint.find("parent")
-        if parent is None:
-            raise UrdfException("No parent specified in joint '%s'"
-                                % j.joint_name)
-        if not parent.has_attr("link"):
-            raise UrdfException("No parent link name given in joint '%s'."
-                                % j.joint_name)
-        j.parent = parent["link"]
-        if j.parent not in links:
-            raise UrdfException("Parent link '%s' of joint '%s' is not "
-                                "defined." % (j.parent, j.joint_name))
-
-        child = joint.find("child")
-        if child is None:
-            raise UrdfException("No child specified in joint '%s'"
-                                % j.joint_name)
-        if not child.has_attr("link"):
-            raise UrdfException("No child link name given in joint '%s'."
-                                % j.joint_name)
-        j.child = child["link"]
-        if j.child not in links:
-            raise UrdfException("Child link '%s' of joint '%s' is not "
-                                "defined." % (j.child, j.joint_name))
-
-        j.joint_type = joint["type"]
-
-        if j.joint_type in ["planar", "floating"]:
-            raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
-        if j.joint_type not in ["revolute", "continuous", "prismatic",
-                                "fixed"]:
-            raise UrdfException("Joint type '%s' is not allowed in a URDF "
-                                "document." % j.joint_type)
-
-        j.child2parent = self._parse_origin(joint)
-
-        j.joint_axis = np.array([1, 0, 0])
-        if j.joint_type in ["revolute", "continuous", "prismatic"]:
-            axis = joint.find("axis")
-            if axis is not None and axis.has_attr("xyz"):
-                j.joint_axis = np.fromstring(axis["xyz"], sep=" ")
-
-        j.limits = self._parse_limits(joint)
-        return j
-
-    def _parse_origin(self, entry):
-        """Parse transformation."""
-        origin = entry.find("origin")
-        translation = np.zeros(3)
-        rotation = np.eye(3)
-        if origin is not None:
-            if origin.has_attr("xyz"):
-                translation = np.fromstring(origin["xyz"], sep=" ")
-            if origin.has_attr("rpy"):
-                roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
-                # URDF and KDL use the active convention for rotation matrices.
-                # For more details on how the URDF parser handles the
-                # conversion from Euler angles, see this blog post:
-                # https://orbitalstation.wordpress.com/tag/quaternion/
-                rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
-                    roll_pitch_yaw)
-        return transform_from(
-            rotation, translation, strict_check=self.strict_check)
-
-    def _parse_limits(self, joint):
-        """Parse joint limits."""
-        limit = joint.find("limit")
-        lower, upper = float("-inf"), float("inf")
-        if limit is not None:
-            if limit.has_attr("lower"):
-                lower = float(limit["lower"])
-            if limit.has_attr("upper"):
-                upper = float(limit["upper"])
-        return lower, upper
 
     def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False, convex_hull_of_mesh=True, alpha=0.3):
         """Plot all visuals in a given reference frame.
@@ -467,18 +366,121 @@ class UrdfTransformManager(TransformManager):
         return ax
 
 
+def _parse_joint(joint, links, strict_check):
+    """Create joint object."""
+    j = Joint()
+
+    if not joint.has_attr("name"):
+        raise UrdfException("Joint name is missing.")
+    j.joint_name = joint["name"]
+
+    if not joint.has_attr("type"):
+        raise UrdfException("Joint type is missing in joint '%s'."
+                            % j.joint_name)
+
+    parent = joint.find("parent")
+    if parent is None:
+        raise UrdfException("No parent specified in joint '%s'"
+                            % j.joint_name)
+    if not parent.has_attr("link"):
+        raise UrdfException("No parent link name given in joint '%s'."
+                            % j.joint_name)
+    j.parent = parent["link"]
+    if j.parent not in links:
+        raise UrdfException("Parent link '%s' of joint '%s' is not "
+                            "defined." % (j.parent, j.joint_name))
+
+    child = joint.find("child")
+    if child is None:
+        raise UrdfException("No child specified in joint '%s'"
+                            % j.joint_name)
+    if not child.has_attr("link"):
+        raise UrdfException("No child link name given in joint '%s'."
+                            % j.joint_name)
+    j.child = child["link"]
+    if j.child not in links:
+        raise UrdfException("Child link '%s' of joint '%s' is not "
+                            "defined." % (j.child, j.joint_name))
+
+    j.joint_type = joint["type"]
+
+    if j.joint_type in ["planar", "floating"]:
+        raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
+    if j.joint_type not in ["revolute", "continuous", "prismatic",
+                            "fixed"]:
+        raise UrdfException("Joint type '%s' is not allowed in a URDF "
+                            "document." % j.joint_type)
+
+    j.child2parent = _parse_origin(joint, strict_check)
+
+    j.joint_axis = np.array([1, 0, 0])
+    if j.joint_type in ["revolute", "continuous", "prismatic"]:
+        axis = joint.find("axis")
+        if axis is not None and axis.has_attr("xyz"):
+            j.joint_axis = np.fromstring(axis["xyz"], sep=" ")
+
+    j.limits = _parse_limits(joint)
+    return j
+
+
+def _parse_origin(entry, strict_check):
+    """Parse transformation."""
+    origin = entry.find("origin")
+    translation = np.zeros(3)
+    rotation = np.eye(3)
+    if origin is not None:
+        if origin.has_attr("xyz"):
+            translation = np.fromstring(origin["xyz"], sep=" ")
+        if origin.has_attr("rpy"):
+            roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
+            # URDF and KDL use the active convention for rotation matrices.
+            # For more details on how the URDF parser handles the
+            # conversion from Euler angles, see this blog post:
+            # https://orbitalstation.wordpress.com/tag/quaternion/
+            rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
+                roll_pitch_yaw)
+    return transform_from(
+        rotation, translation, strict_check=strict_check)
+
+
+def _parse_limits(joint):
+    """Parse joint limits."""
+    limit = joint.find("limit")
+    lower, upper = float("-inf"), float("inf")
+    if limit is not None:
+        if limit.has_attr("lower"):
+            lower = float(limit["lower"])
+        if limit.has_attr("upper"):
+            upper = float(limit["upper"])
+    return lower, upper
+
+
+def _parse_material(material):
+    """Parse material."""
+    if not material.has_attr("name"):
+        raise UrdfException("Material name is missing.")
+    colors = material.findAll("color")
+    if len(colors) not in [0, 1]:
+        raise UrdfException("More than one color is not allowed.")
+    if len(colors) == 1:
+        color = _parse_color(colors[0])
+    else:
+        color = None
+    # TODO texture is currently ignored
+    return material["name"], color
+
+
+def _parse_color(color):
+    """Parse color."""
+    if not color.has_attr("rgba"):
+        raise UrdfException("Attribute 'rgba' of color tag is missing.")
+    return np.fromstring(color["rgba"], sep=" ")
+
+
 class Joint(object):
     """Joint from URDF file.
 
     This class is only required temporarily while we parse the URDF.
-
-    Parameters
-    ----------
-    child : string
-        Name of the child
-
-    parent : string
-        Name of the parent frame
 
     Attributes
     ----------
@@ -514,16 +516,19 @@ class Joint(object):
 
 
 class Box(object):
+    """Geometrical object: box."""
     def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.color = color
         self.size = np.zeros(3)
 
     def parse(self, box):
+        """Parse box size."""
         if box.has_attr("size"):
             self.size[:] = np.fromstring(box["size"], sep=" ")
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+        """Plot box."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         return plot_box(
@@ -531,17 +536,20 @@ class Box(object):
 
 
 class Sphere(object):
+    """Geometrical object: sphere."""
     def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.color = color
         self.radius = 0.0
 
     def parse(self, sphere):
+        """Parse sphere radius."""
         if not sphere.has_attr("radius"):
             raise UrdfException("Sphere has no radius.")
         self.radius = float(sphere["radius"])
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+        """Plot sphere."""
         center = tm.get_transform(self.frame, frame)[:3, 3]
         color = self.color if self.color is not None else "k"
         return plot_sphere(
@@ -550,6 +558,7 @@ class Sphere(object):
 
 
 class Cylinder(object):
+    """Geometrical object: cylinder."""
     def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.color = color
@@ -557,6 +566,7 @@ class Cylinder(object):
         self.length = 0.0
 
     def parse(self, cylinder):
+        """Parse cylinder radius and length."""
         if not cylinder.has_attr("radius"):
             raise UrdfException("Cylinder has no radius.")
         self.radius = float(cylinder["radius"])
@@ -565,6 +575,7 @@ class Cylinder(object):
         self.length = float(cylinder["length"])
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+        """Plot cylinder."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         return plot_cylinder(
@@ -573,6 +584,7 @@ class Cylinder(object):
 
 
 class Mesh(object):
+    """Geometrical object: mesh."""
     def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.mesh_path = mesh_path
@@ -582,6 +594,7 @@ class Mesh(object):
         self.scale = np.ones(3)
 
     def parse(self, mesh):
+        """Parse mesh filename and scale."""
         if self.mesh_path is None and self.package_dir is None:
             self.filename = None
         else:
@@ -597,6 +610,7 @@ class Mesh(object):
                 self.scale = np.fromstring(mesh["scale"], sep=" ")
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+        """Plot mesh."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         return plot_mesh(
