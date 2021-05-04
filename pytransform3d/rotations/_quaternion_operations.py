@@ -39,8 +39,8 @@ def quaternion_gradient(Q, dt=1.0):
     """Time-derivatives of a sequence of quaternions.
 
     Note that this function does not provide the exact same functionality for
-    quaternions as [NumPy's gradient
-    function](https://numpy.org/doc/stable/reference/generated/numpy.gradient.html)
+    quaternions as `NumPy's gradient function
+    <https://numpy.org/doc/stable/reference/generated/numpy.gradient.html>`_
     for positions. Gradients are always computed as central differences except
     the first and last gradient. We additionally accept a parameter dt that
     defines the time interval between each quaternion. Note that this means
@@ -150,14 +150,14 @@ def q_conj(q):
 
 
 def quaternion_dist(q1, q2):
-    """Compute distance between two quaternions.
+    r"""Compute distance between two quaternions.
 
     We use the angular metric of :math:`S^3`, which is defined as
 
     .. math::
 
-        d(q_1, q_2) = \\min(|| \\log(q_1 * \\overline{q_2})||,
-                            2 \\pi - || \\log(q_1 * \\overline{q_2})||)
+        d(q_1, q_2) = \min(|| \log(q_1 * \overline{q_2})||,
+                            2 \pi - || \log(q_1 * \overline{q_2})||)
 
     Parameters
     ----------
@@ -180,7 +180,7 @@ def quaternion_dist(q1, q2):
 
 
 def quaternion_diff(q1, q2):
-    """Compute the rotation in angle-axis format that rotates q2 into q1.
+    r"""Compute the rotation in angle-axis format that rotates q2 into q1.
 
     .. math::
 
