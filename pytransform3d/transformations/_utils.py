@@ -61,9 +61,9 @@ def check_pq(pq):
 
 
 def check_screw_parameters(q, s_axis, h):
-    """Input validation of screw parameters.
+    r"""Input validation of screw parameters.
 
-    The parameters :math:`(\\boldsymbol{q}, \\hat{\\boldsymbol{s}}, h)`
+    The parameters :math:`(\boldsymbol{q}, \hat{\boldsymbol{s}}, h)`
     describe a screw.
 
     Parameters
@@ -109,15 +109,15 @@ def check_screw_parameters(q, s_axis, h):
 
 
 def check_screw_axis(screw_axis):
-    """Input validation of screw axis.
+    r"""Input validation of screw axis.
 
     A screw axis
 
     .. math::
 
-        \\mathcal{S}
-        = \\left[\\begin{array}{c}\\boldsymbol{\\omega}\\\\
-          \\boldsymbol{v}\\end{array}\\right] \in \\mathbb{R}^6
+        \mathcal{S}
+        = \left[\begin{array}{c}\boldsymbol{\omega}\\
+          \boldsymbol{v}\end{array}\right] \in \mathbb{R}^6
 
     consists of a part that describes rotation and a part that describes
     translation.

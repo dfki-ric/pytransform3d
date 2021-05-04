@@ -6,7 +6,7 @@ from ._conversions import transform_from
 
 
 def random_transform(random_state=np.random.RandomState(0)):
-    """Generate random transform.
+    r"""Generate random transform.
 
     Each component of the translation will be sampled from
     :math:`\mathcal{N}(\mu=0, \sigma=1)`.
@@ -28,10 +28,11 @@ def random_transform(random_state=np.random.RandomState(0)):
 
 
 def random_screw_axis(random_state=np.random.RandomState(0)):
-    """Generate random screw axis.
+    r"""Generate random screw axis.
 
-    Each component of v will be sampled from
-    :math:`\mathcal{N}(\mu=0, \sigma=1)`.
+    Each component of v will be sampled from a standard normal distribution
+    :math:`\mathcal{N}(\mu=0, \sigma=1)`. Components of :math:`\omega` will
+    be sampled from a standard normal distribution and normalized.
 
     Parameters
     ----------

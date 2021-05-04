@@ -9,17 +9,17 @@ from ._constants import unitx, unity, unitz, eps
 
 
 def cross_product_matrix(v):
-    """Generate the cross-product matrix of a vector.
+    r"""Generate the cross-product matrix of a vector.
 
-    The cross-product matrix :math:`\\boldsymbol{V}` satisfies the equation
+    The cross-product matrix :math:`\boldsymbol{V}` satisfies the equation
 
     .. math::
 
-        \\boldsymbol{V} \\boldsymbol{w} = \\boldsymbol{v} \\times
-        \\boldsymbol{w}
+        \boldsymbol{V} \boldsymbol{w} = \boldsymbol{v} \times
+        \boldsymbol{w}
 
     It is a skew-symmetric (antisymmetric) matrix, i.e.
-    :math:`-\\boldsymbol{V} = \\boldsymbol{V}^T`.
+    :math:`-\boldsymbol{V} = \boldsymbol{V}^T`.
 
     Parameters
     ----------
@@ -1670,12 +1670,12 @@ def axis_angle_from_two_directions(a, b):
 
 
 def compact_axis_angle(a):
-    """Compute 3-dimensional axis-angle from a 4-dimensional one.
+    r"""Compute 3-dimensional axis-angle from a 4-dimensional one.
 
     In a 3-dimensional axis-angle, the 4th dimension (the rotation) is
     represented by the norm of the rotation axis vector, which means we
-    transform :math:`\\left( \\boldsymbol{\hat{e}}, \\theta \\right)` to
-    :math:`\\theta \\boldsymbol{\hat{e}}`.
+    transform :math:`\left( \boldsymbol{\hat{e}}, \theta \right)` to
+    :math:`\theta \boldsymbol{\hat{e}}`.
 
     We usually assume active rotations.
 

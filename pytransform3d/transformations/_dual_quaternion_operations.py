@@ -149,7 +149,7 @@ def dual_quaternion_sclerp(start, end, t):
 
 
 def dual_quaternion_power(dq, t):
-    """Compute power of unit dual quaternion with respect to scalar.
+    r"""Compute power of unit dual quaternion with respect to scalar.
 
     .. math::
 
