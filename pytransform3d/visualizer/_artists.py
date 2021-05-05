@@ -688,16 +688,19 @@ class Graph(Artist):
                 # we loose the alpha channel as it is not supported by
                 # Open3D
                 color = (obj.color[0], obj.color[1], obj.color[2])
-            if isinstance(obj, urdf.Sphere):
-                artist = Sphere(radius=obj.radius, c=color)
-            elif isinstance(obj, urdf.Box):
-                artist = Box(obj.size, c=color)
-            elif isinstance(obj, urdf.Cylinder):
-                artist = Cylinder(obj.length, obj.radius, c=color)
-            else:
-                assert isinstance(obj, urdf.Mesh)
-                artist = Mesh(obj.filename, s=obj.scale, c=color)
-            artists[obj.frame] = artist
+            try:
+                if isinstance(obj, urdf.Sphere):
+                    artist = Sphere(radius=obj.radius, c=color)
+                elif isinstance(obj, urdf.Box):
+                    artist = Box(obj.size, c=color)
+                elif isinstance(obj, urdf.Cylinder):
+                    artist = Cylinder(obj.length, obj.radius, c=color)
+                else:
+                    assert isinstance(obj, urdf.Mesh)
+                    artist = Mesh(obj.filename, s=obj.scale, c=color)
+                artists[obj.frame] = artist
+            except RuntimeError as e:
+                warnings.warn(str(e))
         return artists
 
     def set_data(self):
