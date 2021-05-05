@@ -358,7 +358,8 @@ class Cylinder(Artist):
         Color
     """
 
-    def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20, split=4, c=None):
+    def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20,
+                 split=4, c=None):
         self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
             radius=radius, height=length, resolution=resolution,
             split=split)
@@ -626,8 +627,9 @@ class Graph(Artist):
         List of frames that should be displayed
     """
 
-    def __init__(self, tm, frame, show_frames=False, show_connections=False, show_visuals=False,
-                 show_collision_objects=False, show_name=False, whitelist=None, s=1.0):
+    def __init__(self, tm, frame, show_frames=False, show_connections=False,
+                 show_visuals=False, show_collision_objects=False,
+                 show_name=False, whitelist=None, s=1.0):
         self.tm = tm
         self.frame = frame
         self.show_frames = show_frames
