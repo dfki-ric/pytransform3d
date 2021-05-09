@@ -573,7 +573,7 @@ def test_conversions_between_screw_matrix_and_transform_log():
     random_state = np.random.RandomState(65)
     for _ in range(5):
         S = random_screw_axis(random_state)
-        theta = np.random.rand()
+        theta = float(np.random.rand())
         S_mat = screw_matrix_from_screw_axis(S)
         transform_log = transform_log_from_screw_matrix(S_mat, theta)
         S_mat2, theta2 = screw_matrix_from_transform_log(transform_log)
@@ -605,7 +605,7 @@ def test_adjoint_of_transformation():
     random_state = np.random.RandomState(94)
     for _ in range(5):
         A2B = random_transform(random_state)
-        theta_dot = 3.0 * random_state.rand()
+        theta_dot = 3.0 * float(random_state.rand())
         S = random_screw_axis(random_state)
 
         V_A = S * theta_dot
@@ -615,7 +615,7 @@ def test_adjoint_of_transformation():
 
         S_mat = screw_matrix_from_screw_axis(S)
         V_mat_A = S_mat * theta_dot
-        V_mat_B = A2B.dot(V_mat_A).dot(invert_transform(A2B))
+        V_mat_B = np.dot(np.dot(A2B, V_mat_A), invert_transform(A2B))
 
         S_B, theta_dot2 = screw_axis_from_exponential_coordinates(V_B)
         V_mat_B2 = screw_matrix_from_screw_axis(S_B) * theta_dot2
@@ -624,19 +624,18 @@ def test_adjoint_of_transformation():
 
 
 def test_check_dual_quaternion():
-    dq = [0, 0]
+    dq1 = [0, 0]
     assert_raises_regexp(
         ValueError, "Expected dual quaternion",
-        check_dual_quaternion, dq)
+        check_dual_quaternion, dq1)
 
-    dq = [[0, 0]]
+    dq2 = [[0, 0]]
     assert_raises_regexp(
         ValueError, "Expected dual quaternion",
-        check_dual_quaternion, dq)
+        check_dual_quaternion, dq2)
 
-    dq = [0] * 8
-    dq = check_dual_quaternion(dq, unit=False)
-    assert_equal(dq.shape[0], 8)
+    dq3 = check_dual_quaternion([0] * 8, unit=False)
+    assert_equal(dq3.shape[0], 8)
 
 
 def test_normalize_dual_quaternion():
@@ -777,7 +776,7 @@ def test_dual_quaternion_from_screw_parameters():
     q = np.zeros(3)
     s_axis = np.array([1, 0, 0])
     h = np.inf
-    theta = 0
+    theta = 0.0
     dq = dual_quaternion_from_screw_parameters(q, s_axis, h, theta)
     assert_array_almost_equal(dq, np.array([1, 0, 0, 0, 0, 0, 0, 0]))
 
@@ -791,7 +790,7 @@ def test_dual_quaternion_from_screw_parameters():
 
     q = np.zeros(3)
     s_axis = norm_vector(np.array([2.4, 2.5, 2.6]))
-    h = 0
+    h = 0.0
     theta = 4.1
     dq = dual_quaternion_from_screw_parameters(q, s_axis, h, theta)
     pq = pq_from_dual_quaternion(dq)
