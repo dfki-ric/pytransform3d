@@ -250,7 +250,7 @@ def test_check_matrix():
     assert_equal(type(R), np.ndarray)
     assert_equal(R.dtype, np.float64)
 
-    R_int_array = np.eye(3, dtype=np.int)
+    R_int_array = np.eye(3, dtype=int)
     R = pr.check_matrix(R_int_array)
     assert_equal(type(R), np.ndarray)
     assert_equal(R.dtype, np.float64)
