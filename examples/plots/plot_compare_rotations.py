@@ -8,7 +8,6 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 from pytransform3d import rotations as pr
 
 
