@@ -1,6 +1,6 @@
 import numpy as np
 from pytransform3d.trajectories import (
-    transforms_from_pqs, pqs_from_transforms,
+    invert_transforms, transforms_from_pqs, pqs_from_transforms,
     transforms_from_exponential_coordinates,
     exponential_coordinates_from_transforms,
     pqs_from_dual_quaternions, dual_quaternions_from_pqs,
@@ -13,9 +13,37 @@ from pytransform3d.transformations import (
     exponential_coordinates_from_transform, translate_transform,
     rotate_transform, random_transform, transform_from_pq,
     concatenate_dual_quaternions, dq_prod_vector,
-    assert_unit_dual_quaternion_equal)
+    assert_unit_dual_quaternion_equal, invert_transform)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
+
+
+def test_invert_transforms_0dims():
+    random_state = np.random.RandomState(0)
+    A2B = random_transform(random_state)
+    B2A = invert_transform(A2B)
+    assert_array_almost_equal(B2A, invert_transforms(A2B))
+
+
+def test_invert_transforms_1dims():
+    random_state = np.random.RandomState(1)
+    A2Bs = np.empty((3, 4, 4))
+    B2As = np.empty((3, 4, 4))
+    for i in range(len(A2Bs)):
+        A2Bs[i] = random_transform(random_state)
+        B2As[i] = invert_transform(A2Bs[i])
+    assert_array_almost_equal(B2As, invert_transforms(A2Bs))
+
+
+def test_invert_transforms_2dims():
+    random_state = np.random.RandomState(1)
+    A2Bs = np.empty((9, 4, 4))
+    B2As = np.empty((9, 4, 4))
+    for i in range(len(A2Bs)):
+        A2Bs[i] = random_transform(random_state)
+        B2As[i] = invert_transform(A2Bs[i])
+    assert_array_almost_equal(
+        B2As.reshape(3, 3, 4, 4), invert_transforms(A2Bs.reshape(3, 3, 4, 4)))
 
 
 def test_transforms_from_pqs_0dims():
