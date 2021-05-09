@@ -12,6 +12,36 @@ from .batch_rotations import (
 from .transformations import transform_from_exponential_coordinates
 
 
+def invert_transforms(A2Bs):
+    """Invert transforms.
+
+    Parameters
+    ----------
+    A2Bs : array-like, shape (..., 4, 4)
+        Transforms from frames A to frames B
+
+    Returns
+    -------
+    B2As : array, shape (..., 4, 4)
+        Transforms from frames B to frames A
+    """
+    A2Bs = np.asarray(A2Bs)
+    instances_shape = A2Bs.shape[:-2]
+    B2As = np.empty_like(A2Bs)
+    # ( R t )^-1   ( R^T -R^T*t )
+    # ( 0 1 )    = ( 0    1     )
+    B2As[..., :3, :3] = A2Bs[..., :3, :3].transpose(
+        list(range(A2Bs.ndim - 2)) + [A2Bs.ndim - 1, A2Bs.ndim - 2])
+    B2As[..., :3, 3] = np.einsum(
+        "nij,nj->ni",
+        -B2As[..., :3, :3].reshape(-1, 3, 3),
+        A2Bs[..., :3, 3].reshape(-1, 3)).reshape(
+        *(list(instances_shape) + [3]))
+    B2As[..., 3, :3] = 0.0
+    B2As[..., 3, 3] = 1.0
+    return B2As
+
+
 def transforms_from_pqs(P, normalize_quaternions=True):
     """Get sequence of homogeneous matrices from positions and quaternions.
 

@@ -370,6 +370,7 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform3d.trajectories.invert_transforms
    ~pytransform3d.trajectories.transforms_from_pqs
    ~pytransform3d.trajectories.pqs_from_transforms
    ~pytransform3d.trajectories.exponential_coordinates_from_transforms
