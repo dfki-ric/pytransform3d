@@ -80,17 +80,17 @@ def test_check_pq():
     q2 = check_pq(q)
     assert_array_almost_equal(q, q2)
 
-    q = [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
-    q2 = check_pq(q)
-    assert_array_almost_equal(q, q2)
-    assert_equal(len(q), q2.shape[0])
+    q3 = [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
+    q4 = check_pq(q3)
+    assert_array_almost_equal(q3, q4)
+    assert_equal(len(q3), q4.shape[0])
 
     A2B = np.eye(4)
     assert_raises_regexp(ValueError, "position and orientation quaternion",
                          check_pq, A2B)
-    q = np.zeros(8)
+    q5 = np.zeros(8)
     assert_raises_regexp(ValueError, "position and orientation quaternion",
-                         check_pq, q)
+                         check_pq, q5)
 
 
 def test_invert_transform():
