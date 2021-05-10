@@ -63,4 +63,16 @@ class Geometry(object):
              wireframe: bool = ..., convex_hull: bool = ...): ...
 
 
+class Box(Geometry): ...
+
+
+class Sphere(Geometry): ...
+
+
+class Cylinder(Geometry): ...
+
+
+class Mesh(Geometry): ...
+
+
 shape_classes: Dict[str, Union[Type[Geometry]]]
