@@ -199,13 +199,15 @@ def test_matrices_from_quaternions():
     random_state = np.random.RandomState(83)
     for _ in range(5):
         q = pr.random_quaternion(random_state)
-        R = pbr.matrices_from_quaternions([q], normalize_quaternions=False)[0]
+        R = pbr.matrices_from_quaternions(
+            q[np.newaxis], normalize_quaternions=False)[0]
         q2 = pr.quaternion_from_matrix(R)
         pr.assert_quaternion_equal(q, q2)
 
     for _ in range(5):
         q = random_state.randn(4)
-        R = pbr.matrices_from_quaternions([q], normalize_quaternions=True)[0]
+        R = pbr.matrices_from_quaternions(
+            q[np.newaxis], normalize_quaternions=True)[0]
         q2 = pr.quaternion_from_matrix(R)
         pr.assert_quaternion_equal(q / np.linalg.norm(q), q2)
 
@@ -215,25 +217,25 @@ def test_quaternions_from_matrices():
     for _ in range(5):
         q = pr.random_quaternion(random_state)
         R = pr.matrix_from_quaternion(q)
-        q2 = pbr.quaternions_from_matrices([R])[0]
+        q2 = pbr.quaternions_from_matrices(R[np.newaxis])[0]
         pr.assert_quaternion_equal(q, q2)
 
     a = np.array([1.0, 0.0, 0.0, np.pi])
     q = pr.quaternion_from_axis_angle(a)
     R = pr.matrix_from_axis_angle(a)
-    q_from_R = pbr.quaternions_from_matrices([R])[0]
+    q_from_R = pbr.quaternions_from_matrices(R[np.newaxis])[0]
     assert_array_almost_equal(q, q_from_R)
 
     a = np.array([0.0, 1.0, 0.0, np.pi])
     q = pr.quaternion_from_axis_angle(a)
     R = pr.matrix_from_axis_angle(a)
-    q_from_R = pbr.quaternions_from_matrices([R])[0]
+    q_from_R = pbr.quaternions_from_matrices(R[np.newaxis])[0]
     assert_array_almost_equal(q, q_from_R)
 
     a = np.array([0.0, 0.0, 1.0, np.pi])
     q = pr.quaternion_from_axis_angle(a)
     R = pr.matrix_from_axis_angle(a)
-    q_from_R = pbr.quaternions_from_matrices([R])[0]
+    q_from_R = pbr.quaternions_from_matrices(R[np.newaxis])[0]
     assert_array_almost_equal(q, q_from_R)
 
 
