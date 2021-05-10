@@ -8,33 +8,6 @@ from ._artists import (Line3D, Frame, Trajectory, Camera, Box, Sphere,
                        Cylinder, Mesh, Graph)
 
 
-def figure(window_name="Open3D", width=1920, height=1080,
-           with_key_callbacks=False):
-    """Create a new figure.
-
-    Parameters
-    ----------
-    window_name : str, optional (default: Open3D)
-        Window title name.
-
-    width : int, optional (default: 1920)
-        Width of the window.
-
-    height : int, optional (default: 1080)
-        Height of the window.
-
-    with_key_callbacks : bool, optional (default: False)
-        Creates a visualizer that allows to register callbacks
-        for keys.
-
-    Returns
-    -------
-    figure : Figure
-        New figure.
-    """
-    return Figure(window_name, width, height, with_key_callbacks)
-
-
 class Figure:
     """The top level container for all the plot elements.
 
@@ -277,7 +250,7 @@ class Figure:
         s : float, optional (default: 1)
             Length of basis vectors
 
-        label : str, optional (default: None)
+        name : str, optional (default: None)
             Name of the frame
 
         strict_check : bool, optional (default: True)
@@ -539,3 +512,30 @@ class Figure:
         """Display the figure window."""
         self.visualizer.run()
         self.visualizer.destroy_window()
+
+
+def figure(window_name="Open3D", width=1920, height=1080,
+           with_key_callbacks=False):
+    """Create a new figure.
+
+    Parameters
+    ----------
+    window_name : str, optional (default: Open3D)
+        Window title name.
+
+    width : int, optional (default: 1920)
+        Width of the window.
+
+    height : int, optional (default: 1080)
+        Height of the window.
+
+    with_key_callbacks : bool, optional (default: False)
+        Creates a visualizer that allows to register callbacks
+        for keys.
+
+    Returns
+    -------
+    figure : Figure
+        New figure.
+    """
+    return Figure(window_name, width, height, with_key_callbacks)
