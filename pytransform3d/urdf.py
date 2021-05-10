@@ -515,11 +515,25 @@ class Joint(object):
         self.limits = float("-inf"), float("inf")
 
 
-class Box(object):
-    """Geometrical object: box."""
+class Geometry(object):
+    """Geometrical object."""
     def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
+        self.mesh_path = mesh_path
+        self.package_dir = package_dir
         self.color = color
+
+    def parse(self, xml):
+        """Parse parameters of geometry."""
+
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+        """Plot geometry."""
+
+
+class Box(Geometry):
+    """Geometrical object: box."""
+    def __init__(self, frame, mesh_path, package_dir, color):
+        super(Box, self).__init__(frame, mesh_path, package_dir, color)
         self.size = np.zeros(3)
 
     def parse(self, box):
@@ -535,11 +549,10 @@ class Box(object):
             ax, self.size, A2B, wireframe=wireframe, alpha=alpha, color=color)
 
 
-class Sphere(object):
+class Sphere(Geometry):
     """Geometrical object: sphere."""
     def __init__(self, frame, mesh_path, package_dir, color):
-        self.frame = frame
-        self.color = color
+        super(Sphere, self).__init__(frame, mesh_path, package_dir, color)
         self.radius = 0.0
 
     def parse(self, sphere):
@@ -557,11 +570,10 @@ class Sphere(object):
             color=color)
 
 
-class Cylinder(object):
+class Cylinder(Geometry):
     """Geometrical object: cylinder."""
     def __init__(self, frame, mesh_path, package_dir, color):
-        self.frame = frame
-        self.color = color
+        super(Cylinder, self).__init__(frame, mesh_path, package_dir, color)
         self.radius = 0.0
         self.length = 0.0
 
@@ -583,13 +595,10 @@ class Cylinder(object):
             alpha=alpha, color=color)
 
 
-class Mesh(object):
+class Mesh(Geometry):
     """Geometrical object: mesh."""
     def __init__(self, frame, mesh_path, package_dir, color):
-        self.frame = frame
-        self.mesh_path = mesh_path
-        self.package_dir = package_dir
-        self.color = color
+        super(Mesh, self).__init__(frame, mesh_path, package_dir, color)
         self.filename = None
         self.scale = np.ones(3)
 
