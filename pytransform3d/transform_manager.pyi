@@ -2,7 +2,7 @@ import numpy as np
 import numpy.typing as npt
 import scipy.sparse as sp
 from mpl_toolkits.mplot3d import Axes3D
-from typing import Dict, Tuple, List, Union
+from typing import Dict, Tuple, List, Union, Set
 
 
 class TransformManager(object):
@@ -38,6 +38,9 @@ class TransformManager(object):
     def plot_connections_in(
             self, frame: str, ax: Union[None, Axes3D] = ..., ax_s: float = ...,
             whitelist: Union[List[str], None] = ..., **kwargs) -> Axes3D: ...
+
+    def _whitelisted_nodes(
+            self, whitelist: Union[None, List[str]]) -> Set[str]: ...
 
     def check_consistency(self) -> bool: ...
 
