@@ -36,6 +36,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with nosetests
       run: |
-        MPLBACKEND=Agg nosetests -sv pytransform3d/test/ --with-coverage
+        MPLBACKEND=Agg nosetests -sv pytransform3d/ --with-coverage
     - name: Codecov
       uses: codecov/codecov-action@v1.3.2
