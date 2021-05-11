@@ -1,7 +1,8 @@
 import numpy as np
 import numpy.typing as npt
-from transform_manager import TransformManager
 from mpl_toolkits.mplot3d import Axes3D
+from bs4.element import Tag
+from transform_manager import TransformManager
 from typing import Dict, Tuple, List, Any, Union, Type
 
 
@@ -61,7 +62,7 @@ class Geometry(object):
     def __init__(self, frame: str, mesh_path: Union[None, str],
                  package_dir: Union[None, str], color: str) -> "Geometry": ...
 
-    def parse(self, xml: str): ...
+    def parse(self, xml: Tag): ...
 
     def plot(self, tm: UrdfTransformManager, frame: str,
              ax: Union[None, Axes3D] = ..., alpha: float = ...,
