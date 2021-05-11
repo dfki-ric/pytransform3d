@@ -258,11 +258,13 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     camera_center_in_world = cam2world[:3, 3]
     focal_length = np.mean(np.diag(M[:2, :2]))
     sensor_corners_in_cam = np.array([
-        [-M[0, 2], -M[1, 2], focal_length],
-        [-M[0, 2], sensor_size[1] - M[1, 2], focal_length],
-        [sensor_size[0] - M[0, 2], sensor_size[1] - M[1, 2], focal_length],
-        [sensor_size[0] - M[0, 2], -M[1, 2], focal_length],
+        [0, 0, focal_length],
+        [0, sensor_size[1], focal_length],
+        [sensor_size[0], sensor_size[1], focal_length],
+        [sensor_size[0], 0, focal_length],
     ])
+    sensor_corners_in_cam[:, 0] -= M[0, 2]
+    sensor_corners_in_cam[:, 1] -= M[1, 2]
     sensor_corners_in_world = transform(
         cam2world, vectors_to_points(sensor_corners_in_cam))[:, :3]
     virtual_image_corners = (
