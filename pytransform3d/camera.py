@@ -4,7 +4,7 @@ See :doc:`camera` for more information.
 """
 import numpy as np
 from .transformations import (invert_transform, transform, check_transform,
-                              vector_to_point, vectors_to_points)
+                              vectors_to_points)
 
 
 def make_world_grid(n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5),
@@ -243,9 +243,8 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     ax : Matplotlib 3d axis
         New or old axis
     """
-    from .plot_utils import make_3d_axis
-
     if ax is None:
+        from .plot_utils import make_3d_axis
         ax = make_3d_axis(ax_s)
 
     if M is None:
@@ -256,9 +255,7 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
 
     cam2world = check_transform(cam2world, strict_check=strict_check)
 
-    camera_center_in_cam = np.zeros(3)
-    camera_center_in_world = transform(
-        cam2world, vector_to_point(camera_center_in_cam))
+    camera_center_in_world = cam2world[:3, 3]
     focal_length = np.mean(np.diag(M[:2, :2]))
     sensor_corners_in_cam = np.array([
         [-M[0, 2], -M[1, 2], focal_length],
@@ -269,34 +266,9 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     sensor_corners_in_world = transform(
         cam2world, vectors_to_points(sensor_corners_in_cam))[:, :3]
     virtual_image_corners = (
-            sensor_corners_in_world - camera_center_in_world[np.newaxis, :3])
-    virtual_image_corners = (
-            virtual_image_distance / focal_length * virtual_image_corners +
-            camera_center_in_world[np.newaxis, :3])
-
-    camera_frame = np.vstack((
-        virtual_image_corners[0],
-        camera_center_in_world[:3],
-        virtual_image_corners[0],
-        virtual_image_corners[1],
-        camera_center_in_world[:3],
-        virtual_image_corners[1],
-        virtual_image_corners[2],
-        camera_center_in_world[:3],
-        virtual_image_corners[2],
-        virtual_image_corners[3],
-        camera_center_in_world[:3],
-        virtual_image_corners[3],
-        virtual_image_corners[0],
-    ))
-
-    up = virtual_image_corners[0] - virtual_image_corners[1]
-    camera_top = np.array([
-        virtual_image_corners[0] + 0.1 * up,
-        0.5 * (virtual_image_corners[0] + virtual_image_corners[3]) + 0.5 * up,
-        virtual_image_corners[3] + 0.1 * up,
-        virtual_image_corners[0] + 0.1 * up
-    ])
+            virtual_image_distance / focal_length *
+            (sensor_corners_in_world - camera_center_in_world[np.newaxis]) +
+            camera_center_in_world[np.newaxis])
 
     if "c" in kwargs:
         color = kwargs.pop("c")
@@ -305,11 +277,47 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     else:
         color = "k"
 
-    ax.plot(camera_frame[:, 0], camera_frame[:, 1], camera_frame[:, 2],
-            color=color, **kwargs)
-    ax.plot(camera_top[:, 0], camera_top[:, 1], camera_top[:, 2],
-            color=color, **kwargs)
+    _make_camera_frame(
+        ax, virtual_image_corners, camera_center_in_world, color, **kwargs)
+    _make_camera_top(ax, virtual_image_corners, color, **kwargs)
     ax.scatter(camera_center_in_world[0], camera_center_in_world[1],
                camera_center_in_world[2], color=color, **kwargs)
 
     return ax
+
+
+def _make_camera_frame(
+        ax, virtual_image_corners, camera_center_in_world, color,
+        **kwargs):  # pragma: no cover
+    """Plot camera frame."""
+    camera_frame = np.vstack((
+        virtual_image_corners[0],
+        camera_center_in_world,
+        virtual_image_corners[0],
+        virtual_image_corners[1],
+        camera_center_in_world,
+        virtual_image_corners[1],
+        virtual_image_corners[2],
+        camera_center_in_world,
+        virtual_image_corners[2],
+        virtual_image_corners[3],
+        camera_center_in_world,
+        virtual_image_corners[3],
+        virtual_image_corners[0],
+    ))
+    ax.plot(camera_frame[:, 0], camera_frame[:, 1], camera_frame[:, 2],
+            color=color, **kwargs)
+
+
+def _make_camera_top(
+        ax, virtual_image_corners, color, **kwargs):  # pragma: no cover
+    """Plot top indicator of camera."""
+    up = virtual_image_corners[0] - virtual_image_corners[1]
+    camera_top = np.array([
+        virtual_image_corners[0] + 0.1 * up,
+        0.5 * (virtual_image_corners[0] + virtual_image_corners[3]) + 0.5 * up,
+        virtual_image_corners[3] + 0.1 * up,
+        virtual_image_corners[0] + 0.1 * up
+    ])
+    ax.plot(camera_top[:, 0], camera_top[:, 1], camera_top[:, 2],
+            color=color, **kwargs)
