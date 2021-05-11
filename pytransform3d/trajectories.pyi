@@ -4,6 +4,9 @@ from mpl_toolkits.mplot3d import Axes3D
 from typing import Union
 
 
+def invert_transforms(A2Bs: npt.ArrayLike) -> np.ndarray: ...
+
+
 def transforms_from_pqs(
         P: npt.ArrayLike, normalize_quaternions: bool = ...) -> np.ndarray: ...
 
