@@ -481,7 +481,9 @@ def batch_dq_prod_vector(dqs, V):
     return v_dq_transformed[5:]
 
 
-def plot_trajectory(ax=None, P=None, normalize_quaternions=True, show_direction=True, n_frames=10, s=1.0, ax_s=1, **kwargs):
+def plot_trajectory(
+        ax=None, P=None, normalize_quaternions=True, show_direction=True,
+        n_frames=10, s=1.0, ax_s=1, **kwargs):  # pragma: no cover
     """Plot pose trajectory.
 
     Parameters
