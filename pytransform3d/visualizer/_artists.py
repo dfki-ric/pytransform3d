@@ -666,38 +666,14 @@ class Graph(Artist):
 
         self.visuals = {}
         if show_visuals and hasattr(self.tm, "visuals"):
-            self.visuals.update(self._objects_to_artists(self.tm.visuals))
+            self.visuals.update(_objects_to_artists(self.tm.visuals))
         self.collision_objects = {}
         if show_collision_objects and hasattr(
                 self.tm, "collision_objects"):
             self.collision_objects.update(
-                self._objects_to_artists(self.tm.collision_objects))
+                _objects_to_artists(self.tm.collision_objects))
 
         self.set_data()
-
-    def _objects_to_artists(self, objects):
-        artists = {}
-        for obj in objects:
-            if obj.color is None:
-                color = None
-            else:
-                # we loose the alpha channel as it is not supported by
-                # Open3D
-                color = (obj.color[0], obj.color[1], obj.color[2])
-            try:
-                if isinstance(obj, urdf.Sphere):
-                    artist = Sphere(radius=obj.radius, c=color)
-                elif isinstance(obj, urdf.Box):
-                    artist = Box(obj.size, c=color)
-                elif isinstance(obj, urdf.Cylinder):
-                    artist = Cylinder(obj.length, obj.radius, c=color)
-                else:
-                    assert isinstance(obj, urdf.Mesh)
-                    artist = Mesh(obj.filename, s=obj.scale, c=color)
-                artists[obj.frame] = artist
-            except RuntimeError as e:
-                warnings.warn(str(e))
-        return artists
 
     def set_data(self):
         """Indicate that data has been updated."""
@@ -753,3 +729,28 @@ class Graph(Artist):
         for obj in self.collision_objects.values():
             geometries += obj.geometries
         return geometries
+
+
+def _objects_to_artists(objects):
+    """Convert geometries from URDF to artists."""
+    artists = {}
+    for obj in objects:
+        if obj.color is None:
+            color = None
+        else:
+            # we loose the alpha channel as it is not supported by Open3D
+            color = (obj.color[0], obj.color[1], obj.color[2])
+        try:
+            if isinstance(obj, urdf.Sphere):
+                artist = Sphere(radius=obj.radius, c=color)
+            elif isinstance(obj, urdf.Box):
+                artist = Box(obj.size, c=color)
+            elif isinstance(obj, urdf.Cylinder):
+                artist = Cylinder(obj.length, obj.radius, c=color)
+            else:
+                assert isinstance(obj, urdf.Mesh)
+                artist = Mesh(obj.filename, s=obj.scale, c=color)
+            artists[obj.frame] = artist
+        except RuntimeError as e:
+            warnings.warn(str(e))
+    return artists
