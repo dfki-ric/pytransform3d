@@ -541,10 +541,10 @@ class Box(Geometry):
         super(Box, self).__init__(frame, mesh_path, package_dir, color)
         self.size = np.zeros(3)
 
-    def parse(self, box):
+    def parse(self, xml):
         """Parse box size."""
-        if box.has_attr("size"):
-            self.size[:] = np.fromstring(box["size"], sep=" ")
+        if xml.has_attr("size"):
+            self.size[:] = np.fromstring(xml["size"], sep=" ")
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
@@ -561,11 +561,11 @@ class Sphere(Geometry):
         super(Sphere, self).__init__(frame, mesh_path, package_dir, color)
         self.radius = 0.0
 
-    def parse(self, sphere):
+    def parse(self, xml):
         """Parse sphere radius."""
-        if not sphere.has_attr("radius"):
+        if not xml.has_attr("radius"):
             raise UrdfException("Sphere has no radius.")
-        self.radius = float(sphere["radius"])
+        self.radius = float(xml["radius"])
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
@@ -584,14 +584,14 @@ class Cylinder(Geometry):
         self.radius = 0.0
         self.length = 0.0
 
-    def parse(self, cylinder):
+    def parse(self, xml):
         """Parse cylinder radius and length."""
-        if not cylinder.has_attr("radius"):
+        if not xml.has_attr("radius"):
             raise UrdfException("Cylinder has no radius.")
-        self.radius = float(cylinder["radius"])
-        if not cylinder.has_attr("length"):
+        self.radius = float(xml["radius"])
+        if not xml.has_attr("length"):
             raise UrdfException("Cylinder has no length.")
-        self.length = float(cylinder["length"])
+        self.length = float(xml["length"])
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
@@ -610,21 +610,21 @@ class Mesh(Geometry):
         self.filename = None
         self.scale = np.ones(3)
 
-    def parse(self, mesh):
+    def parse(self, xml):
         """Parse mesh filename and scale."""
         if self.mesh_path is None and self.package_dir is None:
             self.filename = None
         else:
-            if not mesh.has_attr("filename"):
+            if not xml.has_attr("filename"):
                 raise UrdfException("Mesh has no filename.")
             if self.mesh_path is not None:
-                self.filename = os.path.join(self.mesh_path, mesh["filename"])
+                self.filename = os.path.join(self.mesh_path, xml["filename"])
             else:
                 assert self.package_dir is not None
-                self.filename = mesh["filename"].replace(
+                self.filename = xml["filename"].replace(
                     "package://", self.package_dir)
-            if mesh.has_attr("scale"):
-                self.scale = np.fromstring(mesh["scale"], sep=" ")
+            if xml.has_attr("scale"):
+                self.scale = np.fromstring(xml["scale"], sep=" ")
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
