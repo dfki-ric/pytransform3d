@@ -5,7 +5,7 @@ See :doc:`transform_manager` for more information.
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
-try:
+try:  # pragma: no cover
     import pydot
     PYDOT_AVAILABLE = True
 except ImportError:
