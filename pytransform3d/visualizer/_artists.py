@@ -544,26 +544,22 @@ class Camera(Artist):
         if sensor_size is not None:
             self.sensor_size = sensor_size
 
-        camera_center_in_cam = np.zeros(3)
-        camera_center_in_world = pt.transform(
-            cam2world, pt.vector_to_point(camera_center_in_cam))
+        camera_center_in_world = cam2world[:3, 3]
         focal_length = np.mean(np.diag(M[:2, :2]))
         sensor_corners_in_cam = np.array([
-            [-M[0, 2], -M[1, 2], focal_length],
-            [-M[0, 2], sensor_size[1] - M[1, 2], focal_length],
-            [sensor_size[0] - M[0, 2], sensor_size[1] - M[1, 2],
-             focal_length],
-            [sensor_size[0] - M[0, 2], -M[1, 2], focal_length],
+            [0, 0, focal_length],
+            [0, sensor_size[1], focal_length],
+            [sensor_size[0], sensor_size[1], focal_length],
+            [sensor_size[0], 0, focal_length],
         ])
+        sensor_corners_in_cam[:, 0] -= M[0, 2]
+        sensor_corners_in_cam[:, 1] -= M[1, 2]
         sensor_corners_in_world = pt.transform(
             cam2world, pt.vectors_to_points(sensor_corners_in_cam))[:, :3]
         virtual_image_corners = (
-                sensor_corners_in_world -
-                camera_center_in_world[np.newaxis, :3])
-        virtual_image_corners = (
-                virtual_image_distance / focal_length *
-                virtual_image_corners +
-                camera_center_in_world[np.newaxis, :3])
+            virtual_image_distance / focal_length *
+            (sensor_corners_in_world - camera_center_in_world[np.newaxis]) +
+            camera_center_in_world[np.newaxis])
 
         up = virtual_image_corners[0] - virtual_image_corners[1]
         camera_line_points = np.vstack((
