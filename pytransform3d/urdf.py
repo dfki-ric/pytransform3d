@@ -249,7 +249,8 @@ class UrdfTransformManager(TransformManager):
                 result.append(shape_object)
         return result
 
-    def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False, convex_hull_of_mesh=True, alpha=0.3):
+    def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False,
+                     convex_hull_of_mesh=True, alpha=0.3):  # pragma: no cover
         """Plot all visuals in a given reference frame.
 
         Visuals can be boxes, spheres, cylinders, or meshes. Note that visuals
@@ -285,7 +286,9 @@ class UrdfTransformManager(TransformManager):
             self.visuals, frame, ax, ax_s, wireframe, convex_hull_of_mesh,
             alpha)
 
-    def plot_collision_objects(self, frame, ax=None, ax_s=1, wireframe=True, convex_hull_of_mesh=True, alpha=1.0):
+    def plot_collision_objects(
+            self, frame, ax=None, ax_s=1, wireframe=True,
+            convex_hull_of_mesh=True, alpha=1.0):  # pragma: no cover
         """Plot all collision objects in a given reference frame.
 
         Collision objects can be boxes, spheres, cylinders, or meshes. Note
@@ -322,7 +325,8 @@ class UrdfTransformManager(TransformManager):
             self.collision_objects, frame, ax, ax_s, wireframe,
             convex_hull_of_mesh, alpha)
 
-    def _plot_objects(self, objects, frame, ax=None, ax_s=1, wireframe=True, convex_hull_of_mesh=True, alpha=1.0):
+    def _plot_objects(self, objects, frame, ax=None, ax_s=1, wireframe=True,
+                      convex_hull_of_mesh=True, alpha=1.0):  # pragma: no cover
         """Plot all objects in a given reference frame.
 
         Objects can be boxes, spheres, cylinders, or meshes. Note that objects
@@ -526,7 +530,8 @@ class Geometry(object):
     def parse(self, xml):
         """Parse parameters of geometry."""
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
+             convex_hull=True):
         """Plot geometry."""
 
 
@@ -541,7 +546,8 @@ class Box(Geometry):
         if box.has_attr("size"):
             self.size[:] = np.fromstring(box["size"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
+             convex_hull=True):  # pragma: no cover
         """Plot box."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
@@ -561,7 +567,8 @@ class Sphere(Geometry):
             raise UrdfException("Sphere has no radius.")
         self.radius = float(sphere["radius"])
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
+             convex_hull=True):  # pragma: no cover
         """Plot sphere."""
         center = tm.get_transform(self.frame, frame)[:3, 3]
         color = self.color if self.color is not None else "k"
@@ -586,7 +593,8 @@ class Cylinder(Geometry):
             raise UrdfException("Cylinder has no length.")
         self.length = float(cylinder["length"])
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
+             convex_hull=True):  # pragma: no cover
         """Plot cylinder."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
@@ -618,7 +626,8 @@ class Mesh(Geometry):
             if mesh.has_attr("scale"):
                 self.scale = np.fromstring(mesh["scale"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True):
+    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
+             convex_hull=True):  # pragma: no cover
         """Plot mesh."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"

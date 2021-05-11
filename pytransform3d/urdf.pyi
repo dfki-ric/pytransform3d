@@ -53,6 +53,11 @@ class UrdfTransformManager(TransformManager):
 
 
 class Geometry(object):
+    frame: str
+    mesh_path: Union[None, str]
+    package_dir: Union[None, str]
+    color: npt.ArrayLike
+
     def __init__(self, frame: str, mesh_path: Union[None, str],
                  package_dir: Union[None, str], color: str) -> "Geometry": ...
 

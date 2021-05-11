@@ -231,7 +231,8 @@ class TransformManager(object):
                          strict_check=self.strict_check, check=self.check)
         return A2B
 
-    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True, whitelist=None, **kwargs):
+    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True,
+                       whitelist=None, **kwargs):  # pragma: no cover
         """Plot all frames in a given reference frame.
 
         Note that frames that cannot be connected to the reference frame are
@@ -281,7 +282,8 @@ class TransformManager(object):
                 pass  # Frame is not connected to the reference frame
         return ax
 
-    def plot_connections_in(self, frame, ax=None, ax_s=1, whitelist=None, **kwargs):
+    def plot_connections_in(self, frame, ax=None, ax_s=1, whitelist=None,
+                            **kwargs):  # pragma: no cover
         """Plot direct frame connections in a given reference frame.
 
         A line between each pair of frames for which a direct transformation
@@ -410,7 +412,7 @@ class TransformManager(object):
         return csgraph.connected_components(
             self.connections, directed=False, return_labels=False)
 
-    def write_png(self, filename, prog=None):
+    def write_png(self, filename, prog=None):  # pragma: no cover
         """Create PNG from dot graph of the transformations.
 
         .. warning::
@@ -459,5 +461,5 @@ class TransformManager(object):
         graph.write_png(filename, prog=prog)
 
 
-def _dot_display_name(name):
+def _dot_display_name(name):  # pragma: no cover
     return name.replace("/", "")

@@ -193,7 +193,9 @@ def world2image(P_world, cam2world, sensor_size, image_size, focal_length,
     return P_img
 
 
-def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0, sensor_size=(1920, 1080), ax_s=1, strict_check=True, **kwargs):
+def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
+                sensor_size=(1920, 1080), ax_s=1, strict_check=True,
+                **kwargs):  # pragma: no cover
     """Plot camera in world coordinates.
 
     This function is inspired by Blender's camera visualization. It will
