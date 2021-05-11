@@ -710,7 +710,7 @@ class Graph(Artist):
                     pass  # Frame is not connected to the reference frame
 
         if self.show_connections:
-            for frame_names in self.connections.keys():
+            for frame_names in self.connections:
                 from_frame, to_frame = frame_names
                 try:
                     from2ref = self.tm.get_transform(
