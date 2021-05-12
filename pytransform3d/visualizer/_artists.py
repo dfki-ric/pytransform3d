@@ -621,6 +621,9 @@ class Graph(Artist):
 
     whitelist : list, optional (default: all)
         List of frames that should be displayed
+
+    s : float, optional (default: 1)
+        Scaling of the frames that will be drawn
     """
 
     def __init__(self, tm, frame, show_frames=False, show_connections=False,
