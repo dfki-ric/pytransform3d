@@ -4,8 +4,9 @@ try:
     import matplotlib.pyplot as plt
     from ._artists import Arrow3D, Frame, LabeledFrame, Trajectory
     from ._layout import make_3d_axis, remove_frame
-    from ._plot_functions import (plot_box, plot_sphere, plot_cylinder, plot_mesh,
-                                  plot_vector, plot_length_variable)
+    from ._plot_functions import (
+        plot_box, plot_sphere, plot_cylinder, plot_mesh, plot_vector,
+        plot_length_variable)
 
     __all__ = [
         "Arrow3D", "Frame", "LabeledFrame", "Trajectory",

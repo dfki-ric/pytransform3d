@@ -3,23 +3,24 @@ qt_available = False
 qt_version = None
 try:
     import PyQt5.QtCore as QtCore
-    from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget,
-                                    QSlider, QDoubleSpinBox, QGridLayout,
-                                    QLabel, QGroupBox, QHBoxLayout, QComboBox,
-                                    QVBoxLayout)
+    from PyQt5.QtWidgets import (
+        QApplication, QMainWindow, QWidget, QSlider, QDoubleSpinBox,
+        QGridLayout, QLabel, QGroupBox, QHBoxLayout, QComboBox, QVBoxLayout)
     qt_available = True
     qt_version = 5
 except ImportError:
     try:
         import PyQt4.QtCore as QtCore
-        from PyQt4.QtGui import (QApplication, QMainWindow, QWidget, QSlider,
-                                QDoubleSpinBox, QGridLayout, QLabel, QGroupBox,
-                                QHBoxLayout, QComboBox, QVBoxLayout)
+        from PyQt4.QtGui import (
+            QApplication, QMainWindow, QWidget, QSlider, QDoubleSpinBox,
+            QGridLayout, QLabel, QGroupBox, QHBoxLayout, QComboBox,
+            QVBoxLayout)
         qt_available = True
         qt_version = 4
     except ImportError:
         import warnings
-        warnings.warn("Cannot import PyQt. TransformEditor won't be available.")
+        warnings.warn(
+            "Cannot import PyQt. TransformEditor won't be available.")
         TransformEditor = None
 
 
@@ -42,7 +43,6 @@ if qt_available:
         from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
         from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT
 
-
     @contextmanager
     def _block_signals(qobject):
         """Block signals of a QObject in this context."""
@@ -51,7 +51,6 @@ if qt_available:
             yield qobject
         finally:
             qobject.blockSignals(signals_blocked)
-
 
     class PositionEulerEditor(QWidget):
         """Frame editor that represents orientation by Euler angles (XY'Z'').
@@ -185,7 +184,6 @@ if qt_available:
             m = self.limits[dim][0]
             r = self.limits[dim][1] - m
             return m + r * float(slider_pos) / float(self.n_slider_steps[dim])
-
 
     class TransformEditor(QMainWindow):
         """GUI to edit transformations.
