@@ -709,7 +709,8 @@ def test_dual_quaternion_applied_to_point():
         A2B = random_transform(random_state)
         dq = dual_quaternion_from_transform(A2B)
         p_B = dq_prod_vector(dq, p_A)
-        assert_array_almost_equal(p_B, transform(A2B, vector_to_point(p_A))[:3])
+        assert_array_almost_equal(
+            p_B, transform(A2B, vector_to_point(p_A))[:3])
 
 
 def test_assert_screw_parameters_equal():
