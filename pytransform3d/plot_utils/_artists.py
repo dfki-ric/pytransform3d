@@ -273,6 +273,11 @@ class Arrow3D(FancyArrowPatch):
     def draw(self, renderer):
         """Draw the patch."""
         xs3d, ys3d, zs3d = self._verts3d
-        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
+        try:
+            M = self.axes.M
+        except AttributeError:
+            # deprecated since matplotlib 3.4, will be removed in 3.6
+            M = renderer.M
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, M)
         self.set_positions((xs[0], ys[0]), (xs[1], ys[1]))
         super(Arrow3D, self).draw(renderer)
