@@ -11,8 +11,6 @@ class UrdfTransformManager(TransformManager):
                              Tuple[float, float], str]]
     collision_objects: List[Any]
     visuals: List[Any]
-    mesh_path: Union[None, str]
-    package_dir: Union[None, str]
 
     def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 
@@ -28,8 +26,6 @@ class UrdfTransformManager(TransformManager):
 
     def load_urdf(self, urdf_xml: str, mesh_path: Union[None, str] = ...,
                   package_dir: Union[None, str] = ...): ...
-
-    def _parse_link(self, link, materials): ...
 
     def plot_visuals(
             self, frame: str, ax: Union[None, Axes3D] = ..., ax_s: float = ...,
