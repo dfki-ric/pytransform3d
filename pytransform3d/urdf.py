@@ -579,8 +579,9 @@ class Link(object):
     collision_objects : list of Geometry
         Geometries for collision calculation
 
-    transforms : list of array-like, shape (4, 4)
-        Transformations
+    transforms : list
+        Transformations given as tuples: name of frame A, name of frame B,
+        transform A2B
     """
     def __init__(self):
         self.name = None
