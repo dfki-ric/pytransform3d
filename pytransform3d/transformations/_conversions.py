@@ -373,6 +373,10 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
     omega_theta = axis_angle_from_matrix(R)
     omega_unit = omega_theta[:3]
     theta = omega_theta[3]
+
+    if theta == 0:
+        return np.zeros(6)
+
     omega_unit_matrix = cross_product_matrix(omega_unit)
 
     G_inv = (np.eye(3) / theta - 0.5 * omega_unit_matrix
