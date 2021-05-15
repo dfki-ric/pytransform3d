@@ -173,10 +173,13 @@ class UrdfTransformManager(TransformManager):
 
         links = [self._parse_link(link, materials)
                  for link in robot.findAll("link", recursive=False)]
-        joints = [_parse_joint(joint, links, self.strict_check)
-                  for joint in robot.findAll("joint", recursive=False)]
 
-        self.add_transform(links[0], robot_name, np.eye(4))
+        self.add_transform(links[0].name, robot_name, np.eye(4))
+        _add_links(self, links)
+
+        link_names = [link.name for link in links]
+        joints = [_parse_joint(joint, link_names, self.strict_check)
+                  for joint in robot.findAll("joint", recursive=False)]
 
         _add_joints(self, joints)
 
@@ -184,51 +187,22 @@ class UrdfTransformManager(TransformManager):
         """Create link."""
         if not link.has_attr("name"):
             raise UrdfException("Link name is missing.")
-        self.visuals.extend(
-            self._parse_link_children(link, "visual", materials))
-        self.collision_objects.extend(
-            self._parse_link_children(link, "collision", dict()))
-        return link["name"]
 
-    def _parse_link_children(self, link, child_type, materials):
-        """Parse collision objects or visuals."""
-        children = link.findAll(child_type)
-        shape_objects = []
-        for i, child in enumerate(children):
-            if child.has_attr("name"):
-                name = "%s:%s/%s" % (child_type, link["name"], child["name"])
-            else:
-                name = "%s:%s/%s" % (child_type, link["name"], i)
+        result = Link()
+        result.name = link["name"]
 
-            color = None
-            if child_type == "visual":
-                material = child.find("material")
-                if material is not None:
-                    material_name, color = _parse_material(material)
-                    if color is None and material_name in materials:
-                        color = materials[material_name]
+        visuals, visual_transforms = _parse_link_children(
+            link, "visual", materials, self.mesh_path, self.package_dir,
+            self.strict_check)
+        result.visuals = visuals
+        result.transforms.extend(visual_transforms)
 
-            child2link = _parse_origin(child, self.strict_check)
-            self.add_transform(name, link["name"], child2link)
+        collision_objects, collision_object_transforms = _parse_link_children(
+            link, "collision", dict(), self.mesh_path, self.package_dir,
+            self.strict_check)
+        result.collision_objects = collision_objects
+        result.transforms.extend(collision_object_transforms)
 
-            shape_objects.extend(self._parse_geometry(child, name, color))
-        return shape_objects
-
-    def _parse_geometry(self, child, name, color):
-        """Parse geometric primitives (box, cylinder, sphere) or meshes."""
-        geometry = child.find("geometry")
-        if geometry is None:
-            raise UrdfException("Missing geometry tag in link '%s'" % name)
-        result = []
-        for shape_type in ["box", "cylinder", "sphere", "mesh"]:
-            shapes = geometry.findAll(shape_type)
-            Cls = shape_classes[shape_type]
-            for shape in shapes:
-                shape_object = Cls(
-                    name, mesh_path=self.mesh_path,
-                    package_dir=self.package_dir, color=color)
-                shape_object.parse(shape)
-                result.append(shape_object)
         return result
 
     def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False,
@@ -352,7 +326,35 @@ class UrdfTransformManager(TransformManager):
         return ax
 
 
-def _parse_joint(joint, links, strict_check):
+def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
+                         strict_check):
+    """Parse collision objects or visuals."""
+    children = link.findAll(child_type)
+    shape_objects = []
+    transforms = []
+    for i, child in enumerate(children):
+        if child.has_attr("name"):
+            name = "%s:%s/%s" % (child_type, link["name"], child["name"])
+        else:
+            name = "%s:%s/%s" % (child_type, link["name"], i)
+
+        color = None
+        if child_type == "visual":
+            material = child.find("material")
+            if material is not None:
+                material_name, color = _parse_material(material)
+                if color is None and material_name in materials:
+                    color = materials[material_name]
+
+        child2link = _parse_origin(child, strict_check)
+        transforms.append((name, link["name"], child2link))
+
+        shape_objects.extend(_parse_geometry(
+            child, name, color, mesh_path, package_dir))
+    return shape_objects, transforms
+
+
+def _parse_joint(joint, link_names, strict_check):
     """Create joint object."""
     j = Joint()
 
@@ -372,7 +374,7 @@ def _parse_joint(joint, links, strict_check):
         raise UrdfException("No parent link name given in joint '%s'."
                             % j.joint_name)
     j.parent = parent["link"]
-    if j.parent not in links:
+    if j.parent not in link_names:
         raise UrdfException("Parent link '%s' of joint '%s' is not "
                             "defined." % (j.parent, j.joint_name))
 
@@ -384,7 +386,7 @@ def _parse_joint(joint, links, strict_check):
         raise UrdfException("No child link name given in joint '%s'."
                             % j.joint_name)
     j.child = child["link"]
-    if j.child not in links:
+    if j.child not in link_names:
         raise UrdfException("Child link '%s' of joint '%s' is not "
                             "defined." % (j.child, j.joint_name))
 
@@ -463,6 +465,22 @@ def _parse_color(color):
     return np.fromstring(color["rgba"], sep=" ")
 
 
+def _add_links(tm, links):
+    """Add previously parsed links.
+
+    Parameters
+    ----------
+    links : list of Link
+        Joint information from URDF
+    """
+    for link in links:
+        tm.visuals.extend(link.visuals)
+        tm.collision_objects.extend(link.collision_objects)
+
+        for from_frame, to_frame, transform in link.transforms:
+            tm.add_transform(from_frame, to_frame, transform)
+
+
 def _add_joints(tm, joints):
     """Add previously parsed joints.
 
@@ -486,6 +504,50 @@ def _add_joints(tm, joints):
             assert joint.joint_type == "fixed"
             tm.add_transform(
                 joint.child, joint.parent, joint.child2parent)
+
+
+def _parse_geometry(child, name, color, mesh_path, package_dir):
+    """Parse geometric primitives (box, cylinder, sphere) or meshes."""
+    geometry = child.find("geometry")
+    if geometry is None:
+        raise UrdfException("Missing geometry tag in link '%s'" % name)
+    result = []
+    for shape_type in ["box", "cylinder", "sphere", "mesh"]:
+        shapes = geometry.findAll(shape_type)
+        Cls = shape_classes[shape_type]
+        for shape in shapes:
+            shape_object = Cls(
+                name, mesh_path=mesh_path, package_dir=package_dir,
+                color=color)
+            shape_object.parse(shape)
+            result.append(shape_object)
+    return result
+
+
+class Link(object):
+    """Link from URDF file.
+
+    This class is only required temporarily while we parse the URDF.
+
+    Attributes
+    ----------
+    name : str
+        Link name
+
+    visuals : list of Geometry
+        Visual geometries
+
+    collision_objects : list of Geometry
+        Geometries for collision calculation
+
+    transforms : list of array-like, shape (4, 4)
+        Transformations
+    """
+    def __init__(self):
+        self.name = None
+        self.visuals = []
+        self.collision_objects = []
+        self.transforms = []
 
 
 class Joint(object):
