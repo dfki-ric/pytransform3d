@@ -379,6 +379,15 @@ def _parse_link(link, materials, mesh_path, package_dir, strict_check):
     result.collision_objects = collision_objects
     result.transforms.extend(collision_object_transforms)
 
+    inertial = link.find("inertial")
+    if inertial is not None:
+        result.inertial_frame[:, :] = _parse_origin(inertial, strict_check)
+        result.mass = _parse_mass(inertial)
+        result.inertia[:, :] = _parse_inertia(inertial)
+        result.transforms.append(
+            ("inertial_frame:%s" % result.name, result.name,
+             result.inertial_frame))
+
     return result
 
 
@@ -425,6 +434,65 @@ def _parse_geometry(child, name, color, mesh_path, package_dir):
                 color=color)
             shape_object.parse(shape)
             result.append(shape_object)
+    return result
+
+
+def _parse_origin(entry, strict_check):
+    """Parse transformation."""
+    origin = entry.find("origin")
+    translation = np.zeros(3)
+    rotation = np.eye(3)
+    if origin is not None:
+        if origin.has_attr("xyz"):
+            translation = np.fromstring(origin["xyz"], sep=" ")
+        if origin.has_attr("rpy"):
+            roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
+            # URDF and KDL use the active convention for rotation matrices.
+            # For more details on how the URDF parser handles the
+            # conversion from Euler angles, see this blog post:
+            # https://orbitalstation.wordpress.com/tag/quaternion/
+            rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
+                roll_pitch_yaw)
+    return transform_from(
+        rotation, translation, strict_check=strict_check)
+
+
+def _parse_mass(inertial):
+    """Parse link mass."""
+    mass = inertial.find("mass")
+    if mass is not None and mass.has_attr("value"):
+        result = float(mass["value"])
+    else:
+        result = 0.0
+    return result
+
+
+def _parse_inertia(inertial):
+    """Parse inertia matrix."""
+    inertia = inertial.find("inertia")
+
+    result = np.zeros((3, 3))
+    if inertia is None:
+        return result
+
+    if inertia.has_attr("ixx"):
+        result[0, 0] = float(inertia["ixx"])
+    if inertia.has_attr("ixy"):
+        ixy = float(inertia["ixy"])
+        result[0, 1] = ixy
+        result[1, 0] = ixy
+    if inertia.has_attr("ixz"):
+        ixz = float(inertia["ixz"])
+        result[0, 2] = ixz
+        result[2, 0] = ixz
+    if inertia.has_attr("iyy"):
+        result[1, 1] = float(inertia["iyy"])
+    if inertia.has_attr("iyz"):
+        iyz = float(inertia["iyz"])
+        result[1, 2] = iyz
+        result[2, 1] = iyz
+    if inertia.has_attr("izz"):
+        result[2, 2] = float(inertia["izz"])
     return result
 
 
@@ -483,26 +551,6 @@ def _parse_joint(joint, link_names, strict_check):
 
     j.limits = _parse_limits(joint)
     return j
-
-
-def _parse_origin(entry, strict_check):
-    """Parse transformation."""
-    origin = entry.find("origin")
-    translation = np.zeros(3)
-    rotation = np.eye(3)
-    if origin is not None:
-        if origin.has_attr("xyz"):
-            translation = np.fromstring(origin["xyz"], sep=" ")
-        if origin.has_attr("rpy"):
-            roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
-            # URDF and KDL use the active convention for rotation matrices.
-            # For more details on how the URDF parser handles the
-            # conversion from Euler angles, see this blog post:
-            # https://orbitalstation.wordpress.com/tag/quaternion/
-            rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
-                roll_pitch_yaw)
-    return transform_from(
-        rotation, translation, strict_check=strict_check)
 
 
 def _parse_limits(joint):
@@ -582,12 +630,24 @@ class Link(object):
     transforms : list
         Transformations given as tuples: name of frame A, name of frame B,
         transform A2B
+
+    inertial_frame : array, shape (4, 4)
+        Pose of inertial frame with respect to the link
+
+    mass : float
+        Mass of the link
+
+    inertia : array, shape (3, 3)
+        Inertia matrix
     """
     def __init__(self):
         self.name = None
         self.visuals = []
         self.collision_objects = []
         self.transforms = []
+        self.inertial_frame = np.eye(4)
+        self.mass = 0.0
+        self.inertia = np.zeros((3, 3))
 
 
 class Joint(object):
