@@ -863,3 +863,16 @@ def test_exponential_coordinates_from_almost_identity_transform():
         [0, 0, 0, 1]])
     Stheta = exponential_coordinates_from_transform(A2B)
     assert_array_almost_equal(np.zeros(6), Stheta)
+
+
+def test_transform_log_from_almost_identity_transform():
+    A2B = np.array([
+        [0.9999999999999999, -1.5883146449068575e-16, 4.8699079321578667e-17,
+         -7.54265065748827e-05],
+        [5.110044286978025e-17, 0.9999999999999999, 1.1798895336935056e-17,
+         9.340523179823812e-05],
+        [3.0048299647976294e-18, 5.4741890703482423e-17, 1.0,
+         -7.803584869947588e-05],
+        [0, 0, 0, 1]])
+    transform_log = transform_log_from_transform(A2B)
+    assert_array_almost_equal(np.zeros((4, 4)), transform_log)
