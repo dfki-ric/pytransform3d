@@ -46,8 +46,6 @@ class UrdfTransformManager(TransformManager):
         self._joints = {}
         self.collision_objects = []
         self.visuals = []
-        self.mesh_path = None
-        self.package_dir = None
 
     def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis,
                   limits=(float("-inf"), float("inf")), joint_type="revolute"):
@@ -151,59 +149,12 @@ class UrdfTransformManager(TransformManager):
             package in which these files (textures, meshes) are located. This
             variable defines to which path this prefix will be resolved.
         """
-        self.mesh_path = mesh_path
-        self.package_dir = package_dir
-        urdf = BeautifulSoup(urdf_xml, "xml")
-
-        # URDF XML schema:
-        # https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd
-
-        robot = urdf.find("robot")
-        if robot is None:
-            raise UrdfException("Robot tag is missing.")
-
-        if not robot.has_attr("name"):
-            raise UrdfException("Attribute 'name' is missing in robot tag.")
-
-        robot_name = robot["name"]
-
-        materials = dict([
-            _parse_material(material)
-            for material in robot.findAll("material", recursive=False)])
-
-        links = [self._parse_link(link, materials)
-                 for link in robot.findAll("link", recursive=False)]
+        robot_name, links, joints = _parse_urdf(
+            urdf_xml, mesh_path, package_dir, self.strict_check)
 
         self.add_transform(links[0].name, robot_name, np.eye(4))
         _add_links(self, links)
-
-        link_names = [link.name for link in links]
-        joints = [_parse_joint(joint, link_names, self.strict_check)
-                  for joint in robot.findAll("joint", recursive=False)]
-
         _add_joints(self, joints)
-
-    def _parse_link(self, link, materials):
-        """Create link."""
-        if not link.has_attr("name"):
-            raise UrdfException("Link name is missing.")
-
-        result = Link()
-        result.name = link["name"]
-
-        visuals, visual_transforms = _parse_link_children(
-            link, "visual", materials, self.mesh_path, self.package_dir,
-            self.strict_check)
-        result.visuals = visuals
-        result.transforms.extend(visual_transforms)
-
-        collision_objects, collision_object_transforms = _parse_link_children(
-            link, "collision", dict(), self.mesh_path, self.package_dir,
-            self.strict_check)
-        result.collision_objects = collision_objects
-        result.transforms.extend(collision_object_transforms)
-
-        return result
 
     def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False,
                      convex_hull_of_mesh=True, alpha=0.3):  # pragma: no cover
@@ -324,6 +275,79 @@ class UrdfTransformManager(TransformManager):
                 self, frame, ax, wireframe=wireframe,
                 convex_hull=convex_hull_of_mesh, alpha=alpha)
         return ax
+
+
+def _parse_urdf(urdf_xml, mesh_path=None, package_dir=None,
+                strict_check=True):
+    """Load URDF file into transformation manager.
+
+    Parameters
+    ----------
+    urdf_xml : str
+        Robot definition in URDF
+
+    mesh_path : str, optional (default: None)
+        Path in which we search for meshes that are defined in the URDF.
+        Meshes will be ignored if it is set to None and no 'package_dir'
+        is given.
+
+    package_dir : str, optional (default: None)
+        Some URDFs start file names with 'package://' to refer to the ROS
+        package in which these files (textures, meshes) are located. This
+        variable defines to which path this prefix will be resolved.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+    """
+    urdf = BeautifulSoup(urdf_xml, "xml")
+
+    # URDF XML schema:
+    # https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd
+
+    robot = urdf.find("robot")
+    if robot is None:
+        raise UrdfException("Robot tag is missing.")
+
+    if not robot.has_attr("name"):
+        raise UrdfException("Attribute 'name' is missing in robot tag.")
+
+    robot_name = robot["name"]
+
+    materials = dict([
+        _parse_material(material)
+        for material in robot.findAll("material", recursive=False)])
+
+    links = [_parse_link(link, materials, mesh_path, package_dir, strict_check)
+             for link in robot.findAll("link", recursive=False)]
+
+    link_names = [link.name for link in links]
+    joints = [_parse_joint(joint, link_names, strict_check)
+              for joint in robot.findAll("joint", recursive=False)]
+
+    return robot_name, links, joints
+
+
+def _parse_link(link, materials, mesh_path, package_dir, strict_check):
+    """Create link."""
+    if not link.has_attr("name"):
+        raise UrdfException("Link name is missing.")
+
+    result = Link()
+    result.name = link["name"]
+
+    visuals, visual_transforms = _parse_link_children(
+        link, "visual", materials, mesh_path, package_dir, strict_check)
+    result.visuals = visuals
+    result.transforms.extend(visual_transforms)
+
+    collision_objects, collision_object_transforms = _parse_link_children(
+        link, "collision", dict(), mesh_path, package_dir, strict_check)
+    result.collision_objects = collision_objects
+    result.transforms.extend(collision_object_transforms)
+
+    return result
 
 
 def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
