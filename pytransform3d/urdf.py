@@ -149,7 +149,7 @@ class UrdfTransformManager(TransformManager):
             package in which these files (textures, meshes) are located. This
             variable defines to which path this prefix will be resolved.
         """
-        robot_name, links, joints = _parse_urdf(
+        robot_name, links, joints = parse_urdf(
             urdf_xml, mesh_path, package_dir, self.strict_check)
 
         self.add_transform(links[0].name, robot_name, np.eye(4))
@@ -277,8 +277,7 @@ class UrdfTransformManager(TransformManager):
         return ax
 
 
-def _parse_urdf(urdf_xml, mesh_path=None, package_dir=None,
-                strict_check=True):
+def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
     """Load URDF file into transformation manager.
 
     Parameters
@@ -300,6 +299,17 @@ def _parse_urdf(urdf_xml, mesh_path=None, package_dir=None,
         Raise a ValueError if the transformation matrix is not numerically
         close enough to a real transformation matrix. Otherwise we print a
         warning.
+
+    Returns
+    -------
+    robot_name : str
+        Name of the robot
+
+    links : list of Link
+        Links of the robot
+
+    joints : list of Joint
+        Joints of the robot
     """
     urdf = BeautifulSoup(urdf_xml, "xml")
 
