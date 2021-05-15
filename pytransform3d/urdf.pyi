@@ -48,6 +48,9 @@ class Link(object):
     visuals: List[Geometry]
     collision_objects: List[Geometry]
     transforms: List[Tuple[str, str, np.ndarray]]
+    inertial_frame: np.ndarray
+    mass: float
+    inertia: np.ndarray
 
 
 class Joint(object):
