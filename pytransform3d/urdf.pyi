@@ -29,7 +29,7 @@ class UrdfTransformManager(TransformManager):
     def load_urdf(self, urdf_xml: str, mesh_path: Union[None, str] = ...,
                   package_dir: Union[None, str] = ...): ...
 
-    def _add_joints(self, joints): ...
+    def _add_joints(self, joints: List[Joint]): ...
 
     def _parse_link(self, link, materials): ...
 
@@ -51,6 +51,16 @@ class UrdfTransformManager(TransformManager):
             self, objects, frame: str, ax: Union[None, Axes3D] = ...,
             ax_s: float = ..., wireframe: bool = ...,
             convex_hull_of_mesh: bool = ..., alpha: float = ...): ...
+
+
+class Joint(object):
+    child: Union[None, str]
+    parent: Union[None, str]
+    child2parent: npt.ArrayLike
+    joint_name: Union[None, str]
+    joint_axis: Union[None, npt.ArrayLike]
+    joint_type: str
+    limits: Tuple[float, float]
 
 
 class Geometry(object):

@@ -178,25 +178,7 @@ class UrdfTransformManager(TransformManager):
 
         self.add_transform(links[0], robot_name, np.eye(4))
 
-        self._add_joints(joints)
-
-    def _add_joints(self, joints):
-        """Add previously parsed joints."""
-        for joint in joints:
-            if joint.joint_type in ["revolute", "continuous"]:
-                self.add_joint(
-                    joint.joint_name, joint.child, joint.parent,
-                    joint.child2parent, joint.joint_axis, joint.limits,
-                    "revolute")
-            elif joint.joint_type == "prismatic":
-                self.add_joint(
-                    joint.joint_name, joint.child, joint.parent,
-                    joint.child2parent, joint.joint_axis, joint.limits,
-                    "prismatic")
-            else:
-                assert joint.joint_type == "fixed"
-                self.add_transform(
-                    joint.child, joint.parent, joint.child2parent)
+        _add_joints(self, joints)
 
     def _parse_link(self, link, materials):
         """Create link."""
@@ -479,6 +461,31 @@ def _parse_color(color):
     if not color.has_attr("rgba"):
         raise UrdfException("Attribute 'rgba' of color tag is missing.")
     return np.fromstring(color["rgba"], sep=" ")
+
+
+def _add_joints(tm, joints):
+    """Add previously parsed joints.
+
+    Parameters
+    ----------
+    joints : list of Joint
+        Joint information from URDF
+    """
+    for joint in joints:
+        if joint.joint_type in ["revolute", "continuous"]:
+            tm.add_joint(
+                joint.joint_name, joint.child, joint.parent,
+                joint.child2parent, joint.joint_axis, joint.limits,
+                "revolute")
+        elif joint.joint_type == "prismatic":
+            tm.add_joint(
+                joint.joint_name, joint.child, joint.parent,
+                joint.child2parent, joint.joint_axis, joint.limits,
+                "prismatic")
+        else:
+            assert joint.joint_type == "fixed"
+            tm.add_transform(
+                joint.child, joint.parent, joint.child2parent)
 
 
 class Joint(object):
