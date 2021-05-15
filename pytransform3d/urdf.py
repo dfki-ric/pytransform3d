@@ -329,6 +329,28 @@ def _parse_urdf(urdf_xml, mesh_path=None, package_dir=None,
     return robot_name, links, joints
 
 
+def _parse_material(material):
+    """Parse material."""
+    if not material.has_attr("name"):
+        raise UrdfException("Material name is missing.")
+    colors = material.findAll("color")
+    if len(colors) not in [0, 1]:
+        raise UrdfException("More than one color is not allowed.")
+    if len(colors) == 1:
+        color = _parse_color(colors[0])
+    else:
+        color = None
+    # TODO texture is currently ignored
+    return material["name"], color
+
+
+def _parse_color(color):
+    """Parse color."""
+    if not color.has_attr("rgba"):
+        raise UrdfException("Attribute 'rgba' of color tag is missing.")
+    return np.fromstring(color["rgba"], sep=" ")
+
+
 def _parse_link(link, materials, mesh_path, package_dir, strict_check):
     """Create link."""
     if not link.has_attr("name"):
@@ -376,6 +398,24 @@ def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
         shape_objects.extend(_parse_geometry(
             child, name, color, mesh_path, package_dir))
     return shape_objects, transforms
+
+
+def _parse_geometry(child, name, color, mesh_path, package_dir):
+    """Parse geometric primitives (box, cylinder, sphere) or meshes."""
+    geometry = child.find("geometry")
+    if geometry is None:
+        raise UrdfException("Missing geometry tag in link '%s'" % name)
+    result = []
+    for shape_type in ["box", "cylinder", "sphere", "mesh"]:
+        shapes = geometry.findAll(shape_type)
+        Cls = shape_classes[shape_type]
+        for shape in shapes:
+            shape_object = Cls(
+                name, mesh_path=mesh_path, package_dir=package_dir,
+                color=color)
+            shape_object.parse(shape)
+            result.append(shape_object)
+    return result
 
 
 def _parse_joint(joint, link_names, strict_check):
@@ -467,33 +507,14 @@ def _parse_limits(joint):
     return lower, upper
 
 
-def _parse_material(material):
-    """Parse material."""
-    if not material.has_attr("name"):
-        raise UrdfException("Material name is missing.")
-    colors = material.findAll("color")
-    if len(colors) not in [0, 1]:
-        raise UrdfException("More than one color is not allowed.")
-    if len(colors) == 1:
-        color = _parse_color(colors[0])
-    else:
-        color = None
-    # TODO texture is currently ignored
-    return material["name"], color
-
-
-def _parse_color(color):
-    """Parse color."""
-    if not color.has_attr("rgba"):
-        raise UrdfException("Attribute 'rgba' of color tag is missing.")
-    return np.fromstring(color["rgba"], sep=" ")
-
-
 def _add_links(tm, links):
     """Add previously parsed links.
 
     Parameters
     ----------
+    tm : UrdfTransformManager
+        Transform manager
+
     links : list of Link
         Joint information from URDF
     """
@@ -510,6 +531,9 @@ def _add_joints(tm, joints):
 
     Parameters
     ----------
+    tm : UrdfTransformManager
+        Transform manager
+
     joints : list of Joint
         Joint information from URDF
     """
@@ -526,26 +550,7 @@ def _add_joints(tm, joints):
                 "prismatic")
         else:
             assert joint.joint_type == "fixed"
-            tm.add_transform(
-                joint.child, joint.parent, joint.child2parent)
-
-
-def _parse_geometry(child, name, color, mesh_path, package_dir):
-    """Parse geometric primitives (box, cylinder, sphere) or meshes."""
-    geometry = child.find("geometry")
-    if geometry is None:
-        raise UrdfException("Missing geometry tag in link '%s'" % name)
-    result = []
-    for shape_type in ["box", "cylinder", "sphere", "mesh"]:
-        shapes = geometry.findAll(shape_type)
-        Cls = shape_classes[shape_type]
-        for shape in shapes:
-            shape_object = Cls(
-                name, mesh_path=mesh_path, package_dir=package_dir,
-                color=color)
-            shape_object.parse(shape)
-            result.append(shape_object)
-    return result
+            tm.add_transform(joint.child, joint.parent, joint.child2parent)
 
 
 class Link(object):
