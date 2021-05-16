@@ -806,7 +806,7 @@ def screw_parameters_from_dual_quaternion(dq):
         return dual, s_axis, h, theta
 
 
-def adjoint_from_transform(A2B):
+def adjoint_from_transform(A2B, strict_check=True, check=True):
     """Compute adjoint representation of a transformation matrix.
 
     The adjoint representation of a transformation
@@ -856,12 +856,21 @@ def adjoint_from_transform(A2B):
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
 
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
     Returns
     -------
     adj_A2B : array, shape (6, 6)
         Adjoint representation of transformation matrix
     """
-    A2B = check_transform(A2B)
+    if check:
+        A2B = check_transform(A2B, strict_check)
 
     R = A2B[:3, :3]
     p = A2B[:3, 3]
