@@ -311,13 +311,16 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
     return screw_axis * theta
 
 
-def exponential_coordinates_from_transform_log(transform_log):
+def exponential_coordinates_from_transform_log(transform_log, check=True):
     """Compute exponential coordinates from logarithm of transformation.
 
     Parameters
     ----------
     transform_log : array-like, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
+
+    check : bool, optional (default: True)
+        Check if logarithm of transformation is valid
 
     Returns
     -------
@@ -328,7 +331,8 @@ def exponential_coordinates_from_transform_log(transform_log):
         rotation and the last 3 components are related to translation.
         Theta is the rotation angle and h * theta the translation.
     """
-    transform_log = check_transform_log(transform_log)
+    if check:
+        transform_log = check_transform_log(transform_log)
 
     Stheta = np.empty(6)
     Stheta[0] = transform_log[2, 1]
@@ -338,7 +342,7 @@ def exponential_coordinates_from_transform_log(transform_log):
     return Stheta
 
 
-def exponential_coordinates_from_transform(A2B, strict_check=True):
+def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
     """Compute exponential coordinates from transformation matrix.
 
     Logarithmic map.
@@ -353,6 +357,9 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
 
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
     Returns
     -------
     Stheta : array, shape (6,)
@@ -362,7 +369,8 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
         rotation and the last 3 components are related to translation.
         Theta is the rotation angle and h * theta the translation.
     """
-    A2B = check_transform(A2B, strict_check=strict_check)
+    if check:
+        A2B = check_transform(A2B, strict_check=strict_check)
 
     R = A2B[:3, :3]
     p = A2B[:3, 3]
@@ -370,7 +378,7 @@ def exponential_coordinates_from_transform(A2B, strict_check=True):
     if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
         return np.r_[0.0, 0.0, 0.0, p]
 
-    omega_theta = axis_angle_from_matrix(R)
+    omega_theta = axis_angle_from_matrix(R, check=check)
     omega_unit = omega_theta[:3]
     theta = omega_theta[3]
 
@@ -568,7 +576,7 @@ def transform_from_exponential_coordinates(Stheta, check=True):
     theta = np.linalg.norm(omega_theta)
 
     if theta == 0.0:  # only translation
-        return translate_transform(np.eye(4), Stheta[3:])
+        return translate_transform(np.eye(4), Stheta[3:], check=check)
 
     screw_axis = Stheta / theta
     omega_unit = screw_axis[:3]
