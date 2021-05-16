@@ -539,7 +539,7 @@ def transform_log_from_transform(A2B, strict_check=True):
     return transform_log
 
 
-def transform_from_exponential_coordinates(Stheta):
+def transform_from_exponential_coordinates(Stheta, check=True):
     """Compute transformation matrix from exponential coordinates.
 
     Exponential map.
@@ -553,12 +553,16 @@ def transform_from_exponential_coordinates(Stheta):
         rotation and the last 3 components are related to translation.
         Theta is the rotation angle and h * theta the translation.
 
+    check : bool, optional (default: True)
+        Check if exponential coordinates are valid
+
     Returns
     -------
     A2B : array, shape (4, 4)
         Transformation matrix from frame A to frame B
     """
-    Stheta = check_exponential_coordinates(Stheta)
+    if check:
+        Stheta = check_exponential_coordinates(Stheta)
 
     omega_theta = Stheta[:3]
     theta = np.linalg.norm(omega_theta)
