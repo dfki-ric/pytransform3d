@@ -151,10 +151,7 @@ class UrdfTransformManager(TransformManager):
         """
         robot_name, links, joints = parse_urdf(
             urdf_xml, mesh_path, package_dir, self.strict_check)
-
-        self.add_transform(links[0].name, robot_name, np.eye(4))
-        _add_links(self, links)
-        _add_joints(self, joints)
+        initialize_urdf_transform_manager(self, robot_name, links, joints)
 
     def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False,
                      convex_hull_of_mesh=True, alpha=0.3):  # pragma: no cover
@@ -337,6 +334,28 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
               for joint in robot.findAll("joint", recursive=False)]
 
     return robot_name, links, joints
+
+
+def initialize_urdf_transform_manager(tm, robot_name, links, joints):
+    """Initializes transform manager from URDF data.
+
+    Parameters
+    ----------
+    tm : UrdfTransformManager
+        Transform manager
+
+    robot_name : str
+        Name of the robot
+
+    links : list of Link
+        Links of the robot
+
+    joints : list of Joint
+        Joints of the robot
+    """
+    tm.add_transform(links[0].name, robot_name, np.eye(4))
+    _add_links(tm, links)
+    _add_joints(tm, joints)
 
 
 def _parse_material(material):
