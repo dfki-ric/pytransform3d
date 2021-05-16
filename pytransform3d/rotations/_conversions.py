@@ -31,9 +31,9 @@ def cross_product_matrix(v):
     V : array-like, shape (3, 3)
         Cross-product matrix
     """
-    return np.r_[np.c_[0.0, -v[2], v[1]],
-                 np.c_[v[2], 0.0, -v[0]],
-                 np.c_[-v[1], v[0], 0.0]]
+    return np.array([[0.0, -v[2], v[1]],
+                     [v[2], 0.0, -v[0]],
+                     [-v[1], v[0], 0.0]])
 
 
 def matrix_from_two_vectors(a, b):
