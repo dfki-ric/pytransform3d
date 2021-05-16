@@ -1518,7 +1518,7 @@ def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
         R, unity, unitx, unitz, False, strict_check)[::-1]
 
 
-def axis_angle_from_matrix(R, strict_check=True):
+def axis_angle_from_matrix(R, strict_check=True, check=True):
     """Compute axis-angle from rotation matrix.
 
     This operation is called logarithmic map. Note that there are two possible
@@ -1535,13 +1535,17 @@ def axis_angle_from_matrix(R, strict_check=True):
         Raise a ValueError if the rotation matrix is not numerically close
         enough to a real rotation matrix. Otherwise we print a warning.
 
+    check : bool, optional (default: True)
+        Check if rotation matrix is valid
+
     Returns
     -------
     a : array-like, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
-    R = check_matrix(R, strict_check=strict_check)
+    if check:
+        R = check_matrix(R, strict_check=strict_check)
     angle = np.arccos((np.trace(R) - 1.0) / 2.0)
 
     if angle == 0.0:  # R == np.eye(3)
