@@ -461,6 +461,70 @@ class Mesh(Artist):
         return [self.mesh]
 
 
+class Ellipsoid(Artist):
+    """Ellipsoid.
+
+    Parameters
+    ----------
+    radii : array-like, shape (3,)
+        Radii along the x-axis, y-axis, and z-axis of the ellipsoid.
+
+    A2B : array-like, shape (4, 4)
+        Pose of the ellipsoid.
+
+    resolution : int, optianal (default: 20)
+        The resolution of the ellipsoid. The longitues will be split into
+        resolution segments (i.e. there are resolution + 1 latitude lines
+        including the north and south pole). The latitudes will be split
+        into 2 * resolution segments (i.e. there are 2 * resolution
+        longitude lines.)
+
+    c : array-like, shape (3,), optional (default: None)
+        Color
+    """
+
+    def __init__(self, radii, A2B=np.eye(4), resolution=20, c=None):
+        self.ellipsoid = o3d.geometry.TriangleMesh.create_sphere(1.0, resolution)
+        vertices = np.asarray(self.ellipsoid.vertices)
+        vertices *= np.asarray(radii)[np.newaxis]
+        self.ellipsoid.vertices = o3d.utility.Vector3dVector(vertices)
+        if c is not None:
+            n_vertices = len(self.ellipsoid.vertices)
+            colors = np.zeros((n_vertices, 3))
+            colors[:] = c
+            self.ellipsoid.vertex_colors = o3d.utility.Vector3dVector(colors)
+        self.A2B = None
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        """Update data.
+
+        Parameters
+        ----------
+        A2B : array-like, shape (4, 4)
+            Center of the mesh
+        """
+        previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
+        self.A2B = A2B
+
+        self.ellipsoid.transform(
+            pt.invert_transform(previous_A2B, check=False))
+        self.ellipsoid.transform(self.A2B)
+
+    @property
+    def geometries(self):
+        """Expose geometries.
+
+        Returns
+        -------
+        geometries : list
+            List of geometries that can be added to the visualizer.
+        """
+        return [self.ellipsoid]
+
+
 class Camera(Artist):
     """Camera.
 
