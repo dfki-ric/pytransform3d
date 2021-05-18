@@ -489,6 +489,7 @@ class Ellipsoid(Artist):
         vertices = np.asarray(self.ellipsoid.vertices)
         vertices *= np.asarray(radii)[np.newaxis]
         self.ellipsoid.vertices = o3d.utility.Vector3dVector(vertices)
+        self.ellipsoid.compute_vertex_normals()
         if c is not None:
             n_vertices = len(self.ellipsoid.vertices)
             colors = np.zeros((n_vertices, 3))
