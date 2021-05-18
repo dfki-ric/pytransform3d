@@ -484,7 +484,8 @@ class Ellipsoid(Artist):
     """
 
     def __init__(self, radii, A2B=np.eye(4), resolution=20, c=None):
-        self.ellipsoid = o3d.geometry.TriangleMesh.create_sphere(1.0, resolution)
+        self.ellipsoid = o3d.geometry.TriangleMesh.create_sphere(
+            1.0, resolution)
         vertices = np.asarray(self.ellipsoid.vertices)
         vertices *= np.asarray(radii)[np.newaxis]
         self.ellipsoid.vertices = o3d.utility.Vector3dVector(vertices)
