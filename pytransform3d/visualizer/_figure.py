@@ -5,7 +5,7 @@ from .. import rotations as pr
 from .. import transformations as pt
 from .. import trajectories as ptr
 from ._artists import (Line3D, Frame, Trajectory, Camera, Box, Sphere,
-                       Cylinder, Mesh, Graph)
+                       Cylinder, Mesh, Ellipsoid, Graph)
 
 
 class Figure:
@@ -413,6 +413,37 @@ class Figure:
         mesh = Mesh(filename, A2B, s, c)
         mesh.add_artist(self)
         return mesh
+
+    def plot_ellipsoid(self, radii=np.ones(3), A2B=np.eye(4), resolution=20,
+                       c=None):
+        """Plot ellipsoid.
+
+        Parameters
+        ----------
+        radii : array-like, shape (3,)
+            Radii along the x-axis, y-axis, and z-axis of the ellipsoid.
+
+        A2B : array-like, shape (4, 4)
+            Transform from frame A to frame B
+
+        resolution : int, optianal (default: 20)
+            The resolution of the ellipsoid. The longitues will be split into
+            resolution segments (i.e. there are resolution + 1 latitude
+            lines including the north and south pole). The latitudes will
+            be split into 2 * resolution segments (i.e. there are
+            2 * resolution longitude lines.)
+
+        c : array-like, shape (3,), optional (default: None)
+            Color
+
+        Returns
+        -------
+        ellipsoid : Ellipsoid
+            New ellipsoid.
+        """
+        ellipsoid = Ellipsoid(radii, A2B, resolution, c)
+        ellipsoid.add_artist(self)
+        return ellipsoid
 
     def plot_graph(
             self, tm, frame, show_frames=False, show_connections=False,

@@ -510,4 +510,5 @@ Deprecated Functions
    ~pytransform3d.visualizer.Box
    ~pytransform3d.visualizer.Cylinder
    ~pytransform3d.visualizer.Mesh
+   ~pytransform3d.visualizer.Ellipsoid
    ~pytransform3d.visualizer.Graph

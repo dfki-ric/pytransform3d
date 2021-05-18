@@ -87,6 +87,17 @@ class Mesh(Artist):
     def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
 
 
+class Ellipsoid(Artist):
+    def __init__(
+            self, radii: npt.ArrayLike, A2B: npt.ArrayLike = ...,
+            resolution: int = ..., c: Union[None, npt.ArrayLike] = ...): ...
+
+    def set_data(self, A2B: npt.ArrayLike): ...
+
+    @property
+    def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
+
+
 class Camera(Artist):
     def __init__(
             self, M: npt.ArrayLike, cam2world: Union[None, npt.ArrayLike] = ...,
