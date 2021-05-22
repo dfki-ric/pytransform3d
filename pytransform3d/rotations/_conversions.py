@@ -1546,7 +1546,8 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     """
     if check:
         R = check_matrix(R, strict_check=strict_check)
-    angle = np.arccos((np.trace(R) - 1.0) / 2.0)
+    cos_angle = (np.trace(R) - 1.0) / 2.0
+    angle = np.arccos(min(max(-1.0, cos_angle), 1.0))
 
     if angle == 0.0:  # R == np.eye(3)
         return np.array([1.0, 0.0, 0.0, 0.0])

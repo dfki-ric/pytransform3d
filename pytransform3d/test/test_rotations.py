@@ -2,7 +2,8 @@ import warnings
 import numpy as np
 from numpy.testing import assert_array_almost_equal, assert_array_equal
 from nose.tools import (assert_almost_equal, assert_equal, assert_true,
-                        assert_greater, assert_raises_regexp, assert_less)
+                        assert_greater, assert_raises_regexp, assert_less,
+                        assert_false)
 
 import pytransform3d.rotations as pr
 
@@ -1621,3 +1622,12 @@ def test_matrix_from_two_vectors():
         pr.assert_rotation_matrix(R)
         assert_array_almost_equal(pr.norm_vector(a), R[:, 0])
         assert_almost_equal(pr.angle_between_vectors(b, R[:, 2]), 0.5 * np.pi)
+
+
+def test_axis_angle_from_matrix_cos_angle_greater_1():
+    R = np.array([
+        [1.0000000000000004, -1.4402617650886727e-08, 2.3816502339526408e-08],
+        [1.4402617501592725e-08, 1.0000000000000004, 1.2457848566326355e-08],
+        [-2.3816502529500374e-08, -1.2457848247850049e-08, 0.9999999999999999]])
+    a = pr.axis_angle_from_matrix(R)
+    assert_false(any(np.isnan(a)))
