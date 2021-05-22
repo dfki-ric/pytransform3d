@@ -383,7 +383,7 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
     theta = omega_theta[3]
 
     if theta == 0:
-        return np.zeros(6)
+        return np.r_[0.0, 0.0, 0.0, p]
 
     omega_unit_matrix = cross_product_matrix(omega_unit)
 
