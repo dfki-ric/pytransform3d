@@ -862,7 +862,7 @@ def test_exponential_coordinates_from_almost_identity_transform():
          -7.803584869947588e-05],
         [0, 0, 0, 1]])
     Stheta = exponential_coordinates_from_transform(A2B)
-    assert_array_almost_equal(np.zeros(6), Stheta)
+    assert_array_almost_equal(np.zeros(6), Stheta, decimal=4)
 
 
 def test_transform_log_from_almost_identity_transform():
