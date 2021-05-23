@@ -876,3 +876,32 @@ def test_transform_log_from_almost_identity_transform():
         [0, 0, 0, 1]])
     transform_log = transform_log_from_transform(A2B)
     assert_array_almost_equal(np.zeros((4, 4)), transform_log)
+
+
+def test_exponential_coordinates_from_transform_log_without_check():
+    transform_log = np.ones((4, 4))
+    Stheta = exponential_coordinates_from_transform_log(
+        transform_log, check=False)
+    assert_array_almost_equal(Stheta, np.ones(6))
+
+
+def test_exponential_coordinates_from_transform_without_check():
+    transform = np.ones((4, 4))
+    Stheta = exponential_coordinates_from_transform(transform, check=False)
+    assert_array_almost_equal(Stheta, np.array([0, 0, 0, 1, 1, 1]))
+
+
+def test_transform_from_exponential_coordinates_without_check():
+    Stheta = np.zeros(7)
+    assert_raises_regexp(
+        ValueError, "could not broadcast input array",
+        transform_from_exponential_coordinates, Stheta, check=False)
+
+
+def test_adjoint_from_transform_without_check():
+    transform = np.ones((4, 4))
+    adjoint = adjoint_from_transform(transform, check=False)
+    assert_array_almost_equal(adjoint[:3, :3], np.ones((3, 3)))
+    assert_array_almost_equal(adjoint[3:, 3:], np.ones((3, 3)))
+    assert_array_almost_equal(adjoint[3:, :3], np.zeros((3, 3)))
+    assert_array_almost_equal(adjoint[:3, 3:], np.zeros((3, 3)))
