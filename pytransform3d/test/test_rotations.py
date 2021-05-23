@@ -1631,3 +1631,11 @@ def test_axis_angle_from_matrix_cos_angle_greater_1():
         [-2.3816502529500374e-08, -1.2457848247850049e-08, 0.9999999999999999]])
     a = pr.axis_angle_from_matrix(R)
     assert_false(any(np.isnan(a)))
+
+
+def test_axis_angle_from_matrix_without_check():
+    R = -np.eye(3)
+    with warnings.catch_warnings(record=True) as w:
+        a = pr.axis_angle_from_matrix(R, check=False)
+    assert_equal(len(w), 1)
+    assert_true(all(np.isnan(a[:3])))
