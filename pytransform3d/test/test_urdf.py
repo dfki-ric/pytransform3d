@@ -5,7 +5,9 @@ except ImportError:
     matplotlib_available = False
 import warnings
 import numpy as np
-from pytransform3d.urdf import UrdfTransformManager, UrdfException, parse_urdf
+from pytransform3d.urdf import (
+    UrdfTransformManager, UrdfException, parse_urdf,
+    initialize_urdf_transform_manager)
 from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
 from nose.tools import assert_raises, assert_equal, assert_true, assert_in
@@ -1125,3 +1127,22 @@ def test_load_inertial_info_without_mass():
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
     assert_equal(links[0].mass, 0.0)
     assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
+
+
+def test_load_urdf_functional():
+    robot_name, links, joints = parse_urdf(COMPI_URDF)
+    assert_equal(robot_name, "compi")
+    assert_equal(len(links), 8)
+    assert_equal(len(joints), 7)
+
+    tm = UrdfTransformManager()
+    initialize_urdf_transform_manager(tm, robot_name, links, joints)
+
+    link7_to_linkmount = tm.get_transform("link6", "linkmount")
+    assert_array_almost_equal(
+        link7_to_linkmount,
+        np.array([[1, 0, 0, 0],
+                  [0, 1, 0, 0],
+                  [0, 0, 1, 1.124],
+                  [0, 0, 0, 1]])
+    )
