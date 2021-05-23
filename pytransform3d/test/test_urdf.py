@@ -5,7 +5,7 @@ except ImportError:
     matplotlib_available = False
 import warnings
 import numpy as np
-from pytransform3d.urdf import UrdfTransformManager, UrdfException
+from pytransform3d.urdf import UrdfTransformManager, UrdfException, parse_urdf
 from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
 from nose.tools import assert_raises, assert_equal, assert_true, assert_in
@@ -1022,3 +1022,106 @@ def test_plot_mesh_smoke_with_package_dir():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf, package_dir="./")
     tm.plot_visuals("cone")
+
+
+def test_load_inertial_info():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="cone">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+            </inertial>
+        </link>
+    </robot>
+    """
+    _, links, _ = parse_urdf(urdf)
+    assert_equal(len(links), 1)
+    assert_equal(links[0].name, "cone")
+    assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
+    assert_equal(links[0].mass, 0.001)
+    assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
+
+
+def test_load_inertial_info_sparse_matrix():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="cone">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixy="0" ixz="0" iyz="0"/>
+            </inertial>
+        </link>
+    </robot>
+    """
+    _, links, _ = parse_urdf(urdf)
+    assert_equal(len(links), 1)
+    assert_equal(links[0].name, "cone")
+    assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
+    assert_equal(links[0].mass, 0.001)
+    assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
+
+
+def test_load_inertial_info_diagonal_matrix():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="cone">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1" iyy="1" izz="1"/>
+            </inertial>
+        </link>
+    </robot>
+    """
+    _, links, _ = parse_urdf(urdf)
+    assert_equal(len(links), 1)
+    assert_equal(links[0].name, "cone")
+    assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
+    assert_equal(links[0].mass, 0.001)
+    assert_array_almost_equal(links[0].inertia, np.eye(3))
+
+
+def test_load_inertial_info_without_matrix():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="cone">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+            </inertial>
+        </link>
+    </robot>
+    """
+    _, links, _ = parse_urdf(urdf)
+    assert_equal(len(links), 1)
+    assert_equal(links[0].name, "cone")
+    assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
+    assert_equal(links[0].mass, 0.001)
+    assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
+
+
+def test_load_inertial_info_without_mass():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="simple_mechanism">
+        <link name="cone">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+            </inertial>
+        </link>
+    </robot>
+    """
+    _, links, _ = parse_urdf(urdf)
+    assert_equal(len(links), 1)
+    assert_equal(links[0].name, "cone")
+    assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
+    assert_equal(links[0].mass, 0.0)
+    assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
