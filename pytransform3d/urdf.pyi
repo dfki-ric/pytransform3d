@@ -91,4 +91,18 @@ class Cylinder(Geometry): ...
 class Mesh(Geometry): ...
 
 
+class UrdfException(Exception): ...
+
+
+def parse_urdf(
+        urdf_xml: str, mesh_path: Union[str, None] = ...,
+        package_dir: Union[str, None] = ...,
+        strict_check: bool = ...) -> Tuple[str, List[Link], List[Joint]]: ...
+
+
+def initialize_urdf_transform_manager(
+        tm : UrdfTransformManager, robot_name: str, links: List[Link],
+        joints: List[Joint]): ...
+
+
 shape_classes: Dict[str, Union[Type[Geometry]]]
