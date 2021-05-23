@@ -275,7 +275,7 @@ class UrdfTransformManager(TransformManager):
 
 
 def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
-    """Load URDF file into transformation manager.
+    """Parse information from URDF file.
 
     Parameters
     ----------
@@ -337,7 +337,7 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
 
 
 def initialize_urdf_transform_manager(tm, robot_name, links, joints):
-    """Initializes transform manager from URDF data.
+    """Initializes transform manager from previously parsed URDF data.
 
     Parameters
     ----------

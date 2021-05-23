@@ -433,6 +433,20 @@ Deprecated Functions
    :template: class.rst
 
    ~pytransform3d.urdf.UrdfTransformManager
+   ~pytransform3d.urdf.Link
+   ~pytransform3d.urdf.Joint
+   ~pytransform3d.urdf.Geometry
+   ~pytransform3d.urdf.Box
+   ~pytransform3d.urdf.Sphere
+   ~pytransform3d.urdf.Cylinder
+   ~pytransform3d.urdf.Mesh
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.urdf.parse_urdf
+   ~pytransform3d.urdf.initialize_urdf_transform_manager
 
 
 :mod:`pytransform3d.camera`
