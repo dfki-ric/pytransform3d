@@ -66,8 +66,7 @@ def translate_transform(A2B, p, strict_check=True, check=True):
     if check:
         A2B = check_transform(A2B, strict_check=strict_check)
     out = A2B.copy()
-    l = len(p)
-    out[:l, -1] = p
+    out[:3, -1] = p
     return out
 
 
