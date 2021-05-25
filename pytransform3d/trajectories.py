@@ -4,7 +4,6 @@ Conversions from this module operate on batches of poses or transformations
 and can be 400 to 1000 times faster than a loop of individual conversions.
 """
 import numpy as np
-from .plot_utils import Trajectory, make_3d_axis
 from .batch_rotations import (
     matrices_from_quaternions, quaternions_from_matrices,
     matrices_from_compact_axis_angles, axis_angles_from_matrices,
@@ -522,9 +521,11 @@ def plot_trajectory(
         raise ValueError("Trajectory does not contain any elements.")
 
     if ax is None:
+        from .plot_utils import make_3d_axis
         ax = make_3d_axis(ax_s)
 
     A2Bs = transforms_from_pqs(P, normalize_quaternions)
+    from .plot_utils import Trajectory
     trajectory = Trajectory(A2Bs, show_direction, n_frames, s, **kwargs)
     trajectory.add_trajectory(ax)
 
