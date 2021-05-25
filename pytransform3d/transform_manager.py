@@ -12,7 +12,6 @@ except ImportError:
     PYDOT_AVAILABLE = False
 from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
-from .plot_utils import make_3d_axis
 
 
 class TransformManager(object):
@@ -320,6 +319,7 @@ class TransformManager(object):
             raise KeyError("Unknown frame '%s'" % frame)
 
         if ax is None:
+            from .plot_utils import make_3d_axis
             ax = make_3d_axis(ax_s)
 
         nodes = self._whitelisted_nodes(whitelist)
