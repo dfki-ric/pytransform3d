@@ -10,8 +10,6 @@ from .transformations import transform_from, concat
 from .rotations import (
     active_matrix_from_extrinsic_roll_pitch_yaw, matrix_from_axis_angle,
     norm_vector)
-from .plot_utils import (
-    make_3d_axis, plot_mesh, plot_cylinder, plot_sphere, plot_box)
 
 
 class UrdfTransformManager(TransformManager):
@@ -266,6 +264,7 @@ class UrdfTransformManager(TransformManager):
             New or old axis
         """
         if ax is None:
+            from .plot_utils import make_3d_axis
             ax = make_3d_axis(ax_s)
         for obj in objects:
             ax = obj.plot(
@@ -739,6 +738,7 @@ class Box(Geometry):
         """Plot box."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
+        from .plot_utils import plot_box
         return plot_box(
             ax, self.size, A2B, wireframe=wireframe, alpha=alpha, color=color)
 
@@ -760,6 +760,7 @@ class Sphere(Geometry):
         """Plot sphere."""
         center = tm.get_transform(self.frame, frame)[:3, 3]
         color = self.color if self.color is not None else "k"
+        from .plot_utils import plot_sphere
         return plot_sphere(
             ax, self.radius, center, wireframe=wireframe, alpha=alpha,
             color=color)
@@ -786,6 +787,7 @@ class Cylinder(Geometry):
         """Plot cylinder."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
+        from .plot_utils import plot_cylinder
         return plot_cylinder(
             ax, self.length, self.radius, 0.0, A2B, wireframe=wireframe,
             alpha=alpha, color=color)
@@ -817,6 +819,7 @@ class Mesh(Geometry):
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
         """Plot mesh."""
+        from .plot_utils import plot_mesh
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         return plot_mesh(
