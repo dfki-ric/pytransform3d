@@ -119,7 +119,7 @@ class LabeledFrame(Frame):
         self.y_label = Text3D(0, 0, 0, text="", zdir="x")
         self.z_label = Text3D(0, 0, 0, text="", zdir="x")
         super(LabeledFrame, self).__init__(
-            A2B, label=None, s=1.0, **kwargs)
+            A2B, label=label, s=s, **kwargs)
 
     def set_data(self, A2B, label=None):
         """Set the transformation data.
