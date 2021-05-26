@@ -51,13 +51,13 @@ class UrdfTransformManager(TransformManager):
 
         Parameters
         ----------
-        joint_name : string
+        joint_name : str
             Name of the joint
 
-        from_frame : string
+        from_frame : Hashable
             Child link of the joint
 
-        to_frame : string
+        to_frame : Hashable
             Parent link of the joint
 
         child2parent : array-like, shape (4, 4)
@@ -85,7 +85,7 @@ class UrdfTransformManager(TransformManager):
 
         Parameters
         ----------
-        joint_name : string
+        joint_name : str
             Name of the joint
 
         value : float
@@ -117,7 +117,7 @@ class UrdfTransformManager(TransformManager):
 
         Parameters
         ----------
-        joint_name : string
+        joint_name : str
             Name of the joint
 
         Returns
@@ -160,7 +160,7 @@ class UrdfTransformManager(TransformManager):
 
         Parameters
         ----------
-        frame : string
+        frame : Hashable
             Reference frame
 
         ax : Matplotlib 3d axis, optional (default: None)
@@ -199,7 +199,7 @@ class UrdfTransformManager(TransformManager):
 
         Parameters
         ----------
-        frame : string
+        frame : Hashable
             Reference frame
 
         ax : Matplotlib 3d axis, optional (default: None)
@@ -239,7 +239,7 @@ class UrdfTransformManager(TransformManager):
         objects : list
             Objects that will be plotted
 
-        frame : string
+        frame : Hashable
             Reference frame
 
         ax : Matplotlib 3d axis, optional (default: None)
@@ -675,22 +675,22 @@ class Joint(object):
 
     Attributes
     ----------
-    child : string
+    child : str
         Name of the child
 
-    parent : string
+    parent : str
         Name of the parent frame
 
     child2parent : array-like, shape (4, 4)
         Transformation from child to parent
 
-    joint_name : string
+    joint_name : str
         Name of the joint that defines the transformation
 
     joint_axis : array-like, shape (3,)
         Rotation axis of the joint (defined in the child frame)
 
-    joint_type : string
+    joint_type : str
         Either 'fixed' or 'revolute'
 
     limits : pair of float

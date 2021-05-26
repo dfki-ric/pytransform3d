@@ -2,45 +2,49 @@ import numpy as np
 import numpy.typing as npt
 import scipy.sparse as sp
 from mpl_toolkits.mplot3d import Axes3D
-from typing import Dict, Tuple, List, Union, Set
+from typing import Dict, Tuple, List, Union, Set, Hashable
 
 
 class TransformManager(object):
     strict_check: bool
     check: bool
-    transforms: Dict[Tuple[str, str], np.ndarray]
-    nodes: List[str]
+    transforms: Dict[Tuple[Hashable, Hashable], np.ndarray]
+    nodes: List[Hashable]
     i: List[int]
     j: List[int]
-    transform_to_ij_index = Dict[Tuple[str, str], int]
+    transform_to_ij_index = Dict[Tuple[Hashable, Hashable], int]
     connections: sp.csr_matrix
     dist: np.ndarray
     predecessors: np.ndarray
-    _cached_shortest_paths: Dict[Tuple[int, int], List[str]]
+    _cached_shortest_paths: Dict[Tuple[int, int], List[Hashable]]
 
     def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 
-    def add_transform(self, from_frame: str, to_frame: str,
+    def add_transform(self, from_frame: Hashable, to_frame: Hashable,
                       A2B: np.ndarray) -> "TransformManager": ...
 
     def remove_transform(
-            self, from_frame: str, to_frame: str) -> "TransformManager": ...
+            self, from_frame: Hashable,
+            to_frame: Hashable) -> "TransformManager": ...
 
-    def has_frame(self, frame: str) -> bool: ...
+    def has_frame(self, frame: Hashable) -> bool: ...
 
-    def get_transform(self, from_frame: str, to_frame: str) -> np.ndarray: ...
+    def get_transform(self, from_frame: Hashable,
+                      to_frame: Hashable) -> np.ndarray: ...
 
     def plot_frames_in(
-            self, frame: str, ax: Union[None, Axes3D] = ...,
+            self, frame: Hashable, ax: Union[None, Axes3D] = ...,
             s: float = ..., ax_s: float = ..., show_name: bool = ...,
             whitelist: Union[List[str], None] = ..., **kwargs) -> Axes3D: ...
 
     def plot_connections_in(
-            self, frame: str, ax: Union[None, Axes3D] = ..., ax_s: float = ...,
-            whitelist: Union[List[str], None] = ..., **kwargs) -> Axes3D: ...
+            self, frame: Hashable, ax: Union[None, Axes3D] = ...,
+            ax_s: float = ...,
+            whitelist: Union[List[Hashable], None] = ...,
+            **kwargs) -> Axes3D: ...
 
     def _whitelisted_nodes(
-            self, whitelist: Union[None, List[str]]) -> Set[str]: ...
+            self, whitelist: Union[None, List[Hashable]]) -> Set[Hashable]: ...
 
     def check_consistency(self) -> bool: ...
 
@@ -52,4 +56,4 @@ class TransformManager(object):
 
     def _shortest_path(self, i: int, j: int) -> List[str]: ...
 
-    def _path_transform(self, path: List[str]) -> np.ndarray: ...
+    def _path_transform(self, path: List[Hashable]) -> np.ndarray: ...

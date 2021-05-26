@@ -3,11 +3,11 @@ import numpy.typing as npt
 from mpl_toolkits.mplot3d import Axes3D
 from bs4.element import Tag
 from transform_manager import TransformManager
-from typing import Dict, Tuple, List, Any, Union, Type
+from typing import Dict, Tuple, List, Any, Union, Type, Hashable
 
 
 class UrdfTransformManager(TransformManager):
-    _joints: Dict[str, Tuple[str, str, np.ndarray, np.ndarray,
+    _joints: Dict[str, Tuple[Hashable, Hashable, np.ndarray, np.ndarray,
                              Tuple[float, float], str]]
     collision_objects: List[Any]
     visuals: List[Any]
@@ -15,7 +15,7 @@ class UrdfTransformManager(TransformManager):
     def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 
     def add_joint(
-            self, joint_name: str, from_frame: str, to_frame: str,
+            self, joint_name: str, from_frame: Hashable, to_frame: Hashable,
             child2parent: npt.ArrayLike, axis: npt.ArrayLike,
             limits: Tuple[float, float] = ...,
             joint_type: str = ...): ...
@@ -28,17 +28,17 @@ class UrdfTransformManager(TransformManager):
                   package_dir: Union[None, str] = ...): ...
 
     def plot_visuals(
-            self, frame: str, ax: Union[None, Axes3D] = ..., ax_s: float = ...,
-            wireframe: bool = ..., convex_hull_of_mesh: bool = ...,
-            alpha: float = ...): ...
+            self, frame: Hashable, ax: Union[None, Axes3D] = ...,
+            ax_s: float = ..., wireframe: bool = ...,
+            convex_hull_of_mesh: bool = ..., alpha: float = ...): ...
 
     def plot_collision_objects(
-            self, frame: str, ax: Union[None, Axes3D] = ..., ax_s: float = ...,
-            wireframe: bool = ..., convex_hull_of_mesh: bool = ...,
-            alpha: float = ...): ...
+            self, frame: Hashable, ax: Union[None, Axes3D] = ...,
+            ax_s: float = ..., wireframe: bool = ...,
+            convex_hull_of_mesh: bool = ..., alpha: float = ...): ...
 
     def _plot_objects(
-            self, objects, frame: str, ax: Union[None, Axes3D] = ...,
+            self, objects, frame: Hashable, ax: Union[None, Axes3D] = ...,
             ax_s: float = ..., wireframe: bool = ...,
             convex_hull_of_mesh: bool = ..., alpha: float = ...): ...
 
@@ -74,7 +74,7 @@ class Geometry(object):
 
     def parse(self, xml: Tag): ...
 
-    def plot(self, tm: UrdfTransformManager, frame: str,
+    def plot(self, tm: UrdfTransformManager, frame: Hashable,
              ax: Union[None, Axes3D] = ..., alpha: float = ...,
              wireframe: bool = ..., convex_hull: bool = ...): ...
 
