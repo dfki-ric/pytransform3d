@@ -1,8 +1,8 @@
 import numpy as np
+from nose import SkipTest
 try:
     import matplotlib
 except ImportError:
-    from nose import SkipTest
     raise SkipTest("matplotlib is required for these tests")
 from pytransform3d.plot_utils import (
     make_3d_axis, remove_frame, Frame, LabeledFrame, Trajectory,
