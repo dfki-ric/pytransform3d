@@ -138,9 +138,9 @@ def test_whitelist():
     tm.add_transform("A", "B", A2B)
 
     nodes = tm._whitelisted_nodes(None)
-    assert_equal(set(["A", "B"]), nodes)
-    nodes = tm._whitelisted_nodes("A")
-    assert_equal(set(["A"]), nodes)
+    assert_equal({"A", "B"}, nodes)
+    nodes = tm._whitelisted_nodes(["A"])
+    assert_equal({"A"}, nodes)
     assert_raises_regexp(KeyError, "unknown nodes", tm._whitelisted_nodes, "C")
 
 

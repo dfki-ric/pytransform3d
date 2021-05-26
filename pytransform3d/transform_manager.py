@@ -77,11 +77,11 @@ class TransformManager(object):
 
         Parameters
         ----------
-        from_frame : str
+        from_frame : Hashable
             Name of the frame for which the transformation is added in the
             to_frame coordinate system
 
-        to_frame : str
+        to_frame : Hashable
             Name of the frame in which the transformation is defined
 
         A2B : array-like, shape (4, 4)
@@ -124,11 +124,11 @@ class TransformManager(object):
 
         Parameters
         ----------
-        from_frame : str
+        from_frame : Hashable
             Name of the frame for which the transformation is added in the
             to_frame coordinate system
 
-        to_frame : str
+        to_frame : Hashable
             Name of the frame in which the transformation is defined
 
         Returns
@@ -161,7 +161,7 @@ class TransformManager(object):
 
         Parameters
         ----------
-        frame : str
+        frame : Hashable
             Frame name
 
         Returns
@@ -176,11 +176,11 @@ class TransformManager(object):
 
         Parameters
         ----------
-        from_frame : str
+        from_frame : Hashable
             Name of the frame for which the transformation is requested in the
             to_frame coordinate system
 
-        to_frame : str
+        to_frame : Hashable
             Name of the frame in which the transformation is defined
 
         Returns
@@ -239,7 +239,7 @@ class TransformManager(object):
 
         Parameters
         ----------
-        frame : str
+        frame : Hashable
             Reference frame
 
         ax : Matplotlib 3d axis, optional (default: None)
@@ -294,7 +294,7 @@ class TransformManager(object):
 
         Parameters
         ----------
-        frame : str
+        frame : Hashable
             Reference frame
 
         ax : Matplotlib 3d axis, optional (default: None)
