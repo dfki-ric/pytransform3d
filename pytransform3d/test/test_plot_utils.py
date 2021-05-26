@@ -145,6 +145,10 @@ def test_plot_cylinder_wireframe():
 
 
 def test_plot_mesh():
+    try:
+        import trimesh
+    except ImportError:
+        raise SkipTest("trimesh is required for this test")
     ax = make_3d_axis(1.0)
     try:
         plot_mesh(ax, filename="test/test_data/cone.stl", wireframe=False)
@@ -154,6 +158,10 @@ def test_plot_mesh():
 
 
 def test_plot_mesh_wireframe():
+    try:
+        import trimesh
+    except ImportError:
+        raise SkipTest("trimesh is required for this test")
     ax = make_3d_axis(1.0)
     try:
         plot_mesh(ax, filename="test/test_data/cone.stl", wireframe=True)
