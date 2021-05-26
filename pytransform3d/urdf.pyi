@@ -79,16 +79,22 @@ class Geometry(object):
              wireframe: bool = ..., convex_hull: bool = ...): ...
 
 
-class Box(Geometry): ...
+class Box(Geometry):
+    size: np.ndarray
 
 
-class Sphere(Geometry): ...
+class Sphere(Geometry):
+    radius: float
 
 
-class Cylinder(Geometry): ...
+class Cylinder(Geometry):
+    radius: float
+    length: float
 
 
-class Mesh(Geometry): ...
+class Mesh(Geometry):
+    filename: Union[None, str]
+    scale: np.ndarray
 
 
 class UrdfException(Exception): ...
