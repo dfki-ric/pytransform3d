@@ -86,6 +86,10 @@ from ._testing import (
     assert_compact_axis_angle_equal, assert_euler_xyz_equal,
     assert_euler_zyx_equal, assert_rotation_matrix)
 from ._plot import plot_basis, plot_axis_angle
+from ._rotors import (
+    wedge, geometric_product, rotor_apply, rotor_reverse, norm_rotor,
+    concatenate_rotors, rotor_from_plane_angle, rotor_from_two_vectors,
+    matrix_from_rotor)
 
 __all__ = [
     "eps",
@@ -211,5 +215,16 @@ __all__ = [
     "assert_euler_zyx_equal",
     "assert_rotation_matrix",
     "plot_basis",
-    "plot_axis_angle"
+    "plot_axis_angle",
+    "wedge",
+    "geometric_product",
+    "wedge",
+    "geometric_product",
+    "rotor_apply",
+    "rotor_reverse",
+    "norm_rotor",
+    "concatenate_rotors",
+    "rotor_from_plane_angle",
+    "rotor_from_two_vectors",
+    "matrix_from_rotor"
 ]

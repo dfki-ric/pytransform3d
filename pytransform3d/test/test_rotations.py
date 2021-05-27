@@ -1639,3 +1639,28 @@ def test_axis_angle_from_matrix_without_check():
         a = pr.axis_angle_from_matrix(R, check=False)
     assert_equal(len(w), 1)
     assert_true(all(np.isnan(a[:3])))
+
+
+def test_outer():
+    random_state = np.random.RandomState(82)
+    for _ in range(5):
+        a = random_state.randn(3)
+        Zero = pr.wedge(a, a)
+        assert_array_almost_equal(Zero, np.zeros(3))
+
+        b = random_state.randn(3)
+        A = pr.wedge(a, b)
+        B = pr.wedge(b, a)
+        assert_array_almost_equal(A, -B)
+
+
+def test_geometric_product():
+    random_state = np.random.RandomState(83)
+    for _ in range(5):
+        a = random_state.randn(3)
+        a2a = pr.geometric_product(a, 2 * a)
+        assert_array_almost_equal(a2a, np.array([np.dot(a, 2 * a), 0, 0, 0]))
+
+        b = pr.perpendicular_to_vector(a)
+        ab = pr.geometric_product(a, b)
+        assert_array_almost_equal(ab, np.hstack(((0.0,), pr.wedge(a, b))))
