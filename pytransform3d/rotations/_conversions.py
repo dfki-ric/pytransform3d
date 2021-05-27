@@ -93,7 +93,7 @@ def matrix_from_axis_angle(a):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     a = check_axis_angle(a)
@@ -228,7 +228,7 @@ def active_matrix_from_angle(basis, angle):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     c = np.cos(angle)
