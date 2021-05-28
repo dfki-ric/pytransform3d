@@ -78,23 +78,6 @@ def rotor_reverse(rotor):  # TODO test, type hints, sphinx
     return np.hstack(((rotor[0],), -rotor[1:]))
 
 
-def norm_rotor(rotor):  # TODO test, type hints, sphinx
-    """Normalize rotor.
-
-    Parameters
-    ----------
-    rotor : array-like, shape (4,)
-        Rotor
-
-    Returns
-    -------
-    norm_rotor : array, shape (4,)
-        Normalized rotor
-    """
-    # TODO check input
-    return norm_vector(rotor)
-
-
 def matrix_from_rotor(rotor):  # TODO test, type hints, sphinx, move to conversions
     """Compute rotation matrix from rotor.
 
