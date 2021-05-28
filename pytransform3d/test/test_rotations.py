@@ -1666,8 +1666,18 @@ def test_geometric_product():
         assert_array_almost_equal(ab, np.hstack(((0.0,), pr.wedge(a, b))))
 
 
-def test_rotor_times_reverse():
+def test_rotor_from_two_vectors():
     random_state = np.random.RandomState(84)
+    for _ in range(5):
+        a = pr.norm_vector(random_state.randn(3))
+        b = pr.norm_vector(random_state.randn(3))
+        rotor = pr.rotor_from_two_vectors(a, b)
+        b2 = pr.rotor_apply(rotor, a)
+        assert_array_almost_equal(b, b2)
+
+
+def test_rotor_times_reverse():
+    random_state = np.random.RandomState(85)
     for _ in range(5):
         a = random_state.randn(3)
         b = random_state.randn(3)
