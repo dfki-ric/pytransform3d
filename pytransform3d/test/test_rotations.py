@@ -1664,3 +1664,14 @@ def test_geometric_product():
         b = pr.perpendicular_to_vector(a)
         ab = pr.geometric_product(a, b)
         assert_array_almost_equal(ab, np.hstack(((0.0,), pr.wedge(a, b))))
+
+
+def test_rotor_times_reverse():
+    random_state = np.random.RandomState(84)
+    for _ in range(5):
+        a = random_state.randn(3)
+        b = random_state.randn(3)
+        rotor = pr.rotor_from_two_vectors(a, b)
+        rotor_reverse = pr.rotor_reverse(rotor)
+        result = pr.concatenate_rotors(rotor, rotor_reverse)
+        assert_array_almost_equal(result, [1, 0, 0, 0])
