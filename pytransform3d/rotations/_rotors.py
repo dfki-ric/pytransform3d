@@ -147,30 +147,27 @@ def rotor_apply(rotor, v):  # TODO test, type hints, sphinx
         Rotated vector
     """
     # TODO check input
-    a = rotor[0]
-    b01 = rotor[1]
-    b02 = rotor[2]
-    b12 = rotor[3]
+    # q = R x
+    q = rotor[0] * v
+    q[0] += v[1] * rotor[1] + v[2] * rotor[2]
+    q[1] += -v[0] * rotor[1] + v[2] * rotor[3]
+    q[2] += -v[0] * rotor[2] - v[1] * rotor[3]
 
-    # q = P x
-    q = np.empty(3)
-    q[0] = a * v[0] + v[1] * b01 + v[2] * b02
-    q[1] = a * v[1] - v[0] * b01 + v[2] * b12
-    q[2] = a * v[2] - v[0] * b02 - v[1] * b12
+    q012 = v[0] * rotor[3] - v[1] * rotor[2] + v[2] * rotor[1]
 
-    q012 = v[0] * b12 - v[1] * b02 + v[2] * b01
-
-    # r = q P *
-    r = np.empty(3)
-    r[0] = a * q[0] + q[1] * b01 + q[2] * b02 + q012 * b12
-    r[1] = a * q[1] - q[0] * b01 - q012 * b02 + q[2] * b12
-    r[2] = a * q[2] + q012 * b01 - q[0] * b02 - q[1] * b12
+    # r = q R *
+    r = rotor[0] * q
+    r[0] += np.dot(np.array([q[1], q[2], q012]), rotor[1:])
+    r[1] += np.dot(np.array([-q[0], -q012, q[2]]), rotor[1:])
+    r[2] += np.dot(np.array([q012, -q[0], -q[1]]), rotor[1:])
 
     return r
 
 
 def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move to conversions
     r"""Compute rotor from two vectors.
+
+    Construct the rotor that rotates one vector to another.
 
     Parameters
     ----------
@@ -186,9 +183,8 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
         Rotor
     """
     # TODO check input
-    a = 1.0 + np.dot(v_from, v_to)
-    minus = wedge(v_to, v_from)
-    return norm_vector(np.hstack(((a,), minus)))
+    return norm_vector(np.hstack(
+        ((1.0 + np.dot(v_to, v_from),), wedge(v_to, v_from))))
 
 
 def rotor_from_plane_angle(p):  # TODO test, type hints, sphinx, move to conversions
