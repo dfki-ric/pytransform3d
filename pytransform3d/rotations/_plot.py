@@ -121,29 +121,29 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
     return ax
 
 
-def plot_wedge(ax=None, a=None, b=None, ax_s=1, **kwargs):  # TODO type hints, sphinx
-    """Plot bivector from wedge product of two vectors.
+def plot_bivector(ax=None, a=None, b=None, ax_s=1):  # TODO type hints, sphinx
+    """Plot bivector from wedge product of two vectors a and b.
 
     Parameters
     ----------
     ax : Matplotlib 3d axis, optional (default: None)
         If the axis is None, a new 3d axis will be created
 
-    a : TODO
-    b : TODO
+    a : array-like, shape (3,), optional (default: [1, 0, 0])
+        Vector
+
+    b : array-like, shape (3,), optional (default: [0, 1, 0])
+        Vector
 
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
-
-    kwargs : dict, optional (default: {})
-        Additional arguments for the plotting functions, e.g. alpha
 
     Returns
     -------
     ax : Matplotlib 3d axis
         New or old axis
     """
-    from ..plot_utils import make_3d_axis, plot_vector
+    from ..plot_utils import make_3d_axis, Arrow3D
     if ax is None:
         ax = make_3d_axis(ax_s)
 
@@ -162,6 +162,19 @@ def plot_wedge(ax=None, a=None, b=None, ax_s=1, **kwargs):  # TODO type hints, s
     a_yz = np.array([0, a[1], a[2]])
     b_yz = np.array([0, b[1], b[2]])
     _plot_parallelogram(ax, a_yz, b_yz, "#00ffff", 0.5)
+
+    angle = angle_between_vectors(a, b)
+    arc = np.empty((100, 3))
+    for i, t in enumerate(np.linspace(0, angle, len(arc))):
+        w1, w2 = slerp_weights(angle, t)
+        arc[i] = 0.5 * (w1 * a + w2 * b)
+    ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=2)
+
+    arrow_coords = np.vstack((arc[-6], arc[-6] + 10 * (arc[-1] - arc[-3]))).T
+    angle_arrow = Arrow3D(
+        arrow_coords[0], arrow_coords[1], arrow_coords[2],
+        mutation_scale=20, lw=2, arrowstyle="-|>", color="k")
+    ax.add_artist(angle_arrow)
 
     return ax
 
