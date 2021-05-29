@@ -85,7 +85,7 @@ from ._testing import (
     assert_quaternion_equal, assert_axis_angle_equal,
     assert_compact_axis_angle_equal, assert_euler_xyz_equal,
     assert_euler_zyx_equal, assert_rotation_matrix)
-from ._plot import plot_basis, plot_axis_angle
+from ._plot import plot_basis, plot_axis_angle, plot_wedge
 from ._rotors import (
     wedge, geometric_product, rotor_apply, rotor_reverse, concatenate_rotors,
     rotor_from_plane_angle, rotor_from_two_vectors, matrix_from_rotor)
@@ -224,5 +224,6 @@ __all__ = [
     "concatenate_rotors",
     "rotor_from_plane_angle",
     "rotor_from_two_vectors",
-    "matrix_from_rotor"
+    "matrix_from_rotor",
+    "plot_wedge"
 ]
