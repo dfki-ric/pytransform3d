@@ -316,9 +316,34 @@ information.
 * Concatenation and transformation of vectors requires conversion to rotation
   matrix or quaternion
 
+
+------
+Rotors
+------
+
+TODO
+
+The rotors :math:`R` and :math:`-R` represent the same absolute rotation,
+but with different orientation.
+
+**Pros**
+
+* More compact than the matrix representation.
+* Concatenation is simple and computationally cheaper than with rotation
+  matrices.
+* No singularities.
+* Renormalization is cheap in comparison to rotation matrices: we only
+  have to divide by the norm of the rotor.
+
+**Cons**
+
+* The representation is not straightforward to interpret
+
 ----------
 References
 ----------
 
 * Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
 * Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+* Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
+* Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
