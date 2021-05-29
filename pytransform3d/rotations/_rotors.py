@@ -25,9 +25,9 @@ def wedge(a, b):  # TODO type hints, sphinx
     """
     # TODO check inputs
     return np.array([
-        a[0] * b[1] - a[1] * b[0],  # x wedge y
-        a[0] * b[2] - a[2] * b[0],  # x wedge z
-        a[1] * b[2] - a[2] * b[1]   # y wedge z
+        a[0] * b[1] - a[1] * b[0],  # xy plane
+        a[0] * b[2] - a[2] * b[0],  # xz plane
+        a[1] * b[2] - a[2] * b[1]   # yz plane
     ])
 
 
@@ -172,10 +172,10 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
     Parameters
     ----------
     v_from : array-like, shape (3,)
-        Vector
+        Unit vector (will be normalized internally)
 
     v_to : array-like, shape (3,)
-        Vector
+        Unit vector (will be normalized internally)
 
     Returns
     -------
@@ -183,7 +183,7 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
         Rotor
     """
     # TODO check input
-    v_from = norm_vector(v_from)  # TODO why is this necessary?
+    v_from = norm_vector(v_from)
     v_to = norm_vector(v_to)
     return norm_vector(np.hstack(
         ((1.0 + np.dot(v_to, v_from),), wedge(v_to, v_from))))

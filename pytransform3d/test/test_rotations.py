@@ -1666,6 +1666,24 @@ def test_geometric_product():
         assert_array_almost_equal(ab, np.hstack(((0.0,), pr.wedge(a, b))))
 
 
+def test_geometric_product_creates_rotor_that_rotates_by_double_angle():
+    random_state = np.random.RandomState(83)
+    for _ in range(5):
+        a_unit = pr.norm_vector(random_state.randn(3))
+        b_unit = pr.norm_vector(random_state.randn(3))
+        # a geometric product of two unit vectors is a rotor
+        ab = pr.geometric_product(a_unit, b_unit)
+        assert_almost_equal(np.linalg.norm(ab), 1.0)
+
+        angle = pr.angle_between_vectors(a_unit, b_unit)
+        c = pr.rotor_apply(ab, a_unit)
+        double_angle = pr.angle_between_vectors(a_unit, c)
+
+        assert_almost_equal(
+            abs(pr.norm_angle(2.0 * angle)),
+            abs(pr.norm_angle(double_angle)))
+
+
 def test_rotor_from_two_vectors():
     random_state = np.random.RandomState(84)
     for _ in range(5):
