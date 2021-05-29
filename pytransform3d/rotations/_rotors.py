@@ -183,6 +183,8 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
         Rotor
     """
     # TODO check input
+    v_from = norm_vector(v_from)  # TODO why is this necessary?
+    v_to = norm_vector(v_to)
     return norm_vector(np.hstack(
         ((1.0 + np.dot(v_to, v_from),), wedge(v_to, v_from))))
 

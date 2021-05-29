@@ -1669,11 +1669,12 @@ def test_geometric_product():
 def test_rotor_from_two_vectors():
     random_state = np.random.RandomState(84)
     for _ in range(5):
-        a = pr.norm_vector(random_state.randn(3))
-        b = pr.norm_vector(random_state.randn(3))
+        a = random_state.randn(3)
+        b = random_state.randn(3)
         rotor = pr.rotor_from_two_vectors(a, b)
         b2 = pr.rotor_apply(rotor, a)
-        assert_array_almost_equal(b, b2)
+        assert_array_almost_equal(pr.norm_vector(b), pr.norm_vector(b2))
+        assert_array_almost_equal(np.linalg.norm(a), np.linalg.norm(b2))
 
 
 def test_rotor_times_reverse():
