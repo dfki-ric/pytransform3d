@@ -1704,3 +1704,39 @@ def test_rotor_times_reverse():
         rotor_reverse = pr.rotor_reverse(rotor)
         result = pr.concatenate_rotors(rotor, rotor_reverse)
         assert_array_almost_equal(result, [1, 0, 0, 0])
+
+
+def test_rotor_slerp():
+    random_state = np.random.RandomState(86)
+    for _ in range(5):
+        a_unit = pr.norm_vector(random_state.randn(3))
+        b_unit = pr.norm_vector(random_state.randn(3))
+        rotor1 = pr.rotor_from_two_vectors(a_unit, b_unit)
+
+        axis = pr.norm_vector(np.cross(a_unit, b_unit))
+        angle = pr.angle_between_vectors(a_unit, b_unit)
+        q1 = pr.quaternion_from_axis_angle(np.r_[axis, angle])
+
+        c_unit = pr.norm_vector(random_state.randn(3))
+        d_unit = pr.norm_vector(random_state.randn(3))
+        rotor2 = pr.rotor_from_two_vectors(c_unit, d_unit)
+
+        axis = pr.norm_vector(np.cross(c_unit, d_unit))
+        angle = pr.angle_between_vectors(c_unit, d_unit)
+        q2 = pr.quaternion_from_axis_angle(np.r_[axis, angle])
+
+        rotor_025 = pr.rotor_slerp(rotor1, rotor2, 0.25)
+        q_025 = pr.quaternion_slerp(q1, q2, 0.25)
+
+        e = random_state.randn(3)
+        assert_array_almost_equal(
+            pr.rotor_apply(rotor_025, e),
+            pr.q_prod_vector(q_025, e))
+
+        rotor_075 = pr.rotor_slerp(rotor1, rotor2, 0.25)
+        q_075 = pr.quaternion_slerp(q1, q2, 0.25)
+
+        e = random_state.randn(3)
+        assert_array_almost_equal(
+            pr.rotor_apply(rotor_075, e),
+            pr.q_prod_vector(q_075, e))
