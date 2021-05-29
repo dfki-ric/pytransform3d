@@ -119,3 +119,59 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
         ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k")
 
     return ax
+
+
+def plot_wedge(ax=None, a=None, b=None, ax_s=1, **kwargs):  # TODO type hints, sphinx
+    """Plot bivector from wedge product of two vectors.
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis, optional (default: None)
+        If the axis is None, a new 3d axis will be created
+
+    a : TODO
+    b : TODO
+
+    ax_s : float, optional (default: 1)
+        Scaling of the new matplotlib 3d axis
+
+    kwargs : dict, optional (default: {})
+        Additional arguments for the plotting functions, e.g. alpha
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
+    """
+    from ..plot_utils import make_3d_axis, plot_vector
+    if ax is None:
+        ax = make_3d_axis(ax_s)
+
+    if a is None:
+        a = np.array([1, 0, 0])
+    if b is None:
+        b = np.array([0, 1, 0])
+
+    _plot_parallelogram(ax, a, b, "#aaaaaa", 0.5)
+    a_xy = np.array([a[0], a[1], 0])
+    b_xy = np.array([b[0], b[1], 0])
+    _plot_parallelogram(ax, a_xy, b_xy, "#ffff00", 0.5)
+    a_xz = np.array([a[0], 0, a[2]])
+    b_xz = np.array([b[0], 0, b[2]])
+    _plot_parallelogram(ax, a_xz, b_xz, "#ff00ff", 0.5)
+    a_yz = np.array([0, a[1], a[2]])
+    b_yz = np.array([0, b[1], b[2]])
+    _plot_parallelogram(ax, a_yz, b_yz, "#00ffff", 0.5)
+
+    return ax
+
+
+def _plot_parallelogram(ax, a, b, color, alpha):
+    from ..plot_utils import plot_vector
+    from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+    plot_vector(ax, start=np.zeros(3), direction=a, color=color, alpha=alpha)
+    plot_vector(ax, start=np.zeros(3), direction=b, color=color, alpha=alpha)
+    parallelogram = Poly3DCollection(np.vstack((np.zeros(3), a, b, a + b)))
+    parallelogram.set_facecolor(color)
+    parallelogram.set_alpha(alpha)
+    ax.add_collection3d(parallelogram)
