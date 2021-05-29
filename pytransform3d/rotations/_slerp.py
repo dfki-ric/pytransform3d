@@ -47,7 +47,7 @@ def quaternion_slerp(start, end, t):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Interpolated unit quaternion to represent rotation: (w, x, y, z)
     """
     start = check_quaternion(start)
@@ -55,6 +55,30 @@ def quaternion_slerp(start, end, t):
     angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return w1 * start + w2 * end
+
+
+def rotor_slerp(start, end, t):  # type hints, sphinx
+    """Spherical linear interpolation.
+
+    Parameters
+    ----------
+    start : array-like, shape (4,)
+        Rotor: (a, b01, b02, b12)
+
+    end : array-like, shape (4,)
+        Rotor: (a, b01, b02, b12)
+
+    t : float in [0, 1]
+        Position between start and goal
+
+    Returns
+    -------
+    rotor : array, shape (4,)
+        Interpolated rotor: (a, b01, b02, b12)
+    """
+    # SLERP for rotors is the same as for quaternions as both are
+    # 4D vectors with unit length
+    return quaternion_slerp(start, end, t)
 
 
 def slerp_weights(angle, t):
