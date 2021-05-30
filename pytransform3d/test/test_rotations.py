@@ -1773,3 +1773,18 @@ def test_rotor_from_plane_angle():
             pr.rotor_apply(rotor, v),
             pr.q_prod_vector(q, v)
         )
+
+
+def test_matrix_from_rotor():
+    random_state = np.random.RandomState(88)
+    for _ in range(5):
+        a = random_state.randn(3)
+        b = random_state.randn(3)
+        B = pr.wedge(a, b)
+        angle = 2 * np.pi * random_state.rand()
+        axis = np.cross(a, b)
+        rotor = pr.rotor_from_plane_angle(B, angle)
+        R_rotor = pr.matrix_from_rotor(rotor)
+        q = pr.quaternion_from_axis_angle(np.r_[axis, angle])
+        R_q = pr.matrix_from_quaternion(q)
+        assert_array_almost_equal(R_rotor, R_q)
