@@ -1660,6 +1660,16 @@ def test_outer():
         )
 
 
+def test_plane_normal_from_bivector():
+    random_state = np.random.RandomState(82)
+    for _ in range(5):
+        a = random_state.randn(3)
+        b = random_state.randn(3)
+        B = pr.wedge(a, b)
+        n = pr.plane_normal_from_bivector(B)
+        assert_array_almost_equal(n, pr.norm_vector(np.cross(a, b)))
+
+
 def test_geometric_product():
     random_state = np.random.RandomState(83)
     for _ in range(5):
