@@ -21,6 +21,33 @@ that are available in pytransform3d.
    :width: 50%
    :align: center
 
+Not all representations support all operations directly without conversion to
+another representation. The following table is an overview. If the operation
+is not implemented in pytransform3d then it is shown in brackets.
+
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Representation                         | Inverse       | Rotation of vector | Concatenation | Interpolation |
++========================================+===============+====================+===============+===============+
+| Rotation matrix                        | Transpose     | Yes                | Yes           | No            |
+| :math:`\pmb{R}`                        |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Compact axis-angle                     | Negative      | No                 | No            | (Yes)         |
+| :math:`\pmb{\omega}`                   |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Axis-angle                             | Negative axis | No                 | No            | Yes           |
+| :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Logarithm of rotation                  | Negative      | No                 | No            | (Yes)         |
+| :math:`\left[\pmb{\omega}\right]`      |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Quaternion                             | Conjugate     | Yes                | Yes           | Yes           |
+| :math:`\pmb{q}`                        |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Rotor                                  | Reverse       | Yes                | Yes           | Yes           |
+| :math:`R`                              |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+
+
 ---------------
 Rotation Matrix
 ---------------
