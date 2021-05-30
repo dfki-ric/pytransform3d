@@ -189,6 +189,7 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
         ((1.0 + np.dot(v_to, v_from),), wedge(v_to, v_from))))
 
 
+# TODO pass plane and angle separately
 def rotor_from_plane_angle(p):  # TODO test, type hints, sphinx, move to conversions
     r"""Compute rotor from plane bivector and angle.
 
