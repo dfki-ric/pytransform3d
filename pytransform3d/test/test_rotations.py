@@ -1756,3 +1756,20 @@ def test_rotor_slerp():
         assert_array_almost_equal(
             pr.rotor_apply(rotor_075, e),
             pr.q_prod_vector(q_075, e))
+
+
+def test_rotor_from_plane_angle():
+    random_state = np.random.RandomState(87)
+    for _ in range(5):
+        a = random_state.randn(3)
+        b = random_state.randn(3)
+        B = pr.wedge(a, b)
+        angle = 2 * np.pi * random_state.rand()
+        axis = np.cross(a, b)
+        rotor = pr.rotor_from_plane_angle(B, angle)
+        q = pr.quaternion_from_axis_angle(np.r_[axis, angle])
+        v = random_state.randn(3)
+        assert_array_almost_equal(
+            pr.rotor_apply(rotor, v),
+            pr.q_prod_vector(q, v)
+        )

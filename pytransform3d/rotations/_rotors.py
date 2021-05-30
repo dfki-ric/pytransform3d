@@ -45,6 +45,7 @@ def plane_normal_from_bivector(B):
     n : array, shape (3,)
         Unit normal of the corresponding plane: (x, y, z)
     """
+    # TODO check input
     return norm_vector(np.array([B[2], -B[1], B[0]]))
 
 
@@ -207,15 +208,17 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
         ((1.0 + np.dot(v_to, v_from),), wedge(v_to, v_from))))
 
 
-# TODO pass plane and angle separately
-def rotor_from_plane_angle(p):  # TODO test, type hints, sphinx, move to conversions
+def rotor_from_plane_angle(B, angle):  # TODO test, type hints, sphinx, move to conversions
     r"""Compute rotor from plane bivector and angle.
 
     Parameters
     ----------
-    p : array-like, shape (4,)
-        Plane of rotation (bivector) and rotation angle:
-        (b_xy, b_xz, b_yz, angle)
+    B : array-like, shape (3,)
+        Unit bivector (b_xy, b_xz, b_yz) that represents the plane of rotation
+        (will be normalized internally)
+
+    angle : float
+        Rotation angle
 
     Returns
     -------
@@ -223,8 +226,7 @@ def rotor_from_plane_angle(p):  # TODO test, type hints, sphinx, move to convers
         Rotor: (a, b_xy, b_xz, b_yz)
     """
     # TODO check input
-    plane = p[:3]
-    angle = p[3]
     a = np.cos(angle / 2.0)
     sina = np.sin(angle / 2.0)
-    return np.hstack(((a,), -sina * plane))
+    B = norm_vector(B)
+    return np.hstack(((a,), -sina * B))
