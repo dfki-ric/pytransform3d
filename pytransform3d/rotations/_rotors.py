@@ -13,15 +13,16 @@ def wedge(a, b):  # TODO type hints, sphinx
     Parameters
     ----------
     a : array-like, shape (3,)
-        Vector
+        Vector: (x, y, z)
 
     b : array-like, shape (3,)
-        Vector
+        Vector: (x, y, z)
 
     Returns
     -------
     B : array, shape (3,)
-        Bivector that defines the plane that a and b form together
+        Bivector that defines the plane that a and b form together:
+        (b_xy, b_xz, b_yz)
     """
     # TODO check inputs
     return np.array([
@@ -63,16 +64,16 @@ def geometric_product(a, b):  # TODO type hints, sphinx
     Parameters
     ----------
     a : array-like, shape (3,)
-        Vector
+        Vector: (x, y, z)
 
     b : array-like, shape (3,)
-        Vector
+        Vector: (x, y, z)
 
     Returns
     -------
     ab : array, shape (4,)
-        A multivector composed of a scalar and a bivector that is the
-        geometric product of a and b.
+        A multivector (a, b_xy, b_xz, b_yz) composed of scalar and bivector
+        (b_xy, b_xz, b_yz) that form the geometric product of vectors a and b.
     """
     # TODO check inputs
     return np.hstack(((np.dot(a, b),), wedge(a, b)))
@@ -84,12 +85,12 @@ def rotor_reverse(rotor):  # TODO test, type hints, sphinx
     Parameters
     ----------
     rotor : array-like, shape (4,)
-        Rotor
+        Rotor: (a, b_xy, b_xz, b_yz)
 
     Returns
     -------
     reverse_rotor : array, shape (4,)
-        Reverse of the rotor
+        Reverse of the rotor: (a, b_xy, b_xz, b_yz)
     """
     # TODO check input
     return np.hstack(((rotor[0],), -rotor[1:]))
@@ -101,7 +102,7 @@ def matrix_from_rotor(rotor):  # TODO test, type hints, sphinx, move to conversi
     Parameters
     ----------
     rotor : array-like, shape (4,)
-        Rotor
+        Rotor: (a, b_xy, b_xz, b_yz)
 
     Returns
     -------
@@ -122,15 +123,15 @@ def concatenate_rotors(rotor1, rotor2):  # TODO test, type hints, sphinx, move t
     Parameters
     ----------
     rotor1 : array-like, shape (4,)
-        Rotor
+        Rotor: (a, b_xy, b_xz, b_yz)
 
     rotor2 : array-like, shape (4,)
-        Rotor
+        Rotor: (a, b_xy, b_xz, b_yz)
 
     Returns
     -------
     rotor : array, shape (4,)
-        rotor1 applied to rotor2
+        rotor1 applied to rotor2: (a, b_xy, b_xz, b_yz)
     """
     # TODO check input
     result = np.empty(4)
@@ -153,10 +154,10 @@ def rotor_apply(rotor, v):  # TODO test, type hints, sphinx
     Parameters
     ----------
     rotor : array-like, shape (4,)
-        Rotor
+        Rotor: (a, b_xy, b_xz, b_yz)
 
     v : array-like, shape (3,)
-        Vector
+        Vector: (x, y, z)
 
     Returns
     -------
@@ -197,7 +198,7 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
     Returns
     -------
     rotor : array, shape (4,)
-        Rotor
+        Rotor: (a, b_xy, b_xz, b_yz)
     """
     # TODO check input
     v_from = norm_vector(v_from)
@@ -219,7 +220,7 @@ def rotor_from_plane_angle(p):  # TODO test, type hints, sphinx, move to convers
     Returns
     -------
     rotor : array, shape (4,)
-        Rotor
+        Rotor: (a, b_xy, b_xz, b_yz)
     """
     # TODO check input
     plane = p[:3]
