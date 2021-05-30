@@ -1653,6 +1653,12 @@ def test_outer():
         B = pr.wedge(b, a)
         assert_array_almost_equal(A, -B)
 
+        c = random_state.randn(3)
+        assert_array_almost_equal(
+            pr.wedge(a, (b + c)),
+            A + pr.wedge(a, c)
+        )
+
 
 def test_geometric_product():
     random_state = np.random.RandomState(83)
