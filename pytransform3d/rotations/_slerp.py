@@ -63,10 +63,10 @@ def rotor_slerp(start, end, t):  # type hints, sphinx
     Parameters
     ----------
     start : array-like, shape (4,)
-        Rotor: (a, b_xy, b_xz, b_yz)
+        Rotor: (a, b_yz, b_zx, b_xy)
 
     end : array-like, shape (4,)
-        Rotor: (a, b_xy, b_xz, b_yz)
+        Rotor: (a, b_yz, b_zx, b_xy)
 
     t : float in [0, 1]
         Position between start and goal
@@ -74,10 +74,8 @@ def rotor_slerp(start, end, t):  # type hints, sphinx
     Returns
     -------
     rotor : array, shape (4,)
-        Interpolated rotor: (a, b_xy, b_xz, b_yz)
+        Interpolated rotor: (a, b_yz, b_zx, b_xy)
     """
-    # SLERP for rotors is the same as for quaternions as both are
-    # 4D vectors with unit length
     return quaternion_slerp(start, end, t)
 
 
