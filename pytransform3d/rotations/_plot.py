@@ -2,6 +2,7 @@
 import numpy as np
 from ._utils import (check_matrix, check_axis_angle,
                      perpendicular_to_vectors, angle_between_vectors)
+from ._rotors import wedge, plane_normal_from_bivector
 from ._constants import a_id, p0, unitx, unity
 from ._slerp import slerp_weights
 
@@ -124,6 +125,14 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
 def plot_bivector(ax=None, a=None, b=None, ax_s=1):  # TODO type hints, sphinx
     """Plot bivector from wedge product of two vectors a and b.
 
+    The two vectors will be displayed in grey together with the parallelogram
+    that they form. Each component of the bivector corresponds to the area of
+    the parallelogram projected on the basis planes. These parallelograms will
+    be shown as well. Furthermore, one black arrow will show the rotation
+    direction of the bivector and one black arrow will represent the normal of
+    the plane that can be extracted by rearranging the elements of the bivector
+    and normalizing the vector.
+
     Parameters
     ----------
     ax : Matplotlib 3d axis, optional (default: None)
@@ -143,7 +152,7 @@ def plot_bivector(ax=None, a=None, b=None, ax_s=1):  # TODO type hints, sphinx
     ax : Matplotlib 3d axis
         New or old axis
     """
-    from ..plot_utils import make_3d_axis, Arrow3D
+    from ..plot_utils import make_3d_axis, Arrow3D, plot_vector
     if ax is None:
         ax = make_3d_axis(ax_s)
 
@@ -151,6 +160,9 @@ def plot_bivector(ax=None, a=None, b=None, ax_s=1):  # TODO type hints, sphinx
         a = np.array([1, 0, 0])
     if b is None:
         b = np.array([0, 1, 0])
+
+    B = wedge(a, b)
+    normal = plane_normal_from_bivector(B)
 
     _plot_parallelogram(ax, a, b, "#aaaaaa", 0.5)
     a_xy = np.array([a[0], a[1], 0])
@@ -176,6 +188,8 @@ def plot_bivector(ax=None, a=None, b=None, ax_s=1):  # TODO type hints, sphinx
         mutation_scale=20, lw=2, arrowstyle="-|>", color="k")
     ax.add_artist(angle_arrow)
 
+    plot_vector(ax=ax, start=np.zeros(3), direction=normal, color="k")
+
     return ax
 
 
@@ -184,7 +198,8 @@ def _plot_parallelogram(ax, a, b, color, alpha):
     from mpl_toolkits.mplot3d.art3d import Poly3DCollection
     plot_vector(ax, start=np.zeros(3), direction=a, color=color, alpha=alpha)
     plot_vector(ax, start=np.zeros(3), direction=b, color=color, alpha=alpha)
-    parallelogram = Poly3DCollection(np.vstack((np.zeros(3), a, b, a + b)))
+    parallelogram = Poly3DCollection(
+        np.vstack((np.zeros(3), a, b, a + b, b, a)))
     parallelogram.set_facecolor(color)
     parallelogram.set_alpha(alpha)
     ax.add_collection3d(parallelogram)

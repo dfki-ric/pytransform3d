@@ -31,6 +31,22 @@ def wedge(a, b):  # TODO type hints, sphinx
     ])
 
 
+def plane_normal_from_bivector(B):
+    """Convert bivector to normal vector of a plane.
+
+    Parameters
+    ----------
+    B : array-like, shape (3,)
+        Bivector that defines a plane: (b_xy, b_xz, b_yz)
+
+    Returns
+    -------
+    n : array, shape (3,)
+        Unit normal of the corresponding plane: (x, y, z)
+    """
+    return norm_vector(np.array([B[2], -B[1], B[0]]))
+
+
 def geometric_product(a, b):  # TODO type hints, sphinx
     r"""Geometric product of two vectors.
 
@@ -55,7 +71,8 @@ def geometric_product(a, b):  # TODO type hints, sphinx
     Returns
     -------
     ab : array, shape (4,)
-        A scalar and a bivector that are the geometric product of a and b.
+        A multivector composed of a scalar and a bivector that is the
+        geometric product of a and b.
     """
     # TODO check inputs
     return np.hstack(((np.dot(a, b),), wedge(a, b)))
