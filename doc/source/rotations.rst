@@ -351,7 +351,16 @@ information.
 Rotors
 ------
 
-TODO
+Rotors and quaternions are very similar concepts in 3D. However, rotors are
+more general as they can be extended to more dimensions.
+
+The concept of a quaternion builds on the axis-angle representation, in
+which we rotate by an angle about a rotation axis. The axis can be computed
+from the cross product of two vectors. A rotor builds on a plane-angle
+representation, in which we rotate with a given direction by an angle in a
+plane. The plane can be computed from the wedge product of two vectors,
+which is a so-called bivector. Although both approaches might seem different,
+in 3D they operate with exactly the same numbers in exactly the same way.
 
 .. warning::
 
