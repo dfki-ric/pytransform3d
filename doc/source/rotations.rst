@@ -353,8 +353,10 @@ Rotors
 
 TODO
 
-The rotors :math:`R` and :math:`-R` represent the same absolute rotation,
-but with different orientation.
+.. warning::
+
+    The unit rotors :math:`R` and :math:`-R` represent exactly the same
+    rotation.
 
 **Pros**
 

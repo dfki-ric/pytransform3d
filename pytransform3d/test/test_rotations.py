@@ -1788,3 +1788,15 @@ def test_matrix_from_rotor():
         q = pr.quaternion_from_axis_angle(np.r_[axis, angle])
         R_q = pr.matrix_from_quaternion(q)
         assert_array_almost_equal(R_rotor, R_q)
+
+
+def test_negative_rotor():
+    random_state = np.random.RandomState(89)
+    for _ in range(5):
+        a = random_state.randn(3)
+        b = random_state.randn(3)
+        rotor = pr.rotor_from_two_vectors(a, b)
+        neg_rotor = pr.norm_vector(-rotor)
+        a2 = pr.rotor_apply(rotor, a)
+        a3 = pr.rotor_apply(neg_rotor, a)
+        assert_array_almost_equal(a2, a3)
