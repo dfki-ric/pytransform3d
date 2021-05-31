@@ -50,6 +50,7 @@ that have been omitted here for the sake of brevity.
    ~pytransform3d.rotations.matrix_from_axis_angle
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
    ~pytransform3d.rotations.matrix_from_quaternion
+   ~pytransform3d.rotations.matrix_from_rotor
 
 Conversions to Axis-Angle
 -------------------------
@@ -78,6 +79,16 @@ Conversions to Quaternion
    ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
    ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
 
+Conversions to Rotor
+-------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.rotor_from_two_directions
+   ~pytransform3d.rotations.rotor_from_plane_angle
+
 Quaternion and Axis-Angle Operations
 ------------------------------------
 
@@ -96,6 +107,21 @@ Quaternion and Axis-Angle Operations
    ~pytransform3d.rotations.quaternion_gradient
    ~pytransform3d.rotations.quaternion_integrate
 
+Rotors
+------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.wedge
+   ~pytransform3d.rotations.plane_normal_from_bivector
+   ~pytransform3d.rotations.geometric_product
+   ~pytransform3d.rotations.concatenate_rotors
+   ~pytransform3d.rotations.rotor_reverse
+   ~pytransform3d.rotations.rotor_apply
+   ~pytransform3d.rotations.rotor_slerp
+
 Plotting
 --------
 
@@ -105,6 +131,7 @@ Plotting
 
    ~pytransform3d.rotations.plot_basis
    ~pytransform3d.rotations.plot_axis_angle
+   ~pytransform3d.rotations.plot_bivector
 
 Testing
 -------

@@ -57,7 +57,7 @@ def quaternion_slerp(start, end, t):
     return w1 * start + w2 * end
 
 
-def rotor_slerp(start, end, t):  # TODO sphinx
+def rotor_slerp(start, end, t):
     """Spherical linear interpolation.
 
     Parameters
