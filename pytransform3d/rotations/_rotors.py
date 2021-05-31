@@ -4,7 +4,7 @@ from ._constants import unitx, unity, unitz
 from ._quaternion_operations import concatenate_quaternions, q_prod_vector
 
 
-def wedge(a, b):  # TODO type hints, sphinx
+def wedge(a, b):  # TODO sphinx
     r"""Outer product of two vectors (also exterior or wedge product).
 
     .. math::
@@ -29,7 +29,7 @@ def wedge(a, b):  # TODO type hints, sphinx
     return np.cross(a, b)
 
 
-def plane_normal_from_bivector(B):
+def plane_normal_from_bivector(B):  # TODO sphinx
     """Convert bivector to normal vector of a plane.
 
     Parameters
@@ -46,7 +46,7 @@ def plane_normal_from_bivector(B):
     return norm_vector(B)
 
 
-def geometric_product(a, b):  # TODO type hints, sphinx
+def geometric_product(a, b):  # TODO sphinx
     r"""Geometric product of two vectors.
 
     The geometric product consists of the symmetric inner / dot product and the
@@ -77,7 +77,7 @@ def geometric_product(a, b):  # TODO type hints, sphinx
     return np.hstack(((np.dot(a, b),), wedge(a, b)))
 
 
-def rotor_reverse(rotor):  # TODO test, type hints, sphinx
+def rotor_reverse(rotor):  # TODO sphinx
     """Invert rotor.
 
     Parameters
@@ -94,26 +94,7 @@ def rotor_reverse(rotor):  # TODO test, type hints, sphinx
     return np.hstack(((rotor[0],), -rotor[1:]))
 
 
-def matrix_from_rotor(rotor):  # TODO test, type hints, sphinx, move to conversions
-    """Compute rotation matrix from rotor.
-
-    Parameters
-    ----------
-    rotor : array-like, shape (4,)
-        Rotor: (a, b_yz, b_zx, b_xy)
-
-    Returns
-    -------
-    R : array, shape (3, 3)
-        Rotation matrix
-    """
-    # TODO check input
-    return np.column_stack((
-        rotor_apply(rotor, unitx), rotor_apply(rotor, unity),
-        rotor_apply(rotor, unitz)))
-
-
-def concatenate_rotors(rotor1, rotor2):  # TODO test, type hints, sphinx, move to conversions
+def concatenate_rotors(rotor1, rotor2):  # TODO sphinx
     """Concatenate rotors.
 
     # TODO order of rotation
@@ -134,7 +115,7 @@ def concatenate_rotors(rotor1, rotor2):  # TODO test, type hints, sphinx, move t
     return concatenate_quaternions(rotor1, rotor2)
 
 
-def rotor_apply(rotor, v):  # TODO test, type hints, sphinx
+def rotor_apply(rotor, v):  # TODO test, sphinx
     r"""Compute rotation matrix from rotor.
 
     .. math::
@@ -157,7 +138,26 @@ def rotor_apply(rotor, v):  # TODO test, type hints, sphinx
     return q_prod_vector(rotor, v)
 
 
-def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move to conversions
+def matrix_from_rotor(rotor):  # TODO test, sphinx
+    """Compute rotation matrix from rotor.
+
+    Parameters
+    ----------
+    rotor : array-like, shape (4,)
+        Rotor: (a, b_yz, b_zx, b_xy)
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Rotation matrix
+    """
+    # TODO check input
+    return np.column_stack((
+        rotor_apply(rotor, unitx), rotor_apply(rotor, unity),
+        rotor_apply(rotor, unitz)))
+
+
+def rotor_from_two_vectors(v_from, v_to):  # TODO test, sphinx
     """Construct the rotor that rotates one vector to another.
 
     Parameters
@@ -180,7 +180,7 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, type hints, sphinx, move
         ((1.0 + np.dot(v_from, v_to),), wedge(v_from, v_to))))
 
 
-def rotor_from_plane_angle(B, angle):  # TODO test, type hints, sphinx, move to conversions
+def rotor_from_plane_angle(B, angle):  # TODO sphinx
     r"""Compute rotor from plane bivector and angle.
 
     Parameters

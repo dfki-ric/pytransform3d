@@ -122,7 +122,7 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
     return ax
 
 
-def plot_bivector(ax=None, a=None, b=None, ax_s=1):  # TODO type hints, sphinx
+def plot_bivector(ax=None, a=None, b=None, ax_s=1):  # TODO sphinx
     """Plot bivector from wedge product of two vectors a and b.
 
     The two vectors will be displayed in grey together with the parallelogram
