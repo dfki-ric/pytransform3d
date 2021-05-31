@@ -12,4 +12,10 @@ def plot_basis(
 
 def plot_axis_angle(
         ax: Union[None, Axes3D] = ..., a: npt.ArrayLike = ...,
-        p: npt.ArrayLike = ..., s: float = ..., ax_s: float = ..., **kwargs) -> Axes3D: ...
+        p: npt.ArrayLike = ..., s: float = ..., ax_s: float = ...,
+        **kwargs) -> Axes3D: ...
+
+
+def plot_bivector(
+        ax: Union[None, Axes3D] = ..., a: Union[None, npt.ArrayLike] = ...,
+        b: Union[None, npt.ArrayLike] = ..., ax_s: float = ...): ...
