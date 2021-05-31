@@ -4,7 +4,7 @@ from ._constants import unitx, unity, unitz
 from ._quaternion_operations import concatenate_quaternions, q_prod_vector
 
 
-def wedge(a, b):  # TODO sphinx
+def wedge(a, b):
     r"""Outer product of two vectors (also exterior or wedge product).
 
     .. math::
@@ -29,7 +29,7 @@ def wedge(a, b):  # TODO sphinx
     return np.cross(a, b)
 
 
-def plane_normal_from_bivector(B):  # TODO sphinx
+def plane_normal_from_bivector(B):
     """Convert bivector to normal vector of a plane.
 
     Parameters
@@ -46,7 +46,7 @@ def plane_normal_from_bivector(B):  # TODO sphinx
     return norm_vector(B)
 
 
-def geometric_product(a, b):  # TODO sphinx
+def geometric_product(a, b):
     r"""Geometric product of two vectors.
 
     The geometric product consists of the symmetric inner / dot product and the
@@ -77,7 +77,7 @@ def geometric_product(a, b):  # TODO sphinx
     return np.hstack(((np.dot(a, b),), wedge(a, b)))
 
 
-def rotor_reverse(rotor):  # TODO sphinx
+def rotor_reverse(rotor):
     """Invert rotor.
 
     Parameters
@@ -94,10 +94,12 @@ def rotor_reverse(rotor):  # TODO sphinx
     return np.hstack(((rotor[0],), -rotor[1:]))
 
 
-def concatenate_rotors(rotor1, rotor2):  # TODO sphinx
+def concatenate_rotors(rotor1, rotor2):
     """Concatenate rotors.
 
-    # TODO order of rotation
+    Suppose we want to apply two extrinsic rotations given by rotors
+    R1 and R2 to a vector v. We can either apply R2 to v and then R1 to
+    the result or we can concatenate R1 and R2 and apply the result to v.
 
     Parameters
     ----------
@@ -115,7 +117,7 @@ def concatenate_rotors(rotor1, rotor2):  # TODO sphinx
     return concatenate_quaternions(rotor1, rotor2)
 
 
-def rotor_apply(rotor, v):  # TODO test, sphinx
+def rotor_apply(rotor, v):
     r"""Compute rotation matrix from rotor.
 
     .. math::
@@ -138,7 +140,7 @@ def rotor_apply(rotor, v):  # TODO test, sphinx
     return q_prod_vector(rotor, v)
 
 
-def matrix_from_rotor(rotor):  # TODO test, sphinx
+def matrix_from_rotor(rotor):
     """Compute rotation matrix from rotor.
 
     Parameters
@@ -157,7 +159,7 @@ def matrix_from_rotor(rotor):  # TODO test, sphinx
         rotor_apply(rotor, unitz)))
 
 
-def rotor_from_two_vectors(v_from, v_to):  # TODO test, sphinx
+def rotor_from_two_directions(v_from, v_to):
     """Construct the rotor that rotates one vector to another.
 
     Parameters
@@ -180,7 +182,7 @@ def rotor_from_two_vectors(v_from, v_to):  # TODO test, sphinx
         ((1.0 + np.dot(v_from, v_to),), wedge(v_from, v_to))))
 
 
-def rotor_from_plane_angle(B, angle):  # TODO sphinx
+def rotor_from_plane_angle(B, angle):
     r"""Compute rotor from plane bivector and angle.
 
     Parameters

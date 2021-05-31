@@ -89,7 +89,7 @@ from ._testing import (
 from ._plot import plot_basis, plot_axis_angle, plot_bivector
 from ._rotors import (
     wedge, geometric_product, rotor_apply, rotor_reverse, concatenate_rotors,
-    rotor_from_plane_angle, rotor_from_two_vectors, matrix_from_rotor,
+    rotor_from_plane_angle, rotor_from_two_directions, matrix_from_rotor,
     plane_normal_from_bivector)
 
 __all__ = [
@@ -225,7 +225,7 @@ __all__ = [
     "rotor_reverse",
     "concatenate_rotors",
     "rotor_from_plane_angle",
-    "rotor_from_two_vectors",
+    "rotor_from_two_directions",
     "matrix_from_rotor",
     "plot_bivector",
     "rotor_slerp",

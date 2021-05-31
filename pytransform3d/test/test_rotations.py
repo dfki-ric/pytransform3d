@@ -1700,12 +1700,12 @@ def test_geometric_product_creates_rotor_that_rotates_by_double_angle():
             abs(pr.norm_angle(double_angle)))
 
 
-def test_rotor_from_two_vectors():
+def test_rotor_from_two_directions():
     random_state = np.random.RandomState(84)
     for _ in range(5):
         a = random_state.randn(3)
         b = random_state.randn(3)
-        rotor = pr.rotor_from_two_vectors(a, b)
+        rotor = pr.rotor_from_two_directions(a, b)
         b2 = pr.rotor_apply(rotor, a)
         assert_array_almost_equal(pr.norm_vector(b), pr.norm_vector(b2))
         assert_array_almost_equal(np.linalg.norm(a), np.linalg.norm(b2))
@@ -1716,7 +1716,7 @@ def test_rotor_times_reverse():
     for _ in range(5):
         a = random_state.randn(3)
         b = random_state.randn(3)
-        rotor = pr.rotor_from_two_vectors(a, b)
+        rotor = pr.rotor_from_two_directions(a, b)
         rotor_reverse = pr.rotor_reverse(rotor)
         result = pr.concatenate_rotors(rotor, rotor_reverse)
         assert_array_almost_equal(result, [1, 0, 0, 0])
@@ -1727,7 +1727,7 @@ def test_rotor_slerp():
     for _ in range(5):
         a_unit = pr.norm_vector(random_state.randn(3))
         b_unit = pr.norm_vector(random_state.randn(3))
-        rotor1 = pr.rotor_from_two_vectors(a_unit, b_unit)
+        rotor1 = pr.rotor_from_two_directions(a_unit, b_unit)
 
         axis = pr.norm_vector(np.cross(a_unit, b_unit))
         angle = pr.angle_between_vectors(a_unit, b_unit)
@@ -1735,7 +1735,7 @@ def test_rotor_slerp():
 
         c_unit = pr.norm_vector(random_state.randn(3))
         d_unit = pr.norm_vector(random_state.randn(3))
-        rotor2 = pr.rotor_from_two_vectors(c_unit, d_unit)
+        rotor2 = pr.rotor_from_two_directions(c_unit, d_unit)
 
         axis = pr.norm_vector(np.cross(c_unit, d_unit))
         angle = pr.angle_between_vectors(c_unit, d_unit)
@@ -1795,7 +1795,7 @@ def test_negative_rotor():
     for _ in range(5):
         a = random_state.randn(3)
         b = random_state.randn(3)
-        rotor = pr.rotor_from_two_vectors(a, b)
+        rotor = pr.rotor_from_two_directions(a, b)
         neg_rotor = pr.norm_vector(-rotor)
         a2 = pr.rotor_apply(rotor, a)
         a3 = pr.rotor_apply(neg_rotor, a)
