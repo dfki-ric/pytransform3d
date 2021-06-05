@@ -1641,6 +1641,23 @@ def test_axis_angle_from_matrix_without_check():
     assert_true(all(np.isnan(a[:3])))
 
 
+def test_check_rotor():
+    r_list = [1, 0, 0, 0]
+    r = pr.check_rotor(r_list)
+    assert_true(isinstance(r, np.ndarray))
+
+    r2 = np.array([[1, 0, 0, 0]])
+    assert_raises_regexp(
+        ValueError, "Expected rotor with shape", pr.check_rotor, r2)
+
+    r3 = np.array([1, 0, 0])
+    assert_raises_regexp(
+        ValueError, "Expected rotor with shape", pr.check_rotor, r3)
+
+    r4 = np.array([2, 0, 0, 0])
+    assert_almost_equal(np.linalg.norm(pr.check_rotor(r4)), 1.0)
+
+
 def test_outer():
     random_state = np.random.RandomState(82)
     for _ in range(5):

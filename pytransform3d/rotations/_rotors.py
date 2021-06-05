@@ -1,5 +1,5 @@
 import numpy as np
-from ._utils import norm_vector
+from ._utils import norm_vector, check_rotor
 from ._constants import unitx, unity, unitz
 from ._quaternion_operations import concatenate_quaternions, q_prod_vector
 
@@ -25,7 +25,6 @@ def wedge(a, b):
         Bivector that defines the plane that a and b form together:
         (b_yz, b_zx, b_xy)
     """
-    # TODO check inputs
     return np.cross(a, b)
 
 
@@ -42,7 +41,6 @@ def plane_normal_from_bivector(B):
     n : array, shape (3,)
         Unit normal of the corresponding plane: (x, y, z)
     """
-    # TODO check input
     return norm_vector(B)
 
 
@@ -73,7 +71,6 @@ def geometric_product(a, b):
         A multivector (a, b_yz, b_zx, b_xy) composed of scalar and bivector
         (b_yz, b_zx, b_xy) that form the geometric product of vectors a and b.
     """
-    # TODO check inputs
     return np.hstack(((np.dot(a, b),), wedge(a, b)))
 
 
@@ -90,7 +87,7 @@ def rotor_reverse(rotor):
     reverse_rotor : array, shape (4,)
         Reverse of the rotor: (a, b_yz, b_zx, b_xy)
     """
-    # TODO check input
+    rotor = check_rotor(rotor)
     return np.hstack(((rotor[0],), -rotor[1:]))
 
 
@@ -114,6 +111,8 @@ def concatenate_rotors(rotor1, rotor2):
     rotor : array, shape (4,)
         rotor1 applied to rotor2: (a, b_yz, b_zx, b_xy)
     """
+    rotor1 = check_rotor(rotor1)
+    rotor2 = check_rotor(rotor2)
     return concatenate_quaternions(rotor1, rotor2)
 
 
@@ -137,6 +136,7 @@ def rotor_apply(rotor, v):
     v : array, shape (3,)
         Rotated vector
     """
+    rotor = check_rotor(rotor)
     return q_prod_vector(rotor, v)
 
 
@@ -153,7 +153,7 @@ def matrix_from_rotor(rotor):
     R : array, shape (3, 3)
         Rotation matrix
     """
-    # TODO check input
+    rotor = check_rotor(rotor)
     return np.column_stack((
         rotor_apply(rotor, unitx), rotor_apply(rotor, unity),
         rotor_apply(rotor, unitz)))
@@ -175,7 +175,6 @@ def rotor_from_two_directions(v_from, v_to):
     rotor : array, shape (4,)
         Rotor: (a, b_yz, b_zx, b_xy)
     """
-    # TODO check input
     v_from = norm_vector(v_from)
     v_to = norm_vector(v_to)
     return norm_vector(np.hstack(
@@ -199,7 +198,6 @@ def rotor_from_plane_angle(B, angle):
     rotor : array, shape (4,)
         Rotor: (a, b_yz, b_zx, b_xy)
     """
-    # TODO check input
     a = np.cos(angle / 2.0)
     sina = np.sin(angle / 2.0)
     B = norm_vector(B)

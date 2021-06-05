@@ -1,6 +1,7 @@
 """Spherical linear interpolation (SLERP)."""
 import numpy as np
-from ._utils import check_axis_angle, check_quaternion, angle_between_vectors
+from ._utils import (check_axis_angle, check_quaternion, angle_between_vectors,
+                     check_rotor)
 
 
 def axis_angle_slerp(start, end, t):
@@ -76,6 +77,8 @@ def rotor_slerp(start, end, t):
     rotor : array, shape (4,)
         Interpolated rotor: (a, b_yz, b_zx, b_xy)
     """
+    start = check_rotor(start)
+    end = check_rotor(end)
     return quaternion_slerp(start, end, t)
 
 

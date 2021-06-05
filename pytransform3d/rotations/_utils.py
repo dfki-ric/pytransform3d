@@ -475,3 +475,23 @@ def check_quaternions(Q, unit=True):
         for i in range(len(Q)):
             Q_checked[i] = norm_vector(Q_checked[i])
     return Q_checked
+
+
+def check_rotor(rotor):
+    """Input validation of rotor.
+
+    Parameters
+    ----------
+    rotor : array-like, shape (4,)
+        Rotor: (a, b_yz, b_zx, b_xy)
+
+    Returns
+    -------
+    rotor : array, shape (4,)
+        Validated rotor (with unit norm): (a, b_yz, b_zx, b_xy)
+    """
+    rotor = np.asarray(rotor, dtype=np.float64)
+    if rotor.ndim != 1 or rotor.shape[0] != 4:
+        raise ValueError("Expected rotor with shape (4,), got "
+                         "array-like object with shape %s" % (rotor.shape,))
+    return norm_vector(rotor)
