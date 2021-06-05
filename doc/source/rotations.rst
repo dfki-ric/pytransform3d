@@ -351,21 +351,47 @@ information.
 Rotors
 ------
 
+.. plot:: ../../examples/plots/plot_bivector.py
+
 Rotors and quaternions are very similar concepts in 3D. However, rotors are
 more general as they can be extended to more dimensions.
 
 The concept of a quaternion builds on the axis-angle representation, in
-which we rotate by an angle about a rotation axis. The axis can be computed
-from the cross product of two vectors. A rotor builds on a plane-angle
-representation, in which we rotate with a given direction by an angle in a
-plane. The plane can be computed from the wedge product of two vectors,
-which is a so-called bivector. Although both approaches might seem different,
-in 3D they operate with exactly the same numbers in exactly the same way.
+which we rotate by an angle about a rotation axis (see black arrow in the
+illustration above). The axis can be computed from the cross product of two
+vectors (gray arrow). A rotor builds on a plane-angle representation, in which
+we rotate with a given direction by an angle in a plane (indicated by gray
+area). The plane can be computed from the wedge product :math:`a \wedge b` of
+two vectors :math:`a` and :math:`b`, which is a so-called bivector. Although
+both approaches might seem different, in 3D they operate with exactly the same
+numbers in exactly the same way.
 
 .. warning::
 
-    The unit rotors :math:`R` and :math:`-R` represent exactly the same
-    rotation.
+    The rotors :math:`R` and :math:`-R` represent exactly the same rotation.
+
+A rotor is a unit multivector
+
+.. math::
+
+    R = (a, b_{yz}, b_{zx}, b_{xy})
+
+that consists of a scalar :math:`a` and a bivector
+:math:`(b_{yz}, b_{zx}, b_{xy})`. The components of a bivector constructed
+by the wedge product of two vectors can be interpreted as the area of the
+parallelogram formed by the two vectors projected on the three basis planes
+yz, zx, and xy (see illustration above). These values also correspond to the
+x-, y-, and z-components of the cross product of the two vectors, which allows
+two different interpretations of the same numbers from which we can then derive
+quaternions on the one hand and rotors on the other hand.
+
+.. warning::
+
+    In pytransform3d our convention is that we organize the components of a
+    rotor in exactly the same way as we organize the components of the
+    equivalent quaternion. There are other conventions. It is not just possible
+    to change the order of the scalar and the bivector (similar to a
+    quaterion), but also to change the order of bivector components.
 
 **Pros**
 
