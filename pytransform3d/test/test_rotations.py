@@ -1728,6 +1728,20 @@ def test_rotor_from_two_directions():
         assert_array_almost_equal(np.linalg.norm(a), np.linalg.norm(b2))
 
 
+def test_rotor_concatenation():
+    random_state = np.random.RandomState(85)
+    for _ in range(5):
+        a = random_state.randn(3)
+        b = random_state.randn(3)
+        c = random_state.randn(3)
+        rotor_ab = pr.rotor_from_two_directions(a, b)
+        rotor_bc = pr.rotor_from_two_directions(b, c)
+        rotor_ac = pr.rotor_from_two_directions(a, c)
+        rotor_ac_cat = pr.concatenate_rotors(rotor_bc, rotor_ab)
+        assert_array_almost_equal(pr.rotor_apply(rotor_ac, a),
+                                  pr.rotor_apply(rotor_ac_cat, a))
+
+
 def test_rotor_times_reverse():
     random_state = np.random.RandomState(85)
     for _ in range(5):
