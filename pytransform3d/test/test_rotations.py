@@ -1717,6 +1717,25 @@ def test_geometric_product_creates_rotor_that_rotates_by_double_angle():
             abs(pr.norm_angle(double_angle)))
 
 
+def test_rotor_from_two_directions_special_cases():
+    d1 = np.array([0, 0, 1])
+    rotor = pr.rotor_from_two_directions(d1, d1)
+    assert_array_almost_equal(rotor, np.array([1, 0, 0, 0]))
+
+    rotor = pr.rotor_from_two_directions(d1, np.zeros(3))
+    assert_array_almost_equal(rotor, np.array([1, 0, 0, 0]))
+
+    d2 = np.array([0, 0, -1])  # 180 degree rotation
+    rotor = pr.rotor_from_two_directions(d1, d2)
+    assert_array_almost_equal(rotor, np.array([0, 1, 0, 0]))
+    assert_array_almost_equal(pr.rotor_apply(rotor, d1), d2)
+
+    d3 = np.array([1, 0, 0])
+    d4 = np.array([-1, 0, 0])
+    rotor = pr.rotor_from_two_directions(d3, d4)
+    assert_array_almost_equal(pr.rotor_apply(rotor, d3), d4)
+
+
 def test_rotor_from_two_directions():
     random_state = np.random.RandomState(84)
     for _ in range(5):

@@ -1,6 +1,6 @@
 import numpy as np
-from ._utils import norm_vector, check_rotor
-from ._constants import unitx, unity, unitz
+from ._utils import norm_vector, check_rotor, perpendicular_to_vector
+from ._constants import unitx, unity, unitz, eps
 from ._quaternion_operations import concatenate_quaternions, q_prod_vector
 
 
@@ -177,8 +177,13 @@ def rotor_from_two_directions(v_from, v_to):
     """
     v_from = norm_vector(v_from)
     v_to = norm_vector(v_to)
-    return norm_vector(np.hstack(
-        ((1.0 + np.dot(v_from, v_to),), wedge(v_from, v_to))))
+    cos_angle_p1 = 1.0 + np.dot(v_from, v_to)
+    if cos_angle_p1 < eps:
+        plane = perpendicular_to_vector(v_from)
+    else:
+        plane = wedge(v_from, v_to)
+    multivector = np.hstack(((cos_angle_p1,), plane))
+    return norm_vector(multivector)
 
 
 def rotor_from_plane_angle(B, angle):

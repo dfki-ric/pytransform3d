@@ -1655,7 +1655,7 @@ def axis_angle_from_two_directions(a, b):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
