@@ -179,6 +179,9 @@ def rotor_from_two_directions(v_from, v_to):
     v_to = norm_vector(v_to)
     cos_angle_p1 = 1.0 + np.dot(v_from, v_to)
     if cos_angle_p1 < eps:
+        # There is an infinite number of solutions for the plane of rotation.
+        # This solution works with our convention, since the rotation axis is
+        # the same as the plane bivector.
         plane = perpendicular_to_vector(v_from)
     else:
         plane = wedge(v_from, v_to)
