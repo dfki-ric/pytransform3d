@@ -52,7 +52,7 @@ def matrix_from_two_vectors(a, b):
         First vector, must not be 0
 
     b : array-like, shape (3,)
-        Second vector, must not be 0 or parallel to v1
+        Second vector, must not be 0 or parallel to a
 
     Returns
     -------
