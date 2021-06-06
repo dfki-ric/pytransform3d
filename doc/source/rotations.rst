@@ -55,7 +55,7 @@ is not implemented in pytransform3d then it is shown in brackets.
 Rotation Matrix
 ---------------
 
-The most practical representation of orientation is a rotation matrix
+One of the most practical representations of orientation is a rotation matrix
 
 .. math::
 
