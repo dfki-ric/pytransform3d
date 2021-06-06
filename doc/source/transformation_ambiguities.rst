@@ -99,7 +99,7 @@ An active transformation
 * changes the physical position of an object
 * can be defined in the absence of a coordinate system or does not change the
   current coordinate system
-* mathematicians use it exclusively
+* is the only convention used by mathematicians
 
 Another name for active transformation is alibi transformation.
 
