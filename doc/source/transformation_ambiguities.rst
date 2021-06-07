@@ -1,8 +1,8 @@
 .. _transformation_ambiguities:
 
-==========================
-Transformation Ambiguities
-==========================
+==========================================
+Transformation Ambiguities and Conventions
+==========================================
 
 There are lots of ambiguities in the world of transformations. We try to
 explain them all here.
@@ -333,6 +333,26 @@ Here is a comparison between various conventions of concatenation.
     :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
     for backward compatibility. When in doubt, read the docstring, which
     clearly states that they make intrinsic rotations.
+
+------------------
+Naming Conventions
+------------------
+
+
+.. image:: _static/conventions_ship.png
+   :alt: Ship conventions
+   :align: center
+
+
+.. image:: _static/conventions_plane.png
+   :alt: Aircraft conventions
+   :align: center
+
+
+.. image:: _static/conventions_camera.png
+   :alt: Camera conventions
+   :align: center
+
 
 -----------------------------
 Conventions of Other Software
