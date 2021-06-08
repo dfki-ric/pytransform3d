@@ -334,25 +334,45 @@ Here is a comparison between various conventions of concatenation.
     for backward compatibility. When in doubt, read the docstring, which
     clearly states that they make intrinsic rotations.
 
-------------------
-Naming Conventions
-------------------
+----------------------------
+Naming and Frame Conventions
+----------------------------
 
+In addition to transformation and rotation conventions, there are a lot of
+different naming and frame conventions. Here are some examples.
 
-.. image:: _static/conventions_ship.png
+.. figure:: _static/conventions_ship.png
    :alt: Ship conventions
    :align: center
+   :width: 50%
 
+   For ships we can use the following convention for the body frame: the x-axis
+   is called surge, the y-axis sway, and the z-axis heave. The origin of the
+   frame is the center of gravity. For the orientation, the names yaw, pitch,
+   and roll are used. Sometimes the body frame is rotated by 180 degrees around
+   the x-axis, so that the y-axis points to the right side and the z-axis down.
 
-.. image:: _static/conventions_plane.png
+.. figure:: _static/conventions_plane.png
    :alt: Aircraft conventions
    :align: center
+   :width: 50%
+
+   Aircrafts sometimes use the following naming conventions for intrinsic
+   rotations around the z-, y'-, and x''-axis. The rotation about the z-axis
+   is called heading, rotation about the y'-axis is called elevation, and the
+   rotation about the x''-axis is called bank.
 
 
-.. image:: _static/conventions_camera.png
+.. figure:: _static/conventions_camera.png
    :alt: Camera conventions
    :align: center
 
+   Cameras or similar sensors are sometimes mounted on pan/tilt units.
+   Typically, first the pan joint rotates the camera about an axis parallel to
+   the y-axis of the camera and the tilt joint rotates the camera about an
+   axis parallel to the x-axis of the camera. When there the axes of rotation
+   and of the camera are not perfectly aligned, the camera will also be
+   translated by the rotations.
 
 -----------------------------
 Conventions of Other Software
