@@ -370,7 +370,7 @@ different naming and frame conventions. Here are some examples.
    Cameras or similar sensors are sometimes mounted on pan/tilt units.
    Typically, first the pan joint rotates the camera about an axis parallel to
    the y-axis of the camera and the tilt joint rotates the camera about an
-   axis parallel to the x-axis of the camera. When there the axes of rotation
+   axis parallel to the x-axis of the camera. When the axes of rotation
    and of the camera are not perfectly aligned, the camera will also be
    translated by the rotations.
 
