@@ -2,7 +2,7 @@ import numpy as np
 import numpy.typing as npt
 from mpl_toolkits.mplot3d import Axes3D
 from bs4.element import Tag
-from transform_manager import TransformManager
+from .transform_manager import TransformManager
 from typing import Dict, Tuple, List, Any, Union, Type, Hashable
 
 
@@ -70,7 +70,7 @@ class Geometry(object):
     color: npt.ArrayLike
 
     def __init__(self, frame: str, mesh_path: Union[None, str],
-                 package_dir: Union[None, str], color: str) -> "Geometry": ...
+                 package_dir: Union[None, str], color: str): ...
 
     def parse(self, xml: Tag): ...
 
