@@ -130,8 +130,7 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    phi, theta = np.mgrid[
-                 0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
+    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
     x = p[0] + radius * np.sin(phi) * np.cos(theta)
     y = p[1] + radius * np.sin(phi) * np.sin(theta)
     z = p[2] + radius * np.cos(phi)

@@ -268,9 +268,9 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     sensor_corners_in_world = transform(
         cam2world, vectors_to_points(sensor_corners_in_cam))[:, :3]
     virtual_image_corners = (
-            virtual_image_distance / focal_length *
-            (sensor_corners_in_world - camera_center_in_world[np.newaxis]) +
-            camera_center_in_world[np.newaxis])
+        virtual_image_distance / focal_length *
+        (sensor_corners_in_world - camera_center_in_world[np.newaxis]) +
+        camera_center_in_world[np.newaxis])
 
     if "c" in kwargs:
         color = kwargs.pop("c")
