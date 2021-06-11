@@ -137,21 +137,24 @@ def exponential_coordinates_from_transforms(A2Bs):
     thetas = omega_thetas[..., 3]
 
     # from sympy import *
-    # omega0, omega1, omega2, px, py, pz, theta = symbols("o0 o1 o2 p0 p1 p2 theta")
-    # w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])
+    # o0, o1, o2, px, py, pz, t = symbols("o0 o1 o2 p0 p1 p2 theta")
+    # w = Matrix([[0, -o2, o1], [o2, 0, -o0], [-o1, o0, 0]])
     # p = Matrix([[px], [py], [pz]])
-    # v = (eye(3) / theta - 0.5 * w + (1.0 / theta - 0.5 / tan(theta / 2.0)) * w * w) * p
+    # v = (eye(3) / t - 0.5 * w + (1 / t - 0.5 / tan(t / 2.0)) * w * w) * p
 
     # Result:
-    # p0*(-o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)
-    #     + p1*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o2)
-    #     + p2*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o1)
-    # p0*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o2)
-    #     + p1*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)
-    #     + p2*(0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))
-    # p0*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o1)
-    #     + p1*(-0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))
-    #     + p2*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)
+    # p0*(-o1**2*(-0.5/tan(0.5*t) + 1/t)
+    #     - o2**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)
+    #     + p1*(o0*o1*(-0.5/tan(0.5*t) + 1/t) + 0.5*o2)
+    #     + p2*(o0*o2*(-0.5/tan(0.5*t) + 1/t) - 0.5*o1)
+    # p0*(o0*o1*(-0.5/tan(0.5*t) + 1/t) - 0.5*o2)
+    #     + p1*(-o0**2*(-0.5/tan(0.5*t) + 1/t)
+    #           - o2**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)
+    #     + p2*(0.5*o0 + o1*o2*(-0.5/tan(0.5*t) + 1/t))
+    # p0*(o0*o2*(-0.5/tan(0.5*t) + 1/t) + 0.5*o1)
+    #     + p1*(-0.5*o0 + o1*o2*(-0.5/tan(0.5*t) + 1/t))
+    #     + p2*(-o0**2*(-0.5/tan(0.5*t) + 1/t)
+    #           - o1**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)
 
     thetas = np.maximum(thetas, np.finfo(float).tiny)
     ti = 1.0 / thetas
@@ -228,21 +231,21 @@ def transforms_from_exponential_coordinates(Sthetas):
             axes=screw_axes[..., :3], angles=t, out=A2Bs[..., :3, :3])
 
         # from sympy import *
-        # omega0, omega1, omega2, vx, vy, vz, theta = symbols("omega_0 omega_1 omega_2 v_x v_y v_z theta")
-        # w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])
+        # o0, o1, o2, vx, vy, vz, t = symbols("o0 o1 o2 v_x v_y v_z t")
+        # w = Matrix([[0, -o2, o1], [o2, 0, -o0], [-o1, o0, 0]])
         # v = Matrix([[vx], [vy], [vz]])
-        # p = (eye(3) * theta + (1 - cos(theta)) * w + (theta - sin(theta)) * w * w) * v
+        # p = (eye(3) * t + (1 - cos(t)) * w + (t - sin(t)) * w * w) * v
         #
         # Result:
-        # -v_x*(omega_1**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
-        #     + v_y*(omega_0*omega_1*(theta - sin(theta)) + omega_2*(cos(theta) - 1))
-        #     + v_z*(omega_0*omega_2*(theta - sin(theta)) - omega_1*(cos(theta) - 1))
-        # v_x*(omega_0*omega_1*(theta - sin(theta)) - omega_2*(cos(theta) - 1))
-        #     - v_y*(omega_0**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)
-        #     + v_z*(omega_0*(cos(theta) - 1) + omega_1*omega_2*(theta - sin(theta)))
-        # v_x*(omega_0*omega_2*(theta - sin(theta)) + omega_1*(cos(theta) - 1))
-        #     - v_y*(omega_0*(cos(theta) - 1) - omega_1*omega_2*(theta - sin(theta)))
-        #     - v_z*(omega_0**2*(theta - sin(theta)) + omega_1**2*(theta - sin(theta)) - theta)
+        # -v_x*(o1**2*(t - sin(t)) + o2**2*(t - sin(t)) - t)
+        #     + v_y*(o0*o1*(t - sin(t)) + o2*(cos(t) - 1))
+        #     + v_z*(o0*o2*(t - sin(t)) - o1*(cos(t) - 1))
+        # v_x*(o0*o1*(t - sin(t)) - o2*(cos(t) - 1))
+        #     - v_y*(o0**2*(t - sin(t)) + o2**2*(t - sin(t)) - t)
+        #     + v_z*(o0*(cos(t) - 1) + o1*o2*(t - sin(t)))
+        # v_x*(o0*o2*(t - sin(t)) + o1*(cos(t) - 1))
+        #     - v_y*(o0*(cos(t) - 1) - o1*o2*(t - sin(t)))
+        #     - v_z*(o0**2*(t - sin(t)) + o1**2*(t - sin(t)) - t)
 
         tms = t - np.sin(t)
         cm1 = np.cos(t) - 1.0

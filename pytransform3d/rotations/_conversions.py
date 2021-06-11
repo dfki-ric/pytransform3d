@@ -1773,7 +1773,8 @@ def quaternion_from_matrix(R, strict_check=True):
     R = check_matrix(R, strict_check=strict_check)
     q = np.empty(4)
 
-    # Source: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+    # Source:
+    # http://www.euclideanspace.com/maths/geometry/rotations/conversions
     trace = np.trace(R)
     if trace > 0.0:
         sqrt_trace = np.sqrt(1.0 + trace)
