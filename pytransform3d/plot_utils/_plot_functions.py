@@ -187,6 +187,11 @@ def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
     -------
     ax : Matplotlib 3d axis
         New or old axis
+
+    Raises
+    ------
+    ValueError
+        If thickness is <= 0
     """
     if ax is None:
         ax = make_3d_axis(ax_s)
@@ -397,6 +402,11 @@ def plot_length_variable(ax=None, start=np.zeros(3), end=np.ones(3), name="l",
 
     kwargs : dict, optional (default: {})
         Additional arguments for the text, e.g. fontsize
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
     """
     if ax is None:
         ax = make_3d_axis(ax_s)

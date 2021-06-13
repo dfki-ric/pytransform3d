@@ -58,6 +58,11 @@ def matrix_from_two_vectors(a, b):
     -------
     R : array, shape (3, 3)
         Rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If vectors are parallel or one of them is the zero vector
     """
     if np.linalg.norm(a) == 0:
         raise ValueError("a must not be the zero vector.")
@@ -190,6 +195,11 @@ def matrix_from_angle(basis, angle):
     -------
     R : array-like, shape (3, 3)
         Rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
     """
     c = np.cos(angle)
     s = np.sin(angle)
@@ -230,6 +240,11 @@ def active_matrix_from_angle(basis, angle):
     -------
     R : array, shape (3, 3)
         Rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
     """
     c = np.cos(angle)
     s = np.sin(angle)
@@ -825,6 +840,11 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     -------
     R : array-like, shape (3, 3)
         Rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If no rotation is given
     """
     if R is not None:
         return R
@@ -1711,10 +1731,6 @@ def compact_axis_angle_from_matrix(R):
     ----------
     R : array-like, shape (3, 3)
         Rotation matrix
-
-    strict_check : bool, optional (default: True)
-        Raise a ValueError if the rotation matrix is not numerically close
-        enough to a real rotation matrix. Otherwise we print a warning.
 
     Returns
     -------

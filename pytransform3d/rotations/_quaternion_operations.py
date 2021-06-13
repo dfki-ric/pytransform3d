@@ -11,7 +11,7 @@ def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
 
     Parameters
     ----------
-    A : array-like, shape (n_steps, 3)
+    Qd : array-like, shape (n_steps, 3)
         Angular velocities in a compact axis-angle representation. Each angular
         velocity represents the rotational offset after one unit of time.
 

@@ -188,6 +188,12 @@ class TransformManager(object):
         A2B : array-like, shape (4, 4)
             Homogeneous matrix that represents the transformation from
             'from_frame' to 'to_frame'
+
+        Raises
+        ------
+        KeyError
+            If one of the frames is unknown or there is no connection between
+            them
         """
         if self.check:
             if from_frame not in self.nodes:
@@ -264,6 +270,11 @@ class TransformManager(object):
         -------
         ax : Matplotlib 3d axis
             New or old axis
+
+        Raises
+        ------
+        KeyError
+            If the frame is unknown
         """
         if frame not in self.nodes:
             raise KeyError("Unknown frame '%s'" % frame)
@@ -314,6 +325,11 @@ class TransformManager(object):
         -------
         ax : Matplotlib 3d axis
             New or old axis
+
+        Raises
+        ------
+        KeyError
+            If the frame is unknown
         """
         if frame not in self.nodes:
             raise KeyError("Unknown frame '%s'" % frame)
@@ -347,8 +363,6 @@ class TransformManager(object):
     def _whitelisted_nodes(self, whitelist):
         """Get whitelisted nodes.
 
-        A KeyError will be raised if an unknown node is in the whitelist.
-
         Parameters
         ----------
         whitelist : list or None
@@ -358,6 +372,11 @@ class TransformManager(object):
         -------
         nodes : set
             Existing whitelisted nodes
+
+        Raises
+        ------
+        KeyError
+            Will be raised if an unknown node is in the whitelist.
         """
         nodes = set(self.nodes)
         if whitelist is not None:
@@ -429,6 +448,11 @@ class TransformManager(object):
             Name of GraphViz executable that can be found in the `$PATH` or
             absolute path to GraphViz executable. Possible options are, for
             example, 'dot', 'twopi', 'neato', 'circo', 'fdp', 'sfdp'.
+
+        Raises
+        ------
+        ImportError
+            If pydot is not available
         """
         if not PYDOT_AVAILABLE:
             raise ImportError("pydot must be installed to use this feature.")

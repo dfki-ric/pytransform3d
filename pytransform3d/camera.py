@@ -105,6 +105,11 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
     P_sensor : array-like, shape (n_points, 2)
         Points on the sensor plane. The result for points that are behind the
         camera will be a vector of nans.
+
+    Raises
+    ------
+    ValueError
+        If input is not valid
     """
     n_points, n_dims = P_cam.shape
     if n_dims not in (3, 4):
@@ -242,6 +247,11 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     -------
     ax : Matplotlib 3d axis
         New or old axis
+
+    Raises
+    ------
+    ValueError
+        If input is not valid
     """
     if ax is None:
         from .plot_utils import make_3d_axis

@@ -226,7 +226,7 @@ def random_vector(random_state=np.random.RandomState(0), n=3):
 
     Returns
     -------
-    v : array-like, shape (n,)
+    v : array, shape (n,)
         Random vector
     """
     return random_state.randn(n)
@@ -247,7 +247,7 @@ def random_axis_angle(random_state=np.random.RandomState(0)):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle)
     """
     angle = np.pi * random_state.rand()
@@ -271,7 +271,7 @@ def random_compact_axis_angle(random_state=np.random.RandomState(0)):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z)
     """
     a = random_axis_angle(random_state)
@@ -288,7 +288,7 @@ def random_quaternion(random_state=np.random.RandomState(0)):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     return norm_vector(random_state.randn(4))
@@ -317,8 +317,13 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
 
     Returns
     -------
-    V : array-like, shape (3, 3)
+    V : array, shape (3, 3)
         Validated cross-product matrix
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     V = np.asarray(V, dtype=np.float64)
     if V.ndim != 2 or V.shape[0] != 3 or V.shape[1] != 3:
@@ -357,6 +362,11 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
     -------
     R : array, shape (3, 3)
         Validated rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     R = np.asarray(R, dtype=np.float64)
     if R.ndim != 2 or R.shape[0] != 3 or R.shape[1] != 3:
@@ -396,6 +406,11 @@ def check_axis_angle(a):
     -------
     a : array, shape (4,)
         Validated axis of rotation and rotation angle: (x, y, z, angle)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     a = np.asarray(a, dtype=np.float64)
     if a.ndim != 1 or a.shape[0] != 4:
@@ -416,6 +431,11 @@ def check_compact_axis_angle(a):
     -------
     a : array, shape (3,)
         Validated axis of rotation and rotation angle: angle * (x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     a = np.asarray(a, dtype=np.float64)
     if a.ndim != 1 or a.shape[0] != 3:
@@ -439,6 +459,11 @@ def check_quaternion(q, unit=True):
     -------
     q : array-like, shape (4,)
         Validated quaternion to represent rotation: (w, x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     q = np.asarray(q, dtype=np.float64)
     if q.ndim != 1 or q.shape[0] != 4:
@@ -465,6 +490,11 @@ def check_quaternions(Q, unit=True):
     -------
     Q : array-like, shape (n_steps, 4)
         Validated quaternions to represent rotations: (w, x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     Q_checked = np.asarray(Q, dtype=np.float64)
     if Q_checked.ndim != 2 or Q_checked.shape[1] != 4:
@@ -489,6 +519,11 @@ def check_rotor(rotor):
     -------
     rotor : array, shape (4,)
         Validated rotor (with unit norm): (a, b_yz, b_zx, b_xy)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     rotor = np.asarray(rotor, dtype=np.float64)
     if rotor.ndim != 1 or rotor.shape[0] != 4:
