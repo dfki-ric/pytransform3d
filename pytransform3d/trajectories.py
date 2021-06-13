@@ -519,6 +519,11 @@ def plot_trajectory(
     -------
     ax : Matplotlib 3d axis
         New or old axis
+
+    Raises
+    ------
+    ValueError
+        If trajectory does not contain any elements.
     """
     if P is None or len(P) == 0:
         raise ValueError("Trajectory does not contain any elements.")

@@ -168,6 +168,11 @@ def transform(A2B, PA, strict_check=True):
     -------
     PB : array-like, shape (4,) or (n_points, 4)
         Point or points in frame B
+
+    Raises
+    ------
+    ValueError
+        If dimensions are incorrect
     """
     A2B = check_transform(A2B, strict_check=strict_check)
     PA = np.asarray(PA)

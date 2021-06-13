@@ -128,6 +128,11 @@ class Figure:
 
         fargs : list, optional (default: [])
             Arguments that will be passed to the callback.
+
+        Raises
+        ------
+        RuntimeError
+            When callback does not return any artists
         """
         initialized = False
         window_open = True
@@ -526,6 +531,11 @@ class Figure:
             Raise a ValueError if the transformation matrix is not numerically
             close enough to a real transformation matrix. Otherwise we print a
             warning.
+
+        Returns
+        -------
+        camera : Camera
+            New camera.
         """
         camera = Camera(M, cam2world, virtual_image_distance, sensor_size,
                         strict_check)

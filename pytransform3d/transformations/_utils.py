@@ -21,6 +21,11 @@ def check_transform(A2B, strict_check=True):
     -------
     A2B : array, shape (4, 4)
         Validated transform from frame A to frame B
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     A2B = np.asarray(A2B, dtype=np.float64)
     if A2B.ndim != 2 or A2B.shape[0] != 4 or A2B.shape[1] != 4:
@@ -51,6 +56,11 @@ def check_pq(pq):
     pq : array, shape (7,)
         Validated position and orientation quaternion:
          (x, y, z, qw, qx, qy, qz)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     pq = np.asarray(pq, dtype=np.float64)
     if pq.ndim != 1 or pq.shape[0] != 7:
@@ -90,6 +100,11 @@ def check_screw_parameters(q, s_axis, h):
     h : float
         Pitch of the screw. The pitch is the ratio of translation and rotation
         of the screw axis. Infinite pitch indicates pure translation.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     s_axis = np.asarray(s_axis, dtype=np.float64)
     if s_axis.ndim != 1 or s_axis.shape[0] != 3:
@@ -137,6 +152,11 @@ def check_screw_axis(screw_axis):
         (omega_1, omega_2, omega_3, v_1, v_2, v_3),
         where the first 3 components are related to rotation and the last 3
         components are related to translation.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     screw_axis = np.asarray(screw_axis, dtype=np.float64)
     if screw_axis.ndim != 1 or screw_axis.shape[0] != 6:
@@ -187,6 +207,11 @@ def check_exponential_coordinates(Stheta):
         and h * theta the translation. Theta should be >= 0. Negative rotations
         will be represented by a negative screw axis instead. This is relevant
         if you want to recover theta from exponential coordinates.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     Stheta = np.asarray(Stheta, dtype=np.float64)
     if Stheta.ndim != 1 or Stheta.shape[0] != 6:
@@ -238,6 +263,11 @@ def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
     screw_matrix : array, shape (4, 4)
         A screw matrix consists of a cross-product matrix that represents an
         axis of rotation, a translation, and a row of zeros.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     screw_matrix = np.asarray(screw_matrix, dtype=np.float64)
     if (screw_matrix.ndim != 2 or screw_matrix.shape[0] != 4
@@ -292,6 +322,11 @@ def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     -------
     transform_log : array, shape (4, 4)
         Matrix logarithm of transformation matrix: [S] * theta.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     transform_log = np.asarray(transform_log, dtype=np.float64)
     if (transform_log.ndim != 2 or transform_log.shape[0] != 4
@@ -336,6 +371,17 @@ def check_dual_quaternion(dq, unit=True):
         A unit dual quaternion has the properties
         :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
         :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
     """
     dq = np.asarray(dq, dtype=np.float64)
     if dq.ndim != 1 or dq.shape[0] != 8:

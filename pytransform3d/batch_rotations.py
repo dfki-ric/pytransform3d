@@ -544,10 +544,18 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
     Q2 : array-like, shape (..., 4)
         Second batch of quaternions
 
+    out : array, shape (..., 4), optional (default: new array)
+        Output array to which we write the result
+
     Returns
     -------
     Q12 : array, shape (..., 4)
         Batch of quaternions that represents the concatenated rotations
+
+    Raises
+    ------
+    ValueError
+        If the input dimensions are incorrect
     """
     Q1 = np.asarray(Q1)
     Q2 = np.asarray(Q2)

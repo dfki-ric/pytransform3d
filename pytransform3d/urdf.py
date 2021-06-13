@@ -91,6 +91,11 @@ class UrdfTransformManager(TransformManager):
         value : float
             Joint angle in radians in case of revolute joints or position
             in case of prismatic joint.
+
+        Raises
+        ------
+        KeyError
+            If joint_name is unknown
         """
         if joint_name not in self._joints:
             raise KeyError("Joint '%s' is not known" % joint_name)
@@ -124,6 +129,11 @@ class UrdfTransformManager(TransformManager):
         -------
         limits : pair of float
             Lower and upper joint angle limit
+
+        Raises
+        ------
+        KeyError
+            If joint_name is unknown
         """
         if joint_name not in self._joints:
             raise KeyError("Joint '%s' is not known" % joint_name)
@@ -306,6 +316,11 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
 
     joints : list of Joint
         Joints of the robot
+
+    Raises
+    ------
+    UrdfException
+        If URDF is not valid
     """
     urdf = BeautifulSoup(urdf_xml, "xml")
 
