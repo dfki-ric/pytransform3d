@@ -414,3 +414,4 @@ References
 * Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
 * Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
 * Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
+* Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
