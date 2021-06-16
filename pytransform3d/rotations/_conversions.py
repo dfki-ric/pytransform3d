@@ -121,6 +121,9 @@ def matrix_from_axis_angle(a):
     # R = (np.eye(3) * np.cos(a[3]) +
     #      (1.0 - np.cos(a[3])) * a[:3, np.newaxis].dot(a[np.newaxis, :3]) +
     #      cross_product_matrix(a[:3]) * np.sin(a[3]))
+    # or
+    # w = cross_product_matrix(a[:3])
+    # R = np.eye(3) + np.sin(a[3]) * w + (1.0 - np.cos(a[3])) * w.dot(w)
 
     return R
 
