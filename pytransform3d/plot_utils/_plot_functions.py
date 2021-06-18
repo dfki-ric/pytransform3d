@@ -27,10 +27,10 @@ def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
         Scaling of the new matplotlib 3d axis
 
     wireframe : bool, optional (default: True)
-        Plot wireframe of cylinder and surface otherwise
+        Plot wireframe of box and surface otherwise
 
     color : str, optional (default: black)
-        Color in which the cylinder should be plotted
+        Color in which the box should be plotted
 
     alpha : float, optional (default: 1)
         Alpha value of the mesh that will be plotted
@@ -94,7 +94,7 @@ def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
 
 def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
                 n_steps=100, color="k", alpha=1.0):
-    """Plot cylinder.
+    """Plot sphere.
 
     Parameters
     ----------
@@ -111,13 +111,13 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
         Scaling of the new matplotlib 3d axis
 
     wireframe : bool, optional (default: True)
-        Plot wireframe of cylinder and surface otherwise
+        Plot wireframe of sphere and surface otherwise
 
     n_steps : int, optional (default: 100)
         Number of discrete steps plotted in each dimension
 
     color : str, optional (default: black)
-        Color in which the cylinder should be plotted
+        Color in which the sphere should be plotted
 
     alpha : float, optional (default: 1)
         Alpha value of the mesh that will be plotted
