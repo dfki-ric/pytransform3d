@@ -44,6 +44,13 @@ def plot_capsule(
         color: str = ...) -> Axes3D: ...
 
 
+def plot_cone(
+        ax: Union[None, Axes3D] = ..., length: float = ...,
+        radius: float = ..., thickness: float = ..., A2B: npt.ArrayLike = ...,
+        ax_s: float = ..., wireframe: bool = ..., n_steps: int = ...,
+        alpha: float = ..., color: str = ...) -> Axes3D: ...
+
+
 def plot_vector(
         ax: Union[None, Axes3D] = ..., start: npt.ArrayLike = ...,
         direction: npt.ArrayLike = ..., s: float = ..., arrowstyle: str = ...,
