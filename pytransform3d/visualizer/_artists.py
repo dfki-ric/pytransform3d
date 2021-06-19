@@ -550,7 +550,7 @@ class Capsule(Artist):
         self.capsule = o3d.geometry.TriangleMesh.create_sphere(
             radius, resolution)
         vertices = np.asarray(self.capsule.vertices)
-        vertices[vertices[:, 2] > 0:, 2] += height
+        vertices[vertices[:, 2] > 0, 2] += height
         self.capsule.vertices = o3d.utility.Vector3dVector(vertices)
         self.capsule.compute_vertex_normals()
         if c is not None:
