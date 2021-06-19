@@ -93,7 +93,7 @@ def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
 
 
 def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
-                n_steps=100, alpha=1.0, color="k"):
+                n_steps=20, alpha=1.0, color="k"):
     """Plot sphere.
 
     Parameters
@@ -113,7 +113,7 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     wireframe : bool, optional (default: True)
         Plot wireframe of sphere and surface otherwise
 
-    n_steps : int, optional (default: 100)
+    n_steps : int, optional (default: 20)
         Number of discrete steps plotted in each dimension
 
     alpha : float, optional (default: 1)
@@ -326,7 +326,7 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
 
 
 def plot_ellipsoid(ax=None, radii=1.0, A2B=np.eye(4), ax_s=1, wireframe=True,
-                   n_steps=100, alpha=1.0, color="k"):
+                   n_steps=20, alpha=1.0, color="k"):
     """Plot ellipsoid.
 
     Parameters
@@ -346,7 +346,7 @@ def plot_ellipsoid(ax=None, radii=1.0, A2B=np.eye(4), ax_s=1, wireframe=True,
     wireframe : bool, optional (default: True)
         Plot wireframe of ellipsoid and surface otherwise
 
-    n_steps : int, optional (default: 100)
+    n_steps : int, optional (default: 20)
         Number of discrete steps plotted in each dimension
 
     alpha : float, optional (default: 1)
