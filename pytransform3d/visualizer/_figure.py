@@ -5,7 +5,7 @@ from .. import rotations as pr
 from .. import transformations as pt
 from .. import trajectories as ptr
 from ._artists import (Line3D, Frame, Trajectory, Camera, Box, Sphere,
-                       Cylinder, Mesh, Ellipsoid, Graph)
+                       Cylinder, Mesh, Ellipsoid, Capsule, Graph)
 
 
 class Figure:
@@ -449,6 +449,37 @@ class Figure:
         ellipsoid = Ellipsoid(radii, A2B, resolution, c)
         ellipsoid.add_artist(self)
         return ellipsoid
+
+    def plot_capsule(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
+                     c=None):
+        """Capsule.
+
+        A capsule is the volume covered by a sphere moving along a line segment.
+
+        Parameters
+        ----------
+        height : float, optional (default: 1)
+            Height of the capsule along its z-axis
+
+        radius : float, optional (default: 1)
+            Radius of the capsule
+
+        A2B : array-like, shape (4, 4)
+            Pose of the capsule.
+
+        resolution : int, optianal (default: 20)
+            The resolution of the capsule. The longitues will be split into
+            resolution segments (i.e. there are resolution + 1 latitude lines
+            including the north and south pole). The latitudes will be split
+            into 2 * resolution segments (i.e. there are 2 * resolution
+            longitude lines.)
+
+        c : array-like, shape (3,), optional (default: None)
+            Color
+        """
+        capsule = Capsule(height, radius, A2B, resolution, c)
+        capsule.add_artist(self)
+        return capsule
 
     def plot_graph(
             self, tm, frame, show_frames=False, show_connections=False,
