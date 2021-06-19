@@ -101,6 +101,11 @@ Also pip supports installation from a git repository:
 pip install git+https://github.com/rock-learning/pytransform3d.git
 ```
 
+Since version 1.8 you can also install pytransform3d with conda from
+conda-forge. See
+[here](https://github.com/conda-forge/pytransform3d-feedstock#installing-pytransform3d)
+for instructions.
+
 ## Documentation
 
 The API documentation can be found
