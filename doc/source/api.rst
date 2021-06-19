@@ -515,6 +515,7 @@ Deprecated Functions
    ~pytransform3d.plot_utils.plot_sphere
    ~pytransform3d.plot_utils.plot_cylinder
    ~pytransform3d.plot_utils.plot_mesh
+   ~pytransform3d.plot_utils.plot_ellipsoid
 
 .. autosummary::
    :toctree: _apidoc/
