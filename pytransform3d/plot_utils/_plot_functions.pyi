@@ -12,8 +12,8 @@ def plot_box(ax: Union[None, Axes3D] = ..., size: npt.ArrayLike = ...,
 def plot_sphere(
         ax: Union[None, Axes3D] = ..., radius: float = ...,
         p: npt.ArrayLike = ..., ax_s: float = ..., wireframe: bool = ...,
-        n_steps: float = ..., color: str = ...,
-        alpha: float = ...) -> Axes3D: ...
+        n_steps: float = ..., alpha: float = ...,
+        color: str = ...) -> Axes3D: ...
 
 
 def plot_cylinder(
@@ -27,6 +27,13 @@ def plot_mesh(
         ax: Union[None, Axes3D] = ..., filename: Union[None, str] = ...,
         A2B: npt.ArrayLike = ..., s: npt.ArrayLike = ..., ax_s: float = ...,
         wireframe: bool = ..., convex_hull: bool = ..., alpha: float = ...,
+        color: str = ...) -> Axes3D: ...
+
+
+def plot_ellipsoid(
+        ax: Union[None, Axes3D] = ..., radii: npt.ArrayLike = ...,
+        A2B: npt.ArrayLike = ..., ax_s: float = ..., wireframe: bool = ...,
+        n_steps: int = ..., alpha: float = ...,
         color: str = ...) -> Axes3D: ...
 
 
