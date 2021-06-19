@@ -325,8 +325,8 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
     return ax
 
 
-def plot_ellipsoid(ax=None, radii=1.0, A2B=np.eye(4), ax_s=1, wireframe=True,
-                   n_steps=20, alpha=1.0, color="k"):
+def plot_ellipsoid(ax=None, radii=np.ones(3), A2B=np.eye(4), ax_s=1,
+                   wireframe=True, n_steps=20, alpha=1.0, color="k"):
     """Plot ellipsoid.
 
     Parameters

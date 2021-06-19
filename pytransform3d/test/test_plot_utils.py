@@ -7,7 +7,7 @@ except ImportError:
 from pytransform3d.plot_utils import (
     make_3d_axis, remove_frame, Frame, LabeledFrame, Trajectory,
     plot_box, plot_sphere, plot_cylinder, plot_mesh, plot_ellipsoid,
-    plot_vector, plot_length_variable)
+    plot_capsule, plot_vector, plot_length_variable)
 from nose.tools import assert_equal, assert_less, assert_greater_equal
 
 
@@ -183,6 +183,24 @@ def test_plot_ellipsoid_wireframe():
     ax = make_3d_axis(1.0)
     try:
         plot_ellipsoid(ax, wireframe=True)
+        assert_equal(len(ax.collections), 1)
+    finally:
+        ax.remove()
+
+
+def test_plot_capsule():
+    ax = make_3d_axis(1.0)
+    try:
+        plot_capsule(ax, wireframe=False)
+        assert_equal(len(ax.collections), 1)
+    finally:
+        ax.remove()
+
+
+def test_plot_capsule_wireframe():
+    ax = make_3d_axis(1.0)
+    try:
+        plot_capsule(ax, wireframe=True)
         assert_equal(len(ax.collections), 1)
     finally:
         ax.remove()
