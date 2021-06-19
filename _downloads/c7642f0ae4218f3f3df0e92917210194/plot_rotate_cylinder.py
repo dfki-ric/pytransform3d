@@ -29,7 +29,7 @@ length = 1.0
 radius = 0.1
 mass = 1.0
 dt = 0.2
-I = inertia_of_cylinder(mass, length, radius)
+inertia = inertia_of_cylinder(mass, length, radius)
 tau = np.array([0.05, 0.05, 0.0])
 angular_velocity = np.zeros(3)
 orientation = np.zeros(3)
@@ -42,7 +42,7 @@ for p_xy in np.linspace(-2, 2, 21):
                        alpha=0.2, ax_s=2.0, ax=ax)
     plot_transform(ax=ax, A2B=A2B, s=radius, lw=3)
 
-    angular_acceleration = np.linalg.inv(I).dot(tau)
+    angular_acceleration = np.linalg.inv(inertia).dot(tau)
     angular_velocity += dt * angular_acceleration
     orientation += dt * angular_velocity
 ax.view_init(elev=30, azim=70)

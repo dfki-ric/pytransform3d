@@ -19,10 +19,10 @@ import pytransform3d.visualizer as pv
 def spatial_inertia_of_cylinder(mass, length, radius):
     I_xx = I_yy = 0.25 * mass * radius ** 2 + 1.0 / 12.0 * mass * length ** 2
     I_zz = 0.5 * mass * radius ** 2
-    I = np.eye(6)
-    I[:3, :3] *= np.array([I_xx, I_yy, I_zz])
-    I[3:, 3:] *= mass
-    return I
+    inertia = np.eye(6)
+    inertia[:3, :3] *= np.array([I_xx, I_yy, I_zz])
+    inertia[3:, 3:] *= mass
+    return inertia
 
 
 def animation_callback(

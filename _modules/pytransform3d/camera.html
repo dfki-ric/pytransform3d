@@ -4,14 +4,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.camera &#8212; pytransform3d 1.8 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <title>pytransform3d.camera &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -62,7 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
@@ -118,7 +119,8 @@
 <span class="sd">See :doc:`camera` for more information.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">invert_transform</span><span class="p">,</span> <span class="n">transform</span>
+<span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">invert_transform</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">check_transform</span><span class="p">,</span>
+                              <span class="n">vectors_to_points</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="make_world_grid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.make_world_grid.html#pytransform3d.camera.make_world_grid">[docs]</a><span class="k">def</span> <span class="nf">make_world_grid</span><span class="p">(</span><span class="n">n_lines</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">n_points_per_line</span><span class="o">=</span><span class="mi">51</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
@@ -219,9 +221,14 @@
 <span class="sd">    P_sensor : array-like, shape (n_points, 2)</span>
 <span class="sd">        Points on the sensor plane. The result for points that are behind the</span>
 <span class="sd">        camera will be a vector of nans.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is not valid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n_points</span><span class="p">,</span> <span class="n">n_dims</span> <span class="o">=</span> <span class="n">P_cam</span><span class="o">.</span><span class="n">shape</span>
-    <span class="k">if</span> <span class="n">n_dims</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">n_dims</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">n_dims</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected 3- or 4-dimensional points, got </span><span class="si">%d</span><span class="s2"> &quot;</span>
                          <span class="s2">&quot;dimensions&quot;</span> <span class="o">%</span> <span class="n">n_dims</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">focal_length</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -307,7 +314,9 @@
     <span class="k">return</span> <span class="n">P_img</span></div>
 
 
-<div class="viewcode-block" id="plot_camera"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.plot_camera.html#pytransform3d.camera.plot_camera">[docs]</a><span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_camera"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.plot_camera.html#pytransform3d.camera.plot_camera">[docs]</a><span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&quot;&quot;&quot;Plot camera in world coordinates.</span>
 
 <span class="sd">    This function is inspired by Blender&#39;s camera visualization. It will</span>
@@ -354,12 +363,14 @@
 <span class="sd">    -------</span>
 <span class="sd">    ax : Matplotlib 3d axis</span>
 <span class="sd">        New or old axis</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span>
-    <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">check_transform</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">vector_to_point</span><span class="p">,</span>
-                                  <span class="n">vectors_to_points</span><span class="p">)</span>
 
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is not valid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">M</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -370,47 +381,22 @@
 
     <span class="n">cam2world</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">cam2world</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
 
-    <span class="n">camera_center_in_cam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">camera_center_in_world</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span>
-        <span class="n">cam2world</span><span class="p">,</span> <span class="n">vector_to_point</span><span class="p">(</span><span class="n">camera_center_in_cam</span><span class="p">))</span>
+    <span class="n">camera_center_in_world</span> <span class="o">=</span> <span class="n">cam2world</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
     <span class="n">focal_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">M</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]))</span>
     <span class="n">sensor_corners_in_cam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-        <span class="p">[</span><span class="o">-</span><span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
-        <span class="p">[</span><span class="o">-</span><span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
-        <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
-        <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">],</span>
     <span class="p">])</span>
+    <span class="n">sensor_corners_in_cam</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">sensor_corners_in_cam</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
     <span class="n">sensor_corners_in_world</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span>
         <span class="n">cam2world</span><span class="p">,</span> <span class="n">vectors_to_points</span><span class="p">(</span><span class="n">sensor_corners_in_cam</span><span class="p">))[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">virtual_image_corners</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">sensor_corners_in_world</span> <span class="o">-</span> <span class="n">camera_center_in_world</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
-    <span class="n">virtual_image_corners</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">virtual_image_distance</span> <span class="o">/</span> <span class="n">focal_length</span> <span class="o">*</span> <span class="n">virtual_image_corners</span> <span class="o">+</span>
-            <span class="n">camera_center_in_world</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
-
-    <span class="n">camera_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">camera_center_in_world</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-        <span class="n">camera_center_in_world</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-        <span class="n">camera_center_in_world</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-        <span class="n">camera_center_in_world</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="p">))</span>
-
-    <span class="n">up</span> <span class="o">=</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">camera_top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
-        <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
-        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span>
-    <span class="p">])</span>
+        <span class="n">virtual_image_distance</span> <span class="o">/</span> <span class="n">focal_length</span> <span class="o">*</span>
+        <span class="p">(</span><span class="n">sensor_corners_in_world</span> <span class="o">-</span> <span class="n">camera_center_in_world</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span> <span class="o">+</span>
+        <span class="n">camera_center_in_world</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="s2">&quot;c&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
         <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
@@ -419,14 +405,50 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">camera_frame</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">camera_frame</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">camera_frame</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">camera_top</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">camera_top</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">camera_top</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">_make_camera_frame</span><span class="p">(</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="n">virtual_image_corners</span><span class="p">,</span> <span class="n">camera_center_in_world</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">_make_camera_top</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">virtual_image_corners</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">camera_center_in_world</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">camera_center_in_world</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                <span class="n">camera_center_in_world</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<span class="k">def</span> <span class="nf">_make_camera_frame</span><span class="p">(</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="n">virtual_image_corners</span><span class="p">,</span> <span class="n">camera_center_in_world</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="sd">&quot;&quot;&quot;Plot camera frame.&quot;&quot;&quot;</span>
+    <span class="n">camera_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">camera_center_in_world</span><span class="p">,</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">camera_center_in_world</span><span class="p">,</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">camera_center_in_world</span><span class="p">,</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="n">camera_center_in_world</span><span class="p">,</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">camera_frame</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">camera_frame</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">camera_frame</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_make_camera_top</span><span class="p">(</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="n">virtual_image_corners</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="sd">&quot;&quot;&quot;Plot top indicator of camera.&quot;&quot;&quot;</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">camera_top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+        <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+        <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span>
+    <span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">camera_top</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">camera_top</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">camera_top</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -441,7 +463,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 27, 2021.<br/>
+      Last updated on Jun 19, 2021.<br/>
     </p>
   </div>
 </footer>

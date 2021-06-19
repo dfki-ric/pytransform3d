@@ -56,7 +56,7 @@ def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]),
     """
     from pytransform3d.rotations import (
         vector_projection, angle_between_vectors, perpendicular_to_vectors,
-        _slerp_weights)
+        slerp_weights)
     from pytransform3d.transformations import (
         check_screw_parameters, transform, translate_transform,
         vector_to_point, vector_to_direction, vectors_to_points)
@@ -82,7 +82,7 @@ def plot_screw(figure, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]),
         for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)),
                                   np.linspace(0.0, 1.0, len(arc)))):
             t1, t2 = t
-            w1, w2 = _slerp_weights(angle, t1)
+            w1, w2 = slerp_weights(angle, t1)
             arc[i] = (origin_projected_on_screw_axis
                       + w1 * screw_axis_to_old_frame
                       + w2 * screw_axis_to_rotated_frame

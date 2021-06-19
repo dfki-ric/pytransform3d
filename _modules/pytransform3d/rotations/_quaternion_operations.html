@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.rotations._quaternion_operations &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../index.html">Contents</a></li>
+                <li><a href="../../../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../../../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pytransform3d.rotations._quaternion_operations</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Quaternion operations.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">check_quaternion</span><span class="p">,</span> <span class="n">check_quaternions</span>
+<span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">quaternion_from_compact_axis_angle</span><span class="p">,</span>
+                           <span class="n">compact_axis_angle_from_quaternion</span><span class="p">,</span>
+                           <span class="n">axis_angle_from_quaternion</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="quaternion_integrate"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_integrate.html#pytransform3d.rotations.quaternion_integrate">[docs]</a><span class="k">def</span> <span class="nf">quaternion_integrate</span><span class="p">(</span><span class="n">Qd</span><span class="p">,</span> <span class="n">q0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">dt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Integrate angular velocities to quaternions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Qd : array-like, shape (n_steps, 3)</span>
+<span class="sd">        Angular velocities in a compact axis-angle representation. Each angular</span>
+<span class="sd">        velocity represents the rotational offset after one unit of time.</span>
+
+<span class="sd">    q0 : array-like, shape (4,), optional (default: [1, 0, 0, 0])</span>
+<span class="sd">        Unit quaternion to represent initial rotation: (w, x, y, z)</span>
+
+<span class="sd">    dt : float, optional (default: 1)</span>
+<span class="sd">        Time interval between steps.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Quaternions to represent rotations: (w, x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Qd</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">q0</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Qd</span><span class="p">)):</span>
+        <span class="n">qd</span> <span class="o">=</span> <span class="p">(</span><span class="n">Qd</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">Qd</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">concatenate_quaternions</span><span class="p">(</span>
+            <span class="n">quaternion_from_compact_axis_angle</span><span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">qd</span><span class="p">),</span> <span class="n">Q</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Q</span></div>
+
+
+<div class="viewcode-block" id="quaternion_gradient"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_gradient.html#pytransform3d.rotations.quaternion_gradient">[docs]</a><span class="k">def</span> <span class="nf">quaternion_gradient</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Time-derivatives of a sequence of quaternions.</span>
+
+<span class="sd">    Note that this function does not provide the exact same functionality for</span>
+<span class="sd">    quaternions as `NumPy&#39;s gradient function</span>
+<span class="sd">    &lt;https://numpy.org/doc/stable/reference/generated/numpy.gradient.html&gt;`_</span>
+<span class="sd">    for positions. Gradients are always computed as central differences except</span>
+<span class="sd">    the first and last gradient. We additionally accept a parameter dt that</span>
+<span class="sd">    defines the time interval between each quaternion. Note that this means</span>
+<span class="sd">    that we expect this to be constant for the whole sequence.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    dt : float, optional (default: 1)</span>
+<span class="sd">        Time interval between steps. If you have non-constant dt, you can pass</span>
+<span class="sd">        1 and manually divide angular velocities by their corresponding time</span>
+<span class="sd">        interval afterwards.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A : array-like, shape (n_steps, 3)</span>
+<span class="sd">        Angular velocities in a compact axis-angle representation. Each angular</span>
+<span class="sd">        velocity represents the rotational offset after one unit of time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">check_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+    <span class="n">Qd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">Qd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_quaternion</span><span class="p">(</span>
+        <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span> <span class="o">/</span> <span class="n">dt</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># divided by two because of central differences</span>
+        <span class="n">Qd</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_quaternion</span><span class="p">(</span>
+            <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">Qd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_quaternion</span><span class="p">(</span>
+        <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])))</span> <span class="o">/</span> <span class="n">dt</span>
+    <span class="k">return</span> <span class="n">Qd</span></div>
+
+
+<div class="viewcode-block" id="concatenate_quaternions"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.concatenate_quaternions.html#pytransform3d.rotations.concatenate_quaternions">[docs]</a><span class="k">def</span> <span class="nf">concatenate_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate two quaternions.</span>
+
+<span class="sd">    We use Hamilton&#39;s quaternion multiplication.</span>
+
+<span class="sd">    Suppose we want to apply two extrinsic rotations given by quaternions</span>
+<span class="sd">    q1 and q2 to a vector v. We can either apply q2 to v and then q1 to</span>
+<span class="sd">    the result or we can concatenate q1 and q2 and apply the result to v.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q1 : array-like, shape (4,)</span>
+<span class="sd">        First quaternion</span>
+
+<span class="sd">    q2 : array-like, shape (4,)</span>
+<span class="sd">        Second quaternion</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q12 : array-like, shape (4,)</span>
+<span class="sd">        Quaternion that represents the concatenated rotation q1 * q2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">q12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">q12</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">q1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">q2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">q1</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">q2</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">q12</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">q1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">q2</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">q2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">q1</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">q1</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">q2</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">q12</span></div>
+
+
+<div class="viewcode-block" id="q_prod_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.q_prod_vector.html#pytransform3d.rotations.q_prod_vector">[docs]</a><span class="k">def</span> <span class="nf">q_prod_vector</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply rotation represented by a quaternion to a vector.</span>
+
+<span class="sd">    We use Hamilton&#39;s quaternion multiplication.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    v : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    w : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">t</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="q_conj"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.q_conj.html#pytransform3d.rotations.q_conj">[docs]</a><span class="k">def</span> <span class="nf">q_conj</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Conjugate of quaternion.</span>
+
+<span class="sd">    The conjugate of a unit quaternion inverts the rotation represented by</span>
+<span class="sd">    this unit quaternion. The conjugate of a quaternion q is often denoted</span>
+<span class="sd">    as q*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q_c : array-like, shape (4,)</span>
+<span class="sd">        Conjugate (w, -x, -y, -z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span></div>
+
+
+<div class="viewcode-block" id="quaternion_dist"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_dist.html#pytransform3d.rotations.quaternion_dist">[docs]</a><span class="k">def</span> <span class="nf">quaternion_dist</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute distance between two quaternions.</span>
+
+<span class="sd">    We use the angular metric of :math:`S^3`, which is defined as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        d(q_1, q_2) = \min(|| \log(q_1 * \overline{q_2})||,</span>
+<span class="sd">                            2 \pi - || \log(q_1 * \overline{q_2})||)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q1 : array-like, shape (4,)</span>
+<span class="sd">        First quaternion</span>
+
+<span class="sd">    q2 : array-like, shape (4,)</span>
+<span class="sd">        Second quaternion</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dist : float</span>
+<span class="sd">        Distance between q1 and q2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
+    <span class="n">q12c</span> <span class="o">=</span> <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">q2</span><span class="p">))</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">axis_angle_from_quaternion</span><span class="p">(</span><span class="n">q12c</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">angle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="quaternion_diff"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_diff.html#pytransform3d.rotations.quaternion_diff">[docs]</a><span class="k">def</span> <span class="nf">quaternion_diff</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the rotation in angle-axis format that rotates q2 into q1.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \omega = 2 \log (q_1 * \overline{q_2})</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q1 : array-like, shape (4,)</span>
+<span class="sd">        First quaternion</span>
+
+<span class="sd">    q2 : array-line, shape (4,)</span>
+<span class="sd">        Second quaternion</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">        The rotation in angle-axis format that rotates q2 into q1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
+    <span class="n">q2</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
+    <span class="n">q1q2c</span> <span class="o">=</span> <span class="n">concatenate_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">(</span><span class="n">q2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">axis_angle_from_quaternion</span><span class="p">(</span><span class="n">q1q2c</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jun 19, 2021.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

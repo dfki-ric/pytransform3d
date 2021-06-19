@@ -3,15 +3,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils.plot_vector &#8212; pytransform3d 1.8 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pytransform3d.plot_utils.plot_vector &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -41,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -64,7 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
@@ -120,11 +122,11 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="pytransform3d-plot-utils-plot-vector">
+  <section id="pytransform3d-plot-utils-plot-vector">
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a>.plot_vector<a class="headerlink" href="#pytransform3d-plot-utils-plot-vector" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="pytransform3d.plot_utils.plot_vector">
-<code class="sig-prename descclassname"><span class="pre">pytransform3d.plot_utils.</span></code><code class="sig-name descname"><span class="pre">plot_vector</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([1,</span> <span class="pre">0,</span> <span class="pre">0])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrowstyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'simple'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils.html#plot_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.plot_vector" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pytransform3d.plot_utils.plot_vector">
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.plot_utils.</span></span><span class="sig-name descname"><span class="pre">plot_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([1,</span> <span class="pre">0,</span> <span class="pre">0])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrowstyle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'simple'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils/_plot_functions.html#plot_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.plot_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot Vector.</p>
 <p>Draws an arrow from start to start + s * direction.</p>
 <dl class="field-list simple">
@@ -156,22 +158,28 @@ matplotlib.patches.FancyArrowPatch for more options</p>
 </dl>
 </dd></dl>
 
-<div class="section" id="examples-using-pytransform3d-plot-utils-plot-vector">
+<section id="examples-using-pytransform3d-plot-utils-plot-vector">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.plot_utils.plot_vector</span></code><a class="headerlink" href="#examples-using-pytransform3d-plot-utils-plot-vector" title="Permalink to this headline">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="Does this need more documentation?"><div class="figure align-default" id="id1">
+<div class="sphx-glr-thumbcontainer" tooltip="Does this need more documentation?"><figure class="align-default" id="id1">
 <img alt="Plot Vector" src="../_images/sphx_glr_plot_vector_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_vector.html#sphx-glr-auto-examples-plots-plot-vector-py"><span class="std std-ref">Plot Vector</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the sam..."><div class="figure align-default" id="id2">
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_vector.html#sphx-glr-auto-examples-plots-plot-vector-py"><span class="std std-ref">Plot Vector</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the sam..."><figure class="align-default" id="id2">
 <img alt="Construct Rotation Matrix from Two Vectors" src="../_images/sphx_glr_plot_matrix_from_two_vectors_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_matrix_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-matrix-from-two-vectors-py"><span class="std std-ref">Construct Rotation Matrix from Two Vectors</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><div class="figure align-default" id="id3">
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_matrix_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-matrix-from-two-vectors-py"><span class="std std-ref">Construct Rotation Matrix from Two Vectors</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><figure class="align-default" id="id3">
 <img alt="Axis-Angle Representation from Two Direction Vectors" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="sphx-glr-clear"></div></div>
-</div>
+<figcaption>
+<p><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</div><div class="sphx-glr-clear"></div></section>
+</section>
 
 
     </div>
@@ -186,7 +194,7 @@ matplotlib.patches.FancyArrowPatch for more options</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 27, 2021.<br/>
+      Last updated on Jun 19, 2021.<br/>
     </p>
   </div>
 </footer>

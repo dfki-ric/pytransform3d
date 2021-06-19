@@ -21,11 +21,41 @@ that are available in pytransform3d.
    :width: 50%
    :align: center
 
+Not all representations support all operations directly without conversion to
+another representation. The following table is an overview. If the operation
+is not implemented in pytransform3d then it is shown in brackets.
+
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Representation                         | Inverse       | Rotation of vector | Concatenation | Interpolation |
++========================================+===============+====================+===============+===============+
+| Rotation matrix                        | Transpose     | Yes                | Yes           | No            |
+| :math:`\pmb{R}`                        |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Compact axis-angle                     | Negative      | No                 | No            | (Yes)         |
+| :math:`\pmb{\omega}`                   |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Axis-angle                             | Negative axis | No                 | No            | Yes           |
+| :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Logarithm of rotation                  | Negative      | No                 | No            | (Yes)         |
+| :math:`\left[\pmb{\omega}\right]`      |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Quaternion                             | Conjugate     | Yes                | Yes           | Yes           |
+| :math:`\pmb{q}`                        |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Rotor                                  | Reverse       | Yes                | Yes           | Yes           |
+| :math:`R`                              |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+| Euler angles                           | No            | No                 | No            | No            |
+| :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
+
+
 ---------------
 Rotation Matrix
 ---------------
 
-The most practical representation of orientation is a rotation matrix
+One of the most practical representations of orientation is a rotation matrix
 
 .. math::
 
@@ -316,9 +346,72 @@ information.
 * Concatenation and transformation of vectors requires conversion to rotation
   matrix or quaternion
 
+
+------
+Rotors
+------
+
+.. plot:: ../../examples/plots/plot_bivector.py
+
+Rotors and quaternions are very similar concepts in 3D. However, rotors are
+more general as they can be extended to more dimensions.
+
+The concept of a quaternion builds on the axis-angle representation, in
+which we rotate by an angle about a rotation axis (see black arrow in the
+illustration above). The axis can be computed from the cross product of two
+vectors (gray arrow). A rotor builds on a plane-angle representation, in which
+we rotate with a given direction by an angle in a plane (indicated by gray
+area). The plane can be computed from the wedge product :math:`a \wedge b` of
+two vectors :math:`a` and :math:`b`, which is a so-called bivector. Although
+both approaches might seem different, in 3D they operate with exactly the same
+numbers in exactly the same way.
+
+.. warning::
+
+    The rotors :math:`R` and :math:`-R` represent exactly the same rotation.
+
+A rotor is a unit multivector
+
+.. math::
+
+    R = (a, b_{yz}, b_{zx}, b_{xy})
+
+that consists of a scalar :math:`a` and a bivector
+:math:`(b_{yz}, b_{zx}, b_{xy})`. The components of a bivector constructed
+by the wedge product of two vectors can be interpreted as the area of the
+parallelogram formed by the two vectors projected on the three basis planes
+yz, zx, and xy (see illustration above). These values also correspond to the
+x-, y-, and z-components of the cross product of the two vectors, which allows
+two different interpretations of the same numbers from which we can then derive
+quaternions on the one hand and rotors on the other hand.
+
+.. warning::
+
+    In pytransform3d our convention is that we organize the components of a
+    rotor in exactly the same way as we organize the components of the
+    equivalent quaternion. There are other conventions. It is not just possible
+    to change the order of the scalar and the bivector (similar to a
+    quaterion), but also to change the order of bivector components.
+
+**Pros**
+
+* More compact than the matrix representation.
+* Concatenation is simple and computationally cheaper than with rotation
+  matrices.
+* No singularities.
+* Renormalization is cheap in comparison to rotation matrices: we only
+  have to divide by the norm of the rotor.
+
+**Cons**
+
+* The representation is not straightforward to interpret
+
 ----------
 References
 ----------
 
 * Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
 * Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+* Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
+* Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
+* Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004

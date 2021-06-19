@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../index.html">Contents</a></li>
+                <li><a href="../../../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../../../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pytransform3d.visualizer._artists</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Visualizer artists.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">urdf</span>
+
+
+<div class="viewcode-block" id="Artist"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist">[docs]</a><span class="k">class</span> <span class="nc">Artist</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Abstract base class for objects that can be rendered.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Artist.add_artist"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist.add_artist">[docs]</a>    <span class="k">def</span> <span class="nf">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add artist to figure.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        figure : Figure</span>
+<span class="sd">            Figure to which the artist will be added.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">geometries</span><span class="p">:</span>
+            <span class="n">figure</span><span class="o">.</span><span class="n">add_geometry</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="Line3D"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D">[docs]</a><span class="k">class</span> <span class="nc">Line3D</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A line.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    P : array-like, shape (n_points, 3)</span>
+<span class="sd">        Points of which the line consists.</span>
+
+<span class="sd">    c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)</span>
+<span class="sd">        Color can be given as individual colors per line segment or as one</span>
+<span class="sd">        color for each segment. A color is represented by 3 values between</span>
+<span class="sd">        0 and 1 indicate representing red, green, and blue respectively.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Line3D.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">LineSet</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Line3D.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        P : array-like, shape (n_points, 3)</span>
+<span class="sd">            Points of which the line consists.</span>
+
+<span class="sd">        c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)</span>
+<span class="sd">            Color can be given as individual colors per line segment or</span>
+<span class="sd">            as one color for each segment. A color is represented by 3</span>
+<span class="sd">            values between 0 and 1 indicate representing red, green, and</span>
+<span class="sd">            blue respectively.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector2iVector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">))[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])))</span>
+
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># one color for all segments</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Frame"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame">[docs]</a><span class="k">class</span> <span class="nc">Frame</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Coordinate frame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Transform from frame A to frame B</span>
+
+<span class="sd">    label : str, optional (default: None)</span>
+<span class="sd">        Name of the frame</span>
+
+<span class="sd">    s : float, optional (default: 1)</span>
+<span class="sd">        Length of basis vectors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Frame.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_coordinate_frame</span><span class="p">(</span>
+            <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Frame.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Transform from frame A to frame B</span>
+
+<span class="sd">        label : str, optional (default: None)</span>
+<span class="sd">            Name of the frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;This viewer does not support text. Frame label &quot;</span>
+                <span class="s2">&quot;will be ignored.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Trajectory"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory">[docs]</a><span class="k">class</span> <span class="nc">Trajectory</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trajectory of poses.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    H : array-like, shape (n_steps, 4, 4)</span>
+<span class="sd">        Sequence of poses represented by homogeneous matrices</span>
+
+<span class="sd">    n_frames : int, optional (default: 10)</span>
+<span class="sd">        Number of frames that should be plotted to indicate the rotation</span>
+
+<span class="sd">    s : float, optional (default: 1)</span>
+<span class="sd">        Scaling of the frames that will be drawn</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: black)</span>
+<span class="sd">        A color is represented by 3 values between 0 and 1 indicate</span>
+<span class="sd">        representing red, green, and blue respectively.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Trajectory.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="n">H</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_frames</span> <span class="o">=</span> <span class="n">n_frames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_frames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">c</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_frames_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_frames</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key_frame_idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_frames_indices</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H</span><span class="p">[</span><span class="n">key_frame_idx</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">H</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Trajectory.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        H : array-like, shape (n_steps, 4, 4)</span>
+<span class="sd">            Sequence of poses represented by homogeneous matrices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key_frame_idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_frames_indices</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_frames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">key_frame_idx</span><span class="p">])</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">geometries</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">kf</span><span class="o">.</span><span class="n">geometries</span> <span class="k">for</span> <span class="n">kf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_frames</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="Sphere"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Sphere.html#pytransform3d.visualizer.Sphere">[docs]</a><span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sphere.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    radius : float, optional (default: 1)</span>
+<span class="sd">        Radius of the sphere</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Center of the sphere</span>
+
+<span class="sd">    resolution : int, optianal (default: 20)</span>
+<span class="sd">        The resolution of the sphere. The longitues will be split into</span>
+<span class="sd">        resolution segments (i.e. there are resolution + 1 latitude lines</span>
+<span class="sd">        including the north and south pole). The latitudes will be split</span>
+<span class="sd">        into 2 * resolution segments (i.e. there are 2 * resolution</span>
+<span class="sd">        longitude lines.)</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Sphere.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Sphere.html#pytransform3d.visualizer.Sphere.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
+            <span class="n">radius</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vertices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sphere</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">colors</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span><span class="o">.</span><span class="n">vertex_colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Sphere.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Sphere.html#pytransform3d.visualizer.Sphere.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Center of the sphere</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sphere</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Box"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Box.html#pytransform3d.visualizer.Box">[docs]</a><span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Box.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size : array-like, shape (3,), optional (default: [1, 1, 1])</span>
+<span class="sd">        Size of the box per dimension</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4), optional (default: I)</span>
+<span class="sd">        Center of the box</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Box.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Box.html#pytransform3d.visualizer.Box.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">half_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_box</span><span class="p">(</span>
+            <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vertices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">colors</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">vertex_colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Box.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Box.html#pytransform3d.visualizer.Box.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Center of the box</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+                <span class="n">pt</span><span class="o">.</span><span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">p</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">half_size</span><span class="p">))</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Cylinder"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder">[docs]</a><span class="k">class</span> <span class="nc">Cylinder</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cylinder.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    length : float, optional (default: 1)</span>
+<span class="sd">        Length of the cylinder</span>
+
+<span class="sd">    radius : float, optional (default: 1)</span>
+<span class="sd">        Radius of the cylinder</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Center of the cylinder</span>
+
+<span class="sd">    resolution : int, optional (default: 20)</span>
+<span class="sd">        The circle will be split into resolution segments</span>
+
+<span class="sd">    split : int, optional (default: 4)</span>
+<span class="sd">        The height will be split into split segments</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Cylinder.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                 <span class="n">split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_cylinder</span><span class="p">(</span>
+            <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+            <span class="n">split</span><span class="o">=</span><span class="n">split</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vertices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">colors</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span><span class="o">.</span><span class="n">vertex_colors</span> <span class="o">=</span> \
+                <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Cylinder.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Center of the cylinder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Mesh"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh">[docs]</a><span class="k">class</span> <span class="nc">Mesh</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mesh.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Path to mesh file</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Center of the mesh</span>
+
+<span class="sd">    s : array-like, shape (3,), optional (default: [1, 1, 1])</span>
+<span class="sd">        Scaling of the mesh that will be drawn</span>
+
+<span class="sd">    c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)</span>
+<span class="sd">        Color(s)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Mesh.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_triangle_mesh</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vertices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">colors</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertex_colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Mesh.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Center of the mesh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Ellipsoid"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid">[docs]</a><span class="k">class</span> <span class="nc">Ellipsoid</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ellipsoid.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    radii : array-like, shape (3,)</span>
+<span class="sd">        Radii along the x-axis, y-axis, and z-axis of the ellipsoid.</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Pose of the ellipsoid.</span>
+
+<span class="sd">    resolution : int, optianal (default: 20)</span>
+<span class="sd">        The resolution of the ellipsoid. The longitues will be split into</span>
+<span class="sd">        resolution segments (i.e. there are resolution + 1 latitude lines</span>
+<span class="sd">        including the north and south pole). The latitudes will be split</span>
+<span class="sd">        into 2 * resolution segments (i.e. there are 2 * resolution</span>
+<span class="sd">        longitude lines.)</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Ellipsoid.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
+            <span class="mf">1.0</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">radii</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vertices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">colors</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">vertex_colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Ellipsoid.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Center of the mesh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="p">]</span></div>
+
+
+<span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Camera.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : array-like, shape (3, 3)</span>
+<span class="sd">        Intrinsic camera matrix that contains the focal lengths on the diagonal</span>
+<span class="sd">        and the center of the the image in the last column. It does not matter</span>
+<span class="sd">        whether values are given in meters or pixels as long as the unit is the</span>
+<span class="sd">        same as for the sensor size.</span>
+
+<span class="sd">    cam2world : array-like, shape (4, 4), optional (default: I)</span>
+<span class="sd">        Transformation matrix of camera in world frame. We assume that the</span>
+<span class="sd">        position is given in meters.</span>
+
+<span class="sd">    virtual_image_distance : float, optional (default: 1)</span>
+<span class="sd">        Distance from pinhole to virtual image plane that will be displayed.</span>
+<span class="sd">        We assume that this distance is given in meters. The unit has to be</span>
+<span class="sd">        consistent with the unit of the position in cam2world.</span>
+
+<span class="sd">    sensor_size : array-like, shape (2,), optional (default: [1920, 1080])</span>
+<span class="sd">        Size of the image sensor: (width, height). It does not matter whether</span>
+<span class="sd">        values are given in meters or pixels as long as the unit is the same as</span>
+<span class="sd">        for the sensor size.</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cam2world</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">virtual_image_distance</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensor_size</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span> <span class="o">=</span> <span class="n">strict_check</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">LineSet</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">cam2world</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cam2world</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">sensor_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update camera parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        M : array-like, shape (3, 3), optional (default: old value)</span>
+<span class="sd">            Intrinsic camera matrix that contains the focal lengths on the</span>
+<span class="sd">            diagonal and the center of the the image in the last column. It</span>
+<span class="sd">            does not matter whether values are given in meters or pixels as</span>
+<span class="sd">            long as the unit is the same as for the sensor size.</span>
+
+<span class="sd">        cam2world : array-like, shape (4, 4), optional (default: old value)</span>
+<span class="sd">            Transformation matrix of camera in world frame. We assume that</span>
+<span class="sd">            the position is given in meters.</span>
+
+<span class="sd">        virtual_image_distance : float, optional (default: old value)</span>
+<span class="sd">            Distance from pinhole to virtual image plane that will be</span>
+<span class="sd">            displayed. We assume that this distance is given in meters.</span>
+<span class="sd">            The unit has to be consistent with the unit of the position</span>
+<span class="sd">            in cam2world.</span>
+
+<span class="sd">        sensor_size : array-like, shape (2,), optional (default: old value)</span>
+<span class="sd">            Size of the image sensor: (width, height). It does not matter</span>
+<span class="sd">            whether values are given in meters or pixels as long as the</span>
+<span class="sd">            unit is the same as for the sensor size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">M</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
+        <span class="k">if</span> <span class="n">cam2world</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cam2world</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">check_transform</span><span class="p">(</span>
+                <span class="n">cam2world</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">virtual_image_distance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">virtual_image_distance</span> <span class="o">=</span> <span class="n">virtual_image_distance</span>
+        <span class="k">if</span> <span class="n">sensor_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sensor_size</span> <span class="o">=</span> <span class="n">sensor_size</span>
+
+        <span class="n">camera_center_in_world</span> <span class="o">=</span> <span class="n">cam2world</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">focal_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">M</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="n">sensor_corners_in_cam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">],</span>
+        <span class="p">])</span>
+        <span class="n">sensor_corners_in_cam</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">sensor_corners_in_cam</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">sensor_corners_in_world</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">cam2world</span><span class="p">,</span> <span class="n">pt</span><span class="o">.</span><span class="n">vectors_to_points</span><span class="p">(</span><span class="n">sensor_corners_in_cam</span><span class="p">))[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">virtual_image_corners</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">virtual_image_distance</span> <span class="o">/</span> <span class="n">focal_length</span> <span class="o">*</span>
+            <span class="p">(</span><span class="n">sensor_corners_in_world</span> <span class="o">-</span> <span class="n">camera_center_in_world</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span> <span class="o">+</span>
+            <span class="n">camera_center_in_world</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+
+        <span class="n">up</span> <span class="o">=</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">camera_line_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span>
+            <span class="n">camera_center_in_world</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+            <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+            <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
+                   <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+            <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span>
+        <span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span>
+            <span class="n">camera_line_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector2iVector</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Graph of connected frames.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tm : TransformManager</span>
+<span class="sd">        Representation of the graph</span>
+
+<span class="sd">    frame : str</span>
+<span class="sd">        Name of the base frame in which the graph will be displayed</span>
+
+<span class="sd">    show_frames : bool, optional (default: False)</span>
+<span class="sd">        Show coordinate frames</span>
+
+<span class="sd">    show_connections : bool, optional (default: False)</span>
+<span class="sd">        Draw lines between frames of the graph</span>
+
+<span class="sd">    show_visuals : bool, optional (default: False)</span>
+<span class="sd">        Show visuals that are stored in the graph</span>
+
+<span class="sd">    show_collision_objects : bool, optional (default: False)</span>
+<span class="sd">        Show collision objects that are stored in the graph</span>
+
+<span class="sd">    show_name : bool, optional (default: False)</span>
+<span class="sd">        Show names of frames</span>
+
+<span class="sd">    whitelist : list, optional (default: all)</span>
+<span class="sd">        List of frames that should be displayed</span>
+
+<span class="sd">    s : float, optional (default: 1)</span>
+<span class="sd">        Scaling of the frames that will be drawn</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Graph.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tm</span> <span class="o">=</span> <span class="n">tm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_frames</span> <span class="o">=</span> <span class="n">show_frames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_connections</span> <span class="o">=</span> <span class="n">show_connections</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_visuals</span> <span class="o">=</span> <span class="n">show_visuals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_collision_objects</span> <span class="o">=</span> <span class="n">show_collision_objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span> <span class="o">=</span> <span class="n">whitelist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Unknown frame &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">_whitelisted_nodes</span><span class="p">(</span><span class="n">whitelist</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">frames</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_frames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">node2frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">node</span> <span class="k">if</span> <span class="n">show_name</span> <span class="k">else</span> <span class="kc">None</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">node2frame</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># Frame is not connected to the reference frame</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_connections</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">frame_names</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span> <span class="o">=</span> <span class="n">frame_names</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">from_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">nodes</span> <span class="ow">and</span>
+                        <span class="n">to_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">to_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">frame_names</span><span class="p">]</span> <span class="o">=</span> \
+                            <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">LineSet</span><span class="p">()</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                        <span class="k">pass</span>  <span class="c1"># Frame is not connected to reference frame</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">show_visuals</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="p">,</span> <span class="s2">&quot;visuals&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_objects_to_artists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">visuals</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">show_collision_objects</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="p">,</span> <span class="s2">&quot;collision_objects&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">_objects_to_artists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">collision_objects</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Graph.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Indicate that data has been updated.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_frames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">node2frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">node2frame</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># Frame is not connected to the reference frame</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_connections</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">frame_names</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
+                <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span> <span class="o">=</span> <span class="n">frame_names</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">from2ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span>
+                        <span class="n">from_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+                    <span class="n">to2ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">to_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+
+                    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">from2ref</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">to2ref</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">frame_names</span><span class="p">]</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> \
+                        <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">[</span><span class="n">frame_names</span><span class="p">]</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> \
+                        <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector2iVector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># Frame is not connected to the reference frame</span>
+
+        <span class="k">for</span> <span class="n">frame</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">frame</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">geometries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_frames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">frames</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">geometries</span> <span class="o">+=</span> <span class="n">f</span><span class="o">.</span><span class="n">geometries</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_connections</span><span class="p">:</span>
+            <span class="n">geometries</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">geometries</span> <span class="o">+=</span> <span class="n">obj</span><span class="o">.</span><span class="n">geometries</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">geometries</span> <span class="o">+=</span> <span class="n">obj</span><span class="o">.</span><span class="n">geometries</span>
+        <span class="k">return</span> <span class="n">geometries</span></div>
+
+
+<span class="k">def</span> <span class="nf">_objects_to_artists</span><span class="p">(</span><span class="n">objects</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert geometries from URDF to artists.&quot;&quot;&quot;</span>
+    <span class="n">artists</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># we loose the alpha channel as it is not supported by Open3D</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">obj</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">obj</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">urdf</span><span class="o">.</span><span class="n">Sphere</span><span class="p">):</span>
+                <span class="n">artist</span> <span class="o">=</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">urdf</span><span class="o">.</span><span class="n">Box</span><span class="p">):</span>
+                <span class="n">artist</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">urdf</span><span class="o">.</span><span class="n">Cylinder</span><span class="p">):</span>
+                <span class="n">artist</span> <span class="o">=</span> <span class="n">Cylinder</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">urdf</span><span class="o">.</span><span class="n">Mesh</span><span class="p">)</span>
+                <span class="n">artist</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">artists</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">frame</span><span class="p">]</span> <span class="o">=</span> <span class="n">artist</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">artists</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jun 19, 2021.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

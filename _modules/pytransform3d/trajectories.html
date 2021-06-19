@@ -4,14 +4,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.trajectories &#8212; pytransform3d 1.8 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <title>pytransform3d.trajectories &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -62,7 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
@@ -119,12 +120,41 @@
 <span class="sd">and can be 400 to 1000 times faster than a loop of individual conversions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">Trajectory</span><span class="p">,</span> <span class="n">make_3d_axis</span>
 <span class="kn">from</span> <span class="nn">.batch_rotations</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">matrices_from_quaternions</span><span class="p">,</span> <span class="n">quaternions_from_matrices</span><span class="p">,</span>
     <span class="n">matrices_from_compact_axis_angles</span><span class="p">,</span> <span class="n">axis_angles_from_matrices</span><span class="p">,</span>
     <span class="n">batch_concatenate_quaternions</span><span class="p">,</span> <span class="n">batch_q_conj</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform_from_exponential_coordinates</span>
+
+
+<div class="viewcode-block" id="invert_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.invert_transforms.html#pytransform3d.trajectories.invert_transforms">[docs]</a><span class="k">def</span> <span class="nf">invert_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Invert transforms.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2Bs : array-like, shape (..., 4, 4)</span>
+<span class="sd">        Transforms from frames A to frames B</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    B2As : array, shape (..., 4, 4)</span>
+<span class="sd">        Transforms from frames B to frames A</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">B2As</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">)</span>
+    <span class="c1"># ( R t )^-1   ( R^T -R^T*t )</span>
+    <span class="c1"># ( 0 1 )    = ( 0    1     )</span>
+    <span class="n">B2As</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">A2Bs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="p">[</span><span class="n">A2Bs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">A2Bs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">B2As</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+        <span class="s2">&quot;nij,nj-&gt;ni&quot;</span><span class="p">,</span>
+        <span class="o">-</span><span class="n">B2As</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">instances_shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+    <span class="n">B2As</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">B2As</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">return</span> <span class="n">B2As</span></div>
 
 
 <div class="viewcode-block" id="transforms_from_pqs"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs">[docs]</a><span class="k">def</span> <span class="nf">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -223,21 +253,24 @@
     <span class="n">thetas</span> <span class="o">=</span> <span class="n">omega_thetas</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 
     <span class="c1"># from sympy import *</span>
-    <span class="c1"># omega0, omega1, omega2, px, py, pz, theta = symbols(&quot;o0 o1 o2 p0 p1 p2 theta&quot;)</span>
-    <span class="c1"># w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])</span>
+    <span class="c1"># o0, o1, o2, px, py, pz, t = symbols(&quot;o0 o1 o2 p0 p1 p2 theta&quot;)</span>
+    <span class="c1"># w = Matrix([[0, -o2, o1], [o2, 0, -o0], [-o1, o0, 0]])</span>
     <span class="c1"># p = Matrix([[px], [py], [pz]])</span>
-    <span class="c1"># v = (eye(3) / theta - 0.5 * w + (1.0 / theta - 0.5 / tan(theta / 2.0)) * w * w) * p</span>
+    <span class="c1"># v = (eye(3) / t - 0.5 * w + (1 / t - 0.5 / tan(t / 2.0)) * w * w) * p</span>
 
     <span class="c1"># Result:</span>
-    <span class="c1"># p0*(-o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)</span>
-    <span class="c1">#     + p1*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o2)</span>
-    <span class="c1">#     + p2*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o1)</span>
-    <span class="c1"># p0*(o0*o1*(-0.5/tan(0.5*theta) + 1.0/theta) - 0.5*o2)</span>
-    <span class="c1">#     + p1*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o2**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)</span>
-    <span class="c1">#     + p2*(0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))</span>
-    <span class="c1"># p0*(o0*o2*(-0.5/tan(0.5*theta) + 1.0/theta) + 0.5*o1)</span>
-    <span class="c1">#     + p1*(-0.5*o0 + o1*o2*(-0.5/tan(0.5*theta) + 1.0/theta))</span>
-    <span class="c1">#     + p2*(-o0**2*(-0.5/tan(0.5*theta) + 1.0/theta) - o1**2*(-0.5/tan(0.5*theta) + 1.0/theta) + 1/theta)</span>
+    <span class="c1"># p0*(-o1**2*(-0.5/tan(0.5*t) + 1/t)</span>
+    <span class="c1">#     - o2**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)</span>
+    <span class="c1">#     + p1*(o0*o1*(-0.5/tan(0.5*t) + 1/t) + 0.5*o2)</span>
+    <span class="c1">#     + p2*(o0*o2*(-0.5/tan(0.5*t) + 1/t) - 0.5*o1)</span>
+    <span class="c1"># p0*(o0*o1*(-0.5/tan(0.5*t) + 1/t) - 0.5*o2)</span>
+    <span class="c1">#     + p1*(-o0**2*(-0.5/tan(0.5*t) + 1/t)</span>
+    <span class="c1">#           - o2**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)</span>
+    <span class="c1">#     + p2*(0.5*o0 + o1*o2*(-0.5/tan(0.5*t) + 1/t))</span>
+    <span class="c1"># p0*(o0*o2*(-0.5/tan(0.5*t) + 1/t) + 0.5*o1)</span>
+    <span class="c1">#     + p1*(-0.5*o0 + o1*o2*(-0.5/tan(0.5*t) + 1/t))</span>
+    <span class="c1">#     + p2*(-o0**2*(-0.5/tan(0.5*t) + 1/t)</span>
+    <span class="c1">#           - o1**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)</span>
 
     <span class="n">thetas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">thetas</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span><span class="p">)</span>
     <span class="n">ti</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">thetas</span>
@@ -314,21 +347,21 @@
             <span class="n">axes</span><span class="o">=</span><span class="n">screw_axes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">angles</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span>
 
         <span class="c1"># from sympy import *</span>
-        <span class="c1"># omega0, omega1, omega2, vx, vy, vz, theta = symbols(&quot;omega_0 omega_1 omega_2 v_x v_y v_z theta&quot;)</span>
-        <span class="c1"># w = Matrix([[0, -omega2, omega1], [omega2, 0, -omega0], [-omega1, omega0, 0]])</span>
+        <span class="c1"># o0, o1, o2, vx, vy, vz, t = symbols(&quot;o0 o1 o2 v_x v_y v_z t&quot;)</span>
+        <span class="c1"># w = Matrix([[0, -o2, o1], [o2, 0, -o0], [-o1, o0, 0]])</span>
         <span class="c1"># v = Matrix([[vx], [vy], [vz]])</span>
-        <span class="c1"># p = (eye(3) * theta + (1 - cos(theta)) * w + (theta - sin(theta)) * w * w) * v</span>
+        <span class="c1"># p = (eye(3) * t + (1 - cos(t)) * w + (t - sin(t)) * w * w) * v</span>
         <span class="c1">#</span>
         <span class="c1"># Result:</span>
-        <span class="c1"># -v_x*(omega_1**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)</span>
-        <span class="c1">#     + v_y*(omega_0*omega_1*(theta - sin(theta)) + omega_2*(cos(theta) - 1))</span>
-        <span class="c1">#     + v_z*(omega_0*omega_2*(theta - sin(theta)) - omega_1*(cos(theta) - 1))</span>
-        <span class="c1"># v_x*(omega_0*omega_1*(theta - sin(theta)) - omega_2*(cos(theta) - 1))</span>
-        <span class="c1">#     - v_y*(omega_0**2*(theta - sin(theta)) + omega_2**2*(theta - sin(theta)) - theta)</span>
-        <span class="c1">#     + v_z*(omega_0*(cos(theta) - 1) + omega_1*omega_2*(theta - sin(theta)))</span>
-        <span class="c1"># v_x*(omega_0*omega_2*(theta - sin(theta)) + omega_1*(cos(theta) - 1))</span>
-        <span class="c1">#     - v_y*(omega_0*(cos(theta) - 1) - omega_1*omega_2*(theta - sin(theta)))</span>
-        <span class="c1">#     - v_z*(omega_0**2*(theta - sin(theta)) + omega_1**2*(theta - sin(theta)) - theta)</span>
+        <span class="c1"># -v_x*(o1**2*(t - sin(t)) + o2**2*(t - sin(t)) - t)</span>
+        <span class="c1">#     + v_y*(o0*o1*(t - sin(t)) + o2*(cos(t) - 1))</span>
+        <span class="c1">#     + v_z*(o0*o2*(t - sin(t)) - o1*(cos(t) - 1))</span>
+        <span class="c1"># v_x*(o0*o1*(t - sin(t)) - o2*(cos(t) - 1))</span>
+        <span class="c1">#     - v_y*(o0**2*(t - sin(t)) + o2**2*(t - sin(t)) - t)</span>
+        <span class="c1">#     + v_z*(o0*(cos(t) - 1) + o1*o2*(t - sin(t)))</span>
+        <span class="c1"># v_x*(o0*o2*(t - sin(t)) + o1*(cos(t) - 1))</span>
+        <span class="c1">#     - v_y*(o0*(cos(t) - 1) - o1*o2*(t - sin(t)))</span>
+        <span class="c1">#     - v_z*(o0**2*(t - sin(t)) + o1**2*(t - sin(t)) - t)</span>
 
         <span class="n">tms</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="n">cm1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
@@ -566,7 +599,9 @@
     <span class="k">return</span> <span class="n">v_dq_transformed</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span></div>
 
 
-<div class="viewcode-block" id="plot_trajectory"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">[docs]</a><span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_trajectory"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">[docs]</a><span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&quot;&quot;&quot;Plot pose trajectory.</span>
 
 <span class="sd">    Parameters</span>
@@ -600,14 +635,21 @@
 <span class="sd">    -------</span>
 <span class="sd">    ax : Matplotlib 3d axis</span>
 <span class="sd">        New or old axis</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If trajectory does not contain any elements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">P</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Trajectory does not contain any elements.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
     <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">Trajectory</span>
     <span class="n">trajectory</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">,</span> <span class="n">show_direction</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">trajectory</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
@@ -626,7 +668,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 27, 2021.<br/>
+      Last updated on Jun 19, 2021.<br/>
     </p>
   </div>
 </footer>

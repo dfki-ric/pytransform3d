@@ -3,15 +3,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations.check_screw_axis &#8212; pytransform3d 1.8 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>pytransform3d.transformations.check_screw_axis &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -41,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.8</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -64,7 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
@@ -120,11 +122,11 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="pytransform3d-transformations-check-screw-axis">
+  <section id="pytransform3d-transformations-check-screw-axis">
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a>.check_screw_axis<a class="headerlink" href="#pytransform3d-transformations-check-screw-axis" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="pytransform3d.transformations.check_screw_axis">
-<code class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></code><code class="sig-name descname"><span class="pre">check_screw_axis</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screw_axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations.html#check_screw_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.check_screw_axis" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pytransform3d.transformations.check_screw_axis">
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">check_screw_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screw_axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_utils.html#check_screw_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.check_screw_axis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input validation of screw axis.</p>
 <p>A screw axis</p>
 <div class="math">
@@ -152,13 +154,19 @@ components are related to translation.</p>
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If input is invalid</p>
+</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 
-<div class="section" id="examples-using-pytransform3d-transformations-check-screw-axis">
+<section id="examples-using-pytransform3d-transformations-check-screw-axis">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.check_screw_axis</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-check-screw-axis" title="Permalink to this headline">¶</a></h2>
-<div class="sphx-glr-clear"></div></div>
-</div>
+<div class="sphx-glr-clear"></div></section>
+</section>
 
 
     </div>
@@ -173,7 +181,7 @@ components are related to translation.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 27, 2021.<br/>
+      Last updated on Jun 19, 2021.<br/>
     </p>
   </div>
 </footer>

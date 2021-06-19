@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.transformations._testing &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../index.html">Contents</a></li>
+                <li><a href="../../../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../../../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pytransform3d.transformations._testing</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Testing utilities.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">assert_array_almost_equal</span>
+<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">assert_rotation_matrix</span><span class="p">,</span> <span class="n">norm_angle</span>
+<span class="kn">from</span> <span class="nn">._dual_quaternion_operations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">dq_q_conj</span><span class="p">,</span> <span class="n">concatenate_dual_quaternions</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="assert_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.assert_transform.html#pytransform3d.transformations.assert_transform">[docs]</a><span class="k">def</span> <span class="nf">assert_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if the transform is not a homogeneous matrix.</span>
+
+<span class="sd">    See numpy.testing.assert_array_almost_equal for a more detailed</span>
+<span class="sd">    documentation of the other parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">assert_rotation_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">A2B</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+                              <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_unit_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.assert_unit_dual_quaternion.html#pytransform3d.transformations.assert_unit_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">assert_unit_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if the dual quaternion does not have unit norm.</span>
+
+<span class="sd">    See numpy.testing.assert_array_almost_equal for a more detailed</span>
+<span class="sd">    documentation of the other parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">dual</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+
+    <span class="n">real_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">real_norm</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">real_dual_dot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">real_dual_dot</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># The two previous checks are consequences of the unit norm requirement.</span>
+    <span class="c1"># The norm of a dual quaternion is defined as the product of a dual</span>
+    <span class="c1"># quaternion and its quaternion conjugate.</span>
+    <span class="n">dq_conj</span> <span class="o">=</span> <span class="n">dq_q_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
+    <span class="n">dq_prod_dq_conj</span> <span class="o">=</span> <span class="n">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">dq_conj</span><span class="p">)</span>
+    <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">dq_prod_dq_conj</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                              <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_unit_dual_quaternion_equal"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.assert_unit_dual_quaternion_equal.html#pytransform3d.transformations.assert_unit_dual_quaternion_equal">[docs]</a><span class="k">def</span> <span class="nf">assert_unit_dual_quaternion_equal</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if unit dual quaternions are not approximately equal.</span>
+
+<span class="sd">    Note that unit dual quaternions are equal either if dq1 == dq2 or if</span>
+<span class="sd">    dq1 == -dq2. See numpy.testing.assert_array_almost_equal for a more</span>
+<span class="sd">    detailed documentation of the other parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="o">-</span><span class="n">dq2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="assert_screw_parameters_equal"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.assert_screw_parameters_equal.html#pytransform3d.transformations.assert_screw_parameters_equal">[docs]</a><span class="k">def</span> <span class="nf">assert_screw_parameters_equal</span><span class="p">(</span>
+        <span class="n">q1</span><span class="p">,</span> <span class="n">s_axis1</span><span class="p">,</span> <span class="n">h1</span><span class="p">,</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise an assertion if two sets of screw parameters are not similar.</span>
+
+<span class="sd">    Note that the screw axis can be inverted. In this case theta and h have</span>
+<span class="sd">    to be adapted.</span>
+
+<span class="sd">    This function needs the dependency nose.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">nose.tools</span> <span class="kn">import</span> <span class="n">assert_almost_equal</span>
+
+    <span class="c1"># normalize thetas</span>
+    <span class="n">theta1_new</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span>
+    <span class="n">h1</span> <span class="o">*=</span> <span class="n">theta1</span> <span class="o">/</span> <span class="n">theta1_new</span>
+    <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_new</span>
+
+    <span class="n">theta2_new</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span>
+    <span class="n">h2</span> <span class="o">*=</span> <span class="n">theta2</span> <span class="o">/</span> <span class="n">theta2_new</span>
+    <span class="n">theta2</span> <span class="o">=</span> <span class="n">theta2_new</span>
+
+    <span class="c1"># q1 and q2 can be any points on the screw axis, that is, they must be a</span>
+    <span class="c1"># linear combination of each other and the screw axis (which one does not</span>
+    <span class="c1"># matter since they should be identical or mirrored)</span>
+    <span class="n">q1_to_q2</span> <span class="o">=</span> <span class="n">q2</span> <span class="o">-</span> <span class="n">q1</span>
+    <span class="n">factors</span> <span class="o">=</span> <span class="n">q1_to_q2</span> <span class="o">/</span> <span class="n">s_axis2</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">factors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">s_axis1</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>  <span class="c1"># possibly mirrored screw axis</span>
+        <span class="n">s_axis1_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">s_axis1</span>
+        <span class="c1"># make sure that we keep the direction of rotation</span>
+        <span class="n">theta1_new</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">theta1</span>
+        <span class="c1"># adjust pitch: switch sign and update rotation component</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="o">-</span><span class="n">h1</span> <span class="o">/</span> <span class="n">theta1_new</span> <span class="o">*</span> <span class="n">theta1</span>
+        <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_new</span>
+
+        <span class="c1"># we have to normalize the angle again</span>
+        <span class="n">theta1_new</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span>
+        <span class="n">h1</span> <span class="o">*=</span> <span class="n">theta1</span> <span class="o">/</span> <span class="n">theta1_new</span>
+        <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_new</span>
+
+        <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">s_axis1_new</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span>
+        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jun 19, 2021.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

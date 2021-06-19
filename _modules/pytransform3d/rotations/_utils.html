@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.rotations._utils &#8212; pytransform3d 1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../index.html">Contents</a></li>
+                <li><a href="../../../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../../../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pytransform3d.rotations._utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utility functions for rotations.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">._constants</span> <span class="kn">import</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">eps</span>
+
+
+<div class="viewcode-block" id="norm_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_vector.html#pytransform3d.rotations.norm_vector">[docs]</a><span class="k">def</span> <span class="nf">norm_vector</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize vector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    v : array-like, shape (n,)</span>
+<span class="sd">        nd vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    u : array, shape (n,)</span>
+<span class="sd">        nd unit vector with norm 1 or the zero vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">norm</span></div>
+
+
+<div class="viewcode-block" id="norm_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix">[docs]</a><span class="k">def</span> <span class="nf">norm_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix with small numerical errors</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array, shape (3, 3)</span>
+<span class="sd">        Normalized rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">c3</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">R</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">))</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span> <span class="n">c1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="norm_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_angle.html#pytransform3d.rotations.norm_angle">[docs]</a><span class="k">def</span> <span class="nf">norm_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize angle to (-pi, pi].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : float or array-like, shape (n,)</span>
+<span class="sd">        Angle(s) in radians</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a_norm : float or array-like, shape (n,)</span>
+<span class="sd">        Normalized angle(s) in radians</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Source of the solution: http://stackoverflow.com/a/32266181</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">%</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="norm_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_axis_angle.html#pytransform3d.rotations.norm_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">norm_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize axis-angle representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle). The length</span>
+<span class="sd">        of the axis vector is 1 and the angle is in [0, pi). No rotation</span>
+<span class="sd">        is represented by [1, 0, 0, 0].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">res</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">norm</span>
+
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">angle</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="n">res</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+    <span class="n">res</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="norm_compact_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_compact_axis_angle.html#pytransform3d.rotations.norm_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">norm_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Normalize compact axis-angle representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z).</span>
+<span class="sd">        The angle is in [0, pi). No rotation is represented by [0, 0, 0].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">angle</span>
+    <span class="k">return</span> <span class="n">axis</span> <span class="o">*</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="perpendicular_to_vectors"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.perpendicular_to_vectors.html#pytransform3d.rotations.perpendicular_to_vectors">[docs]</a><span class="k">def</span> <span class="nf">perpendicular_to_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute perpendicular vector to two other vectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    b : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    c : array-like, shape (3,)</span>
+<span class="sd">        3d vector that is orthogonal to a and b</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">perpendicular_to_vector</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute perpendicular vector to one other vector.</span>
+
+<span class="sd">    There is an infinite number of solutions to this problem. Thus, we</span>
+<span class="sd">    restrict the solutions to [1, 0, z] and return [0, 0, 1] if the</span>
+<span class="sd">    z component of a is 0.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    b : array-like, shape (3,)</span>
+<span class="sd">        A 3d vector that is orthogonal to a. It does not necessarily have</span>
+<span class="sd">        unit length.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">unitz</span><span class="p">)</span>
+    <span class="c1"># Now that we solved the problem for [x, y, 0], we can solve it for all</span>
+    <span class="c1"># other vectors by restricting solutions to [1, 0, z] and find z.</span>
+    <span class="c1"># The dot product of orthogonal vectors is 0, thus</span>
+    <span class="c1"># a[0] * 1 + a[1] * 0 + a[2] * z == 0 or -a[0] / a[2] = z</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+
+
+<div class="viewcode-block" id="angle_between_vectors"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.angle_between_vectors.html#pytransform3d.rotations.angle_between_vectors">[docs]</a><span class="k">def</span> <span class="nf">angle_between_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute angle between two vectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (n,)</span>
+<span class="sd">        nd vector</span>
+
+<span class="sd">    b : array-like, shape (n,)</span>
+<span class="sd">        nd vector</span>
+
+<span class="sd">    fast : bool, optional (default: False)</span>
+<span class="sd">        Use fast implementation instead of numerically stable solution</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    angle : float</span>
+<span class="sd">        Angle between a and b</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">fast</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)),</span>
+                    <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="vector_projection"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.vector_projection.html#pytransform3d.rotations.vector_projection">[docs]</a><span class="k">def</span> <span class="nf">vector_projection</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Orthogonal projection of vector a on vector b.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Vector a that will be projected on vector b</span>
+
+<span class="sd">    b : array-like, shape (3,)</span>
+<span class="sd">        Vector b on which vector a will be projected</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a_on_b : array, shape (3,)</span>
+<span class="sd">        Vector a</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">b_norm_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">b_norm_squared</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span> <span class="o">/</span> <span class="n">b_norm_squared</span></div>
+
+
+<div class="viewcode-block" id="random_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.random_vector.html#pytransform3d.rotations.random_vector">[docs]</a><span class="k">def</span> <span class="nf">random_vector</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate an nd vector with normally distributed components.</span>
+
+<span class="sd">    Each component will be sampled from :math:`\mathcal{N}(\mu=0, \sigma=1)`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : np.random.RandomState, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    n : int, optional (default: 3)</span>
+<span class="sd">        Number of vector components</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    v : array, shape (n,)</span>
+<span class="sd">        Random vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">random_state</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="random_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.random_axis_angle.html#pytransform3d.rotations.random_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">random_axis_angle</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random axis-angle.</span>
+
+<span class="sd">    The angle will be sampled uniformly from the interval :math:`[0, \pi)`</span>
+<span class="sd">    and each component of the rotation axis will be sampled from</span>
+<span class="sd">    :math:`\mathcal{N}(\mu=0, \sigma=1)` and than the axis will be normalized</span>
+<span class="sd">    to length 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : np.random.RandomState, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">random_state</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">angle</span><span class="p">])</span>
+    <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">a</span></div>
+
+
+<div class="viewcode-block" id="random_compact_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.random_compact_axis_angle.html#pytransform3d.rotations.random_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">random_compact_axis_angle</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random compact axis-angle.</span>
+
+<span class="sd">    The angle will be sampled uniformly from the interval :math:`[0, \pi)`</span>
+<span class="sd">    and each component of the rotation axis will be sampled from</span>
+<span class="sd">    :math:`\mathcal{N}(\mu=0, \sigma=1)` and than the axis will be normalized</span>
+<span class="sd">    to length 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : np.random.RandomState, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">random_axis_angle</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="random_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.random_quaternion.html#pytransform3d.rotations.random_quaternion">[docs]</a><span class="k">def</span> <span class="nf">random_quaternion</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Generate random quaternion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    random_state : np.random.RandomState, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q : array, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="check_skew_symmetric_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_skew_symmetric_matrix.html#pytransform3d.rotations.check_skew_symmetric_matrix">[docs]</a><span class="k">def</span> <span class="nf">check_skew_symmetric_matrix</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of a skew-symmetric matrix.</span>
+
+<span class="sd">    Check whether the transpose of the matrix is its negative:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        V^T = -V</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V : array-like, shape (3, 3)</span>
+<span class="sd">        Cross-product matrix</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance threshold for checks.</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if V.T is not numerically close enough to -V.</span>
+<span class="sd">        Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    V : array, shape (3, 3)</span>
+<span class="sd">        Validated cross-product matrix</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">V</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected skew-symmetric matrix with shape (3, 3), &quot;</span>
+                         <span class="s2">&quot;got array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">-</span><span class="n">V</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">tolerance</span><span class="p">):</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Expected skew-symmetric matrix, but it failed the test &quot;</span>
+                     <span class="s2">&quot;V.T = </span><span class="si">%r</span><span class="se">\n</span><span class="s2">-V = </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">-</span><span class="n">V</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">V</span></div>
+
+
+<div class="viewcode-block" id="check_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_matrix.html#pytransform3d.rotations.check_matrix">[docs]</a><span class="k">def</span> <span class="nf">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of a rotation matrix.</span>
+
+<span class="sd">    We check whether R multiplied by its inverse is approximately the identity</span>
+<span class="sd">    matrix and the determinant is approximately 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance threshold for checks. Default tolerance is the same as in</span>
+<span class="sd">        assert_rotation_matrix(R).</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array, shape (3, 3)</span>
+<span class="sd">        Validated rotation matrix</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">R</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected rotation matrix with shape (3, 3), got &quot;</span>
+                         <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="n">RRT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">RRT</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="n">tolerance</span><span class="p">):</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Expected rotation matrix, but it failed the test &quot;</span>
+                     <span class="s2">&quot;for inversion by transposition. np.dot(R, R.T) &quot;</span>
+                     <span class="s2">&quot;gives </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">RRT</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+    <span class="n">R_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">R_det</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Expected rotation matrix, but it failed the test &quot;</span>
+                     <span class="s2">&quot;for the determinant, which should be 1 but is </span><span class="si">%g</span><span class="s2">; &quot;</span>
+                     <span class="s2">&quot;that is, it probably represents a rotoreflection&quot;</span>
+                     <span class="o">%</span> <span class="n">R_det</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="check_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_axis_angle.html#pytransform3d.rotations.check_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">check_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of axis-angle representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array, shape (4,)</span>
+<span class="sd">        Validated axis of rotation and rotation angle: (x, y, z, angle)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected axis and angle in array with shape (4,), &quot;</span>
+                         <span class="s2">&quot;got array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">norm_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_compact_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_compact_axis_angle.html#pytransform3d.rotations.check_compact_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">check_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of compact axis-angle representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array, shape (3,)</span>
+<span class="sd">        Validated axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected axis and angle in array with shape (3,), &quot;</span>
+                         <span class="s2">&quot;got array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">norm_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_quaternion.html#pytransform3d.rotations.check_quaternion">[docs]</a><span class="k">def</span> <span class="nf">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of quaternion representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    unit : bool, optional (default: True)</span>
+<span class="sd">        Normalize the quaternion so that it is a unit quaternion</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Validated quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected quaternion with shape (4,), got &quot;</span>
+                         <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">q</span></div>
+
+
+<div class="viewcode-block" id="check_quaternions"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_quaternions.html#pytransform3d.rotations.check_quaternions">[docs]</a><span class="k">def</span> <span class="nf">check_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of quaternion representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    unit : bool, optional (default: True)</span>
+<span class="sd">        Normalize the quaternions so that they are unit quaternions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Validated quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q_checked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Q_checked</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">Q_checked</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Expected quaternion array with shape (n_steps, 4), got &quot;</span>
+            <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Q_checked</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">)):</span>
+            <span class="n">Q_checked</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">Q_checked</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">Q_checked</span></div>
+
+
+<div class="viewcode-block" id="check_rotor"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_rotor.html#pytransform3d.rotations.check_rotor">[docs]</a><span class="k">def</span> <span class="nf">check_rotor</span><span class="p">(</span><span class="n">rotor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Input validation of rotor.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rotor : array-like, shape (4,)</span>
+<span class="sd">        Rotor: (a, b_yz, b_zx, b_xy)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rotor : array, shape (4,)</span>
+<span class="sd">        Validated rotor (with unit norm): (a, b_yz, b_zx, b_xy)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If input is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rotor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rotor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rotor</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">rotor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected rotor with shape (4,), got &quot;</span>
+                         <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rotor</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">rotor</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jun 19, 2021.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
