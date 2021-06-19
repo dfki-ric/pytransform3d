@@ -46,7 +46,6 @@ class Line3D(Artist):
         color for each segment. A color is represented by 3 values between
         0 and 1 indicate representing red, green, and blue respectively.
     """
-
     def __init__(self, P, c=(0, 0, 0)):
         self.line_set = o3d.geometry.LineSet()
         self.set_data(P, c)
@@ -104,7 +103,6 @@ class Frame(Artist):
     s : float, optional (default: 1)
         Length of basis vectors
     """
-
     def __init__(self, A2B, label=None, s=1.0):
         self.A2B = None
         self.label = None
@@ -170,7 +168,6 @@ class Trajectory(Artist):
         A color is represented by 3 values between 0 and 1 indicate
         representing red, green, and blue respectively.
     """
-
     def __init__(self, H, n_frames=10, s=1.0, c=(0, 0, 0)):
         self.H = H
         self.n_frames = n_frames
@@ -233,7 +230,6 @@ class Sphere(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
-
     def __init__(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
         self.sphere = o3d.geometry.TriangleMesh.create_sphere(
             radius, resolution)
@@ -289,7 +285,6 @@ class Box(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
-
     def __init__(self, size=np.ones(3), A2B=np.eye(4), c=None):
         self.half_size = np.asarray(size) / 2.0
         width, height, depth = size
@@ -357,7 +352,6 @@ class Cylinder(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
-
     def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20,
                  split=4, c=None):
         self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
@@ -419,7 +413,6 @@ class Mesh(Artist):
     c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)
         Color(s)
     """
-
     def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
         self.mesh = o3d.io.read_triangle_mesh(filename)
         self.mesh.vertices = o3d.utility.Vector3dVector(
@@ -482,7 +475,6 @@ class Ellipsoid(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
-
     def __init__(self, radii, A2B=np.eye(4), resolution=20, c=None):
         self.ellipsoid = o3d.geometry.TriangleMesh.create_sphere(
             1.0, resolution)
@@ -527,6 +519,77 @@ class Ellipsoid(Artist):
         return [self.ellipsoid]
 
 
+class Capsule(Artist):
+    """Capsule.
+
+    A capsule is the volume covered by a sphere moving along a line segment.
+
+    Parameters
+    ----------
+    height : float, optional (default: 1)
+        Height of the capsule along its z-axis
+
+    radius : float, optional (default: 1)
+        Radius of the capsule
+
+    A2B : array-like, shape (4, 4)
+        Pose of the capsule.
+
+    resolution : int, optianal (default: 20)
+        The resolution of the capsule. The longitues will be split into
+        resolution segments (i.e. there are resolution + 1 latitude lines
+        including the north and south pole). The latitudes will be split
+        into 2 * resolution segments (i.e. there are 2 * resolution
+        longitude lines.)
+
+    c : array-like, shape (3,), optional (default: None)
+        Color
+    """
+    def __init__(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
+                 c=None):
+        self.capsule = o3d.geometry.TriangleMesh.create_sphere(
+            radius, resolution)
+        vertices = np.asarray(self.capsule.vertices)
+        vertices[vertices[:, 2] > 0:, 2] += height
+        self.capsule.vertices = o3d.utility.Vector3dVector(vertices)
+        self.capsule.compute_vertex_normals()
+        if c is not None:
+            n_vertices = len(self.capsule.vertices)
+            colors = np.zeros((n_vertices, 3))
+            colors[:] = c
+            self.capsule.vertex_colors = o3d.utility.Vector3dVector(colors)
+        self.A2B = None
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        """Update data.
+
+        Parameters
+        ----------
+        A2B : array-like, shape (4, 4)
+            Center of the mesh
+        """
+        previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
+        self.A2B = A2B
+
+        self.capsule.transform(
+            pt.invert_transform(previous_A2B, check=False))
+        self.capsule.transform(self.A2B)
+
+    @property
+    def geometries(self):
+        """Expose geometries.
+
+        Returns
+        -------
+        geometries : list
+            List of geometries that can be added to the visualizer.
+        """
+        return [self.capsule]
+
+
 class Camera(Artist):
     """Camera.
 
@@ -557,7 +620,6 @@ class Camera(Artist):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
     """
-
     def __init__(self, M, cam2world=None, virtual_image_distance=1,
                  sensor_size=(1920, 1080), strict_check=True):
         self.M = None
@@ -691,7 +753,6 @@ class Graph(Artist):
     s : float, optional (default: 1)
         Scaling of the frames that will be drawn
     """
-
     def __init__(self, tm, frame, show_frames=False, show_connections=False,
                  show_visuals=False, show_collision_objects=False,
                  show_name=False, whitelist=None, s=1.0):
