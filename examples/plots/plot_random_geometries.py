@@ -10,8 +10,9 @@ print(__doc__)
 
 import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.plot_utils import (make_3d_axis, plot_box, plot_sphere,
-                                      plot_cylinder, plot_ellipsoid)
+from pytransform3d.plot_utils import (
+    make_3d_axis, plot_box, plot_sphere, plot_cylinder, plot_ellipsoid,
+    plot_capsule)
 from pytransform3d.transformations import random_transform
 
 
@@ -35,7 +36,13 @@ plot_cylinder(ax=ax, A2B=cylinder2origin, length=length, radius=radius,
 
 ellipsoid2origin = random_transform(random_state)
 radii = random_state.rand(3) * 3
-plot_ellipsoid(ax=ax, A2B=ellipsoid2origin, radii=radii, color="r", alpha=0.5,
+plot_ellipsoid(ax=ax, A2B=ellipsoid2origin, radii=radii, color="m", alpha=0.5,
                wireframe=False)
+
+capsule2origin = random_transform(random_state)
+height = float(random_state.rand()) * 2
+radius = float(random_state.rand())
+plot_capsule(ax=ax, A2B=capsule2origin, height=height, radius=radius,
+             color="r", alpha=0.5, wireframe=False)
 
 plt.show()

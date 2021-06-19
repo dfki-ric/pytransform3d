@@ -390,6 +390,75 @@ def plot_ellipsoid(ax=None, radii=1.0, A2B=np.eye(4), ax_s=1, wireframe=True,
     return ax
 
 
+def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
+                 ax_s=1, wireframe=True, n_steps=20, alpha=1.0, color="k"):
+    """Plot capsule.
+
+    A capsule is the volume covered by a sphere moving along a line segment.
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis, optional (default: None)
+        If the axis is None, a new 3d axis will be created
+
+    A2B : array-like, shape (4, 4)
+        Frame of the capsule, located at the start of the line segment.
+
+    height : float, optional (default: 1)
+        Height of the capsule along its z-axis
+
+    radius : float, optional (default: 1)
+        Radius of the capsule
+
+    ax_s : float, optional (default: 1)
+        Scaling of the new matplotlib 3d axis
+
+    wireframe : bool, optional (default: True)
+        Plot wireframe of capsule and surface otherwise
+
+    n_steps : int, optional (default: 20)
+        Number of discrete steps plotted in each dimension
+
+    alpha : float, optional (default: 1)
+        Alpha value of the mesh that will be plotted
+
+    color : str, optional (default: black)
+        Color in which the capsule should be plotted
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
+    """
+    from ..transformations import transform, vectors_to_points
+
+    if ax is None:
+        ax = make_3d_axis(ax_s)
+
+    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
+    x = radius * np.sin(phi) * np.cos(theta)
+    y = radius * np.sin(phi) * np.sin(theta)
+    z = radius * np.cos(phi)
+    z[:len(z) // 2] += height
+
+    shape = x.shape
+
+    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
+    P = transform(A2B, vectors_to_points(P))[:, :3]
+
+    x = P[:, 0].reshape(*shape)
+    y = P[:, 1].reshape(*shape)
+    z = P[:, 2].reshape(*shape)
+
+    if wireframe:
+        ax.plot_wireframe(
+            x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
+    else:
+        ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
+
+    return ax
+
+
 def plot_vector(ax=None, start=np.zeros(3), direction=np.array([1, 0, 0]),
                 s=1.0, arrowstyle="simple", ax_s=1, **kwargs):
     """Plot Vector.
