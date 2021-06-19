@@ -476,6 +476,11 @@ class Figure:
 
         c : array-like, shape (3,), optional (default: None)
             Color
+
+        Returns
+        -------
+        capsule : Capsule
+            New capsule.
         """
         capsule = Capsule(height, radius, A2B, resolution, c)
         capsule.add_artist(self)
