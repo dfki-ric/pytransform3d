@@ -318,8 +318,8 @@ class Figure:
         A2B : array-like, shape (4, 4)
             Transform from frame A to frame B
 
-        resolution : int, optianal (default: 20)
-            The resolution of the sphere. The longitues will be split into
+        resolution : int, optional (default: 20)
+            The resolution of the sphere. The longitudes will be split into
             resolution segments (i.e. there are resolution + 1 latitude
             lines including the north and south pole). The latitudes will
             be split into 2 * resolution segments (i.e. there are
@@ -431,8 +431,8 @@ class Figure:
         A2B : array-like, shape (4, 4)
             Transform from frame A to frame B
 
-        resolution : int, optianal (default: 20)
-            The resolution of the ellipsoid. The longitues will be split into
+        resolution : int, optional (default: 20)
+            The resolution of the ellipsoid. The longitudes will be split into
             resolution segments (i.e. there are resolution + 1 latitude
             lines including the north and south pole). The latitudes will
             be split into 2 * resolution segments (i.e. there are
@@ -467,8 +467,8 @@ class Figure:
         A2B : array-like, shape (4, 4)
             Pose of the capsule.
 
-        resolution : int, optianal (default: 20)
-            The resolution of the capsule. The longitues will be split into
+        resolution : int, optional (default: 20)
+            The resolution of the capsule. The longitudes will be split into
             resolution segments (i.e. there are resolution + 1 latitude lines
             including the north and south pole). The latitudes will be split
             into 2 * resolution segments (i.e. there are 2 * resolution
