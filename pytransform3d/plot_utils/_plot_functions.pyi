@@ -37,6 +37,13 @@ def plot_ellipsoid(
         color: str = ...) -> Axes3D: ...
 
 
+def plot_capsule(
+        ax: Union[None, Axes3D] = ..., A2B: npt.ArrayLike = ...,
+        height: float = ..., radius: float = ..., ax_s: float = ...,
+        wireframe: bool = ..., n_steps: int = ..., alpha: float = ...,
+        color: str = ...) -> Axes3D: ...
+
+
 def plot_vector(
         ax: Union[None, Axes3D] = ..., start: npt.ArrayLike = ...,
         direction: npt.ArrayLike = ..., s: float = ..., arrowstyle: str = ...,
