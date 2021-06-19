@@ -223,20 +223,20 @@ def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
 
     if thickness > 0.0:
         X_outer, Y_outer, Z_outer = [
-            axis_start[i] + axis[i] * t +
-            radius * np.sin(theta) * n1[i] +
-            radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+            axis_start[i] + axis[i] * t
+            + radius * np.sin(theta) * n1[i]
+            + radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
         X_inner, Y_inner, Z_inner = [
-            axis_end[i] - axis[i] * t +
-            inner_radius * np.sin(theta) * n1[i] +
-            inner_radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+            axis_end[i] - axis[i] * t
+            + inner_radius * np.sin(theta) * n1[i]
+            + inner_radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
         X = np.hstack((X_outer, X_inner))
         Y = np.hstack((Y_outer, Y_inner))
         Z = np.hstack((Z_outer, Z_inner))
     else:
-        X, Y, Z = [axis_start[i] + axis[i] * t +
-                   radius * np.sin(theta) * n1[i] +
-                   radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+        X, Y, Z = [axis_start[i] + axis[i] * t
+                   + radius * np.sin(theta) * n1[i]
+                   + radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
 
     if wireframe:
         ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, alpha=alpha,
@@ -455,6 +455,82 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
             x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
+
+    return ax
+
+
+def plot_cone(ax=None, length=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
+              wireframe=True, n_steps=20, alpha=1.0, color="k"):
+    """Plot cone.
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis, optional (default: None)
+        If the axis is None, a new 3d axis will be created
+
+    length : float, optional (default: 1)
+        Length of the cone
+
+    radius : float, optional (default: 1)
+        Radius of the cone
+
+    A2B : array-like, shape (4, 4)
+        Center of the cone
+
+    ax_s : float, optional (default: 1)
+        Scaling of the new matplotlib 3d axis
+
+    wireframe : bool, optional (default: True)
+        Plot wireframe of cone and surface otherwise
+
+    n_steps : int, optional (default: 100)
+        Number of discrete steps plotted in each dimension
+
+    alpha : float, optional (default: 1)
+        Alpha value of the cone that will be plotted
+
+    color : str, optional (default: black)
+        Color in which the cone should be plotted
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
+    """
+    if ax is None:
+        ax = make_3d_axis(ax_s)
+
+    axis_start = A2B.dot(np.array([0, 0, -0.5 * length, 1]))[:3]
+    axis_end = A2B.dot(np.array([0, 0, 0.5 * length, 1]))[:3]
+    axis = axis_end - axis_start
+    axis /= length
+
+    not_axis = np.array([1, 0, 0])
+    if (axis == not_axis).all():
+        not_axis = np.array([0, 1, 0])
+
+    n1 = np.cross(axis, not_axis)
+    n1 /= np.linalg.norm(n1)
+    n2 = np.cross(axis, n1)
+
+    if wireframe:
+        t = np.linspace(0, length, n_steps)
+        radii = np.linspace(0, radius, n_steps)
+    else:
+        t = np.array([0, length])
+        radii = np.array([0, radius])
+    theta = np.linspace(0, 2 * np.pi, n_steps)
+    t, theta = np.meshgrid(t, theta)
+
+    X, Y, Z = [axis_start[i] + axis[i] * t
+               + radii * np.sin(theta) * n1[i]
+               + radii * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+
+    if wireframe:
+        ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, alpha=alpha,
+                          color=color)
+    else:
+        ax.plot_surface(X, Y, Z, color=color, alpha=alpha, linewidth=0)
 
     return ax
 

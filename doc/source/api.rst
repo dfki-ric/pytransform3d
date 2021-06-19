@@ -517,6 +517,7 @@ Deprecated Functions
    ~pytransform3d.plot_utils.plot_mesh
    ~pytransform3d.plot_utils.plot_ellipsoid
    ~pytransform3d.plot_utils.plot_capsule
+   ~pytransform3d.plot_utils.plot_cone
 
 .. autosummary::
    :toctree: _apidoc/

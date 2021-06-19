@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import (
     make_3d_axis, plot_box, plot_sphere, plot_cylinder, plot_ellipsoid,
-    plot_capsule)
+    plot_capsule, plot_cone)
 from pytransform3d.transformations import random_transform
 
 
@@ -44,5 +44,11 @@ height = float(random_state.rand()) * 2
 radius = float(random_state.rand())
 plot_capsule(ax=ax, A2B=capsule2origin, height=height, radius=radius,
              color="r", alpha=0.5, wireframe=False)
+
+cone2origin = random_transform(random_state)
+length = float(random_state.rand()) * 5
+radius = float(random_state.rand())
+plot_cone(ax=ax, A2B=cone2origin, length=length, radius=radius, color="c",
+          alpha=0.5, wireframe=False)
 
 plt.show()
