@@ -46,9 +46,9 @@ plot_capsule(ax=ax, A2B=capsule2origin, height=height, radius=radius,
              color="r", alpha=0.5, wireframe=False)
 
 cone2origin = random_transform(random_state)
-length = float(random_state.rand()) * 5
+height = float(random_state.rand()) * 5
 radius = float(random_state.rand())
-plot_cone(ax=ax, A2B=cone2origin, length=length, radius=radius, color="c",
+plot_cone(ax=ax, A2B=cone2origin, height=height, radius=radius, color="c",
           alpha=0.5, wireframe=False)
 
 plt.show()

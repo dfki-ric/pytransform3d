@@ -459,7 +459,7 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
     return ax
 
 
-def plot_cone(ax=None, length=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
+def plot_cone(ax=None, height=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
               wireframe=True, n_steps=20, alpha=1.0, color="k"):
     """Plot cone.
 
@@ -468,8 +468,8 @@ def plot_cone(ax=None, length=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
     ax : Matplotlib 3d axis, optional (default: None)
         If the axis is None, a new 3d axis will be created
 
-    length : float, optional (default: 1)
-        Length of the cone
+    height : float, optional (default: 1)
+        Height of the cone
 
     radius : float, optional (default: 1)
         Radius of the cone
@@ -500,10 +500,10 @@ def plot_cone(ax=None, length=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    axis_start = A2B.dot(np.array([0, 0, -0.5 * length, 1]))[:3]
-    axis_end = A2B.dot(np.array([0, 0, 0.5 * length, 1]))[:3]
+    axis_start = A2B.dot(np.array([0, 0, -0.5 * height, 1]))[:3]
+    axis_end = A2B.dot(np.array([0, 0, 0.5 * height, 1]))[:3]
     axis = axis_end - axis_start
-    axis /= length
+    axis /= height
 
     not_axis = np.array([1, 0, 0])
     if (axis == not_axis).all():
@@ -514,10 +514,10 @@ def plot_cone(ax=None, length=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
     n2 = np.cross(axis, n1)
 
     if wireframe:
-        t = np.linspace(0, length, n_steps)
+        t = np.linspace(0, height, n_steps)
         radii = np.linspace(0, radius, n_steps)
     else:
-        t = np.array([0, length])
+        t = np.array([0, height])
         radii = np.array([0, radius])
     theta = np.linspace(0, 2 * np.pi, n_steps)
     t, theta = np.meshgrid(t, theta)
