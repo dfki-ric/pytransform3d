@@ -557,4 +557,5 @@ Deprecated Functions
    ~pytransform3d.visualizer.Mesh
    ~pytransform3d.visualizer.Ellipsoid
    ~pytransform3d.visualizer.Capsule
+   ~pytransform3d.visualizer.Cone
    ~pytransform3d.visualizer.Graph

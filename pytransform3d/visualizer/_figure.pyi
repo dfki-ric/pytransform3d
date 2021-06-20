@@ -4,7 +4,7 @@ import open3d as o3d
 from typing import Callable, Tuple, Any, Union, List
 from ..transform_manager import TransformManager
 from ._artists import (Artist, Frame, Trajectory, Sphere, Box, Cylinder, Mesh,
-                       Ellipsoid, Capsule, Graph, Camera)
+                       Ellipsoid, Capsule, Graph, Cone, Camera)
 
 
 class Figure:
@@ -71,6 +71,11 @@ class Figure:
             self, height: float = ..., radius: float = ...,
             A2B: npt.ArrayLike = ..., resolution: int = ...,
             c: Union[None, npt.ArrayLike] = ...) -> Capsule: ...
+
+    def plot_cone(
+            self, height: float = ..., radius: float = ...,
+            A2B: npt.ArrayLike = ..., resolution: int = ...,
+            c: Union[None, npt.ArrayLike] = ...) -> Cone: ...
 
     def plot_graph(
             self, tm: TransformManager, frame: str, show_frames: bool = ...,

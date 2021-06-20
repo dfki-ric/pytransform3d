@@ -5,7 +5,7 @@ from .. import rotations as pr
 from .. import transformations as pt
 from .. import trajectories as ptr
 from ._artists import (Line3D, Frame, Trajectory, Camera, Box, Sphere,
-                       Cylinder, Mesh, Ellipsoid, Capsule, Graph)
+                       Cylinder, Mesh, Ellipsoid, Capsule, Cone, Graph)
 
 
 class Figure:
@@ -452,7 +452,7 @@ class Figure:
 
     def plot_capsule(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
                      c=None):
-        """Capsule.
+        """Plot capsule.
 
         A capsule is the volume covered by a sphere moving along a line segment.
 
@@ -485,6 +485,31 @@ class Figure:
         capsule = Capsule(height, radius, A2B, resolution, c)
         capsule.add_artist(self)
         return capsule
+
+    def plot_cone(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
+                  c=None):
+        """Plot cone.
+
+        Parameters
+        ----------
+        height : float, optional (default: 1)
+            Height of the cone along its z-axis.
+
+        radius : float, optional (default: 1)
+            Radius of the cone.
+
+        A2B : array-like, shape (4, 4)
+            Pose of the cone.
+
+        resolution : int, optional (default: 20)
+            The circle will be split into resolution segments.
+
+        c : array-like, shape (3,), optional (default: None)
+            Color
+        """
+        cone = Cone(height, radius, A2B, resolution, c)
+        cone.add_artist(self)
+        return cone
 
     def plot_graph(
             self, tm, frame, show_frames=False, show_connections=False,
