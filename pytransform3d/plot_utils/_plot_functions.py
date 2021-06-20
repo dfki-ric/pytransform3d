@@ -500,8 +500,8 @@ def plot_cone(ax=None, height=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    axis_start = A2B.dot(np.array([0, 0, -0.5 * height, 1]))[:3]
-    axis_end = A2B.dot(np.array([0, 0, 0.5 * height, 1]))[:3]
+    axis_start = A2B.dot(np.array([0, 0, 0, 1]))[:3]
+    axis_end = A2B.dot(np.array([0, 0, height, 1]))[:3]
     axis = axis_end - axis_start
     axis /= height
 
@@ -515,10 +515,10 @@ def plot_cone(ax=None, height=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
 
     if wireframe:
         t = np.linspace(0, height, n_steps)
-        radii = np.linspace(0, radius, n_steps)
+        radii = np.linspace(radius, 0, n_steps)
     else:
         t = np.array([0, height])
-        radii = np.array([0, radius])
+        radii = np.array([radius, 0])
     theta = np.linspace(0, 2 * np.pi, n_steps)
     t, theta = np.meshgrid(t, theta)
 
