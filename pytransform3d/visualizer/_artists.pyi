@@ -110,6 +110,18 @@ class Capsule(Artist):
     def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
 
 
+class Cone(Artist):
+    def __init__(
+            self, height: float = ..., radius: float = ...,
+            A2B: npt.ArrayLike = ..., resolution: int = ...,
+            c: Union[None, npt.ArrayLike] = ...): ...
+
+    def set_data(self, A2B: npt.ArrayLike): ...
+
+    @property
+    def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
+
+
 class Camera(Artist):
     def __init__(
             self, M: npt.ArrayLike, cam2world: Union[None, npt.ArrayLike] = ...,

@@ -220,8 +220,8 @@ class Sphere(Artist):
     A2B : array-like, shape (4, 4)
         Center of the sphere
 
-    resolution : int, optianal (default: 20)
-        The resolution of the sphere. The longitues will be split into
+    resolution : int, optional (default: 20)
+        The resolution of the sphere. The longitudes will be split into
         resolution segments (i.e. there are resolution + 1 latitude lines
         including the north and south pole). The latitudes will be split
         into 2 * resolution segments (i.e. there are 2 * resolution
@@ -248,7 +248,7 @@ class Sphere(Artist):
         Parameters
         ----------
         A2B : array-like, shape (4, 4)
-            Center of the sphere
+            Center of the sphere.
         """
         previous_A2B = self.A2B
         if previous_A2B is None:
@@ -305,7 +305,7 @@ class Box(Artist):
         Parameters
         ----------
         A2B : array-like, shape (4, 4)
-            Center of the box
+            Center of the box.
         """
         previous_A2B = self.A2B
         if previous_A2B is None:
@@ -344,7 +344,7 @@ class Cylinder(Artist):
         Center of the cylinder
 
     resolution : int, optional (default: 20)
-        The circle will be split into resolution segments
+        The circles will be split into resolution segments.
 
     split : int, optional (default: 4)
         The height will be split into split segments
@@ -373,7 +373,7 @@ class Cylinder(Artist):
         Parameters
         ----------
         A2B : array-like, shape (4, 4)
-            Center of the cylinder
+            Center of the cylinder.
         """
         previous_A2B = self.A2B
         if previous_A2B is None:
@@ -432,7 +432,7 @@ class Mesh(Artist):
         Parameters
         ----------
         A2B : array-like, shape (4, 4)
-            Center of the mesh
+            Center of the mesh.
         """
         previous_A2B = self.A2B
         if previous_A2B is None:
@@ -465,8 +465,8 @@ class Ellipsoid(Artist):
     A2B : array-like, shape (4, 4)
         Pose of the ellipsoid.
 
-    resolution : int, optianal (default: 20)
-        The resolution of the ellipsoid. The longitues will be split into
+    resolution : int, optional (default: 20)
+        The resolution of the ellipsoid. The longitudes will be split into
         resolution segments (i.e. there are resolution + 1 latitude lines
         including the north and south pole). The latitudes will be split
         into 2 * resolution segments (i.e. there are 2 * resolution
@@ -496,7 +496,7 @@ class Ellipsoid(Artist):
         Parameters
         ----------
         A2B : array-like, shape (4, 4)
-            Center of the mesh
+            Center of the ellipsoid.
         """
         previous_A2B = self.A2B
         if previous_A2B is None:
@@ -535,8 +535,8 @@ class Capsule(Artist):
     A2B : array-like, shape (4, 4)
         Pose of the capsule.
 
-    resolution : int, optianal (default: 20)
-        The resolution of the capsule. The longitues will be split into
+    resolution : int, optional (default: 20)
+        The resolution of the half spheres. The longitudes will be split into
         resolution segments (i.e. there are resolution + 1 latitude lines
         including the north and south pole). The latitudes will be split
         into 2 * resolution segments (i.e. there are 2 * resolution
@@ -567,7 +567,7 @@ class Capsule(Artist):
         Parameters
         ----------
         A2B : array-like, shape (4, 4)
-            Center of the mesh
+            Start of the capsule's line segment.
         """
         previous_A2B = self.A2B
         if previous_A2B is None:
@@ -588,6 +588,68 @@ class Capsule(Artist):
             List of geometries that can be added to the visualizer.
         """
         return [self.capsule]
+
+
+class Cone(Artist):
+    """Cone.
+
+    Parameters
+    ----------
+    height : float, optional (default: 1)
+        Height of the cone along its z-axis.
+
+    radius : float, optional (default: 1)
+        Radius of the cone.
+
+    A2B : array-like, shape (4, 4)
+        Pose of the cone, which is the center of its circle.
+
+    resolution : int, optional (default: 20)
+        The circle will be split into resolution segments.
+
+    c : array-like, shape (3,), optional (default: None)
+        Color
+    """
+    def __init__(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
+                 c=None):
+        self.cone = o3d.geometry.TriangleMesh.create_cone(
+            radius, height, resolution)
+        self.cone.compute_vertex_normals()
+        if c is not None:
+            n_vertices = len(self.cone.vertices)
+            colors = np.zeros((n_vertices, 3))
+            colors[:] = c
+            self.cone.vertex_colors = o3d.utility.Vector3dVector(colors)
+        self.A2B = None
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        """Update data.
+
+        Parameters
+        ----------
+        A2B : array-like, shape (4, 4)
+            Center of the cone's circle.
+        """
+        previous_A2B = self.A2B
+        if previous_A2B is None:
+            previous_A2B = np.eye(4)
+        self.A2B = A2B
+
+        self.cone.transform(
+            pt.invert_transform(previous_A2B, check=False))
+        self.cone.transform(self.A2B)
+
+    @property
+    def geometries(self):
+        """Expose geometries.
+
+        Returns
+        -------
+        geometries : list
+            List of geometries that can be added to the visualizer.
+        """
+        return [self.cone]
 
 
 class Camera(Artist):
