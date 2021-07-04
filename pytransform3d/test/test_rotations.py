@@ -1851,3 +1851,24 @@ def test_negative_rotor():
         a2 = pr.rotor_apply(rotor, a)
         a3 = pr.rotor_apply(neg_rotor, a)
         assert_array_almost_equal(a2, a3)
+
+
+def test_plane_basis_from_normal():
+    x, y = pr.plane_basis_from_normal(pr.unitx)
+    R = np.column_stack((x, y, pr.unitx))
+    pr.assert_rotation_matrix(R)
+
+    x, y = pr.plane_basis_from_normal(pr.unity)
+    R = np.column_stack((x, y, pr.unity))
+    pr.assert_rotation_matrix(R)
+
+    x, y = pr.plane_basis_from_normal(pr.unitz)
+    R = np.column_stack((x, y, pr.unitz))
+    pr.assert_rotation_matrix(R)
+
+    random_state = np.random.RandomState(25)
+    for _ in range(5):
+        normal = pr.norm_vector(random_state.randn(3))
+        x, y = pr.plane_basis_from_normal(normal)
+        R = np.column_stack((x, y, normal))
+        pr.assert_rotation_matrix(R)
