@@ -161,6 +161,7 @@ Utility Functions
    ~pytransform3d.rotations.perpendicular_to_vectors
    ~pytransform3d.rotations.angle_between_vectors
    ~pytransform3d.rotations.vector_projection
+   ~pytransform3d.rotations.plane_basis_from_normal
    ~pytransform3d.rotations.random_vector
    ~pytransform3d.rotations.random_axis_angle
    ~pytransform3d.rotations.random_compact_axis_angle

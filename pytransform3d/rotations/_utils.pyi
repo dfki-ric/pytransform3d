@@ -1,5 +1,6 @@
 import numpy as np
 import numpy.typing as npt
+from typing import Tuple
 
 
 def norm_vector(v: npt.ArrayLike) -> np.ndarray: ...
@@ -27,6 +28,10 @@ def angle_between_vectors(a: npt.ArrayLike, b: npt.ArrayLike, fast: bool = ...) 
 
 
 def vector_projection(a: npt.ArrayLike, b: npt.ArrayLike) -> np.ndarray: ...
+
+
+def plane_basis_from_normal(
+        plane_normal: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray]: ...
 
 
 def random_vector(random_state: np.random.RandomState = ..., n: int = ...) -> np.ndarray: ...

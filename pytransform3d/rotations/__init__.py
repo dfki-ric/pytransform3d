@@ -9,6 +9,7 @@ from ._utils import (
     norm_angle, norm_vector, angle_between_vectors, perpendicular_to_vector,
     vector_projection, perpendicular_to_vectors,
     norm_axis_angle, norm_compact_axis_angle, norm_matrix,
+    plane_basis_from_normal,
     random_vector, random_axis_angle, random_compact_axis_angle,
     random_quaternion,
     check_skew_symmetric_matrix, check_matrix, check_quaternion,
@@ -231,5 +232,6 @@ __all__ = [
     "matrix_from_rotor",
     "plot_bivector",
     "rotor_slerp",
-    "plane_normal_from_bivector"
+    "plane_normal_from_bivector",
+    "plane_basis_from_normal"
 ]
