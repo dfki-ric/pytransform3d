@@ -412,6 +412,25 @@ Testing
    ~pytransform3d.trajectories.plot_trajectory
 
 
+:mod:`pytransform3d.coordinates`
+=================================
+
+.. automodule:: pytransform3d.coordinates
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.coordinates.cartesian_from_cylindrical
+   ~pytransform3d.coordinates.cartesian_from_spherical
+   ~pytransform3d.coordinates.cylindrical_from_cartesian
+   ~pytransform3d.coordinates.cylindrical_from_spherical
+   ~pytransform3d.coordinates.spherical_from_cartesian
+   ~pytransform3d.coordinates.spherical_from_cylindrical
+
+
 Deprecated Functions
 --------------------
 
