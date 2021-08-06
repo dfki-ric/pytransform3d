@@ -1,4 +1,4 @@
-"""Coordinate systems in which we can represent positions."""
+"""Conversions between coordinate systems to represent positions."""
 import numpy as np
 
 
