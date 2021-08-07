@@ -431,16 +431,6 @@ Testing
    ~pytransform3d.coordinates.spherical_from_cylindrical
 
 
-Deprecated Functions
---------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform3d.trajectories.matrices_from_pos_quat
-
-
 :mod:`pytransform3d.transform_manager`
 ======================================
 
