@@ -4,6 +4,16 @@ from nose.tools import assert_less_equal
 from numpy.testing import assert_array_almost_equal
 
 
+def test_cylindrical_from_cartesian_edge_cases():
+    q = pc.cylindrical_from_cartesian(np.zeros(3))
+    assert_array_almost_equal(q, np.zeros(3))
+
+
+def test_cartesian_from_cylindrical_edge_cases():
+    q = pc.cartesian_from_cylindrical(np.zeros(3))
+    assert_array_almost_equal(q, np.zeros(3))
+
+
 def test_convert_cartesian_cylindrical():
     random_state = np.random.RandomState(0)
     for i in range(1000):
@@ -18,6 +28,16 @@ def test_convert_cartesian_cylindrical():
         assert_less_equal(r[1], np.pi)
         s = pc.cartesian_from_cylindrical(r)
         assert_array_almost_equal(q, s)
+
+
+def test_spherical_from_cartesian_edge_cases():
+    q = pc.spherical_from_cartesian(np.zeros(3))
+    assert_array_almost_equal(q, np.zeros(3))
+
+
+def test_cartesian_from_spherical_edge_cases():
+    q = pc.cartesian_from_spherical(np.zeros(3))
+    assert_array_almost_equal(q, np.zeros(3))
 
 
 def test_convert_cartesian_spherical():
@@ -36,6 +56,16 @@ def test_convert_cartesian_spherical():
         assert_less_equal(r[2], np.pi)
         s = pc.cartesian_from_spherical(r)
         assert_array_almost_equal(q, s)
+
+
+def test_spherical_from_cylindrical_edge_cases():
+    q = pc.spherical_from_cylindrical(np.zeros(3))
+    assert_array_almost_equal(q, np.zeros(3))
+
+
+def test_cartesian_from_cylindrical_edge_cases():
+    q = pc.cylindrical_from_spherical(np.zeros(3))
+    assert_array_almost_equal(q, np.zeros(3))
 
 
 def test_convert_cylindrical_spherical():

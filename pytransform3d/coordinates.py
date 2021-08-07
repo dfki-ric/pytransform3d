@@ -109,7 +109,7 @@ def spherical_from_cartesian(p):
     p = np.asarray(p)
     q = np.empty_like(p)
     q[..., 0] = np.linalg.norm(p, axis=-1)
-    q[..., 1] = np.arccos(p[..., 2] / q[..., 0])
+    q[..., 1] = np.arctan2(np.linalg.norm(p[..., :2], axis=-1), p[..., 2])
     q[..., 2] = np.arctan2(p[..., 1], p[..., 0])
     return q
 
