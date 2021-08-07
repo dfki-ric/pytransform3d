@@ -149,6 +149,8 @@ def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
                   alpha=1.0, color="k"):
     """Plot cylinder.
 
+    A cylinder is the volume covered by a disk moving along a line segment.
+
     Parameters
     ----------
     ax : Matplotlib 3d axis, optional (default: None)
@@ -402,13 +404,13 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
         If the axis is None, a new 3d axis will be created
 
     A2B : array-like, shape (4, 4)
-        Frame of the capsule, located at the start of the line segment.
+        Frame of the capsule, located at the center of the line segment.
 
     height : float, optional (default: 1)
-        Height of the capsule along its z-axis
+        Height of the capsule along its z-axis.
 
     radius : float, optional (default: 1)
-        Radius of the capsule
+        Radius of the capsule.
 
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
@@ -439,7 +441,8 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
     x = radius * np.sin(phi) * np.cos(theta)
     y = radius * np.sin(phi) * np.sin(theta)
     z = radius * np.cos(phi)
-    z[:len(z) // 2] += height
+    z[len(z) // 2:] -= 0.5 * height
+    z[:len(z) // 2] += 0.5 * height
 
     shape = x.shape
 

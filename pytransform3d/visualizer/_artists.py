@@ -332,16 +332,19 @@ class Box(Artist):
 class Cylinder(Artist):
     """Cylinder.
 
+    A cylinder is the volume covered by a disk moving along a line segment.
+
     Parameters
     ----------
     length : float, optional (default: 1)
-        Length of the cylinder
+        Length of the cylinder.
 
     radius : float, optional (default: 1)
-        Radius of the cylinder
+        Radius of the cylinder.
 
     A2B : array-like, shape (4, 4)
-        Center of the cylinder
+        Pose of the cylinder. The position corresponds to the center of the
+        line segment and the z-axis to the direction of the line segment.
 
     resolution : int, optional (default: 20)
         The circles will be split into resolution segments.
@@ -527,13 +530,14 @@ class Capsule(Artist):
     Parameters
     ----------
     height : float, optional (default: 1)
-        Height of the capsule along its z-axis
+        Height of the capsule along its z-axis.
 
     radius : float, optional (default: 1)
-        Radius of the capsule
+        Radius of the capsule.
 
     A2B : array-like, shape (4, 4)
-        Pose of the capsule.
+        Pose of the capsule. The position corresponds to the center of the line
+        segment and the z-axis to the direction of the line segment.
 
     resolution : int, optional (default: 20)
         The resolution of the half spheres. The longitudes will be split into
@@ -550,7 +554,8 @@ class Capsule(Artist):
         self.capsule = o3d.geometry.TriangleMesh.create_sphere(
             radius, resolution)
         vertices = np.asarray(self.capsule.vertices)
-        vertices[vertices[:, 2] > 0, 2] += height
+        vertices[vertices[:, 2] < 0, 2] -= 0.5 * height
+        vertices[vertices[:, 2] > 0, 2] += 0.5 * height
         self.capsule.vertices = o3d.utility.Vector3dVector(vertices)
         self.capsule.compute_vertex_normals()
         if c is not None:
