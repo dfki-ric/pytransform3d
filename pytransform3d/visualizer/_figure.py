@@ -367,13 +367,14 @@ class Figure:
         Parameters
         ----------
         length : float, optional (default: 1)
-            Length of the cylinder
+            Length of the cylinder.
 
         radius : float, optional (default: 1)
-            Radius of the cylinder
+            Radius of the cylinder.
 
         A2B : array-like, shape (4, 4)
-            Center of the cylinder
+            Pose of the cylinder. The position corresponds to the center of the
+            line segment and the z-axis to the direction of the line segment.
 
         resolution : int, optional (default: 20)
             The circle will be split into resolution segments
@@ -459,13 +460,14 @@ class Figure:
         Parameters
         ----------
         height : float, optional (default: 1)
-            Height of the capsule along its z-axis
+            Height of the capsule along its z-axis.
 
         radius : float, optional (default: 1)
-            Radius of the capsule
+            Radius of the capsule.
 
         A2B : array-like, shape (4, 4)
-            Pose of the capsule.
+            Pose of the capsule. The position corresponds to the center of the
+            line segment and the z-axis to the direction of the line segment.
 
         resolution : int, optional (default: 20)
             The resolution of the capsule. The longitudes will be split into
