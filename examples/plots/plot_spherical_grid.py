@@ -4,6 +4,9 @@ Spherical Grid
 ==============
 
 Plot a grid in spherical coordinates with rho = 1 as Cartesian points.
+We can see that the Cartesian distances between points are not regular and
+there are many points that were converted to the same Cartesian point at the
+poles of the sphere.
 """
 import numpy as np
 import matplotlib.pyplot as plt
