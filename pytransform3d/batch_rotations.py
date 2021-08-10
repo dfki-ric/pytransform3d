@@ -625,6 +625,7 @@ def batch_quaternion_wxyz_from_q_xyzw(Q_xyzw, out=None):
     Q_wxyz : array-like, shape (..., 4)
         Quaternions with scalar part before vector part
     """
+    Q_xyzw = np.asarray(Q_xyzw)
     if out is None:
         out = np.empty_like(Q_xyzw)
     out[..., 0] = Q_xyzw[..., 3]
@@ -647,6 +648,7 @@ def batch_quaternion_xyzw_from_q_wxyz(Q_wxyz, out=None):
     Q_xyzw : array-like, shape (..., 4)
         Quaternions with scalar part after vector part
     """
+    Q_wxyz = np.asarray(Q_wxyz)
     if out is None:
         out = np.empty_like(Q_wxyz)
     out[..., 0] = Q_wxyz[..., 1]

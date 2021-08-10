@@ -49,10 +49,10 @@ def concat_one_to_many(A2B, B2Cs):
 
     Parameters
     ----------
-    A2B : array, shape (4, 4)
+    A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
 
-    B2Cs : array, shape (n_transforms, 4, 4)
+    B2Cs : array-like, shape (n_transforms, 4, 4)
         Transforms from frame B to frame C
 
     Returns
