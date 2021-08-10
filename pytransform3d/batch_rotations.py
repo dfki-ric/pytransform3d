@@ -610,3 +610,47 @@ def batch_q_conj(Q):
     out[..., 0] = Q[..., 0]
     out[..., 1:] = -Q[..., 1:]
     return out
+
+
+def batch_quaternion_wxyz_from_q_xyzw(Q_xyzw, out=None):
+    """Converts from x, y, z, w to w, x, y, z convention.
+
+    Parameters
+    ----------
+    Q_xyzw : array-like, shape (..., 4)
+        Quaternions with scalar part after vector part
+
+    Returns
+    -------
+    Q_wxyz : array-like, shape (..., 4)
+        Quaternions with scalar part before vector part
+    """
+    if out is None:
+        out = np.empty_like(Q_xyzw)
+    out[..., 0] = Q_xyzw[..., 3]
+    out[..., 1] = Q_xyzw[..., 0]
+    out[..., 2] = Q_xyzw[..., 1]
+    out[..., 3] = Q_xyzw[..., 2]
+    return out
+
+
+def batch_quaternion_xyzw_from_q_wxyz(Q_wxyz, out=None):
+    """Converts from w, x, y, z to x, y, z, w convention.
+
+    Parameters
+    ----------
+    Q_wxyz : array-like, shape (..., 4)
+        Quaternions with scalar part before vector part
+
+    Returns
+    -------
+    Q_xyzw : array-like, shape (..., 4)
+        Quaternions with scalar part after vector part
+    """
+    if out is None:
+        out = np.empty_like(Q_wxyz)
+    out[..., 0] = Q_wxyz[..., 1]
+    out[..., 1] = Q_wxyz[..., 2]
+    out[..., 2] = Q_wxyz[..., 3]
+    out[..., 3] = Q_wxyz[..., 0]
+    return out
