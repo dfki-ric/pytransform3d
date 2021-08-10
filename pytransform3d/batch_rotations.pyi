@@ -63,10 +63,10 @@ def batch_concatenate_quaternions(
 
 def batch_q_conj(Q: npt.ArrayLike) -> np.ndarray: ...
 
-def batch_quaternion_wxyz_from_q_xyzw(
+def batch_quaternion_wxyz_from_xyzw(
     Q_xyzw: npt.ArrayLike,
     out: Union[np.ndarray, None] = ...) -> np.ndarray: ...
 
-def batch_quaternion_xyzw_from_q_wxyz(
+def batch_quaternion_xyzw_from_wxyz(
     Q_wxyz: npt.ArrayLike,
     out: Union[np.ndarray, None] = ...) -> np.ndarray: ...

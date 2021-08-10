@@ -1,7 +1,7 @@
 import numpy as np
 from pytransform3d import rotations as pr
 from pytransform3d import batch_rotations as pbr
-from nose.tools import assert_almost_equal, assert_raises_regexp
+from nose.tools import assert_almost_equal, assert_raises_regexp, assert_equal
 from numpy.testing import assert_array_almost_equal
 
 
@@ -390,3 +390,25 @@ def test_batch_concatenate_q_conj():
     assert_array_almost_equal(
         Q_Q_conj.reshape(-1, 4),
         np.array([[1, 0, 0, 0]] * 10))
+
+
+def test_batch_convert_quaternion_conventions():
+    q_wxyz = np.array([[1.0, 0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0]])
+    q_xyzw = pbr.batch_quaternion_xyzw_from_wxyz(q_wxyz)
+    assert_array_almost_equal(
+        q_xyzw, np.array([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]]))
+    pbr.batch_quaternion_xyzw_from_wxyz(q_wxyz, out=q_xyzw)
+    assert_array_almost_equal(
+        q_xyzw, np.array([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]]))
+    q_wxyz2 = pbr.batch_quaternion_wxyz_from_xyzw(q_xyzw)
+    assert_array_almost_equal(q_wxyz, q_wxyz2)
+    pbr.batch_quaternion_wxyz_from_xyzw(q_xyzw, out=q_wxyz2)
+    assert_array_almost_equal(q_wxyz, q_wxyz2)
+
+    random_state = np.random.RandomState(42)
+    q_wxyz_random = pr.random_quaternion(random_state)
+    q_xyzw_random = pbr.batch_quaternion_xyzw_from_wxyz(q_wxyz_random)
+    assert_array_almost_equal(q_xyzw_random[:3], q_wxyz_random[1:])
+    assert_equal(q_xyzw_random[3], q_wxyz_random[0])
+    q_wxyz_random2 = pbr.batch_quaternion_wxyz_from_xyzw(q_xyzw_random)
+    assert_array_almost_equal(q_wxyz_random, q_wxyz_random2)

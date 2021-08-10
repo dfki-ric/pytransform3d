@@ -612,7 +612,7 @@ def batch_q_conj(Q):
     return out
 
 
-def batch_quaternion_wxyz_from_q_xyzw(Q_xyzw, out=None):
+def batch_quaternion_wxyz_from_xyzw(Q_xyzw, out=None):
     """Converts from x, y, z, w to w, x, y, z convention.
 
     Parameters
@@ -635,7 +635,7 @@ def batch_quaternion_wxyz_from_q_xyzw(Q_xyzw, out=None):
     return out
 
 
-def batch_quaternion_xyzw_from_q_wxyz(Q_wxyz, out=None):
+def batch_quaternion_xyzw_from_wxyz(Q_wxyz, out=None):
     """Converts from w, x, y, z to x, y, z, w convention.
 
     Parameters
