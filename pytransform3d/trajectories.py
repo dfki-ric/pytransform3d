@@ -41,6 +41,28 @@ def invert_transforms(A2Bs):
     return B2As
 
 
+def concat_one_to_many(A2B, B2Cs):
+    """Concatenate transformation A2B with multiple transformations B2C.
+
+    We use the extrinsic convention, which means that B2Cs are left-multiplied
+    to A2B.
+
+    Parameters
+    ----------
+    A2B : array, shape (4, 4)
+        Transform from frame A to frame B
+
+    B2Cs : array, shape (n_transforms, 4, 4)
+        Transforms from frame B to frame C
+
+    Returns
+    -------
+    A2Cs : array, shape (n_transforms, 4, 4)
+        Transforms from frame A to frame C
+    """
+    return np.einsum("nij,jk->nik", B2Cs, A2B)
+
+
 def transforms_from_pqs(P, normalize_quaternions=True):
     """Get sequence of homogeneous matrices from positions and quaternions.
 
