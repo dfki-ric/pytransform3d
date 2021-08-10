@@ -7,6 +7,9 @@ from typing import Union
 def invert_transforms(A2Bs: npt.ArrayLike) -> np.ndarray: ...
 
 
+def concat_one_to_many(A2B: npt.ArrayLike, B2Cs: npt.ArrayLike) -> np.ndarray: ...
+
+
 def transforms_from_pqs(
         P: npt.ArrayLike, normalize_quaternions: bool = ...) -> np.ndarray: ...
 
