@@ -386,6 +386,10 @@ Testing
    ~pytransform3d.batch_rotations.matrices_from_quaternions
    ~pytransform3d.batch_rotations.quaternions_from_matrices
    ~pytransform3d.batch_rotations.quaternion_slerp_batch
+   ~pytransform3d.batch_rotations.batch_q_conj
+   ~pytransform3d.batch_rotations.batch_concatenate_quaternions
+   ~pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw
+   ~pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz
 
 
 :mod:`pytransform3d.trajectories`
@@ -400,6 +404,7 @@ Testing
    :template: function.rst
 
    ~pytransform3d.trajectories.invert_transforms
+   ~pytransform3d.trajectories.concat_one_to_many
    ~pytransform3d.trajectories.transforms_from_pqs
    ~pytransform3d.trajectories.pqs_from_transforms
    ~pytransform3d.trajectories.exponential_coordinates_from_transforms
