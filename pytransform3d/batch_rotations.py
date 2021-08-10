@@ -620,6 +620,9 @@ def batch_quaternion_wxyz_from_xyzw(Q_xyzw, out=None):
     Q_xyzw : array-like, shape (..., 4)
         Quaternions with scalar part after vector part
 
+    out : array, shape (..., 4), optional (default: new array)
+        Output array to which we write the result
+
     Returns
     -------
     Q_wxyz : array-like, shape (..., 4)
@@ -642,6 +645,9 @@ def batch_quaternion_xyzw_from_wxyz(Q_wxyz, out=None):
     ----------
     Q_wxyz : array-like, shape (..., 4)
         Quaternions with scalar part before vector part
+
+    out : array, shape (..., 4), optional (default: new array)
+        Output array to which we write the result
 
     Returns
     -------
