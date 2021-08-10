@@ -5,7 +5,8 @@ from pytransform3d.trajectories import (
     exponential_coordinates_from_transforms,
     pqs_from_dual_quaternions, dual_quaternions_from_pqs,
     batch_concatenate_dual_quaternions, batch_dq_prod_vector,
-    transforms_from_dual_quaternions, dual_quaternions_from_transforms)
+    transforms_from_dual_quaternions, dual_quaternions_from_transforms,
+    concat_one_to_many)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -13,7 +14,7 @@ from pytransform3d.transformations import (
     exponential_coordinates_from_transform, translate_transform,
     rotate_transform, random_transform, transform_from_pq,
     concatenate_dual_quaternions, dq_prod_vector,
-    assert_unit_dual_quaternion_equal, invert_transform)
+    assert_unit_dual_quaternion_equal, invert_transform, concat)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -44,6 +45,18 @@ def test_invert_transforms_2dims():
         B2As[i] = invert_transform(A2Bs[i])
     assert_array_almost_equal(
         B2As.reshape(3, 3, 4, 4), invert_transforms(A2Bs.reshape(3, 3, 4, 4)))
+
+
+def test_concat_one_to_many():
+    random_state = np.random.RandomState(482)
+    A2B = random_transform(random_state)
+    B2C = random_transform(random_state)
+    A2C = concat(A2B, B2C)
+    assert_array_almost_equal(A2C, concat_one_to_many(A2B, [B2C])[0])
+
+    B2Cs = [random_transform(random_state) for _ in range(5)]
+    A2Cs = [concat(A2B, B2C) for B2C in B2Cs]
+    assert_array_almost_equal(A2Cs, concat_one_to_many(A2B, B2Cs))
 
 
 def test_transforms_from_pqs_0dims():
