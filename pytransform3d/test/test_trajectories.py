@@ -6,7 +6,7 @@ from pytransform3d.trajectories import (
     pqs_from_dual_quaternions, dual_quaternions_from_pqs,
     batch_concatenate_dual_quaternions, batch_dq_prod_vector,
     transforms_from_dual_quaternions, dual_quaternions_from_transforms,
-    concat_one_to_many)
+    concat_one_to_many, concat_many_to_one)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -57,6 +57,18 @@ def test_concat_one_to_many():
     B2Cs = [random_transform(random_state) for _ in range(5)]
     A2Cs = [concat(A2B, B2C) for B2C in B2Cs]
     assert_array_almost_equal(A2Cs, concat_one_to_many(A2B, B2Cs))
+
+
+def test_concat_many_to_one():
+    random_state = np.random.RandomState(482)
+    A2B = random_transform(random_state)
+    B2C = random_transform(random_state)
+    A2C = concat(A2B, B2C)
+    assert_array_almost_equal(A2C, concat_many_to_one([A2B], B2C)[0])
+
+    A2Bs = [random_transform(random_state) for _ in range(5)]
+    A2Cs = [concat(A2B, B2C) for A2B in A2Bs]
+    assert_array_almost_equal(A2Cs, concat_many_to_one(A2Bs, B2C))
 
 
 def test_transforms_from_pqs_0dims():
