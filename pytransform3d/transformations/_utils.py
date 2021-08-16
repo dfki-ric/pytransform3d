@@ -164,8 +164,8 @@ def check_screw_axis(screw_axis):
                          "object with shape %s" % (screw_axis.shape,))
 
     omega_norm = np.linalg.norm(screw_axis[:3])
-    if (abs(omega_norm - 1.0) > np.finfo(float).eps
-            and abs(omega_norm) > np.finfo(float).eps):
+    if (abs(omega_norm - 1.0) > 10.0 * np.finfo(float).eps
+            and abs(omega_norm) > 10.0 * np.finfo(float).eps):
         raise ValueError(
             "Norm of rotation axis must either be 0 or 1, but it is %g."
             % omega_norm)
