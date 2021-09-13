@@ -3,9 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>pytransform3d.trajectories.plot_trajectory &#8212; pytransform3d 1.9 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.trajectories.plot_trajectory &#8212; pytransform3d 1.10.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -19,7 +18,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.trajectories.matrices_from_pos_quat" href="pytransform3d.trajectories.matrices_from_pos_quat.html" />
+    <link rel="next" title="pytransform3d.coordinates.cartesian_from_cylindrical" href="pytransform3d.coordinates.cartesian_from_cylindrical.html" />
     <link rel="prev" title="pytransform3d.trajectories.batch_dq_prod_vector" href="pytransform3d.trajectories.batch_dq_prod_vector.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -43,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -122,7 +121,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="pytransform3d-trajectories-plot-trajectory">
+  <div class="section" id="pytransform3d-trajectories-plot-trajectory">
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.trajectories" title="pytransform3d.trajectories"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code></a>.plot_trajectory<a class="headerlink" href="#pytransform3d-trajectories-plot-trajectory" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.trajectories.plot_trajectory">
@@ -165,28 +164,22 @@ order (x, y, z, w, vx, vy, vz) for each step</p>
 </dl>
 </dd></dl>
 
-<section id="examples-using-pytransform3d-trajectories-plot-trajectory">
+<div class="section" id="examples-using-pytransform3d-trajectories-plot-trajectory">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.trajectories.plot_trajectory</span></code><a class="headerlink" href="#examples-using-pytransform3d-trajectories-plot-trajectory" title="Permalink to this headline">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="Plotting pose trajectories with pytransform3d is easy."><figure class="align-default" id="id1">
+<div class="sphx-glr-thumbcontainer" tooltip="Plotting pose trajectories with pytransform3d is easy."><div class="figure align-default" id="id1">
 <img alt="Pose Trajectory" src="../_images/sphx_glr_plot_pose_trajectory_thumb.png" />
-<figcaption>
-<p><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_pose_trajectory.html#sphx-glr-auto-examples-plots-plot-pose-trajectory-py"><span class="std std-ref">Pose Trajectory</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
-</div><div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spher..."><figure class="align-default" id="id2">
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_pose_trajectory.html#sphx-glr-auto-examples-plots-plot-pose-trajectory-py"><span class="std std-ref">Pose Trajectory</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spher..."><div class="figure align-default" id="id2">
 <img alt="Quaternion SLERP" src="../_images/sphx_glr_plot_quaternion_slerp_thumb.png" />
-<figcaption>
-<p><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_quaternion_slerp.html#sphx-glr-auto-examples-plots-plot-quaternion-slerp-py"><span class="std std-ref">Quaternion SLERP</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometr..."><figure class="align-default" id="id3">
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_quaternion_slerp.html#sphx-glr-auto-examples-plots-plot-quaternion-slerp-py"><span class="std std-ref">Quaternion SLERP</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometr..."><div class="figure align-default" id="id3">
 <img alt="Camera Trajectory" src="../_images/sphx_glr_plot_camera_trajectory_thumb.png" />
-<figcaption>
-<p><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
-</div><div class="sphx-glr-clear"></div></section>
-</section>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-clear"></div></div>
+</div>
 
 
     </div>
@@ -201,7 +194,7 @@ order (x, y, z, w, vx, vy, vz) for each step</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 19, 2021.<br/>
+      Last updated on Sep 13, 2021.<br/>
     </p>
   </div>
 </footer>

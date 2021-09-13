@@ -3,9 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.9 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SE(3): 3D Transformations &#8212; pytransform3d 1.10.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -128,7 +127,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="se-3-3d-transformations">
+  <div class="section" id="se-3-3d-transformations">
 <h1>SE(3): 3D Transformations<a class="headerlink" href="#se-3-3d-transformations" title="Permalink to this headline">¶</a></h1>
 <p>The group of all transformations in the 3D Cartesian space is <img class="math" src="_images/math/5a44cb9fa5269d4e3bc13d64693d9f8dc9c6562c.png" alt="SE(3)"/>
 (SE: special Euclidean group).
@@ -172,7 +171,7 @@ is similar to a (unit) quaternion <img class="math" src="_images/math/b5277b002c
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
 <a class="reference internal image-reference" href="_images/transformations.png"><img alt="Transformations" class="align-center" src="_images/transformations.png" style="width: 50%;" /></a>
-<section id="transformation-matrix">
+<div class="section" id="transformation-matrix">
 <h2><a class="toc-backref" href="#id1">Transformation Matrix</a><a class="headerlink" href="#transformation-matrix" title="Permalink to this headline">¶</a></h2>
 <p>One of the most convenient ways to represent transformations are
 transformation matrices. A transformation matrix is a 4x4 matrix of
@@ -217,8 +216,8 @@ result:</p>
     \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
     1\\
 \end{array} \right)"/></p>
-</div></section>
-<section id="position-and-quaternion">
+</div></div>
+<div class="section" id="position-and-quaternion">
 <h2><a class="toc-backref" href="#id2">Position and Quaternion</a><a class="headerlink" href="#position-and-quaternion" title="Permalink to this headline">¶</a></h2>
 <p>An alternative to transformation matrices is the representation in a
 7-dimensional vector that consists of the translation and a rotation
@@ -232,13 +231,13 @@ particularly useful if you want to represent a sequence of poses in
 a 2D array.</p>
 <p>pytransform3d uses a numpy array of shape (7,) to represent position and
 quaternion and typically we use the variable name pq.</p>
-</section>
-<section id="exponential-coordinates">
+</div>
+<div class="section" id="exponential-coordinates">
 <h2><a class="toc-backref" href="#id3">Exponential Coordinates</a><a class="headerlink" href="#exponential-coordinates" title="Permalink to this headline">¶</a></h2>
 <p>(<a class="reference external" href="./../../examples/plots/plot_screw.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_screw.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_screw.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_screw.pdf">pdf</a>)</p>
-<figure class="align-default">
+<div class="figure align-default">
 <img alt="_images/plot_screw.png" class="plot-directive" src="_images/plot_screw.png" />
-</figure>
+</div>
 <p>Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
 by a motion along a screw axis. The <strong>screw parameters</strong> that describe a screw
@@ -271,8 +270,8 @@ define a complete transformation through its exponential coordinates
 This is a minimal representation as it only needs 6 values.</p>
 <p>pytransform3d uses a numpy array of shape (6,) to represent a exponential
 coordinates of transformation and typically we use the variable name Stheta.</p>
-</section>
-<section id="logarithm-of-transformation">
+</div>
+<div class="section" id="logarithm-of-transformation">
 <h2><a class="toc-backref" href="#id4">Logarithm of Transformation</a><a class="headerlink" href="#logarithm-of-transformation" title="Permalink to this headline">¶</a></h2>
 <p>Alternatively, we can represent a screw axis <img class="math" src="_images/math/a963cd5439e5cc46202152a776b3120cde7c21a8.png" alt="\mathcal S"/> in a matrix</p>
 <div class="math">
@@ -304,16 +303,16 @@ logarithm of a transformation matrix</strong> and <img class="math" src="_images
 algebra of Lie group <img class="math" src="_images/math/5a44cb9fa5269d4e3bc13d64693d9f8dc9c6562c.png" alt="SE(3)"/>.</p>
 <p>pytransform3d uses a numpy array of shape (4, 4) to represent the logarithm
 of a transformation and typically we use the variable name <cite>transform_log</cite>.</p>
-</section>
-<section id="twist">
+</div>
+<div class="section" id="twist">
 <h2><a class="toc-backref" href="#id5">Twist</a><a class="headerlink" href="#twist" title="Permalink to this headline">¶</a></h2>
 <p>We call spatial velocity (translation and rotation) <strong>twist</strong>. Similarly
 to the matrix logarithm, a twist <img class="math" src="_images/math/4816c2d12935420656a91d4af4b7064bab3a7d57.png" alt="\mathcal{V} = \mathcal{S} \dot{\theta}"/>
 is described by a screw axis <img class="math" src="_images/math/b988975be41fd13b4d091c10202ba19374643586.png" alt="S"/> and a scalar <img class="math" src="_images/math/156be057a637fe3140b40c304b4c9a44631b057b.png" alt="\dot{\theta}"/>
 and <img class="math" src="_images/math/f87d4f393d61af90cf1449502258e60a1dd057e6.png" alt="\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \theta \in se(3)"/>
 is the matrix representation of a twist.</p>
-</section>
-<section id="dual-quaternions">
+</div>
+<div class="section" id="dual-quaternions">
 <h2><a class="toc-backref" href="#id6">Dual Quaternions</a><a class="headerlink" href="#dual-quaternions" title="Permalink to this headline">¶</a></h2>
 <p>Similarly to unit quaternions for rotations, unit dual quaternions are
 an alternative to represent transformations. They support similar operations
@@ -341,8 +340,8 @@ quaternion encodes the translation component as
 <img class="math" src="_images/math/f70c2c05a381f2d41407bf79ece6228291096363.png" alt="\boldsymbol{q} = 0.5 \boldsymbol{t} \boldsymbol{p}"/>, where
 <img class="math" src="_images/math/769daf01d3b707f492f7968fc2b188ba3677c5e8.png" alt="\boldsymbol{t}"/> is a quaternion with the translation in the vector
 component and the scalar 0, and rotation quaternions have the same ambiguity.</p>
-</section>
-<section id="references">
+</div>
+<div class="section" id="references">
 <h2><a class="toc-backref" href="#id7">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p>Lynch, Park: Modern Robotics (Section 3.3); available at
 <a class="reference external" href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">http://hades.mech.northwestern.edu/index.php/Modern_Robotics</a></p>
@@ -352,8 +351,8 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.</p
 <a class="reference external" href="http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf">http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf</a></p>
 <p>Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
 <a class="reference external" href="http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf">http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf</a></p>
-</section>
-</section>
+</div>
+</div>
 
 
     </div>
@@ -368,7 +367,7 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.</p
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 19, 2021.<br/>
+      Last updated on Sep 13, 2021.<br/>
     </p>
   </div>
 </footer>

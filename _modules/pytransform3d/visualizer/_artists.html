@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 1.9 documentation</title>
+    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 1.10.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -162,7 +162,6 @@
 <span class="sd">        color for each segment. A color is represented by 3 values between</span>
 <span class="sd">        0 and 1 indicate representing red, green, and blue respectively.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Line3D.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">LineSet</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
@@ -220,7 +219,6 @@
 <span class="sd">    s : float, optional (default: 1)</span>
 <span class="sd">        Length of basis vectors</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Frame.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
@@ -286,7 +284,6 @@
 <span class="sd">        A color is represented by 3 values between 0 and 1 indicate</span>
 <span class="sd">        representing red, green, and blue respectively.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Trajectory.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="n">H</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_frames</span> <span class="o">=</span> <span class="n">n_frames</span>
@@ -339,8 +336,8 @@
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Center of the sphere</span>
 
-<span class="sd">    resolution : int, optianal (default: 20)</span>
-<span class="sd">        The resolution of the sphere. The longitues will be split into</span>
+<span class="sd">    resolution : int, optional (default: 20)</span>
+<span class="sd">        The resolution of the sphere. The longitudes will be split into</span>
 <span class="sd">        resolution segments (i.e. there are resolution + 1 latitude lines</span>
 <span class="sd">        including the north and south pole). The latitudes will be split</span>
 <span class="sd">        into 2 * resolution segments (i.e. there are 2 * resolution</span>
@@ -349,7 +346,6 @@
 <span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
 <span class="sd">        Color</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Sphere.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Sphere.html#pytransform3d.visualizer.Sphere.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
             <span class="n">radius</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
@@ -368,7 +364,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Center of the sphere</span>
+<span class="sd">            Center of the sphere.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
         <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -405,7 +401,6 @@
 <span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
 <span class="sd">        Color</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Box.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Box.html#pytransform3d.visualizer.Box.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">half_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">size</span>
@@ -426,7 +421,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Center of the box</span>
+<span class="sd">            Center of the box.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
         <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -453,19 +448,22 @@
 <div class="viewcode-block" id="Cylinder"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder">[docs]</a><span class="k">class</span> <span class="nc">Cylinder</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Cylinder.</span>
 
+<span class="sd">    A cylinder is the volume covered by a disk moving along a line segment.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    length : float, optional (default: 1)</span>
-<span class="sd">        Length of the cylinder</span>
+<span class="sd">        Length of the cylinder.</span>
 
 <span class="sd">    radius : float, optional (default: 1)</span>
-<span class="sd">        Radius of the cylinder</span>
+<span class="sd">        Radius of the cylinder.</span>
 
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
-<span class="sd">        Center of the cylinder</span>
+<span class="sd">        Pose of the cylinder. The position corresponds to the center of the</span>
+<span class="sd">        line segment and the z-axis to the direction of the line segment.</span>
 
 <span class="sd">    resolution : int, optional (default: 20)</span>
-<span class="sd">        The circle will be split into resolution segments</span>
+<span class="sd">        The circles will be split into resolution segments.</span>
 
 <span class="sd">    split : int, optional (default: 4)</span>
 <span class="sd">        The height will be split into split segments</span>
@@ -473,7 +471,6 @@
 <span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
 <span class="sd">        Color</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Cylinder.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
                  <span class="n">split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cylinder</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_cylinder</span><span class="p">(</span>
@@ -495,7 +492,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Center of the cylinder</span>
+<span class="sd">            Center of the cylinder.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
         <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -535,7 +532,6 @@
 <span class="sd">    c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)</span>
 <span class="sd">        Color(s)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Mesh.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_triangle_mesh</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span>
@@ -555,7 +551,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Center of the mesh</span>
+<span class="sd">            Center of the mesh.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
         <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -588,8 +584,8 @@
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Pose of the ellipsoid.</span>
 
-<span class="sd">    resolution : int, optianal (default: 20)</span>
-<span class="sd">        The resolution of the ellipsoid. The longitues will be split into</span>
+<span class="sd">    resolution : int, optional (default: 20)</span>
+<span class="sd">        The resolution of the ellipsoid. The longitudes will be split into</span>
 <span class="sd">        resolution segments (i.e. there are resolution + 1 latitude lines</span>
 <span class="sd">        including the north and south pole). The latitudes will be split</span>
 <span class="sd">        into 2 * resolution segments (i.e. there are 2 * resolution</span>
@@ -598,7 +594,6 @@
 <span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
 <span class="sd">        Color</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Ellipsoid.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
             <span class="mf">1.0</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
@@ -620,7 +615,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Center of the mesh</span>
+<span class="sd">            Center of the ellipsoid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
         <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -641,6 +636,141 @@
 <span class="sd">            List of geometries that can be added to the visualizer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Capsule"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Capsule.html#pytransform3d.visualizer.Capsule">[docs]</a><span class="k">class</span> <span class="nc">Capsule</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Capsule.</span>
+
+<span class="sd">    A capsule is the volume covered by a sphere moving along a line segment.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    height : float, optional (default: 1)</span>
+<span class="sd">        Height of the capsule along its z-axis.</span>
+
+<span class="sd">    radius : float, optional (default: 1)</span>
+<span class="sd">        Radius of the capsule.</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Pose of the capsule. The position corresponds to the center of the line</span>
+<span class="sd">        segment and the z-axis to the direction of the line segment.</span>
+
+<span class="sd">    resolution : int, optional (default: 20)</span>
+<span class="sd">        The resolution of the half spheres. The longitudes will be split into</span>
+<span class="sd">        resolution segments (i.e. there are resolution + 1 latitude lines</span>
+<span class="sd">        including the north and south pole). The latitudes will be split</span>
+<span class="sd">        into 2 * resolution segments (i.e. there are 2 * resolution</span>
+<span class="sd">        longitude lines.)</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Capsule.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Capsule.html#pytransform3d.visualizer.Capsule.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                 <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">capsule</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
+            <span class="n">radius</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="n">vertices</span><span class="p">[</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">height</span>
+        <span class="n">vertices</span><span class="p">[</span><span class="n">vertices</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vertices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">colors</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="o">.</span><span class="n">vertex_colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Capsule.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Capsule.html#pytransform3d.visualizer.Capsule.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Start of the capsule&#39;s line segment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">capsule</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Cone"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone">[docs]</a><span class="k">class</span> <span class="nc">Cone</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cone.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    height : float, optional (default: 1)</span>
+<span class="sd">        Height of the cone along its z-axis.</span>
+
+<span class="sd">    radius : float, optional (default: 1)</span>
+<span class="sd">        Radius of the cone.</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Pose of the cone, which is the center of its circle.</span>
+
+<span class="sd">    resolution : int, optional (default: 20)</span>
+<span class="sd">        The circle will be split into resolution segments.</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Cone.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                 <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cone</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_cone</span><span class="p">(</span>
+            <span class="n">radius</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cone</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vertices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cone</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_vertices</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">colors</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cone</span><span class="o">.</span><span class="n">vertex_colors</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Cone.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Center of the cone&#39;s circle.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">previous_A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span>
+        <span class="k">if</span> <span class="n">previous_A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">previous_A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="n">A2B</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cone</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">previous_A2B</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cone</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A2B</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cone</span><span class="p">]</span></div>
 
 
 <span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
@@ -673,7 +803,6 @@
 <span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
 <span class="sd">        warning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                  <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="kc">None</span>
@@ -807,7 +936,6 @@
 <span class="sd">    s : float, optional (default: 1)</span>
 <span class="sd">        Scaling of the frames that will be drawn</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Graph.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
@@ -953,7 +1081,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 19, 2021.<br/>
+      Last updated on Sep 13, 2021.<br/>
     </p>
   </div>
 </footer>

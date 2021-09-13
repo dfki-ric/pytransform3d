@@ -161,6 +161,7 @@ Utility Functions
    ~pytransform3d.rotations.perpendicular_to_vectors
    ~pytransform3d.rotations.angle_between_vectors
    ~pytransform3d.rotations.vector_projection
+   ~pytransform3d.rotations.plane_basis_from_normal
    ~pytransform3d.rotations.random_vector
    ~pytransform3d.rotations.random_axis_angle
    ~pytransform3d.rotations.random_compact_axis_angle
@@ -385,6 +386,10 @@ Testing
    ~pytransform3d.batch_rotations.matrices_from_quaternions
    ~pytransform3d.batch_rotations.quaternions_from_matrices
    ~pytransform3d.batch_rotations.quaternion_slerp_batch
+   ~pytransform3d.batch_rotations.batch_q_conj
+   ~pytransform3d.batch_rotations.batch_concatenate_quaternions
+   ~pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw
+   ~pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz
 
 
 :mod:`pytransform3d.trajectories`
@@ -399,6 +404,8 @@ Testing
    :template: function.rst
 
    ~pytransform3d.trajectories.invert_transforms
+   ~pytransform3d.trajectories.concat_one_to_many
+   ~pytransform3d.trajectories.concat_many_to_one
    ~pytransform3d.trajectories.transforms_from_pqs
    ~pytransform3d.trajectories.pqs_from_transforms
    ~pytransform3d.trajectories.exponential_coordinates_from_transforms
@@ -411,14 +418,23 @@ Testing
    ~pytransform3d.trajectories.plot_trajectory
 
 
-Deprecated Functions
---------------------
+:mod:`pytransform3d.coordinates`
+=================================
+
+.. automodule:: pytransform3d.coordinates
+    :no-members:
+    :no-inherited-members:
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.trajectories.matrices_from_pos_quat
+   ~pytransform3d.coordinates.cartesian_from_cylindrical
+   ~pytransform3d.coordinates.cartesian_from_spherical
+   ~pytransform3d.coordinates.cylindrical_from_cartesian
+   ~pytransform3d.coordinates.cylindrical_from_spherical
+   ~pytransform3d.coordinates.spherical_from_cartesian
+   ~pytransform3d.coordinates.spherical_from_cylindrical
 
 
 :mod:`pytransform3d.transform_manager`
@@ -515,6 +531,9 @@ Deprecated Functions
    ~pytransform3d.plot_utils.plot_sphere
    ~pytransform3d.plot_utils.plot_cylinder
    ~pytransform3d.plot_utils.plot_mesh
+   ~pytransform3d.plot_utils.plot_ellipsoid
+   ~pytransform3d.plot_utils.plot_capsule
+   ~pytransform3d.plot_utils.plot_cone
 
 .. autosummary::
    :toctree: _apidoc/
@@ -553,4 +572,6 @@ Deprecated Functions
    ~pytransform3d.visualizer.Cylinder
    ~pytransform3d.visualizer.Mesh
    ~pytransform3d.visualizer.Ellipsoid
+   ~pytransform3d.visualizer.Capsule
+   ~pytransform3d.visualizer.Cone
    ~pytransform3d.visualizer.Graph

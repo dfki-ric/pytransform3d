@@ -3,9 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Euler Angles &#8212; pytransform3d 1.9 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Euler Angles &#8212; pytransform3d 1.10.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -128,7 +127,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="euler-angles">
+  <div class="section" id="euler-angles">
 <span id="id1"></span><h1>Euler Angles<a class="headerlink" href="#euler-angles" title="Permalink to this headline">¶</a></h1>
 <p>Since Euler angles are an intuitive way to specify a rotation in 3D, they
 are often exposed at user interfaces. However, there are 24 different
@@ -146,16 +145,16 @@ radians in pytransform3d).</p>
 <li><p><a class="reference internal" href="#api-euler-angles-from-rotation-matrix" id="id8">API: Euler Angles from Rotation Matrix</a></p></li>
 </ul>
 </div>
-<section id="example">
+<div class="section" id="example">
 <h2><a class="toc-backref" href="#id2">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <p>Here we rotate about the extrinsic (fixed) x-axis, y-axis, and z-axis by
 90 degrees.</p>
 <p>(<a class="reference external" href="./../../examples/plots/plot_euler_angles.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_euler_angles.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_euler_angles.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_euler_angles.pdf">pdf</a>)</p>
-<figure class="align-default">
+<div class="figure align-default">
 <img alt="_images/plot_euler_angles.png" class="plot-directive" src="_images/plot_euler_angles.png" />
-</figure>
-</section>
-<section id="conventions">
+</div>
+</div>
+<div class="section" id="conventions">
 <h2><a class="toc-backref" href="#id3">24 Conventions</a><a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
 <p>Euler angles generally refer to three consecutive rotations about basis
 vectors. There are proper Euler angles for which we can distinguish
@@ -172,8 +171,8 @@ frame, and we can make intrinsic rotations, in which we rotate about
 basis vectors of the new, rotated frame. This increases the amount of
 possible conventions to <img class="math" src="_images/math/53112c40d57246f98fd70309f7a2740fcb654548.png" alt="2 (6 + 6) = 24"/> (if we only allow active
 rotation matrices).</p>
-</section>
-<section id="range-of-angles">
+</div>
+<div class="section" id="range-of-angles">
 <h2><a class="toc-backref" href="#id4">Range of Angles</a><a class="headerlink" href="#range-of-angles" title="Permalink to this headline">¶</a></h2>
 <p>Euler angles rotate about three basis vectors with by the angles
 <img class="math" src="_images/math/2f5aa019312e1bbc969deab8dca8b00f76025404.png" alt="\alpha"/>, <img class="math" src="_images/math/7138dad9ac96835665b17f5817eacfcaa9b834c9.png" alt="\beta"/>, and <img class="math" src="_images/math/34d137cf01c787ecda732761c3f95b0f65a6c3e9.png" alt="\gamma"/>. If we want to find the
@@ -190,8 +189,8 @@ reason the proper Euler angles are typically restricted to</p>
 <p><img src="_images/math/0d55fa8ddd7176088766a3b45e9090854d712c60.png" alt="-\pi \leq \alpha \leq \pi,\\
 -\frac{\pi}{2} \leq \beta \leq \frac{\pi}{2},\\
 -\pi \leq \gamma \leq \pi"/></p>
-</div></section>
-<section id="gimbal-lock">
+</div></div>
+<div class="section" id="gimbal-lock">
 <h2><a class="toc-backref" href="#id5">Gimbal Lock</a><a class="headerlink" href="#gimbal-lock" title="Permalink to this headline">¶</a></h2>
 <p>The special case of a so-called gimbal lock occurs when the second angle
 <img class="math" src="_images/math/7138dad9ac96835665b17f5817eacfcaa9b834c9.png" alt="\beta"/> is at one of its limits. In this case the axis of rotation
@@ -203,15 +202,15 @@ satisfy <img class="math" src="_images/math/8e4babb538ffbae24fc94a5d1db510fd3167
 that satisfy <img class="math" src="_images/math/b903943f493e6a5e479f6a18e9d5cf9b412cdb44.png" alt="\alpha - \gamma = constant"/>. When we reconstruct
 Euler angles from a rotation matrix, we set one of these angles to 0 to
 determine the other.</p>
-</section>
-<section id="other-names">
+</div>
+<div class="section" id="other-names">
 <h2><a class="toc-backref" href="#id6">Other Names</a><a class="headerlink" href="#other-names" title="Permalink to this headline">¶</a></h2>
 <p>There are also other names for Euler angles. For example, the extrinsic
 xyz Cardan angles can also be called roll, pitch, and yaw (or sometimes
 the intrinsic convention is used here as well). Roll is a rotation about
 x, pitch is a rotation about y and yaw is a rotation about z.</p>
-</section>
-<section id="api-rotation-matrix-from-euler-angles">
+</div>
+<div class="section" id="api-rotation-matrix-from-euler-angles">
 <h2><a class="toc-backref" href="#id7">API: Rotation Matrix from Euler Angles</a><a class="headerlink" href="#api-rotation-matrix-from-euler-angles" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -296,8 +295,8 @@ x, pitch is a rotation about y and yaw is a rotation about z.</p>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="api-euler-angles-from-rotation-matrix">
+</div>
+<div class="section" id="api-euler-angles-from-rotation-matrix">
 <h2><a class="toc-backref" href="#id8">API: Euler Angles from Rotation Matrix</a><a class="headerlink" href="#api-euler-angles-from-rotation-matrix" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -379,8 +378,8 @@ x, pitch is a rotation about y and yaw is a rotation about z.</p>
 </tr>
 </tbody>
 </table>
-</section>
-</section>
+</div>
+</div>
 
 
     </div>
@@ -395,7 +394,7 @@ x, pitch is a rotation about y and yaw is a rotation about z.</p>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 19, 2021.<br/>
+      Last updated on Sep 13, 2021.<br/>
     </p>
   </div>
 </footer>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._utils &#8212; pytransform3d 1.9 documentation</title>
+    <title>pytransform3d.rotations._utils &#8212; pytransform3d 1.10.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -116,6 +116,7 @@
   <h1>Source code for pytransform3d.rotations._utils</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Utility functions for rotations.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">._constants</span> <span class="kn">import</span> <span class="n">unitz</span><span class="p">,</span> <span class="n">eps</span>
 
@@ -325,6 +326,53 @@
     <span class="k">if</span> <span class="n">b_norm_squared</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span> <span class="o">/</span> <span class="n">b_norm_squared</span></div>
+
+
+<div class="viewcode-block" id="plane_basis_from_normal"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.plane_basis_from_normal.html#pytransform3d.rotations.plane_basis_from_normal">[docs]</a><span class="k">def</span> <span class="nf">plane_basis_from_normal</span><span class="p">(</span><span class="n">plane_normal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute two basis vectors of a plane from the plane&#39;s normal vector.</span>
+
+<span class="sd">    Note that there are infinitely many solutions because any rotation of the</span>
+<span class="sd">    basis vectors about the normal is also a solution. This function</span>
+<span class="sd">    deterministically picks one of the solutions.</span>
+
+<span class="sd">    The two basis vectors of the plane together with the normal form an</span>
+<span class="sd">    orthonormal basis in 3D space and could be used as columns to form a</span>
+<span class="sd">    rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    plane_normal : array-like, shape (3,)</span>
+<span class="sd">        Plane normal of unit length.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_axis : array, shape (3,)</span>
+<span class="sd">        x-axis of the plane.</span>
+
+<span class="sd">    y_axis : array, shape (3,)</span>
+<span class="sd">        y-axis of the plane.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">plane_normal</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">plane_normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="c1"># x or z is the largest magnitude component, swap them</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="n">plane_normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">length</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>
+                           <span class="n">plane_normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">length</span><span class="p">])</span>
+        <span class="n">y_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="n">plane_normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="o">-</span><span class="n">plane_normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># y or z is the largest magnitude component, swap them</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">plane_normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                           <span class="o">+</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">length</span><span class="p">,</span>
+                           <span class="o">-</span><span class="n">plane_normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">length</span><span class="p">])</span>
+        <span class="n">y_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="n">plane_normal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="o">-</span><span class="n">plane_normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">plane_normal</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span></div>
 
 
 <div class="viewcode-block" id="random_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.random_vector.html#pytransform3d.rotations.random_vector">[docs]</a><span class="k">def</span> <span class="nf">random_vector</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
@@ -660,7 +708,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 19, 2021.<br/>
+      Last updated on Sep 13, 2021.<br/>
     </p>
   </div>
 </footer>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils._plot_functions &#8212; pytransform3d 1.9 documentation</title>
+    <title>pytransform3d.plot_utils._plot_functions &#8212; pytransform3d 1.10.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -209,7 +209,7 @@
 
 
 <div class="viewcode-block" id="plot_sphere"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.plot_sphere.html#pytransform3d.plot_utils.plot_sphere">[docs]</a><span class="k">def</span> <span class="nf">plot_sphere</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">n_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+                <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot sphere.</span>
 
 <span class="sd">    Parameters</span>
@@ -229,14 +229,14 @@
 <span class="sd">    wireframe : bool, optional (default: True)</span>
 <span class="sd">        Plot wireframe of sphere and surface otherwise</span>
 
-<span class="sd">    n_steps : int, optional (default: 100)</span>
+<span class="sd">    n_steps : int, optional (default: 20)</span>
 <span class="sd">        Number of discrete steps plotted in each dimension</span>
+
+<span class="sd">    alpha : float, optional (default: 1)</span>
+<span class="sd">        Alpha value of the sphere that will be plotted</span>
 
 <span class="sd">    color : str, optional (default: black)</span>
 <span class="sd">        Color in which the sphere should be plotted</span>
-
-<span class="sd">    alpha : float, optional (default: 1)</span>
-<span class="sd">        Alpha value of the mesh that will be plotted</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -264,6 +264,8 @@
                   <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                   <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot cylinder.</span>
+
+<span class="sd">    A cylinder is the volume covered by a disk moving along a line segment.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -294,7 +296,7 @@
 <span class="sd">        Number of discrete steps plotted in each dimension</span>
 
 <span class="sd">    alpha : float, optional (default: 1)</span>
-<span class="sd">        Alpha value of the mesh that will be plotted</span>
+<span class="sd">        Alpha value of the cylinder that will be plotted</span>
 
 <span class="sd">    color : str, optional (default: black)</span>
 <span class="sd">        Color in which the cylinder should be plotted</span>
@@ -339,20 +341,20 @@
 
     <span class="k">if</span> <span class="n">thickness</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="n">X_outer</span><span class="p">,</span> <span class="n">Y_outer</span><span class="p">,</span> <span class="n">Z_outer</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">axis_start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">axis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span>
-            <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-            <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+            <span class="n">axis_start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">axis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span>
+            <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
         <span class="n">X_inner</span><span class="p">,</span> <span class="n">Y_inner</span><span class="p">,</span> <span class="n">Z_inner</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">axis_end</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">axis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span>
-            <span class="n">inner_radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-            <span class="n">inner_radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+            <span class="n">axis_end</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">axis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span>
+            <span class="o">+</span> <span class="n">inner_radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">inner_radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">X_outer</span><span class="p">,</span> <span class="n">X_inner</span><span class="p">))</span>
         <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Y_outer</span><span class="p">,</span> <span class="n">Y_inner</span><span class="p">))</span>
         <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Z_outer</span><span class="p">,</span> <span class="n">Z_inner</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis_start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">axis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span>
-                   <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis_start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">axis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span>
+                   <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                   <span class="o">+</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
 
     <span class="k">if</span> <span class="n">wireframe</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot_wireframe</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
@@ -399,7 +401,7 @@
 <span class="sd">        Alpha value of the mesh that will be plotted</span>
 
 <span class="sd">    color : str, optional (default: black)</span>
-<span class="sd">        Color in which the cylinder should be plotted</span>
+<span class="sd">        Color in which the mesh should be plotted</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -438,6 +440,217 @@
         <span class="n">surface</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
     <span class="n">surface</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">add_collection3d</span><span class="p">(</span><span class="n">surface</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_ellipsoid"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.plot_ellipsoid.html#pytransform3d.plot_utils.plot_ellipsoid">[docs]</a><span class="k">def</span> <span class="nf">plot_ellipsoid</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                   <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot ellipsoid.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib 3d axis, optional (default: None)</span>
+<span class="sd">        If the axis is None, a new 3d axis will be created</span>
+
+<span class="sd">    radii : array-like, shape (3,)</span>
+<span class="sd">        Radii along the x-axis, y-axis, and z-axis of the ellipsoid.</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Transform from frame A to frame B</span>
+
+<span class="sd">    ax_s : float, optional (default: 1)</span>
+<span class="sd">        Scaling of the new matplotlib 3d axis</span>
+
+<span class="sd">    wireframe : bool, optional (default: True)</span>
+<span class="sd">        Plot wireframe of ellipsoid and surface otherwise</span>
+
+<span class="sd">    n_steps : int, optional (default: 20)</span>
+<span class="sd">        Number of discrete steps plotted in each dimension</span>
+
+<span class="sd">    alpha : float, optional (default: 1)</span>
+<span class="sd">        Alpha value of the ellipsoid that will be plotted</span>
+
+<span class="sd">    color : str, optional (default: black)</span>
+<span class="sd">        Color in which the ellipsoid should be plotted</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : Matplotlib 3d axis</span>
+<span class="sd">        New or old axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">..transformations</span> <span class="kn">import</span> <span class="n">transform</span><span class="p">,</span> <span class="n">vectors_to_points</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
+
+    <span class="n">radius_x</span><span class="p">,</span> <span class="n">radius_y</span><span class="p">,</span> <span class="n">radius_z</span> <span class="o">=</span> <span class="n">radii</span>
+
+    <span class="n">phi</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mf">0.0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">:</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">radius_x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">radius_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">radius_z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">vectors_to_points</span><span class="p">(</span><span class="n">P</span><span class="p">))[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">wireframe</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_wireframe</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_capsule"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.plot_capsule.html#pytransform3d.plot_utils.plot_capsule">[docs]</a><span class="k">def</span> <span class="nf">plot_capsule</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">height</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot capsule.</span>
+
+<span class="sd">    A capsule is the volume covered by a sphere moving along a line segment.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib 3d axis, optional (default: None)</span>
+<span class="sd">        If the axis is None, a new 3d axis will be created</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Frame of the capsule, located at the center of the line segment.</span>
+
+<span class="sd">    height : float, optional (default: 1)</span>
+<span class="sd">        Height of the capsule along its z-axis.</span>
+
+<span class="sd">    radius : float, optional (default: 1)</span>
+<span class="sd">        Radius of the capsule.</span>
+
+<span class="sd">    ax_s : float, optional (default: 1)</span>
+<span class="sd">        Scaling of the new matplotlib 3d axis</span>
+
+<span class="sd">    wireframe : bool, optional (default: True)</span>
+<span class="sd">        Plot wireframe of capsule and surface otherwise</span>
+
+<span class="sd">    n_steps : int, optional (default: 20)</span>
+<span class="sd">        Number of discrete steps plotted in each dimension</span>
+
+<span class="sd">    alpha : float, optional (default: 1)</span>
+<span class="sd">        Alpha value of the mesh that will be plotted</span>
+
+<span class="sd">    color : str, optional (default: black)</span>
+<span class="sd">        Color in which the capsule should be plotted</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : Matplotlib 3d axis</span>
+<span class="sd">        New or old axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">..transformations</span> <span class="kn">import</span> <span class="n">transform</span><span class="p">,</span> <span class="n">vectors_to_points</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
+
+    <span class="n">phi</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mf">0.0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">:</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="n">z</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">height</span>
+    <span class="n">z</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">height</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">vectors_to_points</span><span class="p">(</span><span class="n">P</span><span class="p">))[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">P</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">wireframe</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_wireframe</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_cone"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.plot_cone.html#pytransform3d.plot_utils.plot_cone">[docs]</a><span class="k">def</span> <span class="nf">plot_cone</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+              <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot cone.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib 3d axis, optional (default: None)</span>
+<span class="sd">        If the axis is None, a new 3d axis will be created</span>
+
+<span class="sd">    height : float, optional (default: 1)</span>
+<span class="sd">        Height of the cone</span>
+
+<span class="sd">    radius : float, optional (default: 1)</span>
+<span class="sd">        Radius of the cone</span>
+
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Center of the cone</span>
+
+<span class="sd">    ax_s : float, optional (default: 1)</span>
+<span class="sd">        Scaling of the new matplotlib 3d axis</span>
+
+<span class="sd">    wireframe : bool, optional (default: True)</span>
+<span class="sd">        Plot wireframe of cone and surface otherwise</span>
+
+<span class="sd">    n_steps : int, optional (default: 100)</span>
+<span class="sd">        Number of discrete steps plotted in each dimension</span>
+
+<span class="sd">    alpha : float, optional (default: 1)</span>
+<span class="sd">        Alpha value of the cone that will be plotted</span>
+
+<span class="sd">    color : str, optional (default: black)</span>
+<span class="sd">        Color in which the cone should be plotted</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : Matplotlib 3d axis</span>
+<span class="sd">        New or old axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
+
+    <span class="n">axis_start</span> <span class="o">=</span> <span class="n">A2B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">axis_end</span> <span class="o">=</span> <span class="n">A2B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">axis_end</span> <span class="o">-</span> <span class="n">axis_start</span>
+    <span class="n">axis</span> <span class="o">/=</span> <span class="n">height</span>
+
+    <span class="n">not_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">axis</span> <span class="o">==</span> <span class="n">not_axis</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="n">not_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">n1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">not_axis</span><span class="p">)</span>
+    <span class="n">n1</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+    <span class="n">n2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">n1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">wireframe</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span>
+        <span class="n">radii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">])</span>
+        <span class="n">radii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis_start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">axis</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">t</span>
+               <span class="o">+</span> <span class="n">radii</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+               <span class="o">+</span> <span class="n">radii</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">n2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+
+    <span class="k">if</span> <span class="n">wireframe</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_wireframe</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+                          <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">ax</span></div>
 
 
@@ -581,7 +794,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 19, 2021.<br/>
+      Last updated on Sep 13, 2021.<br/>
     </p>
   </div>
 </footer>

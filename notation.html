@@ -3,9 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Notation &#8212; pytransform3d 1.9 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notation &#8212; pytransform3d 1.10.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -124,7 +123,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="notation">
+  <div class="section" id="notation">
 <h1>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h1>
 <p>For physical quantities we use the notation <img class="math" src="_images/math/3e8d0fa9b4776124ada722970f386a22eeaab292.png" alt="_{A}\boldsymbol{x}_{BC}"/>,
 where <img class="math" src="_images/math/fa44d7cdd2d3f90f81820cfe85818a142149d124.png" alt="\boldsymbol{x}"/> is a physical quantity of frame C with
@@ -145,7 +144,7 @@ from right to left as a matrix that maps from frame A to frame B through
 multiplication, for example, when we want to transform a point by</p>
 <div class="math">
 <p><img src="_images/math/3c019428871f5d9c48960643635cb2b7de4e303d.png" alt="_B\boldsymbol{p} = \boldsymbol{M}_{BA} {_A\boldsymbol{p}}"/></p>
-</div><section id="representations">
+</div><div class="section" id="representations">
 <h2>Representations<a class="headerlink" href="#representations" title="Permalink to this headline">¶</a></h2>
 <p>We can use many different representations of rotation and / or translation.
 Here is an overview of the representations that are available in pytransform3d.
@@ -241,8 +240,8 @@ representations on the following pages.</p>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="duality-of-transformations-and-poses">
+</div>
+<div class="section" id="duality-of-transformations-and-poses">
 <h2>Duality of Transformations and Poses<a class="headerlink" href="#duality-of-transformations-and-poses" title="Permalink to this headline">¶</a></h2>
 <p>We can use a transformation matrix <img class="math" src="_images/math/cd7cb76e2991b36b6cabdc58ee51ad4acd629d07.png" alt="\boldsymbol{T}_{BA}"/> that represents
 a transformation from frame A to frame B to represent the pose (position and
@@ -251,15 +250,15 @@ convention; see <a class="reference internal" href="transformation_ambiguities.h
 a different interpretation of the same matrix and similar to our interpretation
 of a vector from A to P <img class="math" src="_images/math/86506bb7665c2b0d7e590c06c503e988c758d7d6.png" alt="_A\boldsymbol{t}_{AP}"/> as a point
 <img class="math" src="_images/math/29e9c2923fc1360492231a654bb1005efd62f3e6.png" alt="_A\boldsymbol{p}"/>.</p>
-</section>
-<section id="references">
+</div>
+<div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Representing Robot Pose: The good, the bad, and the ugly (slides): <a class="reference external" href="http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf">http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf</a></p></li>
 <li><p>Representing Robot Pose: The good, the bad, and the ugly (blog): <a class="reference external" href="http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly">http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly</a></p></li>
 </ul>
-</section>
-</section>
+</div>
+</div>
 
 
     </div>
@@ -274,7 +273,7 @@ of a vector from A to P <img class="math" src="_images/math/86506bb7665c2b0d7e59
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 19, 2021.<br/>
+      Last updated on Sep 13, 2021.<br/>
     </p>
   </div>
 </footer>
