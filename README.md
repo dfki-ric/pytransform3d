@@ -206,7 +206,8 @@ GUI.
 
 If you wish to report bugs, please use the issue tracker at Github.
 If you would like to contribute to pytransform3d, just open an issue or
-a merge request.
+a merge request. The target branch for merge requests is the develop branch.
+The development branch will be merged to master for new releases.
 
 ## Citation
 
