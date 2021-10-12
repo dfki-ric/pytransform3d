@@ -45,10 +45,10 @@ software:
   and that should be as easy as possible.
 
 pytransform3d assists in solving these issues. Its documentation clearly
-states all of the used conventions, it makes conversions between rotation
-and transformation conventions as easy as possible, it is tightly coupled
-with Matplotlib to quickly visualize (or animate) transformations and it
-is written in Python with few dependencies. Python is a widely adopted
+states all of the used conventions, it aims at making conversions between
+rotation and transformation conventions as easy as possible, it is tightly
+coupled with Matplotlib to quickly visualize (or animate) transformations and
+it is written in Python with few dependencies. Python is a widely adopted
 language. It is used in many domains and supports a wide spectrum of
 communication to other software.
 
