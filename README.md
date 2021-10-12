@@ -111,8 +111,8 @@ for instructions.
 The API documentation can be found
 [here](https://rock-learning.github.io/pytransform3d/).
 
-The docmentation of this project can be found in the directory `doc`.
-To build the documentation, run e.g. (on unix):
+The documentation can be found in the directory `doc`.
+To build the documentation, run e.g. (on linux):
 
 ```bash
 cd doc
