@@ -201,15 +201,32 @@ You can use nosetests to run the tests of this project in the root directory:
 A coverage report will be located at `cover/index.html`.
 Note that you have to install `nose` to run the tests and `coverage` to obtain
 the code coverage report.
-The branch coverage is currently 100% for code that is not related to the
-GUI.
 
 ## Contributing
 
-If you wish to report bugs, please use the issue tracker at Github.
-If you would like to contribute to pytransform3d, just open an issue or
-a merge request. The target branch for merge requests is the develop branch.
+If you wish to report bugs, please use the
+[issue tracker](https://github.com/rock-learning/pytransform3d/issues) at
+Github. If you would like to contribute to pytransform3d, just open an issue
+or a [pull request](https://github.com/rock-learning/pytransform3d/pulls).
+The target branch for pull requests is the develop branch.
 The development branch will be merged to master for new releases.
+If you have questions about the software, you should ask them in the
+[discussion section](https://github.com/rock-learning/pytransform3d/discussions).
+
+The recommended workflow to add a new feature, add documentation, or fix a bug
+is the following:
+
+* Push your changes to a branch (e.g. `feature/x`, `doc/y`, or `fix/z`) of your
+  fork of the pytransform3d repository.
+* Open a pull request to the latest development branch. There is usually an
+  open merge request from the latest development branch to the main branch.
+* When the latest development branch is merged to the main branch, a new
+  release will be made.
+
+It is forbidden to directly push to the main branch (master). Each new version
+has its own development branch from which a pull request will be opened to the
+main branch. Only the maintainer of the software is allowed to merge a
+development branch to the main branch.
 
 ## Citation
 
