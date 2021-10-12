@@ -9,6 +9,7 @@ from pytransform3d.plot_utils import (
     plot_box, plot_sphere, plot_cylinder, plot_mesh, plot_ellipsoid,
     plot_capsule, plot_cone, plot_vector, plot_length_variable)
 from nose.tools import assert_equal, assert_less, assert_greater_equal
+from numpy.testing import assert_array_almost_equal
 
 
 def test_make_3d_axis():
@@ -51,7 +52,7 @@ def test_frame_removed():
         remove_frame(ax)
         bounds = ax.get_position().bounds
         # regression test
-        assert_equal(bounds, (0.125, 0.0, 0.75, 1.0))
+        assert_array_almost_equal(bounds, (0.125, 0.0, 0.75, 1.0))
     finally:
         ax.remove()
 
