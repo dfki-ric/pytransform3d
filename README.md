@@ -169,6 +169,8 @@ plt.show()
 ## Gallery
 
 The following plots and visualizations have been generated with pytransform3d.
+The code for most examples can be found in
+[the documentation](https://rock-learning.github.io/pytransform3d/_auto_examples/index.html).
 
 Left: [Nao robot](https://www.softbankrobotics.com/emea/en/nao) with URDF
 from [Bullet3](https://github.com/bulletphysics/bullet3).
