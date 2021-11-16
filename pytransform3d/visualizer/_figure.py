@@ -4,8 +4,8 @@ import open3d as o3d
 from .. import rotations as pr
 from .. import transformations as pt
 from .. import trajectories as ptr
-from ._artists import (Line3D, Frame, Trajectory, Camera, Box, Sphere,
-                       Cylinder, Mesh, Ellipsoid, Capsule, Cone, Graph)
+from ._artists import (Line3D, Vector3D, Frame, Trajectory, Camera, Box,
+                       Sphere, Cylinder, Mesh, Ellipsoid, Capsule, Cone, Graph)
 
 
 class Figure:
@@ -204,12 +204,37 @@ class Figure:
 
         Returns
         -------
-        Line3D : line
+        line : Line3D
             New line.
         """
         line3d = Line3D(P, c)
         line3d.add_artist(self)
         return line3d
+
+    def plot_vector(self, start=np.zeros(3), direction=np.array([1, 0, 0]),
+                    c=(0, 0, 0)):
+        """Plot vector.
+
+        Parameters
+        ----------
+        start : array-like, shape (3,), optional (default: [0, 0, 0])
+            Start of the vector
+
+        direction : array-like, shape (3,), optional (default: [1, 0, 0])
+            Direction of the vector
+
+        c : array-like, shape (3,), optional (default: black)
+            A color is represented by 3 values between 0 and 1 indicate
+            representing red, green, and blue respectively.
+
+        Returns
+        -------
+        vector : Vector3D
+            New vector.
+        """
+        vector3d = Vector3D(start, direction, c)
+        vector3d.add_artist(self)
+        return vector3d
 
     def plot_basis(self, R=None, p=np.zeros(3), s=1.0, strict_check=True):
         """Plot basis.

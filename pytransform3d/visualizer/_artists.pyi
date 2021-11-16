@@ -26,6 +26,17 @@ class Line3D(Artist):
     def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
 
 
+class Vector3D(Artist):
+    def __init__(self, start: npt.ArrayLike, direction: npt.ArrayLike,
+                 c: Union[None, npt.ArrayLike] = ...): ...
+
+    def set_data(self, start: npt.ArrayLike, direction: npt.ArrayLike,
+                 c: npt.ArrayLike = ...): ...
+
+    @property
+    def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
+
+
 class Frame(Artist):
     def __init__(self, A2B: npt.ArrayLike,
                  label: Union[None, str] = ..., s: float = ...): ...

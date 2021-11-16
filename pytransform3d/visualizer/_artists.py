@@ -3,6 +3,7 @@ import warnings
 from itertools import chain
 import numpy as np
 import open3d as o3d
+from .. import rotations as pr
 from .. import transformations as pt
 from .. import urdf
 
@@ -87,6 +88,70 @@ class Line3D(Artist):
             List of geometries that can be added to the visualizer.
         """
         return [self.line_set]
+
+
+class Vector3D(Artist):
+    """A vector.
+
+    Parameters
+    ----------
+    start : array-like, shape (3,), optional (default: [0, 0, 0])
+        Start of the vector
+
+    direction : array-like, shape (3,), optional (default: [1, 0, 0])
+        Direction of the vector
+
+    c : array-like, shape (3,), optional (default: black)
+        A color is represented by 3 values between 0 and 1 indicate
+        representing red, green, and blue respectively.
+    """
+    def __init__(self, start=np.zeros(3), direction=np.array([1, 0, 0]),
+                 c=(0, 0, 0)):
+        self.vector = o3d.geometry.TriangleMesh.create_arrow(
+            cylinder_radius=0.035, cone_radius=0.07,
+            cylinder_height=0.8, cone_height=0.2)
+        self.set_data(start, direction, c)
+
+    def set_data(self, start, direction, c=None):
+        """Update data.
+
+        Parameters
+        ----------
+        start : array-like, shape (3,)
+            Start of the vector
+
+        direction : array-like, shape (3,)
+            Direction of the vector
+
+        c : array-like, shape (3,), optional (default: black)
+            A color is represented by 3 values between 0 and 1 indicate
+            representing red, green, and blue respectively.
+        """
+        length = np.linalg.norm(direction)
+        z = direction / length
+        x, y = pr.plane_basis_from_normal(z)
+        R = np.column_stack((x, y, z))
+        A2B = pt.transform_from(R, start)
+
+        new_vector = o3d.geometry.TriangleMesh.create_arrow(
+            cylinder_radius=0.035 * length, cone_radius=0.07 * length,
+            cylinder_height=0.8 * length, cone_height=0.2 * length)
+        self.vector.vertices = new_vector.vertices
+        self.vector.triangles = new_vector.triangles
+        self.vector.transform(A2B)
+        self.vector.paint_uniform_color(c)
+        self.vector.compute_vertex_normals()
+
+    @property
+    def geometries(self):
+        """Expose geometries.
+
+        Returns
+        -------
+        geometries : list
+            List of geometries that can be added to the visualizer.
+        """
+        return [self.vector]
 
 
 class Frame(Artist):
