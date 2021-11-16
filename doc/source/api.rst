@@ -564,6 +564,7 @@ Testing
 
    ~pytransform3d.visualizer.Figure
    ~pytransform3d.visualizer.Artist
+   ~pytransform3d.visualizer.Vector3D
    ~pytransform3d.visualizer.Line3D
    ~pytransform3d.visualizer.Frame
    ~pytransform3d.visualizer.Trajectory
