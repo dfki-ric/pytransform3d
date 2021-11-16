@@ -552,7 +552,7 @@ def plot_vector(ax=None, start=np.zeros(3), direction=np.array([1, 0, 0]),
     start : array-like, shape (3,), optional (default: [0, 0, 0])
         Start of the vector
 
-    direction : array-like, shape (3,), optional (default: [0, 0, 0])
+    direction : array-like, shape (3,), optional (default: [1, 0, 0])
         Direction of the vector
 
     s : float, optional (default: 1)
