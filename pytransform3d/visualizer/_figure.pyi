@@ -30,6 +30,9 @@ class Figure:
 
     def plot(self, P: npt.ArrayLike, c: npt.ArrayLike): ...
 
+    def plot_vector(self, start: npt.ArrayLike, direction: npt.ArrayLike,
+                    c: npt.ArrayLike = ...): ...
+
     def plot_basis(
             self, R: Union[None, npt.ArrayLike] = ..., p: npt.ArrayLike = ...,
             s: float = ..., strict_check: bool = ...) -> Frame: ...
