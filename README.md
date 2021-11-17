@@ -180,9 +180,9 @@ The animation is based on pytransform3d's visualization interface to
 
 <img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/animation_nao.gif" height=400px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=400px/>
 
-Visualization based on [Open3D](http://www.open3d.org/).
+Visualizations based on [Open3D](http://www.open3d.org/).
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/photogrammetry.png" width=300px/>
+<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/photogrammetry.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/develop/doc/source/_static/kuka_trajectories.gif" height=400px/>
 
 Various plots based on Matplotlib.
 
