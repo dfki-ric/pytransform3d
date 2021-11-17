@@ -51,6 +51,7 @@ then submit a "pull request" (PR):
 
 Finally, go to the web page of the your fork of the pytransform3d repository,
 and click 'Pull request' to send your changes to the maintainer for review.
+Make sure that your target branch is 'develop'.
 
 In the above setup, your `origin` remote repository points to
 YourLogin/pytransform3d.git. If you wish to fetch/merge from the main
@@ -77,9 +78,9 @@ Adding a new feature to pytransform3d requires a few other changes:
 
 ## Merge Policy
 
-Usually it is not possible to push directly to the master branch for anyone.
-Only tiny changes, urgent bugfixes, and maintenance commits can be pushed
-directly to the master branch by the maintainer without a review.
+Usually it is not possible to push directly to the develop or master branch for
+anyone. Only tiny changes, urgent bugfixes, and maintenance commits can be
+pushed directly to the master branch by the maintainer without a review.
 "Tiny" means backwards compatibility is mandatory and all tests must succeed.
 No new feature must be added.
 
@@ -89,7 +90,7 @@ be discussed and announced in advance with deprecation warnings.
 
 ## Versioning
 
-A simplified semantic versioning is used, that is, the major version number
-will be incremented when the API changes in a backwards incompatible way, the
+Semantic versioning is used, that is, the major version number will be
+incremented when the API changes in a backwards incompatible way, the
 minor version will be incremented when new functionality is added in a
-backwards compatible manner, and there is no patch version number.
+backwards compatible manner.
