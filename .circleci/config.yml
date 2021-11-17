@@ -26,8 +26,7 @@ jobs:
             sudo apt install graphviz gfortran libopenblas-dev liblapack-dev
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
-            pip install nose coverage
+            pip install -e . pydot trimesh nose coverage
 
       - save_cache:
           paths:
