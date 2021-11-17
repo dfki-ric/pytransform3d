@@ -26,7 +26,7 @@ jobs:
             sudo apt install graphviz gfortran libopenblas-dev liblapack-dev
             python3 -m venv venv
             . venv/bin/activate
-            pip install -e . pydot trimesh nose coverage
+            pip install -e . pydot trimesh pytest pytest-cov
 
       - save_cache:
           paths:
@@ -39,7 +39,7 @@ jobs:
           command: |
             . venv/bin/activate
             python3 --version
-            MPLBACKEND=Agg nosetests -sv pytransform3d/test/
+            MPLBACKEND=Agg pytest -W ignore::DeprecationWarning --cov=pytransform3d pytransform3d
 
       - store_artifacts:
           path: cover
