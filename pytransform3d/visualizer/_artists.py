@@ -90,6 +90,73 @@ class Line3D(Artist):
         return [self.line_set]
 
 
+class PointCollection3D(Artist):
+    """Collection of points.
+
+    Parameters
+    ----------
+    P : array, shape (n_points, 3)
+        Points
+
+    s : float, optional (default: 0.05)
+        Scaling of the spheres that will be drawn.
+
+    c : array-like, shape (3,) or (n_points, 3), optional (default: black)
+        A color is represented by 3 values between 0 and 1 indicate
+        representing red, green, and blue respectively.
+    """
+    def __init__(self, P, s=0.05, c=None):
+        self._points = []
+        self._P = np.zeros_like(P)
+
+        if c is not None:
+            c = np.asarray(c)
+            if c.ndim == 1:
+                c = np.tile(c, (len(P), 1))
+
+        for i in range(len(P)):
+            point = o3d.geometry.TriangleMesh.create_sphere(
+                radius=s, resolution=10)
+            if c is not None:
+                n_vertices = len(point.vertices)
+                colors = np.zeros((n_vertices, 3))
+                colors[:] = c[i]
+                point.vertex_colors = o3d.utility.Vector3dVector(colors)
+            point.compute_vertex_normals()
+            self._points.append(point)
+
+        self.set_data(P)
+
+    def set_data(self, P):
+        """Update data.
+
+        Parameters
+        ----------
+        P : array, shape (n_points, 3)
+            Points
+        """
+        P = np.copy(P)
+        for i, point, p, previous_p in zip(
+                range(len(self._P)), self._points, P, self._P):
+            if any(np.isnan(p)):
+                P[i] = previous_p
+            else:
+                point.translate(p - previous_p)
+
+        self._P = P
+
+    @property
+    def geometries(self):
+        """Expose geometries.
+
+        Returns
+        -------
+        geometries : list
+            List of geometries that can be added to the visualizer.
+        """
+        return self._points
+
+
 class Vector3D(Artist):
     """A vector.
 
