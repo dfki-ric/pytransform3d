@@ -1061,7 +1061,18 @@ class Graph(Artist):
 
 
 def _objects_to_artists(objects):
-    """Convert geometries from URDF to artists."""
+    """Convert geometries from URDF to artists.
+
+    Parameters
+    ----------
+    objects : list of Geometry
+        Objects parsed from URDF.
+
+    Returns
+    -------
+    artists : dict
+        Mapping from frame names to artists.
+    """
     artists = {}
     for obj in objects:
         if obj.color is None:
