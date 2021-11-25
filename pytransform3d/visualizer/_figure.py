@@ -558,6 +558,11 @@ class Figure:
 
         c : array-like, shape (3,), optional (default: None)
             Color
+
+        Returns
+        -------
+        cone : Cone
+            New cone.
         """
         cone = Cone(height, radius, A2B, resolution, c)
         cone.add_artist(self)
