@@ -4,8 +4,9 @@ import open3d as o3d
 from .. import rotations as pr
 from .. import transformations as pt
 from .. import trajectories as ptr
-from ._artists import (Line3D, Vector3D, Frame, Trajectory, Camera, Box,
-                       Sphere, Cylinder, Mesh, Ellipsoid, Capsule, Cone, Graph)
+from ._artists import (Line3D, PointCollection3D, Vector3D, Frame, Trajectory,
+                       Camera, Box, Sphere, Cylinder, Mesh, Ellipsoid, Capsule,
+                       Cone, Graph)
 
 
 class Figure:
@@ -210,6 +211,30 @@ class Figure:
         line3d = Line3D(P, c)
         line3d.add_artist(self)
         return line3d
+
+    def scatter(self, P, s=0.05, c=None):
+        """Plot collection of points.
+
+        Parameters
+        ----------
+        P : array, shape (n_points, 3)
+            Points
+
+        s : float, optional (default: 0.05)
+            Scaling of the spheres that will be drawn.
+
+        c : array-like, shape (3,) or (n_points, 3), optional (default: black)
+            A color is represented by 3 values between 0 and 1 indicate
+            representing red, green, and blue respectively.
+
+        Returns
+        -------
+        point_collection : PointCollection3D
+            New point collection.
+        """
+        point_collection = PointCollection3D(P, s, c)
+        point_collection.add_artist(self)
+        return point_collection
 
     def plot_vector(self, start=np.zeros(3), direction=np.array([1, 0, 0]),
                     c=(0, 0, 0)):

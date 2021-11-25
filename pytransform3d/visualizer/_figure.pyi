@@ -30,6 +30,9 @@ class Figure:
 
     def plot(self, P: npt.ArrayLike, c: npt.ArrayLike): ...
 
+    def scatter(self, P: npt.ArrayLike, s: float = ...,
+                c: Union[None, npt.ArrayLike] = ...): ...
+
     def plot_vector(self, start: npt.ArrayLike, direction: npt.ArrayLike,
                     c: npt.ArrayLike = ...): ...
 
