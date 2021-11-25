@@ -4,14 +4,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 1.10.0 documentation</title>
+    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 1.11.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
@@ -22,9 +21,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -40,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.11.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -120,8 +119,9 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">rotations</span> <span class="k">as</span> <span class="n">pr</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">trajectories</span> <span class="k">as</span> <span class="n">ptr</span>
-<span class="kn">from</span> <span class="nn">._artists</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Line3D</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Trajectory</span><span class="p">,</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">Box</span><span class="p">,</span> <span class="n">Sphere</span><span class="p">,</span>
-                       <span class="n">Cylinder</span><span class="p">,</span> <span class="n">Mesh</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">Capsule</span><span class="p">,</span> <span class="n">Cone</span><span class="p">,</span> <span class="n">Graph</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">._artists</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Line3D</span><span class="p">,</span> <span class="n">PointCollection3D</span><span class="p">,</span> <span class="n">Vector3D</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Trajectory</span><span class="p">,</span>
+                       <span class="n">Camera</span><span class="p">,</span> <span class="n">Box</span><span class="p">,</span> <span class="n">Sphere</span><span class="p">,</span> <span class="n">Cylinder</span><span class="p">,</span> <span class="n">Mesh</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">Capsule</span><span class="p">,</span>
+                       <span class="n">Cone</span><span class="p">,</span> <span class="n">Graph</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Figure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure">[docs]</a><span class="k">class</span> <span class="nc">Figure</span><span class="p">:</span>
@@ -320,12 +320,61 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Line3D : line</span>
+<span class="sd">        line : Line3D</span>
 <span class="sd">            New line.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">line3d</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
         <span class="n">line3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">line3d</span></div>
+
+<div class="viewcode-block" id="Figure.scatter"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.scatter">[docs]</a>    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot collection of points.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        P : array, shape (n_points, 3)</span>
+<span class="sd">            Points</span>
+
+<span class="sd">        s : float, optional (default: 0.05)</span>
+<span class="sd">            Scaling of the spheres that will be drawn.</span>
+
+<span class="sd">        c : array-like, shape (3,) or (n_points, 3), optional (default: black)</span>
+<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
+<span class="sd">            representing red, green, and blue respectively.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        point_collection : PointCollection3D</span>
+<span class="sd">            New point collection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">point_collection</span> <span class="o">=</span> <span class="n">PointCollection3D</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">point_collection</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">point_collection</span></div>
+
+<div class="viewcode-block" id="Figure.plot_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_vector">[docs]</a>    <span class="k">def</span> <span class="nf">plot_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+                    <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Plot vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : array-like, shape (3,), optional (default: [0, 0, 0])</span>
+<span class="sd">            Start of the vector</span>
+
+<span class="sd">        direction : array-like, shape (3,), optional (default: [1, 0, 0])</span>
+<span class="sd">            Direction of the vector</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: black)</span>
+<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
+<span class="sd">            representing red, green, and blue respectively.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vector : Vector3D</span>
+<span class="sd">            New vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vector3d</span> <span class="o">=</span> <span class="n">Vector3D</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">vector3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vector3d</span></div>
 
 <div class="viewcode-block" id="Figure.plot_basis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_basis">[docs]</a>    <span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot basis.</span>
@@ -624,6 +673,11 @@
 
 <span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
 <span class="sd">            Color</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        cone : Cone</span>
+<span class="sd">            New cone.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cone</span> <span class="o">=</span> <span class="n">Cone</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
         <span class="n">cone</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -776,7 +830,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Sep 13, 2021.<br/>
+      Last updated on Nov 25, 2021.<br/>
     </p>
   </div>
 </footer>

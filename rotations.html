@@ -4,14 +4,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SO(3): 3D Rotations &#8212; pytransform3d 1.10.0 documentation</title>
+    <title>SO(3): 3D Rotations &#8212; pytransform3d 1.11.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -24,9 +23,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -42,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.10.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.11.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -286,7 +285,7 @@ green for the y-axis and blue for the z-axis (RGB for xyz).</p>
 </div>
 <p>(<a class="reference external" href=".//rotations-1.py">Source code</a>, <a class="reference external" href=".//rotations-1.png">png</a>, <a class="reference external" href=".//rotations-1.hires.png">hires.png</a>, <a class="reference external" href=".//rotations-1.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="_images/rotations-1.png" class="plot-directive" src="_images/rotations-1.png" />
+<img alt="_images/rotations-1.png" src="_images/rotations-1.png" />
 </div>
 <p>We can easily chain multiple rotations: we can apply the rotation defined
 by <img class="math" src="_images/math/9ea3b600d91c4a102e2079d6497113822460f9ed.png" alt="\boldsymbol R_{AB}"/> after the rotation <img class="math" src="_images/math/479e6a49216f7964c117c7c6f20334a8789eb239.png" alt="\boldsymbol R_{BC}"/>
@@ -326,7 +325,7 @@ computationally expensive in comparison to quaternions.</p></li>
 <h2><a class="toc-backref" href="#id2">Axis-Angle</a><a class="headerlink" href="#axis-angle" title="Permalink to this headline">¶</a></h2>
 <p>(<a class="reference external" href="./../../examples/plots/plot_axis_angle.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_axis_angle.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_axis_angle.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_axis_angle.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="_images/plot_axis_angle.png" class="plot-directive" src="_images/plot_axis_angle.png" />
+<img alt="_images/plot_axis_angle.png" src="_images/plot_axis_angle.png" />
 </div>
 <p>Each rotation can be represented by a single rotation around one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
@@ -480,7 +479,7 @@ matrix or quaternion</p></li>
 <h2><a class="toc-backref" href="#id5">Rotors</a><a class="headerlink" href="#rotors" title="Permalink to this headline">¶</a></h2>
 <p>(<a class="reference external" href="./../../examples/plots/plot_bivector.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_bivector.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_bivector.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_bivector.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="_images/plot_bivector.png" class="plot-directive" src="_images/plot_bivector.png" />
+<img alt="_images/plot_bivector.png" src="_images/plot_bivector.png" />
 </div>
 <p>Rotors and quaternions are very similar concepts in 3D. However, rotors are
 more general as they can be extended to more dimensions.</p>
@@ -555,7 +554,7 @@ have to divide by the norm of the rotor.</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Sep 13, 2021.<br/>
+      Last updated on Nov 25, 2021.<br/>
     </p>
   </div>
 </footer>
