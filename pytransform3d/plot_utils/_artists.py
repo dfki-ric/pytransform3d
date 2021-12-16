@@ -20,12 +20,11 @@ class Frame(artist.Artist):
     s : float, optional (default: 1)
         Length of basis vectors
 
-    kwargs : 
-        'draw_label_indicator' (default: True) controls whether the line from the frame origin to frame label is drawn. 
+    draw_label_indicator : bool, optional (default: True)
+        Controls whether the line from the frame origin to frame label is
+        drawn.
 
-    Other arguments except 'c', 'color' and 'draw_label_indicator' are passed on to Line3D. 
-    
-
+    Other arguments except 'c' and 'color' are passed on to Line3D.
     """
     def __init__(self, A2B, label=None, s=1.0, **kwargs):
         super(Frame, self).__init__()
@@ -122,6 +121,10 @@ class LabeledFrame(Frame):
 
     s : float, optional (default: 1)
         Length of basis vectors
+
+    draw_label_indicator : bool, optional (default: True)
+        Controls whether the line from the frame origin to frame label is
+        drawn.
 
     Other arguments except 'c' and 'color' are passed on to Line3D.
     """
