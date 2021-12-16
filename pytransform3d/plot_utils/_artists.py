@@ -20,7 +20,12 @@ class Frame(artist.Artist):
     s : float, optional (default: 1)
         Length of basis vectors
 
-    Other arguments except 'c' and 'color' are passed on to Line3D.
+    kwargs : 
+        'draw_label_indicator' (default: True) controls whether the line from the frame origin to frame label is drawn. 
+
+    Other arguments except 'c', 'color' and 'draw_label_indicator' are passed on to Line3D. 
+    
+
     """
     def __init__(self, A2B, label=None, s=1.0, **kwargs):
         super(Frame, self).__init__()
@@ -30,7 +35,7 @@ class Frame(artist.Artist):
         if "color" in kwargs:
             kwargs.pop("color")
 
-        self.hide_label_indicator = kwargs.pop("hide_label_indicator", False)
+        self.draw_label_indicator = kwargs.pop("draw_label_indicator", True)
 
         self.s = s
 
@@ -42,7 +47,7 @@ class Frame(artist.Artist):
         self.label = label
 
         if self.draw_label:
-            if not self.hide_label_indicator:
+            if self.draw_label_indicator:
                 self.label_indicator = Line3D([], [], [], color="k", **kwargs)
             self.label_text = Text3D(0, 0, 0, text="", zdir="x")
 
@@ -72,7 +77,7 @@ class Frame(artist.Artist):
                 label = self.label
             label_pos = p + 0.5 * self.s * (R[:, 0] + R[:, 1] + R[:, 2])
 
-            if not self.hide_label_indicator:
+            if self.draw_label_indicator:
                 self.label_indicator.set_data(
                     np.array([p[0], label_pos[0]]),
                     np.array([p[1], label_pos[1]]))
@@ -89,7 +94,7 @@ class Frame(artist.Artist):
         for b in [self.x_axis, self.y_axis, self.z_axis]:
             b.draw(renderer, *args, **kwargs)
         if self.draw_label:
-            if not self.hide_label_indicator:
+            if self.draw_label_indicator:
                 self.label_indicator.draw(renderer, *args, **kwargs)
             self.label_text.draw(renderer, *args, **kwargs)
         super(Frame, self).draw(renderer, *args, **kwargs)
@@ -99,7 +104,7 @@ class Frame(artist.Artist):
         for b in [self.x_axis, self.y_axis, self.z_axis]:
             axis.add_line(b)
         if self.draw_label:
-            if not self.hide_label_indicator:
+            if self.draw_label_indicator:
                 axis.add_line(self.label_indicator)
             axis._add_text(self.label_text)
 
