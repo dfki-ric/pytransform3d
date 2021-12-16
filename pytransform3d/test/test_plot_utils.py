@@ -67,6 +67,16 @@ def test_frame():
     finally:
         ax.remove()
 
+def test_frame_no_indicator():
+    ax = make_3d_axis(1.0)
+    try:
+        frame = Frame(np.eye(4), label="Frame", s=0.1, draw_label_indicator=False)
+        frame.add_frame(ax)
+        assert_equal(len(ax.lines), 3)  # 3 axes and omit black line to text
+        assert_equal(len(ax.texts), 1)  # label
+    finally:
+        ax.remove()
+
 
 def test_labeled_frame():
     ax = make_3d_axis(1.0)
@@ -242,3 +252,4 @@ def test_plot_length_variable():
         assert_equal(len(ax.texts), 1)
     finally:
         ax.remove()
+        
