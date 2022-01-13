@@ -2,7 +2,7 @@
 SE(3): 3D Transformations
 =========================
 
-The group of all transformations in the 3D Cartesian space is :math:`SE(3)`
+The group of all rigid transformations in the 3D Cartesian space is :math:`SE(3)`
 (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
@@ -71,7 +71,7 @@ the form
 It is a partitioned matrix with a 3x3 rotation matrix :math:`\boldsymbol R`
 and a column vector :math:`\boldsymbol t` that represents the translation.
 It is also sometimes called the homogeneous representation of a transformation.
-All transformation matrices form the special Euclidean group :math:`SE(3)`.
+All transformation matrices of this form generate the special Euclidean group :math:`SE(3)`.
 
 pytransform3d uses a numpy array of shape (4, 4) to represent transformation
 matrices and typically we use the variable name A2B for a transformation
