@@ -301,7 +301,25 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
 def _make_camera_frame(
         ax, virtual_image_corners, camera_center_in_world, color,
         **kwargs):  # pragma: no cover
-    """Plot camera frame."""
+    """Plot camera frame.
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis
+        Axis
+
+    virtual_image_corners : array, shape (4, 3)
+        Virtual image corners in world coordinates.
+
+    camera_center_in_world : array, shape (3,)
+        Camera center in world coordinates.
+
+    color : str
+        Line color.
+
+    kwargs : dict, optional (default: {})
+        Additional arguments for the plotting functions, e.g. alpha.
+    """
     camera_frame = np.vstack((
         virtual_image_corners[0],
         camera_center_in_world,
@@ -323,7 +341,22 @@ def _make_camera_frame(
 
 def _make_camera_top(
         ax, virtual_image_corners, color, **kwargs):  # pragma: no cover
-    """Plot top indicator of camera."""
+    """Plot top indicator of camera.
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis
+        Axis
+
+    virtual_image_corners : array, shape (4, 3)
+        Virtual image corners in world coordinates.
+
+    color : str
+        Line color.
+
+    kwargs : dict, optional (default: {})
+        Additional arguments for the plotting functions, e.g. alpha.
+    """
     up = virtual_image_corners[0] - virtual_image_corners[1]
     camera_top = np.array([
         virtual_image_corners[0] + 0.1 * up,
