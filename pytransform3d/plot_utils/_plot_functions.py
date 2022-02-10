@@ -4,7 +4,7 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 from ._layout import make_3d_axis
 from ._artists import Arrow3D
-from ..transformations import transform
+from ..transformations import transform, vectors_to_points
 from ..rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
 
 
@@ -362,8 +362,6 @@ def plot_ellipsoid(ax=None, radii=np.ones(3), A2B=np.eye(4), ax_s=1,
     ax : Matplotlib 3d axis
         New or old axis
     """
-    from ..transformations import transform, vectors_to_points
-
     if ax is None:
         ax = make_3d_axis(ax_s)
 
@@ -432,8 +430,6 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
     ax : Matplotlib 3d axis
         New or old axis
     """
-    from ..transformations import transform, vectors_to_points
-
     if ax is None:
         ax = make_3d_axis(ax_s)
 
