@@ -86,6 +86,5 @@ def slerp_weights(angle, t):
     """Compute weights of start and end for spherical linear interpolation."""
     if angle == 0.0:
         return np.ones_like(t), np.zeros_like(t)
-    else:
-        return (np.sin((1.0 - t) * angle) / np.sin(angle),
-                np.sin(t * angle) / np.sin(angle))
+    return (np.sin((1.0 - t) * angle) / np.sin(angle),
+            np.sin(t * angle) / np.sin(angle))
