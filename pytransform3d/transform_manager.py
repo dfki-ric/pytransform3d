@@ -203,19 +203,20 @@ class TransformManager(object):
 
         if (from_frame, to_frame) in self.transforms:
             return self.transforms[(from_frame, to_frame)]
-        elif (to_frame, from_frame) in self.transforms:
+
+        if (to_frame, from_frame) in self.transforms:
             return invert_transform(
                 self.transforms[(to_frame, from_frame)],
                 strict_check=self.strict_check, check=self.check)
-        else:
-            i = self.nodes.index(from_frame)
-            j = self.nodes.index(to_frame)
-            if not np.isfinite(self.dist[i, j]):
-                raise KeyError("Cannot compute path from frame '%s' to "
-                               "frame '%s'." % (from_frame, to_frame))
 
-            path = self._shortest_path(i, j)
-            return self._path_transform(path)
+        i = self.nodes.index(from_frame)
+        j = self.nodes.index(to_frame)
+        if not np.isfinite(self.dist[i, j]):
+            raise KeyError("Cannot compute path from frame '%s' to "
+                           "frame '%s'." % (from_frame, to_frame))
+
+        path = self._shortest_path(i, j)
+        return self._path_transform(path)
 
     def _shortest_path(self, i, j):
         if (i, j) in self._cached_shortest_paths:
