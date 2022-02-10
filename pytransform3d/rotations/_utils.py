@@ -186,8 +186,7 @@ def angle_between_vectors(a, b, fast=False):
         return np.arccos(
             np.clip(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)),
                     -1.0, 1.0))
-    else:
-        return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
+    return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
 
 
 def vector_projection(a, b):
@@ -382,8 +381,7 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
                      "V.T = %r\n-V = %r" % (V.T, -V))
         if strict_check:
             raise ValueError(error_msg)
-        else:
-            warnings.warn(error_msg)
+        warnings.warn(error_msg)
     return V
 
 
@@ -427,8 +425,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
                      "gives %r" % RRT)
         if strict_check:
             raise ValueError(error_msg)
-        else:
-            warnings.warn(error_msg)
+        warnings.warn(error_msg)
     R_det = np.linalg.det(R)
     if abs(R_det - 1) > tolerance:
         error_msg = ("Expected rotation matrix, but it failed the test "
@@ -437,8 +434,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
                      % R_det)
         if strict_check:
             raise ValueError(error_msg)
-        else:
-            warnings.warn(error_msg)
+        warnings.warn(error_msg)
     return R
 
 
@@ -519,8 +515,7 @@ def check_quaternion(q, unit=True):
                          "array-like object with shape %s" % (q.shape,))
     if unit:
         return norm_vector(q)
-    else:
-        return q
+    return q
 
 
 def check_quaternions(Q, unit=True):
