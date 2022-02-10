@@ -176,12 +176,14 @@ def transform(A2B, PA, strict_check=True):
     """
     A2B = check_transform(A2B, strict_check=strict_check)
     PA = np.asarray(PA)
+
     if PA.ndim == 1:
         return np.dot(A2B, PA)
-    elif PA.ndim == 2:
+
+    if PA.ndim == 2:
         return np.dot(PA, A2B.T)
-    else:
-        raise ValueError("Cannot transform array with more than 2 dimensions")
+
+    raise ValueError("Cannot transform array with more than 2 dimensions")
 
 
 def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
