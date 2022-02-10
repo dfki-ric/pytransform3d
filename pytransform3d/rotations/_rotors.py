@@ -1,3 +1,4 @@
+"""Rotor operations."""
 import numpy as np
 from ._utils import norm_vector, check_rotor, perpendicular_to_vector
 from ._constants import unitx, unity, unitz, eps
