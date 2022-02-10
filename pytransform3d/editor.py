@@ -52,6 +52,15 @@ if qt_available:
         finally:
             qobject.blockSignals(signals_blocked)
 
+
+    def _internal_repr(A2B):
+        """Compute internal representation of transform."""
+        p = A2B[:3, 3]
+        R = A2B[:3, :3]
+        e = intrinsic_euler_xyz_from_active_matrix(R)
+        return np.hstack((p, e))
+
+
     class PositionEulerEditor(QWidget):
         """Frame editor that represents orientation by Euler angles (XY'Z'').
 
@@ -129,7 +138,7 @@ if qt_available:
                 Transformation matrix
             """
             self.A2B = A2B
-            pose = self._internal_repr(self.A2B)
+            pose = _internal_repr(self.A2B)
 
             for i in range(6):
                 pos = self._pos_to_slider_pos(i, pose[i])
@@ -138,16 +147,9 @@ if qt_available:
                 with _block_signals(self.spinboxes[i]) as spinbox:
                     spinbox.setValue(pose[i])
 
-        def _internal_repr(self, A2B):
-            """Compute internal representation of transform."""
-            p = A2B[:3, 3]
-            R = A2B[:3, :3]
-            e = intrinsic_euler_xyz_from_active_matrix(R)
-            return np.hstack((p, e))
-
         def _on_pos_edited(self, dim, pos):
             """Slot: value in spinbox changed."""
-            pose = self._internal_repr(self.A2B)
+            pose = _internal_repr(self.A2B)
             pose[dim] = pos
             self.A2B = transform_from(active_matrix_from_intrinsic_euler_xyz(
                 pose[3:]), pose[:3])
@@ -161,7 +163,7 @@ if qt_available:
 
         def _on_slide(self, dim, step):
             """Slot: slider position changed."""
-            pose = self._internal_repr(self.A2B)
+            pose = _internal_repr(self.A2B)
             v = self._slider_pos_to_pos(dim, step)
             pose[dim] = v
             self.A2B = transform_from(active_matrix_from_intrinsic_euler_xyz(
