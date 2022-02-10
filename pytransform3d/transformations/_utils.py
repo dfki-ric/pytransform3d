@@ -38,8 +38,7 @@ def check_transform(A2B, strict_check=True):
                      "[0, 0, 0, 1] at the bottom, got %r" % A2B)
         if strict_check:
             raise ValueError(error_msg)
-        else:
-            warnings.warn(error_msg)
+        warnings.warn(error_msg)
     return A2B
 
 
@@ -393,7 +392,5 @@ def check_dual_quaternion(dq, unit=True):
         real_norm = np.linalg.norm(dq[:4])
         if real_norm == 0.0:
             return np.r_[1, 0, 0, 0, dq[4:]]
-        else:
-            return dq / real_norm
-    else:
-        return dq
+        return dq / real_norm
+    return dq

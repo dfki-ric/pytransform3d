@@ -211,8 +211,7 @@ def screw_axis_from_screw_parameters(q, s_axis, h):
 
     if np.isinf(h):  # pure translation
         return np.r_[0.0, 0.0, 0.0, s_axis]
-    else:
-        return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis]
+    return np.r_[s_axis, np.cross(q, s_axis) + h * s_axis]
 
 
 def screw_axis_from_exponential_coordinates(Stheta):
@@ -807,14 +806,14 @@ def screw_parameters_from_dual_quaternion(dq):
         theta = d
         h = np.inf
         return q, s_axis, h, theta
-    else:
-        distance = np.dot(translation, s_axis)
-        moment = 0.5 * (np.cross(translation, s_axis) +
-                        (translation - distance * s_axis)
-                        / np.tan(0.5 * theta))
-        dual = np.cross(s_axis, moment)
-        h = distance / theta
-        return dual, s_axis, h, theta
+
+    distance = np.dot(translation, s_axis)
+    moment = 0.5 * (np.cross(translation, s_axis) +
+                    (translation - distance * s_axis)
+                    / np.tan(0.5 * theta))
+    dual = np.cross(s_axis, moment)
+    h = distance / theta
+    return dual, s_axis, h, theta
 
 
 def adjoint_from_transform(A2B, strict_check=True, check=True):
