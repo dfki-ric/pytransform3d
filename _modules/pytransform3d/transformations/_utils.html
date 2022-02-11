@@ -4,9 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._utils &#8212; pytransform3d 1.11.0 documentation</title>
+    <title>pytransform3d.transformations._utils &#8212; pytransform3d 1.12.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.11.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -153,8 +154,7 @@
                      <span class="s2">&quot;[0, 0, 0, 1] at the bottom, got </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">A2B</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
@@ -508,10 +508,8 @@
         <span class="n">real_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">real_norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">dq</span> <span class="o">/</span> <span class="n">real_norm</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">dq</span></div>
+        <span class="k">return</span> <span class="n">dq</span> <span class="o">/</span> <span class="n">real_norm</span>
+    <span class="k">return</span> <span class="n">dq</span></div>
 </pre></div>
 
     </div>
@@ -525,8 +523,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 25, 2021.<br/>
+        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Feb 11, 2022.<br/>
     </p>
   </div>
 </footer>

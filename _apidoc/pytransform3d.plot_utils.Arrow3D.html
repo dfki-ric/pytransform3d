@@ -4,9 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 1.11.0 documentation</title>
+    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 1.12.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
@@ -41,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.11.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -122,7 +123,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="pytransform3d.plot_utils.Arrow3D">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytransform3d.plot_utils.</span></span><span class="sig-name descname"><span class="pre">Arrow3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils/_artists.html#Arrow3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.patches.FancyArrowPatch.html#matplotlib.patches.FancyArrowPatch" title="(in Matplotlib v3.5.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.patches.FancyArrowPatch</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.patches.FancyArrowPatch.html#matplotlib.patches.FancyArrowPatch" title="(in Matplotlib v3.5.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.patches.FancyArrowPatch</span></code></a></p>
 <p>A Matplotlib patch that represents an arrow in 3D.</p>
 <p>Source: <a class="reference external" href="http://stackoverflow.com/a/11156353/915743">http://stackoverflow.com/a/11156353/915743</a></p>
 <dl class="py method">
@@ -146,18 +147,16 @@ path and <em>patchA</em>, <em>patchB</em>, <em>shrinkA</em>, and <em>shrinkB</em
 <dt><strong>path</strong><span class="classifier"><cite>~matplotlib.path.Path</cite>, default: None</span></dt><dd><p>If provided, an arrow is drawn along this path and <em>patchA</em>,
 <em>patchB</em>, <em>shrinkA</em>, and <em>shrinkB</em> are ignored.</p>
 </dd>
-<dt><strong>arrowstyle</strong><span class="classifier">str or <cite>.ArrowStyle</cite>, default: ‘simple’</span></dt><dd><blockquote>
-<div><p>The <cite>.ArrowStyle</cite> with which the fancy arrow is drawn.  If a
+<dt><strong>arrowstyle</strong><span class="classifier">str or <cite>.ArrowStyle</cite>, default: ‘simple’</span></dt><dd><p>The <cite>.ArrowStyle</cite> with which the fancy arrow is drawn.  If a
 string, it should be one of the available arrowstyle names, with
 optional comma-separated attributes.  The optional attributes are
 meant to be scaled with the <em>mutation_scale</em>.  The following arrow
 styles are available:</p>
-</div></blockquote>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 10%" />
-<col style="width: 76%" />
+<col style="width: 9%" />
+<col style="width: 7%" />
+<col style="width: 85%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Class</p></th>
@@ -170,67 +169,73 @@ styles are available:</p>
 <td><p><code class="docutils literal notranslate"><span class="pre">-</span></code></p></td>
 <td><p>None</p></td>
 </tr>
-<tr class="row-odd"><td><p>CurveB</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">-&gt;</span></code></p></td>
-<td><p>head_length=0.4, head_width=0.2</p></td>
-</tr>
-<tr class="row-even"><td><p>BracketB</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">-[</span></code></p></td>
-<td><p>widthB=1.0, lengthB=0.2, angleB=None</p></td>
-</tr>
-<tr class="row-odd"><td><p>CurveFilledB</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">-|&gt;</span></code></p></td>
-<td><p>head_length=0.4, head_width=0.2</p></td>
-</tr>
-<tr class="row-even"><td><p>CurveA</p></td>
+<tr class="row-odd"><td><p>CurveA</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;-</span></code></p></td>
-<td><p>head_length=0.4, head_width=0.2</p></td>
+<td><p>head_length=0.4, head_width=0.2, widthA=1.0, widthB=1.0, lengthA=0.2, lengthB=0.2, angleA=0, angleB=0, scaleA=None, scaleB=None</p></td>
+</tr>
+<tr class="row-even"><td><p>CurveB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2, widthA=1.0, widthB=1.0, lengthA=0.2, lengthB=0.2, angleA=0, angleB=0, scaleA=None, scaleB=None</p></td>
 </tr>
 <tr class="row-odd"><td><p>CurveAB</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;-&gt;</span></code></p></td>
-<td><p>head_length=0.4, head_width=0.2</p></td>
+<td><p>head_length=0.4, head_width=0.2, widthA=1.0, widthB=1.0, lengthA=0.2, lengthB=0.2, angleA=0, angleB=0, scaleA=None, scaleB=None</p></td>
 </tr>
 <tr class="row-even"><td><p>CurveFilledA</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;|-</span></code></p></td>
-<td><p>head_length=0.4, head_width=0.2</p></td>
+<td><p>head_length=0.4, head_width=0.2, widthA=1.0, widthB=1.0, lengthA=0.2, lengthB=0.2, angleA=0, angleB=0, scaleA=None, scaleB=None</p></td>
 </tr>
-<tr class="row-odd"><td><p>CurveFilledAB</p></td>
+<tr class="row-odd"><td><p>CurveFilledB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-|&gt;</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.2, widthA=1.0, widthB=1.0, lengthA=0.2, lengthB=0.2, angleA=0, angleB=0, scaleA=None, scaleB=None</p></td>
+</tr>
+<tr class="row-even"><td><p>CurveFilledAB</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;|-|&gt;</span></code></p></td>
-<td><p>head_length=0.4, head_width=0.2</p></td>
+<td><p>head_length=0.4, head_width=0.2, widthA=1.0, widthB=1.0, lengthA=0.2, lengthB=0.2, angleA=0, angleB=0, scaleA=None, scaleB=None</p></td>
 </tr>
-<tr class="row-even"><td><p>BracketA</p></td>
+<tr class="row-odd"><td><p>BracketA</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">]-</span></code></p></td>
-<td><p>widthA=1.0, lengthA=0.2, angleA=None</p></td>
+<td><p>widthA=1.0, lengthA=0.2, angleA=0</p></td>
+</tr>
+<tr class="row-even"><td><p>BracketB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-[</span></code></p></td>
+<td><p>widthB=1.0, lengthB=0.2, angleB=0</p></td>
 </tr>
 <tr class="row-odd"><td><p>BracketAB</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">]-[</span></code></p></td>
-<td><p>widthA=1.0, lengthA=0.2, angleA=None, widthB=1.0, lengthB=0.2, angleB=None</p></td>
+<td><p>widthA=1.0, lengthA=0.2, angleA=0, widthB=1.0, lengthB=0.2, angleB=0</p></td>
 </tr>
-<tr class="row-even"><td><p>Fancy</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">fancy</span></code></p></td>
-<td><p>head_length=0.4, head_width=0.4, tail_width=0.4</p></td>
+<tr class="row-even"><td><p>BarAB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|-|</span></code></p></td>
+<td><p>widthA=1.0, angleA=0, widthB=1.0, angleB=0</p></td>
+</tr>
+<tr class="row-odd"><td><p>BracketCurve</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">]-&gt;</span></code></p></td>
+<td><p>widthA=1.0, lengthA=0.2, angleA=None</p></td>
+</tr>
+<tr class="row-even"><td><p>CurveBracket</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;-[</span></code></p></td>
+<td><p>widthB=1.0, lengthB=0.2, angleB=None</p></td>
 </tr>
 <tr class="row-odd"><td><p>Simple</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">simple</span></code></p></td>
 <td><p>head_length=0.5, head_width=0.5, tail_width=0.2</p></td>
 </tr>
-<tr class="row-even"><td><p>Wedge</p></td>
+<tr class="row-even"><td><p>Fancy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fancy</span></code></p></td>
+<td><p>head_length=0.4, head_width=0.4, tail_width=0.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wedge</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">wedge</span></code></p></td>
 <td><p>tail_width=0.3, shrink_factor=0.5</p></td>
-</tr>
-<tr class="row-odd"><td><p>BarAB</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">|-|</span></code></p></td>
-<td><p>widthA=1.0, angleA=None, widthB=1.0, angleB=None</p></td>
 </tr>
 </tbody>
 </table>
 </dd>
-<dt><strong>connectionstyle</strong><span class="classifier">str or <cite>.ConnectionStyle</cite> or None, optional, default: ‘arc3’</span></dt><dd><blockquote>
-<div><p>The <cite>.ConnectionStyle</cite> with which <em>posA</em> and <em>posB</em> are connected.
+<dt><strong>connectionstyle</strong><span class="classifier">str or <cite>.ConnectionStyle</cite> or None, optional, default: ‘arc3’</span></dt><dd><p>The <cite>.ConnectionStyle</cite> with which <em>posA</em> and <em>posB</em> are connected.
 If a string, it should be one of the available connectionstyle
 names, with optional comma-separated attributes.  The following
 connection styles are available:</p>
-</div></blockquote>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 9%" />
@@ -244,21 +249,21 @@ connection styles are available:</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Angle</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">angle</span></code></p></td>
-<td><p>angleA=90, angleB=0, rad=0.0</p></td>
+<tr class="row-even"><td><p>Arc3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">arc3</span></code></p></td>
+<td><p>rad=0.0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Angle3</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">angle3</span></code></p></td>
 <td><p>angleA=90, angleB=0</p></td>
 </tr>
-<tr class="row-even"><td><p>Arc</p></td>
+<tr class="row-even"><td><p>Angle</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">angle</span></code></p></td>
+<td><p>angleA=90, angleB=0, rad=0.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Arc</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">arc</span></code></p></td>
 <td><p>angleA=0, angleB=0, armA=None, armB=None, rad=0.0</p></td>
-</tr>
-<tr class="row-odd"><td><p>Arc3</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">arc3</span></code></p></td>
-<td><p>rad=0.0</p></td>
 </tr>
 <tr class="row-even"><td><p>Bar</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">bar</span></code></p></td>
@@ -279,7 +284,7 @@ the mutation and the mutated box will be stretched by the inverse
 of it.</p>
 </dd>
 <dt><strong>dpi_cor</strong><span class="classifier">float, default: 1</span></dt><dd><p>dpi_cor is currently used for linewidth-related things and shrink
-factor. Mutation scale is affected by this.</p>
+factor. Mutation scale is affected by this.  Deprecated.</p>
 </dd>
 </dl>
 </dd>
@@ -288,29 +293,28 @@ factor. Mutation scale is affected by this.</p>
 <dt><strong>**kwargs</strong><span class="classifier"><cite>.Patch</cite> properties, optional</span></dt><dd><p>Here is a list of available <cite>.Patch</cite> properties:</p>
 </dd>
 <dt><strong>Properties:</strong></dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array
-alpha: float or None
+alpha: unknown
 animated: bool
-antialiased or aa: unknown
-capstyle: {‘butt’, ‘round’, ‘projecting’}
+antialiased or aa: bool or None
+capstyle: <cite>.CapStyle</cite> or {‘butt’, ‘projecting’, ‘round’}
 clip_box: <cite>.Bbox</cite>
 clip_on: bool
 clip_path: Patch or (Path, Transform) or None
 color: color
-contains: unknown
-edgecolor or ec: color or None or ‘auto’
+edgecolor or ec: color or None
 facecolor or fc: color or None
 figure: <cite>.Figure</cite>
 fill: bool
 gid: str
 hatch: {‘/’, ‘', ‘|’, ‘-‘, ‘+’, ‘x’, ‘o’, ‘O’, ‘.’, ‘*’}
 in_layout: bool
-joinstyle: {‘miter’, ‘round’, ‘bevel’}
+joinstyle: <cite>.JoinStyle</cite> or {‘miter’, ‘round’, ‘bevel’}
 label: object
 linestyle or ls: {‘-‘, ‘–’, ‘-.’, ‘:’, ‘’, (offset, on-off-seq), …}
 linewidth or lw: float or None
 path_effects: <cite>.AbstractPathEffect</cite>
-picker: None or bool or callable
-rasterized: bool or None
+picker: None or bool or float or callable
+rasterized: bool
 sketch_params: (scale: float, length: float, randomness: float)
 snap: bool or None
 transform: <cite>.Transform</cite>
@@ -335,8 +339,14 @@ zorder: float</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.__init__" title="pytransform3d.plot_utils.Arrow3D.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(xs, ys, zs, *args, **kwargs)</p></td>
 <td><p>There are two ways for defining an arrow:</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.draw" title="pytransform3d.plot_utils.Arrow3D.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw</span></code></a>(renderer)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">do_3d_projection</span></code>([renderer])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.draw" title="pytransform3d.plot_utils.Arrow3D.draw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw</span></code></a>(renderer)</p></td>
 <td><p>Draw the patch.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.set" title="pytransform3d.plot_utils.Arrow3D.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(*[, agg_filter, alpha, animated, …])</p></td>
+<td><p>Set multiple properties at once.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.plot_utils.Arrow3D.set_data" title="pytransform3d.plot_utils.Arrow3D.set_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data</span></code></a>(xs, ys, zs)</p></td>
 <td><p>Set the arrow data.</p></td>
@@ -376,6 +386,54 @@ zorder: float</p>
 <dd><p>Draw the patch.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.plot_utils.Arrow3D.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*</span></em>, <em class="sig-param"><span class="pre">agg_filter=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">alpha=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">animated=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">antialiased=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">arrowstyle=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">capstyle=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">clip_box=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">clip_on=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">clip_path=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">color=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">connectionstyle=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">data=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">dpi_cor=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">edgecolor=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">facecolor=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">fill=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">gid=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">hatch=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">in_layout=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">joinstyle=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">label=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">linestyle=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">linewidth=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">mutation_aspect=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">mutation_scale=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">patchA=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">patchB=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">path_effects=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">picker=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">positions=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">rasterized=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">sketch_params=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">snap=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">transform=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">url=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">visible=&lt;UNSET&gt;</span></em>, <em class="sig-param"><span class="pre">zorder=&lt;UNSET&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set multiple properties at once.</p>
+<p>Supported properties are</p>
+<dl class="simple">
+<dt>Properties:</dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array
+alpha: scalar or None
+animated: bool
+antialiased or aa: bool or None
+arrowstyle: None or ArrowStyle or str, default: None
+capstyle: <cite>.CapStyle</cite> or {‘butt’, ‘projecting’, ‘round’}
+clip_box: <cite>.Bbox</cite>
+clip_on: bool
+clip_path: Patch or (Path, Transform) or None
+color: color
+connectionstyle: str or <cite>.ConnectionStyle</cite> or None, optional
+data: iterable
+dpi_cor: unknown
+edgecolor or ec: color or None
+facecolor or fc: color or None
+figure: <cite>.Figure</cite>
+fill: bool
+gid: str
+hatch: {‘/’, ‘', ‘|’, ‘-‘, ‘+’, ‘x’, ‘o’, ‘O’, ‘.’, ‘*’}
+in_layout: bool
+joinstyle: <cite>.JoinStyle</cite> or {‘miter’, ‘round’, ‘bevel’}
+label: object
+linestyle or ls: {‘-‘, ‘–’, ‘-.’, ‘:’, ‘’, (offset, on-off-seq), …}
+linewidth or lw: float or None
+mutation_aspect: float
+mutation_scale: float
+patchA: <cite>.patches.Patch</cite>
+patchB: <cite>.patches.Patch</cite>
+path_effects: <cite>.AbstractPathEffect</cite>
+picker: None or bool or float or callable
+positions: unknown
+rasterized: bool
+sketch_params: (scale: float, length: float, randomness: float)
+snap: bool or None
+transform: <cite>.Transform</cite>
+url: str
+visible: bool
+zorder: float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -392,8 +450,8 @@ zorder: float</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 25, 2021.<br/>
+        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Feb 11, 2022.<br/>
     </p>
   </div>
 </footer>

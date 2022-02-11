@@ -4,9 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._utils &#8212; pytransform3d 1.11.0 documentation</title>
+    <title>pytransform3d.rotations._utils &#8212; pytransform3d 1.12.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.11.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -301,8 +302,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)),</span>
                     <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="vector_projection"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.vector_projection.html#pytransform3d.rotations.vector_projection">[docs]</a><span class="k">def</span> <span class="nf">vector_projection</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -497,8 +497,7 @@
                      <span class="s2">&quot;V.T = </span><span class="si">%r</span><span class="se">\n</span><span class="s2">-V = </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">-</span><span class="n">V</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">V</span></div>
 
 
@@ -542,8 +541,7 @@
                      <span class="s2">&quot;gives </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">RRT</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
     <span class="n">R_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">R_det</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>
         <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Expected rotation matrix, but it failed the test &quot;</span>
@@ -552,8 +550,7 @@
                      <span class="o">%</span> <span class="n">R_det</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">strict_check</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">R</span></div>
 
 
@@ -634,8 +631,7 @@
                          <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
     <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">q</span></div>
+    <span class="k">return</span> <span class="n">q</span></div>
 
 
 <div class="viewcode-block" id="check_quaternions"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.check_quaternions.html#pytransform3d.rotations.check_quaternions">[docs]</a><span class="k">def</span> <span class="nf">check_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -706,8 +702,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 25, 2021.<br/>
+        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Feb 11, 2022.<br/>
     </p>
   </div>
 </footer>

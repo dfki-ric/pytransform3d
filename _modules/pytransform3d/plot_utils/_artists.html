@@ -4,9 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils._artists &#8212; pytransform3d 1.11.0 documentation</title>
+    <title>pytransform3d.plot_utils._artists &#8212; pytransform3d 1.12.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.11.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -135,6 +136,10 @@
 <span class="sd">    s : float, optional (default: 1)</span>
 <span class="sd">        Length of basis vectors</span>
 
+<span class="sd">    draw_label_indicator : bool, optional (default: True)</span>
+<span class="sd">        Controls whether the line from the frame origin to frame label is</span>
+<span class="sd">        drawn.</span>
+
 <span class="sd">    Other arguments except &#39;c&#39; and &#39;color&#39; are passed on to Line3D.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Frame.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Frame.html#pytransform3d.plot_utils.Frame.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -144,6 +149,8 @@
             <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw_label_indicator</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;draw_label_indicator&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
 
@@ -155,7 +162,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label_indicator</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label_text</span> <span class="o">=</span> <span class="n">Text3D</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">zdir</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span></div>
@@ -184,11 +192,12 @@
                 <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
             <span class="n">label_pos</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="p">(</span><span class="n">R</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">R</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">R</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="o">.</span><span class="n">set_3d_properties</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]]))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label_indicator</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="o">.</span><span class="n">set_3d_properties</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]]))</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">label_text</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label_text</span><span class="o">.</span><span class="n">set_position</span><span class="p">([</span><span class="n">label_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
@@ -200,7 +209,8 @@
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_axis</span><span class="p">]:</span>
             <span class="n">b</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label_indicator</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label_text</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Frame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -209,7 +219,8 @@
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_axis</span><span class="p">]:</span>
             <span class="n">axis</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label</span><span class="p">:</span>
-            <span class="n">axis</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label_indicator</span><span class="p">:</span>
+                <span class="n">axis</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_indicator</span><span class="p">)</span>
             <span class="n">axis</span><span class="o">.</span><span class="n">_add_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_text</span><span class="p">)</span></div></div>
 
 
@@ -226,6 +237,10 @@
 
 <span class="sd">    s : float, optional (default: 1)</span>
 <span class="sd">        Length of basis vectors</span>
+
+<span class="sd">    draw_label_indicator : bool, optional (default: True)</span>
+<span class="sd">        Controls whether the line from the frame origin to frame label is</span>
+<span class="sd">        drawn.</span>
 
 <span class="sd">    Other arguments except &#39;c&#39; and &#39;color&#39; are passed on to Line3D.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -395,7 +410,11 @@
             <span class="n">M</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">M</span>
         <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span> <span class="o">=</span> <span class="n">proj3d</span><span class="o">.</span><span class="n">proj_transform</span><span class="p">(</span><span class="n">xs3d</span><span class="p">,</span> <span class="n">ys3d</span><span class="p">,</span> <span class="n">zs3d</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_positions</span><span class="p">((</span><span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Arrow3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">)</span></div></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Arrow3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">do_3d_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># This supports both matplotlib 3.4 and 3.5</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
 </pre></div>
 
     </div>
@@ -409,8 +428,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 25, 2021.<br/>
+        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Feb 11, 2022.<br/>
     </p>
   </div>
 </footer>

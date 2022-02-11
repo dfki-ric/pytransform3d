@@ -4,9 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.camera &#8212; pytransform3d 1.11.0 documentation</title>
+    <title>pytransform3d.camera &#8212; pytransform3d 1.12.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
@@ -39,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.11.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -416,7 +417,25 @@
 <span class="k">def</span> <span class="nf">_make_camera_frame</span><span class="p">(</span>
         <span class="n">ax</span><span class="p">,</span> <span class="n">virtual_image_corners</span><span class="p">,</span> <span class="n">camera_center_in_world</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-    <span class="sd">&quot;&quot;&quot;Plot camera frame.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Plot camera frame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib 3d axis</span>
+<span class="sd">        Axis</span>
+
+<span class="sd">    virtual_image_corners : array, shape (4, 3)</span>
+<span class="sd">        Virtual image corners in world coordinates.</span>
+
+<span class="sd">    camera_center_in_world : array, shape (3,)</span>
+<span class="sd">        Camera center in world coordinates.</span>
+
+<span class="sd">    color : str</span>
+<span class="sd">        Line color.</span>
+
+<span class="sd">    kwargs : dict, optional (default: {})</span>
+<span class="sd">        Additional arguments for the plotting functions, e.g. alpha.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">camera_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span>
         <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">camera_center_in_world</span><span class="p">,</span>
@@ -438,7 +457,22 @@
 
 <span class="k">def</span> <span class="nf">_make_camera_top</span><span class="p">(</span>
         <span class="n">ax</span><span class="p">,</span> <span class="n">virtual_image_corners</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-    <span class="sd">&quot;&quot;&quot;Plot top indicator of camera.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Plot top indicator of camera.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib 3d axis</span>
+<span class="sd">        Axis</span>
+
+<span class="sd">    virtual_image_corners : array, shape (4, 3)</span>
+<span class="sd">        Virtual image corners in world coordinates.</span>
+
+<span class="sd">    color : str</span>
+<span class="sd">        Line color.</span>
+
+<span class="sd">    kwargs : dict, optional (default: {})</span>
+<span class="sd">        Additional arguments for the plotting functions, e.g. alpha.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">up</span> <span class="o">=</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">camera_top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
         <span class="n">virtual_image_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
@@ -461,8 +495,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2021, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 25, 2021.<br/>
+        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Feb 11, 2022.<br/>
     </p>
   </div>
 </footer>
