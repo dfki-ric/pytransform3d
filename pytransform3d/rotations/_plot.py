@@ -254,8 +254,11 @@ def _plot_parallelogram(ax, a, b, color, alpha):
     from mpl_toolkits.mplot3d.art3d import Poly3DCollection
     plot_vector(ax, start=np.zeros(3), direction=a, color=color, alpha=alpha)
     plot_vector(ax, start=np.zeros(3), direction=b, color=color, alpha=alpha)
-    parallelogram = Poly3DCollection(
-        np.vstack((np.zeros(3), a, b, a + b, b, a)))
+    verts = np.vstack((np.zeros(3), a, b, a + b, b, a))
+    try:  # Matplotlib < 3.5
+        parallelogram = Poly3DCollection(verts)
+    except ValueError:  # Matplotlib >= 3.5
+        parallelogram = Poly3DCollection(verts.reshape(2, 3, 3))
     parallelogram.set_facecolor(color)
     parallelogram.set_alpha(alpha)
     ax.add_collection3d(parallelogram)
