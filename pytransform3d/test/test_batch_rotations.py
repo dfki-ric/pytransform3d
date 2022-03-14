@@ -1,7 +1,8 @@
 import numpy as np
 from pytransform3d import rotations as pr
 from pytransform3d import batch_rotations as pbr
-from nose.tools import assert_almost_equal, assert_raises_regexp, assert_equal
+from nose.tools import (assert_almost_equal, assert_raises_regexp,
+                        assert_equal, assert_greater)
 from numpy.testing import assert_array_almost_equal
 
 
@@ -334,6 +335,41 @@ def test_quaternion_slerp_batch():
     for i in range(len(t)):
         qi = pr.quaternion_slerp(q_start, q_end, t[i])
         pr.assert_quaternion_equal(Q[i], qi)
+
+
+def test_quaternion_slerp_batch_sign_ambiguity():
+    n_steps = 10
+    random_state = np.random.RandomState(2323)
+    q1 = pr.random_quaternion(random_state)
+    a1 = pr.axis_angle_from_quaternion(q1)
+    a2 = np.r_[a1[:3], a1[3] * 1.1]
+    q2 = pr.quaternion_from_axis_angle(a2)
+
+    if np.sign(q1[0]) != np.sign(q2[0]):
+        q2 *= -1.0
+    traj_q = pbr.quaternion_slerp_batch(
+        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
+    path_length = np.sum([pr.quaternion_dist(r, s)
+                          for r, s in zip(traj_q[:-1], traj_q[1:])])
+
+    q2 *= -1.0
+    traj_q_opposing = pbr.quaternion_slerp_batch(
+        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
+    path_length_opposing = np.sum(
+        [pr.quaternion_dist(r, s)
+         for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
+
+    assert_greater(path_length_opposing, path_length)
+
+    q2 *= -1.0
+    traj_q_opposing_corrected = pbr.quaternion_slerp_batch(
+        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
+    path_length_opposing_corrected = np.sum(
+        [pr.quaternion_dist(r, s)
+         for r, s in zip(traj_q_opposing_corrected[:-1],
+                         traj_q_opposing_corrected[1:])])
+
+    assert_almost_equal(path_length_opposing_corrected, path_length)
 
 
 def test_batch_concatenate_quaternions_mismatch():

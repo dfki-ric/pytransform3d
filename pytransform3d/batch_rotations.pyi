@@ -53,7 +53,7 @@ def quaternions_from_matrices(
 
 def quaternion_slerp_batch(
         start: npt.ArrayLike, end: npt.ArrayLike,
-        t: npt.ArrayLike) -> np.ndarray: ...
+        t: npt.ArrayLike, shortest_path: bool = ...) -> np.ndarray: ...
 
 
 def batch_concatenate_quaternions(
