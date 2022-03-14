@@ -1359,6 +1359,43 @@ def test_interpolate_quaternion():
                               R_diff_norms[0] * np.ones(n_steps - 1))
 
 
+def test_interpolate_quaternion_shortest_path():
+    """Test SLERP between similar quternions with opposite sign."""
+    n_steps = 10
+    random_state = np.random.RandomState(2323)
+    q1 = pr.random_quaternion(random_state)
+    a1 = pr.axis_angle_from_quaternion(q1)
+    a2 = np.r_[a1[:3], a1[3] * 1.1]
+    q2 = pr.quaternion_from_axis_angle(a2)
+
+    if np.sign(q1[0]) != np.sign(q2[0]):
+        q2 *= -1.0
+    traj_q = [pr.quaternion_slerp(q1, q2, t)
+              for t in np.linspace(0, 1, n_steps)]
+    path_length = np.sum([pr.quaternion_dist(r, s)
+                          for r, s in zip(traj_q[:-1], traj_q[1:])])
+
+    q2 *= -1.0
+    traj_q_opposing = [pr.quaternion_slerp(q1, q2, t)
+                       for t in np.linspace(0, 1, n_steps)]
+    path_length_opposing = np.sum(
+        [pr.quaternion_dist(r, s)
+         for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
+
+    assert_greater(path_length_opposing, path_length)
+
+    q2 *= -1.0
+    traj_q_opposing_corrected = [
+        pr.quaternion_slerp(q1, q2, t, shortest_path=True)
+        for t in np.linspace(0, 1, n_steps)]
+    path_length_opposing_corrected = np.sum(
+        [pr.quaternion_dist(r, s)
+         for r, s in zip(traj_q_opposing_corrected[:-1],
+                         traj_q_opposing_corrected[1:])])
+
+    assert_almost_equal(path_length_opposing_corrected, path_length)
+
+
 def test_interpolate_same_quaternion():
     """Test interpolation between the same quaternion rotation.
 
