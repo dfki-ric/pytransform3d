@@ -852,6 +852,30 @@ def test_dual_quaternion_sclerp():
             interpolated_poses[t], sclerp_interpolated_poses_from_dqs[t])
 
 
+def test_dual_quaternion_sclerp_sign_ambiguity():
+    n_steps = 10
+    random_state = np.random.RandomState(2323)
+    T1 = random_transform(random_state)
+    dq1 = dual_quaternion_from_transform(T1)
+    dq2 = np.copy(dq1)
+
+    if np.sign(dq1[0]) != np.sign(dq2[0]):
+        dq2 *= -1.0
+    traj_q = [dual_quaternion_sclerp(dq1, dq2, t)
+              for t in np.linspace(0, 1, n_steps)]
+    path_length = np.sum([np.linalg.norm(r - s)
+                          for r, s in zip(traj_q[:-1], traj_q[1:])])
+
+    dq2 *= -1.0
+    traj_q_opposing = [dual_quaternion_sclerp(dq1, dq2, t)
+                       for t in np.linspace(0, 1, n_steps)]
+    path_length_opposing = np.sum(
+        [np.linalg.norm(r - s)
+         for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
+
+    assert_equal(path_length_opposing, path_length)
+
+
 def test_exponential_coordinates_from_almost_identity_transform():
     A2B = np.array([
         [0.9999999999999999, -1.5883146449068575e-16, 4.8699079321578667e-17,
