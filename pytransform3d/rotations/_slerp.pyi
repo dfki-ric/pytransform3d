@@ -7,7 +7,8 @@ def axis_angle_slerp(
 
 
 def quaternion_slerp(
-        start: npt.ArrayLike, end: npt.ArrayLike, t: float) -> np.ndarray: ...
+        start: npt.ArrayLike, end: npt.ArrayLike, t: float,
+        shortest_path : bool = ...) -> np.ndarray: ...
 
 
 def rotor_slerp(

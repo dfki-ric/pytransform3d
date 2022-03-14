@@ -32,7 +32,7 @@ def axis_angle_slerp(start, end, t):
     return w1 * start + w2 * end
 
 
-def quaternion_slerp(start, end, t):
+def quaternion_slerp(start, end, t, shortest_path=False):
     """Spherical linear interpolation.
 
     Parameters
@@ -46,6 +46,9 @@ def quaternion_slerp(start, end, t):
     t : float in [0, 1]
         Position between start and goal
 
+    shortest_path : bool, optional (default: False)
+        Resolve sign ambiguity before interpolation to find shortest path.
+
     Returns
     -------
     q : array, shape (4,)
@@ -53,6 +56,8 @@ def quaternion_slerp(start, end, t):
     """
     start = check_quaternion(start)
     end = check_quaternion(end)
+    if shortest_path:
+        raise NotImplementedError()
     angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return w1 * start + w2 * end
