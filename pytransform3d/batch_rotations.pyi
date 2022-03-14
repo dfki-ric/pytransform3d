@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.typing as npt
-from typing import Union
+from typing import Union, AnyStr
 
 
 def norm_vectors(
@@ -63,10 +63,17 @@ def batch_concatenate_quaternions(
 
 def batch_q_conj(Q: npt.ArrayLike) -> np.ndarray: ...
 
+
 def batch_quaternion_wxyz_from_xyzw(
     Q_xyzw: npt.ArrayLike,
     out: Union[np.ndarray, None] = ...) -> np.ndarray: ...
 
+
 def batch_quaternion_xyzw_from_wxyz(
     Q_wxyz: npt.ArrayLike,
     out: Union[np.ndarray, None] = ...) -> np.ndarray: ...
+
+
+def smooth_quaternion_trajectory(
+    Q: npt.ArrayLike,
+    start_component_positive: AnyStr = ...) -> np.ndarray: ...
