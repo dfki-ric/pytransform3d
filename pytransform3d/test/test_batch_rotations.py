@@ -361,7 +361,6 @@ def test_quaternion_slerp_batch_sign_ambiguity():
 
     assert_greater(path_length_opposing, path_length)
 
-    q2 *= -1.0
     traj_q_opposing_corrected = pbr.quaternion_slerp_batch(
         q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
     path_length_opposing_corrected = np.sum(

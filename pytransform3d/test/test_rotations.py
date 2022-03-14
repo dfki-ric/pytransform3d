@@ -1384,7 +1384,6 @@ def test_interpolate_quaternion_shortest_path():
 
     assert_greater(path_length_opposing, path_length)
 
-    q2 *= -1.0
     traj_q_opposing_corrected = [
         pr.quaternion_slerp(q1, q2, t, shortest_path=True)
         for t in np.linspace(0, 1, n_steps)]
