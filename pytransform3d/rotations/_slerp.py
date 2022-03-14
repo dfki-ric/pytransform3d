@@ -47,7 +47,7 @@ def quaternion_slerp(start, end, t, shortest_path=False):
         Position between start and goal
 
     shortest_path : bool, optional (default: False)
-        Resolve sign ambiguity before interpolation to find shortest path.
+        Resolve sign ambiguity before interpolation to find the shortest path.
 
     Returns
     -------

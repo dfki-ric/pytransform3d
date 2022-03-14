@@ -501,7 +501,7 @@ def quaternions_from_matrices(Rs, out=None):
     return out
 
 
-def quaternion_slerp_batch(start, end, t):
+def quaternion_slerp_batch(start, end, t, shortest_path=False):
     """Spherical linear interpolation for a batch of steps.
 
     Parameters
@@ -515,12 +515,17 @@ def quaternion_slerp_batch(start, end, t):
     t : array-like, shape (n_steps,)
         Steps between start and goal, must be in interval [0, 1]
 
+    shortest_path : bool, optional (default: False)
+        Resolve sign ambiguity before interpolation to find the shortest path.
+
     Returns
     -------
     Q : array, shape (n_steps, 4)
         Interpolated unit quaternions
     """
     t = np.asarray(t)
+    if shortest_path:
+        raise NotImplementedError()
     angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return (w1[:, np.newaxis] * start[np.newaxis]
