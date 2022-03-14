@@ -667,3 +667,49 @@ def batch_quaternion_xyzw_from_wxyz(Q_wxyz, out=None):
     out[..., 2] = Q_wxyz[..., 3]
     out[..., 3] = Q_wxyz[..., 0]
     return out
+
+
+def smooth_quaternion_trajectory(Q, start_component_positive="x"):
+    """Smooth quaternion trajectory.
+
+    Quaternion q and -q represent the same rotation but cannot be
+    interpolated well. This function guarantees that two successive
+    quaternions q1 and q2 are closer than q1 and -q2.
+
+    Parameters
+    ----------
+    Q : array-like, shape (n_steps, 4)
+        Unit quaternions to represent rotations: (w, x, y, z)
+
+    start_component_positive : str, optional (default: 'x')
+        Start trajectory with quaternion that has this component positive.
+        Allowed values: 'w' (scalar), 'x', 'y', and 'z'.
+
+    Returns
+    -------
+    Q : array, shape (n_steps, 4)
+        Unit quaternions to represent rotations: (w, x, y, z)
+    """
+    Q = np.copy(Q)
+
+    if Q[0, "wxyz".index(start_component_positive)] < 0.0:
+        Q[0] *= -1.0
+
+    q1q2_dists = np.linalg.norm(Q[:-1] - Q[1:], axis=1)
+    q1mq2_dists = np.linalg.norm(Q[:-1] + Q[1:], axis=1)
+    before_jump_indices = np.where(q1q2_dists > q1mq2_dists)[0]
+
+    # workaround for interpolation artifacts:
+    before_smooth_jump_indices = np.isclose(q1q2_dists, q1mq2_dists)
+    before_smooth_jump_indices = np.where(
+        np.logical_and(before_smooth_jump_indices[:-1],
+                       before_smooth_jump_indices[1:]))[0]
+    before_jump_indices = np.unique(
+        np.hstack((before_jump_indices, before_smooth_jump_indices))).tolist()
+    before_jump_indices.append(len(Q) - 1)
+
+    slices_to_correct = np.array(
+        list(zip(before_jump_indices[:-1], before_jump_indices[1:])))[::2]
+    for i, j in slices_to_correct:
+        Q[i + 1:j + 1] *= -1.0
+    return Q

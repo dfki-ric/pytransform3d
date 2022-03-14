@@ -447,3 +447,33 @@ def test_batch_convert_quaternion_conventions():
     assert_equal(q_xyzw_random[3], q_wxyz_random[0])
     q_wxyz_random2 = pbr.batch_quaternion_wxyz_from_xyzw(q_xyzw_random)
     assert_array_almost_equal(q_wxyz_random, q_wxyz_random2)
+
+
+def test_smooth_quaternion_trajectory():
+    random_state = np.random.RandomState(232)
+    q_start = pr.random_quaternion(random_state)
+    if q_start[1] < 0.0:
+        q_start *= -1.0
+    q_goal = pr.random_quaternion(random_state)
+    n_steps = 101
+    Q = np.empty((n_steps, 4))
+    for i, t in enumerate(np.linspace(0, 1, n_steps)):
+        Q[i] = pr.quaternion_slerp(q_start, q_goal, t)
+    Q_broken = Q.copy()
+    Q_broken[20:23, :] *= -1.0
+    Q_broken[80:, :] *= -1.0
+    Q_smooth = pbr.smooth_quaternion_trajectory(Q_broken)
+    assert_array_almost_equal(Q_smooth, Q)
+
+
+def test_smooth_quaternion_trajectory_start_component_negative():
+    random_state = np.random.RandomState(232)
+
+    for index in range(4):
+        component = "wxyz"[index]
+        q = pr.random_quaternion(random_state)
+        if q[index] > 0.0:
+            q *= -1.0
+        q_corrected = pbr.smooth_quaternion_trajectory(
+            [q], start_component_positive=component)[0]
+        assert_greater(q_corrected[index], 0.0)
