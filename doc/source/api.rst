@@ -390,6 +390,7 @@ Testing
    ~pytransform3d.batch_rotations.batch_concatenate_quaternions
    ~pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw
    ~pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz
+   ~pytransform3d.batch_rotations.smooth_quaternion_trajectory
 
 
 :mod:`pytransform3d.trajectories`
