@@ -82,8 +82,8 @@ from ._conversions import (
 from ._quaternion_operations import (
     quaternion_integrate, quaternion_gradient, concatenate_quaternions, q_conj,
     q_prod_vector, quaternion_diff, quaternion_dist)
-from ._slerp import (slerp_weights, quaternion_slerp, axis_angle_slerp,
-                     rotor_slerp)
+from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
+                     axis_angle_slerp, rotor_slerp)
 from ._testing import (
     assert_quaternion_equal, assert_axis_angle_equal,
     assert_compact_axis_angle_equal, assert_euler_xyz_equal,
@@ -210,6 +210,7 @@ __all__ = [
     "quaternion_diff",
     "quaternion_dist",
     "slerp_weights",
+    "pick_closest_quaternion",
     "quaternion_slerp",
     "axis_angle_slerp",
     "assert_quaternion_equal",
