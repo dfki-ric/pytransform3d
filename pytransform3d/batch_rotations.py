@@ -7,7 +7,8 @@ All functions operate on nd arrays, where the last dimension (vectors) or
 the last two dimensions (matrices) contain individual rotations.
 """
 import numpy as np
-from .rotations import angle_between_vectors, slerp_weights
+from .rotations import (
+    angle_between_vectors, slerp_weights, pick_closest_quaternion)
 
 
 def norm_vectors(V, out=None):
@@ -517,6 +518,7 @@ def quaternion_slerp_batch(start, end, t, shortest_path=False):
 
     shortest_path : bool, optional (default: False)
         Resolve sign ambiguity before interpolation to find the shortest path.
+        The end quaternion will be picked to be close to the start quaternion.
 
     Returns
     -------
@@ -525,7 +527,7 @@ def quaternion_slerp_batch(start, end, t, shortest_path=False):
     """
     t = np.asarray(t)
     if shortest_path:
-        raise NotImplementedError()
+        end = pick_closest_quaternion(end, start)
     angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return (w1[:, np.newaxis] * start[np.newaxis]
