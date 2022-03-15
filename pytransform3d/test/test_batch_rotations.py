@@ -354,7 +354,7 @@ def test_quaternion_slerp_batch_sign_ambiguity():
 
     q2 *= -1.0
     traj_q_opposing = pbr.quaternion_slerp_batch(
-        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
+        q1, q2, np.linspace(0, 1, n_steps), shortest_path=False)
     path_length_opposing = np.sum(
         [pr.quaternion_dist(r, s)
          for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
