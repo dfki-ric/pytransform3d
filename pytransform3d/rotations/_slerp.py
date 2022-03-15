@@ -2,6 +2,7 @@
 import numpy as np
 from ._utils import (check_axis_angle, check_quaternion, angle_between_vectors,
                      check_rotor)
+from ._constants import eps
 
 
 def axis_angle_slerp(start, end, t):
@@ -57,7 +58,14 @@ def quaternion_slerp(start, end, t, shortest_path=False):
     start = check_quaternion(start)
     end = check_quaternion(end)
     if shortest_path:
-        raise NotImplementedError()
+        if ((abs(start[0]) > eps and np.sign(start[0]) != np.sign(end[0]))
+                or (abs(start[1]) > eps
+                    and np.sign(start[1]) != np.sign(end[1]))
+                or (abs(start[2]) > eps
+                    and np.sign(start[2]) != np.sign(end[2]))
+                or (abs(start[3]) > eps
+                    and np.sign(start[3]) != np.sign(end[3]))):
+            end = -end
     angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return w1 * start + w2 * end
