@@ -69,10 +69,7 @@ def pick_closest_quaternion(quaternion, target_quaternion):
 
     .. warning::
         There are always two quaternions that represent the exact same
-        orientation: q and -q. The problem is that a DMP that moves from q to q
-        does not move at all, while a DMP that moves from q to -q moves a lot.
-        We have to make sure that start_y always contains the quaternion
-        representation that is closest to the previous start_y!
+        orientation: q and -q.
 
     Parameters
     ----------
