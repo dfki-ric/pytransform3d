@@ -115,7 +115,7 @@ def _pick_closest_quaternion(quaternion, target_quaternion):
     return quaternion
 
 
-def rotor_slerp(start, end, t):
+def rotor_slerp(start, end, t, shortest_path=False):
     """Spherical linear interpolation.
 
     Parameters
@@ -129,6 +129,10 @@ def rotor_slerp(start, end, t):
     t : float in [0, 1]
         Position between start and end
 
+    shortest_path : bool, optional (default: False)
+        Resolve sign ambiguity before interpolation to find the shortest path.
+        The end rotor will be picked to be close to the start rotor.
+
     Returns
     -------
     rotor : array, shape (4,)
@@ -136,7 +140,7 @@ def rotor_slerp(start, end, t):
     """
     start = check_rotor(start)
     end = check_rotor(end)
-    return quaternion_slerp(start, end, t)
+    return quaternion_slerp(start, end, t, shortest_path)
 
 
 def slerp_weights(angle, t):
