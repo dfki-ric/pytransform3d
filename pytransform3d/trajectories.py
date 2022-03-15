@@ -8,7 +8,10 @@ from .batch_rotations import (
     matrices_from_quaternions, quaternions_from_matrices,
     matrices_from_compact_axis_angles, axis_angles_from_matrices,
     batch_concatenate_quaternions, batch_q_conj)
-from .transformations import transform_from_exponential_coordinates
+from .transformations import (
+    transform_from_exponential_coordinates,
+    screw_axis_from_exponential_coordinates, screw_parameters_from_screw_axis,
+    screw_axis_from_screw_parameters)
 
 
 def invert_transforms(A2Bs):
@@ -582,3 +585,35 @@ def plot_trajectory(
     trajectory.add_trajectory(ax)
 
     return ax
+
+
+def mirror_screw_axis_direction(Sthetas):
+    """Switch to the other representation of the same transformation.
+
+    We take the negative of the screw axis, invert the rotation angle
+    and adapt the screw pitch accordingly. For this operation we have
+    to convert exponential coordinates to screw parameters first.
+
+    Parameters
+    ----------
+    Sthetas : array-like, shape (n_steps, 6)
+        Exponential coordinates of transformation:
+        (omega_x, omega_y, omega_z, v_x, v_y, v_z)
+
+    Returns
+    -------
+    Sthetas : array-like, shape (n_steps, 6)
+        Exponential coordinates of transformation:
+        (omega_x, omega_y, omega_z, v_x, v_y, v_z)
+    """
+    Sthetas_new = np.empty((len(Sthetas), 6))
+    for i, Stheta in enumerate(Sthetas):
+        S, theta = screw_axis_from_exponential_coordinates(Stheta)
+        q, s, h = screw_parameters_from_screw_axis(S)
+        s_new = -s
+        theta_new = 2.0 * np.pi - theta
+        h_new = -h * theta / theta_new
+        Stheta_new = screw_axis_from_screw_parameters(
+            q, s_new, h_new) * theta_new
+        Sthetas_new[i] = Stheta_new
+    return Sthetas_new

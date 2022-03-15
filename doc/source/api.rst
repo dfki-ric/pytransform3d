@@ -417,6 +417,7 @@ Testing
    ~pytransform3d.trajectories.batch_concatenate_dual_quaternions
    ~pytransform3d.trajectories.batch_dq_prod_vector
    ~pytransform3d.trajectories.plot_trajectory
+   ~pytransform3d.trajectories.mirror_screw_axis_direction
 
 
 :mod:`pytransform3d.coordinates`
