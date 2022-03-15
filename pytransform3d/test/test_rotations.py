@@ -1411,6 +1411,26 @@ def test_interpolate_same_quaternion():
     assert_array_almost_equal(traj[2], q)
 
 
+def test_interpolate_shortest_path_same_quaternion():
+    """Test interpolate along shortest path with same quaternion."""
+    random_state = np.random.RandomState(8353)
+    q = pr.random_quaternion(random_state)
+    q_interpolated = pr.quaternion_slerp(q, q, 0.5, shortest_path=True)
+    assert_array_almost_equal(q, q_interpolated)
+
+    q = np.array([0.0, 1.0, 0.0, 0.0])
+    q_interpolated = pr.quaternion_slerp(q, -q, 0.5, shortest_path=True)
+    assert_array_almost_equal(q, q_interpolated)
+
+    q = np.array([0.0, 0.0, 1.0, 0.0])
+    q_interpolated = pr.quaternion_slerp(q, -q, 0.5, shortest_path=True)
+    assert_array_almost_equal(q, q_interpolated)
+
+    q = np.array([0.0, 0.0, 0.0, 1.0])
+    q_interpolated = pr.quaternion_slerp(q, -q, 0.5, shortest_path=True)
+    assert_array_almost_equal(q, q_interpolated)
+
+
 def test_quaternion_conventions():
     """Test conversion of quaternion between wxyz and xyzw."""
     q_wxyz = np.array([1.0, 0.0, 0.0, 0.0])
