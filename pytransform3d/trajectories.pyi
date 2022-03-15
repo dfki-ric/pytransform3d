@@ -57,3 +57,6 @@ def plot_trajectory(
         normalize_quaternions: bool = ..., show_direction: bool = ...,
         n_frames: int = ..., s: float = ..., ax_s: float = ...,
         **kwargs) -> Axes3D: ...
+
+
+def mirror_screw_axis_direction(Sthetas: npt.ArrayLike) -> np.ndarray: ...

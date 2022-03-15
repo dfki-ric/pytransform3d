@@ -6,7 +6,7 @@ from pytransform3d.trajectories import (
     pqs_from_dual_quaternions, dual_quaternions_from_pqs,
     batch_concatenate_dual_quaternions, batch_dq_prod_vector,
     transforms_from_dual_quaternions, dual_quaternions_from_transforms,
-    concat_one_to_many, concat_many_to_one)
+    concat_one_to_many, concat_many_to_one, mirror_screw_axis_direction)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -14,7 +14,8 @@ from pytransform3d.transformations import (
     exponential_coordinates_from_transform, translate_transform,
     rotate_transform, random_transform, transform_from_pq,
     concatenate_dual_quaternions, dq_prod_vector,
-    assert_unit_dual_quaternion_equal, invert_transform, concat)
+    assert_unit_dual_quaternion_equal, invert_transform, concat,
+    transform_from_exponential_coordinates)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -282,3 +283,16 @@ def test_batch_conversions_dual_quaternions_transforms_3dims():
         assert_unit_dual_quaternion_equal(dq1, dq2)
     A2Bs2 = transforms_from_dual_quaternions(dqs2)
     assert_array_almost_equal(A2Bs, A2Bs2)
+
+
+def test_mirror_screw_axis():
+    pose = np.array([[0.10156069, -0.02886784,  0.99441042,  0.6753021],
+                     [-0.4892026, -0.87182166,  0.02465395, -0.2085889],
+                     [0.86623683, -0.48897203, -0.10266503,  0.30462221],
+                     [0.0,  0.0,  0.0,  1.0]])
+    exponential_coordinates = exponential_coordinates_from_transform(pose)
+    mirror_exponential_coordinates = mirror_screw_axis_direction(
+        exponential_coordinates.reshape(1, 6))[0]
+    pose2 = transform_from_exponential_coordinates(
+        mirror_exponential_coordinates)
+    assert_array_almost_equal(pose, pose2)
