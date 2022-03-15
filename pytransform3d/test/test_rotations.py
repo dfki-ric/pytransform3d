@@ -1928,3 +1928,11 @@ def test_plane_basis_from_normal():
         x, y = pr.plane_basis_from_normal(normal)
         R = np.column_stack((x, y, normal))
         pr.assert_rotation_matrix(R)
+
+
+def test_pick_closest_quaternion():
+    random_state = np.random.RandomState(483)
+    for _ in range(10):
+        q = pr.random_quaternion(random_state)
+        assert_array_almost_equal(pr.pick_closest_quaternion(q, q), q)
+        assert_array_almost_equal(pr.pick_closest_quaternion(-q, q), q)
