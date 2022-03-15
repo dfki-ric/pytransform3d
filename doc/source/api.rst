@@ -102,6 +102,7 @@ Quaternion and Axis-Angle Operations
    ~pytransform3d.rotations.concatenate_quaternions
    ~pytransform3d.rotations.q_prod_vector
    ~pytransform3d.rotations.q_conj
+   ~pytransform3d.rotations.pick_closest_quaternion
    ~pytransform3d.rotations.quaternion_slerp
    ~pytransform3d.rotations.quaternion_dist
    ~pytransform3d.rotations.quaternion_diff
