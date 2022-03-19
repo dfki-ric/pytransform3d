@@ -789,6 +789,101 @@ class Cone(Artist):
         return [self.cone]
 
 
+class Plane(Artist):
+    """Plane.
+
+    The plane will be defined either by a normal and a point in the plane or
+    by the Hesse normal form, which only needs a normal and the distance to
+    the origin from which we can compute the point in the plane as d * normal.
+
+    A plane will be visualized by a square.
+
+    Parameters
+    ----------
+    normal : array-like, shape (3,), optional (default: [0, 0, 1])
+        Plane normal.
+
+    d : float, optional (default: None)
+        Distance to origin in Hesse normal form.
+
+    point_in_plane : array-like, shape (3,), optional (default: None)
+        Point in plane.
+
+    s : float, optional (default: 1)
+        Scaling of the plane that will be drawn.
+
+    c : array-like, shape (3,), optional (default: None)
+        Color.
+    """
+    def __init__(self, normal=np.array([0.0, 0.0, 1.0]), d=None,
+                 point_in_plane=None, s=1.0, c=None):
+        self.triangles = np.array([
+            [0, 1, 2],
+            [1, 3, 2],
+            [2, 1, 0],
+            [2, 3, 1],
+        ])
+        vertices = np.zeros((4, 3))
+        self.plane = o3d.geometry.TriangleMesh(
+            o3d.utility.Vector3dVector(vertices),
+            o3d.utility.Vector3iVector(self.triangles))
+
+        self.set_data(normal, d, point_in_plane, s, c)
+
+    def set_data(self, normal, d=None, point_in_plane=None, s=None,
+                 c=None):
+        """Update data.
+
+        Parameters
+        ----------
+        normal : array-like, shape (3,)
+            Plane normal.
+
+        d : float, optional (default: None)
+            Distance to origin in Hesse normal form.
+
+        point_in_plane : array-like, shape (3,), optional (default: None)
+            Point in plane.
+
+        s : float, optional (default: 1)
+            Scaling of the plane that will be drawn.
+
+        c : array-like, shape (3,), optional (default: None)
+            Color.
+        """
+        normal = np.asarray(normal)
+        if point_in_plane is None:
+            if d is None:
+                raise ValueError(
+                    "Either 'd' or 'point_in_plane' has to be defined!")
+            point_in_plane = d * normal
+        else:
+            point_in_plane = np.asarray(point_in_plane)
+
+        x_axis, y_axis = pr.plane_basis_from_normal(normal)
+        vertices = np.array([
+            point_in_plane + s * x_axis + s * y_axis,
+            point_in_plane - s * x_axis + s * y_axis,
+            point_in_plane + s * x_axis - s * y_axis,
+            point_in_plane - s * x_axis - s * y_axis,
+        ])
+        self.plane.vertices = o3d.utility.Vector3dVector(vertices)
+        self.plane.compute_vertex_normals()
+        if c is not None:
+            self.plane.paint_uniform_color(c)
+
+    @property
+    def geometries(self):
+        """Expose geometries.
+
+        Returns
+        -------
+        geometries : list
+            List of geometries that can be added to the visualizer.
+        """
+        return [self.plane]
+
+
 class Camera(Artist):
     """Camera.
 

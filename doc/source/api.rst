@@ -579,4 +579,6 @@ Testing
    ~pytransform3d.visualizer.Ellipsoid
    ~pytransform3d.visualizer.Capsule
    ~pytransform3d.visualizer.Cone
+   ~pytransform3d.visualizer.Plane
    ~pytransform3d.visualizer.Graph
+   ~pytransform3d.visualizer.Camera
