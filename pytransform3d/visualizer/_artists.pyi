@@ -143,6 +143,21 @@ class Cone(Artist):
     def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
 
 
+class Plane(Artist):
+    def __init__(
+            self, normal: npt.ArrayLike = ..., d: Union[None, float] = ...,
+            point_in_plane: Union[None, npt.ArrayLike] = ...,
+            s: float = ..., c: Union[None, npt.ArrayLike] = ...): ...
+
+    def set_data(
+            self, normal: npt.ArrayLike, d: Union[None, float] = ...,
+            point_in_plane: Union[None, npt.ArrayLike] = ...,
+            s: float = ..., c: Union[None, npt.ArrayLike] = ...): ...
+
+    @property
+    def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
+
+
 class Camera(Artist):
     def __init__(
             self, M: npt.ArrayLike, cam2world: Union[None, npt.ArrayLike] = ...,

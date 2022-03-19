@@ -6,7 +6,7 @@ from .. import transformations as pt
 from .. import trajectories as ptr
 from ._artists import (Line3D, PointCollection3D, Vector3D, Frame, Trajectory,
                        Camera, Box, Sphere, Cylinder, Mesh, Ellipsoid, Capsule,
-                       Cone, Graph)
+                       Cone, Plane, Graph)
 
 
 class Figure:
@@ -567,6 +567,36 @@ class Figure:
         cone = Cone(height, radius, A2B, resolution, c)
         cone.add_artist(self)
         return cone
+
+    def plot_plane(self, normal=np.array([0.0, 0.0, 1.0]), d=None,
+                   point_in_plane=None, s=1.0, c=None):
+        """Plot plane.
+
+        Parameters
+        ----------
+        normal : array-like, shape (3,), optional (default: [0, 0, 1])
+            Plane normal.
+
+        d : float, optional (default: None)
+            Distance to origin in Hesse normal form.
+
+        point_in_plane : array-like, shape (3,), optional (default: None)
+            Point in plane.
+
+        s : float, optional (default: 1)
+            Scaling of the plane that will be drawn.
+
+        c : array-like, shape (3,), optional (default: None)
+            Color.
+
+        Returns
+        -------
+        plane : Plane
+            New plane.
+        """
+        plane = Plane(normal, d, point_in_plane, s, c)
+        plane.add_artist(self)
+        return plane
 
     def plot_graph(
             self, tm, frame, show_frames=False, show_connections=False,
