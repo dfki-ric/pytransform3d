@@ -3,7 +3,8 @@
 Visualize Plane
 ===============
 
-Visualizes a plane in Hesse normal form.
+Visualizes one plane in Hesse normal form and one plane defined by point and
+normal.
 """
 print(__doc__)
 
@@ -18,6 +19,8 @@ fig.plot_transform(np.eye(4))
 random_state = np.random.RandomState(8853)
 fig.plot_plane(pr.norm_vector(random_state.randn(3)), random_state.randn(),
                c=(1, 0.5, 0))
+fig.plot_plane(pr.norm_vector(random_state.randn(3)),
+               point_in_plane=random_state.randn(3), c=(0, 1, 1))
 if "__file__" in globals():
     fig.show()
 else:
