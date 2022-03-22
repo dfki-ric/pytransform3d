@@ -206,7 +206,8 @@ class Vector3D(Artist):
         self.vector.vertices = new_vector.vertices
         self.vector.triangles = new_vector.triangles
         self.vector.transform(A2B)
-        self.vector.paint_uniform_color(c)
+        if c is not None:
+            self.vector.paint_uniform_color(c)
         self.vector.compute_vertex_normals()
 
     @property
