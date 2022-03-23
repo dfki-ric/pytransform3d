@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -322,7 +322,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">new_vector</span><span class="o">.</span><span class="n">vertices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">triangles</span> <span class="o">=</span> <span class="n">new_vector</span><span class="o">.</span><span class="n">triangles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">paint_uniform_color</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">paint_uniform_color</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span></div>
 
     <span class="nd">@property</span>
@@ -905,7 +906,107 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cone</span><span class="p">]</span></div>
 
 
-<span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<div class="viewcode-block" id="Plane"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Plane.html#pytransform3d.visualizer.Plane">[docs]</a><span class="k">class</span> <span class="nc">Plane</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plane.</span>
+
+<span class="sd">    The plane will be defined either by a normal and a point in the plane or</span>
+<span class="sd">    by the Hesse normal form, which only needs a normal and the distance to</span>
+<span class="sd">    the origin from which we can compute the point in the plane as d * normal.</span>
+
+<span class="sd">    A plane will be visualized by a square.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    normal : array-like, shape (3,), optional (default: [0, 0, 1])</span>
+<span class="sd">        Plane normal.</span>
+
+<span class="sd">    d : float, optional (default: None)</span>
+<span class="sd">        Distance to origin in Hesse normal form.</span>
+
+<span class="sd">    point_in_plane : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Point in plane.</span>
+
+<span class="sd">    s : float, optional (default: 1)</span>
+<span class="sd">        Scaling of the plane that will be drawn.</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Plane.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Plane.html#pytransform3d.visualizer.Plane.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">triangles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">])</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plane</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="p">(</span>
+            <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span>
+            <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3iVector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">triangles</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">point_in_plane</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Plane.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Plane.html#pytransform3d.visualizer.Plane.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        normal : array-like, shape (3,)</span>
+<span class="sd">            Plane normal.</span>
+
+<span class="sd">        d : float, optional (default: None)</span>
+<span class="sd">            Distance to origin in Hesse normal form.</span>
+
+<span class="sd">        point_in_plane : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Point in plane.</span>
+
+<span class="sd">        s : float, optional (default: 1)</span>
+<span class="sd">            Scaling of the plane that will be drawn.</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If neither &#39;d&#39; nor &#39;point_in_plane&#39; is defined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">point_in_plane</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Either &#39;d&#39; or &#39;point_in_plane&#39; has to be defined!&quot;</span><span class="p">)</span>
+            <span class="n">point_in_plane</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">normal</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">point_in_plane</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">point_in_plane</span><span class="p">)</span>
+
+        <span class="n">x_axis</span><span class="p">,</span> <span class="n">y_axis</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">plane_basis_from_normal</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="n">point_in_plane</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">x_axis</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">y_axis</span><span class="p">,</span>
+            <span class="n">point_in_plane</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">x_axis</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">y_axis</span><span class="p">,</span>
+            <span class="n">point_in_plane</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">x_axis</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">y_axis</span><span class="p">,</span>
+            <span class="n">point_in_plane</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">x_axis</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">y_axis</span><span class="p">,</span>
+        <span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plane</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plane</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plane</span><span class="o">.</span><span class="n">paint_uniform_color</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">plane</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Camera"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Camera.html#pytransform3d.visualizer.Camera">[docs]</a><span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Camera.</span>
 
 <span class="sd">    Parameters</span>
@@ -935,7 +1036,7 @@
 <span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
 <span class="sd">        warning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<div class="viewcode-block" id="Camera.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Camera.html#pytransform3d.visualizer.Camera.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                  <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cam2world</span> <span class="o">=</span> <span class="kc">None</span>
@@ -948,9 +1049,9 @@
         <span class="k">if</span> <span class="n">cam2world</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">cam2world</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="Camera.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Camera.html#pytransform3d.visualizer.Camera.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">sensor_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Update camera parameters.</span>
 
@@ -1022,7 +1123,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector2iVector</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
                       <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                      <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]))</span>
+                      <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]))</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1033,7 +1134,7 @@
 <span class="sd">        geometries : list</span>
 <span class="sd">            List of geometries that can be added to the visualizer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">line_set</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
@@ -1224,7 +1325,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>

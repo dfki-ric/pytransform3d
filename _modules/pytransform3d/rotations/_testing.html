@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._testing &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>pytransform3d.rotations._testing &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -137,6 +137,14 @@
 
 <span class="sd">    a2 : array-like, shape (4,)</span>
 <span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># required despite normalization in case of 180 degree rotation</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a2</span><span class="p">)):</span>
@@ -161,6 +169,14 @@
 
 <span class="sd">    a2 : array-like, shape (3,)</span>
 <span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z)</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">angle1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
     <span class="n">angle2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>
@@ -179,6 +195,22 @@
 <span class="sd">    Note that quaternions are equal either if q1 == q2 or if q1 == -q2. See</span>
 <span class="sd">    numpy.testing.assert_array_almost_equal for a more detailed documentation</span>
 <span class="sd">    of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q1 : array-like, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    q2 : array-like, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -193,6 +225,22 @@
 <span class="sd">    [-pi, pi], [-pi/2, pi/2], and [-pi, pi] respectively. See</span>
 <span class="sd">    numpy.testing.assert_array_almost_equal for a more detailed documentation</span>
 <span class="sd">    of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e_xyz1 : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    e_xyz2 : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around x-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R1</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">e_xyz1</span><span class="p">)</span>
     <span class="n">R2</span> <span class="o">=</span> <span class="n">matrix_from_euler_xyz</span><span class="p">(</span><span class="n">e_xyz2</span><span class="p">)</span>
@@ -206,6 +254,22 @@
 <span class="sd">    [-pi, pi], [-pi/2, pi/2], and [-pi, pi] respectively. See</span>
 <span class="sd">    numpy.testing.assert_array_almost_equal for a more detailed documentation</span>
 <span class="sd">    of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e_zyx1 : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    e_zyx2 : array-like, shape (3,)</span>
+<span class="sd">        Angles for rotation around z-, y&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R1</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">(</span><span class="n">e_zyx1</span><span class="p">)</span>
     <span class="n">R2</span> <span class="o">=</span> <span class="n">matrix_from_euler_zyx</span><span class="p">(</span><span class="n">e_zyx2</span><span class="p">)</span>
@@ -219,6 +283,19 @@
 <span class="sd">    :math:`det(R) = 1` will be checked. See</span>
 <span class="sd">    numpy.testing.assert_array_almost_equal for a more detailed documentation</span>
 <span class="sd">    of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">R</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -236,7 +313,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations.assert_quaternion_equal &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>pytransform3d.rotations.assert_quaternion_equal &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -42,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,6 +127,22 @@
 <p>Note that quaternions are equal either if q1 == q2 or if q1 == -q2. See
 numpy.testing.assert_array_almost_equal for a more detailed documentation
 of the other parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>q1</strong><span class="classifier">array-like, shape (4,)</span></dt><dd><p>Unit quaternion to represent rotation: (w, x, y, z)</p>
+</dd>
+<dt><strong>q2</strong><span class="classifier">array-like, shape (4,)</span></dt><dd><p>Unit quaternion to represent rotation: (w, x, y, z)</p>
+</dd>
+<dt><strong>args</strong><span class="classifier">tuple</span></dt><dd><p>Positional arguments that will be passed to
+<cite>assert_array_almost_equal</cite></p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict</span></dt><dd><p>Positional arguments that will be passed to
+<cite>assert_array_almost_equal</cite></p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -144,7 +160,7 @@ of the other parameters.</p>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>

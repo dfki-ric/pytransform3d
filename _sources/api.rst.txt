@@ -102,6 +102,7 @@ Quaternion and Axis-Angle Operations
    ~pytransform3d.rotations.concatenate_quaternions
    ~pytransform3d.rotations.q_prod_vector
    ~pytransform3d.rotations.q_conj
+   ~pytransform3d.rotations.pick_closest_quaternion
    ~pytransform3d.rotations.quaternion_slerp
    ~pytransform3d.rotations.quaternion_dist
    ~pytransform3d.rotations.quaternion_diff
@@ -390,6 +391,7 @@ Testing
    ~pytransform3d.batch_rotations.batch_concatenate_quaternions
    ~pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw
    ~pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz
+   ~pytransform3d.batch_rotations.smooth_quaternion_trajectory
 
 
 :mod:`pytransform3d.trajectories`
@@ -416,6 +418,7 @@ Testing
    ~pytransform3d.trajectories.batch_concatenate_dual_quaternions
    ~pytransform3d.trajectories.batch_dq_prod_vector
    ~pytransform3d.trajectories.plot_trajectory
+   ~pytransform3d.trajectories.mirror_screw_axis_direction
 
 
 :mod:`pytransform3d.coordinates`
@@ -576,4 +579,6 @@ Testing
    ~pytransform3d.visualizer.Ellipsoid
    ~pytransform3d.visualizer.Capsule
    ~pytransform3d.visualizer.Cone
+   ~pytransform3d.visualizer.Plane
    ~pytransform3d.visualizer.Graph
+   ~pytransform3d.visualizer.Camera

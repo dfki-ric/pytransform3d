@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API Documentation &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -42,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -351,19 +351,22 @@ that have been omitted here for the sake of brevity.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.q_conj.html#pytransform3d.rotations.q_conj" title="pytransform3d.rotations.q_conj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">q_conj</span></code></a>(q)</p></td>
 <td><p>Conjugate of quaternion.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_slerp.html#pytransform3d.rotations.quaternion_slerp" title="pytransform3d.rotations.quaternion_slerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_slerp</span></code></a>(start, end, t)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.pick_closest_quaternion.html#pytransform3d.rotations.pick_closest_quaternion" title="pytransform3d.rotations.pick_closest_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pick_closest_quaternion</span></code></a>(quaternion, …)</p></td>
+<td><p>Resolve quaternion ambiguity and pick the closest one to the target.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_slerp.html#pytransform3d.rotations.quaternion_slerp" title="pytransform3d.rotations.quaternion_slerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_slerp</span></code></a>(start, end, t[, shortest_path])</p></td>
 <td><p>Spherical linear interpolation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_dist.html#pytransform3d.rotations.quaternion_dist" title="pytransform3d.rotations.quaternion_dist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_dist</span></code></a>(q1, q2)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_dist.html#pytransform3d.rotations.quaternion_dist" title="pytransform3d.rotations.quaternion_dist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_dist</span></code></a>(q1, q2)</p></td>
 <td><p>Compute distance between two quaternions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_diff.html#pytransform3d.rotations.quaternion_diff" title="pytransform3d.rotations.quaternion_diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_diff</span></code></a>(q1, q2)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_diff.html#pytransform3d.rotations.quaternion_diff" title="pytransform3d.rotations.quaternion_diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_diff</span></code></a>(q1, q2)</p></td>
 <td><p>Compute the rotation in angle-axis format that rotates q2 into q1.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_gradient.html#pytransform3d.rotations.quaternion_gradient" title="pytransform3d.rotations.quaternion_gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_gradient</span></code></a>(Q[, dt])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_gradient.html#pytransform3d.rotations.quaternion_gradient" title="pytransform3d.rotations.quaternion_gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_gradient</span></code></a>(Q[, dt])</p></td>
 <td><p>Time-derivatives of a sequence of quaternions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_integrate.html#pytransform3d.rotations.quaternion_integrate" title="pytransform3d.rotations.quaternion_integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_integrate</span></code></a>(Qd[, q0, dt])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_integrate.html#pytransform3d.rotations.quaternion_integrate" title="pytransform3d.rotations.quaternion_integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_integrate</span></code></a>(Qd[, q0, dt])</p></td>
 <td><p>Integrate angular velocities to quaternions.</p></td>
 </tr>
 </tbody>
@@ -395,7 +398,7 @@ that have been omitted here for the sake of brevity.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.rotor_apply.html#pytransform3d.rotations.rotor_apply" title="pytransform3d.rotations.rotor_apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotor_apply</span></code></a>(rotor, v)</p></td>
 <td><p>Compute rotation matrix from rotor.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.rotor_slerp.html#pytransform3d.rotations.rotor_slerp" title="pytransform3d.rotations.rotor_slerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotor_slerp</span></code></a>(start, end, t)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.rotor_slerp.html#pytransform3d.rotations.rotor_slerp" title="pytransform3d.rotations.rotor_slerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotor_slerp</span></code></a>(start, end, t[, shortest_path])</p></td>
 <td><p>Spherical linear interpolation.</p></td>
 </tr>
 </tbody>
@@ -906,7 +909,7 @@ the last two dimensions (matrices) contain individual rotations.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.quaternions_from_matrices.html#pytransform3d.batch_rotations.quaternions_from_matrices" title="pytransform3d.batch_rotations.quaternions_from_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternions_from_matrices</span></code></a>(Rs[, out])</p></td>
 <td><p>Compute quaternions from rotation matrices.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.quaternion_slerp_batch.html#pytransform3d.batch_rotations.quaternion_slerp_batch" title="pytransform3d.batch_rotations.quaternion_slerp_batch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_slerp_batch</span></code></a>(start, end, t)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.quaternion_slerp_batch.html#pytransform3d.batch_rotations.quaternion_slerp_batch" title="pytransform3d.batch_rotations.quaternion_slerp_batch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_slerp_batch</span></code></a>(start, end, t[, …])</p></td>
 <td><p>Spherical linear interpolation for a batch of steps.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.batch_q_conj.html#pytransform3d.batch_rotations.batch_q_conj" title="pytransform3d.batch_rotations.batch_q_conj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_q_conj</span></code></a>(Q)</p></td>
@@ -920,6 +923,9 @@ the last two dimensions (matrices) contain individual rotations.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz.html#pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz" title="pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_quaternion_xyzw_from_wxyz</span></code></a>(Q_wxyz[, out])</p></td>
 <td><p>Converts from w, x, y, z to x, y, z, w convention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.batch_rotations.smooth_quaternion_trajectory.html#pytransform3d.batch_rotations.smooth_quaternion_trajectory" title="pytransform3d.batch_rotations.smooth_quaternion_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smooth_quaternion_trajectory</span></code></a>(Q[, …])</p></td>
+<td><p>Smooth quaternion trajectory.</p></td>
 </tr>
 </tbody>
 </table>
@@ -973,6 +979,9 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory" title="pytransform3d.trajectories.plot_trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_trajectory</span></code></a>([ax, P, …])</p></td>
 <td><p>Plot pose trajectory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.mirror_screw_axis_direction.html#pytransform3d.trajectories.mirror_screw_axis_direction" title="pytransform3d.trajectories.mirror_screw_axis_direction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mirror_screw_axis_direction</span></code></a>(Sthetas)</p></td>
+<td><p>Switch to the other representation of the same transformation.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1247,8 +1256,14 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone" title="pytransform3d.visualizer.Cone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cone</span></code></a>([height, radius, A2B, resolution, c])</p></td>
 <td><p>Cone.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graph</span></code></a>(tm, frame[, show_frames, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.visualizer.Plane.html#pytransform3d.visualizer.Plane" title="pytransform3d.visualizer.Plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plane</span></code></a>([normal, d, point_in_plane, s, c])</p></td>
+<td><p>Plane.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Graph</span></code></a>(tm, frame[, show_frames, …])</p></td>
 <td><p>Graph of connected frames.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.visualizer.Camera.html#pytransform3d.visualizer.Camera" title="pytransform3d.visualizer.Camera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Camera</span></code></a>(M[, cam2world, …])</p></td>
+<td><p>Camera.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1268,7 +1283,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>

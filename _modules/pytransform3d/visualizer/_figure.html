@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -122,7 +122,7 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">trajectories</span> <span class="k">as</span> <span class="n">ptr</span>
 <span class="kn">from</span> <span class="nn">._artists</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Line3D</span><span class="p">,</span> <span class="n">PointCollection3D</span><span class="p">,</span> <span class="n">Vector3D</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Trajectory</span><span class="p">,</span>
                        <span class="n">Camera</span><span class="p">,</span> <span class="n">Box</span><span class="p">,</span> <span class="n">Sphere</span><span class="p">,</span> <span class="n">Cylinder</span><span class="p">,</span> <span class="n">Mesh</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">Capsule</span><span class="p">,</span>
-                       <span class="n">Cone</span><span class="p">,</span> <span class="n">Graph</span><span class="p">)</span>
+                       <span class="n">Cone</span><span class="p">,</span> <span class="n">Plane</span><span class="p">,</span> <span class="n">Graph</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Figure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure">[docs]</a><span class="k">class</span> <span class="nc">Figure</span><span class="p">:</span>
@@ -684,6 +684,36 @@
         <span class="n">cone</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cone</span></div>
 
+<div class="viewcode-block" id="Figure.plot_plane"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_plane">[docs]</a>    <span class="k">def</span> <span class="nf">plot_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot plane.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        normal : array-like, shape (3,), optional (default: [0, 0, 1])</span>
+<span class="sd">            Plane normal.</span>
+
+<span class="sd">        d : float, optional (default: None)</span>
+<span class="sd">            Distance to origin in Hesse normal form.</span>
+
+<span class="sd">        point_in_plane : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Point in plane.</span>
+
+<span class="sd">        s : float, optional (default: 1)</span>
+<span class="sd">            Scaling of the plane that will be drawn.</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plane : Plane</span>
+<span class="sd">            New plane.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plane</span> <span class="o">=</span> <span class="n">Plane</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">point_in_plane</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">plane</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plane</span></div>
+
 <div class="viewcode-block" id="Figure.plot_graph"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -831,7 +861,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.batch_rotations &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>pytransform3d.batch_rotations &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -123,7 +123,8 @@
 <span class="sd">the last two dimensions (matrices) contain individual rotations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="n">angle_between_vectors</span><span class="p">,</span> <span class="n">slerp_weights</span>
+<span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">angle_between_vectors</span><span class="p">,</span> <span class="n">slerp_weights</span><span class="p">,</span> <span class="n">pick_closest_quaternion</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="norm_vectors"><a class="viewcode-back" href="../../_apidoc/pytransform3d.batch_rotations.norm_vectors.html#pytransform3d.batch_rotations.norm_vectors">[docs]</a><span class="k">def</span> <span class="nf">norm_vectors</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -617,7 +618,7 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="quaternion_slerp_batch"><a class="viewcode-back" href="../../_apidoc/pytransform3d.batch_rotations.quaternion_slerp_batch.html#pytransform3d.batch_rotations.quaternion_slerp_batch">[docs]</a><span class="k">def</span> <span class="nf">quaternion_slerp_batch</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="quaternion_slerp_batch"><a class="viewcode-back" href="../../_apidoc/pytransform3d.batch_rotations.quaternion_slerp_batch.html#pytransform3d.batch_rotations.quaternion_slerp_batch">[docs]</a><span class="k">def</span> <span class="nf">quaternion_slerp_batch</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">shortest_path</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Spherical linear interpolation for a batch of steps.</span>
 
 <span class="sd">    Parameters</span>
@@ -631,12 +632,18 @@
 <span class="sd">    t : array-like, shape (n_steps,)</span>
 <span class="sd">        Steps between start and goal, must be in interval [0, 1]</span>
 
+<span class="sd">    shortest_path : bool, optional (default: False)</span>
+<span class="sd">        Resolve sign ambiguity before interpolation to find the shortest path.</span>
+<span class="sd">        The end quaternion will be picked to be close to the start quaternion.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Q : array, shape (n_steps, 4)</span>
 <span class="sd">        Interpolated unit quaternions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">shortest_path</span><span class="p">:</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">pick_closest_quaternion</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
     <span class="n">angle</span> <span class="o">=</span> <span class="n">angle_between_vectors</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
     <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">slerp_weights</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">w1</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">start</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
@@ -778,6 +785,52 @@
     <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q_wxyz</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
     <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q_wxyz</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="smooth_quaternion_trajectory"><a class="viewcode-back" href="../../_apidoc/pytransform3d.batch_rotations.smooth_quaternion_trajectory.html#pytransform3d.batch_rotations.smooth_quaternion_trajectory">[docs]</a><span class="k">def</span> <span class="nf">smooth_quaternion_trajectory</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">start_component_positive</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Smooth quaternion trajectory.</span>
+
+<span class="sd">    Quaternion q and -q represent the same rotation but cannot be</span>
+<span class="sd">    interpolated well. This function guarantees that two successive</span>
+<span class="sd">    quaternions q1 and q2 are closer than q1 and -q2.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">        Unit quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    start_component_positive : str, optional (default: &#39;x&#39;)</span>
+<span class="sd">        Start trajectory with quaternion that has this component positive.</span>
+<span class="sd">        Allowed values: &#39;w&#39; (scalar), &#39;x&#39;, &#39;y&#39;, and &#39;z&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Q : array, shape (n_steps, 4)</span>
+<span class="sd">        Unit quaternions to represent rotations: (w, x, y, z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;wxyz&quot;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_component_positive</span><span class="p">)]</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+    <span class="n">q1q2_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Q</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Q</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">q1mq2_dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Q</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">Q</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">before_jump_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">q1q2_dists</span> <span class="o">&gt;</span> <span class="n">q1mq2_dists</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># workaround for interpolation artifacts:</span>
+    <span class="n">before_smooth_jump_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">q1q2_dists</span><span class="p">,</span> <span class="n">q1mq2_dists</span><span class="p">)</span>
+    <span class="n">before_smooth_jump_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">before_smooth_jump_indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                       <span class="n">before_smooth_jump_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">before_jump_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">before_jump_indices</span><span class="p">,</span> <span class="n">before_smooth_jump_indices</span><span class="p">)))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">before_jump_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">slices_to_correct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">before_jump_indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">before_jump_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))[::</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">slices_to_correct</span><span class="p">:</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="k">return</span> <span class="n">Q</span></div>
 </pre></div>
 
     </div>
@@ -792,7 +845,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>

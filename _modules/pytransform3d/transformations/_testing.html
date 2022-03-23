@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._testing &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>pytransform3d.transformations._testing &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,6 +127,19 @@
 
 <span class="sd">    See numpy.testing.assert_array_almost_equal for a more detailed</span>
 <span class="sd">    documentation of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Transform from frame A to frame B</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">assert_rotation_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">A2B</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
@@ -138,6 +151,20 @@
 
 <span class="sd">    See numpy.testing.assert_array_almost_equal for a more detailed</span>
 <span class="sd">    documentation of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">real</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
     <span class="n">dual</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
@@ -163,6 +190,24 @@
 <span class="sd">    Note that unit dual quaternions are equal either if dq1 == dq2 or if</span>
 <span class="sd">    dq1 == -dq2. See numpy.testing.assert_array_almost_equal for a more</span>
 <span class="sd">    detailed documentation of the other parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq1 : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    dq2 : array-like, shape (8,)</span>
+<span class="sd">        Unit dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -178,6 +223,44 @@
 <span class="sd">    to be adapted.</span>
 
 <span class="sd">    This function needs the dependency nose.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q1 : array, shape (3,)</span>
+<span class="sd">        Vector to a point on the screw axis that is orthogonal to s_axis</span>
+
+<span class="sd">    s_axis1 : array, shape (3,)</span>
+<span class="sd">        Unit direction vector of the screw axis</span>
+
+<span class="sd">    h1 : float</span>
+<span class="sd">        Pitch of the screw. The pitch is the ratio of translation and rotation</span>
+<span class="sd">        of the screw axis. Infinite pitch indicates pure translation.</span>
+
+<span class="sd">    theta1 : float</span>
+<span class="sd">        Parameter of the transformation: theta is the angle of rotation</span>
+<span class="sd">        and h * theta the translation.</span>
+
+<span class="sd">    q2 : array, shape (3,)</span>
+<span class="sd">        Vector to a point on the screw axis that is orthogonal to s_axis</span>
+
+<span class="sd">    s_axis2 : array, shape (3,)</span>
+<span class="sd">        Unit direction vector of the screw axis</span>
+
+<span class="sd">    h2 : float</span>
+<span class="sd">        Pitch of the screw. The pitch is the ratio of translation and rotation</span>
+<span class="sd">        of the screw axis. Infinite pitch indicates pure translation.</span>
+
+<span class="sd">    theta2 : float</span>
+<span class="sd">        Parameter of the transformation: theta is the angle of rotation</span>
+<span class="sd">        and h * theta the translation.</span>
+
+<span class="sd">    args : tuple</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Positional arguments that will be passed to</span>
+<span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">nose.tools</span> <span class="kn">import</span> <span class="n">assert_almost_equal</span>
 
@@ -231,7 +314,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>

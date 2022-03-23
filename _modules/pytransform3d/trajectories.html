@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.trajectories &#8212; pytransform3d 1.12.1 documentation</title>
+    <title>pytransform3d.trajectories &#8212; pytransform3d 1.13.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -40,7 +40,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.12.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -124,7 +124,10 @@
     <span class="n">matrices_from_quaternions</span><span class="p">,</span> <span class="n">quaternions_from_matrices</span><span class="p">,</span>
     <span class="n">matrices_from_compact_axis_angles</span><span class="p">,</span> <span class="n">axis_angles_from_matrices</span><span class="p">,</span>
     <span class="n">batch_concatenate_quaternions</span><span class="p">,</span> <span class="n">batch_q_conj</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform_from_exponential_coordinates</span>
+<span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">transform_from_exponential_coordinates</span><span class="p">,</span>
+    <span class="n">screw_axis_from_exponential_coordinates</span><span class="p">,</span> <span class="n">screw_parameters_from_screw_axis</span><span class="p">,</span>
+    <span class="n">screw_axis_from_screw_parameters</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="invert_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.invert_transforms.html#pytransform3d.trajectories.invert_transforms">[docs]</a><span class="k">def</span> <span class="nf">invert_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
@@ -698,6 +701,38 @@
     <span class="n">trajectory</span><span class="o">.</span><span class="n">add_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="mirror_screw_axis_direction"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.mirror_screw_axis_direction.html#pytransform3d.trajectories.mirror_screw_axis_direction">[docs]</a><span class="k">def</span> <span class="nf">mirror_screw_axis_direction</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Switch to the other representation of the same transformation.</span>
+
+<span class="sd">    We take the negative of the screw axis, invert the rotation angle</span>
+<span class="sd">    and adapt the screw pitch accordingly. For this operation we have</span>
+<span class="sd">    to convert exponential coordinates to screw parameters first.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Sthetas : array-like, shape (n_steps, 6)</span>
+<span class="sd">        Exponential coordinates of transformation:</span>
+<span class="sd">        (omega_x, omega_y, omega_z, v_x, v_y, v_z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Sthetas : array-like, shape (n_steps, 6)</span>
+<span class="sd">        Exponential coordinates of transformation:</span>
+<span class="sd">        (omega_x, omega_y, omega_z, v_x, v_y, v_z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Sthetas_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">),</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">Stheta</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
+        <span class="n">S</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">screw_axis_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">)</span>
+        <span class="n">q</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">screw_parameters_from_screw_axis</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="n">s_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">s</span>
+        <span class="n">theta_new</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">theta</span>
+        <span class="n">h_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">h</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">/</span> <span class="n">theta_new</span>
+        <span class="n">Stheta_new</span> <span class="o">=</span> <span class="n">screw_axis_from_screw_parameters</span><span class="p">(</span>
+            <span class="n">q</span><span class="p">,</span> <span class="n">s_new</span><span class="p">,</span> <span class="n">h_new</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta_new</span>
+        <span class="n">Sthetas_new</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Stheta_new</span>
+    <span class="k">return</span> <span class="n">Sthetas_new</span></div>
 </pre></div>
 
     </div>
@@ -712,7 +747,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2022.<br/>
+      Last updated on Mar 23, 2022.<br/>
     </p>
   </div>
 </footer>
