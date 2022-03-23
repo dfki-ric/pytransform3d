@@ -63,7 +63,7 @@ def test_spherical_from_cylindrical_edge_cases():
     assert_array_almost_equal(q, np.zeros(3))
 
 
-def test_cartesian_from_cylindrical_edge_cases():
+def test_cylindrical_from_spherical_edge_cases():
     q = pc.cylindrical_from_spherical(np.zeros(3))
     assert_array_almost_equal(q, np.zeros(3))
 
