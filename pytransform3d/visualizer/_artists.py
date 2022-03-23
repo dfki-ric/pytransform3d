@@ -851,6 +851,11 @@ class Plane(Artist):
 
         c : array-like, shape (3,), optional (default: None)
             Color.
+
+        Raises
+        ------
+        ValueError
+            If neither 'd' nor 'point_in_plane' is defined.
         """
         normal = np.asarray(normal)
         if point_in_plane is None:
