@@ -300,7 +300,7 @@ def matrix_from_euler_zyx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     gamma, beta, alpha = e
@@ -320,7 +320,7 @@ def active_matrix_from_intrinsic_euler_xzx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
