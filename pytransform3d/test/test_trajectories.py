@@ -286,10 +286,10 @@ def test_batch_conversions_dual_quaternions_transforms_3dims():
 
 
 def test_mirror_screw_axis():
-    pose = np.array([[0.10156069, -0.02886784,  0.99441042,  0.6753021],
-                     [-0.4892026, -0.87182166,  0.02465395, -0.2085889],
-                     [0.86623683, -0.48897203, -0.10266503,  0.30462221],
-                     [0.0,  0.0,  0.0,  1.0]])
+    pose = np.array([[0.10156069, -0.02886784, 0.99441042, 0.6753021],
+                     [-0.4892026, -0.87182166, 0.02465395, -0.2085889],
+                     [0.86623683, -0.48897203, -0.10266503, 0.30462221],
+                     [0.0, 0.0, 0.0, 1.0]])
     exponential_coordinates = exponential_coordinates_from_transform(pose)
     mirror_exponential_coordinates = mirror_screw_axis_direction(
         exponential_coordinates.reshape(1, 6))[0]
