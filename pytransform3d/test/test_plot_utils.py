@@ -252,4 +252,3 @@ def test_plot_length_variable():
         assert_equal(len(ax.texts), 1)
     finally:
         ax.remove()
-        
