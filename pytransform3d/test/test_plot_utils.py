@@ -67,6 +67,7 @@ def test_frame():
     finally:
         ax.remove()
 
+
 def test_frame_no_indicator():
     ax = make_3d_axis(1.0)
     try:
