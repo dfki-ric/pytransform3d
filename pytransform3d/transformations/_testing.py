@@ -11,6 +11,19 @@ def assert_transform(A2B, *args, **kwargs):
 
     See numpy.testing.assert_array_almost_equal for a more detailed
     documentation of the other parameters.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
     """
     assert_rotation_matrix(A2B[:3, :3], *args, **kwargs)
     assert_array_almost_equal(A2B[3], np.array([0.0, 0.0, 0.0, 1.0]),
@@ -22,6 +35,20 @@ def assert_unit_dual_quaternion(dq, *args, **kwargs):
 
     See numpy.testing.assert_array_almost_equal for a more detailed
     documentation of the other parameters.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
     """
     real = dq[:4]
     dual = dq[4:]
@@ -47,6 +74,24 @@ def assert_unit_dual_quaternion_equal(dq1, dq2, *args, **kwargs):
     Note that unit dual quaternions are equal either if dq1 == dq2 or if
     dq1 == -dq2. See numpy.testing.assert_array_almost_equal for a more
     detailed documentation of the other parameters.
+
+    Parameters
+    ----------
+    dq1 : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    dq2 : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
     """
     try:
         assert_array_almost_equal(dq1, dq2, *args, **kwargs)
@@ -62,6 +107,44 @@ def assert_screw_parameters_equal(
     to be adapted.
 
     This function needs the dependency nose.
+
+    Parameters
+    ----------
+    q1 : array, shape (3,)
+        Vector to a point on the screw axis that is orthogonal to s_axis
+
+    s_axis1 : array, shape (3,)
+        Unit direction vector of the screw axis
+
+    h1 : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta1 : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    q2 : array, shape (3,)
+        Vector to a point on the screw axis that is orthogonal to s_axis
+
+    s_axis2 : array, shape (3,)
+        Unit direction vector of the screw axis
+
+    h2 : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta2 : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
     """
     from nose.tools import assert_almost_equal
 
