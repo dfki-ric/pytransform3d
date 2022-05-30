@@ -18,7 +18,7 @@ from pytransform3d import rotations as pr
 
 def update_frame(step, n_frames, frame):
     angle = 2.0 * np.pi * (step + 1) / n_frames
-    R = pr.matrix_from_angle(0, angle)
+    R = pr.passive_matrix_from_angle(0, angle)
     A2B = np.eye(4)
     A2B[:3, :3] = R
     frame.set_data(A2B)
