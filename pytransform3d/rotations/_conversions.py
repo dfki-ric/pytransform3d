@@ -1,5 +1,6 @@
 """Conversions between rotation representations."""
 import math
+import warnings
 import numpy as np
 from ._utils import (
     check_matrix, check_quaternion, check_axis_angle, check_compact_axis_angle,
@@ -183,7 +184,7 @@ def matrix_from_quaternion(q):
     return R
 
 
-def matrix_from_angle(basis, angle):
+def passive_matrix_from_angle(basis, angle):
     """Compute passive rotation matrix from rotation about basis vector.
 
     Parameters
@@ -225,7 +226,48 @@ def matrix_from_angle(basis, angle):
     return R
 
 
-passive_matrix_from_angle = matrix_from_angle
+def matrix_from_angle(basis, angle):
+    """Compute passive rotation matrix from rotation about basis vector.
+
+    Parameters
+    ----------
+    basis : int from [0, 1, 2]
+        The rotation axis (0: x, 1: y, 2: z)
+
+    angle : float
+        Rotation angle
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+    """
+    warnings.warn("matrix_from_angle will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
+    c = np.cos(angle)
+    s = np.sin(angle)
+
+    if basis == 0:
+        R = np.array([[1.0, 0.0, 0.0],
+                      [0.0, c, s],
+                      [0.0, -s, c]])
+    elif basis == 1:
+        R = np.array([[c, 0.0, -s],
+                      [0.0, 1.0, 0.0],
+                      [s, 0.0, c]])
+    elif basis == 2:
+        R = np.array([[c, s, 0.0],
+                      [-s, c, 0.0],
+                      [0.0, 0.0, 1.0]])
+    else:
+        raise ValueError("Basis must be in [0, 1, 2]")
+
+    return R
 
 
 def active_matrix_from_angle(basis, angle):
@@ -283,6 +325,8 @@ def matrix_from_euler_xyz(e):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn("matrix_from_euler_xyz will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
     alpha, beta, gamma = e
     R = passive_matrix_from_angle(0, alpha).dot(
         passive_matrix_from_angle(1, beta)).dot(
@@ -303,6 +347,8 @@ def matrix_from_euler_zyx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn("matrix_from_euler_zyx will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
     gamma, beta, alpha = e
     R = passive_matrix_from_angle(2, gamma).dot(
         passive_matrix_from_angle(1, beta)).dot(
@@ -849,6 +895,8 @@ def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
     ValueError
         If no rotation is given
     """
+    warnings.warn("matrix_from will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
     if R is not None:
         return R
     if a is not None:
@@ -982,6 +1030,8 @@ def euler_xyz_from_matrix(R, strict_check=True):
     e_xyz : array-like, shape (3,)
         Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
     """
+    warnings.warn("euler_xyz_from_matrix will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
     R = check_matrix(R, strict_check=strict_check)
     if np.abs(R[0, 2]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!
@@ -1017,6 +1067,8 @@ def euler_zyx_from_matrix(R, strict_check=True):
     e_zyx : array-like, shape (3,)
         Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
     """
+    warnings.warn("euler_zyx_from_matrix will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
     R = check_matrix(R, strict_check=strict_check)
     if np.abs(R[2, 0]) != 1.0:
         # NOTE: There are two solutions: angle2 and pi - angle2!

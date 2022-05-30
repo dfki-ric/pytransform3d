@@ -1,4 +1,5 @@
 """Testing utilities."""
+import warnings
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 from ._utils import norm_axis_angle, norm_compact_axis_angle
@@ -126,6 +127,8 @@ def assert_euler_xyz_equal(e_xyz1, e_xyz2, *args, **kwargs):
         Positional arguments that will be passed to
         `assert_array_almost_equal`
     """
+    warnings.warn("assert_euler_xyz_equal will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
     R1 = matrix_from_euler_xyz(e_xyz1)
     R2 = matrix_from_euler_xyz(e_xyz2)
     assert_array_almost_equal(R1, R2, *args, **kwargs)
@@ -155,6 +158,8 @@ def assert_euler_zyx_equal(e_zyx1, e_zyx2, *args, **kwargs):
         Positional arguments that will be passed to
         `assert_array_almost_equal`
     """
+    warnings.warn("assert_euler_zyx_equal will be removed in version 2.0.0",
+                  DeprecationWarning, stacklevel=2)
     R1 = matrix_from_euler_zyx(e_zyx1)
     R2 = matrix_from_euler_zyx(e_zyx2)
     assert_array_almost_equal(R1, R2, *args, **kwargs)
