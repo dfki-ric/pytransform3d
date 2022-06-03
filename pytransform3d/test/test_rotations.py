@@ -1936,3 +1936,18 @@ def test_pick_closest_quaternion():
         q = pr.random_quaternion(random_state)
         assert_array_almost_equal(pr.pick_closest_quaternion(q, q), q)
         assert_array_almost_equal(pr.pick_closest_quaternion(-q, q), q)
+
+
+def test_bug_189():
+    """Test bug #189"""
+    R = np.array([
+        [-1.0000000000000004e+00, 2.8285718503485576e-16,
+         1.0966597378775709e-16],
+        [1.0966597378775709e-16, -2.2204460492503131e-16,
+         1.0000000000000002e+00],
+        [2.8285718503485576e-16, 1.0000000000000002e+00,
+         -2.2204460492503131e-16]
+    ])
+    a1 = pr.compact_axis_angle_from_matrix(R)
+    a2 = pr.compact_axis_angle_from_matrix(pr.norm_matrix(R))
+    assert_array_almost_equal(a1, a2)

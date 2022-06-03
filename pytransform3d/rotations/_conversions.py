@@ -1637,7 +1637,7 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
 
     if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
-        # The threshold is a result from this discussion:
+        # The threshold 1e-4 is a result from this discussion:
         # https://github.com/rock-learning/pytransform3d/issues/43
         # The standard formula becomes numerically unstable, however,
         # Rodrigues' formula reduces to R = I + 2 (ee^T - I), with the
@@ -1645,7 +1645,11 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         # squared values of the rotation axis on the diagonal of this matrix.
         # We can still use the original formula to reconstruct the signs of
         # the rotation axis correctly.
-        a[:3] = np.sqrt(0.5 * (np.diag(R) + 1.0)) * np.sign(axis_unnormalized)
+
+        # In case of floating point inaccuracies:
+        R_diag = np.clip(np.diag(R), -1.0, 1.0)
+
+        a[:3] = np.sqrt(0.5 * (R_diag + 1.0)) * np.sign(axis_unnormalized)
     else:
         a[:3] = axis_unnormalized
         # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we
