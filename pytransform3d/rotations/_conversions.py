@@ -915,7 +915,7 @@ def _general_intrinsic_euler_from_active_matrix(
     """General algorithm to extract intrinsic euler angles from a matrix.
 
     The implementation is based on SciPy's implementation:
-    https://github.com/scipy/scipy/blob/master/scipy/spatial/transform/rotation.pyx
+    https://github.com/scipy/scipy/blob/743c283bbe79473a03ca2eddaa537661846d8a19/scipy/spatial/transform/_rotation.pyx
 
     Parameters
     ----------
