@@ -1638,7 +1638,7 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
 
     if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
         # The threshold 1e-4 is a result from this discussion:
-        # https://github.com/rock-learning/pytransform3d/issues/43
+        # https://github.com/dfki-ric/pytransform3d/issues/43
         # The standard formula becomes numerically unstable, however,
         # Rodrigues' formula reduces to R = I + 2 (ee^T - I), with the
         # rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the

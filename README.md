@@ -1,6 +1,5 @@
-[![Travis Status](https://travis-ci.org/rock-learning/pytransform3d.svg?branch=master)](https://travis-ci.org/rock-learning/pytransform3d)
-[![CircleCI Status](https://circleci.com/gh/rock-learning/pytransform3d/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/rock-learning/pytransform3d)
-[![codecov](https://codecov.io/gh/rock-learning/pytransform3d/branch/master/graph/badge.svg?token=jB10RM3Ujj)](https://codecov.io/gh/rock-learning/pytransform3d)
+[![CircleCI Status](https://circleci.com/gh/dfki-ric/pytransform3d/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/dfki-ric/pytransform3d)
+[![codecov](https://codecov.io/gh/dfki-ric/pytransform3d/branch/master/graph/badge.svg?token=jB10RM3Ujj)](https://codecov.io/gh/dfki-ric/pytransform3d)
 [![Paper DOI](http://joss.theoj.org/papers/10.21105/joss.01159/status.svg)](https://doi.org/10.21105/joss.01159)
 [![Release DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2553450.svg)](https://doi.org/10.5281/zenodo.2553450)
 
@@ -98,7 +97,7 @@ python setup.py install
 Also pip supports installation from a git repository:
 
 ```bash
-pip install git+https://github.com/rock-learning/pytransform3d.git
+pip install git+https://github.com/dfki-ric/pytransform3d.git
 ```
 
 Since version 1.8 you can also install pytransform3d with conda from
@@ -109,7 +108,7 @@ for instructions.
 ## Documentation
 
 The API documentation can be found
-[here](https://rock-learning.github.io/pytransform3d/).
+[here](https://dfki-ric.github.io/pytransform3d/).
 
 The documentation can be found in the directory `doc`.
 To build the documentation, run e.g. (on linux):
@@ -164,13 +163,13 @@ ax.set_zlim((0.0, 1.0))
 plt.show()
 ```
 
-![output](https://rock-learning.github.io/pytransform3d/_images/plot_transform_manager.png)
+![output](https://dfki-ric.github.io/pytransform3d/_images/plot_transform_manager.png)
 
 ## Gallery
 
 The following plots and visualizations have been generated with pytransform3d.
 The code for most examples can be found in
-[the documentation](https://rock-learning.github.io/pytransform3d/_auto_examples/index.html).
+[the documentation](https://dfki-ric.github.io/pytransform3d/_auto_examples/index.html).
 
 Left: [Nao robot](https://www.softbankrobotics.com/emea/en/nao) with URDF
 from [Bullet3](https://github.com/bulletphysics/bullet3).
@@ -178,19 +177,19 @@ Right: [Kuka iiwa](https://www.kuka.com/en-de/products/robot-systems/industrial-
 The animation is based on pytransform3d's visualization interface to
 [Open3D](http://www.open3d.org/).
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/animation_nao.gif" height=400px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=400px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_nao.gif" height=400px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=400px/>
 
 Visualizations based on [Open3D](http://www.open3d.org/).
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/photogrammetry.png" height=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/kuka_trajectories.png" height=300px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/photogrammetry.png" height=300px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/kuka_trajectories.png" height=300px/>
 
 Various plots based on Matplotlib.
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/example_plot_box.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/cylinders.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/paper/plot_urdf.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/transform_manager_mesh.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/accelerate_cylinder.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/example_plot_screw.png" width=300px/><img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/doc/source/_static/rotations_axis_angle.png" width=300px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_box.png" width=300px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/cylinders.png" width=300px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/plot_urdf.png" width=300px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/transform_manager_mesh.png" width=300px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/accelerate_cylinder.png" width=300px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_screw.png" width=300px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/rotations_axis_angle.png" width=300px/>
 
 Transformation editor based on Qt.
 
-<img src="https://raw.githubusercontent.com/rock-learning/pytransform3d/master/paper/app_transformation_editor.png" height=300px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/app_transformation_editor.png" height=300px/>
 
 ## Tests
 
@@ -205,13 +204,13 @@ the code coverage report.
 ## Contributing
 
 If you wish to report bugs, please use the
-[issue tracker](https://github.com/rock-learning/pytransform3d/issues) at
+[issue tracker](https://github.com/dfki-ric/pytransform3d/issues) at
 Github. If you would like to contribute to pytransform3d, just open an issue
-or a [pull request](https://github.com/rock-learning/pytransform3d/pulls).
+or a [pull request](https://github.com/dfki-ric/pytransform3d/pulls).
 The target branch for pull requests is the develop branch.
 The development branch will be merged to master for new releases.
 If you have questions about the software, you should ask them in the
-[discussion section](https://github.com/rock-learning/pytransform3d/discussions).
+[discussion section](https://github.com/dfki-ric/pytransform3d/discussions).
 
 The recommended workflow to add a new feature, add documentation, or fix a bug
 is the following:
@@ -224,7 +223,7 @@ is the following:
   release will be made.
 
 Note that there is a
-[checklist](https://github.com/rock-learning/pytransform3d/wiki#checklist-for-new-features)
+[checklist](https://github.com/dfki-ric/pytransform3d/wiki#checklist-for-new-features)
 for new features.
 
 It is forbidden to directly push to the main branch (master). Each new version

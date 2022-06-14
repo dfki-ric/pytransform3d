@@ -312,7 +312,7 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     out[..., 2] = Rs[..., 1, 0] - Rs[..., 0, 1]
 
     # The threshold is a result from this discussion:
-    # https://github.com/rock-learning/pytransform3d/issues/43
+    # https://github.com/dfki-ric/pytransform3d/issues/43
     # The standard formula becomes numerically unstable, however,
     # Rodrigues' formula reduces to R = I + 2 (ee^T - I), with the
     # rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the

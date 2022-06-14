@@ -62,7 +62,7 @@ Installation
 ------------
 
 pytransform3d is available at
-`GitHub <https://github.com/rock-learning/pytransform3d>`_.
+`GitHub <https://github.com/dfki-ric/pytransform3d>`_.
 The readme there contains installation instructions. This documentation
 explains how you can work with pytransform3d and with 3D transformations
 in general.
