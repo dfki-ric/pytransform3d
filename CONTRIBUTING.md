@@ -5,7 +5,7 @@ Everyone is welcome to contribute.
 There are several ways to contribute to pytransform3d: you could
 
 * send a bug report to the
-  [bug tracker](http://github.com/rock-learning/pytransform3d/issues)
+  [bug tracker](http://github.com/dfki-ric/pytransform3d/issues)
 * work on one of the reported issues
 * write documentation
 * add a new feature
@@ -19,13 +19,13 @@ This text is shamelessly copied from
 contribution guidelines.
 
 The preferred way to contribute to pytransform3d is to fork the
-[repository](http://github.com/rock-learning/pytransform3d/) on GitHub,
+[repository](http://github.com/dfki-ric/pytransform3d/) on GitHub,
 then submit a "pull request" (PR):
 
 1. [Create an account](https://github.com/signup/free) on
    GitHub if you do not already have one.
 
-2. Fork the [project repository](http://github.com/rock-learning/pytransform3d):
+2. Fork the [project repository](http://github.com/dfki-ric/pytransform3d):
    click on the 'Fork' button near the top of the page. This creates a copy of
    the code under your account on the GitHub server.
 
@@ -59,7 +59,7 @@ repository instead of your forked one, you will need to add another remote
 to use instead of `origin`. If we choose the name `upstream` for it, the
 command will be:
 
-    $ git remote add upstream https://github.com/rock-learning/pytransform3d.git
+    $ git remote add upstream https://github.com/dfki-ric/pytransform3d.git
 
 (If any of the above seems like magic to you, then look up the
 [Git documentation](http://git-scm.com/documentation) on the web.)
@@ -70,7 +70,7 @@ Adding a new feature to pytransform3d requires a few other changes:
 
 * New classes or functions that are part of the public interface must be
   documented. We use [NumPy's conventions for docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt).
-* An entry to the API documentation must be added [here](https://rock-learning.github.io/pytransform3d/api.html).
+* An entry to the API documentation must be added [here](https://dfki-ric.github.io/pytransform3d/api.html).
 * Consider writing a simple example script.
 * Tests: Unit tests for new features are mandatory. They should cover all
   branches. Exceptions are plotting functions, debug outputs, etc. These
