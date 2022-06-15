@@ -26,8 +26,9 @@ from pytransform3d.transformations import (
     screw_parameters_from_dual_quaternion, assert_screw_parameters_equal,
     dual_quaternion_from_screw_parameters, dual_quaternion_sclerp)
 from pytransform3d.rotations import (
-    matrix_from, random_axis_angle, random_vector, axis_angle_from_matrix,
-    norm_vector, perpendicular_to_vector, active_matrix_from_angle,
+    matrix_from_axis_angle, random_axis_angle, random_vector,
+    axis_angle_from_matrix, norm_vector, perpendicular_to_vector,
+    active_matrix_from_angle,
     random_quaternion, axis_angle_from_quaternion, norm_axis_angle)
 from nose.tools import (assert_equal, assert_almost_equal,
                         assert_raises_regexp, assert_false, assert_true)
@@ -97,7 +98,7 @@ def test_invert_transform():
     """Test inversion of transformations."""
     random_state = np.random.RandomState(0)
     for _ in range(5):
-        R = matrix_from(a=random_axis_angle(random_state))
+        R = matrix_from_axis_angle(random_axis_angle(random_state))
         p = random_vector(random_state)
         A2B = transform_from(R, p)
         B2A = invert_transform(A2B)
@@ -123,7 +124,7 @@ def test_vector_to_point():
     assert_array_almost_equal(pA, [1, 2, 3, 1])
 
     random_state = np.random.RandomState(0)
-    R = matrix_from(a=random_axis_angle(random_state))
+    R = matrix_from_axis_angle(random_axis_angle(random_state))
     p = random_vector(random_state)
     A2B = transform_from(R, p)
     assert_transform(A2B)
@@ -149,7 +150,7 @@ def test_vector_to_direction():
     assert_array_almost_equal(dA, [1, 2, 3, 0])
 
     random_state = np.random.RandomState(0)
-    R = matrix_from(a=random_axis_angle(random_state))
+    R = matrix_from_axis_angle(random_axis_angle(random_state))
     p = random_vector(random_state)
     A2B = transform_from(R, p)
     assert_transform(A2B)

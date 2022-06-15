@@ -81,12 +81,6 @@ matrices and typically we use the variable name R for a rotation matrix.
 
     There are two conventions on how to interpret rotations: active
     or passive rotation. The standard in pytransform3d is an active rotation.
-    Note that there are some functions to generate rotation matrices that
-    generate passive rotations as well: :func:`~pytransform3d.rotations.matrix_from_angle`,
-    :func:`~pytransform3d.rotations.matrix_from_euler_xyz`, and
-    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
-    for backward compatibility. When in doubt, read the docstring, which
-    clearly states that a passive convention is used here.
 
 We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
 :math:`_B\boldsymbol{p}` from frame :math:`B` to frame :math:`A`.

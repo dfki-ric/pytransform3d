@@ -3,8 +3,7 @@
 See :doc:`rotations` for more information.
 """
 from ._constants import (
-    eps, unitx, unity, unitz, q_i, q_j, q_k, q_id, a_id, R_id, p0, e_xyz_id,
-    e_zyx_id)
+    eps, unitx, unity, unitz, q_i, q_j, q_k, q_id, a_id, R_id, p0)
 from ._utils import (
     norm_angle, norm_vector, angle_between_vectors, perpendicular_to_vector,
     vector_projection, perpendicular_to_vectors,
@@ -23,9 +22,8 @@ from ._conversions import (
     axis_angle_from_matrix, axis_angle_from_two_directions,
     compact_axis_angle, compact_axis_angle_from_quaternion,
     compact_axis_angle_from_matrix,
-    matrix_from_angle, matrix_from_quaternion, matrix_from_compact_axis_angle,
+    matrix_from_quaternion, matrix_from_compact_axis_angle,
     matrix_from_axis_angle, matrix_from_two_vectors,
-    matrix_from_euler_xyz, matrix_from_euler_zyx,
     active_matrix_from_angle,
     active_matrix_from_extrinsic_euler_xyx,
     active_matrix_from_intrinsic_euler_xyx,
@@ -77,8 +75,7 @@ from ._conversions import (
     extrinsic_euler_zxz_from_active_matrix,
     extrinsic_euler_zyx_from_active_matrix,
     extrinsic_euler_zyz_from_active_matrix,
-    cross_product_matrix,
-    matrix_from, euler_zyx_from_matrix, euler_xyz_from_matrix)
+    cross_product_matrix)
 from ._quaternion_operations import (
     quaternion_integrate, quaternion_gradient, concatenate_quaternions, q_conj,
     q_prod_vector, quaternion_diff, quaternion_dist)
@@ -86,8 +83,7 @@ from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
                      axis_angle_slerp, rotor_slerp)
 from ._testing import (
     assert_quaternion_equal, assert_axis_angle_equal,
-    assert_compact_axis_angle_equal, assert_euler_xyz_equal,
-    assert_euler_zyx_equal, assert_rotation_matrix)
+    assert_compact_axis_angle_equal, assert_rotation_matrix)
 from ._plot import plot_basis, plot_axis_angle, plot_bivector
 from ._rotors import (
     wedge, geometric_product, rotor_apply, rotor_reverse, concatenate_rotors,
@@ -106,8 +102,6 @@ __all__ = [
     "a_id",
     "R_id",
     "p0",
-    "e_xyz_id",
-    "e_zyx_id",
     "norm_angle",
     "norm_vector",
     "angle_between_vectors",
@@ -140,13 +134,10 @@ __all__ = [
     "compact_axis_angle",
     "compact_axis_angle_from_quaternion",
     "compact_axis_angle_from_matrix",
-    "matrix_from_angle",
     "matrix_from_quaternion",
     "matrix_from_compact_axis_angle",
     "matrix_from_axis_angle",
     "matrix_from_two_vectors",
-    "matrix_from_euler_xyz",
-    "matrix_from_euler_zyx",
     "active_matrix_from_angle",
     "active_matrix_from_extrinsic_euler_xyx",
     "active_matrix_from_intrinsic_euler_xyx",
@@ -199,9 +190,6 @@ __all__ = [
     "extrinsic_euler_zyx_from_active_matrix",
     "extrinsic_euler_zyz_from_active_matrix",
     "cross_product_matrix",
-    "matrix_from",
-    "euler_zyx_from_matrix",
-    "euler_xyz_from_matrix",
     "quaternion_integrate",
     "quaternion_gradient",
     "concatenate_quaternions",
@@ -216,8 +204,6 @@ __all__ = [
     "assert_quaternion_equal",
     "assert_axis_angle_equal",
     "assert_compact_axis_angle_equal",
-    "assert_euler_xyz_equal",
-    "assert_euler_zyx_equal",
     "assert_rotation_matrix",
     "plot_basis",
     "plot_axis_angle",

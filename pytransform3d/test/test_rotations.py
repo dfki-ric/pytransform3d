@@ -380,26 +380,26 @@ def test_check_quaternions():
     assert_array_almost_equal(Q, Q2)
 
 
-def test_matrix_from_angle():
+def test_passive_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
-    assert_raises_regexp(ValueError, "Basis must be in", pr.matrix_from_angle,
-                         -1, 0)
-    assert_raises_regexp(ValueError, "Basis must be in", pr.matrix_from_angle,
-                         3, 0)
+    assert_raises_regexp(ValueError, "Basis must be in",
+                         pr.passive_matrix_from_angle, -1, 0)
+    assert_raises_regexp(ValueError, "Basis must be in",
+                         pr.passive_matrix_from_angle, 3, 0)
 
-    R = pr.matrix_from_angle(0, -0.5 * np.pi)
+    R = pr.passive_matrix_from_angle(0, -0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]]))
-    R = pr.matrix_from_angle(0, 0.5 * np.pi)
+    R = pr.passive_matrix_from_angle(0, 0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]]))
 
-    R = pr.matrix_from_angle(1, -0.5 * np.pi)
+    R = pr.passive_matrix_from_angle(1, -0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[0, 0, 1], [0, 1, 0], [-1, 0, 0]]))
-    R = pr.matrix_from_angle(1, 0.5 * np.pi)
+    R = pr.passive_matrix_from_angle(1, 0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[0, 0, -1], [0, 1, 0], [1, 0, 0]]))
 
-    R = pr.matrix_from_angle(2, -0.5 * np.pi)
+    R = pr.passive_matrix_from_angle(2, -0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[0, -1, 0], [1, 0, 0], [0, 0, 1]]))
-    R = pr.matrix_from_angle(2, 0.5 * np.pi)
+    R = pr.passive_matrix_from_angle(2, 0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[0, 1, 0], [-1, 0, 0], [0, 0, 1]]))
 
 
@@ -417,66 +417,6 @@ def test_active_matrix_from_angle():
         R_passive = pr.passive_matrix_from_angle(basis, angle)
         R_active = pr.active_matrix_from_angle(basis, angle)
         assert_array_almost_equal(R_active, R_passive.T)
-
-
-def test_conversions_matrix_euler_xyz():
-    """Test conversions between rotation matrix and xyz Euler angles."""
-    random_state = np.random.RandomState(0)
-    for _ in range(5):
-        a = pr.random_axis_angle(random_state)
-        R = pr.matrix_from_axis_angle(a)
-        pr.assert_rotation_matrix(R)
-
-        e_xyz = pr.euler_xyz_from_matrix(R)
-        R2 = pr.matrix_from_euler_xyz(e_xyz)
-        assert_array_almost_equal(R, R2)
-        pr.assert_rotation_matrix(R2)
-
-        e_xyz2 = pr.euler_xyz_from_matrix(R2)
-        pr.assert_euler_xyz_equal(e_xyz, e_xyz2)
-
-    # Gimbal lock
-    for _ in range(5):
-        e_xyz = random_state.rand(3)
-        e_xyz[1] = np.pi / 2.0
-        R = pr.matrix_from_euler_xyz(e_xyz)
-        e_xyz2 = pr.euler_xyz_from_matrix(R)
-        pr.assert_euler_xyz_equal(e_xyz, e_xyz2)
-
-        e_xyz[1] = -np.pi / 2.0
-        R = pr.matrix_from_euler_xyz(e_xyz)
-        e_xyz2 = pr.euler_xyz_from_matrix(R)
-        pr.assert_euler_xyz_equal(e_xyz, e_xyz2)
-
-
-def test_conversions_matrix_euler_zyx():
-    """Test conversions between rotation matrix and zyx Euler angles."""
-    random_state = np.random.RandomState(0)
-    for _ in range(5):
-        a = pr.random_axis_angle(random_state)
-        R = pr.matrix_from_axis_angle(a)
-        pr.assert_rotation_matrix(R)
-
-        e_zyx = pr.euler_zyx_from_matrix(R)
-        R2 = pr.matrix_from_euler_zyx(e_zyx)
-        assert_array_almost_equal(R, R2)
-        pr.assert_rotation_matrix(R2)
-
-        e_zyx2 = pr.euler_zyx_from_matrix(R2)
-        pr.assert_euler_zyx_equal(e_zyx, e_zyx2)
-
-    # Gimbal lock
-    for _ in range(5):
-        e_zyx = random_state.rand(3)
-        e_zyx[1] = np.pi / 2.0
-        R = pr.matrix_from_euler_zyx(e_zyx)
-        e_zyx2 = pr.euler_zyx_from_matrix(R)
-        pr.assert_euler_zyx_equal(e_zyx, e_zyx2)
-
-        e_zyx[1] = -np.pi / 2.0
-        R = pr.matrix_from_euler_zyx(e_zyx)
-        e_zyx2 = pr.euler_zyx_from_matrix(R)
-        pr.assert_euler_zyx_equal(e_zyx, e_zyx2)
 
 
 def test_active_matrix_from_intrinsic_euler_zxz():
@@ -938,21 +878,21 @@ def test_compare_axis_angle_from_matrix_to_lynch_park():
     a = pr.axis_angle_from_matrix(R)
     pr.assert_axis_angle_equal(a, [0, 0, 0, 0])
 
-    R = pr.matrix_from_angle(2, np.pi)
+    R = pr.passive_matrix_from_angle(2, np.pi)
     assert_almost_equal(np.trace(R), -1)
     a = pr.axis_angle_from_matrix(R)
     axis = (1.0 / np.sqrt(2.0 * (1 + R[2, 2]))
             * np.array([R[0, 2], R[1, 2], 1 + R[2, 2]]))
     pr.assert_axis_angle_equal(a, np.hstack((axis, (np.pi,))))
 
-    R = pr.matrix_from_angle(1, np.pi)
+    R = pr.passive_matrix_from_angle(1, np.pi)
     assert_almost_equal(np.trace(R), -1)
     a = pr.axis_angle_from_matrix(R)
     axis = (1.0 / np.sqrt(2.0 * (1 + R[1, 1]))
             * np.array([R[0, 1], 1 + R[1, 1], R[2, 1]]))
     pr.assert_axis_angle_equal(a, np.hstack((axis, (np.pi,))))
 
-    R = pr.matrix_from_angle(0, np.pi)
+    R = pr.passive_matrix_from_angle(0, np.pi)
     assert_almost_equal(np.trace(R), -1)
     a = pr.axis_angle_from_matrix(R)
     axis = (1.0 / np.sqrt(2.0 * (1 + R[0, 0]))
@@ -1266,31 +1206,6 @@ def test_conversions_compact_axis_angle_quaternion():
         pr.assert_quaternion_equal(q, q2)
 
 
-def test_conversions_to_matrix():
-    """Test conversions to rotation matrix."""
-    R = np.eye(3)
-    R2R = pr.matrix_from(R=R)
-    assert_array_almost_equal(R2R, R)
-
-    a = np.array([1, 0, 0, 0])
-    a2R = pr.matrix_from(a=a)
-    assert_array_almost_equal(a2R, R)
-
-    q = np.array([1, 0, 0, 0])
-    q2R = pr.matrix_from(q=q)
-    assert_array_almost_equal(q2R, R)
-
-    e_xyz = np.array([0, 0, 0])
-    e_xyz2R = pr.matrix_from(e_xyz=e_xyz)
-    assert_array_almost_equal(e_xyz2R, R)
-
-    e_zyx = np.array([0, 0, 0])
-    e_zyx2R = pr.matrix_from(e_zyx=e_zyx)
-    assert_array_almost_equal(e_zyx2R, R)
-
-    assert_raises_regexp(ValueError, "no rotation", pr.matrix_from)
-
-
 def test_interpolate_axis_angle():
     """Test interpolation between two axis-angle rotations with slerp."""
     n_steps = 10
@@ -1597,8 +1512,6 @@ def test_id_rot():
     """Test equivalence of constants that represent no rotation."""
     assert_array_almost_equal(pr.R_id, pr.matrix_from_axis_angle(pr.a_id))
     assert_array_almost_equal(pr.R_id, pr.matrix_from_quaternion(pr.q_id))
-    assert_array_almost_equal(pr.R_id, pr.matrix_from_euler_xyz(pr.e_xyz_id))
-    assert_array_almost_equal(pr.R_id, pr.matrix_from_euler_zyx(pr.e_zyx_id))
 
 
 def test_check_matrix_threshold():

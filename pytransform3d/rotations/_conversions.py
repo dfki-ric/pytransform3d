@@ -1,6 +1,5 @@
 """Conversions between rotation representations."""
 import math
-import warnings
 import numpy as np
 from ._utils import (
     check_matrix, check_quaternion, check_axis_angle, check_compact_axis_angle,
@@ -226,50 +225,6 @@ def passive_matrix_from_angle(basis, angle):
     return R
 
 
-def matrix_from_angle(basis, angle):
-    """Compute passive rotation matrix from rotation about basis vector.
-
-    Parameters
-    ----------
-    basis : int from [0, 1, 2]
-        The rotation axis (0: x, 1: y, 2: z)
-
-    angle : float
-        Rotation angle
-
-    Returns
-    -------
-    R : array-like, shape (3, 3)
-        Rotation matrix
-
-    Raises
-    ------
-    ValueError
-        If basis is invalid
-    """
-    warnings.warn("matrix_from_angle will be removed in version 2.0.0",
-                  DeprecationWarning, stacklevel=2)
-    c = np.cos(angle)
-    s = np.sin(angle)
-
-    if basis == 0:
-        R = np.array([[1.0, 0.0, 0.0],
-                      [0.0, c, s],
-                      [0.0, -s, c]])
-    elif basis == 1:
-        R = np.array([[c, 0.0, -s],
-                      [0.0, 1.0, 0.0],
-                      [s, 0.0, c]])
-    elif basis == 2:
-        R = np.array([[c, s, 0.0],
-                      [-s, c, 0.0],
-                      [0.0, 0.0, 1.0]])
-    else:
-        raise ValueError("Basis must be in [0, 1, 2]")
-
-    return R
-
-
 def active_matrix_from_angle(basis, angle):
     """Compute active rotation matrix from rotation about basis vector.
 
@@ -309,50 +264,6 @@ def active_matrix_from_angle(basis, angle):
     else:
         raise ValueError("Basis must be in [0, 1, 2]")
 
-    return R
-
-
-def matrix_from_euler_xyz(e):
-    """Compute passive rotation matrix from intrinsic xyz Tait-Bryan angles.
-
-    Parameters
-    ----------
-    e : array-like, shape (3,)
-        Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
-
-    Returns
-    -------
-    R : array-like, shape (3, 3)
-        Rotation matrix
-    """
-    warnings.warn("matrix_from_euler_xyz will be removed in version 2.0.0",
-                  DeprecationWarning, stacklevel=2)
-    alpha, beta, gamma = e
-    R = passive_matrix_from_angle(0, alpha).dot(
-        passive_matrix_from_angle(1, beta)).dot(
-        passive_matrix_from_angle(2, gamma))
-    return R
-
-
-def matrix_from_euler_zyx(e):
-    """Compute passive rotation matrix from intrinsic zyx Tait-Bryan angles.
-
-    Parameters
-    ----------
-    e : array-like, shape (3,)
-        Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
-
-    Returns
-    -------
-    R : array, shape (3, 3)
-        Rotation matrix
-    """
-    warnings.warn("matrix_from_euler_zyx will be removed in version 2.0.0",
-                  DeprecationWarning, stacklevel=2)
-    gamma, beta, alpha = e
-    R = passive_matrix_from_angle(2, gamma).dot(
-        passive_matrix_from_angle(1, beta)).dot(
-        passive_matrix_from_angle(0, alpha))
     return R
 
 
@@ -865,51 +776,6 @@ def active_matrix_from_extrinsic_roll_pitch_yaw(rpy):
     return active_matrix_from_extrinsic_euler_xyz(rpy)
 
 
-def matrix_from(R=None, a=None, q=None, e_xyz=None, e_zyx=None):
-    """Compute rotation matrix from another representation.
-
-    Parameters
-    ----------
-    R : array-like, shape (3, 3)
-        Rotation matrix
-
-    a : array-like, shape (4,)
-        Axis of rotation and rotation angle: (x, y, z, angle)
-
-    q : array-like, shape (4,)
-        Unit quaternion to represent rotation: (w, x, y, z)
-
-    e_xyz : array-like, shape (3,)
-        Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
-
-    e_zyx : array-like, shape (3,)
-        Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
-
-    Returns
-    -------
-    R : array-like, shape (3, 3)
-        Rotation matrix
-
-    Raises
-    ------
-    ValueError
-        If no rotation is given
-    """
-    warnings.warn("matrix_from will be removed in version 2.0.0",
-                  DeprecationWarning, stacklevel=2)
-    if R is not None:
-        return R
-    if a is not None:
-        return matrix_from_axis_angle(a)
-    if q is not None:
-        return matrix_from_quaternion(q)
-    if e_xyz is not None:
-        return matrix_from_euler_xyz(e_xyz)
-    if e_zyx is not None:
-        return matrix_from_euler_zyx(e_zyx)
-    raise ValueError("Cannot compute rotation matrix from no rotation.")
-
-
 def _general_intrinsic_euler_from_active_matrix(
         R, n1, n2, n3, proper_euler, strict_check=True):
     """General algorithm to extract intrinsic euler angles from a matrix.
@@ -1011,82 +877,6 @@ def _general_intrinsic_euler_from_active_matrix(
             alpha = np.arctan2(O[1, 0] + O[0, 1], O[0, 0] - O[1, 1])
     euler_angles = norm_angle([alpha, beta, gamma])
     return euler_angles
-
-
-def euler_xyz_from_matrix(R, strict_check=True):
-    """Compute xyz Euler angles from passive rotation matrix.
-
-    Parameters
-    ----------
-    R : array-like, shape (3, 3)
-        Passive rotation matrix
-
-    strict_check : bool, optional (default: True)
-        Raise a ValueError if the rotation matrix is not numerically close
-        enough to a real rotation matrix. Otherwise we print a warning.
-
-    Returns
-    -------
-    e_xyz : array-like, shape (3,)
-        Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
-    """
-    warnings.warn("euler_xyz_from_matrix will be removed in version 2.0.0",
-                  DeprecationWarning, stacklevel=2)
-    R = check_matrix(R, strict_check=strict_check)
-    if np.abs(R[0, 2]) != 1.0:
-        # NOTE: There are two solutions: angle2 and pi - angle2!
-        angle2 = np.arcsin(-R[0, 2])
-        angle1 = np.arctan2(R[1, 2] / np.cos(angle2), R[2, 2] / np.cos(angle2))
-        angle3 = np.arctan2(R[0, 1] / np.cos(angle2), R[0, 0] / np.cos(angle2))
-    else:
-        if R[0, 2] == 1.0:
-            angle3 = 0.0
-            angle2 = -np.pi / 2.0
-            angle1 = np.arctan2(-R[1, 0], -R[2, 0])
-        else:
-            angle3 = 0.0
-            angle2 = np.pi / 2.0
-            angle1 = np.arctan2(R[1, 0], R[2, 0])
-    return np.array([angle1, angle2, angle3])
-
-
-def euler_zyx_from_matrix(R, strict_check=True):
-    """Compute zyx Euler angles from passive rotation matrix.
-
-    Parameters
-    ----------
-    R : array-like, shape (3, 3)
-        Passive rotation matrix
-
-    strict_check : bool, optional (default: True)
-        Raise a ValueError if the rotation matrix is not numerically close
-        enough to a real rotation matrix. Otherwise we print a warning.
-
-    Returns
-    -------
-    e_zyx : array-like, shape (3,)
-        Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
-    """
-    warnings.warn("euler_zyx_from_matrix will be removed in version 2.0.0",
-                  DeprecationWarning, stacklevel=2)
-    R = check_matrix(R, strict_check=strict_check)
-    if np.abs(R[2, 0]) != 1.0:
-        # NOTE: There are two solutions: angle2 and pi - angle2!
-        angle2 = np.arcsin(R[2, 0])
-        angle3 = np.arctan2(-R[2, 1] / np.cos(angle2),
-                            R[2, 2] / np.cos(angle2))
-        angle1 = np.arctan2(-R[1, 0] / np.cos(angle2),
-                            R[0, 0] / np.cos(angle2))
-    else:
-        if R[2, 0] == 1.0:
-            angle3 = 0.0
-            angle2 = np.pi / 2.0
-            angle1 = np.arctan2(R[0, 1], -R[0, 2])
-        else:
-            angle3 = 0.0
-            angle2 = -np.pi / 2.0
-            angle1 = np.arctan2(R[0, 1], R[0, 2])
-    return np.array([angle1, angle2, angle3])
 
 
 def intrinsic_euler_xzx_from_active_matrix(R, strict_check=True):

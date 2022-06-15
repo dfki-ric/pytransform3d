@@ -12,8 +12,6 @@ q_id = np.array([1.0, 0.0, 0.0, 0.0])
 q_i = np.array([0.0, 1.0, 0.0, 0.0])
 q_j = np.array([0.0, 0.0, 1.0, 0.0])
 q_k = np.array([0.0, 0.0, 0.0, 1.0])
-e_xyz_id = np.array([0.0, 0.0, 0.0])
-e_zyx_id = np.array([0.0, 0.0, 0.0])
 p0 = np.array([0.0, 0.0, 0.0])
 
 eps = 1e-7
