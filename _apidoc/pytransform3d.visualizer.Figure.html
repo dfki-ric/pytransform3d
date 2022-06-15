@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer.Figure &#8212; pytransform3d 1.13.0 documentation</title>
+    <title>pytransform3d.visualizer.Figure &#8212; pytransform3d 1.14.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -42,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.14.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -122,10 +123,10 @@
     <div class="body col-md-12 content" role="main">
       
   <div class="section" id="pytransform3d-visualizer-figure">
-<h1>pytransform3d.visualizer.Figure<a class="headerlink" href="#pytransform3d-visualizer-figure" title="Permalink to this headline">¶</a></h1>
+<h1>pytransform3d.visualizer.Figure<a class="headerlink" href="#pytransform3d-visualizer-figure" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pytransform3d.visualizer.Figure">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytransform3d.visualizer.</span></span><span class="sig-name descname"><span class="pre">Figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Open3D'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1920</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1080</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_key_callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer/_figure.html#Figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.visualizer.</span></span><span class="sig-name descname"><span class="pre">Figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Open3D'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1920</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1080</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_key_callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer/_figure.html#Figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The top level container for all the plot elements.</p>
 <p>You can close the visualizer with the keys <cite>escape</cite> or <cite>q</cite>.</p>
@@ -147,18 +148,17 @@ for keys.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.visualizer.Figure.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Open3D'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1920</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1080</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_key_callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/visualizer/_figure.html#Figure.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.visualizer.Figure.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.__init__" title="pytransform3d.visualizer.Figure.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([window_name, width, height, …])</p></td>
-<td><p>Initialize self.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.__init__" title="pytransform3d.visualizer.Figure.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([window_name, width, height, ...])</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.add_geometry" title="pytransform3d.visualizer.Figure.add_geometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_geometry</span></code></a>(geometry)</p></td>
 <td><p>Add geometry to visualizer.</p></td>
@@ -175,22 +175,22 @@ for keys.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_box" title="pytransform3d.visualizer.Figure.plot_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_box</span></code></a>([size, A2B, c])</p></td>
 <td><p>Plot box.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_camera" title="pytransform3d.visualizer.Figure.plot_camera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_camera</span></code></a>(M[, cam2world, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_camera" title="pytransform3d.visualizer.Figure.plot_camera"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_camera</span></code></a>(M[, cam2world, ...])</p></td>
 <td><p>Plot camera in world coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_capsule" title="pytransform3d.visualizer.Figure.plot_capsule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_capsule</span></code></a>([height, radius, A2B, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_capsule" title="pytransform3d.visualizer.Figure.plot_capsule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_capsule</span></code></a>([height, radius, A2B, ...])</p></td>
 <td><p>Plot capsule.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_cone" title="pytransform3d.visualizer.Figure.plot_cone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cone</span></code></a>([height, radius, A2B, resolution, c])</p></td>
 <td><p>Plot cone.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_cylinder" title="pytransform3d.visualizer.Figure.plot_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cylinder</span></code></a>([length, radius, A2B, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_cylinder" title="pytransform3d.visualizer.Figure.plot_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_cylinder</span></code></a>([length, radius, A2B, ...])</p></td>
 <td><p>Plot cylinder.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_ellipsoid" title="pytransform3d.visualizer.Figure.plot_ellipsoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_ellipsoid</span></code></a>([radii, A2B, resolution, c])</p></td>
 <td><p>Plot ellipsoid.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_graph</span></code></a>(tm, frame[, show_frames, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_graph</span></code></a>(tm, frame[, show_frames, ...])</p></td>
 <td><p>Plot graph of connected frames.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.visualizer.Figure.plot_mesh" title="pytransform3d.visualizer.Figure.plot_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_mesh</span></code></a>(filename[, A2B, s, c])</p></td>
@@ -847,7 +847,7 @@ warning.</p>
 </dd></dl>
 
 <div class="section" id="examples-using-pytransform3d-visualizer-figure">
-<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.visualizer.Figure</span></code><a class="headerlink" href="#examples-using-pytransform3d-visualizer-figure" title="Permalink to this headline">¶</a></h2>
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.visualizer.Figure</span></code><a class="headerlink" href="#examples-using-pytransform3d-visualizer-figure" title="Permalink to this heading">¶</a></h2>
 <div class="sphx-glr-thumbcontainer" tooltip="Visualize Sphere"><div class="figure align-default" id="id1">
 <img alt="Visualize Sphere" src="../_images/sphx_glr_vis_sphere_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_sphere.html#sphx-glr-auto-examples-visualizations-vis-sphere-py"><span class="std std-ref">Visualize Sphere</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
@@ -952,7 +952,7 @@ warning.</p>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 23, 2022.<br/>
+      Last updated on Jun 15, 2022.<br/>
     </p>
   </div>
 </footer>

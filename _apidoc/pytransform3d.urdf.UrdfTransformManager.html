@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 1.13.0 documentation</title>
+    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 1.14.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -42,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.14.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -122,11 +123,11 @@
     <div class="body col-md-12 content" role="main">
       
   <div class="section" id="pytransform3d-urdf-urdftransformmanager">
-<h1>pytransform3d.urdf.UrdfTransformManager<a class="headerlink" href="#pytransform3d-urdf-urdftransformmanager" title="Permalink to this headline">¶</a></h1>
+<h1>pytransform3d.urdf.UrdfTransformManager<a class="headerlink" href="#pytransform3d-urdf-urdftransformmanager" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytransform3d.urdf.</span></span><span class="sig-name descname"><span class="pre">UrdfTransformManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytransform3d.transform_manager.TransformManager</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.urdf.</span></span><span class="sig-name descname"><span class="pre">UrdfTransformManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformManager</span></code></a></p>
 <p>Transformation manager that can load URDF files.</p>
 <p>URDF is the <a class="reference external" href="http://wiki.ros.org/urdf">Unified Robot Description Format</a>.
 URDF allows to define joints between links that can be rotated about one
@@ -156,20 +157,19 @@ which might significantly slow down some operations.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.__init__" title="pytransform3d.urdf.UrdfTransformManager.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([strict_check, check])</p></td>
-<td><p>Initialize self.</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.add_joint" title="pytransform3d.urdf.UrdfTransformManager.add_joint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_joint</span></code></a>(joint_name, from_frame, to_frame, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.add_joint" title="pytransform3d.urdf.UrdfTransformManager.add_joint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_joint</span></code></a>(joint_name, from_frame, to_frame, ...)</p></td>
 <td><p>Add joint.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.add_transform" title="pytransform3d.urdf.UrdfTransformManager.add_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_transform</span></code></a>(from_frame, to_frame, A2B)</p></td>
@@ -193,16 +193,16 @@ which might significantly slow down some operations.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="pytransform3d.urdf.UrdfTransformManager.load_urdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_urdf</span></code></a>(urdf_xml[, mesh_path, package_dir])</p></td>
 <td><p>Load URDF file into transformation manager.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="pytransform3d.urdf.UrdfTransformManager.plot_collision_objects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_collision_objects</span></code></a>(frame[, ax, ax_s, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="pytransform3d.urdf.UrdfTransformManager.plot_collision_objects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_collision_objects</span></code></a>(frame[, ax, ax_s, ...])</p></td>
 <td><p>Plot all collision objects in a given reference frame.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_connections_in" title="pytransform3d.urdf.UrdfTransformManager.plot_connections_in"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_connections_in</span></code></a>(frame[, ax, ax_s, whitelist])</p></td>
 <td><p>Plot direct frame connections in a given reference frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="pytransform3d.urdf.UrdfTransformManager.plot_frames_in"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frames_in</span></code></a>(frame[, ax, s, ax_s, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="pytransform3d.urdf.UrdfTransformManager.plot_frames_in"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frames_in</span></code></a>(frame[, ax, s, ax_s, ...])</p></td>
 <td><p>Plot all frames in a given reference frame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_visuals" title="pytransform3d.urdf.UrdfTransformManager.plot_visuals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_visuals</span></code></a>(frame[, ax, ax_s, wireframe, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_visuals" title="pytransform3d.urdf.UrdfTransformManager.plot_visuals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_visuals</span></code></a>(frame[, ax, ax_s, wireframe, ...])</p></td>
 <td><p>Plot all visuals in a given reference frame.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.remove_transform" title="pytransform3d.urdf.UrdfTransformManager.remove_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_transform</span></code></a>(from_frame, to_frame)</p></td>
@@ -630,7 +630,7 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
 </dd></dl>
 
 <div class="section" id="examples-using-pytransform3d-urdf-urdftransformmanager">
-<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.urdf.UrdfTransformManager</span></code><a class="headerlink" href="#examples-using-pytransform3d-urdf-urdftransformmanager" title="Permalink to this headline">¶</a></h2>
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.urdf.UrdfTransformManager</span></code><a class="headerlink" href="#examples-using-pytransform3d-urdf-urdftransformmanager" title="Permalink to this heading">¶</a></h2>
 <div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><div class="figure align-default" id="id1">
 <img alt="Robot" src="../_images/sphx_glr_plot_robot_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/plots/plot_robot.html#sphx-glr-auto-examples-plots-plot-robot-py"><span class="std std-ref">Robot</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
@@ -691,7 +691,7 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 23, 2022.<br/>
+      Last updated on Jun 15, 2022.<br/>
     </p>
   </div>
 </footer>

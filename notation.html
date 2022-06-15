@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Notation &#8212; pytransform3d 1.13.0 documentation</title>
+    <title>Notation &#8212; pytransform3d 1.14.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -42,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.13.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.14.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -124,7 +125,7 @@
     <div class="body col-md-12 content" role="main">
       
   <div class="section" id="notation">
-<h1>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h1>
+<h1>Notation<a class="headerlink" href="#notation" title="Permalink to this heading">¶</a></h1>
 <p>For physical quantities we use the notation <img class="math" src="_images/math/3e8d0fa9b4776124ada722970f386a22eeaab292.png" alt="_{A}\boldsymbol{x}_{BC}"/>,
 where <img class="math" src="_images/math/fa44d7cdd2d3f90f81820cfe85818a142149d124.png" alt="\boldsymbol{x}"/> is a physical quantity of frame C with
 respect to frame B expressed in frame A, where frame refers to a reference
@@ -145,7 +146,7 @@ multiplication, for example, when we want to transform a point by</p>
 <div class="math">
 <p><img src="_images/math/3c019428871f5d9c48960643635cb2b7de4e303d.png" alt="_B\boldsymbol{p} = \boldsymbol{M}_{BA} {_A\boldsymbol{p}}"/></p>
 </div><div class="section" id="representations">
-<h2>Representations<a class="headerlink" href="#representations" title="Permalink to this headline">¶</a></h2>
+<h2>Representations<a class="headerlink" href="#representations" title="Permalink to this heading">¶</a></h2>
 <p>We can use many different representations of rotation and / or translation.
 Here is an overview of the representations that are available in pytransform3d.
 All representations are stored in NumPy arrays, of which the corresponding
@@ -242,7 +243,7 @@ representations on the following pages.</p>
 </table>
 </div>
 <div class="section" id="duality-of-transformations-and-poses">
-<h2>Duality of Transformations and Poses<a class="headerlink" href="#duality-of-transformations-and-poses" title="Permalink to this headline">¶</a></h2>
+<h2>Duality of Transformations and Poses<a class="headerlink" href="#duality-of-transformations-and-poses" title="Permalink to this heading">¶</a></h2>
 <p>We can use a transformation matrix <img class="math" src="_images/math/cd7cb76e2991b36b6cabdc58ee51ad4acd629d07.png" alt="\boldsymbol{T}_{BA}"/> that represents
 a transformation from frame A to frame B to represent the pose (position and
 orientation) of frame A in frame B (if we use the active transformation
@@ -252,7 +253,7 @@ of a vector from A to P <img class="math" src="_images/math/86506bb7665c2b0d7e59
 <img class="math" src="_images/math/29e9c2923fc1360492231a654bb1005efd62f3e6.png" alt="_A\boldsymbol{p}"/>.</p>
 </div>
 <div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Representing Robot Pose: The good, the bad, and the ugly (slides): <a class="reference external" href="http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf">http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf</a></p></li>
 <li><p>Representing Robot Pose: The good, the bad, and the ugly (blog): <a class="reference external" href="http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly">http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly</a></p></li>
@@ -273,7 +274,7 @@ of a vector from A to P <img class="math" src="_images/math/86506bb7665c2b0d7e59
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Mar 23, 2022.<br/>
+      Last updated on Jun 15, 2022.<br/>
     </p>
   </div>
 </footer>
