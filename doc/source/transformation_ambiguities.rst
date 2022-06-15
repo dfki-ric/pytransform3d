@@ -269,12 +269,6 @@ Its transformed version is usually used for a passive transformation:
 .. warning::
 
     The standard in pytransform3d is an active rotation.
-    Note that there are some functions to generate rotation matrices that
-    generate passive rotations as well: :func:`~pytransform3d.rotations.matrix_from_angle`,
-    :func:`~pytransform3d.rotations.matrix_from_euler_xyz`, and
-    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
-    for backward compatibility. When in doubt, read the docstring, which
-    clearly states that a passive convention is used here.
 
 Reference:
 
@@ -327,12 +321,6 @@ Here is a comparison between various conventions of concatenation.
     transformations: intrinsic and extrinsic transformation.
     There is no default in pytransform3d but usually the function name
     should tell you which convention the function uses.
-    Note that there are two functions to generate rotation matrices that
-    generate intrinsic rotations without a telling function name:
-    :func:`~pytransform3d.rotations.matrix_from_euler_xyz` and
-    :func:`~pytransform3d.rotations.matrix_from_euler_zyx`. These are kept
-    for backward compatibility. When in doubt, read the docstring, which
-    clearly states that they make intrinsic rotations.
 
 ----------------------------
 Naming and Frame Conventions

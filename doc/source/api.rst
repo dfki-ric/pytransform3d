@@ -170,23 +170,6 @@ Utility Functions
    ~pytransform3d.rotations.cross_product_matrix
 
 
-Deprecated Functions
---------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform3d.rotations.matrix_from
-   ~pytransform3d.rotations.matrix_from_angle
-   ~pytransform3d.rotations.matrix_from_euler_xyz
-   ~pytransform3d.rotations.matrix_from_euler_zyx
-   ~pytransform3d.rotations.euler_xyz_from_matrix
-   ~pytransform3d.rotations.euler_zyx_from_matrix
-   ~pytransform3d.rotations.assert_euler_xyz_equal
-   ~pytransform3d.rotations.assert_euler_zyx_equal
-
-
 :mod:`pytransform3d.transformations`
 ====================================
 
