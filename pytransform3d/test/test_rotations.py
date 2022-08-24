@@ -1100,6 +1100,17 @@ def test_quaternion_from_matrix_180_not_axis_aligned():
         pr.assert_quaternion_equal(q, q_from_R)
 
 
+def test_quaternion_from_extrinsic_euler_xyz():
+    """Test quaternion_from_extrinsic_euler_xyz."""
+    random_state = np.random.RandomState(0)
+    for i in range(10):
+        e = random_state.uniform(-100, 100, [3])
+        q = pr.quaternion_from_extrinsic_euler_xyz(e)
+        R_from_q = pr.matrix_from_quaternion(q)
+        R_from_e = pr.active_matrix_from_extrinsic_euler_xyz(e)
+        assert_array_almost_equal(R_from_q, R_from_e)
+
+
 def test_conversions_axis_angle_quaternion():
     """Test conversions between axis-angle and quaternion."""
     q = np.array([1, 0, 0, 0])
