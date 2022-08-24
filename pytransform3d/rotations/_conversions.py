@@ -1746,3 +1746,20 @@ def quaternion_wxyz_from_xyzw(q_xyzw):
     """
     q_xyzw = check_quaternion(q_xyzw)
     return np.array([q_xyzw[3], q_xyzw[0], q_xyzw[1], q_xyzw[2]])
+
+
+def quaternion_from_extrinsic_euler_xyz(e):
+    """Compute quaternion from extrinsic xyz Euler angles.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Angles for rotation around x-, y-, and z-axes (extrinsic rotations)
+
+    Returns
+    -------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+    """
+    R = active_matrix_from_extrinsic_euler_xyz(e)
+    return quaternion_from_matrix(R)
