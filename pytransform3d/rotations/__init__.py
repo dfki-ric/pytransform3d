@@ -18,7 +18,7 @@ from ._utils import (
 from ._conversions import (
     quaternion_from_axis_angle, quaternion_from_compact_axis_angle,
     quaternion_from_matrix, quaternion_wxyz_from_xyzw,
-    quaternion_xyzw_from_wxyz,
+    quaternion_xyzw_from_wxyz, quaternion_from_extrinsic_euler_xyz,
     axis_angle_from_quaternion, axis_angle_from_compact_axis_angle,
     axis_angle_from_matrix, axis_angle_from_two_directions,
     compact_axis_angle, compact_axis_angle_from_quaternion,
@@ -133,6 +133,7 @@ __all__ = [
     "quaternion_from_matrix",
     "quaternion_wxyz_from_xyzw",
     "quaternion_xyzw_from_wxyz",
+    "quaternion_from_extrinsic_euler_xyz",
     "axis_angle_from_quaternion",
     "axis_angle_from_compact_axis_angle",
     "axis_angle_from_matrix",
