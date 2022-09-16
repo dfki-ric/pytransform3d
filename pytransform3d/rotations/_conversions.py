@@ -1426,10 +1426,45 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     axis_unnormalized = np.array(
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
 
+    # Handle singularity, based on:
+    # http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
     angle_diff_to_pi = abs(angle - np.pi)
     if angle_diff_to_pi == 0.0:
-        return axis_angle_from_quaternion(
-            quaternion_from_matrix(R, strict_check))
+        xx = (R[0, 0] + 1.0) / 2.0
+        yy = (R[1, 1] + 1.0) / 2.0
+        zz = (R[2, 2] + 1.0) / 2.0
+        xy = (R[0, 1] + R[1, 0]) / 4.0
+        xz = (R[0, 2] + R[2, 0]) / 4.0
+        yz = (R[1, 2] + R[2, 1]) / 4.0
+        sqrt_05 = math.sqrt(0.5)
+        if xx > yy and xx > zz:  # R[0, 0] is the largest diagonal term
+            if xx < eps:
+                x = 0.0
+                y = sqrt_05
+                z = sqrt_05
+            else:
+                x = math.sqrt(xx)
+                y = xy / x
+                z = xz / x
+        elif yy > zz:  # R[1, 1] is the largest diagonal term
+            if yy < eps:
+                x = sqrt_05
+                y = 0.0
+                z = sqrt_05
+            else:
+                y = math.sqrt(yy)
+                x = xy / y
+                z = yz / y
+        else:  # R[2, 2] is the largest diagonal term so base result on this
+            if zz < eps:
+                x = sqrt_05
+                y = sqrt_05
+                z = 0.0
+            else:
+                z = math.sqrt(zz)
+                x = xz / z
+                y = yz / z
+        return np.array([x, y, z, angle])
 
     if angle_diff_to_pi < 1e-4:  # np.trace(R) close to -1
         # The threshold 1e-4 is a result from this discussion:
