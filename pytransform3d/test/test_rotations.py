@@ -1617,9 +1617,8 @@ def test_axis_angle_from_matrix_cos_angle_greater_1():
 def test_axis_angle_from_matrix_without_check():
     R = -np.eye(3)
     with warnings.catch_warnings(record=True) as w:
-        a = pr.axis_angle_from_matrix(R, check=False)
-    assert_equal(len(w), 1)
-    assert_true(all(np.isnan(a[:3])))
+        pr.axis_angle_from_matrix(R, check=False)
+    assert_equal(len(w), 0)
 
 
 def test_check_rotor():
