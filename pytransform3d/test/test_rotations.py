@@ -1875,3 +1875,13 @@ def test_bug_189():
     a1 = pr.compact_axis_angle_from_matrix(R)
     a2 = pr.compact_axis_angle_from_matrix(pr.norm_matrix(R))
     assert_array_almost_equal(a1, a2)
+
+
+def test_bug_198():
+    """Test bug #198"""
+    R = np.array([[0, 1, 0],
+                  [1, 0, 0],
+                  [0, 0, -1]], dtype=float)
+    a = pr.compact_axis_angle_from_matrix(R)
+    R2 = pr.matrix_from_compact_axis_angle(a)
+    assert_array_almost_equal(R, R2)
