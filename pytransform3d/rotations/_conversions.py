@@ -1426,7 +1426,12 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     axis_unnormalized = np.array(
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
 
-    if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
+    angle_diff_to_pi = abs(angle - np.pi)
+    if angle_diff_to_pi == 0.0:
+        return axis_angle_from_quaternion(
+            quaternion_from_matrix(R, strict_check))
+
+    if angle_diff_to_pi < 1e-4:  # np.trace(R) close to -1
         # The threshold 1e-4 is a result from this discussion:
         # https://github.com/dfki-ric/pytransform3d/issues/43
         # The standard formula becomes numerically unstable, however,
@@ -1445,8 +1450,8 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we
         # could normalize with a[:3] = a[:3] / (2.0 * np.sin(angle)),
         # but the following is much more precise for angles close to 0 or pi:
-    a[:3] /= np.linalg.norm(a[:3])
 
+    a[:3] /= np.linalg.norm(a[:3])
     a[3] = angle
     return a
 
