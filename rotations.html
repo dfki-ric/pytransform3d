@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SO(3): 3D Rotations &#8212; pytransform3d 1.14.0 documentation</title>
+    <title>SO(3): 3D Rotations &#8212; pytransform3d 2.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.14.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -243,13 +243,7 @@ matrices and typically we use the variable name R for a rotation matrix.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>There are two conventions on how to interpret rotations: active
-or passive rotation. The standard in pytransform3d is an active rotation.
-Note that there are some functions to generate rotation matrices that
-generate passive rotations as well: <a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_angle.html#pytransform3d.rotations.matrix_from_angle" title="pytransform3d.rotations.matrix_from_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_angle()</span></code></a>,
-<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz" title="pytransform3d.rotations.matrix_from_euler_xyz"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_xyz()</span></code></a>, and
-<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_zyx.html#pytransform3d.rotations.matrix_from_euler_zyx" title="pytransform3d.rotations.matrix_from_euler_zyx"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_zyx()</span></code></a>. These are kept
-for backward compatibility. When in doubt, read the docstring, which
-clearly states that a passive convention is used here.</p>
+or passive rotation. The standard in pytransform3d is an active rotation.</p>
 </div>
 <p>We can use a rotation matrix <img class="math" src="_images/math/9ea3b600d91c4a102e2079d6497113822460f9ed.png" alt="\boldsymbol R_{AB}"/> to transform a point
 <img class="math" src="_images/math/66590f2c53625eb372136e2bf77aa724fc887458.png" alt="_B\boldsymbol{p}"/> from frame <img class="math" src="_images/math/4bc3e94a67870b41b7c20179693e889251e2c136.png" alt="B"/> to frame <img class="math" src="_images/math/211284f68205c3e66773eaf026f32a0acdd3dfb3.png" alt="A"/>.</p>
@@ -556,7 +550,7 @@ have to divide by the norm of the rotor.</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 15, 2022.<br/>
+      Last updated on Sep 17, 2022.<br/>
     </p>
   </div>
 </footer>

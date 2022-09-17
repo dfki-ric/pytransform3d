@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>API Documentation &#8212; pytransform3d 1.14.0 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 2.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.14.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -99,7 +99,6 @@
 <li><a class="reference internal" href="#plotting">Plotting</a></li>
 <li><a class="reference internal" href="#testing">Testing</a></li>
 <li><a class="reference internal" href="#utility-functions">Utility Functions</a></li>
-<li><a class="reference internal" href="#deprecated-functions">Deprecated Functions</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a><ul>
@@ -309,6 +308,9 @@ that have been omitted here for the sake of brevity.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_wxyz_from_xyzw.html#pytransform3d.rotations.quaternion_wxyz_from_xyzw" title="pytransform3d.rotations.quaternion_wxyz_from_xyzw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_wxyz_from_xyzw</span></code></a>(q_xyzw)</p></td>
 <td><p>Converts from x, y, z, w to w, x, y, z convention.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz.html#pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz" title="pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_from_extrinsic_euler_xyz</span></code></a>(e)</p></td>
+<td><p>Compute quaternion from extrinsic xyz Euler angles.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -497,41 +499,6 @@ that have been omitted here for the sake of brevity.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.cross_product_matrix.html#pytransform3d.rotations.cross_product_matrix" title="pytransform3d.rotations.cross_product_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_product_matrix</span></code></a>(v)</p></td>
 <td><p>Generate the cross-product matrix of a vector.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="deprecated-functions">
-<h3>Deprecated Functions<a class="headerlink" href="#deprecated-functions" title="Permalink to this heading">¶</a></h3>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from.html#pytransform3d.rotations.matrix_from" title="pytransform3d.rotations.matrix_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from</span></code></a>([R, a, q, e_xyz, e_zyx])</p></td>
-<td><p>Compute rotation matrix from another representation.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_angle.html#pytransform3d.rotations.matrix_from_angle" title="pytransform3d.rotations.matrix_from_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_angle</span></code></a>(basis, angle)</p></td>
-<td><p>Compute passive rotation matrix from rotation about basis vector.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz" title="pytransform3d.rotations.matrix_from_euler_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_euler_xyz</span></code></a>(e)</p></td>
-<td><p>Compute passive rotation matrix from intrinsic xyz Tait-Bryan angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_zyx.html#pytransform3d.rotations.matrix_from_euler_zyx" title="pytransform3d.rotations.matrix_from_euler_zyx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_euler_zyx</span></code></a>(e)</p></td>
-<td><p>Compute passive rotation matrix from intrinsic zyx Tait-Bryan angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_xyz_from_matrix.html#pytransform3d.rotations.euler_xyz_from_matrix" title="pytransform3d.rotations.euler_xyz_from_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euler_xyz_from_matrix</span></code></a>(R[, strict_check])</p></td>
-<td><p>Compute xyz Euler angles from passive rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_zyx_from_matrix.html#pytransform3d.rotations.euler_zyx_from_matrix" title="pytransform3d.rotations.euler_zyx_from_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euler_zyx_from_matrix</span></code></a>(R[, strict_check])</p></td>
-<td><p>Compute zyx Euler angles from passive rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.assert_euler_xyz_equal.html#pytransform3d.rotations.assert_euler_xyz_equal" title="pytransform3d.rotations.assert_euler_xyz_equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_euler_xyz_equal</span></code></a>(e_xyz1, e_xyz2, ...)</p></td>
-<td><p>Raise an assertion if two xyz Euler angles are not approximately equal.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.assert_euler_zyx_equal.html#pytransform3d.rotations.assert_euler_zyx_equal" title="pytransform3d.rotations.assert_euler_zyx_equal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_euler_zyx_equal</span></code></a>(e_zyx1, e_zyx2, ...)</p></td>
-<td><p>Raise an assertion if two zyx Euler angles are not approximately equal.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1284,7 +1251,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 15, 2022.<br/>
+      Last updated on Sep 17, 2022.<br/>
     </p>
   </div>
 </footer>

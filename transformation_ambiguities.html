@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transformation Ambiguities and Conventions &#8212; pytransform3d 1.14.0 documentation</title>
+    <title>Transformation Ambiguities and Conventions &#8212; pytransform3d 2.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.14.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -232,13 +232,7 @@ rotation matrix is usually used in an active transformation:</p>
 \end{array} \right)"/></p>
 </div><div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The standard in pytransform3d is an active rotation.
-Note that there are some functions to generate rotation matrices that
-generate passive rotations as well: <a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_angle.html#pytransform3d.rotations.matrix_from_angle" title="pytransform3d.rotations.matrix_from_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_angle()</span></code></a>,
-<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz" title="pytransform3d.rotations.matrix_from_euler_xyz"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_xyz()</span></code></a>, and
-<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_zyx.html#pytransform3d.rotations.matrix_from_euler_zyx" title="pytransform3d.rotations.matrix_from_euler_zyx"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_zyx()</span></code></a>. These are kept
-for backward compatibility. When in doubt, read the docstring, which
-clearly states that a passive convention is used here.</p>
+<p>The standard in pytransform3d is an active rotation.</p>
 </div>
 <p>Reference:</p>
 <p>Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
@@ -285,13 +279,7 @@ particularly relevant when we deal with Euler angles.</p>
 <p>There are two conventions on how to concatenate rotations and
 transformations: intrinsic and extrinsic transformation.
 There is no default in pytransform3d but usually the function name
-should tell you which convention the function uses.
-Note that there are two functions to generate rotation matrices that
-generate intrinsic rotations without a telling function name:
-<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_xyz.html#pytransform3d.rotations.matrix_from_euler_xyz" title="pytransform3d.rotations.matrix_from_euler_xyz"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_xyz()</span></code></a> and
-<a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler_zyx.html#pytransform3d.rotations.matrix_from_euler_zyx" title="pytransform3d.rotations.matrix_from_euler_zyx"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_euler_zyx()</span></code></a>. These are kept
-for backward compatibility. When in doubt, read the docstring, which
-clearly states that they make intrinsic rotations.</p>
+should tell you which convention the function uses.</p>
 </div>
 </div>
 <div class="section" id="naming-and-frame-conventions">
@@ -446,7 +434,7 @@ with which we approach the target</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 15, 2022.<br/>
+      Last updated on Sep 17, 2022.<br/>
     </p>
   </div>
 </footer>

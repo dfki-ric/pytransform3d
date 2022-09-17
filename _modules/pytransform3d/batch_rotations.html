@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.batch_rotations &#8212; pytransform3d 1.14.0 documentation</title>
+    <title>pytransform3d.batch_rotations &#8212; pytransform3d 2.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.14.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -808,8 +808,16 @@
 <span class="sd">    -------</span>
 <span class="sd">    Q : array, shape (n_steps, 4)</span>
 <span class="sd">        Unit quaternions to represent rotations: (w, x, y, z)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If Q has length 0.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least one quaternion is expected.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;wxyz&quot;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start_component_positive</span><span class="p">)]</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="n">Q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
@@ -846,7 +854,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jun 15, 2022.<br/>
+      Last updated on Sep 17, 2022.<br/>
     </p>
   </div>
 </footer>
