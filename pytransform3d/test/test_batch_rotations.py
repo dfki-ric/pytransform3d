@@ -477,3 +477,9 @@ def test_smooth_quaternion_trajectory_start_component_negative():
         q_corrected = pbr.smooth_quaternion_trajectory(
             [q], start_component_positive=component)[0]
         assert_greater(q_corrected[index], 0.0)
+
+
+def test_smooth_quaternion_trajectory_empty():
+    assert_raises_regexp(
+        ValueError, "At least one quaternion is expected",
+        pbr.smooth_quaternion_trajectory, np.zeros((0, 4)))

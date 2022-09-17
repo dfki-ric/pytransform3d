@@ -691,8 +691,16 @@ def smooth_quaternion_trajectory(Q, start_component_positive="x"):
     -------
     Q : array, shape (n_steps, 4)
         Unit quaternions to represent rotations: (w, x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If Q has length 0.
     """
     Q = np.copy(Q)
+
+    if len(Q) == 0:
+        raise ValueError("At least one quaternion is expected.")
 
     if Q[0, "wxyz".index(start_component_positive)] < 0.0:
         Q[0] *= -1.0
