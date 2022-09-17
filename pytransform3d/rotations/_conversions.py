@@ -1418,6 +1418,7 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     a = np.empty(4)
+    a[3] = angle
 
     # We can usually determine the rotation axis by inverting Rodrigues'
     # formula. Subtracting opposing off-diagonal elements gives us
@@ -1430,41 +1431,40 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     # http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
     angle_diff_to_pi = abs(angle - np.pi)
     if angle_diff_to_pi == 0.0:
-        xx = (R[0, 0] + 1.0) / 2.0
-        yy = (R[1, 1] + 1.0) / 2.0
-        zz = (R[2, 2] + 1.0) / 2.0
+        R_diag = np.clip(np.diag(R), -1.0, 1.0)
+        eeT_diag = 0.5 * (R_diag + 1.0)
         xy = (R[0, 1] + R[1, 0]) / 4.0
         xz = (R[0, 2] + R[2, 0]) / 4.0
         yz = (R[1, 2] + R[2, 1]) / 4.0
         sqrt_05 = math.sqrt(0.5)
-        if xx > yy and xx > zz:  # R[0, 0] is the largest diagonal term
-            if xx < eps:
-                x = 0.0
-                y = sqrt_05
-                z = sqrt_05
+        if eeT_diag[0] > eeT_diag[1] and eeT_diag[0] > eeT_diag[2]:  # R[0, 0] is the largest diagonal term
+            if eeT_diag[0] < eps:
+                a[0] = 0.0
+                a[1] = sqrt_05
+                a[2] = sqrt_05
             else:
-                x = math.sqrt(xx)
-                y = xy / x
-                z = xz / x
-        elif yy > zz:  # R[1, 1] is the largest diagonal term
-            if yy < eps:
-                x = sqrt_05
-                y = 0.0
-                z = sqrt_05
+                a[0] = math.sqrt(eeT_diag[0])
+                a[1] = xy / a[0]
+                a[2] = xz / a[0]
+        elif eeT_diag[1] > eeT_diag[2]:  # R[1, 1] is the largest diagonal term
+            if eeT_diag[1] < eps:
+                a[0] = sqrt_05
+                a[1] = 0.0
+                a[2] = sqrt_05
             else:
-                y = math.sqrt(yy)
-                x = xy / y
-                z = yz / y
+                a[1] = math.sqrt(eeT_diag[1])
+                a[0] = xy / a[1]
+                a[2] = yz / a[1]
         else:  # R[2, 2] is the largest diagonal term so base result on this
-            if zz < eps:
-                x = sqrt_05
-                y = sqrt_05
-                z = 0.0
+            if eeT_diag[2] < eps:
+                a[0] = sqrt_05
+                a[1] = sqrt_05
+                a[2] = 0.0
             else:
-                z = math.sqrt(zz)
-                x = xz / z
-                y = yz / z
-        return np.array([x, y, z, angle])
+                a[2] = math.sqrt(eeT_diag[2])
+                a[0] = xz / a[2]
+                a[1] = yz / a[2]
+        return a
 
     if angle_diff_to_pi < 1e-4:  # np.trace(R) close to -1
         # The threshold 1e-4 is a result from this discussion:
@@ -1487,7 +1487,6 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         # but the following is much more precise for angles close to 0 or pi:
 
     a[:3] /= np.linalg.norm(a[:3])
-    a[3] = angle
     return a
 
 
