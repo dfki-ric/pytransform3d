@@ -26,6 +26,7 @@ image plane.
 The following example shows how a grid is projected on an image.
 
 .. plot:: ../../examples/plots/plot_camera_with_image.py
+    :include-source:
 
 |
 
@@ -55,7 +56,9 @@ of view. Values of the intrinsic camera matrix and the image size can be given
 in pixels or meters to generate the following visualization.
 
 .. plot:: ../../examples/plots/plot_camera_3d.py
+    :include-source:
 
 You can use this to display a trajectory of camera poses.
 
 .. plot:: ../../examples/plots/plot_camera_trajectory.py
+    :include-source:
