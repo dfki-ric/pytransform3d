@@ -34,6 +34,13 @@ autosummary_generate = True  # generate files at doc/source/_apidoc
 class_members_toctree = False
 numpydoc_show_class_members = False
 
+# Options for the `::plot` directive:
+# https://matplotlib.org/stable/api/sphinxext_plot_directive_api.html
+plot_formats = ["png"]
+plot_include_source = False
+plot_html_show_formats = False
+plot_html_show_source_link = False
+
 # class template from https://stackoverflow.com/a/62613202/915743
 templates_path = ["_templates"]
 exclude_patterns = []
