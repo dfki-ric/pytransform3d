@@ -139,7 +139,66 @@ will be measured from the sensor so that pixels will be mirrored in the x-y
 plane. The sensor that we show here actually corresponds to the virtual
 image plane.</p>
 <p>The following example shows how a grid is projected on an image.</p>
-<p>(<a class="reference external" href="./../../examples/plots/plot_camera_with_image.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_camera_with_image.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_with_image.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_with_image.pdf">pdf</a>)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">================</span>
+<span class="sd">Camera Transform</span>
+<span class="sd">================</span>
+
+<span class="sd">We can see the camera frame and the world frame. There is a grid of points from</span>
+<span class="sd">which we know the world coordinates. If we know the location and orientation of</span>
+<span class="sd">the camera in the world, we can easily compute the location of the points on</span>
+<span class="sd">the image.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">active_matrix_from_intrinsic_euler_xyz</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">plot_transform</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.camera</span> <span class="kn">import</span> <span class="n">make_world_grid</span><span class="p">,</span> <span class="n">world2image</span><span class="p">,</span> <span class="n">plot_camera</span>
+
+
+<span class="n">cam2world</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
+    <span class="n">active_matrix_from_intrinsic_euler_xyz</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span>
+    <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">focal_length</span> <span class="o">=</span> <span class="mf">0.0036</span>
+<span class="n">sensor_size</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.00367</span><span class="p">,</span> <span class="mf">0.00274</span><span class="p">)</span>
+<span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">)</span>
+<span class="n">intrinsic_camera_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="n">focal_length</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">world_grid</span> <span class="o">=</span> <span class="n">make_world_grid</span><span class="p">(</span><span class="n">n_points_per_line</span><span class="o">=</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">image_grid</span> <span class="o">=</span> <span class="n">world2image</span><span class="p">(</span><span class="n">world_grid</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span> <span class="n">image_size</span><span class="p">,</span>
+                         <span class="n">focal_length</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">121</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">70</span><span class="p">)</span>
+<span class="n">plot_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plot_transform</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">cam2world</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Camera&quot;</span><span class="p">)</span>
+<span class="n">plot_camera</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">intrinsic_camera_matrix</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span>
+            <span class="n">sensor_size</span><span class="o">=</span><span class="n">sensor_size</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Camera and world frames&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">world_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">world_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">world_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">130</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Camera image&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="p">(</span><span class="n">image_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
 <div class="figure align-default">
 <img alt="_images/plot_camera_with_image.png" class="plot-directive" src="_images/plot_camera_with_image.png" />
 </div>
@@ -166,12 +225,109 @@ f_x &amp; 0 &amp; c_x\\
 of the camera center. Together with the image size we can determine the field
 of view. Values of the intrinsic camera matrix and the image size can be given
 in pixels or meters to generate the following visualization.</p>
-<p>(<a class="reference external" href="./../../examples/plots/plot_camera_3d.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_camera_3d.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_3d.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_3d.pdf">pdf</a>)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">===========================</span>
+<span class="sd">Camera Representation in 3D</span>
+<span class="sd">===========================</span>
+
+<span class="sd">This visualization is inspired by Blender&#39;s camera visualization. It will</span>
+<span class="sd">show the camera center, a virtual image plane at a desired distance to the</span>
+<span class="sd">camera center, and the top direction of the virtual image plane.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.camera</span> <span class="k">as</span> <span class="nn">pc</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.transformations</span> <span class="k">as</span> <span class="nn">pt</span>
+
+
+<span class="n">cam2world</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform_from_pq</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="c1"># default parameters of a camera in Blender</span>
+<span class="n">sensor_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.036</span><span class="p">,</span> <span class="mf">0.024</span><span class="p">])</span>
+<span class="n">intrinsic_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">])</span>
+<span class="n">virtual_image_distance</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">plot_transform</span><span class="p">(</span><span class="n">A2B</span><span class="o">=</span><span class="n">cam2world</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">pc</span><span class="o">.</span><span class="n">plot_camera</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="n">cam2world</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">intrinsic_matrix</span><span class="p">,</span> <span class="n">sensor_size</span><span class="o">=</span><span class="n">sensor_size</span><span class="p">,</span>
+    <span class="n">virtual_image_distance</span><span class="o">=</span><span class="n">virtual_image_distance</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
 <div class="figure align-default">
 <img alt="_images/plot_camera_3d.png" class="plot-directive" src="_images/plot_camera_3d.png" />
 </div>
 <p>You can use this to display a trajectory of camera poses.</p>
-<p>(<a class="reference external" href="./../../examples/plots/plot_camera_trajectory.py">Source code</a>, <a class="reference external" href="./../../examples/plots/plot_camera_trajectory.png">png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_trajectory.hires.png">hires.png</a>, <a class="reference external" href="./../../examples/plots/plot_camera_trajectory.pdf">pdf</a>)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">=================</span>
+<span class="sd">Camera Trajectory</span>
+<span class="sd">=================</span>
+
+<span class="sd">The following illustration shows a camera&#39;s trajectory that has has been</span>
+<span class="sd">estimated from odometry. This specific trajectory has been used to reconstruct</span>
+<span class="sd">a colored mesh from a depth camera and an RGB camera.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.transformations</span> <span class="k">as</span> <span class="nn">pt</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.trajectories</span> <span class="k">as</span> <span class="nn">ptr</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.rotations</span> <span class="k">as</span> <span class="nn">pr</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.camera</span> <span class="k">as</span> <span class="nn">pc</span>
+<span class="kn">from</span> <span class="nn">cycler</span> <span class="kn">import</span> <span class="n">cycle</span>
+
+
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="s2">&quot;test/test_data/&quot;</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="n">BASE_DIR</span>
+<span class="n">search_path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+<span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="ow">and</span>
+       <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">search_path</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;pytransform3d&quot;</span><span class="p">):</span>
+    <span class="n">search_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">search_path</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">search_path</span><span class="p">,</span> <span class="n">BASE_DIR</span><span class="p">)</span>
+
+<span class="n">intrinsic_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;reconstruction_camera_matrix.csv&quot;</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;reconstruction_odometry.csv&quot;</span><span class="p">),</span>
+               <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)):</span>
+    <span class="n">P</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">quaternion_wxyz_from_xyzw</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="mi">3</span><span class="p">:])</span>
+<span class="n">cam2world_trajectory</span> <span class="o">=</span> <span class="n">ptr</span><span class="o">.</span><span class="n">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">plot_transform</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">ptr</span><span class="o">.</span><span class="n">plot_trajectory</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">image_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1440</span><span class="p">])</span>
+
+<span class="n">key_frames_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">(</span><span class="s2">&quot;rgb&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">key_frames_indices</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="n">pc</span><span class="o">.</span><span class="n">plot_camera</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">intrinsic_matrix</span><span class="p">,</span> <span class="n">cam2world_trajectory</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                   <span class="n">sensor_size</span><span class="o">=</span><span class="n">image_size</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">pos_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">P</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pos_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">P</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_max</span> <span class="o">+</span> <span class="n">pos_min</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+<span class="n">max_half_extent</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pos_max</span> <span class="o">-</span> <span class="n">pos_min</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">max_half_extent</span><span class="p">,</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">max_half_extent</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">max_half_extent</span><span class="p">,</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">max_half_extent</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">((</span><span class="n">center</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">max_half_extent</span><span class="p">,</span> <span class="n">center</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">max_half_extent</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">azim</span><span class="o">=</span><span class="mi">110</span><span class="p">,</span> <span class="n">elev</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
 <div class="figure align-default">
 <img alt="_images/plot_camera_trajectory.png" class="plot-directive" src="_images/plot_camera_trajectory.png" />
 </div>
@@ -190,7 +346,7 @@ in pixels or meters to generate the following visualization.</p>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Sep 17, 2022.<br/>
+      Last updated on Sep 24, 2022.<br/>
     </p>
   </div>
 </footer>
