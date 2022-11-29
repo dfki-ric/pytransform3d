@@ -3,8 +3,8 @@ try:
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
-import warnings
 import numpy as np
+import warnings
 from pytransform3d.urdf import (
     UrdfTransformManager, UrdfException, parse_urdf,
     initialize_urdf_transform_manager)
@@ -363,6 +363,14 @@ def test_joint_limit_clipping():
     )
 
 
+def test_joint_limit_clipping_warning():
+    tm = UrdfTransformManager()
+    tm.load_urdf(COMPI_URDF)
+    with warnings.catch_warnings(record=True) as w:
+        tm.set_joint("joint1", 2.0)
+    assert_equal(len(w), 1)
+
+
 def test_fixed_joint():
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
@@ -373,6 +381,26 @@ def test_fixed_joint():
                   [0, 1, 0, 0],
                   [0, 0, 1, 1.174],
                   [0, 0, 0, 1]])
+    )
+
+
+def test_fixed_joint_warning():
+    tm = UrdfTransformManager()
+    tm.load_urdf(COMPI_URDF)
+    with warnings.catch_warnings(record=True) as w:
+        tm.set_joint("jointtcp", 0.0)
+    assert_equal(len(w), 1)
+
+
+def test_fixed_joint_unchanged():
+    tm = UrdfTransformManager()
+    tm.load_urdf(COMPI_URDF)
+    tcp_to_link0_before = tm.get_transform("tcp", "linkmount")
+    tm.set_joint("jointtcp", 2.0)
+    tcp_to_link0_after = tm.get_transform("tcp", "linkmount")
+    assert_array_almost_equal(
+        tcp_to_link0_before,
+        tcp_to_link0_after
     )
 
 
