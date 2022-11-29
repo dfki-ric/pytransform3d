@@ -103,16 +103,14 @@ class UrdfTransformManager(TransformManager):
         from_frame, to_frame, child2parent, axis, limits, joint_type = \
             self._joints[joint_name]
         # this is way faster than np.clip:
-        value_lim = min(max(value, limits[0]), limits[1])
-        if value_lim != value:
-            warnings.warn(f"Value for {joint_name} is capped by limits")
+        value = min(max(value, limits[0]), limits[1])
         if joint_type == "revolute":
             joint_rotation = matrix_from_axis_angle(
-                np.hstack((axis, (value_lim,))))
+                np.hstack((axis, (value,))))
             joint2A = transform_from(
                 joint_rotation, np.zeros(3), strict_check=self.strict_check)
         elif joint_type == "prismatic":
-            joint_offset = value_lim * axis
+            joint_offset = value * axis
             joint2A = transform_from(
                 np.eye(3), joint_offset, strict_check=self.strict_check)
         else:
