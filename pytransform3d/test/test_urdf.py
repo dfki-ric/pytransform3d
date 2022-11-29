@@ -363,14 +363,6 @@ def test_joint_limit_clipping():
     )
 
 
-def test_joint_limit_clipping_warning():
-    tm = UrdfTransformManager()
-    tm.load_urdf(COMPI_URDF)
-    with warnings.catch_warnings(record=True) as w:
-        tm.set_joint("joint1", 2.0)
-    assert_equal(len(w), 1)
-
-
 def test_fixed_joint():
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
