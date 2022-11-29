@@ -646,7 +646,7 @@ def _add_joints(tm, joints):
             assert joint.joint_type == "fixed"
             tm.add_joint(
                 joint.joint_name, joint.child, joint.parent,
-                joint.child2parent, joint.joint_axis, joint.limits,
+                joint.child2parent, joint.joint_axis, (0.0, 0.0),
                 "fixed")
 
 
