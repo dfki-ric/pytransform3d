@@ -4,6 +4,7 @@ See :doc:`transform_manager` for more information.
 """
 import os
 import numpy as np
+import warnings
 from bs4 import BeautifulSoup
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat
@@ -102,19 +103,21 @@ class UrdfTransformManager(TransformManager):
         from_frame, to_frame, child2parent, axis, limits, joint_type = \
             self._joints[joint_name]
         # this is way faster than np.clip:
-        value = min(max(value, limits[0]), limits[1])
+        value_lim = min(max(value, limits[0]), limits[1])
+        if value_lim != value:
+            warnings.warn(f"Value for {joint_name} is capped by limits")
         if joint_type == "revolute":
             joint_rotation = matrix_from_axis_angle(
-                np.hstack((axis, (value,))))
+                np.hstack((axis, (value_lim,))))
             joint2A = transform_from(
                 joint_rotation, np.zeros(3), strict_check=self.strict_check)
         elif joint_type == "prismatic":
-            joint_offset = value * axis
+            joint_offset = value_lim * axis
             joint2A = transform_from(
                 np.eye(3), joint_offset, strict_check=self.strict_check)
         else:
             assert joint_type == "fixed"
-            print("WARNING: Fixed joint cannot be set")
+            warnings.warn("Trying to set a fixed joint")
             return
         self.add_transform(from_frame, to_frame, concat(
             joint2A, child2parent, strict_check=self.strict_check,
