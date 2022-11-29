@@ -108,11 +108,14 @@ class UrdfTransformManager(TransformManager):
                 np.hstack((axis, (value,))))
             joint2A = transform_from(
                 joint_rotation, np.zeros(3), strict_check=self.strict_check)
-        else:
-            assert joint_type == "prismatic"
+        elif joint_type == "prismatic":
             joint_offset = value * axis
             joint2A = transform_from(
                 np.eye(3), joint_offset, strict_check=self.strict_check)
+        else:
+            assert joint_type == "fixed"
+            print("WARNING: Fixed joint cannot be set")
+            return
         self.add_transform(from_frame, to_frame, concat(
             joint2A, child2parent, strict_check=self.strict_check,
             check=self.check))
@@ -641,7 +644,10 @@ def _add_joints(tm, joints):
                 "prismatic")
         else:
             assert joint.joint_type == "fixed"
-            tm.add_transform(joint.child, joint.parent, joint.child2parent)
+            tm.add_joint(
+                joint.joint_name, joint.child, joint.parent,
+                joint.child2parent, joint.joint_axis, joint.limits,
+                "fixed")
 
 
 class Link(object):
