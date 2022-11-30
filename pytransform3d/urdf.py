@@ -71,8 +71,8 @@ class UrdfTransformManager(TransformManager):
             Lower and upper joint angle limit
 
         joint_type : str, optional (default: 'revolute')
-            Joint type: revolute or prismatic (continuous is the same as
-            revolute)
+            Joint type: revolute, prismatic, or fixed (continuous is the same
+            as revolute)
         """
         self.add_transform(from_frame, to_frame, child2parent)
         self._joints[joint_name] = (
