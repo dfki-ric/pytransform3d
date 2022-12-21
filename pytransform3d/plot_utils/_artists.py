@@ -230,7 +230,7 @@ class Trajectory(artist.Artist):
         self.trajectory.set_3d_properties(positions[:, 2])
 
         key_frames_indices = np.linspace(
-            0, len(H) - 1, len(self.key_frames), dtype=np.int)
+            0, len(H) - 1, len(self.key_frames), dtype=np.int64)
         for i, key_frame_idx in enumerate(key_frames_indices):
             self.key_frames[i].set_data(H[key_frame_idx])
 
