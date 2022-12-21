@@ -311,7 +311,7 @@ class Trajectory(Artist):
         self.line = Line3D(H[:, :3, 3], c)
 
         self.key_frames_indices = np.linspace(
-            0, len(self.H) - 1, self.n_frames, dtype=np.int)
+            0, len(self.H) - 1, self.n_frames, dtype=np.int64)
         for key_frame_idx in self.key_frames_indices:
             self.key_frames.append(Frame(self.H[key_frame_idx], s=self.s))
 
