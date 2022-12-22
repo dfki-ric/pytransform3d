@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>URDF with Collision Objects &#8212; pytransform3d 2.0.0 documentation</title>
+    <title>URDF with Collision Objects &#8212; pytransform3d 2.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -129,10 +129,10 @@ to download the full example code</p>
 <p>This example shows how to load a URDF description of collision objects and
 display them.</p>
 <img src="../../_images/sphx_glr_plot_collision_objects_001.png" srcset="../../_images/sphx_glr_plot_collision_objects_001.png" alt="plot collision objects" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.urdf</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a></a>
+<span class="kn">from</span> <span class="nn">pytransform3d.urdf</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a>
 
 
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">URDF</span></a></a> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">URDF</span></a> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="s2">  &lt;robot name=&quot;collision&quot;&gt;</span>
 <span class="s2">    &lt;link name=&quot;collision&quot;&gt;</span>
@@ -158,15 +158,15 @@ display them.</p>
 <span class="s2">&quot;&quot;&quot;</span>
 
 
-<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a></a><span class="p">()</span>
-<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="pytransform3d.urdf.UrdfTransformManager.load_urdf" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="pytransform3d.urdf.UrdfTransformManager.load_urdf" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">load_urdf</span></a></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">URDF</span></a></a><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="pytransform3d.urdf.UrdfTransformManager.plot_frames_in" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="pytransform3d.urdf.UrdfTransformManager.plot_frames_in" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span></a></a><span class="p">(</span><span class="s2">&quot;collision&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_collision_objects</span></a></a><span class="p">(</span><span class="s2">&quot;collision&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a><span class="p">()</span>
+<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="pytransform3d.urdf.UrdfTransformManager.load_urdf" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">load_urdf</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">URDF</span></a><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="pytransform3d.urdf.UrdfTransformManager.plot_frames_in" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span></a><span class="p">(</span><span class="s2">&quot;collision&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_collision_objects</span></a><span class="p">(</span><span class="s2">&quot;collision&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">((</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a></a><span class="p">()</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.101 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.102 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-collision-objects-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/fe630f8fb98a265863aae61690b721f4/plot_collision_objects.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_collision_objects.py</span></code></a></p>
@@ -191,7 +191,7 @@ display them.</p>
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Sep 24, 2022.<br/>
+      Last updated on Dec 22, 2022.<br/>
     </p>
   </div>
 </footer>

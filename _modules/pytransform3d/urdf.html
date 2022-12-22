@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.urdf &#8212; pytransform3d 2.0.0 documentation</title>
+    <title>pytransform3d.urdf &#8212; pytransform3d 2.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -121,6 +121,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">.transform_manager</span> <span class="kn">import</span> <span class="n">TransformManager</span>
 <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">concat</span>
@@ -187,8 +188,8 @@
 <span class="sd">            Lower and upper joint angle limit</span>
 
 <span class="sd">        joint_type : str, optional (default: &#39;revolute&#39;)</span>
-<span class="sd">            Joint type: revolute or prismatic (continuous is the same as</span>
-<span class="sd">            revolute)</span>
+<span class="sd">            Joint type: revolute, prismatic, or fixed (continuous is the same</span>
+<span class="sd">            as revolute)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
@@ -225,11 +226,14 @@
                 <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,))))</span>
             <span class="n">joint2A</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
                 <span class="n">joint_rotation</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;prismatic&quot;</span>
+        <span class="k">elif</span> <span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">:</span>
             <span class="n">joint_offset</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">axis</span>
             <span class="n">joint2A</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">joint_offset</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Trying to set a fixed joint&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">concat</span><span class="p">(</span>
             <span class="n">joint2A</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
             <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">))</span></div>
@@ -758,7 +762,10 @@
                 <span class="s2">&quot;prismatic&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span>
-            <span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">)</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">add_joint</span><span class="p">(</span>
+                <span class="n">joint</span><span class="o">.</span><span class="n">joint_name</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
+                <span class="n">joint</span><span class="o">.</span><span class="n">child2parent</span><span class="p">,</span> <span class="n">joint</span><span class="o">.</span><span class="n">joint_axis</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                <span class="s2">&quot;fixed&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Link"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Link.html#pytransform3d.urdf.Link">[docs]</a><span class="k">class</span> <span class="nc">Link</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -981,7 +988,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Sep 23, 2022.<br/>
+      Last updated on Dec 22, 2022.<br/>
     </p>
   </div>
 </footer>
