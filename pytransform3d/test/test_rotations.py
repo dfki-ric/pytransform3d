@@ -832,6 +832,30 @@ def test_active_matrix_from_extrinsic_roll_pitch_yaw():
     )
 
 
+def test_intrinsic_euler_xzx_from_quaternion():
+    """Test conversion from quaternion to intrinsic xzx Euler angles."""
+    random_state = np.random.RandomState(32)
+
+    for _ in range(5):
+        q = pr.random_quaternion(random_state)
+        e1 = pr.intrinsic_euler_xzx_from_quaternion(q)
+        e2 = pr.intrinsic_euler_xzx_from_active_matrix(
+            pr.matrix_from_quaternion(q))
+        assert_array_almost_equal(e1, e2)
+
+
+def test_extrinsic_euler_xzx_from_quaternion():
+    """Test conversion from quaternion to extrinsic xzx Euler angles."""
+    random_state = np.random.RandomState(32)
+
+    for _ in range(5):
+        q = pr.random_quaternion(random_state)
+        e1 = pr.extrinsic_euler_xzx_from_quaternion(q)
+        e2 = pr.extrinsic_euler_xzx_from_active_matrix(
+            pr.matrix_from_quaternion(q))
+        assert_array_almost_equal(e1, e2)
+
+
 def test_conversions_matrix_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
     R = np.eye(3)
