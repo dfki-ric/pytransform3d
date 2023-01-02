@@ -936,8 +936,7 @@ def test_from_quaternion():
                     q, ea[0], ea[1], ea[2], extrinsic))
                 R2 = pr.matrix_from_quaternion(q)
                 assert_array_almost_equal(
-                    R1, R2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}",
-                    decimal=5)
+                    R1, R2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}")
 
                 # second singularity
                 e[1] = np.pi
@@ -947,8 +946,7 @@ def test_from_quaternion():
                     q, ea[0], ea[1], ea[2], extrinsic))
                 R2 = pr.matrix_from_quaternion(q)
                 assert_array_almost_equal(
-                    R1, R2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}",
-                    decimal=5)
+                    R1, R2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}")
 
 
 def test_conversions_matrix_axis_angle():
