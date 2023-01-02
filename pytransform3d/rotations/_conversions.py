@@ -1391,14 +1391,14 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     q : array-like, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
 
-    i : int
-        Axis of the first rotation angle. A number between 0 and 2.
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
 
-    j : int
-        Axis of the second rotation angle. A number between 0 and 2.
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
 
-    k : int
-        Axis of the third rotation angle. A number between 0 and 2.
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
 
     extrinsic : bool
         Do we use extrinsic transformations? Intrinsic otherwise.
