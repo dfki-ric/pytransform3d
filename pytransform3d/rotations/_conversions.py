@@ -1415,7 +1415,7 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     ----------
     Bernardes, Evandro; Viollet, Stephane: Quaternion to Euler angles
     conversion: A direct, general and computationally efficient method,
-    https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0276302
+    https://doi.org/10.1371/journal.pone.0276302
     """
     q = check_quaternion(q)
 
