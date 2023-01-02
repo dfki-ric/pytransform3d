@@ -505,7 +505,7 @@ def plot_cone(ax=None, height=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
     axis /= height
 
     not_axis = np.array([1, 0, 0])
-    if (axis == not_axis).all():
+    if np.allclose(axis, not_axis) or np.allclose(-axis, not_axis):
         not_axis = np.array([0, 1, 0])
 
     n1 = np.cross(axis, not_axis)
