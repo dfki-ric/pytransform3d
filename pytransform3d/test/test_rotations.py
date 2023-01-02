@@ -876,19 +876,79 @@ def test_from_quaternion():
         pr.intrinsic_euler_zxy_from_active_matrix,
         pr.extrinsic_euler_zxy_from_active_matrix,
     ]
+    inverse_functions = [
+        pr.active_matrix_from_intrinsic_euler_xzx,
+        pr.active_matrix_from_extrinsic_euler_xzx,
+        pr.active_matrix_from_intrinsic_euler_xyx,
+        pr.active_matrix_from_extrinsic_euler_xyx,
+        pr.active_matrix_from_intrinsic_euler_yxy,
+        pr.active_matrix_from_extrinsic_euler_yxy,
+        pr.active_matrix_from_intrinsic_euler_yzy,
+        pr.active_matrix_from_extrinsic_euler_yzy,
+        pr.active_matrix_from_intrinsic_euler_zyz,
+        pr.active_matrix_from_extrinsic_euler_zyz,
+        pr.active_matrix_from_intrinsic_euler_zxz,
+        pr.active_matrix_from_extrinsic_euler_zxz,
+        pr.active_matrix_from_intrinsic_euler_xzy,
+        pr.active_matrix_from_extrinsic_euler_xzy,
+        pr.active_matrix_from_intrinsic_euler_xyz,
+        pr.active_matrix_from_extrinsic_euler_xyz,
+        pr.active_matrix_from_intrinsic_euler_yxz,
+        pr.active_matrix_from_extrinsic_euler_yxz,
+        pr.active_matrix_from_intrinsic_euler_yzx,
+        pr.active_matrix_from_extrinsic_euler_yzx,
+        pr.active_matrix_from_intrinsic_euler_zyx,
+        pr.active_matrix_from_extrinsic_euler_zyx,
+        pr.active_matrix_from_intrinsic_euler_zxy,
+        pr.active_matrix_from_extrinsic_euler_zxy,
+    ]
 
     fi = 0
     for ea in euler_axes:
         for extrinsic in [False, True]:
             fun = functions[fi]
+            inv_fun = inverse_functions[fi]
             fi += 1
             for _ in range(5):
-                q = pr.random_quaternion(random_state)
+                e = random_state.rand(3)
+                e[0] = 2.0 * np.pi * e[0] - np.pi
+                e[1] = np.pi * e[1]
+                e[2] = 2.0 * np.pi * e[2] - np.pi
+
+                proper_euler = ea[0] == ea[2]
+                if proper_euler:
+                    e[1] -= np.pi / 2.0
+
+                # normal case
+                q = pr.quaternion_from_matrix(inv_fun(e))
+
                 e1 = pr.euler_from_quaternion(
                     q, ea[0], ea[1], ea[2], extrinsic)
                 e2 = fun(pr.matrix_from_quaternion(q))
                 assert_array_almost_equal(
                     e1, e2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}")
+
+                # first singularity
+                e[1] = 0.0
+                q = pr.quaternion_from_matrix(inv_fun(e))
+
+                R1 = inv_fun(pr.euler_from_quaternion(
+                    q, ea[0], ea[1], ea[2], extrinsic))
+                R2 = pr.matrix_from_quaternion(q)
+                assert_array_almost_equal(
+                    R1, R2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}",
+                    decimal=5)
+
+                # second singularity
+                e[1] = np.pi
+                q = pr.quaternion_from_matrix(inv_fun(e))
+
+                R1 = inv_fun(pr.euler_from_quaternion(
+                    q, ea[0], ea[1], ea[2], extrinsic))
+                R2 = pr.matrix_from_quaternion(q)
+                assert_array_almost_equal(
+                    R1, R2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}",
+                    decimal=5)
 
 
 def test_conversions_matrix_axis_angle():
