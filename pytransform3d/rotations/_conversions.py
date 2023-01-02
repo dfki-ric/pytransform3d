@@ -1401,7 +1401,7 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
         Axis of the third rotation angle. A number between 0 and 2.
 
     extrinsic : bool
-        Extrinsic euler angles? Intrinsic otherwise.
+        Do we use extrinsic transformations? Intrinsic otherwise.
 
     Returns
     -------
@@ -1423,11 +1423,16 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     j = j + 1
     k = k + 1
 
+    # The original algorithm assumes extrinsic convention. Hence, we swap
+    # the order of axes for intrinsic rotation.
     if not extrinsic:
         i, k = k, i
 
-    symmetric = i == k
-    if symmetric:
+    # Proper Euler angles rotate about the same axis in the first and last
+    # rotation. If this is not the case, they are called Cardan or Tait-Bryan
+    # angles and have to be handled differently.
+    proper_euler = i == k
+    if proper_euler:
         k = 6 - i - j
 
     sign = (i - j) * (j - k) * (k - i) // 2
@@ -1436,7 +1441,7 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     c = q[j]
     d = q[k] * sign
 
-    if not symmetric:
+    if not proper_euler:
         a, b, c, d = a - c, b + d, c + a, d - b
 
     half_sum = math.atan2(b, a)
@@ -1448,7 +1453,7 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     angle_i = half_sum + half_diff
     angle_k = half_sum - half_diff
 
-    if not symmetric:
+    if not proper_euler:
         angle_j -= math.pi / 2.0
         angle_i *= sign
 
