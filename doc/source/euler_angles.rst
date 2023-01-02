@@ -134,6 +134,7 @@ API: Euler Angles from Rotation Matrix
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform3d.rotations.euler_from_quaternion
    ~pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix
    ~pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix
    ~pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix
