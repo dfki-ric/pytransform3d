@@ -1419,9 +1419,9 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     """
     q = check_quaternion(q)
 
-    i = i + 1
-    j = j + 1
-    k = k + 1
+    i += 1
+    j += 1
+    k += 1
 
     # The original algorithm assumes extrinsic convention. Hence, we swap
     # the order of axes for intrinsic rotation.
