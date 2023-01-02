@@ -1444,8 +1444,12 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     if not proper_euler:
         a, b, c, d = a - c, b + d, c + a, d - b
 
-    angle_j = 2.0 * math.atan2(math.sqrt(c * c + d * d),
-                               math.sqrt(a * a + b * b))
+    # Equation 35
+    angle_j = math.acos(
+        2.0 * (a * a + b * b) / (a * a + b * b + c * c + d * d) - 1.0)
+    # or Equation 34; TODO which one should be used and why?
+    #angle_j = 2.0 * math.atan2(math.sqrt(c * c + d * d),
+    #                           math.sqrt(a * a + b * b))
 
     # Check for singularities
     if abs(angle_j) <= eps:
@@ -1455,10 +1459,14 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     else:
         singularity = 0
 
+    # Equation 25
+    # (theta_1 + theta_3) / 2
     half_sum = math.atan2(b, a)
+    # (theta_1 - theta_3) / 2
     half_diff = math.atan2(d, c)
 
     if singularity == 0:  # no singularity
+        # Equation 32
         angle_i = half_sum + half_diff
         angle_k = half_sum - half_diff
     elif extrinsic:  # singularity
@@ -1466,16 +1474,20 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
         if singularity == 1:
             angle_i = 2.0 * half_sum
         else:
+            assert singularity == 2
             angle_i = 2.0 * half_diff
     else:  # intrinsic, singularity
         angle_i = 0.0
         if singularity == 1:
             angle_k = 2.0 * half_sum
         else:
+            assert singularity == 2
             angle_k = -2.0 * half_diff
 
     if not proper_euler:
+        # Equation 43
         angle_j -= math.pi / 2.0
+        # Equation 44
         angle_i *= sign
 
     angle_k = norm_angle(angle_k)
