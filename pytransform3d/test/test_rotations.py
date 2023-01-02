@@ -832,28 +832,63 @@ def test_active_matrix_from_extrinsic_roll_pitch_yaw():
     )
 
 
-def test_intrinsic_euler_xzx_from_quaternion():
-    """Test conversion from quaternion to intrinsic xzx Euler angles."""
+def test_from_quaternion():
+    """Test conversion from quaternion to Euler angles."""
     random_state = np.random.RandomState(32)
 
-    for _ in range(5):
-        q = pr.random_quaternion(random_state)
-        e1 = pr.intrinsic_euler_xzx_from_quaternion(q)
-        e2 = pr.intrinsic_euler_xzx_from_active_matrix(
-            pr.matrix_from_quaternion(q))
-        assert_array_almost_equal(e1, e2)
+    euler_axes = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [1, 0, 1],
+        [1, 2, 1],
+        [2, 1, 2],
+        [2, 0, 2],
+        [0, 2, 1],
+        [0, 1, 2],
+        [1, 0, 2],
+        [1, 2, 0],
+        [2, 1, 0],
+        [2, 0, 1]
+    ]
+    functions = [
+        pr.intrinsic_euler_xzx_from_active_matrix,
+        pr.extrinsic_euler_xzx_from_active_matrix,
+        pr.intrinsic_euler_xyx_from_active_matrix,
+        pr.extrinsic_euler_xyx_from_active_matrix,
+        pr.intrinsic_euler_yxy_from_active_matrix,
+        pr.extrinsic_euler_yxy_from_active_matrix,
+        pr.intrinsic_euler_yzy_from_active_matrix,
+        pr.extrinsic_euler_yzy_from_active_matrix,
+        pr.intrinsic_euler_zyz_from_active_matrix,
+        pr.extrinsic_euler_zyz_from_active_matrix,
+        pr.intrinsic_euler_zxz_from_active_matrix,
+        pr.extrinsic_euler_zxz_from_active_matrix,
+        pr.intrinsic_euler_xzy_from_active_matrix,
+        pr.extrinsic_euler_xzy_from_active_matrix,
+        pr.intrinsic_euler_xyz_from_active_matrix,
+        pr.extrinsic_euler_xyz_from_active_matrix,
+        pr.intrinsic_euler_yxz_from_active_matrix,
+        pr.extrinsic_euler_yxz_from_active_matrix,
+        pr.intrinsic_euler_yzx_from_active_matrix,
+        pr.extrinsic_euler_yzx_from_active_matrix,
+        pr.intrinsic_euler_zyx_from_active_matrix,
+        pr.extrinsic_euler_zyx_from_active_matrix,
+        pr.intrinsic_euler_zxy_from_active_matrix,
+        pr.extrinsic_euler_zxy_from_active_matrix,
+    ]
 
-
-def test_extrinsic_euler_xzx_from_quaternion():
-    """Test conversion from quaternion to extrinsic xzx Euler angles."""
-    random_state = np.random.RandomState(32)
-
-    for _ in range(5):
-        q = pr.random_quaternion(random_state)
-        e1 = pr.extrinsic_euler_xzx_from_quaternion(q)
-        e2 = pr.extrinsic_euler_xzx_from_active_matrix(
-            pr.matrix_from_quaternion(q))
-        assert_array_almost_equal(e1, e2)
+    fi = 0
+    for ea in euler_axes:
+        for extrinsic in [False, True]:
+            fun = functions[fi]
+            fi += 1
+            for _ in range(5):
+                q = pr.random_quaternion(random_state)
+                e1 = pr.euler_from_quaternion(
+                    q, ea[0], ea[1], ea[2], extrinsic)
+                e2 = fun(pr.matrix_from_quaternion(q))
+                assert_array_almost_equal(
+                    e1, e2, err_msg=f"axes: {ea}, extrinsic: {extrinsic}")
 
 
 def test_conversions_matrix_axis_angle():

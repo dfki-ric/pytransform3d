@@ -1383,25 +1383,25 @@ def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
         R, unity, unitx, unitz, False, strict_check)[::-1]
 
 
-def _general_euler_from_quaternion(q, extrinsic, i, j, k):
-    """General method to extract Euler angles from quaternions.
+def euler_from_quaternion(q, i, j, k, extrinsic):
+    """General method to extract any Euler angles from quaternions.
 
     Parameters
     ----------
     q : array-like, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
 
-    extrinsic : bool
-        Extrinsic euler angles? Intrinsic otherwise.
-
     i : int
-        Axis of the first rotation angle. A number between 1 and 3.
+        Axis of the first rotation angle. A number between 0 and 2.
 
     j : int
-        Axis of the second rotation angle. A number between 1 and 3.
+        Axis of the second rotation angle. A number between 0 and 2.
 
     k : int
-        Axis of the third rotation angle. A number between 1 and 3.
+        Axis of the third rotation angle. A number between 0 and 2.
+
+    extrinsic : bool
+        Extrinsic euler angles? Intrinsic otherwise.
 
     Returns
     -------
@@ -1418,6 +1418,10 @@ def _general_euler_from_quaternion(q, extrinsic, i, j, k):
     https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0276302
     """
     q = check_quaternion(q)
+
+    i = i + 1
+    j = j + 1
+    k = k + 1
 
     if not extrinsic:
         i, k = k, i
@@ -1455,38 +1459,6 @@ def _general_euler_from_quaternion(q, extrinsic, i, j, k):
         return np.array([angle_k, angle_j, angle_i])
 
     return np.array([angle_i, angle_j, angle_k])
-
-
-def intrinsic_euler_xzx_from_quaternion(q):
-    """Compute intrinsic xzx Euler angles from quaternion.
-
-    Parameters
-    ----------
-    q : array-like, shape (4,)
-        Unit quaternion to represent rotation: (w, x, y, z)
-
-    Returns
-    -------
-    e : array, shape (3,)
-        Angles for rotation around x-, z'-, and x''-axes (intrinsic rotations)
-    """
-    return _general_euler_from_quaternion(q, extrinsic=False, i=1, j=3, k=1)
-
-
-def extrinsic_euler_xzx_from_quaternion(q):
-    """Compute extrinsic xzx Euler angles from quaternion.
-
-    Parameters
-    ----------
-    q : array-like, shape (4,)
-        Unit quaternion to represent rotation: (w, x, y, z)
-
-    Returns
-    -------
-    e : array-like, shape (3,)
-        Angles for rotation around x-, z-, and x-axes (extrinsic rotations)
-    """
-    return _general_euler_from_quaternion(q, extrinsic=True, i=1, j=3, k=1)
 
 
 def axis_angle_from_matrix(R, strict_check=True, check=True):
