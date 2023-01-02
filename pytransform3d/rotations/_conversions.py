@@ -1444,12 +1444,10 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     if not proper_euler:
         a, b, c, d = a - c, b + d, c + a, d - b
 
-    # Equation 35
-    angle_j = math.acos(
-        2.0 * (a * a + b * b) / (a * a + b * b + c * c + d * d) - 1.0)
-    # or Equation 34; TODO which one should be used and why?
-    #angle_j = 2.0 * math.atan2(math.sqrt(c * c + d * d),
-    #                           math.sqrt(a * a + b * b))
+    # Equation 34 is used instead of Equation 35 as atan2 it is numerically
+    # more accurate than acos.
+    angle_j = 2.0 * math.atan2(math.hypot(c, d),
+                               math.hypot(a, b))
 
     # Check for singularities
     if abs(angle_j) <= eps:
