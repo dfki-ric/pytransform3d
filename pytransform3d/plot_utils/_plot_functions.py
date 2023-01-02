@@ -209,7 +209,7 @@ def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
     axis /= length
 
     not_axis = np.array([1, 0, 0])
-    if (axis == not_axis).all():
+    if np.allclose(axis, not_axis) or np.allclose(-axis, not_axis):
         not_axis = np.array([0, 1, 0])
 
     n1 = np.cross(axis, not_axis)
