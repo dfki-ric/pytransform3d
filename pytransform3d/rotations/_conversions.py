@@ -777,6 +777,26 @@ def active_matrix_from_extrinsic_roll_pitch_yaw(rpy):
     return active_matrix_from_extrinsic_euler_xyz(rpy)
 
 
+def check_axis_index(name, i):
+    """Checks axis index.
+
+    Parameters
+    ----------
+    name : str
+        Name of the axis. Required for the error message.
+
+    i : int from [0, 1, 2]
+        Index of the axis (0: x, 1: y, 2: z)
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+    """
+    if i not in [0, 1, 2]:
+        raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
+
+
 def matrix_from_euler(e, i, j, k, extrinsic):
     """General method to compute active rotation matrix from any Euler angles.
 
@@ -1429,26 +1449,6 @@ def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
     """
     return _general_intrinsic_euler_from_active_matrix(
         R, unity, unitx, unitz, False, strict_check)[::-1]
-
-
-def check_axis_index(name, i):
-    """Checks axis index.
-
-    Parameters
-    ----------
-    name : str
-        Name of the axis. Required for the error message.
-
-    i : int from [0, 1, 2]
-        Index of the axis (0: x, 1: y, 2: z)
-
-    Raises
-    ------
-    ValueError
-        If basis is invalid
-    """
-    if i not in [0, 1, 2]:
-        raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
 
 
 def euler_from_matrix(R, i, j, k, extrinsic, strict_check=True):
