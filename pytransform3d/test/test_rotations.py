@@ -834,6 +834,25 @@ def test_active_matrix_from_extrinsic_roll_pitch_yaw():
 
 def test_from_quaternion():
     """Test conversion from quaternion to Euler angles."""
+    assert_raises_regexp(
+        ValueError, "Axis index i \\(-1\\) must be in \\[0, 1, 2\\]",
+        pr.euler_from_quaternion, pr.q_id, -1, 0, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index i \\(3\\) must be in \\[0, 1, 2\\]",
+        pr.euler_from_quaternion, pr.q_id, 3, 0, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index j \\(-1\\) must be in \\[0, 1, 2\\]",
+        pr.euler_from_quaternion, pr.q_id, 2, -1, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index j \\(3\\) must be in \\[0, 1, 2\\]",
+        pr.euler_from_quaternion, pr.q_id, 2, 3, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index k \\(-1\\) must be in \\[0, 1, 2\\]",
+        pr.euler_from_quaternion, pr.q_id, 2, 0, -1, True)
+    assert_raises_regexp(
+        ValueError, "Axis index k \\(3\\) must be in \\[0, 1, 2\\]",
+        pr.euler_from_quaternion, pr.q_id, 2, 0, 3, True)
+
     random_state = np.random.RandomState(32)
 
     euler_axes = [
@@ -2023,6 +2042,25 @@ def test_quaternion_from_angle():
 
 def test_quaternion_from_euler():
     """Quaternion from Euler angles."""
+    assert_raises_regexp(
+        ValueError, "Axis index i \\(-1\\) must be in \\[0, 1, 2\\]",
+        pr.quaternion_from_euler, np.zeros(3), -1, 0, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index i \\(3\\) must be in \\[0, 1, 2\\]",
+        pr.quaternion_from_euler, np.zeros(3), 3, 0, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index j \\(-1\\) must be in \\[0, 1, 2\\]",
+        pr.quaternion_from_euler, np.zeros(3), 2, -1, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index j \\(3\\) must be in \\[0, 1, 2\\]",
+        pr.quaternion_from_euler, np.zeros(3), 2, 3, 2, True)
+    assert_raises_regexp(
+        ValueError, "Axis index k \\(-1\\) must be in \\[0, 1, 2\\]",
+        pr.quaternion_from_euler, np.zeros(3), 2, 0, -1, True)
+    assert_raises_regexp(
+        ValueError, "Axis index k \\(3\\) must be in \\[0, 1, 2\\]",
+        pr.quaternion_from_euler, np.zeros(3), 2, 0, 3, True)
+
     euler_axes = [
         [0, 2, 0],
         [0, 1, 0],

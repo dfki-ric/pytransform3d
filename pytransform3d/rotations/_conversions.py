@@ -1384,6 +1384,26 @@ def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
         R, unity, unitx, unitz, False, strict_check)[::-1]
 
 
+def check_axis_index(name, i):
+    """Checks axis index.
+
+    Parameters
+    ----------
+    name : str
+        Name of the axis. Required for the error message.
+
+    i : int from [0, 1, 2]
+        Index of the axis (0: x, 1: y, 2: z)
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+    """
+    if i not in [0, 1, 2]:
+        raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
+
+
 def euler_from_quaternion(q, i, j, k, extrinsic):
     """General method to extract any Euler angles from quaternions.
 
@@ -1412,6 +1432,11 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
         angle is normalized to either [0, pi] (proper Euler angles) or
         [-pi/2, pi/2] (Cardan / Tait-Bryan angles).
 
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+
     References
     ----------
     Bernardes, Evandro; Viollet, Stephane: Quaternion to Euler angles
@@ -1419,6 +1444,10 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
     https://doi.org/10.1371/journal.pone.0276302
     """
     q = check_quaternion(q)
+
+    check_axis_index("i", i)
+    check_axis_index("j", j)
+    check_axis_index("k", k)
 
     i += 1
     j += 1
