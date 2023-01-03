@@ -3,7 +3,7 @@ import numpy as np
 from ._utils import check_quaternion, check_quaternions
 from ._conversions import (
     quaternion_from_compact_axis_angle, compact_axis_angle_from_quaternion,
-    axis_angle_from_quaternion, quaternion_from_angle)
+    axis_angle_from_quaternion, quaternion_from_angle, check_axis_index)
 
 
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
@@ -232,7 +232,16 @@ def quaternion_from_euler(e, i, j, k, extrinsic):
     -------
     q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
     """
+    check_axis_index("i", i)
+    check_axis_index("j", j)
+    check_axis_index("k", k)
+
     q0 = quaternion_from_angle(i, e[0])
     q1 = quaternion_from_angle(j, e[1])
     q2 = quaternion_from_angle(k, e[2])
