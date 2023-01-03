@@ -376,19 +376,13 @@ def test_fixed_joint():
     )
 
 
-def test_fixed_joint_warning():
-    tm = UrdfTransformManager()
-    tm.load_urdf(COMPI_URDF)
-    with warnings.catch_warnings(record=True) as w:
-        tm.set_joint("jointtcp", 0.0)
-    assert_equal(len(w), 1)
-
-
-def test_fixed_joint_unchanged():
+def test_fixed_joint_unchanged_and_warning():
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
     tcp_to_link0_before = tm.get_transform("tcp", "linkmount")
-    tm.set_joint("jointtcp", 2.0)
+    with warnings.catch_warnings(record=True) as w:
+        tm.set_joint("jointtcp", 2.0)
+    assert_equal(len(w), 1)
     tcp_to_link0_after = tm.get_transform("tcp", "linkmount")
     assert_array_almost_equal(
         tcp_to_link0_before,
