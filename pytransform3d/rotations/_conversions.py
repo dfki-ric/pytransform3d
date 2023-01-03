@@ -298,7 +298,7 @@ def active_matrix_from_extrinsic_euler_xzx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -318,7 +318,7 @@ def active_matrix_from_intrinsic_euler_xyx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -338,7 +338,7 @@ def active_matrix_from_extrinsic_euler_xyx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -358,7 +358,7 @@ def active_matrix_from_intrinsic_euler_yxy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -378,7 +378,7 @@ def active_matrix_from_extrinsic_euler_yxy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -398,7 +398,7 @@ def active_matrix_from_intrinsic_euler_yzy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -418,7 +418,7 @@ def active_matrix_from_extrinsic_euler_yzy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -438,7 +438,7 @@ def active_matrix_from_intrinsic_euler_zyz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -464,7 +464,7 @@ def active_matrix_from_extrinsic_euler_zyz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -484,7 +484,7 @@ def active_matrix_from_intrinsic_euler_zxz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -510,7 +510,7 @@ def active_matrix_from_extrinsic_euler_zxz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -530,7 +530,7 @@ def active_matrix_from_intrinsic_euler_xzy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -550,7 +550,7 @@ def active_matrix_from_extrinsic_euler_xzy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -570,7 +570,7 @@ def active_matrix_from_intrinsic_euler_xyz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -590,7 +590,7 @@ def active_matrix_from_extrinsic_euler_xyz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -610,7 +610,7 @@ def active_matrix_from_intrinsic_euler_yxz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -630,7 +630,7 @@ def active_matrix_from_extrinsic_euler_yxz(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -650,7 +650,7 @@ def active_matrix_from_intrinsic_euler_yzx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -670,7 +670,7 @@ def active_matrix_from_extrinsic_euler_yzx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -690,7 +690,7 @@ def active_matrix_from_intrinsic_euler_zyx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -710,7 +710,7 @@ def active_matrix_from_extrinsic_euler_zyx(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -730,7 +730,7 @@ def active_matrix_from_intrinsic_euler_zxy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -750,7 +750,7 @@ def active_matrix_from_extrinsic_euler_zxy(e):
 
     Returns
     -------
-    R : array-like, shape (3, 3)
+    R : array, shape (3, 3)
         Rotation matrix
     """
     alpha, beta, gamma = e
@@ -814,10 +814,10 @@ def matrix_from_euler(e, i, j, k, extrinsic):
     check_axis_index("j", j)
     check_axis_index("k", k)
 
-    if extrinsic:
-        alpha, beta, gamma = e
-    else:
-        gamma, beta, alpha = e
+    alpha, beta, gamma = e
+    if not extrinsic:
+        i, k = k, i
+        alpha, gamma = gamma, alpha
     R = active_matrix_from_angle(k, gamma).dot(
         active_matrix_from_angle(j, beta)).dot(
         active_matrix_from_angle(i, alpha))
@@ -962,7 +962,7 @@ def extrinsic_euler_xzx_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around x-, z-, and x-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1025,7 +1025,7 @@ def intrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, x'-, and y''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1046,7 +1046,7 @@ def extrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, x-, and y-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1067,7 +1067,7 @@ def intrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, z'-, and y''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1088,7 +1088,7 @@ def extrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, z-, and y-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1109,7 +1109,7 @@ def intrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around z-, y'-, and z''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1130,7 +1130,7 @@ def extrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around z-, y-, and z-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1151,7 +1151,7 @@ def intrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around z-, x'-, and z''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1172,7 +1172,7 @@ def extrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around z-, x-, and z-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1193,7 +1193,7 @@ def intrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around x-, z'-, and y''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1214,7 +1214,7 @@ def extrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around x-, z-, and y-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1235,7 +1235,7 @@ def intrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1256,7 +1256,7 @@ def extrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around x-, y-, and z-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1277,7 +1277,7 @@ def intrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, x'-, and z''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1298,7 +1298,7 @@ def extrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, x-, and z-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1319,7 +1319,7 @@ def intrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, z'-, and x''-axes (intrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1340,7 +1340,7 @@ def extrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around y-, z-, and x-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1424,7 +1424,7 @@ def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
 
     Returns
     -------
-    e : array-like, shape (3,)
+    e : array, shape (3,)
         Angles for rotation around z-, x-, and y-axes (extrinsic rotations)
     """
     return _general_intrinsic_euler_from_active_matrix(
@@ -1499,6 +1499,8 @@ def euler_from_matrix(R, i, j, k, extrinsic, strict_check=True):
 
     basis_vectors = [unitx, unity, unitz]
     proper_euler = i == k
+    if extrinsic:
+        i, k = k, i
     e = _general_intrinsic_euler_from_active_matrix(
         R, basis_vectors[i], basis_vectors[j], basis_vectors[k], proper_euler,
         strict_check)
