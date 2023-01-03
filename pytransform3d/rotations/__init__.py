@@ -80,7 +80,7 @@ from ._conversions import (
     cross_product_matrix)
 from ._quaternion_operations import (
     quaternion_integrate, quaternion_gradient, concatenate_quaternions, q_conj,
-    q_prod_vector, quaternion_diff, quaternion_dist)
+    q_prod_vector, quaternion_diff, quaternion_dist, quaternion_from_euler)
 from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
                      axis_angle_slerp, rotor_slerp)
 from ._testing import (
@@ -194,6 +194,7 @@ __all__ = [
     "extrinsic_euler_zyz_from_active_matrix",
     "euler_from_quaternion",
     "quaternion_from_angle",
+    "quaternion_from_euler",
     "cross_product_matrix",
     "quaternion_integrate",
     "quaternion_gradient",

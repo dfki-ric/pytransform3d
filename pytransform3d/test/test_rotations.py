@@ -2019,3 +2019,38 @@ def test_quaternion_from_angle():
         q = pr.quaternion_from_angle(basis, angle)
         Rq = pr.matrix_from_quaternion(q)
         assert_array_almost_equal(R, Rq)
+
+
+def test_quaternion_from_euler():
+    """Quaternion from Euler angles."""
+    euler_axes = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [1, 0, 1],
+        [1, 2, 1],
+        [2, 1, 2],
+        [2, 0, 2],
+        [0, 2, 1],
+        [0, 1, 2],
+        [1, 0, 2],
+        [1, 2, 0],
+        [2, 1, 0],
+        [2, 0, 1]
+    ]
+    random_state = np.random.RandomState(83)
+    for ea in euler_axes:
+        for extrinsic in [False, True]:
+            e = random_state.rand(3)
+            e[0] = 2.0 * np.pi * e[0] - np.pi
+            e[1] = np.pi * e[1]
+            e[2] = 2.0 * np.pi * e[2] - np.pi
+
+            proper_euler = ea[0] == ea[2]
+            if proper_euler:
+                e[1] -= np.pi / 2.0
+
+            q = pr.quaternion_from_euler(e, ea[0], ea[1], ea[2], extrinsic)
+            e2 = pr.euler_from_quaternion(q, ea[0], ea[1], ea[2], extrinsic)
+            q2 = pr.quaternion_from_euler(e2, ea[0], ea[1], ea[2], extrinsic)
+
+            pr.assert_quaternion_equal(q, q2)
