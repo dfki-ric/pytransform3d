@@ -174,6 +174,9 @@ def intrinsic_euler_zxy_from_active_matrix(R: npt.ArrayLike, strict_check: bool 
 def extrinsic_euler_zxy_from_active_matrix(R: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
 
 
+def check_axis_index(name: str, i: int): ...
+
+
 def euler_from_quaternion(
         q: npt.ArrayLike, i: int, j: int, k: int, extrinsic: bool) -> np.ndarray: ...
 
