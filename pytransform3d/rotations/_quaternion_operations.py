@@ -1,9 +1,9 @@
 """Quaternion operations."""
 import numpy as np
 from ._utils import check_quaternion, check_quaternions
-from ._conversions import (quaternion_from_compact_axis_angle,
-                           compact_axis_angle_from_quaternion,
-                           axis_angle_from_quaternion)
+from ._conversions import (
+    quaternion_from_compact_axis_angle, compact_axis_angle_from_quaternion,
+    axis_angle_from_quaternion, quaternion_from_angle)
 
 
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
@@ -203,3 +203,39 @@ def quaternion_diff(q1, q2):
     q2 = check_quaternion(q2)
     q1q2c = concatenate_quaternions(q1, q_conj(q2))
     return axis_angle_from_quaternion(q1q2c)
+
+
+def quaternion_from_euler(e, i, j, k, extrinsic):
+    """General conversion to quaternion from any Euler angles.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order. The
+        first and last angle are normalized to [-pi, pi]. The middle angle is
+        normalized to either [0, pi] (proper Euler angles) or [-pi/2, pi/2]
+        (Cardan / Tait-Bryan angles).
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    extrinsic : bool
+        Do we use extrinsic transformations? Intrinsic otherwise.
+
+    Returns
+    -------
+    q : array, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+    """
+    q0 = quaternion_from_angle(i, e[0])
+    q1 = quaternion_from_angle(j, e[1])
+    q2 = quaternion_from_angle(k, e[2])
+    if not extrinsic:
+        q0, q2 = q2, q0
+    return concatenate_quaternions(concatenate_quaternions(q2, q1), q0)

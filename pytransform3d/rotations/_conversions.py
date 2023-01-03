@@ -1,5 +1,6 @@
 """Conversions between rotation representations."""
 import math
+import warnings
 import numpy as np
 from ._utils import (
     check_matrix, check_quaternion, check_axis_angle, check_compact_axis_angle,
@@ -1915,5 +1916,8 @@ def quaternion_from_extrinsic_euler_xyz(e):
     q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
+    warnings.warn(
+        "quaternion_from_extrinsic_euler_xyz is deprecated, use "
+        "quaternion_from_euler", DeprecationWarning)
     R = active_matrix_from_extrinsic_euler_xyz(e)
     return quaternion_from_matrix(R)
