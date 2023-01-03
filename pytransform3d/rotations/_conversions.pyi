@@ -98,6 +98,9 @@ def active_matrix_from_extrinsic_euler_zxy(e: npt.ArrayLike) -> np.ndarray: ...
 def active_matrix_from_extrinsic_roll_pitch_yaw(rpy: npt.ArrayLike) -> np.ndarray: ...
 
 
+def check_axis_index(name: str, i: int): ...
+
+
 def matrix_from_euler(
         e: npt.ArrayLike, i: int, j: int, k: int, extrinsic: bool) -> np.ndarray: ...
 
@@ -176,9 +179,6 @@ def intrinsic_euler_zxy_from_active_matrix(R: npt.ArrayLike, strict_check: bool 
 
 
 def extrinsic_euler_zxy_from_active_matrix(R: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
-
-
-def check_axis_index(name: str, i: int): ...
 
 
 def euler_from_matrix(
