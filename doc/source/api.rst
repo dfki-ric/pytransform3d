@@ -78,9 +78,9 @@ Conversions to Quaternion
    ~pytransform3d.rotations.quaternion_from_matrix
    ~pytransform3d.rotations.quaternion_from_axis_angle
    ~pytransform3d.rotations.quaternion_from_compact_axis_angle
+   ~pytransform3d.rotations.quaternion_from_euler
    ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
    ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
-   ~pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz
 
 Conversions to Rotor
 -------------------------
@@ -170,6 +170,15 @@ Utility Functions
    ~pytransform3d.rotations.random_compact_axis_angle
    ~pytransform3d.rotations.random_quaternion
    ~pytransform3d.rotations.cross_product_matrix
+
+Deprecated Functions
+--------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz
 
 
 :mod:`pytransform3d.transformations`
