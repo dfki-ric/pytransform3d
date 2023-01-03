@@ -1786,6 +1786,43 @@ def quaternion_from_matrix(R, strict_check=True):
     return q
 
 
+def quaternion_from_angle(basis, angle):
+    """Compute quaternion from rotation about basis vector.
+
+    Parameters
+    ----------
+    basis : int from [0, 1, 2]
+        The rotation axis (0: x, 1: y, 2: z)
+
+    angle : float
+        Rotation angle
+
+    Returns
+    -------
+    q : array, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+    """
+    half_angle = 0.5 * angle
+    c = math.cos(half_angle)
+    s = math.sin(half_angle)
+
+    if basis == 0:
+        q = np.array([c, s, 0.0, 0.0])
+    elif basis == 1:
+        q = np.array([c, 0.0, s, 0.0])
+    elif basis == 2:
+        q = np.array([c, 0.0, 0.0, s])
+    else:
+        raise ValueError("Basis must be in [0, 1, 2]")
+
+    return q
+
+
 def quaternion_from_axis_angle(a):
     """Compute quaternion from axis-angle.
 
@@ -1800,7 +1837,7 @@ def quaternion_from_axis_angle(a):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     a = check_axis_angle(a)
@@ -1824,7 +1861,7 @@ def quaternion_from_compact_axis_angle(a):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     a = axis_angle_from_compact_axis_angle(a)
@@ -1841,7 +1878,7 @@ def quaternion_xyzw_from_wxyz(q_wxyz):
 
     Returns
     -------
-    q_xyzw : array-like, shape (4,)
+    q_xyzw : array, shape (4,)
         Quaternion with scalar part after vector part
     """
     q_wxyz = check_quaternion(q_wxyz)
@@ -1858,7 +1895,7 @@ def quaternion_wxyz_from_xyzw(q_xyzw):
 
     Returns
     -------
-    q_wxyz : array-like, shape (4,)
+    q_wxyz : array, shape (4,)
         Quaternion with scalar part before vector part
     """
     q_xyzw = check_quaternion(q_xyzw)
@@ -1875,7 +1912,7 @@ def quaternion_from_extrinsic_euler_xyz(e):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     R = active_matrix_from_extrinsic_euler_xyz(e)
