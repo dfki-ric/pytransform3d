@@ -74,6 +74,7 @@ Conversions to Quaternion
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform3d.rotations.quaternion_from_angle
    ~pytransform3d.rotations.quaternion_from_matrix
    ~pytransform3d.rotations.quaternion_from_axis_angle
    ~pytransform3d.rotations.quaternion_from_compact_axis_angle

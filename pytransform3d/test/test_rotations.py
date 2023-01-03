@@ -2002,3 +2002,20 @@ def test_bug_198():
     a = pr.compact_axis_angle_from_matrix(R)
     R2 = pr.matrix_from_compact_axis_angle(a)
     assert_array_almost_equal(R, R2)
+
+
+def test_quaternion_from_angle():
+    """Quaternion from rotation around basis vectors."""
+    assert_raises_regexp(ValueError, "Basis must be in",
+                         pr.quaternion_from_angle, -1, 0)
+    assert_raises_regexp(ValueError, "Basis must be in",
+                         pr.quaternion_from_angle, 3, 0)
+
+    random_state = np.random.RandomState(22)
+    for i in range(20):
+        basis = random_state.randint(0, 3)
+        angle = 2.0 * np.pi * random_state.rand() - np.pi
+        R = pr.active_matrix_from_angle(basis, angle)
+        q = pr.quaternion_from_angle(basis, angle)
+        Rq = pr.matrix_from_quaternion(q)
+        assert_array_almost_equal(R, Rq)

@@ -76,6 +76,7 @@ from ._conversions import (
     extrinsic_euler_zyx_from_active_matrix,
     extrinsic_euler_zyz_from_active_matrix,
     euler_from_quaternion,
+    quaternion_from_angle,
     cross_product_matrix)
 from ._quaternion_operations import (
     quaternion_integrate, quaternion_gradient, concatenate_quaternions, q_conj,
@@ -192,6 +193,7 @@ __all__ = [
     "extrinsic_euler_zyx_from_active_matrix",
     "extrinsic_euler_zyz_from_active_matrix",
     "euler_from_quaternion",
+    "quaternion_from_angle",
     "cross_product_matrix",
     "quaternion_integrate",
     "quaternion_gradient",
