@@ -777,6 +777,53 @@ def active_matrix_from_extrinsic_roll_pitch_yaw(rpy):
     return active_matrix_from_extrinsic_euler_xyz(rpy)
 
 
+def matrix_from_euler(e, i, j, k, extrinsic):
+    """General method to compute active rotation matrix from any Euler angles.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Extracted rotation angles in radians about the axes i, j, k in this
+        order. The first and last angle are normalized to [-pi, pi]. The middle
+        angle is normalized to either [0, pi] (proper Euler angles) or
+        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    extrinsic : bool
+        Do we use extrinsic transformations? Intrinsic otherwise.
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Active rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+    """
+    check_axis_index("i", i)
+    check_axis_index("j", j)
+    check_axis_index("k", k)
+
+    if extrinsic:
+        alpha, beta, gamma = e
+    else:
+        gamma, beta, alpha = e
+    R = active_matrix_from_angle(k, gamma).dot(
+        active_matrix_from_angle(j, beta)).dot(
+        active_matrix_from_angle(i, alpha))
+    return R
+
+
 def _general_intrinsic_euler_from_active_matrix(
         R, n1, n2, n3, proper_euler, strict_check=True):
     """General algorithm to extract intrinsic euler angles from a matrix.
@@ -1402,6 +1449,64 @@ def check_axis_index(name, i):
     """
     if i not in [0, 1, 2]:
         raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
+
+
+def euler_from_matrix(R, i, j, k, extrinsic, strict_check=True):
+    """General method to extract any Euler angles from active rotation matrix.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Active rotation matrix
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    extrinsic : bool
+        Do we use extrinsic transformations? Intrinsic otherwise.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
+    Returns
+    -------
+    euler_angles : array, shape (3,)
+        Extracted rotation angles in radians about the axes i, j, k in this
+        order. The first and last angle are normalized to [-pi, pi]. The middle
+        angle is normalized to either [0, pi] (proper Euler angles) or
+        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+
+    References
+    ----------
+    Shuster, Markley: General Formula for Extracting the Euler Angles,
+    https://arc.aiaa.org/doi/abs/10.2514/1.16622
+    """
+    check_axis_index("i", i)
+    check_axis_index("j", j)
+    check_axis_index("k", k)
+
+    basis_vectors = [unitx, unity, unitz]
+    proper_euler = i == k
+    e = _general_intrinsic_euler_from_active_matrix(
+        R, basis_vectors[i], basis_vectors[j], basis_vectors[k], proper_euler,
+        strict_check)
+
+    if extrinsic:
+        e = e[::-1]
+
+    return e
 
 
 def euler_from_quaternion(q, i, j, k, extrinsic):

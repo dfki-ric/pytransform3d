@@ -92,14 +92,16 @@ xyz Cardan angles can also be called roll, pitch, and yaw (or sometimes
 the intrinsic convention is used here as well). Roll is a rotation about
 x, pitch is a rotation about y and yaw is a rotation about z.
 
---------------------------------------
-API: Rotation Matrix from Euler Angles
---------------------------------------
+---------------------------------------------------
+API: Rotation Matrix / Quaternion from Euler Angles
+---------------------------------------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform3d.rotations.quaternion_from_euler
+   ~pytransform3d.rotations.matrix_from_euler
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx
    ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx
    ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx
@@ -126,15 +128,16 @@ API: Rotation Matrix from Euler Angles
    ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy
    ~pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw
 
---------------------------------------
-API: Euler Angles from Rotation Matrix
---------------------------------------
+---------------------------------------------------
+API: Euler Angles from Rotation Matrix / Quaternion
+---------------------------------------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
    ~pytransform3d.rotations.euler_from_quaternion
+   ~pytransform3d.rotations.euler_from_matrix
    ~pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix
    ~pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix
    ~pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix
