@@ -47,6 +47,7 @@ that have been omitted here for the sake of brevity.
 
    ~pytransform3d.rotations.passive_matrix_from_angle
    ~pytransform3d.rotations.active_matrix_from_angle
+   ~pytransform3d.rotations.matrix_from_euler
    ~pytransform3d.rotations.matrix_from_two_vectors
    ~pytransform3d.rotations.matrix_from_axis_angle
    ~pytransform3d.rotations.matrix_from_compact_axis_angle
