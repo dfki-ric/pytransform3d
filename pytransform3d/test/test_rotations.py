@@ -508,6 +508,10 @@ def test_active_matrix_from_intrinsic_euler_zyz():
         ])
     )
     assert_array_almost_equal(
+        pr.active_matrix_from_intrinsic_euler_zyz([0.5 * np.pi, 0, 0]),
+        pr.matrix_from_euler([0.5 * np.pi, 0, 0], 2, 1, 2, False)
+    )
+    assert_array_almost_equal(
         pr.active_matrix_from_intrinsic_euler_zyz(
             [0.5 * np.pi, 0, 0.5 * np.pi]),
         np.array([
@@ -545,6 +549,10 @@ def test_active_matrix_from_extrinsic_euler_zyz():
             [0, 0, -1],
             [0, 1, 0]
         ])
+    )
+    assert_array_almost_equal(
+        pr.active_matrix_from_extrinsic_roll_pitch_yaw([0.5 * np.pi, 0, 0]),
+        pr.matrix_from_euler([0.5 * np.pi, 0, 0], 0, 1, 2, True)
     )
     assert_array_almost_equal(
         pr.active_matrix_from_extrinsic_roll_pitch_yaw(
@@ -2092,3 +2100,46 @@ def test_quaternion_from_euler():
             q2 = pr.quaternion_from_euler(e2, ea[0], ea[1], ea[2], extrinsic)
 
             pr.assert_quaternion_equal(q, q2)
+
+
+def test_general_matrix_euler_conversions():
+    """General conversion algorithms between matrix and Euler angles."""
+    random_state = np.random.RandomState(22)
+
+    euler_axes = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [1, 0, 1],
+        [1, 2, 1],
+        [2, 1, 2],
+        [2, 0, 2],
+        [0, 2, 1],
+        [0, 1, 2],
+        [1, 0, 2],
+        [1, 2, 0],
+        [2, 1, 0],
+        [2, 0, 1]
+    ]
+    for ea in euler_axes:
+        for extrinsic in [False, True]:
+            e = random_state.rand(3)
+            e[0] = 2.0 * np.pi * e[0] - np.pi
+            e[1] = np.pi * e[1]
+            e[2] = 2.0 * np.pi * e[2] - np.pi
+
+            proper_euler = ea[0] == ea[2]
+            if proper_euler:
+                e[1] -= np.pi / 2.0
+
+            q = pr.quaternion_from_euler(e, ea[0], ea[1], ea[2], extrinsic)
+            R = pr.matrix_from_euler(e, ea[0], ea[1], ea[2], extrinsic)
+            q_R = pr.quaternion_from_matrix(R)
+            pr.assert_quaternion_equal(
+                q, q_R, err_msg=f"axes: {ea}, extrinsic: {extrinsic}")
+
+            e_R = pr.euler_from_matrix(R, ea[0], ea[1], ea[2], extrinsic)
+            e_q = pr.euler_from_quaternion(q, ea[0], ea[1], ea[2], extrinsic)
+
+            R_R = pr.matrix_from_euler(e_R, ea[0], ea[1], ea[2], extrinsic)
+            R_q = pr.matrix_from_euler(e_q, ea[0], ea[1], ea[2], extrinsic)
+            assert_array_almost_equal(R_R, R_q)
