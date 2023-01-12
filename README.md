@@ -7,21 +7,6 @@
 
 A Python library for transformations in three dimensions.
 
-The library focuses on readability and debugging, not on computational
-efficiency.
-If you want to have an efficient implementation of some function from the
-library you can easily extract the relevant code and implement it more
-efficiently in a language of your choice.
-
-The library integrates well with the
-[scientific Python ecosystem](https://scipy-lectures.org/)
-with its core libraries Numpy, Scipy and Matplotlib.
-We rely on [Numpy](https://numpy.org/) for linear algebra and on
-[Matplotlib](https://matplotlib.org/) to offer plotting functionalities.
-[Scipy](https://scipy.org/scipylib/index.html) is used if you want to
-automatically compute new transformations from a graph of existing
-transformations.
-
 pytransform3d offers...
 
 * operations like concatenation and inversion for most common representations
