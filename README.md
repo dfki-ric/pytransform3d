@@ -35,7 +35,7 @@ pytransform3d offers...
 * the TransformEditor which allows to modify transformations graphically
   (additionally requires PyQt4 or PyQt5)
 * the UrdfTransformManager which is able to load transformations from
-  [URDF](http://wiki.ros.org/urdf) files (additionally requires
+  [URDF](https://wiki.ros.org/urdf) files (additionally requires
   beautifulsoup4)
 * a matplotlib-like interface to Open3D's visualizer to display and animate
   geometries and transformations (additionally requires Open3D)
