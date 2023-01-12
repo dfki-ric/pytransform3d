@@ -23,6 +23,7 @@ pytransform3d
 .. toctree::
    :maxdepth: 1
 
+   install
    notation
    rotations
    transformations
@@ -57,15 +58,8 @@ pytransform3d covers the following groups of transformations.
 |       |                    | transformation, unit dual quaternion    |
 +-------+--------------------+-----------------------------------------+
 
-------------
-Installation
-------------
-
-pytransform3d is available at
-`GitHub <https://github.com/dfki-ric/pytransform3d>`_.
-The readme there contains installation instructions. This documentation
-explains how you can work with pytransform3d and with 3D transformations
-in general.
+This documentation explains how you can work with pytransform3d and with
+3D transformations in general.
 
 --------
 Citation

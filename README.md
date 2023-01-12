@@ -72,38 +72,18 @@ pytransform3d is used in various domains, for example:
 Use pip to install the package from PyPI:
 
 ```bash
-[sudo] pip[3] install [--user] pytransform3d[all,doc,test]
+pip install pytransform3d[all]
 ```
 
-You can install pytransform3d[all] if you want to have support for pydot
-export. Make sure to install graphviz (on Ubuntu: `sudo apt install graphviz`)
-if you want to use this feature. If you want to have support for the Qt GUI
-you have to install PyQt 4 or 5 (on Ubuntu: `sudo apt install python3-pyqt5`;
-conda: `conda install pyqt`).
-
-You can also install from the current git version: clone the repository and go
-to the main folder. Install dependencies with:
+or conda:
 
 ```bash
-pip install -r requirements.txt
+conda install -c conda-forge pytransform3d
 ```
 
-Install the package with:
-
-```bash
-python setup.py install
-```
-
-Also pip supports installation from a git repository:
-
-```bash
-pip install git+https://github.com/dfki-ric/pytransform3d.git
-```
-
-Since version 1.8 you can also install pytransform3d with conda from
-conda-forge. See
-[here](https://github.com/conda-forge/pytransform3d-feedstock#installing-pytransform3d)
-for instructions.
+Take a look at the
+[installation instructions](https://dfki-ric.github.io/pytransform3d/install.html)
+in the documentation for more details.
 
 ## Documentation
 
