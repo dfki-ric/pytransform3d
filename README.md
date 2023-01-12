@@ -32,6 +32,9 @@ pytransform3d is used in various domains, for example:
 * sensor fusion for human pose estimation
 * collision detection for robots
 
+The API documentation can be found
+[here](https://dfki-ric.github.io/pytransform3d/).
+
 ## Installation
 
 Use pip to install the package from PyPI:
@@ -49,26 +52,6 @@ conda install -c conda-forge pytransform3d
 Take a look at the
 [installation instructions](https://dfki-ric.github.io/pytransform3d/install.html)
 in the documentation for more details.
-
-## Documentation
-
-The API documentation can be found
-[here](https://dfki-ric.github.io/pytransform3d/).
-
-The documentation can be found in the directory `doc`.
-To build the documentation, run e.g. (on linux):
-
-```bash
-cd doc
-make html
-```
-
-The HTML documentation is now located at `doc/build/html/index.html`.
-You need the following packages to build the documentation:
-
-```bash
-pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
-```
 
 ## Example
 
@@ -135,6 +118,26 @@ Various plots based on Matplotlib.
 Transformation editor based on Qt.
 
 <img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/app_transformation_editor.png" height=300px/>
+
+## Documentation
+
+The API documentation can be found
+[here](https://dfki-ric.github.io/pytransform3d/).
+
+The documentation can be found in the directory `doc`.
+To build the documentation, run e.g. (on linux):
+
+```bash
+cd doc
+make html
+```
+
+The HTML documentation is now located at `doc/build/html/index.html`.
+You need the following packages to build the documentation:
+
+```bash
+pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
+```
 
 ## Tests
 
