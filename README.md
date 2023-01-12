@@ -179,6 +179,11 @@ has its own development branch from which a pull request will be opened to the
 main branch. Only the maintainer of the software is allowed to merge a
 development branch to the main branch.
 
+## License
+
+The library is distributed under the
+[3-Clause BSD license](https://github.com/dfki-ric/pytransform3d/blob/develop/LICENSE).
+
 ## Citation
 
 If you use pytransform3d for a scientific publication, I would appreciate
