@@ -22,37 +22,14 @@ We rely on [Numpy](https://numpy.org/) for linear algebra and on
 automatically compute new transformations from a graph of existing
 transformations.
 
-Heterogenous software systems that consist of proprietary and open source
-software are often combined when we work with transformations.
-For example, suppose you want to transfer a trajectory demonstrated by a human
-to a robot. The human trajectory could be measured from an RGB-D camera, fused
-with IMU sensors that are attached to the human, and then translated to
-joint angles by inverse kinematics. That involves at least three different
-software systems that might all use different conventions for transformations.
-Sometimes even one software uses more than one convention.
-The following aspects are of crucial importance to glue and debug
-transformations in systems with heterogenous and often incompatible
-software:
-* Compatibility: Compatibility between heterogenous softwares is a difficult
-  topic. It might involve, for example, communicating between proprietary and
-  open source software or different languages.
-* Conventions: Lots of different conventions are used for transformations
-  in three dimensions. These have to be determined or specified.
-* Conversions: We need conversions between these conventions to
-  communicate transformations between different systems.
-* Visualization: Finally, transformations should be visually verified
-  and that should be as easy as possible.
+pytransform3d offers...
 
-pytransform3d assists in solving these issues. Its documentation clearly
-states all of the used conventions, it aims at making conversions between
-rotation and transformation conventions as easy as possible, it is tightly
-coupled with Matplotlib to quickly visualize (or animate) transformations and
-it is written in Python with few dependencies. Python is a widely adopted
-language. It is used in many domains and supports a wide spectrum of
-communication to other software.
-
-In addition, pytransform3d offers...
-
+* operations like concatenation and inversion for most common representations
+  of rotation (orientation) and translation (position)
+* conversions between those representations
+* clear documentation of transformation conventions
+* tight coupling with matplotlib to quickly visualize (or animate)
+  transformations
 * the TransformManager which manages complex chains of transformations
   (with export to graph visualization as PNG, additionally requires pydot)
 * the TransformEditor which allows to modify transformations graphically
@@ -60,12 +37,15 @@ In addition, pytransform3d offers...
 * the UrdfTransformManager which is able to load transformations from
   [URDF](http://wiki.ros.org/urdf) files (additionally requires
   beautifulsoup4)
+* a matplotlib-like interface to Open3D's visualizer to display and animate
+  geometries and transformations (additionally requires Open3D)
 
 pytransform3d is used in various domains, for example:
 
 * specifying motions of a robot
 * learning robot movements from human demonstration
 * sensor fusion for human pose estimation
+* collision detection for robots
 
 ## Installation
 

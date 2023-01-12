@@ -4,6 +4,36 @@
 Transformation Ambiguities and Conventions
 ==========================================
 
+Heterogenous software systems that consist of proprietary and open source
+software are often combined when we work with transformations.
+For example, suppose you want to transfer a trajectory demonstrated by a human
+to a robot. The human trajectory could be measured from an RGB-D camera, fused
+with IMU sensors that are attached to the human, and then translated to
+joint angles by inverse kinematics. That involves at least three different
+software systems that might all use different conventions for transformations.
+Sometimes even one software uses more than one convention.
+The following aspects are of crucial importance to glue and debug
+transformations in systems with heterogenous and often incompatible
+software:
+
+* Compatibility: Compatibility between heterogenous softwares is a difficult
+  topic. It might involve, for example, communicating between proprietary and
+  open source software or different languages.
+* Conventions: Lots of different conventions are used for transformations
+  in three dimensions. These have to be determined or specified.
+* Conversions: We need conversions between these conventions to
+  communicate transformations between different systems.
+* Visualization: Finally, transformations should be visually verified
+  and that should be as easy as possible.
+
+pytransform3d assists in solving these issues. This documentation clearly
+states all of the used conventions, it aims at making conversions between
+rotation and transformation conventions as easy as possible, it is tightly
+coupled with Matplotlib to quickly visualize (or animate) transformations and
+it is written in Python with few dependencies. Python is a widely adopted
+language. It is used in many domains and supports a wide spectrum of
+communication to other software.
+
 There are lots of ambiguities in the world of transformations. We try to
 explain them all here.
 
