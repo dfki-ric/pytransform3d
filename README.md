@@ -18,7 +18,7 @@ pytransform3d offers...
 * the TransformManager which manages complex chains of transformations
   (with export to graph visualization as PNG, additionally requires pydot)
 * the TransformEditor which allows to modify transformations graphically
-  (additionally requires PyQt4 or PyQt5)
+  (additionally requires PyQt4/5)
 * the UrdfTransformManager which is able to load transformations from
   [URDF](https://wiki.ros.org/urdf) files (additionally requires
   beautifulsoup4)
