@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Transformation Ambiguities and Conventions &#8212; pytransform3d 2.1.0 documentation</title>
+    <title>Transformation Ambiguities and Conventions &#8212; pytransform3d 2.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -63,6 +63,7 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
@@ -129,6 +130,35 @@
       
   <div class="section" id="transformation-ambiguities-and-conventions">
 <span id="transformation-ambiguities"></span><h1>Transformation Ambiguities and Conventions<a class="headerlink" href="#transformation-ambiguities-and-conventions" title="Permalink to this heading">¶</a></h1>
+<p>Heterogenous software systems that consist of proprietary and open source
+software are often combined when we work with transformations.
+For example, suppose you want to transfer a trajectory demonstrated by a human
+to a robot. The human trajectory could be measured from an RGB-D camera, fused
+with IMU sensors that are attached to the human, and then translated to
+joint angles by inverse kinematics. That involves at least three different
+software systems that might all use different conventions for transformations.
+Sometimes even one software uses more than one convention.
+The following aspects are of crucial importance to glue and debug
+transformations in systems with heterogenous and often incompatible
+software:</p>
+<ul class="simple">
+<li><p>Compatibility: Compatibility between heterogenous softwares is a difficult
+topic. It might involve, for example, communicating between proprietary and
+open source software or different languages.</p></li>
+<li><p>Conventions: Lots of different conventions are used for transformations
+in three dimensions. These have to be determined or specified.</p></li>
+<li><p>Conversions: We need conversions between these conventions to
+communicate transformations between different systems.</p></li>
+<li><p>Visualization: Finally, transformations should be visually verified
+and that should be as easy as possible.</p></li>
+</ul>
+<p>pytransform3d assists in solving these issues. This documentation clearly
+states all of the used conventions, it aims at making conversions between
+rotation and transformation conventions as easy as possible, it is tightly
+coupled with Matplotlib to quickly visualize (or animate) transformations and
+it is written in Python with few dependencies. Python is a widely adopted
+language. It is used in many domains and supports a wide spectrum of
+communication to other software.</p>
 <p>There are lots of ambiguities in the world of transformations. We try to
 explain them all here.</p>
 <div class="contents local topic" id="contents">
@@ -428,8 +458,8 @@ with which we approach the target</p></li>
       
     </p>
     <p>
-        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 22, 2022.<br/>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 12, 2023.<br/>
     </p>
   </div>
 </footer>

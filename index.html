@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d &#8212; pytransform3d 2.1.0 documentation</title>
+    <title>pytransform3d &#8212; pytransform3d 2.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -19,7 +19,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Notation" href="notation.html" />
+    <link rel="next" title="Installation" href="install.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -42,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="#">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -62,6 +62,7 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
@@ -87,7 +88,7 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">pytransform3d</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#scope">Scope</a></li>
 <li><a class="reference internal" href="#citation">Citation</a></li>
 </ul>
 </li>
@@ -135,6 +136,7 @@
         </div>
         <div class="panel-body"><div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
@@ -152,7 +154,9 @@
   </div>
 </div>
 
-<div class="col-md-8"><p>pytransform3d covers the following groups of transformations.</p>
+<div class="col-md-8"><p>pytransform3d covers the following groups of transformations.
+This documentation explains how you can work with pytransform3d and with
+3D transformations in general.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -182,13 +186,34 @@ transformation, unit dual quaternion</p></td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
-<p>pytransform3d is available at
-<a class="reference external" href="https://github.com/dfki-ric/pytransform3d">GitHub</a>.
-The readme there contains installation instructions. This documentation
-explains how you can work with pytransform3d and with 3D transformations
-in general.</p>
+<div class="section" id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">¶</a></h2>
+<p>The library focuses on readability and debugging, not on computational
+efficiency. If you want to have an efficient implementation of some function
+from the library you can easily extract the relevant code and implement it
+more efficiently in a language of your choice.</p>
+<p>The library integrates well with the
+<a class="reference external" href="https://scipy-lectures.org/">scientific Python ecosystem</a>
+with its core libraries Numpy, Scipy and Matplotlib.
+We rely on <a class="reference external" href="https://numpy.org/">Numpy</a> for linear algebra and on
+<a class="reference external" href="https://matplotlib.org/">Matplotlib</a> to offer plotting functionalities.
+<a class="reference external" href="https://scipy.org/scipylib/index.html">Scipy</a> is used if you want to
+automatically compute transformations from a graph of transformations.</p>
+<p>pytransform3d offers…</p>
+<ul class="simple">
+<li><p>operations for most common representations of rotation (orientation) and
+translation (position)</p></li>
+<li><p>conversions between those representations</p></li>
+<li><p>clear documentation of transformation conventions</p></li>
+<li><p>tight coupling with matplotlib to quickly visualize (or animate)
+transformations</p></li>
+<li><p>the TransformManager which manages complex chains of transformations</p></li>
+<li><p>the TransformEditor which allows to modify transformations graphically</p></li>
+<li><p>the UrdfTransformManager which is able to load transformations from
+<a class="reference external" href="https://wiki.ros.org/urdf">URDF</a> files</p></li>
+<li><p>a matplotlib-like interface to Open3D’s visualizer to display
+geometries and transformations</p></li>
+</ul>
 </div>
 <div class="section" id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this heading">¶</a></h2>
@@ -214,8 +239,8 @@ Journal of Open Source Software, 4(33), 1159, <a class="reference external" href
       
     </p>
     <p>
-        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 22, 2022.<br/>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 12, 2023.<br/>
     </p>
   </div>
 </footer>

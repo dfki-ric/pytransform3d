@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._conversions &#8212; pytransform3d 2.1.0 documentation</title>
+    <title>pytransform3d.rotations._conversions &#8212; pytransform3d 2.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -61,6 +61,7 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
@@ -117,6 +118,7 @@
   <h1>Source code for pytransform3d.rotations._conversions</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Conversions between rotation representations.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">check_matrix</span><span class="p">,</span> <span class="n">check_quaternion</span><span class="p">,</span> <span class="n">check_axis_angle</span><span class="p">,</span> <span class="n">check_compact_axis_angle</span><span class="p">,</span>
@@ -414,7 +416,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -434,7 +436,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -454,7 +456,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -474,7 +476,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -494,7 +496,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -514,7 +516,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -534,7 +536,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -554,7 +556,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -580,7 +582,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -600,7 +602,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -626,7 +628,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -646,7 +648,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -666,7 +668,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -686,7 +688,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -706,7 +708,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -726,7 +728,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -746,7 +748,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -766,7 +768,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -786,7 +788,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -806,7 +808,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -826,7 +828,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -846,7 +848,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -866,7 +868,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">    R : array, shape (3, 3)</span>
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
@@ -891,6 +893,73 @@
 <span class="sd">        Rotation matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">active_matrix_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">rpy</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">check_axis_index</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks axis index.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of the axis. Required for the error message.</span>
+
+<span class="sd">    i : int from [0, 1, 2]</span>
+<span class="sd">        Index of the axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If basis is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Axis index </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%d</span><span class="s2">) must be in [0, 1, 2]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="matrix_from_euler"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.matrix_from_euler.html#pytransform3d.rotations.matrix_from_euler">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_euler</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">extrinsic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;General method to compute active rotation matrix from any Euler angles.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">        Extracted rotation angles in radians about the axes i, j, k in this</span>
+<span class="sd">        order. The first and last angle are normalized to [-pi, pi]. The middle</span>
+<span class="sd">        angle is normalized to either [0, pi] (proper Euler angles) or</span>
+<span class="sd">        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).</span>
+
+<span class="sd">    i : int from [0, 1, 2]</span>
+<span class="sd">        The first rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    j : int from [0, 1, 2]</span>
+<span class="sd">        The second rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    k : int from [0, 1, 2]</span>
+<span class="sd">        The third rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    extrinsic : bool</span>
+<span class="sd">        Do we use extrinsic transformations? Intrinsic otherwise.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array, shape (3, 3)</span>
+<span class="sd">        Active rotation matrix</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If basis is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">e</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">extrinsic</span><span class="p">:</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">alpha</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">alpha</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+        <span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">alpha</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
 
 
 <span class="k">def</span> <span class="nf">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1018,7 +1087,7 @@
 
 
 <div class="viewcode-block" id="extrinsic_euler_xzx_from_active_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix">[docs]</a><span class="k">def</span> <span class="nf">extrinsic_euler_xzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xzx Euler angles.</span>
+    <span class="sd">&quot;&quot;&quot;Compute extrinsic xzx Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1031,7 +1100,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around x-, z-, and x-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1094,7 +1163,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, x&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1115,7 +1184,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, x-, and y-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1136,7 +1205,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, z&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1157,7 +1226,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, z-, and y-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1178,7 +1247,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around z-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1199,7 +1268,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around z-, y-, and z-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1220,7 +1289,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around z-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1241,7 +1310,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around z-, x-, and z-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1262,7 +1331,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around x-, z&#39;-, and y&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1283,7 +1352,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around x-, z-, and y-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1304,7 +1373,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around x-, y&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1325,7 +1394,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around x-, y-, and z-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1346,7 +1415,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, x&#39;-, and z&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1367,7 +1436,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, x-, and z-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1388,7 +1457,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, z&#39;-, and x&#39;&#39;-axes (intrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1409,7 +1478,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around y-, z-, and x-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
@@ -1493,11 +1562,194 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    e : array-like, shape (3,)</span>
+<span class="sd">    e : array, shape (3,)</span>
 <span class="sd">        Angles for rotation around z-, x-, and y-axes (extrinsic rotations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
         <span class="n">R</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unitz</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="euler_from_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.euler_from_matrix.html#pytransform3d.rotations.euler_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">extrinsic</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;General method to extract any Euler angles from active rotation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Active rotation matrix</span>
+
+<span class="sd">    i : int from [0, 1, 2]</span>
+<span class="sd">        The first rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    j : int from [0, 1, 2]</span>
+<span class="sd">        The second rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    k : int from [0, 1, 2]</span>
+<span class="sd">        The third rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    extrinsic : bool</span>
+<span class="sd">        Do we use extrinsic transformations? Intrinsic otherwise.</span>
+
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the rotation matrix is not numerically close</span>
+<span class="sd">        enough to a real rotation matrix. Otherwise we print a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    euler_angles : array, shape (3,)</span>
+<span class="sd">        Extracted rotation angles in radians about the axes i, j, k in this</span>
+<span class="sd">        order. The first and last angle are normalized to [-pi, pi]. The middle</span>
+<span class="sd">        angle is normalized to either [0, pi] (proper Euler angles) or</span>
+<span class="sd">        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If basis is invalid</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Shuster, Markley: General Formula for Extracting the Euler Angles,</span>
+<span class="sd">    https://arc.aiaa.org/doi/abs/10.2514/1.16622</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="n">basis_vectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span><span class="p">]</span>
+    <span class="n">proper_euler</span> <span class="o">=</span> <span class="n">i</span> <span class="o">==</span> <span class="n">k</span>
+    <span class="k">if</span> <span class="n">extrinsic</span><span class="p">:</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">i</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">_general_intrinsic_euler_from_active_matrix</span><span class="p">(</span>
+        <span class="n">R</span><span class="p">,</span> <span class="n">basis_vectors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">basis_vectors</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">basis_vectors</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">proper_euler</span><span class="p">,</span>
+        <span class="n">strict_check</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extrinsic</span><span class="p">:</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">e</span></div>
+
+
+<div class="viewcode-block" id="euler_from_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.euler_from_quaternion.html#pytransform3d.rotations.euler_from_quaternion">[docs]</a><span class="k">def</span> <span class="nf">euler_from_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">extrinsic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;General method to extract any Euler angles from quaternions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    i : int from [0, 1, 2]</span>
+<span class="sd">        The first rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    j : int from [0, 1, 2]</span>
+<span class="sd">        The second rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    k : int from [0, 1, 2]</span>
+<span class="sd">        The third rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    extrinsic : bool</span>
+<span class="sd">        Do we use extrinsic transformations? Intrinsic otherwise.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    euler_angles : array, shape (3,)</span>
+<span class="sd">        Extracted rotation angles in radians about the axes i, j, k in this</span>
+<span class="sd">        order. The first and last angle are normalized to [-pi, pi]. The middle</span>
+<span class="sd">        angle is normalized to either [0, pi] (proper Euler angles) or</span>
+<span class="sd">        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If basis is invalid</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Bernardes, Evandro; Viollet, Stephane: Quaternion to Euler angles</span>
+<span class="sd">    conversion: A direct, general and computationally efficient method,</span>
+<span class="sd">    https://doi.org/10.1371/journal.pone.0276302</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+    <span class="n">check_axis_index</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># The original algorithm assumes extrinsic convention. Hence, we swap</span>
+    <span class="c1"># the order of axes for intrinsic rotation.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">extrinsic</span><span class="p">:</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">i</span>
+
+    <span class="c1"># Proper Euler angles rotate about the same axis in the first and last</span>
+    <span class="c1"># rotation. If this is not the case, they are called Cardan or Tait-Bryan</span>
+    <span class="c1"># angles and have to be handled differently.</span>
+    <span class="n">proper_euler</span> <span class="o">=</span> <span class="n">i</span> <span class="o">==</span> <span class="n">k</span>
+    <span class="k">if</span> <span class="n">proper_euler</span><span class="p">:</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span>
+
+    <span class="n">sign</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">sign</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">proper_euler</span><span class="p">:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">c</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span> <span class="o">-</span> <span class="n">b</span>
+
+    <span class="c1"># Equation 34 is used instead of Equation 35 as atan2 it is numerically</span>
+    <span class="c1"># more accurate than acos.</span>
+    <span class="n">angle_j</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">),</span>
+                               <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+
+    <span class="c1"># Check for singularities</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle_j</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="n">singularity</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle_j</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="n">singularity</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">singularity</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Equation 25</span>
+    <span class="c1"># (theta_1 + theta_3) / 2</span>
+    <span class="n">half_sum</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="c1"># (theta_1 - theta_3) / 2</span>
+    <span class="n">half_diff</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">singularity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># no singularity</span>
+        <span class="c1"># Equation 32</span>
+        <span class="n">angle_i</span> <span class="o">=</span> <span class="n">half_sum</span> <span class="o">+</span> <span class="n">half_diff</span>
+        <span class="n">angle_k</span> <span class="o">=</span> <span class="n">half_sum</span> <span class="o">-</span> <span class="n">half_diff</span>
+    <span class="k">elif</span> <span class="n">extrinsic</span><span class="p">:</span>  <span class="c1"># singularity</span>
+        <span class="n">angle_k</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">singularity</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">angle_i</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">half_sum</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">singularity</span> <span class="o">==</span> <span class="mi">2</span>
+            <span class="n">angle_i</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">half_diff</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># intrinsic, singularity</span>
+        <span class="n">angle_i</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">singularity</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">angle_k</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">half_sum</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">singularity</span> <span class="o">==</span> <span class="mi">2</span>
+            <span class="n">angle_k</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">half_diff</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">proper_euler</span><span class="p">:</span>
+        <span class="c1"># Equation 43</span>
+        <span class="n">angle_j</span> <span class="o">-=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="c1"># Equation 44</span>
+        <span class="n">angle_i</span> <span class="o">*=</span> <span class="n">sign</span>
+
+    <span class="n">angle_k</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">angle_k</span><span class="p">)</span>
+    <span class="n">angle_i</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">angle_i</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extrinsic</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle_k</span><span class="p">,</span> <span class="n">angle_j</span><span class="p">,</span> <span class="n">angle_i</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle_i</span><span class="p">,</span> <span class="n">angle_j</span><span class="p">,</span> <span class="n">angle_k</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="axis_angle_from_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.axis_angle_from_matrix.html#pytransform3d.rotations.axis_angle_from_matrix">[docs]</a><span class="k">def</span> <span class="nf">axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -1789,6 +2041,43 @@
     <span class="k">return</span> <span class="n">q</span></div>
 
 
+<div class="viewcode-block" id="quaternion_from_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_from_angle.html#pytransform3d.rotations.quaternion_from_angle">[docs]</a><span class="k">def</span> <span class="nf">quaternion_from_angle</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute quaternion from rotation about basis vector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    basis : int from [0, 1, 2]</span>
+<span class="sd">        The rotation axis (0: x, 1: y, 2: z)</span>
+
+<span class="sd">    angle : float</span>
+<span class="sd">        Rotation angle</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    q : array, shape (4,)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If basis is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">half_angle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">angle</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">half_angle</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">half_angle</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">basis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">basis</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">basis</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">s</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Basis must be in [0, 1, 2]&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">q</span></div>
+
+
 <div class="viewcode-block" id="quaternion_from_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_from_axis_angle.html#pytransform3d.rotations.quaternion_from_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">quaternion_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute quaternion from axis-angle.</span>
 
@@ -1803,7 +2092,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">    q : array, shape (4,)</span>
 <span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">check_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -1827,7 +2116,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">    q : array, shape (4,)</span>
 <span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">axis_angle_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -1844,7 +2133,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q_xyzw : array-like, shape (4,)</span>
+<span class="sd">    q_xyzw : array, shape (4,)</span>
 <span class="sd">        Quaternion with scalar part after vector part</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q_wxyz</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q_wxyz</span><span class="p">)</span>
@@ -1861,7 +2150,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q_wxyz : array-like, shape (4,)</span>
+<span class="sd">    q_wxyz : array, shape (4,)</span>
 <span class="sd">        Quaternion with scalar part before vector part</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q_xyzw</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q_xyzw</span><span class="p">)</span>
@@ -1878,9 +2167,12 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">    q : array, shape (4,)</span>
 <span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;quaternion_from_extrinsic_euler_xyz is deprecated, use &quot;</span>
+        <span class="s2">&quot;quaternion_from_euler&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">active_matrix_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">quaternion_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span></div>
 </pre></div>
@@ -1896,8 +2188,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 22, 2022.<br/>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 12, 2023.<br/>
     </p>
   </div>
 </footer>

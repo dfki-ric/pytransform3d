@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Euler Angles &#8212; pytransform3d 2.1.0 documentation</title>
+    <title>Euler Angles &#8212; pytransform3d 2.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -19,7 +19,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html" />
+    <link rel="next" title="pytransform3d.rotations.quaternion_from_euler" href="_apidoc/pytransform3d.rotations.quaternion_from_euler.html" />
     <link rel="prev" title="Transformation Ambiguities and Conventions" href="transformation_ambiguities.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -63,6 +63,7 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
@@ -93,8 +94,8 @@
 <li><a class="reference internal" href="#range-of-angles">Range of Angles</a></li>
 <li><a class="reference internal" href="#gimbal-lock">Gimbal Lock</a></li>
 <li><a class="reference internal" href="#other-names">Other Names</a></li>
-<li><a class="reference internal" href="#api-rotation-matrix-from-euler-angles">API: Rotation Matrix from Euler Angles</a></li>
-<li><a class="reference internal" href="#api-euler-angles-from-rotation-matrix">API: Euler Angles from Rotation Matrix</a></li>
+<li><a class="reference internal" href="#api-rotation-matrix-quaternion-from-euler-angles">API: Rotation Matrix / Quaternion from Euler Angles</a></li>
+<li><a class="reference internal" href="#api-euler-angles-from-rotation-matrix-quaternion">API: Euler Angles from Rotation Matrix / Quaternion</a></li>
 </ul>
 </li>
 </ul>
@@ -142,8 +143,8 @@ radians in pytransform3d).</p>
 <li><p><a class="reference internal" href="#range-of-angles" id="id4">Range of Angles</a></p></li>
 <li><p><a class="reference internal" href="#gimbal-lock" id="id5">Gimbal Lock</a></p></li>
 <li><p><a class="reference internal" href="#other-names" id="id6">Other Names</a></p></li>
-<li><p><a class="reference internal" href="#api-rotation-matrix-from-euler-angles" id="id7">API: Rotation Matrix from Euler Angles</a></p></li>
-<li><p><a class="reference internal" href="#api-euler-angles-from-rotation-matrix" id="id8">API: Euler Angles from Rotation Matrix</a></p></li>
+<li><p><a class="reference internal" href="#api-rotation-matrix-quaternion-from-euler-angles" id="id7">API: Rotation Matrix / Quaternion from Euler Angles</a></p></li>
+<li><p><a class="reference internal" href="#api-euler-angles-from-rotation-matrix-quaternion" id="id8">API: Euler Angles from Rotation Matrix / Quaternion</a></p></li>
 </ul>
 </div>
 <div class="section" id="example">
@@ -210,14 +211,20 @@ xyz Cardan angles can also be called roll, pitch, and yaw (or sometimes
 the intrinsic convention is used here as well). Roll is a rotation about
 x, pitch is a rotation about y and yaw is a rotation about z.</p>
 </div>
-<div class="section" id="api-rotation-matrix-from-euler-angles">
-<h2><a class="toc-backref" href="#id7">API: Rotation Matrix from Euler Angles</a><a class="headerlink" href="#api-rotation-matrix-from-euler-angles" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="api-rotation-matrix-quaternion-from-euler-angles">
+<h2><a class="toc-backref" href="#id7">API: Rotation Matrix / Quaternion from Euler Angles</a><a class="headerlink" href="#api-rotation-matrix-quaternion-from-euler-angles" title="Permalink to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_from_euler.html#pytransform3d.rotations.quaternion_from_euler" title="pytransform3d.rotations.quaternion_from_euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_from_euler</span></code></a>(e, i, j, k, extrinsic)</p></td>
+<td><p>General conversion to quaternion from any Euler angles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler.html#pytransform3d.rotations.matrix_from_euler" title="pytransform3d.rotations.matrix_from_euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_euler</span></code></a>(e, i, j, k, extrinsic)</p></td>
+<td><p>General method to compute active rotation matrix from any Euler angles.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_xzx</span></code></a>(e)</p></td>
 <td><p>Compute active rotation matrix from intrinsic xzx Euler angles.</p></td>
 </tr>
@@ -296,19 +303,25 @@ x, pitch is a rotation about y and yaw is a rotation about z.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="api-euler-angles-from-rotation-matrix">
-<h2><a class="toc-backref" href="#id8">API: Euler Angles from Rotation Matrix</a><a class="headerlink" href="#api-euler-angles-from-rotation-matrix" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="api-euler-angles-from-rotation-matrix-quaternion">
+<h2><a class="toc-backref" href="#id8">API: Euler Angles from Rotation Matrix / Quaternion</a><a class="headerlink" href="#api-euler-angles-from-rotation-matrix-quaternion" title="Permalink to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_from_quaternion.html#pytransform3d.rotations.euler_from_quaternion" title="pytransform3d.rotations.euler_from_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euler_from_quaternion</span></code></a>(q, i, j, k, extrinsic)</p></td>
+<td><p>General method to extract any Euler angles from quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_from_matrix.html#pytransform3d.rotations.euler_from_matrix" title="pytransform3d.rotations.euler_from_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euler_from_matrix</span></code></a>(R, i, j, k, extrinsic[, ...])</p></td>
+<td><p>General method to extract any Euler angles from active rotation matrix.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_xzx_from_active_matrix</span></code></a>(R[, ...])</p></td>
 <td><p>Compute intrinsic xzx Euler angles from active rotation matrix.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_xzx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute active rotation matrix from extrinsic xzx Euler angles.</p></td>
+<td><p>Compute extrinsic xzx Euler angles from active rotation matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_xyx_from_active_matrix</span></code></a>(R[, ...])</p></td>
 <td><p>Compute intrinsic xyx Euler angles from active rotation matrix.</p></td>
@@ -393,8 +406,8 @@ x, pitch is a rotation about y and yaw is a rotation about z.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2022, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Dec 22, 2022.<br/>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jan 12, 2023.<br/>
     </p>
   </div>
 </footer>
