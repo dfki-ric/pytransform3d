@@ -61,6 +61,49 @@ pytransform3d covers the following groups of transformations.
 This documentation explains how you can work with pytransform3d and with
 3D transformations in general.
 
+-----
+Scope
+-----
+
+The library focuses on readability and debugging, not on computational
+efficiency. If you want to have an efficient implementation of some function
+from the library you can easily extract the relevant code and implement it
+more efficiently in a language of your choice.
+
+The library integrates well with the
+`scientific Python ecosystem <https://scipy-lectures.org/>`_
+with its core libraries Numpy, Scipy and Matplotlib.
+We rely on `Numpy <https://numpy.org/>`_ for linear algebra and on
+`Matplotlib <https://matplotlib.org/>`_ to offer plotting functionalities.
+`Scipy <https://scipy.org/scipylib/index.html>`_ is used if you want to
+automatically compute new transformations from a graph of existing
+transformations.
+
+pytransform3d offers...
+
+* operations like concatenation and inversion for most common representations
+  of rotation (orientation) and translation (position)
+* conversions between those representations
+* clear documentation of transformation conventions
+* tight coupling with matplotlib to quickly visualize (or animate)
+  transformations
+* the TransformManager which manages complex chains of transformations
+  (with export to graph visualization as PNG, additionally requires pydot)
+* the TransformEditor which allows to modify transformations graphically
+  (additionally requires PyQt4 or PyQt5)
+* the UrdfTransformManager which is able to load transformations from
+  `URDF <http://wiki.ros.org/urdf>`_ files (additionally requires
+  beautifulsoup4)
+* a matplotlib-like interface to Open3D's visualizer to display and animate
+  geometries and transformations (additionally requires Open3D)
+
+pytransform3d is used in various domains, for example:
+
+* specifying motions of a robot
+* learning robot movements from human demonstration
+* sensor fusion for human pose estimation
+* collision detection for robots
+
 --------
 Citation
 --------
