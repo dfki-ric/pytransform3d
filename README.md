@@ -182,7 +182,7 @@ development branch to the main branch.
 ## License
 
 The library is distributed under the
-[3-Clause BSD license](https://github.com/dfki-ric/pytransform3d/blob/develop/LICENSE).
+[3-Clause BSD license](https://github.com/dfki-ric/pytransform3d/blob/master/LICENSE).
 
 ## Citation
 
