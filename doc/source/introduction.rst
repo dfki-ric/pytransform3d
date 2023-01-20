@@ -1,12 +1,41 @@
-========
-Notation
-========
+========================================
+Introduction to 3D Rigid Transformations
+========================================
+
+------
+Basics
+------
+
+**Position** of a rigid body in 3D Euclidean space is expressed as a 3D
+vector.
+
+**Orientation** of a rigid body in 3D Euclidean space is defined by a set
+of 3 orthogonal basis vectors.
+
+**Translation** is a displacement, in which points move along parallel lines
+by the same distance.
+
+**Rotation** is a displacement, in which points move about a rotation axis
+through the origin of the reference frame (fixed point) along a circle by the
+same angle.
+
+------
+Frames
+------
+
+The basis of this introduction are (coordinate reference) frames in 3D
+Euclidean space. A frame is defined by an origin and 3 orthogonal basis
+vectors and it is attached to a rigid body.
+The pose (its position and orientation) of a rigid body (i.e., of its frame)
+is always expressed with respect to another frame.
+
+--------------
+Frame Notation
+--------------
 
 For physical quantities we use the notation :math:`_{A}\boldsymbol{x}_{BC}`,
 where :math:`\boldsymbol{x}` is a physical quantity of frame C with
-respect to frame B expressed in frame A, where frame refers to a reference
-frame or coordinate system that is defined by three orthonormal basis vectors
-and a position in three-dimensional space. For example,
+respect to frame B expressed in frame A. For example,
 :math:`_{A}\boldsymbol{t}_{BC}` is the translation of C with respect to B
 measured in A or :math:`_{A}\boldsymbol{\omega}_{BC}` is the
 orientation vector of C with respect to B measured in A.
@@ -26,10 +55,25 @@ multiplication, for example, when we want to transform a point by
 
     _B\boldsymbol{p} = \boldsymbol{M}_{BA} {_A\boldsymbol{p}}
 
+------------------------------------
+Duality of Transformations and Poses
+------------------------------------
+
+We can use a transformation matrix :math:`\boldsymbol{T}_{BA}` that represents
+a transformation from frame A to frame B to represent the pose (position and
+orientation) of frame A in frame B (if we use the active transformation
+convention; see :ref:`transformation_ambiguities` for details). This is just
+a different interpretation of the same matrix and similar to our interpretation
+of a vector from A to P :math:`_A\boldsymbol{t}_{AP}` as a point
+:math:`_A\boldsymbol{p}`.
+
 ---------------
 Representations
 ---------------
 
+At least six numbers are required to express the pose of a rigid body or a
+transformation between two frames, but there are also redundant
+representations.
 We can use many different representations of rotation and / or translation.
 Here is an overview of the representations that are available in pytransform3d.
 All representations are stored in NumPy arrays, of which the corresponding
@@ -76,21 +120,12 @@ representations on the following pages.
 | :math:`\pmb{p} + \epsilon\pmb{q}`      |                     |          |             |
 +----------------------------------------+---------------------+----------+-------------+
 
-------------------------------------
-Duality of Transformations and Poses
-------------------------------------
-
-We can use a transformation matrix :math:`\boldsymbol{T}_{BA}` that represents
-a transformation from frame A to frame B to represent the pose (position and
-orientation) of frame A in frame B (if we use the active transformation
-convention; see :ref:`transformation_ambiguities` for details). This is just
-a different interpretation of the same matrix and similar to our interpretation
-of a vector from A to P :math:`_A\boldsymbol{t}_{AP}` as a point
-:math:`_A\boldsymbol{p}`.
-
 ----------
 References
 ----------
 
+* Waldron, K., Schmiedeler, J. (2008). Kinematics. In: Siciliano, B., Khatib,
+  O. (eds) Springer Handbook of Robotics. Springer, Berlin, Heidelberg.
+  https://doi.org/10.1007/978-3-540-30301-5_2
 * Representing Robot Pose: The good, the bad, and the ugly (slides): http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
 * Representing Robot Pose: The good, the bad, and the ugly (blog): http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
