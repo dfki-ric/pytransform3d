@@ -3,6 +3,16 @@ Introduction to 3D Rigid Transformations
 ========================================
 
 ------
+Frames
+------
+
+The basis of this introduction are (coordinate reference) frames in 3D
+Euclidean space. A frame is defined by an origin and 3 orthogonal basis
+vectors and it is attached to a rigid body.
+The pose (its position and orientation) of a rigid body (i.e., of its frame)
+is always expressed with respect to another frame.
+
+------
 Basics
 ------
 
@@ -18,16 +28,6 @@ by the same distance.
 **Rotation** is a displacement, in which points move about a rotation axis
 through the origin of the reference frame (fixed point) along a circle by the
 same angle.
-
-------
-Frames
-------
-
-The basis of this introduction are (coordinate reference) frames in 3D
-Euclidean space. A frame is defined by an origin and 3 orthogonal basis
-vectors and it is attached to a rigid body.
-The pose (its position and orientation) of a rigid body (i.e., of its frame)
-is always expressed with respect to another frame.
 
 --------------
 Frame Notation
