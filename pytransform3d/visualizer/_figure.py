@@ -744,6 +744,7 @@ class OffscreenRendererFigure(FigureBase):
     def __init__(self, width=1920, height=1080):
         super(FigureBase, self).__init__()
         self.render = o3d.visualization.rendering.OffscreenRenderer(width, height)
+        self._n_geometries = 0
 
     def add_geometry(self, geometry):
         """Add geometry to visualizer.
@@ -760,7 +761,8 @@ class OffscreenRendererFigure(FigureBase):
 
     def add_geometry_with_material(self, geometry, material):
         """TODO"""
-        self.render.scene.add_geometry(str(id(geometry)), geometry, material)
+        self.render.scene.add_geometry("%d" % self._n_geometries, geometry, material)
+        self._n_geometries += 1
 
     def save_image(self, filename):
         """Save rendered image to file.
@@ -774,7 +776,7 @@ class OffscreenRendererFigure(FigureBase):
 
     def show(self):
         """Display the figure window."""
-        return self.render.render_to_image()
+        return np.asarray(self.render.render_to_image())
 
 
 def figure(window_name="Open3D", width=1920, height=1080,
