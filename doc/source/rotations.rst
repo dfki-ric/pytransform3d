@@ -64,15 +64,19 @@ One of the most practical representations of orientation is a rotation matrix
         r_{11} & r_{12} & r_{13}\\
         r_{21} & r_{22} & r_{23}\\
         r_{31} & r_{32} & r_{33}\\
-    \end{array} \right)
+    \end{array} \right).
 
 Note that
 
 * this is a non-minimal representation for orientations because we have 9
   values but only 3 degrees of freedom
-* :math:`\boldsymbol R` must be orthonormal
-* :math:`\boldsymbol R^T = \boldsymbol R^{-1}`
-* :math:`det(\boldsymbol R) = 1`
+* :math:`\boldsymbol R` must be orthonormal, which results in 6 constraints:
+  column vectors must have unit norm (3 constraints) and must be orthogonal
+  to each other (3 constraints)
+* :math:`\boldsymbol R^T \boldsymbol R = \boldsymbol I \Leftrightarrow \boldsymbol R^T = \boldsymbol R^{-1}`,
+  which is a more compact representation of these constraints
+* :math:`det(\boldsymbol R) = 1` because we use right-handed coordinate system
+  (:math:`det(\boldsymbol R) = -1` for left-handed coordinate systems)
 
 pytransform3d uses a numpy array of shape (3, 3) to represent rotation
 matrices and typically we use the variable name R for a rotation matrix.
