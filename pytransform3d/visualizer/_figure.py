@@ -10,12 +10,7 @@ from ._artists import (Line3D, PointCollection3D, Vector3D, Frame, Trajectory,
 
 
 class FigureBase:
-    """Abstract base class of figures.
-
-    Parameters
-    ----------
-    TODO
-    """
+    """Abstract base class of figures."""
     def __init__(self):
         pass
 
@@ -547,6 +542,8 @@ class Figure(FigureBase):
 
     You can close the visualizer with the keys `escape` or `q`.
 
+    This implementation uses the default Open3D visualizer.
+
     Parameters
     ----------
     window_name : str, optional (default: Open3D)
@@ -740,9 +737,20 @@ class Figure(FigureBase):
 
 
 class OffscreenRendererFigure(FigureBase):
-    """TODO"""
+    """The top level container for all the plot elements.
+
+    This implementation uses the offscreen renderer of Open3D.
+
+    Parameters
+    ----------
+    width : int, optional (default: 1920)
+        Width of the window.
+
+    height : int, optional (default: 1080)
+        Height of the window.
+    """
     def __init__(self, width=1920, height=1080):
-        super(FigureBase, self).__init__()
+        super(OffscreenRendererFigure, self).__init__()
         self.render = o3d.visualization.rendering.OffscreenRenderer(width, height)
         self._n_geometries = 0
 
