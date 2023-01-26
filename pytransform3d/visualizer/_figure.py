@@ -754,6 +754,9 @@ class OffscreenRendererFigure(FigureBase):
         self.render = o3d.visualization.rendering.OffscreenRenderer(width, height)
         self.width = width
         self.height = height
+        self.zoom = 1.0
+        self.azim = -60.0
+        self.elev = 30.0
         self._n_geometries = 0
 
     def add_geometry(self, geometry):
@@ -783,7 +786,8 @@ class OffscreenRendererFigure(FigureBase):
         material : o3d.visualization.rendering.Material or MaterialRecord
             Material specification for the geometry.
         """
-        self.render.scene.add_geometry("%d" % self._n_geometries, geometry, material)
+        self.render.scene.add_geometry(
+            "%d" % self._n_geometries, geometry, material)
         self._n_geometries += 1
 
     def view_init(self, azim=-60, elev=30):
@@ -797,11 +801,28 @@ class OffscreenRendererFigure(FigureBase):
         elev : float, optional (default: 30)
             Elevation angle in the z plane.
         """
+        self.azim = azim
+        self.elev = elev
+        self._setup_camera()
+
+    def set_zoom(self, zoom):
+        """Set zoom.
+
+        Parameters
+        ----------
+        zoom : float
+            Zoom of the visualizer.
+        """
+        self.zoom = zoom
+        self._setup_camera()
+
+    def _setup_camera(self):
         distance = max(self.render.scene.bounding_box.get_extent())
         # azimuth and elevation are defined in world frame
-        R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
-        R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
-        eye = R_azim.dot(R_elev).dot(np.array([1.25 * distance, 0.0, 0.0]))
+        R_azim = pr.active_matrix_from_angle(2, np.deg2rad(self.azim))
+        R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-self.elev))
+        eye = R_azim.dot(R_elev).dot(np.array(
+            [1.25 * self.zoom * distance, 0.0, 0.0]))
         # field_of_view, center, eye, up
         self.render.setup_camera(60.0, [0, 0, 0], eye, [0, 0, 1])
 
