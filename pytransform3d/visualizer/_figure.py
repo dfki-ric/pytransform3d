@@ -835,6 +835,20 @@ class OffscreenRendererFigure(FigureBase):
         # field_of_view, center, eye, up
         self.render.setup_camera(60.0, [0, 0, 0], eye, [0, 0, 1])
 
+    def show_axes(self):
+        """Show coordinate axes in rendered image."""
+        self.render.scene.show_axes(True)
+
+    def set_background_color(self, color):
+        """Set background color.
+
+        Parameters
+        ----------
+        color : tuple
+            A tuple with red, green, blue, alpha values between 0 and 1.
+        """
+        self.render.scene.set_background(color)
+
     def save_image(self, filename):
         """Save rendered image to file.
 
