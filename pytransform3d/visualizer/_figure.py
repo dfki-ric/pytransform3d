@@ -778,8 +778,8 @@ class OffscreenRendererFigure(FigureBase):
         geometry : Geometry
             Open3D geometry.
 
-        material : TODO
-            TODO
+        material : o3d.visualization.rendering.Material or MaterialRecord
+            Material specification for the geometry.
         """
         self.render.scene.add_geometry("%d" % self._n_geometries, geometry, material)
         self._n_geometries += 1
