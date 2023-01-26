@@ -818,8 +818,8 @@ def figure(window_name="Open3D", width=1920, height=1080,
         Creates a visualizer that allows to register callbacks
         for keys.
 
-    offscreen : TODO
-        TODO
+    offscreen : bool, optional (default: False)
+        Use Open3D's offscreen renderer to create an image.
 
     Returns
     -------
