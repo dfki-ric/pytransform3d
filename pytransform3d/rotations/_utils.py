@@ -26,7 +26,7 @@ def norm_vector(v):
 
 
 def norm_matrix(R):
-    """Normalize rotation matrix.
+    """Orthonormalize rotation matrix.
 
     Parameters
     ----------
