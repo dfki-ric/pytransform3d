@@ -752,6 +752,8 @@ class OffscreenRendererFigure(FigureBase):
     def __init__(self, width=1920, height=1080):
         super(OffscreenRendererFigure, self).__init__()
         self.render = o3d.visualization.rendering.OffscreenRenderer(width, height)
+        self.width = width
+        self.height = height
         self._n_geometries = 0
 
     def add_geometry(self, geometry):
@@ -783,6 +785,25 @@ class OffscreenRendererFigure(FigureBase):
         """
         self.render.scene.add_geometry("%d" % self._n_geometries, geometry, material)
         self._n_geometries += 1
+
+    def view_init(self, azim=-60, elev=30):
+        """Set the elevation and azimuth of the axes.
+
+        Parameters
+        ----------
+        azim : float, optional (default: -60)
+            Azimuth angle in the x,y plane in degrees.
+
+        elev : float, optional (default: 30)
+            Elevation angle in the z plane.
+        """
+        distance = max(self.render.scene.bounding_box.get_extent())
+        # azimuth and elevation are defined in world frame
+        R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
+        R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
+        eye = R_azim.dot(R_elev).dot(np.array([1.25 * distance, 0.0, 0.0]))
+        # field_of_view, center, eye, up
+        self.render.setup_camera(60.0, [0, 0, 0], eye, [0, 0, 1])
 
     def save_image(self, filename):
         """Save rendered image to file.
