@@ -763,7 +763,16 @@ class OffscreenRendererFigure(FigureBase):
         self.add_geometry_with_material(geometry, bright)
 
     def add_geometry_with_material(self, geometry, material):
-        """TODO"""
+        """Add geometry to visualizer with material.
+
+        Parameters
+        ----------
+        geometry : Geometry
+            Open3D geometry.
+
+        material : TODO
+            TODO
+        """
         self.render.scene.add_geometry("%d" % self._n_geometries, geometry, material)
         self._n_geometries += 1
 
