@@ -754,7 +754,10 @@ class OffscreenRendererFigure(FigureBase):
         geometry : Geometry
             Open3D geometry.
         """
-        bright = o3d.visualization.rendering.Material()
+        try:  # Open3D 0.13
+            bright = o3d.visualization.rendering.Material()
+        except AttributeError:  # later Open3D versions
+            bright = o3d.visualization.rendering.MaterialRecord()
         bright.base_color = [1.0, 1.0, 1.0, 1.0]
         bright.shader = "defaultLit"
         self.add_geometry_with_material(geometry, bright)
