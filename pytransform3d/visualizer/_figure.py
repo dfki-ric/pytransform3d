@@ -23,6 +23,15 @@ class FigureBase:
             Open3D geometry.
         """
 
+    def set_zoom(self, zoom):
+        """Set zoom.
+
+        Parameters
+        ----------
+        zoom : float
+            Zoom of the visualizer.
+        """
+
     def save_image(self, filename):
         """Save rendered image to file.
 
