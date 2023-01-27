@@ -754,10 +754,14 @@ class RendererFigure(FigureBase):
     ----------
     renderer : Renderer
         Open3D renderer.
+
+    scene : Scene
+        Open3D scene.
     """
-    def __init__(self, renderer):
+    def __init__(self, renderer, scene):
         super(RendererFigure, self).__init__()
         self.renderer = renderer
+        self.scene = scene
         self.zoom = 1.0
         self.azim = -60.0
         self.elev = 30.0
@@ -790,7 +794,7 @@ class RendererFigure(FigureBase):
         material : o3d.visualization.rendering.Material or MaterialRecord
             Material specification for the geometry.
         """
-        self.renderer.scene.add_geometry(
+        self.scene.add_geometry(
             "%d" % self._n_geometries, geometry, material)
         self._n_geometries += 1
 
@@ -832,17 +836,17 @@ class RendererFigure(FigureBase):
 
     def show_axes(self):
         """Show coordinate axes in rendered image."""
-        self.renderer.scene.show_axes(True)
+        self.scene.show_axes(True)
 
     def set_background_color(self, color):
         """Set background color.
 
         Parameters
         ----------
-        color : tuple
-            A tuple with red, green, blue, alpha values between 0 and 1.
+        color : array-like
+            Red, green, blue, alpha values between 0 and 1.
         """
-        self.renderer.scene.set_background(color)
+        self.scene.set_background(color)
 
     def save_image(self, filename):
         """Save rendered image to file.
@@ -873,8 +877,10 @@ class OffscreenRendererFigure(RendererFigure):
         Height of the window.
     """
     def __init__(self, width=1920, height=1080):
-        super(OffscreenRendererFigure, self).__init__(
-            o3d.visualization.rendering.OffscreenRenderer(width, height))
+        renderer = o3d.visualization.rendering.OffscreenRenderer(
+            width, height)
+        scene = renderer.scene
+        super(OffscreenRendererFigure, self).__init__(renderer, scene)
 
 
 def figure(window_name="Open3D", width=1920, height=1080,

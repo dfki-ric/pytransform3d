@@ -5,11 +5,11 @@ try:
     from ._artists import (Artist, Line3D, PointCollection3D, Vector3D, Frame,
                            Trajectory, Camera, Box, Sphere, Cylinder, Mesh,
                            Ellipsoid, Capsule, Cone, Plane, Graph)
-    from ._figure import figure, Figure
+    from ._figure import figure, Figure, RendererFigure
 
-    __all__ = ["figure", "Figure", "Artist", "Line3D", "PointCollection3D",
-               "Vector3D", "Frame", "Trajectory", "Camera", "Box", "Sphere",
-               "Cylinder", "Mesh", "Ellipsoid", "Capsule", "Cone", "Plane",
-               "Graph"]
+    __all__ = ["figure", "Figure", "RendererFigure", "Artist", "Line3D",
+               "PointCollection3D", "Vector3D", "Frame", "Trajectory",
+               "Camera", "Box", "Sphere", "Cylinder", "Mesh", "Ellipsoid",
+               "Capsule", "Cone", "Plane", "Graph"]
 except ImportError:
     warnings.warn("3D visualizer is not available. Install open3d.")
