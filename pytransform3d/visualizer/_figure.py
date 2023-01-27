@@ -745,24 +745,19 @@ class Figure(FigureBase):
         self.visualizer.destroy_window()
 
 
-class OffscreenRendererFigure(FigureBase):
+class RendererFigure(FigureBase):
     """The top level container for all the plot elements.
 
-    This implementation uses the offscreen renderer of Open3D.
+    This implementation uses the renderer interface of Open3D.
 
     Parameters
     ----------
-    width : int, optional (default: 1920)
-        Width of the window.
-
-    height : int, optional (default: 1080)
-        Height of the window.
+    renderer : Renderer
+        Open3D renderer.
     """
-    def __init__(self, width=1920, height=1080):
-        super(OffscreenRendererFigure, self).__init__()
-        self.render = o3d.visualization.rendering.OffscreenRenderer(width, height)
-        self.width = width
-        self.height = height
+    def __init__(self, renderer):
+        super(RendererFigure, self).__init__()
+        self.renderer = renderer
         self.zoom = 1.0
         self.azim = -60.0
         self.elev = 30.0
@@ -795,7 +790,7 @@ class OffscreenRendererFigure(FigureBase):
         material : o3d.visualization.rendering.Material or MaterialRecord
             Material specification for the geometry.
         """
-        self.render.scene.add_geometry(
+        self.renderer.scene.add_geometry(
             "%d" % self._n_geometries, geometry, material)
         self._n_geometries += 1
 
@@ -826,18 +821,18 @@ class OffscreenRendererFigure(FigureBase):
         self._setup_camera()
 
     def _setup_camera(self):
-        distance = max(self.render.scene.bounding_box.get_extent())
+        distance = max(self.renderer.scene.bounding_box.get_extent())
         # azimuth and elevation are defined in world frame
         R_azim = pr.active_matrix_from_angle(2, np.deg2rad(self.azim))
         R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-self.elev))
         eye = R_azim.dot(R_elev).dot(np.array(
             [1.25 * self.zoom * distance, 0.0, 0.0]))
         # field_of_view, center, eye, up
-        self.render.setup_camera(60.0, [0, 0, 0], eye, [0, 0, 1])
+        self.renderer.setup_camera(60.0, [0, 0, 0], eye, [0, 0, 1])
 
     def show_axes(self):
         """Show coordinate axes in rendered image."""
-        self.render.scene.show_axes(True)
+        self.renderer.scene.show_axes(True)
 
     def set_background_color(self, color):
         """Set background color.
@@ -847,7 +842,7 @@ class OffscreenRendererFigure(FigureBase):
         color : tuple
             A tuple with red, green, blue, alpha values between 0 and 1.
         """
-        self.render.scene.set_background(color)
+        self.renderer.scene.set_background(color)
 
     def save_image(self, filename):
         """Save rendered image to file.
@@ -857,11 +852,29 @@ class OffscreenRendererFigure(FigureBase):
         filename : str
             Path to file in which the rendered image should be stored
         """
-        o3d.io.write_image(filename, self.render.render_to_image())
+        o3d.io.write_image(filename, self.renderer.render_to_image())
 
     def show(self):
         """Display the figure window."""
-        return np.asarray(self.render.render_to_image())
+        return np.asarray(self.renderer.render_to_image())
+
+
+class OffscreenRendererFigure(RendererFigure):
+    """The top level container for all the plot elements.
+
+    This implementation uses the offscreen renderer of Open3D.
+
+    Parameters
+    ----------
+    width : int, optional (default: 1920)
+        Width of the window.
+
+    height : int, optional (default: 1080)
+        Height of the window.
+    """
+    def __init__(self, width=1920, height=1080):
+        super(OffscreenRendererFigure, self).__init__(
+            o3d.visualization.rendering.OffscreenRenderer(width, height))
 
 
 def figure(window_name="Open3D", width=1920, height=1080,
