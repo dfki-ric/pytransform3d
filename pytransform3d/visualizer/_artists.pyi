@@ -6,11 +6,11 @@ import open3d as o3d
 from typing import List, Union, Any, Dict
 from ..transform_manager import TransformManager
 if typing.TYPE_CHECKING:
-    from ._figure import Figure
+    from ._figure import FigureBase
 
 
 class Artist:
-    def add_artist(self, figure: Figure): ...
+    def add_artist(self, figure: FigureBase): ...
 
     @property
     def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
