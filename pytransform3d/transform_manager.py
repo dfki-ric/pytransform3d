@@ -2,6 +2,8 @@
 
 See :doc:`transform_manager` for more information.
 """
+import json
+import re
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
@@ -485,6 +487,95 @@ class TransformManager(object):
 
         graph.write_png(filename, prog=prog)
 
+    def to_dict(self):
+        """Convert the transform manager to a dict that is serializable.
+
+        Returns
+        -------
+        tm_dict : dict
+            Serializable dict.
+        """
+        return {
+            "class": self.__class__.__name__,
+            "strict_check": self.strict_check,
+            "check": self.check,
+            "transforms": self._transforms_to_dict(),
+            "nodes": self.nodes,
+            "i": self.i,
+            "j": self.j,
+            "transform_to_ij_index": self.transform_to_ij_index,
+            "connections": self._connections_to_dict(),
+            "dist": np.array2string(self.dist, floatmode="unique"),
+            "predecessors": np.array2string(
+                self.predecessors, floatmode="unique")
+        }
+
+    def _transforms_to_json(self):
+        return dict([(k, np.array2string(v, floatmode="unique"))
+                     for k, v in self.transforms])
+
+    def _connections_to_dict(self):
+        return {
+            "data": self.connections.data,
+            "indices": self.connections.indices,
+            "indptr": self.connections.indptr
+        }
+
+    @staticmethod
+    def from_dict(cls, tm_dict):
+        """Create transform manager from dict.
+
+        Parameters
+        ----------
+        tm_dict : dict
+            Serializable dict.
+
+        Returns
+        -------
+        tm : TransformManager
+            Deserialized transform manager.
+        """
+        assert tm_dict.pop("class") == self.__class__.__name__
+        strict_check = tm_dict.pop("strict_check")
+        check = tm_dict.pop("check")
+        tm = TransformManager(strict_check=strict_check, check=check)
+        tm.transforms = dict()  # TODO
+        tm.nodes = tm_dict.pop("nodes")
+        tm.i = tm_dict.pop("i")
+        tm.j = tm_dict.pop("j")
+        tm.transform_to_ij_index = tm_dict.pop("transform_to_ij_index")
+        tm.connections = dict()  # TODO
+        tm.dist = _string2array(tm_dict.pop("dist"))
+        tm.predecessors = _string2array(tm_dict.pop("predecessors"))
+        return tm
+
 
 def _dot_display_name(name):  # pragma: no cover
     return name.replace("/", "")
+
+
+def _string2array(text, dtype=None):
+    """Convert text into 1D or 2D arrays using np.matrix().
+
+    The result is returned as an np.ndarray.
+
+    https://stackoverflow.com/questions/35750639/how-can-a-string-representation-of-a-numpy-array-be-converted-to-a-numpy-array
+
+    Parameters
+    ----------
+    TODO
+
+    Returns
+    -------
+    TODO
+    """
+    text = text.strip()
+    # Using a regexp, decide whether the array is flat or not.
+    # The following matches either: "[1 2 3]" or "1 2 3"
+    is_flat = bool(re.match(r"^(\[[^\[].+[^\]]\]|[^\[].+[^\]])$",
+                            text, flags=re.S))
+    # Replace newline characters with semicolons.
+    text = text.replace("]\n", "];")
+    # Prepare the result.
+    result = np.asarray(np.matrix(text, dtype=dtype))
+    return result.flatten() if is_flat else result
