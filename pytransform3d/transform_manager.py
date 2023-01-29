@@ -522,7 +522,7 @@ class TransformManager(object):
         }
 
     @staticmethod
-    def from_dict(cls, tm_dict):
+    def from_dict(tm_dict):
         """Create transform manager from dict.
 
         Parameters
@@ -535,7 +535,7 @@ class TransformManager(object):
         tm : TransformManager
             Deserialized transform manager.
         """
-        assert tm_dict.pop("class") == self.__class__.__name__
+        assert tm_dict.pop("class") == TransformManager.__class__.__name__
         strict_check = tm_dict.pop("strict_check")
         check = tm_dict.pop("check")
         tm = TransformManager(strict_check=strict_check, check=check)
