@@ -530,26 +530,36 @@ class TransformManager(object):
         strict_check = tm_dict.get("strict_check")
         check = tm_dict.get("check")
         tm = TransformManager(strict_check=strict_check, check=check)
+        tm.set_transform_manager_state(tm_dict)
+        return tm
+
+    def set_transform_manager_state(self, tm_dict):
+        """Set state of transform manager from dict.
+
+        Parameters
+        ----------
+        tm_dict : dict
+            Serializable dict.
+        """
         transforms = tm_dict.get("transforms")
-        tm.transforms = dict([(k, np.fromstring(v).reshape(4, 4))
-                              for k, v in transforms.items()])
-        tm.nodes = tm_dict.get("nodes")
-        tm.i = tm_dict.get("i")
-        tm.j = tm_dict.get("j")
-        tm.transform_to_ij_index = tm_dict.get("transform_to_ij_index")
+        self.transforms = dict([(k, np.fromstring(v).reshape(4, 4))
+                                for k, v in transforms.items()])
+        self.nodes = tm_dict.get("nodes")
+        self.i = tm_dict.get("i")
+        self.j = tm_dict.get("j")
+        self.transform_to_ij_index = tm_dict.get("transform_to_ij_index")
         connections = tm_dict.get("connections")
-        tm.connections = sp.csr_matrix(
+        self.connections = sp.csr_matrix(
             (np.fromstring(connections["data"]),
              np.fromstring(connections["indices"], dtype=np.int32),
              np.fromstring(connections["indptr"], dtype=np.int32))
         )
-        n_nodes = len(tm.nodes)
+        n_nodes = len(self.nodes)
         dist = np.fromstring(tm_dict.get("dist"))
-        tm.dist = dist.reshape(n_nodes, n_nodes)
+        self.dist = dist.reshape(n_nodes, n_nodes)
         predecessors = np.fromstring(
             tm_dict.get("predecessors"), dtype=np.int32)
-        tm.predecessors = predecessors.reshape(n_nodes, n_nodes)
-        return tm
+        self.predecessors = predecessors.reshape(n_nodes, n_nodes)
 
 
 def _dot_display_name(name):  # pragma: no cover
