@@ -289,3 +289,20 @@ def test_remove_transform():
         KeyError, "Cannot compute path", tm.get_transform, "A", "D")
     tm.get_transform("B", "A")
     tm.get_transform("D", "C")
+
+
+def test_from_to_dict():
+    random_state = np.random.RandomState(2323)
+    tm = TransformManager()
+    A2B = random_transform(random_state)
+    tm.add_transform("A", "B", A2B)
+    B2C = random_transform(random_state)
+    tm.add_transform("B", "C", B2C)
+    C2D = random_transform(random_state)
+    tm.add_transform("C", "D", C2D)
+
+    tm_dict = tm.to_dict()
+    tm2 = TransformManager.from_dict(tm_dict)
+
+    assert_array_almost_equal(tm.get_transform("D", "A"),
+                              tm2.get_transform("D", "A"))
