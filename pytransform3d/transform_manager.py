@@ -526,28 +526,28 @@ class TransformManager(object):
         tm : TransformManager
             Deserialized transform manager.
         """
-        assert tm_dict.pop("class") == TransformManager.__name__
-        strict_check = tm_dict.pop("strict_check")
-        check = tm_dict.pop("check")
+        assert tm_dict.get("class") == TransformManager.__name__
+        strict_check = tm_dict.get("strict_check")
+        check = tm_dict.get("check")
         tm = TransformManager(strict_check=strict_check, check=check)
-        transforms = tm_dict.pop("transforms")
+        transforms = tm_dict.get("transforms")
         tm.transforms = dict([(k, np.fromstring(v).reshape(4, 4))
                               for k, v in transforms.items()])
-        tm.nodes = tm_dict.pop("nodes")
-        tm.i = tm_dict.pop("i")
-        tm.j = tm_dict.pop("j")
-        tm.transform_to_ij_index = tm_dict.pop("transform_to_ij_index")
-        connections = tm_dict.pop("connections")
+        tm.nodes = tm_dict.get("nodes")
+        tm.i = tm_dict.get("i")
+        tm.j = tm_dict.get("j")
+        tm.transform_to_ij_index = tm_dict.get("transform_to_ij_index")
+        connections = tm_dict.get("connections")
         tm.connections = sp.csr_matrix(
             (np.fromstring(connections["data"]),
              np.fromstring(connections["indices"], dtype=np.int32),
              np.fromstring(connections["indptr"], dtype=np.int32))
         )
         n_nodes = len(tm.nodes)
-        dist = np.fromstring(tm_dict.pop("dist"))
+        dist = np.fromstring(tm_dict.get("dist"))
         tm.dist = dist.reshape(n_nodes, n_nodes)
         predecessors = np.fromstring(
-            tm_dict.pop("predecessors"), dtype=np.int32)
+            tm_dict.get("predecessors"), dtype=np.int32)
         tm.predecessors = predecessors.reshape(n_nodes, n_nodes)
         return tm
 
