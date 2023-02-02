@@ -497,19 +497,19 @@ class TransformManager(object):
             "class": self.__class__.__name__,
             "strict_check": self.strict_check,
             "check": self.check,
-            "transforms": dict([(k, v.tostring())
+            "transforms": dict([(k, v.tobytes())
                                 for k, v in self.transforms.items()]),
             "nodes": self.nodes,
             "i": self.i,
             "j": self.j,
             "transform_to_ij_index": self.transform_to_ij_index,
             "connections": {
-                "data": self.connections.data.tostring(),
-                "indices": self.connections.indices.tostring(),
-                "indptr": self.connections.indptr.tostring()
+                "data": self.connections.data.tobytes(),
+                "indices": self.connections.indices.tobytes(),
+                "indptr": self.connections.indptr.tobytes()
             },
-            "dist": self.dist.tostring(),
-            "predecessors": self.predecessors.tostring()
+            "dist": self.dist.tobytes(),
+            "predecessors": self.predecessors.tobytes()
         }
 
     @staticmethod
