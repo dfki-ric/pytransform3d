@@ -2,8 +2,6 @@
 
 See :doc:`transform_manager` for more information.
 """
-import json
-import re
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
@@ -499,24 +497,19 @@ class TransformManager(object):
             "class": self.__class__.__name__,
             "strict_check": self.strict_check,
             "check": self.check,
-            "transforms": self._transforms_to_dict(),
+            "transforms": dict([(k, v.tostring())
+                                for k, v in self.transforms.items()]),
             "nodes": self.nodes,
             "i": self.i,
             "j": self.j,
             "transform_to_ij_index": self.transform_to_ij_index,
-            "connections": self._connections_to_dict(),
+            "connections": {
+                "data": self.connections.data.tostring(),
+                "indices": self.connections.indices.tostring(),
+                "indptr": self.connections.indptr.tostring()
+            },
             "dist": self.dist.tostring(),
             "predecessors": self.predecessors.tostring()
-        }
-
-    def _transforms_to_dict(self):
-        return dict([(k, v.tostring()) for k, v in self.transforms.items()])
-
-    def _connections_to_dict(self):
-        return {
-            "data": self.connections.data.tostring(),
-            "indices": self.connections.indices.tostring(),
-            "indptr": self.connections.indptr.tostring()
         }
 
     @staticmethod
@@ -533,18 +526,29 @@ class TransformManager(object):
         tm : TransformManager
             Deserialized transform manager.
         """
-        assert tm_dict.pop("class") == TransformManager.__class__.__name__
+        assert tm_dict.pop("class") == TransformManager.__name__
         strict_check = tm_dict.pop("strict_check")
         check = tm_dict.pop("check")
         tm = TransformManager(strict_check=strict_check, check=check)
-        tm.transforms = dict()  # TODO
+        transforms = tm_dict.pop("transforms")
+        tm.transforms = dict([(k, np.fromstring(v).reshape(4, 4))
+                              for k, v in transforms.items()])
         tm.nodes = tm_dict.pop("nodes")
         tm.i = tm_dict.pop("i")
         tm.j = tm_dict.pop("j")
         tm.transform_to_ij_index = tm_dict.pop("transform_to_ij_index")
-        tm.connections = dict()  # TODO
-        tm.dist = np.fromstring(tm_dict.pop("dist"))
-        tm.predecessors = np.fromstring(tm_dict.pop("predecessors"))
+        connections = tm_dict.pop("connections")
+        tm.connections = sp.csr_matrix(
+            (np.fromstring(connections["data"]),
+             np.fromstring(connections["indices"], dtype=np.int32),
+             np.fromstring(connections["indptr"], dtype=np.int32))
+        )
+        n_nodes = len(tm.nodes)
+        dist = np.fromstring(tm_dict.pop("dist"))
+        tm.dist = dist.reshape(n_nodes, n_nodes)
+        predecessors = np.fromstring(
+            tm_dict.pop("predecessors"), dtype=np.int32)
+        tm.predecessors = predecessors.reshape(n_nodes, n_nodes)
         return tm
 
 
