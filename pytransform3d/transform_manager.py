@@ -495,28 +495,34 @@ class TransformManager(object):
         tm_dict : dict
             Serializable dict.
         """
+        def _transforms_to_list():
+            return [(k, v.tobytes()) for k, v in self.transforms.items()]
+
+
+        def _connections_to_dict():
+            return {
+                "data": self.connections.data.tobytes(),
+                "data_shape": self.connections.data.shape,
+                "indices": self.connections.indices.tobytes(),
+                "indices_shape": self.connections.indices.shape,
+                "indptr": self.connections.indptr.tobytes(),
+                "indptr_shape": self.connections.indptr.shape
+            }
+
         return {
             "class": self.__class__.__name__,
             "strict_check": self.strict_check,
             "check": self.check,
-            "transforms": self._transforms_to_dict(),
+            "transforms": _transforms_to_list(),
             "nodes": self.nodes,
             "i": self.i,
             "j": self.j,
             "transform_to_ij_index": self.transform_to_ij_index,
-            "connections": self._connections_to_dict(),
+            "connections": _connections_to_dict(),
             "dist": self.dist.tostring(),
-            "predecessors": self.predecessors.tostring()
-        }
-
-    def _transforms_to_dict(self):
-        return dict([(k, v.tostring()) for k, v in self.transforms.items()])
-
-    def _connections_to_dict(self):
-        return {
-            "data": self.connections.data.tostring(),
-            "indices": self.connections.indices.tostring(),
-            "indptr": self.connections.indptr.tostring()
+            "dist_shape": self.dist.shape,
+            "predecessors": self.predecessors.tobytes(),
+            "predecessors_shape": self.predecessors.shape
         }
 
     @staticmethod
@@ -533,18 +539,28 @@ class TransformManager(object):
         tm : TransformManager
             Deserialized transform manager.
         """
-        assert tm_dict.pop("class") == TransformManager.__class__.__name__
+
+        def _transforms_list_to_transforms_dict(transforms_list):
+            return dict([(k, np.frombuffer(v).reshape((4,4))) for k, v in transforms_list])
+
+        def _connection_dict_to_csr(c_dict):
+            data = np.frombuffer(c_dict["data"], dtype=np.float64).reshape(c_dict["data_shape"])
+            indices = np.frombuffer(c_dict["indices"], dtype=np.int32).reshape(c_dict["indices_shape"])
+            indptr = np.frombuffer(c_dict["indptr"], dtype=np.int32).reshape(c_dict["indptr_shape"])
+            return sp.csr_matrix((data, indices, indptr))
+
+        assert tm_dict.pop("class") == TransformManager.__name__
         strict_check = tm_dict.pop("strict_check")
         check = tm_dict.pop("check")
         tm = TransformManager(strict_check=strict_check, check=check)
-        tm.transforms = dict()  # TODO
+        tm.transforms = _transforms_list_to_transforms_dict(tm_dict.pop("transforms"))
         tm.nodes = tm_dict.pop("nodes")
         tm.i = tm_dict.pop("i")
         tm.j = tm_dict.pop("j")
         tm.transform_to_ij_index = tm_dict.pop("transform_to_ij_index")
-        tm.connections = dict()  # TODO
-        tm.dist = np.fromstring(tm_dict.pop("dist"))
-        tm.predecessors = np.fromstring(tm_dict.pop("predecessors"))
+        tm.connections = _connection_dict_to_csr(tm_dict.pop("connections"))
+        tm.dist = np.frombuffer(tm_dict.pop("dist")).reshape(tm_dict.pop("dist_shape"))
+        tm.predecessors = np.frombuffer(tm_dict.pop('predecessors'), dtype=np.int32).reshape(tm_dict.pop("predecessors_shape"))
         return tm
 
 
