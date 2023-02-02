@@ -68,7 +68,7 @@ class TransformManager(object):
         # Result of shortest path algorithm:
         # distance matrix (distance is the number of transformations)
         self.dist = np.empty(0)
-        self.predecessors = np.empty(0)
+        self.predecessors = np.empty(0, dtype=np.int32)
 
         self._cached_shortest_paths = {}
 
