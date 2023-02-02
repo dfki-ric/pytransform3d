@@ -2,7 +2,7 @@ import numpy as np
 import numpy.typing as npt
 import scipy.sparse as sp
 from mpl_toolkits.mplot3d import Axes3D
-from typing import Dict, Tuple, List, Union, Set, Hashable
+from typing import Dict, Tuple, List, Union, Set, Hashable, Any
 
 
 class TransformManager(object):
