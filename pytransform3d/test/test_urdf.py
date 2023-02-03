@@ -3,6 +3,8 @@ try:
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
+import os
+import json
 import numpy as np
 import warnings
 from pytransform3d.urdf import (
@@ -1160,3 +1162,26 @@ def test_load_urdf_functional():
                   [0, 0, 1, 1.124],
                   [0, 0, 0, 1]])
     )
+
+
+def test_serialization():
+    tm = UrdfTransformManager()
+    tm.load_urdf(COMPI_URDF)
+    for i in range(1, 7):
+        tm.set_joint("joint%d" % i, 0.1)
+
+    filename = "compi.json"
+    try:
+        tm_dict = tm.to_dict()
+        with open(filename, "w") as f:
+            json.dump(tm_dict, f)
+        with open(filename, "r") as f:
+            tm_dict2 = json.load(f)
+        tm2 = UrdfTransformManager.from_dict(tm_dict2)
+
+        tcp2mount = tm.get_transform("tcp", "linkmount")
+        tcp2mount2 = tm2.get_transform("tcp", "linkmount")
+        assert_array_almost_equal(tcp2mount, tcp2mount2)
+    finally:
+        if os.path.exists(filename):
+            os.remove(filename)
