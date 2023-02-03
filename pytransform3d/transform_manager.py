@@ -542,11 +542,12 @@ class TransformManager(object):
         """
         transforms = tm_dict.get("transforms")
         self.transforms = dict([
-            (k, np.array(v).reshape(4, 4)) for k, v in transforms])
+            (tuple(k), np.array(v).reshape(4, 4)) for k, v in transforms])
         self.nodes = tm_dict.get("nodes")
         self.i = tm_dict.get("i")
         self.j = tm_dict.get("j")
-        self.transform_to_ij_index = dict(tm_dict.get("transform_to_ij_index"))
+        self.transform_to_ij_index = dict(
+            [(tuple(k), v) for k, v in tm_dict.get("transform_to_ij_index")])
         connections = tm_dict.get("connections")
         self.connections = sp.csr_matrix((
             connections["data"], connections["indices"],
