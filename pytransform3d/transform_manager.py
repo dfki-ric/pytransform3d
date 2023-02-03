@@ -68,7 +68,7 @@ class TransformManager(object):
         # We have to store the index n associated to a transformation to be
         # able to remove the transformation later
         self.transform_to_ij_index = {}
-        # Same information as sparse matrix
+        # Connection information as sparse matrix
         self.connections = sp.csr_matrix((0, 0))
 
         # Result of shortest path algorithm:
