@@ -526,7 +526,6 @@ class TransformManager(object):
         tm : TransformManager
             Deserialized transform manager.
         """
-        assert tm_dict.get("class") == TransformManager.__name__
         strict_check = tm_dict.get("strict_check")
         check = tm_dict.get("check")
         tm = TransformManager(strict_check=strict_check, check=check)
