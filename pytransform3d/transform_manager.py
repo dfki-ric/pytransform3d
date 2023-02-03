@@ -38,6 +38,12 @@ class TransformManager(object):
         for large graphs. You can check the consistency explicitly with
         :func:`TransformManager.check_consistency`.
 
+    The TransformManager does not directly support serialization because
+    we don't want to decide for a specific format. However, it allows
+    conversion to a dict with only primitive types that is serializable,
+    for instance, as JSON. If a more compact format is required, binary
+    formats like msgpack can be used.
+
     Parameters
     ----------
     strict_check : bool, optional (default: True)
