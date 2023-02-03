@@ -42,7 +42,8 @@ class TransformManager(object):
     we don't want to decide for a specific format. However, it allows
     conversion to a dict with only primitive types that is serializable,
     for instance, as JSON. If a more compact format is required, binary
-    formats like msgpack can be used.
+    formats like msgpack can be used. Use :func:`TransformManager.to_dict`
+    and :func:`TransformManager.from_dict` for this purpose.
 
     Parameters
     ----------
