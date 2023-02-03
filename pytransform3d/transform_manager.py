@@ -497,19 +497,19 @@ class TransformManager(object):
             "class": self.__class__.__name__,
             "strict_check": self.strict_check,
             "check": self.check,
-            "transforms": [(k, v.tobytes())
+            "transforms": [(k, v.ravel().tolist())
                            for k, v in self.transforms.items()],
             "nodes": self.nodes,
             "i": self.i,
             "j": self.j,
-            "transform_to_ij_index": self.transform_to_ij_index,
+            "transform_to_ij_index": list(self.transform_to_ij_index.items()),
             "connections": {
-                "data": self.connections.data.tobytes(),
-                "indices": self.connections.indices.tobytes(),
-                "indptr": self.connections.indptr.tobytes()
+                "data": self.connections.data.tolist(),
+                "indices": self.connections.indices.tolist(),
+                "indptr": self.connections.indptr.tolist()
             },
-            "dist": self.dist.tobytes(),
-            "predecessors": self.predecessors.tobytes()
+            "dist": self.dist.tolist(),
+            "predecessors": self.predecessors.tolist()
         }
 
     @staticmethod
@@ -541,23 +541,20 @@ class TransformManager(object):
             Serializable dict.
         """
         transforms = tm_dict.get("transforms")
-        self.transforms = dict([(k, np.fromstring(v).reshape(4, 4))
-                                for k, v in transforms])
+        self.transforms = dict([
+            (k, np.array(v).reshape(4, 4)) for k, v in transforms])
         self.nodes = tm_dict.get("nodes")
         self.i = tm_dict.get("i")
         self.j = tm_dict.get("j")
-        self.transform_to_ij_index = tm_dict.get("transform_to_ij_index")
+        self.transform_to_ij_index = dict(tm_dict.get("transform_to_ij_index"))
         connections = tm_dict.get("connections")
-        self.connections = sp.csr_matrix(
-            (np.fromstring(connections["data"]),
-             np.fromstring(connections["indices"], dtype=np.int32),
-             np.fromstring(connections["indptr"], dtype=np.int32))
-        )
+        self.connections = sp.csr_matrix((
+            connections["data"], connections["indices"],
+            connections["indptr"]))
         n_nodes = len(self.nodes)
-        dist = np.fromstring(tm_dict.get("dist"))
+        dist = np.array(tm_dict.get("dist"))
         self.dist = dist.reshape(n_nodes, n_nodes)
-        predecessors = np.fromstring(
-            tm_dict.get("predecessors"), dtype=np.int32)
+        predecessors = np.array(tm_dict.get("predecessors"), dtype=np.int32)
         self.predecessors = predecessors.reshape(n_nodes, n_nodes)
 
 
