@@ -497,8 +497,8 @@ class TransformManager(object):
             "class": self.__class__.__name__,
             "strict_check": self.strict_check,
             "check": self.check,
-            "transforms": dict([(k, v.tobytes())
-                                for k, v in self.transforms.items()]),
+            "transforms": [(k, v.tobytes())
+                           for k, v in self.transforms.items()],
             "nodes": self.nodes,
             "i": self.i,
             "j": self.j,
@@ -542,7 +542,7 @@ class TransformManager(object):
         """
         transforms = tm_dict.get("transforms")
         self.transforms = dict([(k, np.fromstring(v).reshape(4, 4))
-                                for k, v in transforms.items()])
+                                for k, v in transforms])
         self.nodes = tm_dict.get("nodes")
         self.i = tm_dict.get("i")
         self.j = tm_dict.get("j")
