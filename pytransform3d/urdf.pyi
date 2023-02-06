@@ -9,8 +9,8 @@ from typing import Dict, Tuple, List, Any, Union, Type, Hashable
 class UrdfTransformManager(TransformManager):
     _joints: Dict[str, Tuple[Hashable, Hashable, np.ndarray, np.ndarray,
                              Tuple[float, float], str]]
-    collision_objects: List[Any]
-    visuals: List[Any]
+    collision_objects: List[Geometry]
+    visuals: List[Geometry]
 
     def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 
