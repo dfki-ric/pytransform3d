@@ -39,7 +39,7 @@ jobs:
           command: |
             . venv/bin/activate
             python3 --version
-            MPLBACKEND=Agg pytest -W ignore::DeprecationWarning --cov=pytransform3d pytransform3d
+            MPLBACKEND=Agg pytest
 
       - store_artifacts:
           path: cover
