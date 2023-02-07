@@ -1,7 +1,6 @@
 import os
 import pickle
 import warnings
-import platform
 import tempfile
 import numpy as np
 from pytransform3d.rotations import (
@@ -248,11 +247,7 @@ def test_deactivate_transform_manager_precision_error():
     with pytest.raises(ValueError, match="Expected rotation matrix"):
         tm.add_transform("A", "B", A2B)
 
-    if int(platform.python_version()[0]) == 2:
-        # Python 2 seems to incorrectly suppress some warnings, not sure why
-        n_expected_warnings = 7
-    else:
-        n_expected_warnings = 9
+    n_expected_warnings = 6
     try:
         warnings.filterwarnings("always", category=UserWarning)
         with warnings.catch_warnings(record=True) as w:
