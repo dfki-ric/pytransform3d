@@ -141,13 +141,13 @@ pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
 
 ## Tests
 
-You can use nosetests to run the tests of this project in the root directory:
+You can use pytest to run the tests of this project in the root directory:
 
-    nosetests
+    pytest
 
 A coverage report will be located at `cover/index.html`.
-Note that you have to install `nose` to run the tests and `coverage` to obtain
-the code coverage report.
+Note that you have to install `pytest` to run the tests and `pytest-cov` to
+obtain the code coverage report.
 
 ## Contributing
 
