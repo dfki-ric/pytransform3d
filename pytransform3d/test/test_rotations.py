@@ -1708,7 +1708,7 @@ def test_deactivate_rotation_matrix_precision_error():
         pr.check_matrix(R)
     with warnings.catch_warnings(record=True) as w:
         pr.check_matrix(R, strict_check=False)
-        assert len(w) == 2
+        assert len(w) == 1
 
 
 def test_norm_rotation_matrix():
