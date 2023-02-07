@@ -38,6 +38,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test
       run: |
-        MPLBACKEND=Agg pytest -W ignore::DeprecationWarning --cov=pytransform3d pytransform3d
+        MPLBACKEND=Agg pytest
     - name: Codecov
       uses: codecov/codecov-action@v1.3.2
