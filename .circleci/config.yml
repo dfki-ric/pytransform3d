@@ -26,7 +26,7 @@ jobs:
             sudo apt install graphviz gfortran libopenblas-dev liblapack-dev
             python3 -m venv venv
             . venv/bin/activate
-            pip install -e . pydot trimesh nose pytest pytest-cov
+            pip install -e .[all,test]
 
       - save_cache:
           paths:

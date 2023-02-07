@@ -2,7 +2,6 @@
 from setuptools import setup, find_packages
 import pytransform3d
 
-
 if __name__ == "__main__":
     with open("README.md", "r") as f:
         long_description = f.read()
@@ -28,7 +27,8 @@ if __name__ == "__main__":
                             "beautifulsoup4"],
           extras_require={
               "all": ["pydot", "trimesh", "open3d"],
-              "doc": ["numpydoc", "sphinx", "sphinx-gallery", "sphinx-bootstrap-theme"],
-              "test": ["nose", "coverage"]
+              "doc": ["numpydoc", "sphinx", "sphinx-gallery",
+                      "sphinx-bootstrap-theme"],
+              "test": ["nose", "coverage", "pytest", "pytest-cov"]
           }
-    )
+          )
