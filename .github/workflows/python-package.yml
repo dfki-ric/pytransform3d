@@ -28,14 +28,15 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install flake8
         python -m pip install -e .[test]
+        python -m pip install pydot trimesh nose pytest pytest-cov
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with nosetests
+    - name: Test
       run: |
-        MPLBACKEND=Agg nosetests -sv pytransform3d/ --with-coverage
+        MPLBACKEND=Agg pytest -W ignore::DeprecationWarning --cov=pytransform3d pytransform3d
     - name: Codecov
       uses: codecov/codecov-action@v1.3.2
