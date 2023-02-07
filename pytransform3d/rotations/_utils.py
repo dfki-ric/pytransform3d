@@ -427,7 +427,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
             raise ValueError(error_msg)
         warnings.warn(error_msg)
     R_det = np.linalg.det(R)
-    if abs(R_det - 1) > tolerance:
+    if R_det < 0.0:
         error_msg = ("Expected rotation matrix, but it failed the test "
                      "for the determinant, which should be 1 but is %g; "
                      "that is, it probably represents a rotoreflection"
