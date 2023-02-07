@@ -145,7 +145,7 @@ You can use pytest to run the tests of this project in the root directory:
 
     pytest
 
-A coverage report will be located at `cover/index.html`.
+A coverage report will be located at `htmlcov/index.html`.
 Note that you have to install `pytest` to run the tests and `pytest-cov` to
 obtain the code coverage report.
 
