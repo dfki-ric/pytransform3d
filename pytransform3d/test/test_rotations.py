@@ -1,11 +1,8 @@
 import warnings
 import numpy as np
-from numpy.testing import assert_array_almost_equal, assert_array_equal
-from nose.tools import (assert_almost_equal, assert_equal, assert_true,
-                        assert_greater, assert_raises_regexp, assert_less,
-                        assert_false)
-
 import pytransform3d.rotations as pr
+from numpy.testing import assert_array_almost_equal, assert_array_equal
+import pytest
 
 
 def test_norm_vector():
@@ -14,13 +11,13 @@ def test_norm_vector():
     for n in range(1, 6):
         v = pr.random_vector(random_state, n)
         u = pr.norm_vector(v)
-        assert_almost_equal(np.linalg.norm(u), 1)
+        assert pytest.approx(np.linalg.norm(u)) == 1
 
 
 def test_norm_zero_vector():
     """Test normalization of zero vector."""
     normalized = pr.norm_vector(np.zeros(3))
-    assert_true(np.isfinite(np.linalg.norm(normalized)))
+    assert np.isfinite(np.linalg.norm(normalized))
 
 
 def test_norm_angle():
@@ -31,8 +28,8 @@ def test_norm_angle():
         a = a_norm + b
         assert_array_almost_equal(pr.norm_angle(a), a_norm)
 
-    assert_almost_equal(pr.norm_angle(-np.pi), np.pi)
-    assert_almost_equal(pr.norm_angle(np.pi), np.pi)
+    assert pytest.approx(pr.norm_angle(-np.pi)) == np.pi
+    assert pytest.approx(pr.norm_angle(np.pi)) == np.pi
 
 
 def test_norm_axis_angle():
@@ -95,35 +92,35 @@ def test_perpendicular_to_vectors():
     a1 = pr.norm_vector(pr.random_vector(random_state))
     b = pr.norm_vector(pr.perpendicular_to_vectors(a, a1))
     c = pr.norm_vector(pr.perpendicular_to_vectors(a, b))
-    assert_almost_equal(pr.angle_between_vectors(a, b), np.pi / 2.0)
-    assert_almost_equal(pr.angle_between_vectors(a, c), np.pi / 2.0)
-    assert_almost_equal(pr.angle_between_vectors(b, c), np.pi / 2.0)
+    assert pytest.approx(pr.angle_between_vectors(a, b)) == np.pi / 2.0
+    assert pytest.approx(pr.angle_between_vectors(a, c)) == np.pi / 2.0
+    assert pytest.approx(pr.angle_between_vectors(b, c)) == np.pi / 2.0
     assert_array_almost_equal(pr.perpendicular_to_vectors(b, c), a)
     assert_array_almost_equal(pr.perpendicular_to_vectors(c, a), b)
 
 
 def test_perpendicular_to_vector():
     """Test function to compute perpendicular to vector."""
-    assert_almost_equal(pr.angle_between_vectors(
-        pr.unitx, pr.perpendicular_to_vector(pr.unitx)), np.pi / 2.0)
-    assert_almost_equal(pr.angle_between_vectors(
-        pr.unity, pr.perpendicular_to_vector(pr.unity)), np.pi / 2.0)
-    assert_almost_equal(pr.angle_between_vectors(
-        pr.unitz, pr.perpendicular_to_vector(pr.unitz)), np.pi / 2.0)
+    assert pytest.approx(pr.angle_between_vectors(
+        pr.unitx, pr.perpendicular_to_vector(pr.unitx))) == np.pi / 2.0
+    assert pytest.approx(pr.angle_between_vectors(
+        pr.unity, pr.perpendicular_to_vector(pr.unity))) == np.pi / 2.0
+    assert pytest.approx(pr.angle_between_vectors(
+        pr.unitz, pr.perpendicular_to_vector(pr.unitz))) == np.pi / 2.0
     random_state = np.random.RandomState(0)
     for _ in range(5):
         a = pr.norm_vector(pr.random_vector(random_state))
-        assert_almost_equal(pr.angle_between_vectors(
-            a, pr.perpendicular_to_vector(a)), np.pi / 2.0)
+        assert pytest.approx(pr.angle_between_vectors(
+            a, pr.perpendicular_to_vector(a))) == np.pi / 2.0
         b = a - np.array([a[0], 0.0, 0.0])
-        assert_almost_equal(pr.angle_between_vectors(
-            b, pr.perpendicular_to_vector(b)), np.pi / 2.0)
+        assert pytest.approx(pr.angle_between_vectors(
+            b, pr.perpendicular_to_vector(b))) == np.pi / 2.0
         c = a - np.array([0.0, a[1], 0.0])
-        assert_almost_equal(pr.angle_between_vectors(
-            c, pr.perpendicular_to_vector(c)), np.pi / 2.0)
+        assert pytest.approx(pr.angle_between_vectors(
+            c, pr.perpendicular_to_vector(c))) == np.pi / 2.0
         d = a - np.array([0.0, 0.0, a[2]])
-        assert_almost_equal(pr.angle_between_vectors(
-            d, pr.perpendicular_to_vector(d)), np.pi / 2.0)
+        assert pytest.approx(pr.angle_between_vectors(
+            d, pr.perpendicular_to_vector(d))) == np.pi / 2.0
 
 
 def test_angle_between_vectors():
@@ -132,17 +129,17 @@ def test_angle_between_vectors():
     a = np.array([0, 1, 0, np.pi / 2])
     R = pr.matrix_from_axis_angle(a)
     vR = np.dot(R, v)
-    assert_almost_equal(pr.angle_between_vectors(vR, v), a[-1])
+    assert pytest.approx(pr.angle_between_vectors(vR, v)) == a[-1]
     v = np.array([0, 1, 0])
     a = np.array([1, 0, 0, np.pi / 2])
     R = pr.matrix_from_axis_angle(a)
     vR = np.dot(R, v)
-    assert_almost_equal(pr.angle_between_vectors(vR, v), a[-1])
+    assert pytest.approx(pr.angle_between_vectors(vR, v)) == a[-1]
     v = np.array([0, 0, 1])
     a = np.array([1, 0, 0, np.pi / 2])
     R = pr.matrix_from_axis_angle(a)
     vR = np.dot(R, v)
-    assert_almost_equal(pr.angle_between_vectors(vR, v), a[-1])
+    assert pytest.approx(pr.angle_between_vectors(vR, v)) == a[-1]
 
 
 def test_angle_between_close_vectors():
@@ -153,7 +150,7 @@ def test_angle_between_close_vectors():
     a = np.array([0.9689124217106448, 0.24740395925452294, 0.0, 0.0])
     b = np.array([0.9689124217106448, 0.247403959254523, 0.0, 0.0])
     angle = pr.angle_between_vectors(a, b)
-    assert_almost_equal(angle, 0.0)
+    assert pytest.approx(angle) == 0.0
 
 
 def test_angle_to_zero_vector_is_nan():
@@ -162,8 +159,8 @@ def test_angle_to_zero_vector_is_nan():
     b = np.array([0.0, 0.0])
     with warnings.catch_warnings(record=True) as w:
         angle = pr.angle_between_vectors(a, b)
-        assert_equal(len(w), 1)
-    assert_true(np.isnan(angle))
+        assert len(w) == 1
+    assert np.isnan(angle)
 
 
 def test_vector_projection_on_zero_vector():
@@ -180,53 +177,52 @@ def test_vector_projection():
     a = np.ones(3)
     a_on_unitx = pr.vector_projection(a, pr.unitx)
     assert_array_almost_equal(a_on_unitx, pr.unitx)
-    assert_almost_equal(pr.angle_between_vectors(a_on_unitx, pr.unitx), 0.0)
+    assert pytest.approx(pr.angle_between_vectors(a_on_unitx, pr.unitx)) == 0.0
 
     a2_on_unitx = pr.vector_projection(2 * a, pr.unitx)
     assert_array_almost_equal(a2_on_unitx, 2 * pr.unitx)
-    assert_almost_equal(pr.angle_between_vectors(a2_on_unitx, pr.unitx), 0.0)
+    assert pytest.approx(pr.angle_between_vectors(a2_on_unitx, pr.unitx)) == 0.0
 
     a_on_unity = pr.vector_projection(a, pr.unity)
     assert_array_almost_equal(a_on_unity, pr.unity)
-    assert_almost_equal(pr.angle_between_vectors(a_on_unity, pr.unity), 0.0)
+    assert pytest.approx(pr.angle_between_vectors(a_on_unity, pr.unity)) == 0.0
 
     minus_a_on_unity = pr.vector_projection(-a, pr.unity)
     assert_array_almost_equal(minus_a_on_unity, -pr.unity)
-    assert_almost_equal(
-        pr.angle_between_vectors(minus_a_on_unity, pr.unity), np.pi)
+    assert pytest.approx(
+        pr.angle_between_vectors(minus_a_on_unity, pr.unity)) == np.pi
 
     a_on_unitz = pr.vector_projection(a, pr.unitz)
     assert_array_almost_equal(a_on_unitz, pr.unitz)
-    assert_almost_equal(pr.angle_between_vectors(a_on_unitz, pr.unitz), 0.0)
+    assert pytest.approx(pr.angle_between_vectors(a_on_unitz, pr.unitz)) == 0.0
 
     unitz_on_a = pr.vector_projection(pr.unitz, a)
     assert_array_almost_equal(unitz_on_a, np.ones(3) / 3.0)
-    assert_almost_equal(pr.angle_between_vectors(unitz_on_a, a), 0.0)
+    assert pytest.approx(pr.angle_between_vectors(unitz_on_a, a)) == 0.0
 
     unitx_on_unitx = pr.vector_projection(pr.unitx, pr.unitx)
     assert_array_almost_equal(unitx_on_unitx, pr.unitx)
-    assert_almost_equal(
-        pr.angle_between_vectors(unitx_on_unitx, pr.unitx), 0.0)
+    assert pytest.approx(
+        pr.angle_between_vectors(unitx_on_unitx, pr.unitx)) == 0.0
 
 
 def test_check_skew_symmetric_matrix():
-    assert_raises_regexp(
-        ValueError, "Expected skew-symmetric matrix with shape",
-        pr.check_skew_symmetric_matrix, [])
-    assert_raises_regexp(
-        ValueError, "Expected skew-symmetric matrix with shape",
-        pr.check_skew_symmetric_matrix, np.zeros((3, 4)))
-    assert_raises_regexp(
-        ValueError, "Expected skew-symmetric matrix with shape",
-        pr.check_skew_symmetric_matrix, np.zeros((4, 3)))
+    with pytest.raises(ValueError,
+                       match="Expected skew-symmetric matrix with shape"):
+        pr.check_skew_symmetric_matrix([])
+    with pytest.raises(ValueError,
+                       match="Expected skew-symmetric matrix with shape"):
+        pr.check_skew_symmetric_matrix(np.zeros((3, 4)))
+    with pytest.raises(ValueError,
+                       match="Expected skew-symmetric matrix with shape"):
+        pr.check_skew_symmetric_matrix(np.zeros((4, 3)))
     V = np.zeros((3, 3))
     V[0, 0] = 0.001
-    assert_raises_regexp(
-        ValueError, "Expected skew-symmetric matrix, but it failed the test",
-        pr.check_skew_symmetric_matrix, V)
+    with pytest.raises(ValueError, match="Expected skew-symmetric matrix, but it failed the test"):
+        pr.check_skew_symmetric_matrix(V)
     with warnings.catch_warnings(record=True) as w:
         pr.check_skew_symmetric_matrix(V, strict_check=False)
-        assert_equal(len(w), 1)
+        assert len(w) == 1
 
     pr.check_skew_symmetric_matrix(np.zeros((3, 3)))
 
@@ -248,33 +244,34 @@ def test_check_matrix():
     """Test input validation for rotation matrix."""
     R_list = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     R = pr.check_matrix(R_list)
-    assert_equal(type(R), np.ndarray)
-    assert_equal(R.dtype, np.float64)
+    assert type(R) == np.ndarray
+    assert R.dtype == np.float64
 
     R_int_array = np.eye(3, dtype=int)
     R = pr.check_matrix(R_int_array)
-    assert_equal(type(R), np.ndarray)
-    assert_equal(R.dtype, np.float64)
+    assert type(R) == np.ndarray
+    assert R.dtype == np.float64
 
     R_array = np.eye(3)
     R = pr.check_matrix(R_array)
     assert_array_equal(R_array, R)
 
     R = np.eye(4)
-    assert_raises_regexp(
-        ValueError, "Expected rotation matrix with shape",
-        pr.check_matrix, R)
+    with pytest.raises(
+            ValueError, match="Expected rotation matrix with shape"):
+        pr.check_matrix(R)
 
     R = np.array([[1, 0, 0], [0, 1, 0], [0, 0.1, 1]])
-    assert_raises_regexp(
-        ValueError, "inversion by transposition", pr.check_matrix, R)
+    with pytest.raises(ValueError, match="inversion by transposition"):
+        pr.check_matrix(R)
 
     R = np.array([[1, 0, 1e-16], [0, 1, 0], [0, 0, 1]])
     R2 = pr.check_matrix(R)
     assert_array_equal(R, R2)
 
     R = -np.eye(3)
-    assert_raises_regexp(ValueError, "determinant", pr.check_matrix, R)
+    with pytest.raises(ValueError, match="determinant"):
+        pr.check_matrix(R)
 
 
 def test_check_axis_angle():
@@ -282,8 +279,8 @@ def test_check_axis_angle():
     a_list = [1, 0, 0, 0]
     a = pr.check_axis_angle(a_list)
     assert_array_almost_equal(a_list, a)
-    assert_equal(type(a), np.ndarray)
-    assert_equal(a.dtype, np.float64)
+    assert type(a) == np.ndarray
+    assert a.dtype == np.float64
 
     random_state = np.random.RandomState(0)
     a = np.empty(4)
@@ -291,16 +288,16 @@ def test_check_axis_angle():
     a[3] = random_state.randn() * 4.0 * np.pi
     a2 = pr.check_axis_angle(a)
     pr.assert_axis_angle_equal(a, a2)
-    assert_almost_equal(np.linalg.norm(a2[:3]), 1.0)
-    assert_greater(a2[3], 0)
-    assert_greater(np.pi, a2[3])
+    assert pytest.approx(np.linalg.norm(a2[:3])) == 1.0
+    assert a2[3] > 0
+    assert np.pi > a2[3]
 
-    assert_raises_regexp(
-        ValueError, "Expected axis and angle in array with shape",
-        pr.check_axis_angle, np.zeros(3))
-    assert_raises_regexp(
-        ValueError, "Expected axis and angle in array with shape",
-        pr.check_axis_angle, np.zeros((3, 3)))
+    with pytest.raises(
+            ValueError, match="Expected axis and angle in array with shape"):
+        pr.check_axis_angle(np.zeros(3))
+    with pytest.raises(
+            ValueError, match="Expected axis and angle in array with shape"):
+        pr.check_axis_angle(np.zeros((3, 3)))
 
 
 def test_check_compact_axis_angle():
@@ -308,23 +305,22 @@ def test_check_compact_axis_angle():
     a_list = [0, 0, 0]
     a = pr.check_compact_axis_angle(a_list)
     assert_array_almost_equal(a_list, a)
-    assert_equal(type(a), np.ndarray)
-    assert_equal(a.dtype, np.float64)
+    assert type(a) == np.ndarray
+    assert a.dtype == np.float64
 
     random_state = np.random.RandomState(0)
     a = pr.norm_vector(pr.random_vector(random_state, 3))
     a *= np.pi + random_state.randn() * 4.0 * np.pi
     a2 = pr.check_compact_axis_angle(a)
     pr.assert_compact_axis_angle_equal(a, a2)
-    assert_greater(np.linalg.norm(a2), 0)
-    assert_greater(np.pi, np.linalg.norm(a2))
+    assert np.pi > np.linalg.norm(a2) > 0
 
-    assert_raises_regexp(
-        ValueError, "Expected axis and angle in array with shape",
-        pr.check_compact_axis_angle, np.zeros(4))
-    assert_raises_regexp(
-        ValueError, "Expected axis and angle in array with shape",
-        pr.check_compact_axis_angle, np.zeros((3, 3)))
+    with pytest.raises(
+            ValueError, match="Expected axis and angle in array with shape"):
+        pr.check_compact_axis_angle(np.zeros(4))
+    with pytest.raises(
+            ValueError, match="Expected axis and angle in array with shape"):
+        pr.check_compact_axis_angle(np.zeros((3, 3)))
 
 
 def test_check_quaternion():
@@ -332,18 +328,18 @@ def test_check_quaternion():
     q_list = [1, 0, 0, 0]
     q = pr.check_quaternion(q_list)
     assert_array_almost_equal(q_list, q)
-    assert_equal(type(q), np.ndarray)
-    assert_equal(q.dtype, np.float64)
+    assert type(q) == np.ndarray
+    assert q.dtype == np.float64
 
     random_state = np.random.RandomState(0)
     q = random_state.randn(4)
     q = pr.check_quaternion(q)
-    assert_almost_equal(np.linalg.norm(q), 1.0)
+    assert pytest.approx(np.linalg.norm(q)) == 1.0
 
-    assert_raises_regexp(ValueError, "Expected quaternion with shape",
-                         pr.check_quaternion, np.zeros(3))
-    assert_raises_regexp(ValueError, "Expected quaternion with shape",
-                         pr.check_quaternion, np.zeros((3, 3)))
+    with pytest.raises(ValueError, match="Expected quaternion with shape"):
+         pr.check_quaternion(np.zeros(3))
+    with pytest.raises(ValueError, match="Expected quaternion with shape"):
+         pr.check_quaternion(np.zeros((3, 3)))
 
     q = np.array([0.0, 1.2, 0.0, 0.0])
     q2 = pr.check_quaternion(q, unit=False)
@@ -355,9 +351,9 @@ def test_check_quaternions():
     Q_list = [[1, 0, 0, 0]]
     Q = pr.check_quaternions(Q_list)
     assert_array_almost_equal(Q_list, Q)
-    assert_equal(type(Q), np.ndarray)
-    assert_equal(Q.dtype, np.float64)
-    assert_equal(Q.ndim, 2)
+    assert type(Q) == np.ndarray
+    assert Q.dtype == np.float64
+    assert Q.ndim == 2
     assert_array_equal(Q.shape, (1, 4))
 
     Q = np.array([
@@ -368,12 +364,12 @@ def test_check_quaternions():
     ])
     Q = pr.check_quaternions(Q)
     for i in range(len(Q)):
-        assert_almost_equal(np.linalg.norm(Q[i]), 1)
+        assert pytest.approx(np.linalg.norm(Q[i])) == 1
 
-    assert_raises_regexp(ValueError, "Expected quaternion array with shape",
-                         pr.check_quaternions, np.zeros(4))
-    assert_raises_regexp(ValueError, "Expected quaternion array with shape",
-                         pr.check_quaternions, np.zeros((3, 3)))
+    with pytest.raises(ValueError, match="Expected quaternion array with shape"):
+        pr.check_quaternions(np.zeros(4))
+    with pytest.raises(ValueError, match="Expected quaternion array with shape"):
+        pr.check_quaternions(np.zeros((3, 3)))
 
     Q = np.array([[0.0, 1.2, 0.0, 0.0]])
     Q2 = pr.check_quaternions(Q, unit=False)
@@ -382,10 +378,10 @@ def test_check_quaternions():
 
 def test_passive_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
-    assert_raises_regexp(ValueError, "Basis must be in",
-                         pr.passive_matrix_from_angle, -1, 0)
-    assert_raises_regexp(ValueError, "Basis must be in",
-                         pr.passive_matrix_from_angle, 3, 0)
+    with pytest.raises(ValueError, match="Basis must be in"):
+         pr.passive_matrix_from_angle(-1, 0)
+    with pytest.raises(ValueError, match="Basis must be in"):
+        pr.passive_matrix_from_angle(3, 0)
 
     R = pr.passive_matrix_from_angle(0, -0.5 * np.pi)
     assert_array_almost_equal(R, np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]]))
@@ -405,10 +401,10 @@ def test_passive_matrix_from_angle():
 
 def test_active_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
-    assert_raises_regexp(ValueError, "Basis must be in",
-                         pr.active_matrix_from_angle, -1, 0)
-    assert_raises_regexp(ValueError, "Basis must be in",
-                         pr.active_matrix_from_angle, 3, 0)
+    with pytest.raises(ValueError, match="Basis must be in"):
+         pr.passive_matrix_from_angle(-1, 0)
+    with pytest.raises(ValueError, match="Basis must be in"):
+        pr.passive_matrix_from_angle(3, 0)
 
     random_state = np.random.RandomState(21)
     for i in range(20):
@@ -610,18 +606,18 @@ def test_active_matrix_from_intrinsic_zyx():
         euler_zyx[1] = 0.5 * np.pi
         R = pr.active_matrix_from_intrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = pr.intrinsic_euler_zyx_from_active_matrix(R)
-        assert_almost_equal(euler_zyx2[1], 0.5 * np.pi)
-        assert_almost_equal(
-            euler_zyx[0] - euler_zyx[2], euler_zyx2[0] - euler_zyx2[2])
+        assert pytest.approx(euler_zyx2[1]) == 0.5 * np.pi
+        assert (pytest.approx(euler_zyx[0] - euler_zyx[2])
+                == euler_zyx2[0] - euler_zyx2[2])
 
         # Gimbal lock 2, infinite solutions with constraint
         # alpha + gamma = constant
         euler_zyx[1] = -0.5 * np.pi
         R = pr.active_matrix_from_intrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = pr.intrinsic_euler_zyx_from_active_matrix(R)
-        assert_almost_equal(euler_zyx2[1], -0.5 * np.pi)
-        assert_almost_equal(
-            euler_zyx[0] + euler_zyx[2], euler_zyx2[0] + euler_zyx2[2])
+        assert pytest.approx(euler_zyx2[1]) == -0.5 * np.pi
+        assert (pytest.approx(euler_zyx[0] + euler_zyx[2])
+                == euler_zyx2[0] + euler_zyx2[2])
 
 
 def test_active_matrix_from_extrinsic_zyx():
@@ -643,9 +639,9 @@ def test_active_matrix_from_extrinsic_zyx():
         euler_zyx[1] = 0.5 * np.pi
         R = pr.active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = pr.extrinsic_euler_zyx_from_active_matrix(R)
-        assert_almost_equal(euler_zyx2[1], 0.5 * np.pi)
-        assert_almost_equal(
-            euler_zyx[0] + euler_zyx[2], euler_zyx2[0] + euler_zyx2[2])
+        assert pytest.approx(euler_zyx2[1]) == 0.5 * np.pi
+        assert pytest.approx(
+            euler_zyx[0] + euler_zyx[2]) == euler_zyx2[0] + euler_zyx2[2]
         R2 = pr.active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
         assert_array_almost_equal(R, R2)
 
@@ -654,9 +650,9 @@ def test_active_matrix_from_extrinsic_zyx():
         euler_zyx[1] = -0.5 * np.pi
         R = pr.active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = pr.extrinsic_euler_zyx_from_active_matrix(R)
-        assert_almost_equal(euler_zyx2[1], -0.5 * np.pi)
-        assert_almost_equal(
-            euler_zyx[0] - euler_zyx[2], euler_zyx2[0] - euler_zyx2[2])
+        assert pytest.approx(euler_zyx2[1], -0.5 * np.pi)
+        assert pytest.approx(
+            euler_zyx[0] - euler_zyx[2]) == euler_zyx2[0] - euler_zyx2[2]
         R2 = pr.active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
         assert_array_almost_equal(R, R2)
 
@@ -685,7 +681,7 @@ def _test_conversion_matrix_euler(
             euler[1] = 0.5 * np.pi
         R = matrix_from_euler(euler)
         euler2 = euler_from_matrix(R)
-        assert_almost_equal(euler[1], euler2[1])
+        assert pytest.approx(euler[1]) == euler2[1]
         R2 = matrix_from_euler(euler2)
         assert_array_almost_equal(R, R2)
 
@@ -696,7 +692,7 @@ def _test_conversion_matrix_euler(
             euler[1] = -0.5 * np.pi
         R = matrix_from_euler(euler)
         euler2 = euler_from_matrix(R)
-        assert_almost_equal(euler[1], euler2[1])
+        assert pytest.approx(euler[1]) == euler2[1]
         R2 = matrix_from_euler(euler2)
         assert_array_almost_equal(R, R2)
 
@@ -842,24 +838,30 @@ def test_active_matrix_from_extrinsic_roll_pitch_yaw():
 
 def test_from_quaternion():
     """Test conversion from quaternion to Euler angles."""
-    assert_raises_regexp(
-        ValueError, "Axis index i \\(-1\\) must be in \\[0, 1, 2\\]",
-        pr.euler_from_quaternion, pr.q_id, -1, 0, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index i \\(3\\) must be in \\[0, 1, 2\\]",
-        pr.euler_from_quaternion, pr.q_id, 3, 0, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index j \\(-1\\) must be in \\[0, 1, 2\\]",
-        pr.euler_from_quaternion, pr.q_id, 2, -1, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index j \\(3\\) must be in \\[0, 1, 2\\]",
-        pr.euler_from_quaternion, pr.q_id, 2, 3, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index k \\(-1\\) must be in \\[0, 1, 2\\]",
-        pr.euler_from_quaternion, pr.q_id, 2, 0, -1, True)
-    assert_raises_regexp(
-        ValueError, "Axis index k \\(3\\) must be in \\[0, 1, 2\\]",
-        pr.euler_from_quaternion, pr.q_id, 2, 0, 3, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index i \\(-1\\) must be in \\[0, 1, 2\\]"):
+        pr.euler_from_quaternion(pr.q_id, -1, 0, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index i \\(3\\) must be in \\[0, 1, 2\\]"):
+        pr.euler_from_quaternion(pr.q_id, 3, 0, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index j \\(-1\\) must be in \\[0, 1, 2\\]"):
+        pr.euler_from_quaternion(pr.q_id, 2, -1, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index j \\(3\\) must be in \\[0, 1, 2\\]"):
+        pr.euler_from_quaternion(pr.q_id, 2, 3, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index k \\(-1\\) must be in \\[0, 1, 2\\]"):
+        pr.euler_from_quaternion(pr.q_id, 2, 0, -1, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index k \\(3\\) must be in \\[0, 1, 2\\]"):
+        pr.euler_from_quaternion(pr.q_id, 2, 0, 3, True)
 
     random_state = np.random.RandomState(32)
 
@@ -1023,21 +1025,21 @@ def test_compare_axis_angle_from_matrix_to_lynch_park():
     pr.assert_axis_angle_equal(a, [0, 0, 0, 0])
 
     R = pr.passive_matrix_from_angle(2, np.pi)
-    assert_almost_equal(np.trace(R), -1)
+    assert pytest.approx(np.trace(R)) == -1
     a = pr.axis_angle_from_matrix(R)
     axis = (1.0 / np.sqrt(2.0 * (1 + R[2, 2]))
             * np.array([R[0, 2], R[1, 2], 1 + R[2, 2]]))
     pr.assert_axis_angle_equal(a, np.hstack((axis, (np.pi,))))
 
     R = pr.passive_matrix_from_angle(1, np.pi)
-    assert_almost_equal(np.trace(R), -1)
+    assert pytest.approx(np.trace(R)) == -1
     a = pr.axis_angle_from_matrix(R)
     axis = (1.0 / np.sqrt(2.0 * (1 + R[1, 1]))
             * np.array([R[0, 1], 1 + R[1, 1], R[2, 1]]))
     pr.assert_axis_angle_equal(a, np.hstack((axis, (np.pi,))))
 
     R = pr.passive_matrix_from_angle(0, np.pi)
-    assert_almost_equal(np.trace(R), -1)
+    assert pytest.approx(np.trace(R)) == -1
     a = pr.axis_angle_from_matrix(R)
     axis = (1.0 / np.sqrt(2.0 * (1 + R[0, 0]))
             * np.array([1 + R[0, 0], R[1, 0], R[2, 0]]))
@@ -1139,16 +1141,16 @@ def test_issue43_numerical_precision():
     R = pr.matrix_from_axis_angle(a)
     a2 = pr.axis_angle_from_matrix(R)
     axis_dist = np.linalg.norm(a[:3] - a2[:3])
-    assert_less(axis_dist, 1e-10)
-    assert_less(abs(a[3] - a2[3]), 1e-8)
+    assert axis_dist < 1e-10
+    assert abs(a[3] - a2[3]) < 1e-8
 
     a = np.array([1., 1., 1., 1e-7])
     a[:3] = a[:3] / np.linalg.norm(a[:3])
     R = pr.matrix_from_axis_angle(a)
     a2 = pr.axis_angle_from_matrix(R)
     axis_dist = np.linalg.norm(a[:3] - a2[:3])
-    assert_less(axis_dist, 1e-10)
-    assert_less(abs(a[3] - a2[3]), 1e-8)
+    assert axis_dist < 1e-10
+    assert abs(a[3] - a2[3]) < 1e-8
 
 
 def test_conversions_matrix_axis_angle_continuous():
@@ -1222,8 +1224,8 @@ def test_quaternion_from_matrix_180():
         [[0.0, 0.0, 0.0],
          [0.0, 0.0, 0.0],
          [0.0, 0.0, -1.0]])
-    assert_raises_regexp(
-        ValueError, "Expected rotation matrix", pr.quaternion_from_matrix, R)
+    with pytest.raises(ValueError, match="Expected rotation matrix"):
+        pr.quaternion_from_matrix(R)
 
     R = np.array(
         [[-1.0, 0.0, 0.0],
@@ -1308,8 +1310,8 @@ def test_axis_angle_from_two_direction_vectors():
         v1 = pr.random_vector(random_state, 3)
         v2 = R.dot(v1)
         a = pr.axis_angle_from_two_directions(v1, v2)
-        assert_almost_equal(pr.angle_between_vectors(v1, a[:3]), 0.5 * np.pi)
-        assert_almost_equal(pr.angle_between_vectors(v2, a[:3]), 0.5 * np.pi)
+        assert pytest.approx(pr.angle_between_vectors(v1, a[:3])) == 0.5 * np.pi
+        assert pytest.approx(pr.angle_between_vectors(v2, a[:3])) == 0.5 * np.pi
         assert_array_almost_equal(v2, pr.matrix_from_axis_angle(a).dot(v1))
 
 
@@ -1323,7 +1325,7 @@ def test_axis_angle_from_compact_axis_angle():
     for _ in range(5):
         ca = pr.random_compact_axis_angle(random_state)
         a = pr.axis_angle_from_compact_axis_angle(ca)
-        assert_almost_equal(np.linalg.norm(ca), a[3])
+        assert pytest.approx(np.linalg.norm(ca)) == a[3]
         assert_array_almost_equal(ca[:3] / np.linalg.norm(ca), a[:3])
 
 
@@ -1338,7 +1340,7 @@ def test_compact_axis_angle():
         a = pr.random_axis_angle(random_state)
         ca = pr.compact_axis_angle(a)
         assert_array_almost_equal(pr.norm_vector(ca), a[:3])
-        assert_almost_equal(np.linalg.norm(ca), a[3])
+        assert pytest.approx(np.linalg.norm(ca)) == a[3]
 
 
 def test_conversions_compact_axis_angle_quaternion():
@@ -1391,7 +1393,7 @@ def test_interpolate_same_axis_angle():
     random_state = np.random.RandomState(42)
     a = pr.random_axis_angle(random_state)
     traj = [pr.axis_angle_slerp(a, a, t) for t in np.linspace(0, 1, n_steps)]
-    assert_equal(len(traj), n_steps)
+    assert len(traj) == n_steps
     assert_array_almost_equal(traj[0], a)
     assert_array_almost_equal(traj[1], a)
     assert_array_almost_equal(traj[2], a)
@@ -1405,7 +1407,7 @@ def test_interpolate_almost_same_axis_angle():
     a2 = np.copy(a1)
     a2[-1] += np.finfo("float").eps
     traj = [pr.axis_angle_slerp(a1, a2, t) for t in np.linspace(0, 1, n_steps)]
-    assert_equal(len(traj), n_steps)
+    assert len(traj) == n_steps
     assert_array_almost_equal(traj[0], a1)
     assert_array_almost_equal(traj[1], a1)
     assert_array_almost_equal(traj[2], a2)
@@ -1452,7 +1454,7 @@ def test_interpolate_quaternion_shortest_path():
         [pr.quaternion_dist(r, s)
          for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
 
-    assert_greater(path_length_opposing, path_length)
+    assert path_length_opposing > path_length
 
     traj_q_opposing_corrected = [
         pr.quaternion_slerp(q1, q2, t, shortest_path=True)
@@ -1462,7 +1464,7 @@ def test_interpolate_quaternion_shortest_path():
          for r, s in zip(traj_q_opposing_corrected[:-1],
                          traj_q_opposing_corrected[1:])])
 
-    assert_almost_equal(path_length_opposing_corrected, path_length)
+    assert pytest.approx(path_length_opposing_corrected) == path_length
 
 
 def test_interpolate_same_quaternion():
@@ -1475,7 +1477,7 @@ def test_interpolate_same_quaternion():
     a = pr.random_axis_angle(random_state)
     q = pr.quaternion_from_axis_angle(a)
     traj = [pr.quaternion_slerp(q, q, t) for t in np.linspace(0, 1, n_steps)]
-    assert_equal(len(traj), n_steps)
+    assert len(traj) == n_steps
     assert_array_almost_equal(traj[0], q)
     assert_array_almost_equal(traj[1], q)
     assert_array_almost_equal(traj[2], q)
@@ -1513,7 +1515,7 @@ def test_quaternion_conventions():
     q_wxyz_random = pr.random_quaternion(random_state)
     q_xyzw_random = pr.quaternion_xyzw_from_wxyz(q_wxyz_random)
     assert_array_equal(q_xyzw_random[:3], q_wxyz_random[1:])
-    assert_equal(q_xyzw_random[3], q_wxyz_random[0])
+    assert q_xyzw_random[3] == q_wxyz_random[0]
     q_wxyz_random2 = pr.quaternion_wxyz_from_xyzw(q_xyzw_random)
     assert_array_equal(q_wxyz_random, q_wxyz_random2)
 
@@ -1618,13 +1620,13 @@ def test_quaternion_dist():
         q1 = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
         q2 = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
         q1_to_q1 = pr.quaternion_dist(q1, q1)
-        assert_almost_equal(q1_to_q1, 0.0)
+        assert pytest.approx(q1_to_q1) == 0.0
         q2_to_q2 = pr.quaternion_dist(q2, q2)
-        assert_almost_equal(q2_to_q2, 0.0)
+        assert pytest.approx(q2_to_q2) == 0.0
         q1_to_q2 = pr.quaternion_dist(q1, q2)
         q2_to_q1 = pr.quaternion_dist(q2, q1)
-        assert_almost_equal(q1_to_q2, q2_to_q1)
-        assert_greater(2.0 * np.pi, q1_to_q2)
+        assert pytest.approx(q1_to_q2) == q2_to_q1
+        assert 2.0 * np.pi > q1_to_q2
 
 
 def test_quaternion_dist_for_identical_rotations():
@@ -1635,7 +1637,7 @@ def test_quaternion_dist_for_identical_rotations():
         q = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
         assert_array_almost_equal(pr.matrix_from_quaternion(q),
                                   pr.matrix_from_quaternion(-q))
-        assert_equal(pr.quaternion_dist(q, -q), 0.0)
+        assert pr.quaternion_dist(q, -q) == 0.0
 
 
 def test_quaternion_dist_for_almost_identical_rotations():
@@ -1647,7 +1649,7 @@ def test_quaternion_dist_for_almost_identical_rotations():
         q1 = pr.quaternion_from_axis_angle(a)
         r = 1e-4 * random_state.randn(4)
         q2 = -pr.quaternion_from_axis_angle(a + r)
-        assert_almost_equal(pr.quaternion_dist(q1, q2), 0.0, places=3)
+        assert pytest.approx(pr.quaternion_dist(q1, q2), abs=1e-3) == 0.0
 
 
 def test_quaternion_diff():
@@ -1695,17 +1697,18 @@ def test_asssert_rotation_matrix_behaves_like_check_matrix():
                 pr.assert_rotation_matrix(R)
                 pr.check_matrix(R)
             except AssertionError:
-                assert_raises_regexp(
-                    ValueError, "Expected rotation matrix", pr.check_matrix, R)
+                with pytest.raises(
+                        ValueError, match="Expected rotation matrix"):
+                    pr.check_matrix(R)
 
 
 def test_deactivate_rotation_matrix_precision_error():
     R = np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 2.0]])
-    assert_raises_regexp(
-        ValueError, "Expected rotation matrix", pr.check_matrix, R)
+    with pytest.raises(ValueError, match="Expected rotation matrix"):
+        pr.check_matrix(R)
     with warnings.catch_warnings(record=True) as w:
         pr.check_matrix(R, strict_check=False)
-        assert_equal(len(w), 2)
+        assert len(w) == 2
 
 
 def test_norm_rotation_matrix():
@@ -1715,25 +1718,22 @@ def test_norm_rotation_matrix():
     R[1, 0] += np.finfo(float).eps
     R = pr.norm_matrix(R)
     assert_array_equal(R, np.eye(3))
-    assert_equal(np.linalg.det(R), 1.0)
+    assert np.linalg.det(R) == 1.0
 
     R = np.eye(3)
     R[1, 1] += 0.3
     R_norm = pr.norm_matrix(R)
-    assert_almost_equal(np.linalg.det(R_norm), 1.0)
+    assert pytest.approx(np.linalg.det(R_norm)) == 1.0
     assert_array_almost_equal(np.eye(3), R_norm)
 
 
 def test_matrix_from_two_vectors():
-    assert_raises_regexp(
-        ValueError, "a must not be the zero vector",
-        pr.matrix_from_two_vectors, np.zeros(3), np.zeros(3))
-    assert_raises_regexp(
-        ValueError, "b must not be the zero vector",
-        pr.matrix_from_two_vectors, np.ones(3), np.zeros(3))
-    assert_raises_regexp(
-        ValueError, "a and b must not be parallel",
-        pr.matrix_from_two_vectors, np.ones(3), np.ones(3))
+    with pytest.raises(ValueError, match="a must not be the zero vector"):
+        pr.matrix_from_two_vectors(np.zeros(3), np.zeros(3))
+    with pytest.raises(ValueError, match="b must not be the zero vector"):
+        pr.matrix_from_two_vectors(np.ones(3), np.zeros(3))
+    with pytest.raises(ValueError, match="a and b must not be parallel"):
+        pr.matrix_from_two_vectors(np.ones(3), np.ones(3))
 
     R = pr.matrix_from_two_vectors(pr.unitx, pr.unity)
     assert_array_almost_equal(R, np.eye(3))
@@ -1745,7 +1745,8 @@ def test_matrix_from_two_vectors():
         R = pr.matrix_from_two_vectors(a, b)
         pr.assert_rotation_matrix(R)
         assert_array_almost_equal(pr.norm_vector(a), R[:, 0])
-        assert_almost_equal(pr.angle_between_vectors(b, R[:, 2]), 0.5 * np.pi)
+        assert pytest.approx(
+            pr.angle_between_vectors(b, R[:, 2])) == 0.5 * np.pi
 
 
 def test_axis_angle_from_matrix_cos_angle_greater_1():
@@ -1755,32 +1756,32 @@ def test_axis_angle_from_matrix_cos_angle_greater_1():
         [-2.3816502529500374e-08, -1.2457848247850049e-08, 0.9999999999999999]
     ])
     a = pr.axis_angle_from_matrix(R)
-    assert_false(any(np.isnan(a)))
+    assert not any(np.isnan(a))
 
 
 def test_axis_angle_from_matrix_without_check():
     R = -np.eye(3)
     with warnings.catch_warnings(record=True) as w:
         a = pr.axis_angle_from_matrix(R, check=False)
-    assert_equal(len(w), 1)
-    assert_true(all(np.isnan(a[:3])))
+    assert len(w) == 1
+    assert all(np.isnan(a[:3]))
 
 
 def test_check_rotor():
     r_list = [1, 0, 0, 0]
     r = pr.check_rotor(r_list)
-    assert_true(isinstance(r, np.ndarray))
+    assert isinstance(r, np.ndarray)
 
     r2 = np.array([[1, 0, 0, 0]])
-    assert_raises_regexp(
-        ValueError, "Expected rotor with shape", pr.check_rotor, r2)
+    with pytest.raises(ValueError, match="Expected rotor with shape"):
+        pr.check_rotor(r2)
 
     r3 = np.array([1, 0, 0])
-    assert_raises_regexp(
-        ValueError, "Expected rotor with shape", pr.check_rotor, r3)
+    with pytest.raises(ValueError, match="Expected rotor with shape"):
+        pr.check_rotor(r3)
 
     r4 = np.array([2, 0, 0, 0])
-    assert_almost_equal(np.linalg.norm(pr.check_rotor(r4)), 1.0)
+    assert pytest.approx(np.linalg.norm(pr.check_rotor(r4))) == 1.0
 
 
 def test_outer():
@@ -1831,15 +1832,14 @@ def test_geometric_product_creates_rotor_that_rotates_by_double_angle():
         b_unit = pr.norm_vector(random_state.randn(3))
         # a geometric product of two unit vectors is a rotor
         ab = pr.geometric_product(a_unit, b_unit)
-        assert_almost_equal(np.linalg.norm(ab), 1.0)
+        assert pytest.approx(np.linalg.norm(ab)) == 1.0
 
         angle = pr.angle_between_vectors(a_unit, b_unit)
         c = pr.rotor_apply(ab, a_unit)
         double_angle = pr.angle_between_vectors(a_unit, c)
 
-        assert_almost_equal(
-            abs(pr.norm_angle(2.0 * angle)),
-            abs(pr.norm_angle(double_angle)))
+        assert (pytest.approx(abs(pr.norm_angle(2.0 * angle)))
+                == abs(pr.norm_angle(double_angle)))
 
 
 def test_rotor_from_two_directions_special_cases():
@@ -2033,10 +2033,10 @@ def test_bug_198():
 
 def test_quaternion_from_angle():
     """Quaternion from rotation around basis vectors."""
-    assert_raises_regexp(ValueError, "Basis must be in",
-                         pr.quaternion_from_angle, -1, 0)
-    assert_raises_regexp(ValueError, "Basis must be in",
-                         pr.quaternion_from_angle, 3, 0)
+    with pytest.raises(ValueError, match="Basis must be in"):
+        pr.quaternion_from_angle(-1, 0)
+    with pytest.raises(ValueError, match="Basis must be in"):
+        pr.quaternion_from_angle(3, 0)
 
     random_state = np.random.RandomState(22)
     for i in range(20):
@@ -2050,24 +2050,30 @@ def test_quaternion_from_angle():
 
 def test_quaternion_from_euler():
     """Quaternion from Euler angles."""
-    assert_raises_regexp(
-        ValueError, "Axis index i \\(-1\\) must be in \\[0, 1, 2\\]",
-        pr.quaternion_from_euler, np.zeros(3), -1, 0, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index i \\(3\\) must be in \\[0, 1, 2\\]",
-        pr.quaternion_from_euler, np.zeros(3), 3, 0, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index j \\(-1\\) must be in \\[0, 1, 2\\]",
-        pr.quaternion_from_euler, np.zeros(3), 2, -1, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index j \\(3\\) must be in \\[0, 1, 2\\]",
-        pr.quaternion_from_euler, np.zeros(3), 2, 3, 2, True)
-    assert_raises_regexp(
-        ValueError, "Axis index k \\(-1\\) must be in \\[0, 1, 2\\]",
-        pr.quaternion_from_euler, np.zeros(3), 2, 0, -1, True)
-    assert_raises_regexp(
-        ValueError, "Axis index k \\(3\\) must be in \\[0, 1, 2\\]",
-        pr.quaternion_from_euler, np.zeros(3), 2, 0, 3, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index i \\(-1\\) must be in \\[0, 1, 2\\]"):
+        pr.quaternion_from_euler(np.zeros(3), -1, 0, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index i \\(3\\) must be in \\[0, 1, 2\\]"):
+        pr.quaternion_from_euler(np.zeros(3), 3, 0, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index j \\(-1\\) must be in \\[0, 1, 2\\]"):
+        pr.quaternion_from_euler(np.zeros(3), 2, -1, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index j \\(3\\) must be in \\[0, 1, 2\\]"):
+        pr.quaternion_from_euler(np.zeros(3), 2, 3, 2, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index k \\(-1\\) must be in \\[0, 1, 2\\]"):
+        pr.quaternion_from_euler(np.zeros(3), 2, 0, -1, True)
+    with pytest.raises(
+            ValueError,
+            match="Axis index k \\(3\\) must be in \\[0, 1, 2\\]"):
+        pr.quaternion_from_euler(np.zeros(3), 2, 0, 3, True)
 
     euler_axes = [
         [0, 2, 0],
