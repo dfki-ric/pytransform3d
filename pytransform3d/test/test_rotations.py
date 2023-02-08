@@ -650,7 +650,7 @@ def test_active_matrix_from_extrinsic_zyx():
         euler_zyx[1] = -0.5 * np.pi
         R = pr.active_matrix_from_extrinsic_euler_zyx(euler_zyx)
         euler_zyx2 = pr.extrinsic_euler_zyx_from_active_matrix(R)
-        assert pytest.approx(euler_zyx2[1], -0.5 * np.pi)
+        assert pytest.approx(euler_zyx2[1]) == -0.5 * np.pi
         assert pytest.approx(
             euler_zyx[0] - euler_zyx[2]) == euler_zyx2[0] - euler_zyx2[2]
         R2 = pr.active_matrix_from_extrinsic_euler_zyx(euler_zyx2)
