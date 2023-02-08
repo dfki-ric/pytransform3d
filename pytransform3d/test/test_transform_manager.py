@@ -12,9 +12,7 @@ from pytransform3d.transformations import (
 from pytransform3d.transform_manager import TransformManager
 from pytransform3d import transform_manager
 from numpy.testing import assert_array_almost_equal
-from nose.tools import (assert_raises_regexp, assert_equal, assert_true,
-                        assert_false)
-from nose import SkipTest
+import pytest
 
 
 def test_request_added_transform():
@@ -47,9 +45,9 @@ def test_has_frame():
     """Check if frames have been registered with transform."""
     tm = TransformManager()
     tm.add_transform("A", "B", np.eye(4))
-    assert_true(tm.has_frame("A"))
-    assert_true(tm.has_frame("B"))
-    assert_false(tm.has_frame("C"))
+    assert tm.has_frame("A")
+    assert tm.has_frame("B")
+    assert not tm.has_frame("C")
 
 
 def test_transform_not_added():
@@ -62,10 +60,12 @@ def test_transform_not_added():
     tm.add_transform("A", "B", A2B)
     tm.add_transform("C", "D", C2D)
 
-    assert_raises_regexp(KeyError, "Unknown frame", tm.get_transform, "A", "G")
-    assert_raises_regexp(KeyError, "Unknown frame", tm.get_transform, "G", "D")
-    assert_raises_regexp(KeyError, "Cannot compute path", tm.get_transform,
-                         "A", "D")
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("A", "G")
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("G", "D")
+    with pytest.raises(KeyError, match="Cannot compute path"):
+        tm.get_transform("A", "D")
 
 
 def test_request_concatenated_transform():
@@ -105,8 +105,8 @@ def test_update_transform():
 
     # Hack: test depends on internal member
     assert_array_almost_equal(A2B, A2B2)
-    assert_equal(len(tm.i), 1)
-    assert_equal(len(tm.j), 1)
+    assert len(tm.i) == 1
+    assert len(tm.j) == 1
 
 
 def test_pickle():
@@ -138,10 +138,11 @@ def test_whitelist():
     tm.add_transform("A", "B", A2B)
 
     nodes = tm._whitelisted_nodes(None)
-    assert_equal({"A", "B"}, nodes)
+    assert {"A", "B"} == nodes
     nodes = tm._whitelisted_nodes(["A"])
-    assert_equal({"A"}, nodes)
-    assert_raises_regexp(KeyError, "unknown nodes", tm._whitelisted_nodes, "C")
+    assert {"A"} == nodes
+    with pytest.raises(KeyError, match="unknown nodes"):
+        tm._whitelisted_nodes(["C"])
 
 
 def test_check_consistency():
@@ -154,43 +155,43 @@ def test_check_consistency():
     tm.add_transform("A", "B", A2B)
     B2A = random_transform(random_state)
     tm.add_transform("B", "A", B2A)
-    assert_false(tm.check_consistency())
+    assert not tm.check_consistency()
 
     tm = TransformManager()
 
     A2B = random_transform(random_state)
     tm.add_transform("A", "B", A2B)
-    assert_true(tm.check_consistency())
+    assert tm.check_consistency()
 
     C2D = random_transform(random_state)
     tm.add_transform("C", "D", C2D)
-    assert_true(tm.check_consistency())
+    assert tm.check_consistency()
 
     B2C = random_transform(random_state)
     tm.add_transform("B", "C", B2C)
-    assert_true(tm.check_consistency())
+    assert tm.check_consistency()
 
     A2D_over_path = tm.get_transform("A", "D")
 
     A2D = random_transform(random_state)
     tm.add_transform("A", "D", A2D)
-    assert_false(tm.check_consistency())
+    assert not tm.check_consistency()
 
     tm.add_transform("A", "D", A2D_over_path)
-    assert_true(tm.check_consistency())
+    assert tm.check_consistency()
 
 
 def test_connected_components():
     """Test computation of connected components in the graph."""
     tm = TransformManager()
     tm.add_transform("A", "B", np.eye(4))
-    assert_equal(tm.connected_components(), 1)
+    assert tm.connected_components() == 1
     tm.add_transform("D", "E", np.eye(4))
-    assert_equal(tm.connected_components(), 2)
+    assert tm.connected_components() == 2
     tm.add_transform("B", "C", np.eye(4))
-    assert_equal(tm.connected_components(), 2)
+    assert tm.connected_components() == 2
     tm.add_transform("D", "C", np.eye(4))
-    assert_equal(tm.connected_components(), 1)
+    assert tm.connected_components() == 1
 
 
 def test_png_export():
@@ -214,9 +215,9 @@ def test_png_export():
     _, filename = tempfile.mkstemp(".png")
     try:
         tm.write_png(filename)
-        assert_true(os.path.exists(filename))
+        assert os.path.exists(filename)
     except ImportError:
-        raise SkipTest("pydot is required for this test")
+        pytest.skip("pydot is required for this test")
     finally:
         if os.path.exists(filename):
             try:
@@ -231,9 +232,10 @@ def test_png_export_without_pydot_fails():
     tm = TransformManager()
     try:
         transform_manager.PYDOT_AVAILABLE = False
-        assert_raises_regexp(
-            ImportError, "pydot must be installed to use this feature.",
-            tm.write_png, "bla")
+        with pytest.raises(
+                ImportError,
+                match="pydot must be installed to use this feature."):
+            tm.write_png("bla")
     finally:
         transform_manager.PYDOT_AVAILABLE = pydot_available
 
@@ -243,9 +245,8 @@ def test_deactivate_transform_manager_precision_error():
     A2B[0, 0] = 2.0
     A2B[3, 0] = 3.0
     tm = TransformManager()
-    assert_raises_regexp(
-        ValueError, "Expected rotation matrix",
-        tm.add_transform, "A", "B", A2B)
+    with pytest.raises(ValueError, match="Expected rotation matrix"):
+        tm.add_transform("A", "B", A2B)
 
     if int(platform.python_version()[0]) == 2:
         # Python 2 seems to incorrectly suppress some warnings, not sure why
@@ -259,7 +260,7 @@ def test_deactivate_transform_manager_precision_error():
             tm.add_transform("A", "B", A2B)
             tm.add_transform("B", "C", np.eye(4))
             tm.get_transform("C", "A")
-            assert_equal(len(w), n_expected_warnings)
+            assert len(w) == n_expected_warnings
     finally:
         warnings.filterwarnings("default", category=UserWarning)
 
@@ -277,16 +278,16 @@ def test_remove_transform():
     tm.add_transform("A", "B", np.eye(4))
     tm.add_transform("C", "D", np.eye(4))
 
-    assert_raises_regexp(
-        KeyError, "Cannot compute path", tm.get_transform, "A", "D")
+    with pytest.raises(KeyError, match="Cannot compute path"):
+        tm.get_transform("A", "D")
 
     tm.add_transform("B", "C", np.eye(4))
     tm.get_transform("A", "C")
 
     tm.remove_transform("B", "C")
     tm.remove_transform("B", "C")  # nothing should happen
-    assert_raises_regexp(
-        KeyError, "Cannot compute path", tm.get_transform, "A", "D")
+    with pytest.raises(KeyError, match="Cannot compute path"):
+        tm.get_transform("A", "D")
     tm.get_transform("B", "A")
     tm.get_transform("D", "C")
 
