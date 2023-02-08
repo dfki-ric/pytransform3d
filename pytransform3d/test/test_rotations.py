@@ -402,9 +402,9 @@ def test_passive_matrix_from_angle():
 def test_active_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
     with pytest.raises(ValueError, match="Basis must be in"):
-         pr.passive_matrix_from_angle(-1, 0)
+         pr.active_matrix_from_angle(-1, 0)
     with pytest.raises(ValueError, match="Basis must be in"):
-        pr.passive_matrix_from_angle(3, 0)
+        pr.active_matrix_from_angle(3, 0)
 
     random_state = np.random.RandomState(21)
     for i in range(20):
