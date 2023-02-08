@@ -1,16 +1,15 @@
 import numpy as np
 from pytransform3d import rotations as pr
 from pytransform3d import batch_rotations as pbr
-from nose.tools import (assert_almost_equal, assert_raises_regexp,
-                        assert_equal, assert_greater)
 from numpy.testing import assert_array_almost_equal
+import pytest
 
 
 def test_norm_vectors_0dims():
     random_state = np.random.RandomState(8380)
     V = random_state.randn(3)
     V_unit = pbr.norm_vectors(V)
-    assert_almost_equal(np.linalg.norm(V_unit), 1.0)
+    assert pytest.approx(np.linalg.norm(V_unit)) == 1.0
 
 
 def test_norm_vectors_1dim():
@@ -359,7 +358,7 @@ def test_quaternion_slerp_batch_sign_ambiguity():
         [pr.quaternion_dist(r, s)
          for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
 
-    assert_greater(path_length_opposing, path_length)
+    assert path_length_opposing > path_length
 
     traj_q_opposing_corrected = pbr.quaternion_slerp_batch(
         q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
@@ -368,33 +367,35 @@ def test_quaternion_slerp_batch_sign_ambiguity():
          for r, s in zip(traj_q_opposing_corrected[:-1],
                          traj_q_opposing_corrected[1:])])
 
-    assert_almost_equal(path_length_opposing_corrected, path_length)
+    assert pytest.approx(path_length_opposing_corrected) == path_length
 
 
 def test_batch_concatenate_quaternions_mismatch():
     Q1 = np.zeros((1, 2, 4))
     Q2 = np.zeros((1, 2, 3, 4))
-    assert_raises_regexp(
-        ValueError, "Number of dimensions must be the same.",
-        pbr.batch_concatenate_quaternions, Q1, Q2)
+    with pytest.raises(ValueError) as excinfo:
+        pbr.batch_concatenate_quaternions(Q1, Q2)
+        assert "Number of dimensions must be the same." in str(excinfo)
 
     Q1 = np.zeros((1, 2, 4, 4))
     Q2 = np.zeros((1, 2, 3, 4))
-    assert_raises_regexp(
-        ValueError, "Size of dimension 3 does not match",
-        pbr.batch_concatenate_quaternions, Q1, Q2)
+    with pytest.raises(ValueError) as excinfo:
+        pbr.batch_concatenate_quaternions(Q1, Q2)
+        assert "Size of dimension 3 does not match" in str(excinfo)
 
     Q1 = np.zeros((1, 2, 3, 3))
     Q2 = np.zeros((1, 2, 3, 4))
-    assert_raises_regexp(
-        ValueError, "Last dimension of first argument does not match.",
-        pbr.batch_concatenate_quaternions, Q1, Q2)
+    with pytest.raises(ValueError) as excinfo:
+        pbr.batch_concatenate_quaternions(Q1, Q2)
+        assert ("Last dimension of first argument does not match."
+                in str(excinfo))
 
     Q1 = np.zeros((1, 2, 3, 4))
     Q2 = np.zeros((1, 2, 3, 3))
-    assert_raises_regexp(
-        ValueError, "Last dimension of second argument does not match.",
-        pbr.batch_concatenate_quaternions, Q1, Q2)
+    with pytest.raises(ValueError) as excinfo:
+        pbr.batch_concatenate_quaternions(Q1, Q2)
+        assert ("Last dimension of second argument does not match."
+                in str(excinfo))
 
 
 def test_batch_concatenate_quaternions_1d():
@@ -444,7 +445,7 @@ def test_batch_convert_quaternion_conventions():
     q_wxyz_random = pr.random_quaternion(random_state)
     q_xyzw_random = pbr.batch_quaternion_xyzw_from_wxyz(q_wxyz_random)
     assert_array_almost_equal(q_xyzw_random[:3], q_wxyz_random[1:])
-    assert_equal(q_xyzw_random[3], q_wxyz_random[0])
+    assert q_xyzw_random[3] == q_wxyz_random[0]
     q_wxyz_random2 = pbr.batch_quaternion_wxyz_from_xyzw(q_xyzw_random)
     assert_array_almost_equal(q_wxyz_random, q_wxyz_random2)
 
@@ -476,10 +477,10 @@ def test_smooth_quaternion_trajectory_start_component_negative():
             q *= -1.0
         q_corrected = pbr.smooth_quaternion_trajectory(
             [q], start_component_positive=component)[0]
-        assert_greater(q_corrected[index], 0.0)
+        assert q_corrected[index] > 0.0
 
 
 def test_smooth_quaternion_trajectory_empty():
-    assert_raises_regexp(
-        ValueError, "At least one quaternion is expected",
-        pbr.smooth_quaternion_trajectory, np.zeros((0, 4)))
+    with pytest.raises(ValueError) as excinfo:
+        pbr.smooth_quaternion_trajectory(np.zeros((0, 4)))
+        assert "At least one quaternion is expected" in str(excinfo)
