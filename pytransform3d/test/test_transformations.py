@@ -1,6 +1,8 @@
 import warnings
 import platform
 import numpy as np
+import pytest
+
 from pytransform3d.transformations import (
     random_transform, transform_from, translate_transform, rotate_transform,
     invert_transform, vector_to_point, vectors_to_points, vector_to_direction,
@@ -30,30 +32,30 @@ from pytransform3d.rotations import (
     axis_angle_from_matrix, norm_vector, perpendicular_to_vector,
     active_matrix_from_angle,
     random_quaternion, axis_angle_from_quaternion, norm_axis_angle)
-from nose.tools import (assert_equal, assert_almost_equal,
-                        assert_raises_regexp, assert_false, assert_true)
 from numpy.testing import assert_array_almost_equal
 
 
 def test_check_transform():
     """Test input validation for transformation matrix."""
     A2B = np.eye(3)
-    assert_raises_regexp(
-        ValueError, "Expected homogeneous transformation matrix with shape",
-        check_transform, A2B)
+    with pytest.raises(
+            ValueError,
+            match="Expected homogeneous transformation matrix with shape"):
+        check_transform(A2B)
 
     A2B = np.eye(4, dtype=int)
     A2B = check_transform(A2B)
-    assert_equal(type(A2B), np.ndarray)
-    assert_equal(A2B.dtype, np.float64)
+    assert type(A2B) == np.ndarray
+    assert A2B.dtype == np.float64
 
     A2B[:3, :3] = np.array([[1, 1, 1], [0, 0, 0], [2, 2, 2]])
-    assert_raises_regexp(ValueError, "rotation matrix", check_transform, A2B)
+    with pytest.raises(ValueError, match="rotation matrix"):
+        check_transform(A2B)
 
     A2B = np.eye(4)
     A2B[3, :] = np.array([0.1, 0.0, 0.0, 1.0])
-    assert_raises_regexp(ValueError, "homogeneous transformation matrix",
-                         check_transform, A2B)
+    with pytest.raises(ValueError, match="homogeneous transformation matrix"):
+        check_transform(A2B)
 
     random_state = np.random.RandomState(0)
     A2B = random_transform(random_state)
@@ -63,16 +65,14 @@ def test_check_transform():
 
 def test_translate_transform_with_check():
     A2B_broken = np.zeros((4, 4))
-    assert_raises_regexp(
-        ValueError, "rotation matrix", translate_transform,
-        A2B_broken, np.zeros(3))
+    with pytest.raises(ValueError, match="rotation matrix"):
+        translate_transform(A2B_broken, np.zeros(3))
 
 
 def test_rotate_transform_with_check():
     A2B_broken = np.zeros((4, 4))
-    assert_raises_regexp(
-        ValueError, "rotation matrix", rotate_transform,
-        A2B_broken, np.eye(3))
+    with pytest.raises(ValueError, match="rotation matrix"):
+        rotate_transform(A2B_broken, np.eye(3))
 
 
 def test_check_pq():
@@ -84,14 +84,16 @@ def test_check_pq():
     q3 = [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
     q4 = check_pq(q3)
     assert_array_almost_equal(q3, q4)
-    assert_equal(len(q3), q4.shape[0])
+    assert len(q3) == q4.shape[0]
 
     A2B = np.eye(4)
-    assert_raises_regexp(ValueError, "position and orientation quaternion",
-                         check_pq, A2B)
+    with pytest.raises(ValueError,
+                       match="position and orientation quaternion"):
+        check_pq(A2B)
     q5 = np.zeros(8)
-    assert_raises_regexp(ValueError, "position and orientation quaternion",
-                         check_pq, q5)
+    with pytest.raises(
+            ValueError, match="position and orientation quaternion"):
+        check_pq(q5)
 
 
 def test_invert_transform():
@@ -208,9 +210,10 @@ def test_transform():
     p1B = transform(A2B, PA[1])
     assert_array_almost_equal(PB, np.array([p0B, p1B]))
 
-    assert_raises_regexp(
-        ValueError, "Cannot transform array with more than 2 dimensions",
-        transform, A2B, np.zeros((2, 2, 4)))
+    with pytest.raises(
+            ValueError,
+            match="Cannot transform array with more than 2 dimensions"):
+        transform(A2B, np.zeros((2, 2, 4)))
 
 
 def test_scale_transform():
@@ -258,8 +261,8 @@ def test_deactivate_transform_precision_error():
     A2B = np.eye(4)
     A2B[0, 0] = 2.0
     A2B[3, 0] = 3.0
-    assert_raises_regexp(
-        ValueError, "Expected rotation matrix", check_transform, A2B)
+    with pytest.raises(ValueError, match="Expected rotation matrix"):
+        check_transform(A2B)
 
     if int(platform.python_version()[0]) == 2:
         # Python 2 seems to incorrectly suppress some warnings, not sure why
@@ -270,7 +273,7 @@ def test_deactivate_transform_precision_error():
         warnings.filterwarnings("always", category=UserWarning)
         with warnings.catch_warnings(record=True) as w:
             check_transform(A2B, strict_check=False)
-            assert_equal(len(w), n_expected_warnings)
+            assert len(w) == n_expected_warnings
     finally:
         warnings.filterwarnings("default", category=UserWarning)
 
@@ -302,7 +305,7 @@ def test_norm_exponential_coordinates():
         # ensure that theta is not within [-pi, pi]
         Stheta[random_state.randint(0, 3)] += np.pi + random_state.rand()
         Stheta_norm = norm_exponential_coordinates(Stheta)
-        assert_false(np.all(Stheta == Stheta_norm))
+        assert not np.all(Stheta == Stheta_norm)
 
         A2B = transform_from_exponential_coordinates(Stheta)
         Stheta2 = exponential_coordinates_from_transform(A2B)
@@ -314,30 +317,27 @@ def test_check_screw_parameters():
     s_axis = norm_vector(np.array([-1.0, 2.0, 3.0])).tolist()
     h = 0.2
 
-    assert_raises_regexp(
-        ValueError, "Expected 3D vector with shape",
-        check_screw_parameters, [0.0], s_axis, h)
-    assert_raises_regexp(
-        ValueError, "Expected 3D vector with shape",
-        check_screw_parameters, q, [0.0], h)
-    assert_raises_regexp(
-        ValueError, "s_axis must not have norm 0",
-        check_screw_parameters, q, np.zeros(3), h)
+    with pytest.raises(ValueError, match="Expected 3D vector with shape"):
+        check_screw_parameters([0.0], s_axis, h)
+    with pytest.raises(ValueError, match="Expected 3D vector with shape"):
+        check_screw_parameters(q, [0.0], h)
+    with pytest.raises(ValueError, match="s_axis must not have norm 0"):
+        check_screw_parameters(q, np.zeros(3), h)
 
     q2, s_axis2, h2 = check_screw_parameters(q, 2.0 * np.array(s_axis), h)
     assert_array_almost_equal(q, q2)
-    assert_almost_equal(h, h2)
-    assert_almost_equal(np.linalg.norm(s_axis2), 1.0)
+    assert pytest.approx(h) == h2
+    assert pytest.approx(np.linalg.norm(s_axis2)) == 1.0
 
     q2, s_axis2, h2 = check_screw_parameters(q, s_axis, h)
     assert_array_almost_equal(q, q2)
     assert_array_almost_equal(s_axis, s_axis2)
-    assert_almost_equal(h, h2)
+    assert pytest.approx(h) == h2
 
     q2, s_axis2, h2 = check_screw_parameters(q, s_axis, np.inf)
     assert_array_almost_equal(np.zeros(3), q2)
     assert_array_almost_equal(s_axis, s_axis2)
-    assert_almost_equal(np.inf, h2)
+    assert np.isinf(h2)
 
 
 def test_check_screw_axis():
@@ -345,17 +345,16 @@ def test_check_screw_axis():
     omega = norm_vector(random_vector(random_state, 3))
     v = random_vector(random_state, 3)
 
-    assert_raises_regexp(
-        ValueError, "Expected 3D vector with shape",
-        check_screw_axis, np.r_[0, 1, v])
+    with pytest.raises(ValueError, match="Expected 3D vector with shape"):
+        check_screw_axis(np.r_[0, 1, v])
 
-    assert_raises_regexp(
-        ValueError, "Norm of rotation axis must either be 0 or 1",
-        check_screw_axis, np.r_[2 * omega, v])
+    with pytest.raises(
+            ValueError, match="Norm of rotation axis must either be 0 or 1"):
+        check_screw_axis(np.r_[2 * omega, v])
 
-    assert_raises_regexp(
-        ValueError, "If the norm of the rotation axis is 0",
-        check_screw_axis, np.r_[0, 0, 0, v])
+    with pytest.raises(
+            ValueError, match="If the norm of the rotation axis is 0"):
+        check_screw_axis(np.r_[0, 0, 0, v])
 
     S_pure_translation = np.r_[0, 0, 0, norm_vector(v)]
     S = check_screw_axis(S_pure_translation)
@@ -367,9 +366,8 @@ def test_check_screw_axis():
 
 
 def test_check_exponential_coordinates():
-    assert_raises_regexp(
-        ValueError, "Expected array-like with shape",
-        check_exponential_coordinates, [0])
+    with pytest.raises(ValueError, match="Expected array-like with shape"):
+        check_exponential_coordinates([0])
 
     Stheta = [0.0, 1.0, 2.0, -5.0, -2, 3]
     Stheta2 = check_exponential_coordinates(Stheta)
@@ -377,31 +375,28 @@ def test_check_exponential_coordinates():
 
 
 def test_check_screw_matrix():
-    assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_screw_matrix,
-        np.zeros((1, 4, 4)))
-    assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_screw_matrix,
-        np.zeros((3, 4)))
-    assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_screw_matrix,
-        np.zeros((4, 3)))
+    with pytest.raises(ValueError, match="Expected array-like with shape"):
+        check_screw_matrix(np.zeros((1, 4, 4)))
+    with pytest.raises(ValueError, match="Expected array-like with shape"):
+        check_screw_matrix(np.zeros((3, 4)))
+    with pytest.raises(ValueError, match="Expected array-like with shape"):
+        check_screw_matrix(np.zeros((4, 3)))
 
-    assert_raises_regexp(
-        ValueError, "Last row of screw matrix must only contains zeros",
-        check_screw_matrix, np.eye(4))
+    with pytest.raises(ValueError, match="Last row of screw matrix must only "
+                                         "contains zeros"):
+        check_screw_matrix(np.eye(4))
 
     screw_matrix = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
-    assert_raises_regexp(
-        ValueError, "Norm of rotation axis must either be 0 or 1",
-        check_screw_matrix, screw_matrix)
+    with pytest.raises(
+            ValueError, match="Norm of rotation axis must either be 0 or 1"):
+        check_screw_matrix(screw_matrix)
 
     screw_matrix = screw_matrix_from_screw_axis(
         np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
-    assert_raises_regexp(
-        ValueError, "If the norm of the rotation axis is 0",
-        check_screw_matrix, screw_matrix)
+    with pytest.raises(
+            ValueError, match="If the norm of the rotation axis is 0"):
+        check_screw_matrix(screw_matrix)
 
     screw_matrix = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
@@ -416,26 +411,22 @@ def test_check_screw_matrix():
     screw_matrix = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
     screw_matrix[0, 0] = 0.0001
-    assert_raises_regexp(
-        ValueError, "Expected skew-symmetric matrix",
-        check_screw_matrix, screw_matrix)
+    with pytest.raises(ValueError, match="Expected skew-symmetric matrix"):
+        check_screw_matrix(screw_matrix)
 
 
 def test_check_transform_log():
-    assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_transform_log,
-        np.zeros((1, 4, 4)))
-    assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_transform_log,
-        np.zeros((3, 4)))
-    assert_raises_regexp(
-        ValueError, "Expected array-like with shape", check_transform_log,
-        np.zeros((4, 3)))
+    with pytest.raises(ValueError, match="Expected array-like with shape"):
+        check_transform_log(np.zeros((1, 4, 4)))
+    with pytest.raises(ValueError, match="Expected array-like with shape"):
+        check_transform_log(np.zeros((3, 4)))
+    with pytest.raises(ValueError, match="Expected array-like with shape"):
+        check_transform_log(np.zeros((4, 3)))
 
-    assert_raises_regexp(
-        ValueError, "Last row of logarithm of transformation must only "
-                    "contains zeros",
-        check_transform_log, np.eye(4))
+    with pytest.raises(
+            ValueError, match="Last row of logarithm of transformation must "
+                              "only contains zeros"):
+        check_transform_log(np.eye(4))
     transform_log = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
     transform_log2 = check_transform_log(transform_log)
@@ -444,9 +435,8 @@ def test_check_transform_log():
     transform_log = screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
     transform_log[0, 0] = 0.0001
-    assert_raises_regexp(
-        ValueError, "Expected skew-symmetric matrix",
-        check_transform_log, transform_log)
+    with pytest.raises(ValueError, match="Expected skew-symmetric matrix"):
+        check_transform_log(transform_log)
 
 
 def test_random_screw_axis():
@@ -517,13 +507,13 @@ def test_conversions_between_screw_axis_and_exponential_coordinates():
     Stheta = exponential_coordinates_from_screw_axis(S, theta)
     S2, theta2 = screw_axis_from_exponential_coordinates(Stheta)
     assert_array_almost_equal(S, S2)
-    assert_almost_equal(theta, theta2)
+    assert pytest.approx(theta) == theta2
 
     S = np.zeros(6)
     theta = 0.0
     S2, theta2 = screw_axis_from_exponential_coordinates(np.zeros(6))
     assert_array_almost_equal(S, S2)
-    assert_almost_equal(theta, theta2)
+    assert pytest.approx(theta) == theta2
 
     random_state = np.random.RandomState(33)
     for _ in range(5):
@@ -532,7 +522,7 @@ def test_conversions_between_screw_axis_and_exponential_coordinates():
         Stheta = exponential_coordinates_from_screw_axis(S, theta)
         S2, theta2 = screw_axis_from_exponential_coordinates(Stheta)
         assert_array_almost_equal(S, S2)
-        assert_almost_equal(theta, theta2)
+        assert pytest.approx(theta) == theta2
 
 
 def test_conversions_between_exponential_coordinates_and_transform_log():
@@ -562,14 +552,14 @@ def test_conversions_between_screw_matrix_and_transform_log():
     transform_log = transform_log_from_screw_matrix(S_mat, theta)
     S_mat2, theta2 = screw_matrix_from_transform_log(transform_log)
     assert_array_almost_equal(S_mat, S_mat2)
-    assert_almost_equal(theta, theta2)
+    assert pytest.approx(theta) == theta2
 
     S_mat = np.zeros((4, 4))
     theta = 0.0
     transform_log = transform_log_from_screw_matrix(S_mat, theta)
     S_mat2, theta2 = screw_matrix_from_transform_log(transform_log)
     assert_array_almost_equal(S_mat, S_mat2)
-    assert_almost_equal(theta, theta2)
+    assert pytest.approx(theta) == theta2
 
     random_state = np.random.RandomState(65)
     for _ in range(5):
@@ -579,7 +569,7 @@ def test_conversions_between_screw_matrix_and_transform_log():
         transform_log = transform_log_from_screw_matrix(S_mat, theta)
         S_mat2, theta2 = screw_matrix_from_transform_log(transform_log)
         assert_array_almost_equal(S_mat, S_mat2)
-        assert_almost_equal(theta, theta2)
+        assert pytest.approx(theta) == theta2
 
 
 def test_conversions_between_transform_and_transform_log():
@@ -620,23 +610,21 @@ def test_adjoint_of_transformation():
 
         S_B, theta_dot2 = screw_axis_from_exponential_coordinates(V_B)
         V_mat_B2 = screw_matrix_from_screw_axis(S_B) * theta_dot2
-        assert_almost_equal(theta_dot, theta_dot2)
+        assert pytest.approx(theta_dot) == theta_dot2
         assert_array_almost_equal(V_mat_B, V_mat_B2)
 
 
 def test_check_dual_quaternion():
     dq1 = [0, 0]
-    assert_raises_regexp(
-        ValueError, "Expected dual quaternion",
-        check_dual_quaternion, dq1)
+    with pytest.raises(ValueError, match="Expected dual quaternion"):
+        check_dual_quaternion(dq1)
 
     dq2 = [[0, 0]]
-    assert_raises_regexp(
-        ValueError, "Expected dual quaternion",
-        check_dual_quaternion, dq2)
+    with pytest.raises(ValueError, match="Expected dual quaternion"):
+        check_dual_quaternion(dq2)
 
     dq3 = check_dual_quaternion([0] * 8, unit=False)
-    assert_equal(dq3.shape[0], 8)
+    assert dq3.shape[0] == 8
 
 
 def test_normalize_dual_quaternion():
@@ -723,11 +711,9 @@ def test_assert_screw_parameters_equal():
         q, s_axis, h, theta,
         q + 484.3 * s_axis, s_axis, h, theta)
 
-    assert_raises_regexp(
-        AssertionError, "",
-        assert_screw_parameters_equal,
-        q, s_axis, h, theta,
-        q + 484.3, s_axis, h, theta)
+    with pytest.raises(AssertionError):
+        assert_screw_parameters_equal(
+            q, s_axis, h, theta, q + 484.3, s_axis, h, theta)
 
     s_axis_mirrored = -s_axis
     theta_mirrored = 2.0 * np.pi - theta
@@ -742,15 +728,15 @@ def test_screw_parameters_from_dual_quaternion():
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
     assert_array_almost_equal(q, np.zeros(3))
     assert_array_almost_equal(s_axis, np.array([1, 0, 0]))
-    assert_true(np.isinf(h))
-    assert_almost_equal(theta, 0)
+    assert np.isinf(h)
+    assert pytest.approx(theta) == 0
 
     dq = dual_quaternion_from_pq(np.array([1.2, 1.3, 1.4, 1, 0, 0, 0]))
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
     assert_array_almost_equal(q, np.zeros(3))
     assert_array_almost_equal(s_axis, norm_vector(np.array([1.2, 1.3, 1.4])))
-    assert_true(np.isinf(h))
-    assert_almost_equal(theta, np.linalg.norm(np.array([1.2, 1.3, 1.4])))
+    assert np.isinf(h)
+    assert pytest.approx(theta) == np.linalg.norm(np.array([1.2, 1.3, 1.4]))
 
     random_state = np.random.RandomState(1001)
     quat = random_quaternion(random_state)
@@ -874,7 +860,7 @@ def test_dual_quaternion_sclerp_sign_ambiguity():
         [np.linalg.norm(r - s)
          for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
 
-    assert_equal(path_length_opposing, path_length)
+    assert path_length_opposing == path_length
 
 
 def test_exponential_coordinates_from_almost_identity_transform():
@@ -918,9 +904,8 @@ def test_exponential_coordinates_from_transform_without_check():
 
 def test_transform_from_exponential_coordinates_without_check():
     Stheta = np.zeros(7)
-    assert_raises_regexp(
-        ValueError, "could not broadcast input array",
-        transform_from_exponential_coordinates, Stheta, check=False)
+    with pytest.raises(ValueError, match="could not broadcast input array"):
+        transform_from_exponential_coordinates(Stheta, check=False)
 
 
 def test_adjoint_from_transform_without_check():
