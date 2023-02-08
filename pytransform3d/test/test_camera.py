@@ -1,54 +1,57 @@
 import numpy as np
+
 from pytransform3d.camera import (make_world_line, make_world_grid, cam2sensor,
                                   sensor2img, world2image)
 from pytransform3d.rotations import active_matrix_from_intrinsic_euler_xyz
 from pytransform3d.transformations import transform_from
-from nose.tools import (assert_raises_regexp, assert_false, assert_in,
-                        assert_equal)
 from numpy.testing import assert_array_almost_equal
+import pytest
 
 
 def test_make_world_line():
     line = make_world_line(np.array([0, 0, 0]), np.array([1, 1, 1]), 11)
-    assert_equal(len(line), 11)
-    assert_in(np.array([0, 0, 0, 1]), line)
-    assert_in(np.array([0.5, 0.5, 0.5, 1]), line)
-    assert_in(np.array([1, 1, 1, 1]), line)
+    assert len(line) == 11
+    assert np.array([0, 0, 0, 1]) in line
+    assert np.array([0.5, 0.5, 0.5, 1]) in line
+    assert np.array([1, 1, 1, 1]) in line
 
 
 def test_make_world_grid():
     grid = make_world_grid(3, 3, xlim=(-1, 1), ylim=(-1, 1))
-    assert_in(np.array([-1, -1, 0, 1]), grid)
-    assert_in(np.array([-1, 0, 0, 1]), grid)
-    assert_in(np.array([-1, 1, 0, 1]), grid)
-    assert_in(np.array([0, -1, 0, 1]), grid)
-    assert_in(np.array([0, 0, 0, 1]), grid)
-    assert_in(np.array([0, 1, 0, 1]), grid)
-    assert_in(np.array([1, -1, 0, 1]), grid)
-    assert_in(np.array([1, 0, 0, 1]), grid)
-    assert_in(np.array([1, 1, 0, 1]), grid)
+    assert np.array([-1, -1, 0, 1]) in grid
+    assert np.array([-1, 0, 0, 1]) in grid
+    assert np.array([-1, 1, 0, 1]) in grid
+    assert np.array([0, -1, 0, 1]) in grid
+    assert np.array([0, 0, 0, 1]) in grid
+    assert np.array([0, 1, 0, 1]) in grid
+    assert np.array([1, -1, 0, 1]) in grid
+    assert np.array([1, 0, 0, 1]) in grid
+    assert np.array([1, 1, 0, 1]) in grid
 
 
 def test_cam2sensor_wrong_dimensions():
     P_cam = np.ones((1, 2))
-    assert_raises_regexp(ValueError, "3- or 4-dimensional points",
-                         cam2sensor, P_cam, 0.1)
+    with pytest.raises(ValueError) as excinfo:
+        cam2sensor(P_cam, 0.1)
+        assert "3- or 4-dimensional points" in str(excinfo)
     P_cam = np.ones((1, 5))
-    assert_raises_regexp(ValueError, "3- or 4-dimensional points",
-                         cam2sensor, P_cam, 0.1)
+    with pytest.raises(ValueError) as excinfo:
+        cam2sensor(P_cam, 0.1)
+        assert "3- or 4-dimensional points" in str(excinfo)
 
 
 def test_cam2sensor_wrong_focal_length():
     P_cam = np.ones((1, 3))
-    assert_raises_regexp(ValueError, "must be greater than 0",
-                         cam2sensor, P_cam, 0.0)
+    with pytest.raises(ValueError) as excinfo:
+        cam2sensor(P_cam, 0.0)
+        assert "must be greater than 0" in str(excinfo)
 
 
 def test_cam2sensor_points_behind_camera():
     P_cam = np.ones((1, 3))
     P_cam[0, 2] = -1.0
     P_sensor = cam2sensor(P_cam, 0.1)
-    assert_false(np.any(np.isfinite(P_sensor)))
+    assert not np.any(np.isfinite(P_sensor))
 
 
 def test_cam2sensor_projection():
