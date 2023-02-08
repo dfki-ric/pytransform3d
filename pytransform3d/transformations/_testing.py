@@ -1,7 +1,7 @@
 """Testing utilities."""
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-from ..rotations import assert_rotation_matrix, norm_angle
+from ..rotations import assert_rotation_matrix, norm_angle, eps
 from ._dual_quaternion_operations import (
     dq_q_conj, concatenate_dual_quaternions)
 
@@ -106,8 +106,6 @@ def assert_screw_parameters_equal(
     Note that the screw axis can be inverted. In this case theta and h have
     to be adapted.
 
-    This function needs the dependency nose.
-
     Parameters
     ----------
     q1 : array, shape (3,)
@@ -146,8 +144,6 @@ def assert_screw_parameters_equal(
         Positional arguments that will be passed to
         `assert_array_almost_equal`
     """
-    from nose.tools import assert_almost_equal
-
     # normalize thetas
     theta1_new = norm_angle(theta1)
     h1 *= theta1 / theta1_new
@@ -162,12 +158,12 @@ def assert_screw_parameters_equal(
     # matter since they should be identical or mirrored)
     q1_to_q2 = q2 - q1
     factors = q1_to_q2 / s_axis2
-    assert_almost_equal(factors[0], factors[1])
-    assert_almost_equal(factors[1], factors[2])
+    assert abs(factors[0] - factors[1]) < eps
+    assert abs(factors[1] - factors[2]) < eps
     try:
         assert_array_almost_equal(s_axis1, s_axis2, *args, **kwargs)
-        assert_almost_equal(h1, h2)
-        assert_almost_equal(theta1, theta2)
+        assert abs(h1 - h2) < eps
+        assert abs(theta1 - theta2) < eps
     except AssertionError:  # possibly mirrored screw axis
         s_axis1_new = -s_axis1
         # make sure that we keep the direction of rotation
@@ -182,5 +178,5 @@ def assert_screw_parameters_equal(
         theta1 = theta1_new
 
         assert_array_almost_equal(s_axis1_new, s_axis2, *args, **kwargs)
-        assert_almost_equal(h1, h2)
-        assert_almost_equal(theta1, theta2)
+        assert abs(h1 - h2) < eps
+        assert abs(theta1 - theta2) < eps
