@@ -29,6 +29,6 @@ if __name__ == "__main__":
               "all": ["pydot", "trimesh", "open3d"],
               "doc": ["numpydoc", "sphinx", "sphinx-gallery",
                       "sphinx-bootstrap-theme"],
-              "test": ["nose", "coverage", "pytest", "pytest-cov"]
+              "test": ["pytest", "pytest-cov"]
           }
           )
