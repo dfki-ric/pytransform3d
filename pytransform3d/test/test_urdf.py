@@ -12,8 +12,7 @@ from pytransform3d.urdf import (
     initialize_urdf_transform_manager)
 from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
-from nose.tools import assert_raises, assert_equal, assert_true, assert_in
-from nose import SkipTest
+import pytest
 
 
 COMPI_URDF = """
@@ -93,16 +92,19 @@ COMPI_URDF = """
 
 
 def test_missing_robot_tag():
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, "")
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf("")
 
 
 def test_missing_robot_name():
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, "<robot/>")
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf("<robot/>")
 
 
 def test_missing_link_name():
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf,
-                  "<robot name=\"robot_name\"><link/></robot>")
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(
+            "<robot name=\"robot_name\"><link/></robot>")
 
 
 def test_missing_joint_name():
@@ -116,7 +118,8 @@ def test_missing_joint_name():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_missing_parent():
@@ -129,7 +132,8 @@ def test_missing_parent():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_missing_child():
@@ -142,7 +146,8 @@ def test_missing_child():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_missing_parent_link_name():
@@ -156,7 +161,8 @@ def test_missing_parent_link_name():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_missing_child_link_name():
@@ -170,7 +176,8 @@ def test_missing_child_link_name():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_reference_to_unknown_child():
@@ -183,7 +190,8 @@ def test_reference_to_unknown_child():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_reference_to_unknown_parent():
@@ -196,7 +204,8 @@ def test_reference_to_unknown_parent():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_missing_joint_type():
@@ -210,7 +219,8 @@ def test_missing_joint_type():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_without_origin():
@@ -259,7 +269,8 @@ def test_unsupported_joint_type():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_unknown_joint_type():
@@ -273,7 +284,8 @@ def test_unknown_joint_type():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_with_empty_axis():
@@ -334,7 +346,8 @@ def test_joint_limits():
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
 
-    assert_raises(KeyError, tm.get_joint_limits, "unknown_joint")
+    with pytest.raises(KeyError):
+        tm.get_joint_limits("unknown_joint")
     assert_array_almost_equal(tm.get_joint_limits("joint1"), (-1, 1))
     assert_array_almost_equal(tm.get_joint_limits("joint2"), (-1, np.inf))
     assert_array_almost_equal(tm.get_joint_limits("joint3"), (-np.inf, 1))
@@ -384,7 +397,7 @@ def test_fixed_joint_unchanged_and_warning():
     tcp_to_link0_before = tm.get_transform("tcp", "linkmount")
     with warnings.catch_warnings(record=True) as w:
         tm.set_joint("jointtcp", 2.0)
-    assert_equal(len(w), 1)
+    assert len(w) == 1
     tcp_to_link0_after = tm.get_transform("tcp", "linkmount")
     assert_array_almost_equal(
         tcp_to_link0_before,
@@ -395,7 +408,8 @@ def test_fixed_joint_unchanged_and_warning():
 def test_unknown_joint():
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
-    assert_raises(KeyError, tm.set_joint, "unknown_joint", 0)
+    with pytest.raises(KeyError):
+        tm.set_joint("unknown_joint", 0)
 
 
 def test_visual_without_geometry():
@@ -414,7 +428,8 @@ def test_visual_without_geometry():
     </joint>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_visual():
@@ -498,12 +513,12 @@ def test_unique_frame_names():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
 
-    assert_in("robot_name", tm.nodes)
-    assert_in("link0", tm.nodes)
-    assert_in("link1", tm.nodes)
-    assert_in("visual:link1/link1_geometry", tm.nodes)
-    assert_in("collision:link1/link1_geometry", tm.nodes)
-    assert_equal(len(tm.nodes), 5)
+    assert "robot_name" in tm.nodes
+    assert "link0" in tm.nodes
+    assert "link1" in tm.nodes
+    assert "visual:link1/link1_geometry" in tm.nodes
+    assert "collision:link1/link1_geometry" in tm.nodes
+    assert len(tm.nodes) == 5
 
 
 def test_collision_box():
@@ -522,7 +537,7 @@ def test_collision_box():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
 
-    assert_equal(len(tm.collision_objects), 1)
+    assert len(tm.collision_objects) == 1
     assert_array_almost_equal(tm.collision_objects[0].size,
                               np.array([2, 3, 4]))
 
@@ -543,7 +558,7 @@ def test_collision_box_without_size():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
 
-    assert_equal(len(tm.collision_objects), 1)
+    assert len(tm.collision_objects) == 1
     assert_array_almost_equal(tm.collision_objects[0].size, np.zeros(3))
 
 
@@ -563,8 +578,8 @@ def test_collision_sphere():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
 
-    assert_equal(len(tm.collision_objects), 1)
-    assert_equal(tm.collision_objects[0].radius, 0.123)
+    assert len(tm.collision_objects) == 1
+    assert tm.collision_objects[0].radius == 0.123
 
 
 def test_collision_sphere_without_radius():
@@ -580,7 +595,8 @@ def test_collision_sphere_without_radius():
     </link>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_collision_cylinder():
@@ -599,9 +615,9 @@ def test_collision_cylinder():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
 
-    assert_equal(len(tm.collision_objects), 1)
-    assert_equal(tm.collision_objects[0].radius, 0.123)
-    assert_equal(tm.collision_objects[0].length, 1.234)
+    assert len(tm.collision_objects) == 1
+    assert tm.collision_objects[0].radius == 0.123
+    assert tm.collision_objects[0].length == 1.234
 
 
 def test_collision_cylinder_without_radius():
@@ -617,7 +633,8 @@ def test_collision_cylinder_without_radius():
     </link>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_collision_cylinder_without_length():
@@ -633,7 +650,8 @@ def test_collision_cylinder_without_length():
     </link>
     </robot>
     """
-    assert_raises(UrdfException, UrdfTransformManager().load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_multiple_collision_objects():
@@ -660,7 +678,7 @@ def test_multiple_collision_objects():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
 
-    assert_equal(len(tm.collision_objects), 2)
+    assert len(tm.collision_objects) == 2
 
 
 def test_multiple_visuals():
@@ -687,7 +705,7 @@ def test_multiple_visuals():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
 
-    assert_equal(len(tm.visuals), 2)
+    assert len(tm.visuals) == 2
 
 
 def test_multiple_parents():
@@ -717,7 +735,7 @@ def test_multiple_parents():
 
     p0c = tm.get_transform("parent0", "child")
     p1c = tm.get_transform("parent1", "child")
-    assert_equal(p0c[0, 3], p1c[1, 3])
+    assert p0c[0, 3] == p1c[1, 3]
 
 
 def test_mesh_missing_filename():
@@ -752,13 +770,13 @@ def test_mesh_missing_filename():
 
     </robot>
     """
-    tm = UrdfTransformManager()
-    assert_raises(UrdfException, tm.load_urdf, urdf, mesh_path="")
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf, mesh_path="")
 
 
 def test_plot_mesh_smoke_without_scale():
     if not matplotlib_available:
-        raise SkipTest("matplotlib is required for this test")
+        pytest.skip("matplotlib is required for this test")
 
     urdf = """
     <?xml version="1.0"?>
@@ -862,7 +880,7 @@ def test_prismatic_joint():
 
 def test_plot_mesh_smoke_with_scale():
     if not matplotlib_available:
-        raise SkipTest("matplotlib is required for this test")
+        pytest.skip("matplotlib is required for this test")
 
     BASE_DIR = "test/test_data/"
     tm = UrdfTransformManager()
@@ -878,7 +896,7 @@ def test_plot_mesh_smoke_with_scale():
 
 def test_plot_without_mesh():
     if not matplotlib_available:
-        raise SkipTest("matplotlib is required for this test")
+        pytest.skip("matplotlib is required for this test")
 
     BASE_DIR = "test/test_data/"
     tm = UrdfTransformManager()
@@ -892,7 +910,7 @@ def test_plot_without_mesh():
 
     with warnings.catch_warnings(record=True) as w:
         tm.plot_visuals("lower_cone", ax=ax)
-        assert_equal(len(w), 1)
+        assert len(w) == 1
 
 
 def test_parse_material():
@@ -933,7 +951,8 @@ def test_parse_material_without_name():
     </robot>
     """
     tm = UrdfTransformManager()
-    assert_raises(UrdfException, tm.load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_parse_material_without_color():
@@ -953,7 +972,7 @@ def test_parse_material_without_color():
     """
     tm = UrdfTransformManager()
     tm.load_urdf(urdf)
-    assert_true(tm.visuals[0].color is None)
+    assert tm.visuals[0].color is None
 
 
 def test_parse_material_without_rgba():
@@ -974,7 +993,8 @@ def test_parse_material_without_rgba():
     </robot>
     """
     tm = UrdfTransformManager()
-    assert_raises(UrdfException, tm.load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_parse_material_with_two_colors():
@@ -996,7 +1016,8 @@ def test_parse_material_with_two_colors():
     </robot>
     """
     tm = UrdfTransformManager()
-    assert_raises(UrdfException, tm.load_urdf, urdf)
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf(urdf)
 
 
 def test_parse_material_local():
@@ -1022,7 +1043,7 @@ def test_parse_material_local():
 
 def test_plot_mesh_smoke_with_package_dir():
     if not matplotlib_available:
-        raise SkipTest("matplotlib is required for this test")
+        pytest.skip("matplotlib is required for this test")
 
     urdf = """
     <?xml version="1.0"?>
@@ -1056,10 +1077,10 @@ def test_load_inertial_info():
     </robot>
     """
     _, links, _ = parse_urdf(urdf)
-    assert_equal(len(links), 1)
-    assert_equal(links[0].name, "cone")
+    assert len(links) == 1
+    assert links[0].name == "cone"
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
-    assert_equal(links[0].mass, 0.001)
+    assert links[0].mass == 0.001
     assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
 
 
@@ -1077,10 +1098,10 @@ def test_load_inertial_info_sparse_matrix():
     </robot>
     """
     _, links, _ = parse_urdf(urdf)
-    assert_equal(len(links), 1)
-    assert_equal(links[0].name, "cone")
+    assert len(links) == 1
+    assert links[0].name == "cone"
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
-    assert_equal(links[0].mass, 0.001)
+    assert links[0].mass == 0.001
     assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
 
 
@@ -1098,10 +1119,10 @@ def test_load_inertial_info_diagonal_matrix():
     </robot>
     """
     _, links, _ = parse_urdf(urdf)
-    assert_equal(len(links), 1)
-    assert_equal(links[0].name, "cone")
+    assert len(links) == 1
+    assert links[0].name == "cone"
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
-    assert_equal(links[0].mass, 0.001)
+    assert links[0].mass == 0.001
     assert_array_almost_equal(links[0].inertia, np.eye(3))
 
 
@@ -1118,10 +1139,10 @@ def test_load_inertial_info_without_matrix():
     </robot>
     """
     _, links, _ = parse_urdf(urdf)
-    assert_equal(len(links), 1)
-    assert_equal(links[0].name, "cone")
+    assert len(links) == 1
+    assert links[0].name == "cone"
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
-    assert_equal(links[0].mass, 0.001)
+    assert links[0].mass == 0.001
     assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
 
 
@@ -1138,18 +1159,18 @@ def test_load_inertial_info_without_mass():
     </robot>
     """
     _, links, _ = parse_urdf(urdf)
-    assert_equal(len(links), 1)
-    assert_equal(links[0].name, "cone")
+    assert len(links) == 1
+    assert links[0].name == "cone"
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
-    assert_equal(links[0].mass, 0.0)
+    assert links[0].mass == 0.0
     assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
 
 
 def test_load_urdf_functional():
     robot_name, links, joints = parse_urdf(COMPI_URDF)
-    assert_equal(robot_name, "compi")
-    assert_equal(len(links), 8)
-    assert_equal(len(joints), 7)
+    assert robot_name == "compi"
+    assert len(links) == 8
+    assert len(joints) == 7
 
     tm = UrdfTransformManager()
     initialize_urdf_transform_manager(tm, robot_name, links, joints)
