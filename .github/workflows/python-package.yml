@@ -5,11 +5,8 @@ name: Python package
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches:
-      - [ master ]
-      - develop
+    branches-ignore:
+      - gh-pages
 
 jobs:
   build:
