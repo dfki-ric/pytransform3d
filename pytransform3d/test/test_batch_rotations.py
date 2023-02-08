@@ -373,29 +373,29 @@ def test_quaternion_slerp_batch_sign_ambiguity():
 def test_batch_concatenate_quaternions_mismatch():
     Q1 = np.zeros((1, 2, 4))
     Q2 = np.zeros((1, 2, 3, 4))
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(
+            ValueError, match="Number of dimensions must be the same."):
         pbr.batch_concatenate_quaternions(Q1, Q2)
-        assert "Number of dimensions must be the same." in str(excinfo)
 
     Q1 = np.zeros((1, 2, 4, 4))
     Q2 = np.zeros((1, 2, 3, 4))
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(
+            ValueError, match="Size of dimension 3 does not match"):
         pbr.batch_concatenate_quaternions(Q1, Q2)
-        assert "Size of dimension 3 does not match" in str(excinfo)
 
     Q1 = np.zeros((1, 2, 3, 3))
     Q2 = np.zeros((1, 2, 3, 4))
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(
+            ValueError, match="Last dimension of first argument does not "
+                              "match."):
         pbr.batch_concatenate_quaternions(Q1, Q2)
-        assert ("Last dimension of first argument does not match."
-                in str(excinfo))
 
     Q1 = np.zeros((1, 2, 3, 4))
     Q2 = np.zeros((1, 2, 3, 3))
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(
+            ValueError, match="Last dimension of second argument does "
+                              "not match."):
         pbr.batch_concatenate_quaternions(Q1, Q2)
-        assert ("Last dimension of second argument does not match."
-                in str(excinfo))
 
 
 def test_batch_concatenate_quaternions_1d():
@@ -481,6 +481,6 @@ def test_smooth_quaternion_trajectory_start_component_negative():
 
 
 def test_smooth_quaternion_trajectory_empty():
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(
+            ValueError, match=r"At least one quaternion is expected"):
         pbr.smooth_quaternion_trajectory(np.zeros((0, 4)))
-        assert "At least one quaternion is expected" in str(excinfo)

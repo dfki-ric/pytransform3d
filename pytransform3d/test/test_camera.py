@@ -31,20 +31,17 @@ def test_make_world_grid():
 
 def test_cam2sensor_wrong_dimensions():
     P_cam = np.ones((1, 2))
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(ValueError, match="3- or 4-dimensional points"):
         cam2sensor(P_cam, 0.1)
-        assert "3- or 4-dimensional points" in str(excinfo)
     P_cam = np.ones((1, 5))
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(ValueError, match="3- or 4-dimensional points"):
         cam2sensor(P_cam, 0.1)
-        assert "3- or 4-dimensional points" in str(excinfo)
 
 
 def test_cam2sensor_wrong_focal_length():
     P_cam = np.ones((1, 3))
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(ValueError, match="must be greater than 0"):
         cam2sensor(P_cam, 0.0)
-        assert "must be greater than 0" in str(excinfo)
 
 
 def test_cam2sensor_points_behind_camera():
