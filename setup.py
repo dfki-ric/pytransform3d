@@ -2,6 +2,7 @@
 from setuptools import setup, find_packages
 import pytransform3d
 
+
 if __name__ == "__main__":
     with open("README.md", "r") as f:
         long_description = f.read()
