@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SO(3): 3D Rotations &#8212; pytransform3d 2.2.0 documentation</title>
+    <title>SO(3): 3D Rotations &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="SE(3): 3D Transformations" href="transformations.html" />
-    <link rel="prev" title="Notation" href="notation.html" />
+    <link rel="prev" title="Introduction to 3D Rigid Transformations" href="introduction.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -64,7 +64,7 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to 3D Rigid Transformations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
@@ -225,20 +225,27 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <h2><a class="toc-backref" href="#id1">Rotation Matrix</a><a class="headerlink" href="#rotation-matrix" title="Permalink to this heading">¶</a></h2>
 <p>One of the most practical representations of orientation is a rotation matrix</p>
 <div class="math">
-<p><img src="_images/math/cb15c782df330807e2eeeb7be2b9ee810eae9f11.png" alt="\boldsymbol R =
+<p><img src="_images/math/568f736b80534f37b7a8fb3d2347612c55112281.png" alt="\boldsymbol R =
 \left( \begin{array}{ccc}
     r_{11} &amp; r_{12} &amp; r_{13}\\
     r_{21} &amp; r_{22} &amp; r_{23}\\
     r_{31} &amp; r_{32} &amp; r_{33}\\
-\end{array} \right)"/></p>
-</div><p>Note that</p>
+\end{array} \right)
+\in SO(3)."/></p>
+</div><p>Note that this is a non-minimal representation for orientations because we
+have 9 values but only 3 degrees of freedom. This is because
+<img class="math" src="_images/math/9b0478c944ec81bbf98d8cb2e9e8ff49466e1f9a.png" alt="\boldsymbol R"/> is orthonormal, which results in 6 constraints
+(enforced with <a class="reference internal" href="_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix" title="pytransform3d.rotations.norm_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_matrix()</span></code></a>):</p>
 <ul class="simple">
-<li><p>this is a non-minimal representation for orientations because we have 9
-values but only 3 degrees of freedom</p></li>
-<li><p><img class="math" src="_images/math/9b0478c944ec81bbf98d8cb2e9e8ff49466e1f9a.png" alt="\boldsymbol R"/> must be orthonormal</p></li>
-<li><p><img class="math" src="_images/math/281193437ad95eb8b4e5588eb17f8b0c57611d79.png" alt="\boldsymbol R^T = \boldsymbol R^{-1}"/></p></li>
-<li><p><img class="math" src="_images/math/6daa9be9ce2fce1f2352d4818177fc8a4df785c3.png" alt="det(\boldsymbol R) = 1"/></p></li>
+<li><p>column vectors must have unit norm (3 constraints)</p></li>
+<li><p>and must be orthogonal to each other (3 constraints)</p></li>
 </ul>
+<p>A more compact representation of these constraints is
+<img class="math" src="_images/math/f5b207a9d7426a25542316e9023513a162fafd31.png" alt="\boldsymbol R^T \boldsymbol R = \boldsymbol I
+\Leftrightarrow \boldsymbol R^T = \boldsymbol R^{-1}"/>.</p>
+<p>In addition, <img class="math" src="_images/math/6daa9be9ce2fce1f2352d4818177fc8a4df785c3.png" alt="det(\boldsymbol R) = 1"/> because we use right-handed
+coordinate system   (<img class="math" src="_images/math/68d699c6aa021f67152aa7cc37bbf3b655c2a98d.png" alt="det(\boldsymbol R) = -1"/> for left-handed
+coordinate systems).</p>
 <p>pytransform3d uses a numpy array of shape (3, 3) to represent rotation
 matrices and typically we use the variable name R for a rotation matrix.</p>
 <div class="admonition warning">
@@ -548,7 +555,7 @@ have to divide by the norm of the rotor.</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 12, 2023.<br/>
+      Last updated on Feb 09, 2023.<br/>
     </p>
   </div>
 </footer>

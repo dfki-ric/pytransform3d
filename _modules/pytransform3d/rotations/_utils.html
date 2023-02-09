@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._utils &#8212; pytransform3d 2.2.0 documentation</title>
+    <title>pytransform3d.rotations._utils &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -62,7 +62,7 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction to 3D Rigid Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
@@ -144,7 +144,7 @@
 
 
 <div class="viewcode-block" id="norm_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix">[docs]</a><span class="k">def</span> <span class="nf">norm_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Normalize rotation matrix.</span>
+    <span class="sd">&quot;&quot;&quot;Orthonormalize rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -507,7 +507,7 @@
     <span class="sd">&quot;&quot;&quot;Input validation of a rotation matrix.</span>
 
 <span class="sd">    We check whether R multiplied by its inverse is approximately the identity</span>
-<span class="sd">    matrix and the determinant is approximately 1.</span>
+<span class="sd">    matrix, and whether the determinant is positive.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -545,7 +545,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
     <span class="n">R_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">R_det</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">R_det</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Expected rotation matrix, but it failed the test &quot;</span>
                      <span class="s2">&quot;for the determinant, which should be 1 but is </span><span class="si">%g</span><span class="s2">; &quot;</span>
                      <span class="s2">&quot;that is, it probably represents a rotoreflection&quot;</span>
@@ -705,7 +705,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 12, 2023.<br/>
+      Last updated on Feb 09, 2023.<br/>
     </p>
   </div>
 </footer>

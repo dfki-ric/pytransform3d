@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._testing &#8212; pytransform3d 2.2.0 documentation</title>
+    <title>pytransform3d.transformations._testing &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -62,7 +62,7 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notation.html">Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction to 3D Rigid Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
@@ -119,7 +119,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;Testing utilities.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy.testing</span> <span class="kn">import</span> <span class="n">assert_array_almost_equal</span>
-<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">assert_rotation_matrix</span><span class="p">,</span> <span class="n">norm_angle</span>
+<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">assert_rotation_matrix</span><span class="p">,</span> <span class="n">norm_angle</span><span class="p">,</span> <span class="n">eps</span>
 <span class="kn">from</span> <span class="nn">._dual_quaternion_operations</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">dq_q_conj</span><span class="p">,</span> <span class="n">concatenate_dual_quaternions</span><span class="p">)</span>
 
@@ -224,8 +224,6 @@
 <span class="sd">    Note that the screw axis can be inverted. In this case theta and h have</span>
 <span class="sd">    to be adapted.</span>
 
-<span class="sd">    This function needs the dependency nose.</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    q1 : array, shape (3,)</span>
@@ -264,8 +262,6 @@
 <span class="sd">        Positional arguments that will be passed to</span>
 <span class="sd">        `assert_array_almost_equal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">nose.tools</span> <span class="kn">import</span> <span class="n">assert_almost_equal</span>
-
     <span class="c1"># normalize thetas</span>
     <span class="n">theta1_new</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span>
     <span class="n">h1</span> <span class="o">*=</span> <span class="n">theta1</span> <span class="o">/</span> <span class="n">theta1_new</span>
@@ -280,12 +276,12 @@
     <span class="c1"># matter since they should be identical or mirrored)</span>
     <span class="n">q1_to_q2</span> <span class="o">=</span> <span class="n">q2</span> <span class="o">-</span> <span class="n">q1</span>
     <span class="n">factors</span> <span class="o">=</span> <span class="n">q1_to_q2</span> <span class="o">/</span> <span class="n">s_axis2</span>
-    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">factors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">factors</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">factors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">s_axis1</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span>
-        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">h1</span> <span class="o">-</span> <span class="n">h2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta1</span> <span class="o">-</span> <span class="n">theta2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span>
     <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>  <span class="c1"># possibly mirrored screw axis</span>
         <span class="n">s_axis1_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">s_axis1</span>
         <span class="c1"># make sure that we keep the direction of rotation</span>
@@ -300,8 +296,8 @@
         <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_new</span>
 
         <span class="n">assert_array_almost_equal</span><span class="p">(</span><span class="n">s_axis1_new</span><span class="p">,</span> <span class="n">s_axis2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">)</span>
-        <span class="n">assert_almost_equal</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span></div>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">h1</span> <span class="o">-</span> <span class="n">h2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span>
+        <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta1</span> <span class="o">-</span> <span class="n">theta2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span></div>
 </pre></div>
 
     </div>
@@ -316,7 +312,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jan 12, 2023.<br/>
+      Last updated on Feb 09, 2023.<br/>
     </p>
   </div>
 </footer>

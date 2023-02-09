@@ -24,7 +24,7 @@ pytransform3d
    :maxdepth: 1
 
    install
-   notation
+   introduction
    rotations
    transformations
    transformation_ambiguities
