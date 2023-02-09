@@ -389,7 +389,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
     """Input validation of a rotation matrix.
 
     We check whether R multiplied by its inverse is approximately the identity
-    matrix and the determinant is approximately 1.
+    matrix, and whether the determinant is positive.
 
     Parameters
     ----------
