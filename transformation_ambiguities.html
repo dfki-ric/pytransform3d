@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Transformation Ambiguities and Conventions &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
@@ -25,10 +26,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -128,7 +129,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="transformation-ambiguities-and-conventions">
+  <section id="transformation-ambiguities-and-conventions">
 <span id="transformation-ambiguities"></span><h1>Transformation Ambiguities and Conventions<a class="headerlink" href="#transformation-ambiguities-and-conventions" title="Permalink to this heading">¶</a></h1>
 <p>Heterogenous software systems that consist of proprietary and open source
 software are often combined when we work with transformations.
@@ -161,7 +162,7 @@ language. It is used in many domains and supports a wide spectrum of
 communication to other software.</p>
 <p>There are lots of ambiguities in the world of transformations. We try to
 explain them all here.</p>
-<div class="contents local topic" id="contents">
+<nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#right-handed-vs-left-handed-coordinate-system" id="id4">Right-handed vs. Left-handed Coordinate System</a></p></li>
 <li><p><a class="reference internal" href="#active-alibi-vs-passive-alias-transformation" id="id5">Active (Alibi) vs. Passive (Alias) Transformation</a></p></li>
@@ -170,9 +171,9 @@ explain them all here.</p>
 <li><p><a class="reference internal" href="#naming-and-frame-conventions" id="id8">Naming and Frame Conventions</a></p></li>
 <li><p><a class="reference internal" href="#conventions-of-other-software" id="id9">Conventions of Other Software</a></p></li>
 </ul>
-</div>
-<div class="section" id="right-handed-vs-left-handed-coordinate-system">
-<h2><a class="toc-backref" href="#id4">Right-handed vs. Left-handed Coordinate System</a><a class="headerlink" href="#right-handed-vs-left-handed-coordinate-system" title="Permalink to this heading">¶</a></h2>
+</nav>
+<section id="right-handed-vs-left-handed-coordinate-system">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Right-handed vs. Left-handed Coordinate System</a><a class="headerlink" href="#right-handed-vs-left-handed-coordinate-system" title="Permalink to this heading">¶</a></h2>
 <p>We typically use a right-handed coordinate system, that is, the x-, y- and
 z-axis are aligned in a specific way. The name comes from the way how the
 fingers are attached to the human hand. Try to align your thumb with the
@@ -182,22 +183,22 @@ right-handed system and with the left hand in a left-handed system.</p>
 <table>
 <tr><td>Right-handed</td><td>Left-handed</td></tr>
 <tr>
-<td><div class="figure align-default">
+<td><figure class="align-default">
 <a class="plot-directive reference internal image-reference" href="_images/transformation_ambiguities-1.png"><img alt="_images/transformation_ambiguities-1.png" class="plot-directive" src="_images/transformation_ambiguities-1.png" style="width: 400px;" /></a>
-</div>
+</figure>
 </td>
-<td><div class="figure align-default">
+<td><figure class="align-default">
 <a class="plot-directive reference internal image-reference" href="_images/transformation_ambiguities-2.png"><img alt="_images/transformation_ambiguities-2.png" class="plot-directive" src="_images/transformation_ambiguities-2.png" style="width: 400px;" /></a>
-</div>
+</figure>
 </td>
 </tr>
 <table><div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The default in pytransform3d is a right-handed coordinate system.</p>
 </div>
-</div>
-<div class="section" id="active-alibi-vs-passive-alias-transformation">
-<h2><a class="toc-backref" href="#id5">Active (Alibi) vs. Passive (Alias) Transformation</a><a class="headerlink" href="#active-alibi-vs-passive-alias-transformation" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="active-alibi-vs-passive-alias-transformation">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Active (Alibi) vs. Passive (Alias) Transformation</a><a class="headerlink" href="#active-alibi-vs-passive-alias-transformation" title="Permalink to this heading">¶</a></h2>
 <img alt="Passive vs. active transformation" class="align-center" src="_images/active_passive.png" />
 <p>An active transformation</p>
 <ul class="simple">
@@ -228,13 +229,13 @@ frame.</p>
 <table>
 <tr><td>Active</td><td>Passive</td></tr>
 <tr>
-<td><div class="figure align-default">
+<td><figure class="align-default">
 <a class="plot-directive reference internal image-reference" href="_images/transformation_ambiguities-3.png"><img alt="_images/transformation_ambiguities-3.png" class="plot-directive" src="_images/transformation_ambiguities-3.png" style="width: 400px;" /></a>
-</div>
+</figure>
 </td>
-<td><div class="figure align-default">
+<td><figure class="align-default">
 <a class="plot-directive reference internal image-reference" href="_images/transformation_ambiguities-4.png"><img alt="_images/transformation_ambiguities-4.png" class="plot-directive" src="_images/transformation_ambiguities-4.png" style="width: 400px;" /></a>
-</div>
+</figure>
 </td>
 </tr>
 <table><p>Using the inverse transformation in the active view gives us exactly the same
@@ -264,9 +265,9 @@ rotation matrix is usually used in an active transformation:</p>
 <p>Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
 IEEE Robotics and Automation Magazine.
 PDF: <a class="reference external" href="https://openresearch.lsbu.ac.uk/download/641fa36d365e0244b27dd2fc8b881a12061afe1eb5c3952bae15614d3d831710/185181/01598057.pdf">https://openresearch.lsbu.ac.uk/download/641fa36d365e0244b27dd2fc8b881a12061afe1eb5c3952bae15614d3d831710/185181/01598057.pdf</a>.</p>
-</div>
-<div class="section" id="pre-multiply-vs-post-multiply-rotations">
-<h2><a class="toc-backref" href="#id6">Pre-multiply vs. Post-multiply Rotations</a><a class="headerlink" href="#pre-multiply-vs-post-multiply-rotations" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="pre-multiply-vs-post-multiply-rotations">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Pre-multiply vs. Post-multiply Rotations</a><a class="headerlink" href="#pre-multiply-vs-post-multiply-rotations" title="Permalink to this heading">¶</a></h2>
 <p>The same point can be represented by a column vector <img class="math" src="_images/math/5db89d45df2b4898e4ed1896f9576e9cda51eafd.png" alt="\boldsymbol v"/> or
 a row vector <img class="math" src="_images/math/df9e5b6c17fbb5bdd2d96cf46a98edb6e63f292f.png" alt="\boldsymbol w"/>. A rotation matrix <img class="math" src="_images/math/9b0478c944ec81bbf98d8cb2e9e8ff49466e1f9a.png" alt="\boldsymbol R"/>
 can be used to rotate the point by pre-multiplying it to the column vector
@@ -280,9 +281,9 @@ matrices depending on how we multiply them to points.</p>
 <p class="admonition-title">Note</p>
 <p>The default in pytransform3d are pre-multiplied rotation matrices.</p>
 </div>
-</div>
-<div class="section" id="intrinsic-vs-extrinsic-transformations">
-<h2><a class="toc-backref" href="#id7">Intrinsic vs. Extrinsic Transformations</a><a class="headerlink" href="#intrinsic-vs-extrinsic-transformations" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="intrinsic-vs-extrinsic-transformations">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Intrinsic vs. Extrinsic Transformations</a><a class="headerlink" href="#intrinsic-vs-extrinsic-transformations" title="Permalink to this heading">¶</a></h2>
 <p>A similar problem occurs when we want to concatenate rotations
 or transformations:
 suppose we have a rotation matrix <img class="math" src="_images/math/53cf7ab686c88dcddc7745cf2970c2b6de315c7a.png" alt="R_1"/> and another matrix
@@ -296,9 +297,9 @@ in which <img class="math" src="_images/math/f59def0e720f7de8ca2abe4eb16528d1e9b
 passive and active rotation matrices. Specifying this convention is
 particularly relevant when we deal with Euler angles.</p>
 <p>Here is a comparison between various conventions of concatenation.</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="_images/plot_convention_rotation_global_local.png" class="plot-directive" src="_images/plot_convention_rotation_global_local.png" />
-</div>
+</figure>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>There are two conventions on how to concatenate rotations and
@@ -306,38 +307,44 @@ transformations: intrinsic and extrinsic transformation.
 There is no default in pytransform3d but usually the function name
 should tell you which convention the function uses.</p>
 </div>
-</div>
-<div class="section" id="naming-and-frame-conventions">
-<h2><a class="toc-backref" href="#id8">Naming and Frame Conventions</a><a class="headerlink" href="#naming-and-frame-conventions" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="naming-and-frame-conventions">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Naming and Frame Conventions</a><a class="headerlink" href="#naming-and-frame-conventions" title="Permalink to this heading">¶</a></h2>
 <p>In addition to transformation and rotation conventions, there are a lot of
 different naming and frame conventions. Here are some examples.</p>
-<div class="figure align-center" id="id1">
+<figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="_images/conventions_ship.png"><img alt="Ship conventions" src="_images/conventions_ship.png" style="width: 50%;" /></a>
-<p class="caption"><span class="caption-text">For ships we can use the following convention for the body frame: the x-axis
+<figcaption>
+<p><span class="caption-text">For ships we can use the following convention for the body frame: the x-axis
 is called surge, the y-axis sway, and the z-axis heave. The origin of the
 frame is the center of gravity. For the orientation, the names yaw, pitch,
 and roll are used. Sometimes the body frame is rotated by 180 degrees around
 the x-axis, so that the y-axis points to the right side and the z-axis down.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
-<div class="figure align-center" id="id2">
+</figcaption>
+</figure>
+<figure class="align-center" id="id2">
 <a class="reference internal image-reference" href="_images/conventions_plane.png"><img alt="Aircraft conventions" src="_images/conventions_plane.png" style="width: 50%;" /></a>
-<p class="caption"><span class="caption-text">Aircrafts sometimes use the following naming conventions for intrinsic
+<figcaption>
+<p><span class="caption-text">Aircrafts sometimes use the following naming conventions for intrinsic
 rotations around the z-, y’-, and x’’-axis. The rotation about the z-axis
 is called heading, rotation about the y’-axis is called elevation, and the
 rotation about the x’’-axis is called bank.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</div>
-<div class="figure align-center" id="id3">
+</figcaption>
+</figure>
+<figure class="align-center" id="id3">
 <img alt="Camera conventions" src="_images/conventions_camera.png" />
-<p class="caption"><span class="caption-text">Cameras or similar sensors are sometimes mounted on pan/tilt units.
+<figcaption>
+<p><span class="caption-text">Cameras or similar sensors are sometimes mounted on pan/tilt units.
 Typically, first the pan joint rotates the camera about an axis parallel to
 the y-axis of the camera and the tilt joint rotates the camera about an
 axis parallel to the x-axis of the camera. When the axes of rotation
 and of the camera are not perfectly aligned, the camera will also be
 translated by the rotations.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
-</div>
-</div>
-<div class="section" id="conventions-of-other-software">
-<h2><a class="toc-backref" href="#id9">Conventions of Other Software</a><a class="headerlink" href="#conventions-of-other-software" title="Permalink to this heading">¶</a></h2>
+</figcaption>
+</figure>
+</section>
+<section id="conventions-of-other-software">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Conventions of Other Software</a><a class="headerlink" href="#conventions-of-other-software" title="Permalink to this heading">¶</a></h2>
 <p>The following is an incomplete list of conventions for representations of
 rotations, orientations, transformations, or poses and coordinate frames
 other software packages use. It illustrates the diversity that you will
@@ -443,8 +450,8 @@ with which we approach the target</p></li>
 </li>
 <li><p>Euler angles: extrinsic roll-pitch-yaw (xyz) convention</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
     </div>
@@ -459,7 +466,7 @@ with which we approach the target</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 09, 2023.<br/>
+      Last updated on Feb 11, 2023.<br/>
     </p>
   </div>
 </footer>

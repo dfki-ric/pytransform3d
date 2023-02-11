@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>pytransform3d.rotations.quaternion_gradient &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
@@ -25,10 +26,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -120,7 +121,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="pytransform3d-rotations-quaternion-gradient">
+  <section id="pytransform3d-rotations-quaternion-gradient">
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.rotations" title="pytransform3d.rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code></a>.quaternion_gradient<a class="headerlink" href="#pytransform3d-rotations-quaternion-gradient" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.rotations.quaternion_gradient">
@@ -133,7 +134,7 @@ the first and last gradient. We additionally accept a parameter dt that
 defines the time interval between each quaternion. Note that this means
 that we expect this to be constant for the whole sequence.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>Q</strong><span class="classifier">array-like, shape (n_steps, 4)</span></dt><dd><p>Quaternions to represent rotations: (w, x, y, z)</p>
 </dd>
@@ -143,7 +144,7 @@ interval afterwards.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>A</strong><span class="classifier">array-like, shape (n_steps, 3)</span></dt><dd><p>Angular velocities in a compact axis-angle representation. Each angular
 velocity represents the rotational offset after one unit of time.</p>
@@ -153,7 +154,7 @@ velocity represents the rotational offset after one unit of time.</p>
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
     </div>
@@ -168,7 +169,7 @@ velocity represents the rotational offset after one unit of time.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 09, 2023.<br/>
+      Last updated on Feb 11, 2023.<br/>
     </p>
   </div>
 </footer>

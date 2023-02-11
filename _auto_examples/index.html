@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Examples &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
@@ -19,16 +20,16 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Plot Transformation" href="plots/plot_transform.html" />
+    <link rel="next" title="Matplotlib Figures" href="plots/index.html" />
     <link rel="prev" title="pytransform3d.visualizer.Camera" href="../_apidoc/pytransform3d.visualizer.Camera.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -89,15 +90,9 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Examples</a><ul>
-<li><a class="reference internal" href="#matplotlib-figures">Matplotlib Figures</a><ul>
-</ul>
-</li>
-<li><a class="reference internal" href="#matplotlib-animations">Matplotlib Animations</a><ul>
-</ul>
-</li>
-<li><a class="reference internal" href="#d-visualizations">3D Visualizations</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#matplotlib-figures">Matplotlib Figures</a></li>
+<li><a class="reference internal" href="#matplotlib-animations">Matplotlib Animations</a></li>
+<li><a class="reference internal" href="#d-visualizations">3D Visualizations</a></li>
 <li><a class="reference internal" href="#gui-applications">GUI Applications</a></li>
 </ul>
 </li>
@@ -132,401 +127,217 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="examples">
-<span id="sphx-glr-auto-examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h1>
+  <section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h1>
 <p>The following examples show how pytransform3d can be used.</p>
-<div class="contents local topic" id="contents">
+<nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#matplotlib-figures" id="id63">Matplotlib Figures</a></p></li>
-<li><p><a class="reference internal" href="#matplotlib-animations" id="id64">Matplotlib Animations</a></p></li>
-<li><p><a class="reference internal" href="#d-visualizations" id="id65">3D Visualizations</a></p></li>
-<li><p><a class="reference internal" href="#gui-applications" id="id66">GUI Applications</a></p></li>
+<li><p><a class="reference internal" href="#matplotlib-figures" id="id1">Matplotlib Figures</a></p></li>
+<li><p><a class="reference internal" href="#matplotlib-animations" id="id2">Matplotlib Animations</a></p></li>
+<li><p><a class="reference internal" href="#d-visualizations" id="id3">3D Visualizations</a></p></li>
+<li><p><a class="reference internal" href="#gui-applications" id="id4">GUI Applications</a></p></li>
 </ul>
-</div>
-<div class="sphx-glr-clear"></div><div class="section" id="matplotlib-figures">
-<span id="sphx-glr-auto-examples-plots"></span><h2><a class="toc-backref" href="#id63">Matplotlib Figures</a><a class="headerlink" href="#matplotlib-figures" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate fr..."><div class="figure align-default" id="id1">
-<img alt="Plot Transformation" src="../_images/sphx_glr_plot_transform_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_transform.html#sphx-glr-auto-examples-plots-plot-transform-py"><span class="std std-ref">Plot Transformation</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualizes a bivector constructed from the wedge product of two vectors. The two vectors will b..."><div class="figure align-default" id="id2">
-<img alt="Plot Bivector" src="../_images/sphx_glr_plot_bivector_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_bivector.html#sphx-glr-auto-examples-plots-plot-bivector-py"><span class="std std-ref">Plot Bivector</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Does this need more documentation?"><div class="figure align-default" id="id3">
-<img alt="Plot Vector" src="../_images/sphx_glr_plot_vector_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_vector.html#sphx-glr-auto-examples-plots-plot-vector-py"><span class="std std-ref">Plot Vector</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plot Sphere"><div class="figure align-default" id="id4">
-<img alt="Plot Sphere" src="../_images/sphx_glr_plot_sphere_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_sphere.html#sphx-glr-auto-examples-plots-plot-sphere-py"><span class="std std-ref">Plot Sphere</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the sam..."><div class="figure align-default" id="id5">
-<img alt="Construct Rotation Matrix from Two Vectors" src="../_images/sphx_glr_plot_matrix_from_two_vectors_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_matrix_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-matrix-from-two-vectors-py"><span class="std std-ref">Construct Rotation Matrix from Two Vectors</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Integrate angular velocities to a sequence of quaternions."><div class="figure align-default" id="id6">
-<img alt="Quaternion Integration" src="../_images/sphx_glr_plot_quaternion_integrate_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_quaternion_integrate.html#sphx-glr-auto-examples-plots-plot-quaternion-integrate-py"><span class="std std-ref">Quaternion Integration</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented with a single rotation about some axis. Here we see a frame tha..."><div class="figure align-default" id="id7">
-<img alt="Axis-Angle Representation of Rotation" src="../_images/sphx_glr_plot_axis_angle_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_axis_angle.html#sphx-glr-auto-examples-plots-plot-axis-angle-py"><span class="std std-ref">Axis-Angle Representation of Rotation</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ..."><div class="figure align-default" id="id8">
-<img alt="Transform Concatenation" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_transform_concatenation.html#sphx-glr-auto-examples-plots-plot-transform-concatenation-py"><span class="std std-ref">Transform Concatenation</span></a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folde..."><div class="figure align-default" id="id9">
-<img alt="Plot Mesh" src="../_images/sphx_glr_plot_mesh_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_mesh.html#sphx-glr-auto-examples-plots-plot-mesh-py"><span class="std std-ref">Plot Mesh</span></a></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><div class="figure align-default" id="id10">
-<img alt="Axis-Angle Representation from Two Direction Vectors" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plot a grid in spherical coordinates with rho = 1 as Cartesian points. We can see that the Cart..."><div class="figure align-default" id="id11">
-<img alt="Spherical Grid" src="../_images/sphx_glr_plot_spherical_grid_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_spherical_grid.html#sphx-glr-auto-examples-plots-plot-spherical-grid-py"><span class="std std-ref">Spherical Grid</span></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente..."><div class="figure align-default" id="id12">
-<img alt="Camera Representation in 3D" src="../_images/sphx_glr_plot_camera_3d_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_camera_3d.html#sphx-glr-auto-examples-plots-plot-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a></span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plotting pose trajectories with pytransform3d is easy."><div class="figure align-default" id="id13">
-<img alt="Pose Trajectory" src="../_images/sphx_glr_plot_pose_trajectory_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_pose_trajectory.html#sphx-glr-auto-examples-plots-plot-pose-trajectory-py"><span class="std std-ref">Pose Trajectory</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><div class="figure align-default" id="id14">
-<img alt="Robot" src="../_images/sphx_glr_plot_robot_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_robot.html#sphx-glr-auto-examples-plots-plot-robot-py"><span class="std std-ref">Robot</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented by three consecutive rotations about three basis vectors. Here ..."><div class="figure align-default" id="id15">
-<img alt="Euler Angles" src="../_images/sphx_glr_plot_euler_angles_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_euler_angles.html#sphx-glr-auto-examples-plots-plot-euler-angles-py"><span class="std std-ref">Euler Angles</span></a></span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><div class="figure align-default" id="id16">
-<img alt="URDF with Meshes" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_urdf_with_meshes.html#sphx-glr-auto-examples-plots-plot-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><div class="figure align-default" id="id17">
-<img alt="Plot with Respect to Different Reference Frames" src="../_images/sphx_glr_plot_frames_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plots surfaces of transformed cylindrical shells."><div class="figure align-default" id="id18">
-<img alt="Plot Transformed Cylinders" src="../_images/sphx_glr_plot_cylinder_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_cylinder.html#sphx-glr-auto-examples-plots-plot-cylinder-py"><span class="std std-ref">Plot Transformed Cylinders</span></a></span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><div class="figure align-default" id="id19">
-<img alt="URDF with Collision Objects" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_collision_objects.html#sphx-glr-auto-examples-plots-plot-collision-objects-py"><span class="std std-ref">URDF with Collision Objects</span></a></span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Compare Various Definitions of Rotations"><div class="figure align-default" id="id20">
-<img alt="Compare Various Definitions of Rotations" src="../_images/sphx_glr_plot_compare_rotations_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_compare_rotations.html#sphx-glr-auto-examples-plots-plot-compare-rotations-py"><span class="std std-ref">Compare Various Definitions of Rotations</span></a></span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><div class="figure align-default" id="id21">
-<img alt="Plot Box" src="../_images/sphx_glr_plot_box_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_box.html#sphx-glr-auto-examples-plots-plot-box-py"><span class="std std-ref">Plot Box</span></a></span><a class="headerlink" href="#id21" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformati..."><div class="figure align-default" id="id22">
-<img alt="Plot Transformation through Screw Motion" src="../_images/sphx_glr_plot_screw_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_screw.html#sphx-glr-auto-examples-plots-plot-screw-py"><span class="std std-ref">Plot Transformation through Screw Motion</span></a></span><a class="headerlink" href="#id22" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="In this example, we will use the TransformManager to infer a transformation automatically."><div class="figure align-default" id="id23">
-<img alt="Transformation Manager" src="../_images/sphx_glr_plot_transform_manager_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_transform_manager.html#sphx-glr-auto-examples-plots-plot-transform-manager-py"><span class="std std-ref">Transformation Manager</span></a></span><a class="headerlink" href="#id23" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We can see the camera coordinate frame and a grid of points in the camera coordinate system whi..."><div class="figure align-default" id="id24">
-<img alt="Camera Projection" src="../_images/sphx_glr_plot_camera_projection_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_camera_projection.html#sphx-glr-auto-examples-plots-plot-camera-projection-py"><span class="std std-ref">Camera Projection</span></a></span><a class="headerlink" href="#id24" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and pl..."><div class="figure align-default" id="id25">
-<img alt="Rotate Cylinder" src="../_images/sphx_glr_plot_rotate_cylinder_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_rotate_cylinder.html#sphx-glr-auto-examples-plots-plot-rotate-cylinder-py"><span class="std std-ref">Rotate Cylinder</span></a></span><a class="headerlink" href="#id25" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spher..."><div class="figure align-default" id="id26">
-<img alt="Quaternion SLERP" src="../_images/sphx_glr_plot_quaternion_slerp_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_quaternion_slerp.html#sphx-glr-auto-examples-plots-plot-quaternion-slerp-py"><span class="std std-ref">Quaternion SLERP</span></a></span><a class="headerlink" href="#id26" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know t..."><div class="figure align-default" id="id27">
-<img alt="Camera Transform" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_camera_with_image.html#sphx-glr-auto-examples-plots-plot-camera-with-image-py"><span class="std std-ref">Camera Transform</span></a></span><a class="headerlink" href="#id27" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i..."><div class="figure align-default" id="id28">
-<img alt="Plot Straight Line Paths" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_straight_line_path.html#sphx-glr-auto-examples-plots-plot-straight-line-path-py"><span class="std std-ref">Plot Straight Line Paths</span></a></span><a class="headerlink" href="#id28" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometr..."><div class="figure align-default" id="id29">
-<img alt="Camera Trajectory" src="../_images/sphx_glr_plot_camera_trajectory_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a></span><a class="headerlink" href="#id29" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We will compare all possible combinations of passive and active rotations and extrinsic and int..."><div class="figure align-default" id="id30">
-<img alt="Convention for Rotation: Passive / Active, Extrinsic / Intrinsic" src="../_images/sphx_glr_plot_convention_rotation_global_local_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_convention_rotation_global_local.html#sphx-glr-auto-examples-plots-plot-convention-rotation-global-local-py"><span class="std std-ref">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</span></a></span><a class="headerlink" href="#id30" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plotting of several geometric shapes is directly supported by the library."><div class="figure align-default" id="id31">
-<img alt="Plot Random Geometries" src="../_images/sphx_glr_plot_random_geometries_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_random_geometries.html#sphx-glr-auto-examples-plots-plot-random-geometries-py"><span class="std std-ref">Plot Random Geometries</span></a></span><a class="headerlink" href="#id31" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><div class="figure align-default" id="id32">
-<img alt="URDF Joints" src="../_images/sphx_glr_plot_urdf_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_urdf.html#sphx-glr-auto-examples-plots-plot-urdf-py"><span class="std std-ref">URDF Joints</span></a></span><a class="headerlink" href="#id32" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds..."><div class="figure align-default" id="id33">
-<img alt="Dual Quaternion Interpolation" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plots/plot_dual_quaternion_interpolation.html#sphx-glr-auto-examples-plots-plot-dual-quaternion-interpolation-py"><span class="std std-ref">Dual Quaternion Interpolation</span></a></span><a class="headerlink" href="#id33" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-clear"></div></div>
-<div class="section" id="matplotlib-animations">
-<span id="sphx-glr-auto-examples-animations"></span><h2><a class="toc-backref" href="#id64">Matplotlib Animations</a><a class="headerlink" href="#matplotlib-animations" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="Animates a rotation about the x-axis."><div class="figure align-default" id="id34">
-<img alt="Animate Rotation" src="../_images/sphx_glr_animate_rotation_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="animations/animate_rotation.html#sphx-glr-auto-examples-animations-animate-rotation-py"><span class="std std-ref">Animate Rotation</span></a></span><a class="headerlink" href="#id34" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><div class="figure align-default" id="id35">
-<img alt="Animate Trajectory" src="../_images/sphx_glr_animate_trajectory_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="animations/animate_trajectory.html#sphx-glr-auto-examples-animations-animate-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></span><a class="headerlink" href="#id35" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Integrate angular accelerations to a quaternion sequence and animate it."><div class="figure align-default" id="id36">
-<img alt="Quaternion Integration" src="../_images/sphx_glr_animate_quaternion_integration_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="animations/animate_quaternion_integration.html#sphx-glr-auto-examples-animations-animate-quaternion-integration-py"><span class="std std-ref">Quaternion Integration</span></a></span><a class="headerlink" href="#id36" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either..."><div class="figure align-default" id="id37">
-<img alt="Interpolate Between Axis-Angle Representations" src="../_images/sphx_glr_animate_angle_axis_interpolation_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="animations/animate_angle_axis_interpolation.html#sphx-glr-auto-examples-animations-animate-angle-axis-interpolation-py"><span class="std std-ref">Interpolate Between Axis-Angle Representations</span></a></span><a class="headerlink" href="#id37" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by quaternions either linearly..."><div class="figure align-default" id="id38">
-<img alt="Interpolate Between Quaternion Orientations" src="../_images/sphx_glr_animate_quaternion_interpolation_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="animations/animate_quaternion_interpolation.html#sphx-glr-auto-examples-animations-animate-quaternion-interpolation-py"><span class="std std-ref">Interpolate Between Quaternion Orientations</span></a></span><a class="headerlink" href="#id38" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-clear"></div></div>
-<div class="section" id="d-visualizations">
-<span id="sphx-glr-auto-examples-visualizations"></span><h2><a class="toc-backref" href="#id65">3D Visualizations</a><a class="headerlink" href="#d-visualizations" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualize Sphere"><div class="figure align-default" id="id39">
-<img alt="Visualize Sphere" src="../_images/sphx_glr_vis_sphere_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_sphere.html#sphx-glr-auto-examples-visualizations-vis-sphere-py"><span class="std std-ref">Visualize Sphere</span></a></span><a class="headerlink" href="#id39" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualize Ellipsoid"><div class="figure align-default" id="id40">
-<img alt="Visualize Ellipsoid" src="../_images/sphx_glr_vis_ellipsoid_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_ellipsoid.html#sphx-glr-auto-examples-visualizations-vis-ellipsoid-py"><span class="std std-ref">Visualize Ellipsoid</span></a></span><a class="headerlink" href="#id40" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualize Coordinate Frame"><div class="figure align-default" id="id41">
-<img alt="Visualize Coordinate Frame" src="../_images/sphx_glr_vis_basis_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_basis.html#sphx-glr-auto-examples-visualizations-vis-basis-py"><span class="std std-ref">Visualize Coordinate Frame</span></a></span><a class="headerlink" href="#id41" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualize Cone"><div class="figure align-default" id="id42">
-<img alt="Visualize Cone" src="../_images/sphx_glr_vis_cone_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_cone.html#sphx-glr-auto-examples-visualizations-vis-cone-py"><span class="std std-ref">Visualize Cone</span></a></span><a class="headerlink" href="#id42" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualize Capsule"><div class="figure align-default" id="id43">
-<img alt="Visualize Capsule" src="../_images/sphx_glr_vis_capsule_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_capsule.html#sphx-glr-auto-examples-visualizations-vis-capsule-py"><span class="std std-ref">Visualize Capsule</span></a></span><a class="headerlink" href="#id43" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualize Vector"><div class="figure align-default" id="id44">
-<img alt="Visualize Vector" src="../_images/sphx_glr_vis_vector_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_vector.html#sphx-glr-auto-examples-visualizations-vis-vector-py"><span class="std std-ref">Visualize Vector</span></a></span><a class="headerlink" href="#id44" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualizes a point collection."><div class="figure align-default" id="id45">
-<img alt="Scatter Plot" src="../_images/sphx_glr_vis_scatter_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_scatter.html#sphx-glr-auto-examples-visualizations-vis-scatter-py"><span class="std std-ref">Scatter Plot</span></a></span><a class="headerlink" href="#id45" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Visualizes one plane in Hesse normal form and one plane defined by point and normal."><div class="figure align-default" id="id46">
-<img alt="Visualize Plane" src="../_images/sphx_glr_vis_plane_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_plane.html#sphx-glr-auto-examples-visualizations-vis-plane-py"><span class="std std-ref">Visualize Plane</span></a></span><a class="headerlink" href="#id46" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><div class="figure align-default" id="id47">
-<img alt="Plot Box" src="../_images/sphx_glr_vis_box_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_box.html#sphx-glr-auto-examples-visualizations-vis-box-py"><span class="std std-ref">Plot Box</span></a></span><a class="headerlink" href="#id47" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folde..."><div class="figure align-default" id="id48">
-<img alt="Visualize Mesh" src="../_images/sphx_glr_vis_mesh_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_mesh.html#sphx-glr-auto-examples-visualizations-vis-mesh-py"><span class="std std-ref">Visualize Mesh</span></a></span><a class="headerlink" href="#id48" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Animates a rotation about the x-axis."><div class="figure align-default" id="id49">
-<img alt="Animate Rotation" src="../_images/sphx_glr_vis_moving_basis_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_moving_basis.html#sphx-glr-auto-examples-visualizations-vis-moving-basis-py"><span class="std std-ref">Animate Rotation</span></a></span><a class="headerlink" href="#id49" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Plots transformed cylinders."><div class="figure align-default" id="id50">
-<img alt="Visualize Transformed Cylinders" src="../_images/sphx_glr_vis_cylinder_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_cylinder.html#sphx-glr-auto-examples-visualizations-vis-cylinder-py"><span class="std std-ref">Visualize Transformed Cylinders</span></a></span><a class="headerlink" href="#id50" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente..."><div class="figure align-default" id="id51">
-<img alt="Camera Representation in 3D" src="../_images/sphx_glr_vis_camera_3d_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_camera_3d.html#sphx-glr-auto-examples-visualizations-vis-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a></span><a class="headerlink" href="#id51" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Animates a line."><div class="figure align-default" id="id52">
-<img alt="Animate Line" src="../_images/sphx_glr_vis_moving_line_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_moving_line.html#sphx-glr-auto-examples-visualizations-vis-moving-line-py"><span class="std std-ref">Animate Line</span></a></span><a class="headerlink" href="#id52" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><div class="figure align-default" id="id53">
-<img alt="URDF with Meshes" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></span><a class="headerlink" href="#id53" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ..."><div class="figure align-default" id="id54">
-<img alt="Animated URDF with Meshes" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></span><a class="headerlink" href="#id54" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><div class="figure align-default" id="id55">
-<img alt="Add and Remove Artist" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></span><a class="headerlink" href="#id55" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><div class="figure align-default" id="id56">
-<img alt="Animate Trajectory" src="../_images/sphx_glr_vis_moving_trajectory_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_moving_trajectory.html#sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></span><a class="headerlink" href="#id56" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><div class="figure align-default" id="id57">
-<img alt="Animated Robot" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></span><a class="headerlink" href="#id57" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exp..."><div class="figure align-default" id="id58">
-<img alt="Visualize Cylinder with Wrench" src="../_images/sphx_glr_vis_moving_cylinder_with_wrench_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_moving_cylinder_with_wrench.html#sphx-glr-auto-examples-visualizations-vis-moving-cylinder-with-wrench-py"><span class="std std-ref">Visualize Cylinder with Wrench</span></a></span><a class="headerlink" href="#id58" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><div class="figure align-default" id="id59">
-<img alt="URDF Joints" src="../_images/sphx_glr_vis_urdf_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></span><a class="headerlink" href="#id59" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm and we assume that we have a force/torque sensor that measures the for..."><div class="figure align-default" id="id60">
-<img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></span><a class="headerlink" href="#id60" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="Use pyrender to show URDF file. You can get pyrender from"><div class="figure align-default" id="id61">
-<img alt="Render URDF" src="../_images/sphx_glr_render_urdf_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="visualizations/render_urdf.html#sphx-glr-auto-examples-visualizations-render-urdf-py"><span class="std std-ref">Render URDF</span></a></span><a class="headerlink" href="#id61" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-clear"></div></div>
-<div class="section" id="gui-applications">
-<span id="sphx-glr-auto-examples-apps"></span><h2><a class="toc-backref" href="#id66">GUI Applications</a><a class="headerlink" href="#gui-applications" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="The transformation editor can be used to manipulate transformations."><div class="figure align-default" id="id62">
-<img alt="Transformation Editor" src="../_images/sphx_glr_app_transformation_editor_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="apps/app_transformation_editor.html#sphx-glr-auto-examples-apps-app-transformation-editor-py"><span class="std std-ref">Transformation Editor</span></a></span><a class="headerlink" href="#id62" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-clear"></div><div class="sphx-glr-footer class sphx-glr-footer-gallery docutils container">
+</nav>
+<div class="sphx-glr-thumbnails"></div><section id="matplotlib-figures">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Matplotlib Figures</a><a class="headerlink" href="#matplotlib-figures" title="Permalink to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate fr..."><img alt="Plot Transformation" src="../_images/sphx_glr_plot_transform_thumb.png" />
+<p><a class="reference internal" href="plots/plot_transform.html#sphx-glr-auto-examples-plots-plot-transform-py"><span class="std std-ref">Plot Transformation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Transformation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualizes a bivector constructed from the wedge product of two vectors. The two vectors will b..."><img alt="Plot Bivector" src="../_images/sphx_glr_plot_bivector_thumb.png" />
+<p><a class="reference internal" href="plots/plot_bivector.html#sphx-glr-auto-examples-plots-plot-bivector-py"><span class="std std-ref">Plot Bivector</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Bivector</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Does this need more documentation?"><img alt="Plot Vector" src="../_images/sphx_glr_plot_vector_thumb.png" />
+<p><a class="reference internal" href="plots/plot_vector.html#sphx-glr-auto-examples-plots-plot-vector-py"><span class="std std-ref">Plot Vector</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Vector</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plot Sphere"><img alt="Plot Sphere" src="../_images/sphx_glr_plot_sphere_thumb.png" />
+<p><a class="reference internal" href="plots/plot_sphere.html#sphx-glr-auto-examples-plots-plot-sphere-py"><span class="std std-ref">Plot Sphere</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Sphere</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the sam..."><img alt="Construct Rotation Matrix from Two Vectors" src="../_images/sphx_glr_plot_matrix_from_two_vectors_thumb.png" />
+<p><a class="reference internal" href="plots/plot_matrix_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-matrix-from-two-vectors-py"><span class="std std-ref">Construct Rotation Matrix from Two Vectors</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Construct Rotation Matrix from Two Vectors</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Integrate angular velocities to a sequence of quaternions."><img alt="Quaternion Integration" src="../_images/sphx_glr_plot_quaternion_integrate_thumb.png" />
+<p><a class="reference internal" href="plots/plot_quaternion_integrate.html#sphx-glr-auto-examples-plots-plot-quaternion-integrate-py"><span class="std std-ref">Quaternion Integration</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Quaternion Integration</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented with a single rotation about some axis. Here we see a frame tha..."><img alt="Axis-Angle Representation of Rotation" src="../_images/sphx_glr_plot_axis_angle_thumb.png" />
+<p><a class="reference internal" href="plots/plot_axis_angle.html#sphx-glr-auto-examples-plots-plot-axis-angle-py"><span class="std std-ref">Axis-Angle Representation of Rotation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Axis-Angle Representation of Rotation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ..."><img alt="Transform Concatenation" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
+<p><a class="reference internal" href="plots/plot_transform_concatenation.html#sphx-glr-auto-examples-plots-plot-transform-concatenation-py"><span class="std std-ref">Transform Concatenation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Transform Concatenation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folde..."><img alt="Plot Mesh" src="../_images/sphx_glr_plot_mesh_thumb.png" />
+<p><a class="reference internal" href="plots/plot_mesh.html#sphx-glr-auto-examples-plots-plot-mesh-py"><span class="std std-ref">Plot Mesh</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Mesh</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><img alt="Axis-Angle Representation from Two Direction Vectors" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
+<p><a class="reference internal" href="plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Axis-Angle Representation from Two Direction Vectors</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plot a grid in spherical coordinates with rho = 1 as Cartesian points. We can see that the Cart..."><img alt="Spherical Grid" src="../_images/sphx_glr_plot_spherical_grid_thumb.png" />
+<p><a class="reference internal" href="plots/plot_spherical_grid.html#sphx-glr-auto-examples-plots-plot-spherical-grid-py"><span class="std std-ref">Spherical Grid</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Spherical Grid</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente..."><img alt="Camera Representation in 3D" src="../_images/sphx_glr_plot_camera_3d_thumb.png" />
+<p><a class="reference internal" href="plots/plot_camera_3d.html#sphx-glr-auto-examples-plots-plot-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Representation in 3D</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting pose trajectories with pytransform3d is easy."><img alt="Pose Trajectory" src="../_images/sphx_glr_plot_pose_trajectory_thumb.png" />
+<p><a class="reference internal" href="plots/plot_pose_trajectory.html#sphx-glr-auto-examples-plots-plot-pose-trajectory-py"><span class="std std-ref">Pose Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Pose Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><img alt="Robot" src="../_images/sphx_glr_plot_robot_thumb.png" />
+<p><a class="reference internal" href="plots/plot_robot.html#sphx-glr-auto-examples-plots-plot-robot-py"><span class="std std-ref">Robot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Robot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented by three consecutive rotations about three basis vectors. Here ..."><img alt="Euler Angles" src="../_images/sphx_glr_plot_euler_angles_thumb.png" />
+<p><a class="reference internal" href="plots/plot_euler_angles.html#sphx-glr-auto-examples-plots-plot-euler-angles-py"><span class="std std-ref">Euler Angles</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Euler Angles</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><img alt="URDF with Meshes" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="plots/plot_urdf_with_meshes.html#sphx-glr-auto-examples-plots-plot-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><img alt="Plot with Respect to Different Reference Frames" src="../_images/sphx_glr_plot_frames_thumb.png" />
+<p><a class="reference internal" href="plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot with Respect to Different Reference Frames</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plots surfaces of transformed cylindrical shells."><img alt="Plot Transformed Cylinders" src="../_images/sphx_glr_plot_cylinder_thumb.png" />
+<p><a class="reference internal" href="plots/plot_cylinder.html#sphx-glr-auto-examples-plots-plot-cylinder-py"><span class="std std-ref">Plot Transformed Cylinders</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Transformed Cylinders</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><img alt="URDF with Collision Objects" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
+<p><a class="reference internal" href="plots/plot_collision_objects.html#sphx-glr-auto-examples-plots-plot-collision-objects-py"><span class="std std-ref">URDF with Collision Objects</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Collision Objects</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Compare Various Definitions of Rotations"><img alt="Compare Various Definitions of Rotations" src="../_images/sphx_glr_plot_compare_rotations_thumb.png" />
+<p><a class="reference internal" href="plots/plot_compare_rotations.html#sphx-glr-auto-examples-plots-plot-compare-rotations-py"><span class="std std-ref">Compare Various Definitions of Rotations</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Compare Various Definitions of Rotations</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><img alt="Plot Box" src="../_images/sphx_glr_plot_box_thumb.png" />
+<p><a class="reference internal" href="plots/plot_box.html#sphx-glr-auto-examples-plots-plot-box-py"><span class="std std-ref">Plot Box</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Box</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformati..."><img alt="Plot Transformation through Screw Motion" src="../_images/sphx_glr_plot_screw_thumb.png" />
+<p><a class="reference internal" href="plots/plot_screw.html#sphx-glr-auto-examples-plots-plot-screw-py"><span class="std std-ref">Plot Transformation through Screw Motion</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Transformation through Screw Motion</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will use the TransformManager to infer a transformation automatically."><img alt="Transformation Manager" src="../_images/sphx_glr_plot_transform_manager_thumb.png" />
+<p><a class="reference internal" href="plots/plot_transform_manager.html#sphx-glr-auto-examples-plots-plot-transform-manager-py"><span class="std std-ref">Transformation Manager</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Transformation Manager</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera coordinate frame and a grid of points in the camera coordinate system whi..."><img alt="Camera Projection" src="../_images/sphx_glr_plot_camera_projection_thumb.png" />
+<p><a class="reference internal" href="plots/plot_camera_projection.html#sphx-glr-auto-examples-plots-plot-camera-projection-py"><span class="std std-ref">Camera Projection</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Projection</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and pl..."><img alt="Rotate Cylinder" src="../_images/sphx_glr_plot_rotate_cylinder_thumb.png" />
+<p><a class="reference internal" href="plots/plot_rotate_cylinder.html#sphx-glr-auto-examples-plots-plot-rotate-cylinder-py"><span class="std std-ref">Rotate Cylinder</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Rotate Cylinder</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spher..."><img alt="Quaternion SLERP" src="../_images/sphx_glr_plot_quaternion_slerp_thumb.png" />
+<p><a class="reference internal" href="plots/plot_quaternion_slerp.html#sphx-glr-auto-examples-plots-plot-quaternion-slerp-py"><span class="std std-ref">Quaternion SLERP</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Quaternion SLERP</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know t..."><img alt="Camera Transform" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
+<p><a class="reference internal" href="plots/plot_camera_with_image.html#sphx-glr-auto-examples-plots-plot-camera-with-image-py"><span class="std std-ref">Camera Transform</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Transform</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i..."><img alt="Plot Straight Line Paths" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
+<p><a class="reference internal" href="plots/plot_straight_line_path.html#sphx-glr-auto-examples-plots-plot-straight-line-path-py"><span class="std std-ref">Plot Straight Line Paths</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Straight Line Paths</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometr..."><img alt="Camera Trajectory" src="../_images/sphx_glr_plot_camera_trajectory_thumb.png" />
+<p><a class="reference internal" href="plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We will compare all possible combinations of passive and active rotations and extrinsic and int..."><img alt="Convention for Rotation: Passive / Active, Extrinsic / Intrinsic" src="../_images/sphx_glr_plot_convention_rotation_global_local_thumb.png" />
+<p><a class="reference internal" href="plots/plot_convention_rotation_global_local.html#sphx-glr-auto-examples-plots-plot-convention-rotation-global-local-py"><span class="std std-ref">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting of several geometric shapes is directly supported by the library."><img alt="Plot Random Geometries" src="../_images/sphx_glr_plot_random_geometries_thumb.png" />
+<p><a class="reference internal" href="plots/plot_random_geometries.html#sphx-glr-auto-examples-plots-plot-random-geometries-py"><span class="std std-ref">Plot Random Geometries</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Random Geometries</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><img alt="URDF Joints" src="../_images/sphx_glr_plot_urdf_thumb.png" />
+<p><a class="reference internal" href="plots/plot_urdf.html#sphx-glr-auto-examples-plots-plot-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds..."><img alt="Dual Quaternion Interpolation" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
+<p><a class="reference internal" href="plots/plot_dual_quaternion_interpolation.html#sphx-glr-auto-examples-plots-plot-dual-quaternion-interpolation-py"><span class="std std-ref">Dual Quaternion Interpolation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Dual Quaternion Interpolation</div>
+</div></div></section>
+<section id="matplotlib-animations">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Matplotlib Animations</a><a class="headerlink" href="#matplotlib-animations" title="Permalink to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animates a rotation about the x-axis."><img alt="Animate Rotation" src="../_images/sphx_glr_animate_rotation_thumb.png" />
+<p><a class="reference internal" href="animations/animate_rotation.html#sphx-glr-auto-examples-animations-animate-rotation-py"><span class="std std-ref">Animate Rotation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Rotation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="Animate Trajectory" src="../_images/sphx_glr_animate_trajectory_thumb.png" />
+<p><a class="reference internal" href="animations/animate_trajectory.html#sphx-glr-auto-examples-animations-animate-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Integrate angular accelerations to a quaternion sequence and animate it."><img alt="Quaternion Integration" src="../_images/sphx_glr_animate_quaternion_integration_thumb.png" />
+<p><a class="reference internal" href="animations/animate_quaternion_integration.html#sphx-glr-auto-examples-animations-animate-quaternion-integration-py"><span class="std std-ref">Quaternion Integration</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Quaternion Integration</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either..."><img alt="Interpolate Between Axis-Angle Representations" src="../_images/sphx_glr_animate_angle_axis_interpolation_thumb.png" />
+<p><a class="reference internal" href="animations/animate_angle_axis_interpolation.html#sphx-glr-auto-examples-animations-animate-angle-axis-interpolation-py"><span class="std std-ref">Interpolate Between Axis-Angle Representations</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Interpolate Between Axis-Angle Representations</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by quaternions either linearly..."><img alt="Interpolate Between Quaternion Orientations" src="../_images/sphx_glr_animate_quaternion_interpolation_thumb.png" />
+<p><a class="reference internal" href="animations/animate_quaternion_interpolation.html#sphx-glr-auto-examples-animations-animate-quaternion-interpolation-py"><span class="std std-ref">Interpolate Between Quaternion Orientations</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Interpolate Between Quaternion Orientations</div>
+</div></div></section>
+<section id="d-visualizations">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">3D Visualizations</a><a class="headerlink" href="#d-visualizations" title="Permalink to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Visualize Sphere"><img alt="Visualize Sphere" src="../_images/sphx_glr_vis_sphere_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_sphere.html#sphx-glr-auto-examples-visualizations-vis-sphere-py"><span class="std std-ref">Visualize Sphere</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Sphere</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Ellipsoid"><img alt="Visualize Ellipsoid" src="../_images/sphx_glr_vis_ellipsoid_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_ellipsoid.html#sphx-glr-auto-examples-visualizations-vis-ellipsoid-py"><span class="std std-ref">Visualize Ellipsoid</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Ellipsoid</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Coordinate Frame"><img alt="Visualize Coordinate Frame" src="../_images/sphx_glr_vis_basis_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_basis.html#sphx-glr-auto-examples-visualizations-vis-basis-py"><span class="std std-ref">Visualize Coordinate Frame</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Coordinate Frame</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Cone"><img alt="Visualize Cone" src="../_images/sphx_glr_vis_cone_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_cone.html#sphx-glr-auto-examples-visualizations-vis-cone-py"><span class="std std-ref">Visualize Cone</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Cone</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Capsule"><img alt="Visualize Capsule" src="../_images/sphx_glr_vis_capsule_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_capsule.html#sphx-glr-auto-examples-visualizations-vis-capsule-py"><span class="std std-ref">Visualize Capsule</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Capsule</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Vector"><img alt="Visualize Vector" src="../_images/sphx_glr_vis_vector_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_vector.html#sphx-glr-auto-examples-visualizations-vis-vector-py"><span class="std std-ref">Visualize Vector</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Vector</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualizes a point collection."><img alt="Scatter Plot" src="../_images/sphx_glr_vis_scatter_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_scatter.html#sphx-glr-auto-examples-visualizations-vis-scatter-py"><span class="std std-ref">Scatter Plot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Scatter Plot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualizes one plane in Hesse normal form and one plane defined by point and normal."><img alt="Visualize Plane" src="../_images/sphx_glr_vis_plane_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_plane.html#sphx-glr-auto-examples-visualizations-vis-plane-py"><span class="std std-ref">Visualize Plane</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Plane</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><img alt="Plot Box" src="../_images/sphx_glr_vis_box_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_box.html#sphx-glr-auto-examples-visualizations-vis-box-py"><span class="std std-ref">Plot Box</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Box</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folde..."><img alt="Visualize Mesh" src="../_images/sphx_glr_vis_mesh_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_mesh.html#sphx-glr-auto-examples-visualizations-vis-mesh-py"><span class="std std-ref">Visualize Mesh</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Mesh</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a rotation about the x-axis."><img alt="Animate Rotation" src="../_images/sphx_glr_vis_moving_basis_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_moving_basis.html#sphx-glr-auto-examples-visualizations-vis-moving-basis-py"><span class="std std-ref">Animate Rotation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Rotation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plots transformed cylinders."><img alt="Visualize Transformed Cylinders" src="../_images/sphx_glr_vis_cylinder_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_cylinder.html#sphx-glr-auto-examples-visualizations-vis-cylinder-py"><span class="std std-ref">Visualize Transformed Cylinders</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Transformed Cylinders</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente..."><img alt="Camera Representation in 3D" src="../_images/sphx_glr_vis_camera_3d_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_camera_3d.html#sphx-glr-auto-examples-visualizations-vis-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Representation in 3D</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a line."><img alt="Animate Line" src="../_images/sphx_glr_vis_moving_line_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_moving_line.html#sphx-glr-auto-examples-visualizations-vis-moving-line-py"><span class="std std-ref">Animate Line</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Line</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><img alt="URDF with Meshes" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ..."><img alt="Animated URDF with Meshes" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="Add and Remove Artist" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Add and Remove Artist</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="Animate Trajectory" src="../_images/sphx_glr_vis_moving_trajectory_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_moving_trajectory.html#sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="Animated Robot" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated Robot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exp..."><img alt="Visualize Cylinder with Wrench" src="../_images/sphx_glr_vis_moving_cylinder_with_wrench_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_moving_cylinder_with_wrench.html#sphx-glr-auto-examples-visualizations-vis-moving-cylinder-with-wrench-py"><span class="std std-ref">Visualize Cylinder with Wrench</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Cylinder with Wrench</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><img alt="URDF Joints" src="../_images/sphx_glr_vis_urdf_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm and we assume that we have a force/torque sensor that measures the for..."><img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+<p><a class="reference internal" href="visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Use pyrender to show URDF file. You can get pyrender from"><img alt="Render URDF" src="../_images/sphx_glr_render_urdf_thumb.png" />
+<p><a class="reference internal" href="visualizations/render_urdf.html#sphx-glr-auto-examples-visualizations-render-urdf-py"><span class="std std-ref">Render URDF</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Render URDF</div>
+</div></div></section>
+<section id="gui-applications">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">GUI Applications</a><a class="headerlink" href="#gui-applications" title="Permalink to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="The transformation editor can be used to manipulate transformations."><img alt="Transformation Editor" src="../_images/sphx_glr_app_transformation_editor_thumb.png" />
+<p><a class="reference internal" href="apps/app_transformation_editor.html#sphx-glr-auto-examples-apps-app-transformation-editor-py"><span class="std std-ref">Transformation Editor</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Transformation Editor</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/8845d11ecb15bc8f327918febd001c4d/_auto_examples_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">_auto_examples_python.zip</span></code></a></p>
 </div>
@@ -535,8 +346,8 @@
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
     </div>
@@ -551,7 +362,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 09, 2023.<br/>
+      Last updated on Feb 11, 2023.<br/>
     </p>
   </div>
 </footer>

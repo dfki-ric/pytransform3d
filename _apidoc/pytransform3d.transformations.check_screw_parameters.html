@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>pytransform3d.transformations.check_screw_parameters &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
@@ -25,10 +26,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -123,7 +124,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="pytransform3d-transformations-check-screw-parameters">
+  <section id="pytransform3d-transformations-check-screw-parameters">
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a>.check_screw_parameters<a class="headerlink" href="#pytransform3d-transformations-check-screw-parameters" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.transformations.check_screw_parameters">
@@ -132,7 +133,7 @@
 <p>The parameters <img class="math" src="../_images/math/5cb2f91d9ec845b0e37c30bad2f1c4c3dcb17a62.png" alt="(\boldsymbol{q}, \hat{\boldsymbol{s}}, h)"/>
 describe a screw.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>q</strong><span class="classifier">array-like, shape (3,)</span></dt><dd><p>Vector to a point on the screw axis</p>
 </dd>
@@ -143,7 +144,7 @@ of the screw axis. Infinite pitch indicates pure translation.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>q</strong><span class="classifier">array, shape (3,)</span></dt><dd><p>Vector to a point on the screw axis. Will be set to zero vector when
 pitch is infinite (pure translation).</p>
@@ -155,7 +156,7 @@ of the screw axis. Infinite pitch indicates pure translation.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>ValueError</dt><dd><p>If input is invalid</p>
 </dd>
@@ -164,14 +165,13 @@ of the screw axis. Infinite pitch indicates pure translation.</p>
 </dl>
 </dd></dl>
 
-<div class="section" id="examples-using-pytransform3d-transformations-check-screw-parameters">
+<section id="examples-using-pytransform3d-transformations-check-screw-parameters">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.check_screw_parameters</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-check-screw-parameters" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm and we assume that we have a force/torque sensor that measures the for..."><div class="figure align-default" id="id1">
-<img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
-</div><div class="sphx-glr-clear"></div></div>
-</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm and we assume that we have a force/torque sensor that measures the for..."><img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
+</div></div></section>
+</section>
 
 
     </div>
@@ -186,7 +186,7 @@ of the screw axis. Infinite pitch indicates pure translation.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 09, 2023.<br/>
+      Last updated on Feb 11, 2023.<br/>
     </p>
   </div>
 </footer>

@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>pytransform3d.batch_rotations.smooth_quaternion_trajectory &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
@@ -25,10 +26,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -120,7 +121,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="pytransform3d-batch-rotations-smooth-quaternion-trajectory">
+  <section id="pytransform3d-batch-rotations-smooth-quaternion-trajectory">
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.batch_rotations" title="pytransform3d.batch_rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code></a>.smooth_quaternion_trajectory<a class="headerlink" href="#pytransform3d-batch-rotations-smooth-quaternion-trajectory" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.batch_rotations.smooth_quaternion_trajectory">
@@ -130,7 +131,7 @@
 interpolated well. This function guarantees that two successive
 quaternions q1 and q2 are closer than q1 and -q2.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>Q</strong><span class="classifier">array-like, shape (n_steps, 4)</span></dt><dd><p>Unit quaternions to represent rotations: (w, x, y, z)</p>
 </dd>
@@ -139,13 +140,13 @@ Allowed values: ‘w’ (scalar), ‘x’, ‘y’, and ‘z’.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>Q</strong><span class="classifier">array, shape (n_steps, 4)</span></dt><dd><p>Unit quaternions to represent rotations: (w, x, y, z)</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-odd">Raises</dt>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>ValueError</dt><dd><p>If Q has length 0.</p>
 </dd>
@@ -154,7 +155,7 @@ Allowed values: ‘w’ (scalar), ‘x’, ‘y’, and ‘z’.</p>
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
     </div>
@@ -169,7 +170,7 @@ Allowed values: ‘w’ (scalar), ‘x’, ‘y’, and ‘z’.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 09, 2023.<br/>
+      Last updated on Feb 11, 2023.<br/>
     </p>
   </div>
 </footer>

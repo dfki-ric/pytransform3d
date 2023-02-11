@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>SO(3): 3D Rotations &#8212; pytransform3d 2.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
@@ -25,10 +26,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -128,7 +129,7 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="section" id="so-3-3d-rotations">
+  <section id="so-3-3d-rotations">
 <h1>SO(3): 3D Rotations<a class="headerlink" href="#so-3-3d-rotations" title="Permalink to this heading">¶</a></h1>
 <p>The group of all rotations in the 3D Cartesian space is called <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/>
 (SO: special orthogonal group). It is typically represented by 3D rotations
@@ -137,7 +138,7 @@ any rotation from <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029
 is non-redundant, continuous, and free of singularities. We will now take a
 closer look at competing representations of rotations and the orientations they
 can describe.</p>
-<div class="contents local topic" id="contents">
+<nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#rotation-matrix" id="id1">Rotation Matrix</a></p></li>
 <li><p><a class="reference internal" href="#axis-angle" id="id2">Axis-Angle</a></p></li>
@@ -146,7 +147,7 @@ can describe.</p>
 <li><p><a class="reference internal" href="#rotors" id="id5">Rotors</a></p></li>
 <li><p><a class="reference internal" href="#references" id="id6">References</a></p></li>
 </ul>
-</div>
+</nav>
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
 <a class="reference internal image-reference" href="_images/rotations.png"><img alt="Rotations" class="align-center" src="_images/rotations.png" style="width: 50%;" /></a>
@@ -154,13 +155,6 @@ that are available in pytransform3d.</p>
 another representation. The following table is an overview. If the operation
 is not implemented in pytransform3d then it is shown in brackets.</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 38%" />
-<col style="width: 14%" />
-<col style="width: 19%" />
-<col style="width: 14%" />
-<col style="width: 14%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Representation</p></th>
 <th class="head"><p>Inverse</p></th>
@@ -221,8 +215,8 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 </tr>
 </tbody>
 </table>
-<div class="section" id="rotation-matrix">
-<h2><a class="toc-backref" href="#id1">Rotation Matrix</a><a class="headerlink" href="#rotation-matrix" title="Permalink to this heading">¶</a></h2>
+<section id="rotation-matrix">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Rotation Matrix</a><a class="headerlink" href="#rotation-matrix" title="Permalink to this heading">¶</a></h2>
 <p>One of the most practical representations of orientation is a rotation matrix</p>
 <div class="math">
 <p><img src="_images/math/568f736b80534f37b7a8fb3d2347612c55112281.png" alt="\boldsymbol R =
@@ -287,9 +281,9 @@ green for the y-axis and blue for the z-axis (RGB for xyz).</p>
 <span class="n">plot_basis</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="_images/rotations-1.png" class="plot-directive" src="_images/rotations-1.png" />
-</div>
+</figure>
 <p>We can easily chain multiple rotations: we can apply the rotation defined
 by <img class="math" src="_images/math/9ea3b600d91c4a102e2079d6497113822460f9ed.png" alt="\boldsymbol R_{AB}"/> after the rotation <img class="math" src="_images/math/479e6a49216f7964c117c7c6f20334a8789eb239.png" alt="\boldsymbol R_{BC}"/>
 by applying the rotation</p>
@@ -323,12 +317,12 @@ that we cannot simply apply an optimization algorithm to rotation matrices
 or interpolate between rotation matrices. Renormalization is
 computationally expensive in comparison to quaternions.</p></li>
 </ul>
-</div>
-<div class="section" id="axis-angle">
-<h2><a class="toc-backref" href="#id2">Axis-Angle</a><a class="headerlink" href="#axis-angle" title="Permalink to this heading">¶</a></h2>
-<div class="figure align-default">
+</section>
+<section id="axis-angle">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Axis-Angle</a><a class="headerlink" href="#axis-angle" title="Permalink to this heading">¶</a></h2>
+<figure class="align-default">
 <img alt="_images/plot_axis_angle.png" class="plot-directive" src="_images/plot_axis_angle.png" />
-</div>
+</figure>
 <p>Each rotation can be represented by a single rotation around one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
 by a scalar:</p>
@@ -382,9 +376,9 @@ any multiple of <img class="math" src="_images/math/2ef04e0a4bcc5f1840308dabe353
 be considered.</p></li>
 <li><p>Concatenation involves conversion to another representation</p></li>
 </ul>
-</div>
-<div class="section" id="quaternions">
-<h2><a class="toc-backref" href="#id3">Quaternions</a><a class="headerlink" href="#quaternions" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="quaternions">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Quaternions</a><a class="headerlink" href="#quaternions" title="Permalink to this heading">¶</a></h2>
 <p>Quaternions are represented by a scalar / real part <img class="math" src="_images/math/cc87ee665749db882f94e0d3707eb23e39638650.png" alt="w"/>
 and an vector / imaginary part
 <img class="math" src="_images/math/296b7098a4e3f5fcb52474893f620ff2889fb5b6.png" alt="x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}"/>.</p>
@@ -449,9 +443,9 @@ have to divide by the norm of the quaternion.</p></li>
 <li><p>There are always two unit quaternions that represent exactly the same
 rotation</p></li>
 </ul>
-</div>
-<div class="section" id="euler-angles">
-<h2><a class="toc-backref" href="#id4">Euler Angles</a><a class="headerlink" href="#euler-angles" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="euler-angles">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Euler Angles</a><a class="headerlink" href="#euler-angles" title="Permalink to this heading">¶</a></h2>
 <p>A complete rotation can be split into three rotations around basis vectors.
 pytransform3d uses a numpy array of shape (3,) for Euler angles, where
 each entry corresponds to a rotation angle in radians around one basis
@@ -476,12 +470,12 @@ XYZ, YXZ, YZX, ZYX, and ZXY.</p>
 <li><p>Concatenation and transformation of vectors requires conversion to rotation
 matrix or quaternion</p></li>
 </ul>
-</div>
-<div class="section" id="rotors">
-<h2><a class="toc-backref" href="#id5">Rotors</a><a class="headerlink" href="#rotors" title="Permalink to this heading">¶</a></h2>
-<div class="figure align-default">
+</section>
+<section id="rotors">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Rotors</a><a class="headerlink" href="#rotors" title="Permalink to this heading">¶</a></h2>
+<figure class="align-default">
 <img alt="_images/plot_bivector.png" class="plot-directive" src="_images/plot_bivector.png" />
-</div>
+</figure>
 <p>Rotors and quaternions are very similar concepts in 3D. However, rotors are
 more general as they can be extended to more dimensions.</p>
 <p>The concept of a quaternion builds on the axis-angle representation, in
@@ -529,9 +523,9 @@ have to divide by the norm of the rotor.</p></li>
 <ul class="simple">
 <li><p>The representation is not straightforward to interpret</p></li>
 </ul>
-</div>
-<div class="section" id="references">
-<h2><a class="toc-backref" href="#id6">References</a><a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="references">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Why and How to Avoid the Flipped Quaternion Multiplication: <a class="reference external" href="https://arxiv.org/pdf/1801.07478.pdf">https://arxiv.org/pdf/1801.07478.pdf</a></p></li>
 <li><p>Kindr cheat sheet: <a class="reference external" href="https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf">https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf</a></p></li>
@@ -539,8 +533,8 @@ have to divide by the norm of the rotor.</p></li>
 <li><p>Applications of Geometric Algebra: <a class="reference external" href="http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf">http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf</a></p></li>
 <li><p>Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: <a class="reference external" href="https://doi.org/10.1016/j.mechmachtheory.2015.03.004">https://doi.org/10.1016/j.mechmachtheory.2015.03.004</a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
     </div>
@@ -555,7 +549,7 @@ have to divide by the norm of the rotor.</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 09, 2023.<br/>
+      Last updated on Feb 11, 2023.<br/>
     </p>
   </div>
 </footer>
