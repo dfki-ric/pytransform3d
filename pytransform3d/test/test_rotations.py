@@ -264,6 +264,9 @@ def test_check_matrix():
     R = np.array([[1, 0, 0], [0, 1, 0], [0, 0.1, 1]])
     with pytest.raises(ValueError, match="inversion by transposition"):
         pr.check_matrix(R)
+    with warnings.catch_warnings(record=True) as w:
+        pr.check_matrix(R, strict_check=False)
+        assert len(w) == 1
 
     R = np.array([[1, 0, 1e-16], [0, 1, 0], [0, 0, 1]])
     R2 = pr.check_matrix(R)
@@ -272,6 +275,9 @@ def test_check_matrix():
     R = -np.eye(3)
     with pytest.raises(ValueError, match="determinant"):
         pr.check_matrix(R)
+    with warnings.catch_warnings(record=True) as w:
+        pr.check_matrix(R, strict_check=False)
+        assert len(w) == 1
 
 
 def test_check_axis_angle():
@@ -1684,7 +1690,7 @@ def test_check_matrix_threshold():
     pr.check_matrix(R)
 
 
-def test_asssert_rotation_matrix_behaves_like_check_matrix():
+def test_assert_rotation_matrix_behaves_like_check_matrix():
     """Test of both checks for rotation matrix validity behave similar."""
     random_state = np.random.RandomState(2345)
     for _ in range(5):
