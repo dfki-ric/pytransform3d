@@ -258,7 +258,7 @@ def plane_basis_from_normal(plane_normal):
     return x_axis, y_axis
 
 
-def random_vector(rng=np.random.RandomState(0), n=3, random_state=None):
+def random_vector(rng=np.random.default_rng(0), n=3):
     r"""Generate an nd vector with normally distributed components.
 
     Each component will be sampled from :math:`\mathcal{N}(\mu=0, \sigma=1)`.
@@ -276,15 +276,10 @@ def random_vector(rng=np.random.RandomState(0), n=3, random_state=None):
     v : array, shape (n,)
         Random vector
     """
-    if random_state is not None:  # pragma: no cover
-        warnings.warn(
-            "The random_state argument is deprecated. Use rng.",
-            DeprecationWarning)
-        rng = random_state
-    return rng.standard_normal(n)
+    return rng.standard_normal(size=n)
 
 
-def random_axis_angle(rng=np.random.RandomState(0), random_state=None):
+def random_axis_angle(rng=np.random.default_rng(0)):
     r"""Generate random axis-angle.
 
     The angle will be sampled uniformly from the interval :math:`[0, \pi)`
@@ -302,18 +297,13 @@ def random_axis_angle(rng=np.random.RandomState(0), random_state=None):
     a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle)
     """
-    if random_state is not None:  # pragma: no cover
-        warnings.warn(
-            "The random_state argument is deprecated. Use rng.",
-            DeprecationWarning)
-        rng = random_state
     angle = np.pi * rng.random()
     a = np.array([0, 0, 0, angle])
-    a[:3] = norm_vector(rng.standard_normal(3))
+    a[:3] = norm_vector(rng.standard_normal(size=3))
     return a
 
 
-def random_compact_axis_angle(rng=np.random.RandomState(0), random_state=None):
+def random_compact_axis_angle(rng=np.random.default_rng(0)):
     r"""Generate random compact axis-angle.
 
     The angle will be sampled uniformly from the interval :math:`[0, \pi)`
@@ -331,16 +321,11 @@ def random_compact_axis_angle(rng=np.random.RandomState(0), random_state=None):
     a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z)
     """
-    if random_state is not None:  # pragma: no cover
-        warnings.warn(
-            "The random_state argument is deprecated. Use rng.",
-            DeprecationWarning)
-        rng = random_state
     a = random_axis_angle(rng)
     return a[:3] * a[3]
 
 
-def random_quaternion(rng=np.random.RandomState(0), random_state=None):
+def random_quaternion(rng=np.random.default_rng(0)):
     """Generate random quaternion.
 
     Parameters
@@ -353,12 +338,7 @@ def random_quaternion(rng=np.random.RandomState(0), random_state=None):
     q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
-    if random_state is not None:  # pragma: no cover
-        warnings.warn(
-            "The random_state argument is deprecated. Use rng.",
-            DeprecationWarning)
-        rng = random_state
-    return norm_vector(rng.standard_normal(4))
+    return norm_vector(rng.randn(4))
 
 
 def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
