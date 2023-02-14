@@ -20,9 +20,9 @@ import pytransform3d.trajectories as ptr
 import pytransform3d.plot_utils as ppu
 
 
-random_state = np.random.RandomState(21)
-pose1 = pt.random_transform(random_state)
-pose2 = pt.random_transform(random_state)
+rng = np.random.default_rng(23)
+pose1 = pt.random_transform(rng)
+pose2 = pt.random_transform(rng)
 dq1 = pt.dual_quaternion_from_transform(pose1)
 dq2 = -pt.dual_quaternion_from_transform(pose2)
 Stheta1 = pt.exponential_coordinates_from_transform(pose1)
