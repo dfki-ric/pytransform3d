@@ -66,11 +66,11 @@ from pytransform3d import transformations as pt
 from pytransform3d.transform_manager import TransformManager
 
 
-random_state = np.random.RandomState(0)
+rng = np.random.default_rng(0)
 
 ee2robot = pt.transform_from_pq(
     np.hstack((np.array([0.4, -0.3, 0.5]),
-               pr.random_quaternion(random_state))))
+               pr.random_quaternion(rng))))
 cam2robot = pt.transform_from_pq(
     np.hstack((np.array([0.0, 0.0, 0.8]), pr.q_id)))
 object2cam = pt.transform_from(
