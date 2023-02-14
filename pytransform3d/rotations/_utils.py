@@ -338,7 +338,7 @@ def random_quaternion(rng=np.random.default_rng(0)):
     q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
-    return norm_vector(rng.randn(4))
+    return norm_vector(rng.standard_normal(size=4))
 
 
 def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
