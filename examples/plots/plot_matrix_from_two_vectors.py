@@ -18,9 +18,9 @@ from pytransform3d.rotations import (
 from pytransform3d.plot_utils import plot_vector
 
 
-random_state = np.random.RandomState(1)
-a = random_vector(random_state, 3) * 0.3
-b = random_vector(random_state, 3) * 0.3
+rng = np.random.default_rng(1)
+a = random_vector(rng, 3) * 0.3
+b = random_vector(rng, 3) * 0.3
 R = matrix_from_two_vectors(a, b)
 
 ax = plot_vector(direction=a, color="r")

@@ -15,10 +15,10 @@ import pytransform3d.visualizer as pv
 
 
 fig = pv.figure()
-random_state = np.random.RandomState(42)
+rng = np.random.default_rng(42)
 A2B = transform_from(
-    R=matrix_from_axis_angle(random_axis_angle(random_state)),
-    p=random_state.randn(3))
+    R=matrix_from_axis_angle(random_axis_angle(rng)),
+    p=rng.standard_normal(size=3))
 fig.plot_cylinder(length=1.0, radius=0.3)
 fig.plot_transform(A2B=np.eye(4))
 fig.plot_cylinder(length=1.0, radius=0.3, A2B=A2B)

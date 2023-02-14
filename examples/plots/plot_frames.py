@@ -17,11 +17,11 @@ from pytransform3d.transformations import random_transform
 from pytransform3d.transform_manager import TransformManager
 
 
-random_state = np.random.RandomState(0)
-A2world = random_transform(random_state)
-B2world = random_transform(random_state)
-A2C = random_transform(random_state)
-D2B = random_transform(random_state)
+rng = np.random.default_rng(0)
+A2world = random_transform(rng)
+B2world = random_transform(rng)
+A2C = random_transform(rng)
+D2B = random_transform(rng)
 
 tm = TransformManager()
 tm.add_transform("A", "world", A2world)

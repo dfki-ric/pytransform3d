@@ -22,7 +22,6 @@ def inertia_of_cylinder(mass, length, radius):
     return np.eye(3) * np.array([I_xx, I_yy, I_zz])
 
 
-random_state = np.random.RandomState(42)
 A2B = np.eye(4)
 
 length = 1.0
