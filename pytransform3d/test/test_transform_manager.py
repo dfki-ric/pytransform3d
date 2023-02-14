@@ -16,8 +16,8 @@ import pytest
 
 def test_request_added_transform():
     """Request an added transform from the transform manager."""
-    random_state = np.random.RandomState(0)
-    A2B = random_transform(random_state)
+    rng = np.random.default_rng(0)
+    A2B = random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -27,8 +27,8 @@ def test_request_added_transform():
 
 def test_request_inverse_transform():
     """Request an inverse transform from the transform manager."""
-    random_state = np.random.RandomState(0)
-    A2B = random_transform(random_state)
+    rng = np.random.default_rng(0)
+    A2B = random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -51,9 +51,9 @@ def test_has_frame():
 
 def test_transform_not_added():
     """Test request for transforms that have not been added."""
-    random_state = np.random.RandomState(0)
-    A2B = random_transform(random_state)
-    C2D = random_transform(random_state)
+    rng = np.random.default_rng(0)
+    A2B = random_transform(rng)
+    C2D = random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -69,10 +69,10 @@ def test_transform_not_added():
 
 def test_request_concatenated_transform():
     """Request a concatenated transform from the transform manager."""
-    random_state = np.random.RandomState(0)
-    A2B = random_transform(random_state)
-    B2C = random_transform(random_state)
-    F2A = random_transform(random_state)
+    rng = np.random.default_rng(0)
+    A2B = random_transform(rng)
+    B2C = random_transform(rng)
+    F2A = random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -93,9 +93,9 @@ def test_request_concatenated_transform():
 
 def test_update_transform():
     """Update an existing transform."""
-    random_state = np.random.RandomState(0)
-    A2B1 = random_transform(random_state)
-    A2B2 = random_transform(random_state)
+    rng = np.random.default_rng(0)
+    A2B1 = random_transform(rng)
+    A2B2 = random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B1)
@@ -110,8 +110,8 @@ def test_update_transform():
 
 def test_pickle():
     """Test if a transform manager can be pickled."""
-    random_state = np.random.RandomState(1)
-    A2B = random_transform(random_state)
+    rng = np.random.default_rng(1)
+    A2B = random_transform(rng)
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
 
@@ -131,8 +131,8 @@ def test_pickle():
 
 def test_whitelist():
     """Test correct handling of whitelists for plotting."""
-    random_state = np.random.RandomState(2)
-    A2B = random_transform(random_state)
+    rng = np.random.default_rng(2)
+    A2B = random_transform(rng)
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
 
@@ -146,33 +146,33 @@ def test_whitelist():
 
 def test_check_consistency():
     """Test correct detection of inconsistent graphs."""
-    random_state = np.random.RandomState(2)
+    rng = np.random.default_rng(2)
 
     tm = TransformManager()
 
-    A2B = random_transform(random_state)
+    A2B = random_transform(rng)
     tm.add_transform("A", "B", A2B)
-    B2A = random_transform(random_state)
+    B2A = random_transform(rng)
     tm.add_transform("B", "A", B2A)
     assert not tm.check_consistency()
 
     tm = TransformManager()
 
-    A2B = random_transform(random_state)
+    A2B = random_transform(rng)
     tm.add_transform("A", "B", A2B)
     assert tm.check_consistency()
 
-    C2D = random_transform(random_state)
+    C2D = random_transform(rng)
     tm.add_transform("C", "D", C2D)
     assert tm.check_consistency()
 
-    B2C = random_transform(random_state)
+    B2C = random_transform(rng)
     tm.add_transform("B", "C", B2C)
     assert tm.check_consistency()
 
     A2D_over_path = tm.get_transform("A", "D")
 
-    A2D = random_transform(random_state)
+    A2D = random_transform(rng)
     tm.add_transform("A", "D", A2D)
     assert not tm.check_consistency()
 
@@ -195,11 +195,11 @@ def test_connected_components():
 
 def test_png_export():
     """Test if the graph can be exported to PNG."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
 
     ee2robot = transform_from_pq(
         np.hstack((np.array([0.4, -0.3, 0.5]),
-                   random_quaternion(random_state))))
+                   random_quaternion(rng))))
     cam2robot = transform_from_pq(
         np.hstack((np.array([0.0, 0.0, 0.8]), q_id)))
     object2cam = transform_from(
@@ -288,13 +288,13 @@ def test_remove_transform():
 
 
 def test_from_to_dict():
-    random_state = np.random.RandomState(2323)
+    rng = np.random.default_rng(2323)
     tm = TransformManager()
-    A2B = random_transform(random_state)
+    A2B = random_transform(rng)
     tm.add_transform("A", "B", A2B)
-    B2C = random_transform(random_state)
+    B2C = random_transform(rng)
     tm.add_transform("B", "C", B2C)
-    C2D = random_transform(random_state)
+    C2D = random_transform(rng)
     tm.add_transform("C", "D", C2D)
 
     tm_dict = tm.to_dict()

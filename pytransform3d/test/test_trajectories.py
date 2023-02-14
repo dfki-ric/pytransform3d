@@ -21,71 +21,71 @@ from numpy.testing import assert_array_almost_equal
 
 
 def test_invert_transforms_0dims():
-    random_state = np.random.RandomState(0)
-    A2B = random_transform(random_state)
+    rng = np.random.default_rng(0)
+    A2B = random_transform(rng)
     B2A = invert_transform(A2B)
     assert_array_almost_equal(B2A, invert_transforms(A2B))
 
 
 def test_invert_transforms_1dims():
-    random_state = np.random.RandomState(1)
+    rng = np.random.default_rng(1)
     A2Bs = np.empty((3, 4, 4))
     B2As = np.empty((3, 4, 4))
     for i in range(len(A2Bs)):
-        A2Bs[i] = random_transform(random_state)
+        A2Bs[i] = random_transform(rng)
         B2As[i] = invert_transform(A2Bs[i])
     assert_array_almost_equal(B2As, invert_transforms(A2Bs))
 
 
 def test_invert_transforms_2dims():
-    random_state = np.random.RandomState(1)
+    rng = np.random.default_rng(1)
     A2Bs = np.empty((9, 4, 4))
     B2As = np.empty((9, 4, 4))
     for i in range(len(A2Bs)):
-        A2Bs[i] = random_transform(random_state)
+        A2Bs[i] = random_transform(rng)
         B2As[i] = invert_transform(A2Bs[i])
     assert_array_almost_equal(
         B2As.reshape(3, 3, 4, 4), invert_transforms(A2Bs.reshape(3, 3, 4, 4)))
 
 
 def test_concat_one_to_many():
-    random_state = np.random.RandomState(482)
-    A2B = random_transform(random_state)
-    B2C = random_transform(random_state)
+    rng = np.random.default_rng(482)
+    A2B = random_transform(rng)
+    B2C = random_transform(rng)
     A2C = concat(A2B, B2C)
     assert_array_almost_equal(A2C, concat_one_to_many(A2B, [B2C])[0])
 
-    B2Cs = [random_transform(random_state) for _ in range(5)]
+    B2Cs = [random_transform(rng) for _ in range(5)]
     A2Cs = [concat(A2B, B2C) for B2C in B2Cs]
     assert_array_almost_equal(A2Cs, concat_one_to_many(A2B, B2Cs))
 
 
 def test_concat_many_to_one():
-    random_state = np.random.RandomState(482)
-    A2B = random_transform(random_state)
-    B2C = random_transform(random_state)
+    rng = np.random.default_rng(482)
+    A2B = random_transform(rng)
+    B2C = random_transform(rng)
     A2C = concat(A2B, B2C)
     assert_array_almost_equal(A2C, concat_many_to_one([A2B], B2C)[0])
 
-    A2Bs = [random_transform(random_state) for _ in range(5)]
+    A2Bs = [random_transform(rng) for _ in range(5)]
     A2Cs = [concat(A2B, B2C) for A2B in A2Bs]
     assert_array_almost_equal(A2Cs, concat_many_to_one(A2Bs, B2C))
 
 
 def test_transforms_from_pqs_0dims():
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     pq = np.empty(7)
-    pq[:3] = random_state.randn(3)
-    pq[3:] = random_quaternion(random_state)
+    pq[:3] = rng.standard_normal(size=3)
+    pq[3:] = random_quaternion(rng)
     A2B = transforms_from_pqs(pq, False)
     assert_array_almost_equal(A2B, transform_from_pq(pq))
 
 
 def test_transforms_from_pqs_1dim():
     P = np.empty((10, 7))
-    random_state = np.random.RandomState(0)
-    P[:, :3] = random_state.randn(len(P), 3)
-    P[:, 3:] = norm_vectors(random_state.randn(len(P), 4))
+    rng = np.random.default_rng(0)
+    P[:, :3] = rng.standard_normal(size=(len(P), 3))
+    P[:, 3:] = norm_vectors(rng.standard_normal(size=(len(P), 4)))
 
     H = transforms_from_pqs(P)
     P2 = pqs_from_transforms(H)
@@ -99,8 +99,8 @@ def test_transforms_from_pqs_1dim():
 
 
 def test_transforms_from_pqs_4dims():
-    random_state = np.random.RandomState(0)
-    P = random_state.randn(2, 3, 4, 5, 7)
+    rng = np.random.default_rng(0)
+    P = rng.standard_normal(size=(2, 3, 4, 5, 7))
     P[..., 3:] = norm_vectors(P[..., 3:])
 
     H = transforms_from_pqs(P)
@@ -141,9 +141,9 @@ def test_transforms_from_exponential_coordinates():
     A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[0, 0]
     assert_array_almost_equal(A2B, A2B2)
 
-    random_state = np.random.RandomState(53)
+    rng = np.random.default_rng(53)
     for _ in range(5):
-        A2B = random_transform(random_state)
+        A2B = random_transform(rng)
         Stheta = exponential_coordinates_from_transform(A2B)
         A2B2 = transforms_from_exponential_coordinates(Stheta[np.newaxis])[0]
         assert_array_almost_equal(A2B, A2B2)
@@ -155,8 +155,8 @@ def test_transforms_from_exponential_coordinates():
 
 
 def test_exponential_coordinates_from_transforms_0dims():
-    random_state = np.random.RandomState(842)
-    Sthetas = random_state.randn(6)
+    rng = np.random.default_rng(842)
+    Sthetas = rng.standard_normal(size=6)
     H = transforms_from_exponential_coordinates(Sthetas)
     Sthetas2 = exponential_coordinates_from_transforms(H)
     H2 = transforms_from_exponential_coordinates(Sthetas2)
@@ -164,8 +164,8 @@ def test_exponential_coordinates_from_transforms_0dims():
 
 
 def test_exponential_coordinates_from_transforms_2dims():
-    random_state = np.random.RandomState(843)
-    Sthetas = random_state.randn(4, 4, 6)
+    rng = np.random.default_rng(843)
+    Sthetas = rng.standard_normal(size=(4, 4, 6))
     H = transforms_from_exponential_coordinates(Sthetas)
     Sthetas2 = exponential_coordinates_from_transforms(H)
     H2 = transforms_from_exponential_coordinates(Sthetas2)
@@ -173,8 +173,8 @@ def test_exponential_coordinates_from_transforms_2dims():
 
 
 def test_dual_quaternions_from_pqs_0dims():
-    random_state = np.random.RandomState(844)
-    pq = random_state.randn(7)
+    rng = np.random.default_rng(844)
+    pq = rng.standard_normal(size=7)
     pq[3:] /= np.linalg.norm(pq[3:], axis=-1)[..., np.newaxis]
     dq = dual_quaternions_from_pqs(pq)
     pq2 = pqs_from_dual_quaternions(dq)
@@ -183,8 +183,8 @@ def test_dual_quaternions_from_pqs_0dims():
 
 
 def test_dual_quaternions_from_pqs_1dim():
-    random_state = np.random.RandomState(845)
-    pqs = random_state.randn(20, 7)
+    rng = np.random.default_rng(845)
+    pqs = rng.standard_normal(size=(20, 7))
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
     pqs2 = pqs_from_dual_quaternions(dqs)
@@ -194,8 +194,8 @@ def test_dual_quaternions_from_pqs_1dim():
 
 
 def test_dual_quaternions_from_pqs_2dims():
-    random_state = np.random.RandomState(846)
-    pqs = random_state.randn(5, 5, 7)
+    rng = np.random.default_rng(846)
+    pqs = rng.standard_normal(size=(5, 5, 7))
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
     pqs2 = pqs_from_dual_quaternions(dqs)
@@ -205,8 +205,8 @@ def test_dual_quaternions_from_pqs_2dims():
 
 
 def test_batch_concatenate_dual_quaternions_0dims():
-    random_state = np.random.RandomState(847)
-    pqs = random_state.randn(2, 7)
+    rng = np.random.default_rng(847)
+    pqs = rng.standard_normal(size=(2, 7))
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
     dq1 = dqs[0]
@@ -218,8 +218,8 @@ def test_batch_concatenate_dual_quaternions_0dims():
 
 
 def test_batch_concatenate_dual_quaternions_2dims():
-    random_state = np.random.RandomState(848)
-    pqs = random_state.randn(2, 2, 2, 7)
+    rng = np.random.default_rng(848)
+    pqs = rng.standard_normal(size=(2, 2, 2, 7))
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
     dqs1 = dqs[0]
@@ -235,22 +235,22 @@ def test_batch_concatenate_dual_quaternions_2dims():
 
 
 def test_batch_dual_quaternion_vector_product_0dims():
-    random_state = np.random.RandomState(849)
-    pq = random_state.randn(7)
+    rng = np.random.default_rng(849)
+    pq = rng.standard_normal(size=7)
     pq[3:] /= np.linalg.norm(pq[3:], axis=-1)[..., np.newaxis]
     dq = dual_quaternions_from_pqs(pq)
-    v = random_state.randn(3)
+    v = rng.standard_normal(size=3)
 
     assert_array_almost_equal(
         batch_dq_prod_vector(dq, v), dq_prod_vector(dq, v))
 
 
 def test_batch_dual_quaternion_vector_product_2dims():
-    random_state = np.random.RandomState(850)
-    pqs = random_state.randn(3, 4, 7)
+    rng = np.random.default_rng(850)
+    pqs = rng.standard_normal(size=(3, 4, 7))
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
-    V = random_state.randn(3, 4, 3)
+    V = rng.standard_normal(size=(3, 4, 3))
 
     V_transformed = batch_dq_prod_vector(dqs, V)
     for v_t, dq, v in zip(V_transformed.reshape(-1, 3), dqs.reshape(-1, 8),
@@ -259,8 +259,8 @@ def test_batch_dual_quaternion_vector_product_2dims():
 
 
 def test_batch_conversions_dual_quaternions_transforms_0dims():
-    random_state = np.random.RandomState(851)
-    pq = random_state.randn(7)
+    rng = np.random.default_rng(851)
+    pq = rng.standard_normal(size=7)
     pq[3:] /= np.linalg.norm(pq[3:], axis=-1)[..., np.newaxis]
     dq = dual_quaternions_from_pqs(pq)
 
@@ -272,8 +272,8 @@ def test_batch_conversions_dual_quaternions_transforms_0dims():
 
 
 def test_batch_conversions_dual_quaternions_transforms_3dims():
-    random_state = np.random.RandomState(852)
-    pqs = random_state.randn(3, 4, 5, 7)
+    rng = np.random.default_rng(852)
+    pqs = rng.standard_normal(size=(3, 4, 5, 7))
     pqs[..., 3:] /= np.linalg.norm(pqs[..., 3:], axis=-1)[..., np.newaxis]
     dqs = dual_quaternions_from_pqs(pqs)
 
