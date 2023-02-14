@@ -7,9 +7,9 @@ import pytest
 
 def test_norm_vector():
     """Test normalization of vectors."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for n in range(1, 6):
-        v = pr.random_vector(random_state, n)
+        v = pr.random_vector(rng, n)
         u = pr.norm_vector(v)
         assert pytest.approx(np.linalg.norm(u)) == 1
 
@@ -22,8 +22,8 @@ def test_norm_zero_vector():
 
 def test_norm_angle():
     """Test normalization of angle."""
-    random_state = np.random.RandomState(0)
-    a_norm = random_state.uniform(-np.pi, np.pi, size=(100,))
+    rng = np.random.default_rng(0)
+    a_norm = rng.uniform(-np.pi, np.pi, size=(100,))
     for b in np.linspace(-10.0 * np.pi, 10.0 * np.pi, 11):
         a = a_norm + b
         assert_array_almost_equal(pr.norm_angle(a), a_norm)
@@ -46,10 +46,10 @@ def test_norm_axis_angle():
     n = pr.norm_axis_angle(a)
     assert_array_almost_equal(a, n)
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        a = pr.random_axis_angle(random_state)
-        angle = random_state.uniform(-20.0, -10.0 + 2.0 * np.pi)
+        a = pr.random_axis_angle(rng)
+        angle = rng.uniform(-20.0, -10.0 + 2.0 * np.pi)
         a[3] = angle
         n = pr.norm_axis_angle(a)
         for angle_offset in np.arange(0.0, 10.1 * np.pi, 2.0 * np.pi):
@@ -72,11 +72,11 @@ def test_norm_compact_axis_angle():
     n = pr.norm_compact_axis_angle(a)
     assert_array_almost_equal(a, n)
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        a = pr.random_compact_axis_angle(random_state)
+        a = pr.random_compact_axis_angle(rng)
         axis = a / np.linalg.norm(a)
-        angle = random_state.uniform(-20.0, -10.0 + 2.0 * np.pi)
+        angle = rng.uniform(-20.0, -10.0 + 2.0 * np.pi)
         a = axis * angle
         n = pr.norm_compact_axis_angle(a)
         for angle_offset in np.arange(0.0, 10.1 * np.pi, 2.0 * np.pi):
@@ -87,9 +87,9 @@ def test_norm_compact_axis_angle():
 
 def test_perpendicular_to_vectors():
     """Test function to compute perpendicular to vectors."""
-    random_state = np.random.RandomState(0)
-    a = pr.norm_vector(pr.random_vector(random_state))
-    a1 = pr.norm_vector(pr.random_vector(random_state))
+    rng = np.random.default_rng(0)
+    a = pr.norm_vector(pr.random_vector(rng))
+    a1 = pr.norm_vector(pr.random_vector(rng))
     b = pr.norm_vector(pr.perpendicular_to_vectors(a, a1))
     c = pr.norm_vector(pr.perpendicular_to_vectors(a, b))
     assert pytest.approx(pr.angle_between_vectors(a, b)) == np.pi / 2.0
@@ -107,9 +107,9 @@ def test_perpendicular_to_vector():
         pr.unity, pr.perpendicular_to_vector(pr.unity))) == np.pi / 2.0
     assert pytest.approx(pr.angle_between_vectors(
         pr.unitz, pr.perpendicular_to_vector(pr.unitz))) == np.pi / 2.0
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        a = pr.norm_vector(pr.random_vector(random_state))
+        a = pr.norm_vector(pr.random_vector(rng))
         assert pytest.approx(pr.angle_between_vectors(
             a, pr.perpendicular_to_vector(a))) == np.pi / 2.0
         b = a - np.array([a[0], 0.0, 0.0])
@@ -165,9 +165,9 @@ def test_angle_to_zero_vector_is_nan():
 
 def test_vector_projection_on_zero_vector():
     """Test projection on zero vector."""
-    random_state = np.random.RandomState(23)
+    rng = np.random.default_rng(23)
     for _ in range(5):
-        a = pr.random_vector(random_state, 3)
+        a = pr.random_vector(rng, 3)
         a_on_b = pr.vector_projection(a, np.zeros(3))
         assert_array_almost_equal(a_on_b, np.zeros(3))
 
@@ -229,10 +229,10 @@ def test_check_skew_symmetric_matrix():
 
 def test_cross_product_matrix():
     """Test cross-product matrix."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        v = pr.random_vector(random_state)
-        w = pr.random_vector(random_state)
+        v = pr.random_vector(rng)
+        w = pr.random_vector(rng)
         V = pr.cross_product_matrix(v)
         pr.check_skew_symmetric_matrix(V)
         r1 = np.cross(v, w)
@@ -288,10 +288,10 @@ def test_check_axis_angle():
     assert type(a) == np.ndarray
     assert a.dtype == np.float64
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     a = np.empty(4)
-    a[:3] = pr.random_vector(random_state, 3)
-    a[3] = random_state.randn() * 4.0 * np.pi
+    a[:3] = pr.random_vector(rng, 3)
+    a[3] = rng.standard_normal() * 4.0 * np.pi
     a2 = pr.check_axis_angle(a)
     pr.assert_axis_angle_equal(a, a2)
     assert pytest.approx(np.linalg.norm(a2[:3])) == 1.0
@@ -314,9 +314,9 @@ def test_check_compact_axis_angle():
     assert type(a) == np.ndarray
     assert a.dtype == np.float64
 
-    random_state = np.random.RandomState(0)
-    a = pr.norm_vector(pr.random_vector(random_state, 3))
-    a *= np.pi + random_state.randn() * 4.0 * np.pi
+    rng = np.random.default_rng(0)
+    a = pr.norm_vector(pr.random_vector(rng, 3))
+    a *= np.pi + rng.standard_normal() * 4.0 * np.pi
     a2 = pr.check_compact_axis_angle(a)
     pr.assert_compact_axis_angle_equal(a, a2)
     assert np.pi > np.linalg.norm(a2) > 0
@@ -337,8 +337,8 @@ def test_check_quaternion():
     assert type(q) == np.ndarray
     assert q.dtype == np.float64
 
-    random_state = np.random.RandomState(0)
-    q = random_state.randn(4)
+    rng = np.random.default_rng(0)
+    q = rng.standard_normal(4)
     q = pr.check_quaternion(q)
     assert pytest.approx(np.linalg.norm(q)) == 1.0
 
@@ -412,10 +412,10 @@ def test_active_matrix_from_angle():
     with pytest.raises(ValueError, match="Basis must be in"):
         pr.active_matrix_from_angle(3, 0)
 
-    random_state = np.random.RandomState(21)
+    rng = np.random.default_rng(21)
     for i in range(20):
-        basis = random_state.randint(0, 3)
-        angle = 2.0 * np.pi * random_state.rand() - np.pi
+        basis = rng.integers(0, 3)
+        angle = 2.0 * np.pi * rng.random() - np.pi
         R_passive = pr.passive_matrix_from_angle(basis, angle)
         R_active = pr.active_matrix_from_angle(basis, angle)
         assert_array_almost_equal(R_active, R_passive.T)
@@ -587,9 +587,9 @@ def test_active_matrix_from_extrinsic_euler_zyz():
 
 def test_active_matrix_from_intrinsic_zyx():
     """Test conversion from intrinsic zyx Euler angles."""
-    random_state = np.random.RandomState(844)
+    rng = np.random.default_rng(844)
     for _ in range(5):
-        euler_zyx = ((random_state.rand(3) - 0.5) *
+        euler_zyx = ((rng.random(3) - 0.5) *
                      np.array([np.pi, 0.5 * np.pi, np.pi]))
         s = np.sin(euler_zyx)
         c = np.cos(euler_zyx)
@@ -628,9 +628,9 @@ def test_active_matrix_from_intrinsic_zyx():
 
 def test_active_matrix_from_extrinsic_zyx():
     """Test conversion from extrinsic zyx Euler angles."""
-    random_state = np.random.RandomState(844)
+    rng = np.random.default_rng(844)
     for _ in range(5):
-        euler_zyx = ((random_state.rand(3) - 0.5)
+        euler_zyx = ((rng.random(3) - 0.5)
                      * np.array([np.pi, 0.5 * np.pi, np.pi]))
 
         # Normal case, we can reconstruct original angles
@@ -666,9 +666,9 @@ def test_active_matrix_from_extrinsic_zyx():
 def _test_conversion_matrix_euler(
         matrix_from_euler, euler_from_matrix, proper_euler):
     """Test conversions between Euler angles and rotation matrix."""
-    random_state = np.random.RandomState(844)
+    rng = np.random.default_rng(844)
     for _ in range(5):
-        euler = ((random_state.rand(3) - 0.5)
+        euler = ((rng.random(3) - 0.5)
                  * np.array([np.pi, 0.5 * np.pi, np.pi]))
         if proper_euler:
             euler[1] += 0.5 * np.pi
@@ -869,7 +869,7 @@ def test_from_quaternion():
             match="Axis index k \\(3\\) must be in \\[0, 1, 2\\]"):
         pr.euler_from_quaternion(pr.q_id, 2, 0, 3, True)
 
-    random_state = np.random.RandomState(32)
+    rng = np.random.default_rng(32)
 
     euler_axes = [
         [0, 2, 0],
@@ -945,7 +945,7 @@ def test_from_quaternion():
             inv_fun = inverse_functions[fi]
             fi += 1
             for _ in range(5):
-                e = random_state.rand(3)
+                e = rng.random(3)
                 e[0] = 2.0 * np.pi * e[0] - np.pi
                 e[1] = np.pi * e[1]
                 e[2] = 2.0 * np.pi * e[2] - np.pi
@@ -1010,9 +1010,9 @@ def test_conversions_matrix_axis_angle():
     a2 = pr.axis_angle_from_matrix(R)
     pr.assert_axis_angle_equal(a2, a)
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(50):
-        a = pr.random_axis_angle(random_state)
+        a = pr.random_axis_angle(rng)
         R = pr.matrix_from_axis_angle(a)
         pr.assert_rotation_matrix(R)
 
@@ -1080,9 +1080,9 @@ def test_conversions_matrix_compact_axis_angle():
     a2 = pr.compact_axis_angle_from_matrix(R)
     pr.assert_compact_axis_angle_equal(a2, a)
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(50):
-        a = pr.random_compact_axis_angle(random_state)
+        a = pr.random_compact_axis_angle(rng)
         R = pr.matrix_from_compact_axis_angle(a)
         pr.assert_rotation_matrix(R)
 
@@ -1180,9 +1180,9 @@ def test_conversions_matrix_quaternion():
     a = pr.axis_angle_from_matrix(R)
     assert_array_almost_equal(a, np.array([1, 0, 0, 0]))
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        q = pr.random_quaternion(random_state)
+        q = pr.random_quaternion(rng)
         R = pr.matrix_from_quaternion(q)
         pr.assert_rotation_matrix(R)
 
@@ -1242,9 +1242,9 @@ def test_quaternion_from_matrix_180():
 
 def test_quaternion_from_matrix_180_not_axis_aligned():
     """Test for bug in rotation by 180 degrees around arbitrary axes."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for i in range(10):
-        a = pr.random_axis_angle(random_state)
+        a = pr.random_axis_angle(rng)
         a[3] = np.pi
         q = pr.quaternion_from_axis_angle(a)
         R = pr.matrix_from_axis_angle(a)
@@ -1254,9 +1254,9 @@ def test_quaternion_from_matrix_180_not_axis_aligned():
 
 def test_quaternion_from_extrinsic_euler_xyz():
     """Test quaternion_from_extrinsic_euler_xyz."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for i in range(10):
-        e = random_state.uniform(-100, 100, [3])
+        e = rng.uniform(-100, 100, [3])
         q = pr.quaternion_from_extrinsic_euler_xyz(e)
         R_from_q = pr.matrix_from_quaternion(q)
         R_from_e = pr.active_matrix_from_extrinsic_euler_xyz(e)
@@ -1271,9 +1271,9 @@ def test_conversions_axis_angle_quaternion():
     q2 = pr.quaternion_from_axis_angle(a)
     assert_array_almost_equal(q2, q)
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        a = pr.random_axis_angle(random_state)
+        a = pr.random_axis_angle(rng)
         q = pr.quaternion_from_axis_angle(a)
 
         a2 = pr.axis_angle_from_quaternion(q)
@@ -1310,10 +1310,10 @@ def test_axis_angle_from_two_direction_vectors():
     a = pr.axis_angle_from_two_directions(d3, d4)
     pr.assert_axis_angle_equal(a, np.array([0, 0, 1, 0.5 * np.pi]))
 
-    random_state = np.random.RandomState(323)
+    rng = np.random.default_rng(323)
     for i in range(5):
-        R = pr.matrix_from_axis_angle(pr.random_axis_angle(random_state))
-        v1 = pr.random_vector(random_state, 3)
+        R = pr.matrix_from_axis_angle(pr.random_axis_angle(rng))
+        v1 = pr.random_vector(rng, 3)
         v2 = R.dot(v1)
         a = pr.axis_angle_from_two_directions(v1, v2)
         assert pytest.approx(pr.angle_between_vectors(v1, a[:3])) == 0.5 * np.pi
@@ -1327,9 +1327,9 @@ def test_axis_angle_from_compact_axis_angle():
     a = pr.axis_angle_from_compact_axis_angle(ca)
     assert_array_almost_equal(a, np.array([1.0, 0.0, 0.0, 0.0]))
 
-    random_state = np.random.RandomState(1)
+    rng = np.random.default_rng(1)
     for _ in range(5):
-        ca = pr.random_compact_axis_angle(random_state)
+        ca = pr.random_compact_axis_angle(rng)
         a = pr.axis_angle_from_compact_axis_angle(ca)
         assert pytest.approx(np.linalg.norm(ca)) == a[3]
         assert_array_almost_equal(ca[:3] / np.linalg.norm(ca), a[:3])
@@ -1341,9 +1341,9 @@ def test_compact_axis_angle():
     ca = pr.compact_axis_angle(a)
     assert_array_almost_equal(ca, np.zeros(3))
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        a = pr.random_axis_angle(random_state)
+        a = pr.random_axis_angle(rng)
         ca = pr.compact_axis_angle(a)
         assert_array_almost_equal(pr.norm_vector(ca), a[:3])
         assert pytest.approx(np.linalg.norm(ca)) == a[3]
@@ -1357,9 +1357,9 @@ def test_conversions_compact_axis_angle_quaternion():
     q2 = pr.quaternion_from_compact_axis_angle(a)
     assert_array_almost_equal(q2, q)
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        a = pr.random_compact_axis_angle(random_state)
+        a = pr.random_compact_axis_angle(rng)
         q = pr.quaternion_from_compact_axis_angle(a)
 
         a2 = pr.compact_axis_angle_from_quaternion(q)
@@ -1372,9 +1372,9 @@ def test_conversions_compact_axis_angle_quaternion():
 def test_interpolate_axis_angle():
     """Test interpolation between two axis-angle rotations with slerp."""
     n_steps = 10
-    random_state = np.random.RandomState(1)
-    a1 = pr.random_axis_angle(random_state)
-    a2 = pr.random_axis_angle(random_state)
+    rng = np.random.default_rng(1)
+    a1 = pr.random_axis_angle(rng)
+    a2 = pr.random_axis_angle(rng)
 
     traj = [pr.axis_angle_slerp(a1, a2, t) for t in np.linspace(0, 1, n_steps)]
 
@@ -1396,8 +1396,8 @@ def test_interpolate_same_axis_angle():
     See issue #45.
     """
     n_steps = 3
-    random_state = np.random.RandomState(42)
-    a = pr.random_axis_angle(random_state)
+    rng = np.random.default_rng(42)
+    a = pr.random_axis_angle(rng)
     traj = [pr.axis_angle_slerp(a, a, t) for t in np.linspace(0, 1, n_steps)]
     assert len(traj) == n_steps
     assert_array_almost_equal(traj[0], a)
@@ -1408,8 +1408,8 @@ def test_interpolate_same_axis_angle():
 def test_interpolate_almost_same_axis_angle():
     """Test interpolation between almost the same axis-angle rotation."""
     n_steps = 3
-    random_state = np.random.RandomState(42)
-    a1 = pr.random_axis_angle(random_state)
+    rng = np.random.default_rng(42)
+    a1 = pr.random_axis_angle(rng)
     a2 = np.copy(a1)
     a2[-1] += np.finfo("float").eps
     traj = [pr.axis_angle_slerp(a1, a2, t) for t in np.linspace(0, 1, n_steps)]
@@ -1422,9 +1422,9 @@ def test_interpolate_almost_same_axis_angle():
 def test_interpolate_quaternion():
     """Test interpolation between two quaternions with slerp."""
     n_steps = 10
-    random_state = np.random.RandomState(0)
-    a1 = pr.random_axis_angle(random_state)
-    a2 = pr.random_axis_angle(random_state)
+    rng = np.random.default_rng(0)
+    a1 = pr.random_axis_angle(rng)
+    a2 = pr.random_axis_angle(rng)
     q1 = pr.quaternion_from_axis_angle(a1)
     q2 = pr.quaternion_from_axis_angle(a2)
 
@@ -1440,8 +1440,8 @@ def test_interpolate_quaternion():
 def test_interpolate_quaternion_shortest_path():
     """Test SLERP between similar quternions with opposite sign."""
     n_steps = 10
-    random_state = np.random.RandomState(2323)
-    q1 = pr.random_quaternion(random_state)
+    rng = np.random.default_rng(2323)
+    q1 = pr.random_quaternion(rng)
     a1 = pr.axis_angle_from_quaternion(q1)
     a2 = np.r_[a1[:3], a1[3] * 1.1]
     q2 = pr.quaternion_from_axis_angle(a2)
@@ -1479,8 +1479,8 @@ def test_interpolate_same_quaternion():
     See issue #45.
     """
     n_steps = 3
-    random_state = np.random.RandomState(42)
-    a = pr.random_axis_angle(random_state)
+    rng = np.random.default_rng(42)
+    a = pr.random_axis_angle(rng)
     q = pr.quaternion_from_axis_angle(a)
     traj = [pr.quaternion_slerp(q, q, t) for t in np.linspace(0, 1, n_steps)]
     assert len(traj) == n_steps
@@ -1491,8 +1491,8 @@ def test_interpolate_same_quaternion():
 
 def test_interpolate_shortest_path_same_quaternion():
     """Test interpolate along shortest path with same quaternion."""
-    random_state = np.random.RandomState(8353)
-    q = pr.random_quaternion(random_state)
+    rng = np.random.default_rng(8353)
+    q = pr.random_quaternion(rng)
     q_interpolated = pr.quaternion_slerp(q, q, 0.5, shortest_path=True)
     assert_array_almost_equal(q, q_interpolated)
 
@@ -1517,8 +1517,8 @@ def test_quaternion_conventions():
     q_wxyz2 = pr.quaternion_wxyz_from_xyzw(q_xyzw)
     assert_array_equal(q_wxyz, q_wxyz2)
 
-    random_state = np.random.RandomState(42)
-    q_wxyz_random = pr.random_quaternion(random_state)
+    rng = np.random.default_rng(42)
+    q_wxyz_random = pr.random_quaternion(rng)
     q_xyzw_random = pr.quaternion_xyzw_from_wxyz(q_wxyz_random)
     assert_array_equal(q_xyzw_random[:3], q_wxyz_random[1:])
     assert q_xyzw_random[3] == q_wxyz_random[0]
@@ -1535,10 +1535,10 @@ def test_concatenate_quaternions():
     q12 = pr.concatenate_quaternions(q1, q2)
     assert_array_almost_equal(q12, np.array([0, 0, 0, 1]))
 
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        q1 = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
-        q2 = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
+        q1 = pr.quaternion_from_axis_angle(pr.random_axis_angle(rng))
+        q2 = pr.quaternion_from_axis_angle(pr.random_axis_angle(rng))
 
         R1 = pr.matrix_from_quaternion(q1)
         R2 = pr.matrix_from_quaternion(q2)
@@ -1560,11 +1560,11 @@ def test_quaternion_hamilton():
 
 def test_quaternion_rotation():
     """Test quaternion rotation."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        q = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
+        q = pr.quaternion_from_axis_angle(pr.random_axis_angle(rng))
         R = pr.matrix_from_quaternion(q)
-        v = pr.random_vector(random_state)
+        v = pr.random_vector(rng)
         vR = np.dot(R, v)
         vq = pr.q_prod_vector(q, v)
         assert_array_almost_equal(vR, vq)
@@ -1572,10 +1572,10 @@ def test_quaternion_rotation():
 
 def test_quaternion_conjugate():
     """Test quaternion conjugate."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
     for _ in range(5):
-        q = pr.random_quaternion(random_state)
-        v = pr.random_vector(random_state)
+        q = pr.random_quaternion(rng)
+        v = pr.random_vector(rng)
         vq = pr.q_prod_vector(q, v)
         vq2 = pr.concatenate_quaternions(pr.concatenate_quaternions(
             q, np.hstack(([0], v))), pr.q_conj(q))[1:]
@@ -1594,10 +1594,10 @@ def test_quaternion_gradient_integration():
     """Test integration of quaternion gradients."""
     n_steps = 21
     dt = 0.1
-    random_state = np.random.RandomState(3)
+    rng = np.random.default_rng(3)
     for _ in range(5):
-        q1 = pr.random_quaternion(random_state)
-        q2 = pr.random_quaternion(random_state)
+        q1 = pr.random_quaternion(rng)
+        q2 = pr.random_quaternion(rng)
         Q = np.vstack([pr.quaternion_slerp(q1, q2, t)
                        for t in np.linspace(0, 1, n_steps)])
         angular_velocities = pr.quaternion_gradient(Q, dt)
@@ -1607,10 +1607,10 @@ def test_quaternion_gradient_integration():
 
 def test_quaternion_rotation_consistent_with_multiplication():
     """Test if quaternion rotation and multiplication are Hamiltonian."""
-    random_state = np.random.RandomState(1)
+    rng = np.random.default_rng(1)
     for _ in range(5):
-        v = pr.random_vector(random_state)
-        q = pr.random_quaternion(random_state)
+        v = pr.random_vector(rng)
+        q = pr.random_quaternion(rng)
         v_im = np.hstack(((0.0,), v))
         qv_mult = pr.concatenate_quaternions(
             q, pr.concatenate_quaternions(v_im, pr.q_conj(q)))[1:]
@@ -1620,11 +1620,11 @@ def test_quaternion_rotation_consistent_with_multiplication():
 
 def test_quaternion_dist():
     """Test angular metric of quaternions."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
 
     for _ in range(5):
-        q1 = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
-        q2 = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
+        q1 = pr.quaternion_from_axis_angle(pr.random_axis_angle(rng))
+        q2 = pr.quaternion_from_axis_angle(pr.random_axis_angle(rng))
         q1_to_q1 = pr.quaternion_dist(q1, q1)
         assert pytest.approx(q1_to_q1) == 0.0
         q2_to_q2 = pr.quaternion_dist(q2, q2)
@@ -1637,10 +1637,10 @@ def test_quaternion_dist():
 
 def test_quaternion_dist_for_identical_rotations():
     """Test angular metric of quaternions q and -q."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
 
     for _ in range(5):
-        q = pr.quaternion_from_axis_angle(pr.random_axis_angle(random_state))
+        q = pr.quaternion_from_axis_angle(pr.random_axis_angle(rng))
         assert_array_almost_equal(pr.matrix_from_quaternion(q),
                                   pr.matrix_from_quaternion(-q))
         assert pr.quaternion_dist(q, -q) == 0.0
@@ -1648,23 +1648,23 @@ def test_quaternion_dist_for_identical_rotations():
 
 def test_quaternion_dist_for_almost_identical_rotations():
     """Test angular metric of quaternions q and ca. -q."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
 
     for _ in range(5):
-        a = pr.random_axis_angle(random_state)
+        a = pr.random_axis_angle(rng)
         q1 = pr.quaternion_from_axis_angle(a)
-        r = 1e-4 * random_state.randn(4)
+        r = 1e-4 * rng.standard_normal(4)
         q2 = -pr.quaternion_from_axis_angle(a + r)
         assert pytest.approx(pr.quaternion_dist(q1, q2), abs=1e-3) == 0.0
 
 
 def test_quaternion_diff():
     """Test difference of quaternions."""
-    random_state = np.random.RandomState(0)
+    rng = np.random.default_rng(0)
 
     for _ in range(5):
-        q1 = pr.random_quaternion(random_state)
-        q2 = pr.random_quaternion(random_state)
+        q1 = pr.random_quaternion(rng)
+        q2 = pr.random_quaternion(rng)
         a_diff = pr.quaternion_diff(q1, q2)          # q1 - q2
         q_diff = pr.quaternion_from_axis_angle(a_diff)
         q3 = pr.concatenate_quaternions(q_diff, q2)  # q1 - q2 + q2
@@ -1692,9 +1692,9 @@ def test_check_matrix_threshold():
 
 def test_assert_rotation_matrix_behaves_like_check_matrix():
     """Test of both checks for rotation matrix validity behave similar."""
-    random_state = np.random.RandomState(2345)
+    rng = np.random.default_rng(2345)
     for _ in range(5):
-        a = pr.random_axis_angle(random_state)
+        a = pr.random_axis_angle(rng)
         R = pr.matrix_from_axis_angle(a)
         original_value = R[2, 2]
         for error in [0, 1e-8, 1e-7, 1e-5, 1e-4, 1]:
@@ -1744,10 +1744,10 @@ def test_matrix_from_two_vectors():
     R = pr.matrix_from_two_vectors(pr.unitx, pr.unity)
     assert_array_almost_equal(R, np.eye(3))
 
-    random_state = np.random.RandomState(28)
+    rng = np.random.default_rng(28)
     for _ in range(5):
-        a = pr.random_vector(random_state, 3)
-        b = pr.random_vector(random_state, 3)
+        a = pr.random_vector(rng, 3)
+        b = pr.random_vector(rng, 3)
         R = pr.matrix_from_two_vectors(a, b)
         pr.assert_rotation_matrix(R)
         assert_array_almost_equal(pr.norm_vector(a), R[:, 0])
@@ -1791,18 +1791,18 @@ def test_check_rotor():
 
 
 def test_outer():
-    random_state = np.random.RandomState(82)
+    rng = np.random.default_rng(82)
     for _ in range(5):
-        a = random_state.randn(3)
+        a = rng.standard_normal(3)
         Zero = pr.wedge(a, a)
         assert_array_almost_equal(Zero, np.zeros(3))
 
-        b = random_state.randn(3)
+        b = rng.standard_normal(3)
         A = pr.wedge(a, b)
         B = pr.wedge(b, a)
         assert_array_almost_equal(A, -B)
 
-        c = random_state.randn(3)
+        c = rng.standard_normal(3)
         assert_array_almost_equal(
             pr.wedge(a, (b + c)),
             A + pr.wedge(a, c)
@@ -1810,19 +1810,19 @@ def test_outer():
 
 
 def test_plane_normal_from_bivector():
-    random_state = np.random.RandomState(82)
+    rng = np.random.default_rng(82)
     for _ in range(5):
-        a = random_state.randn(3)
-        b = random_state.randn(3)
+        a = rng.standard_normal(3)
+        b = rng.standard_normal(3)
         B = pr.wedge(a, b)
         n = pr.plane_normal_from_bivector(B)
         assert_array_almost_equal(n, pr.norm_vector(np.cross(a, b)))
 
 
 def test_geometric_product():
-    random_state = np.random.RandomState(83)
+    rng = np.random.default_rng(83)
     for _ in range(5):
-        a = random_state.randn(3)
+        a = rng.standard_normal(3)
         a2a = pr.geometric_product(a, 2 * a)
         assert_array_almost_equal(a2a, np.array([np.dot(a, 2 * a), 0, 0, 0]))
 
@@ -1832,10 +1832,10 @@ def test_geometric_product():
 
 
 def test_geometric_product_creates_rotor_that_rotates_by_double_angle():
-    random_state = np.random.RandomState(83)
+    rng = np.random.default_rng(83)
     for _ in range(5):
-        a_unit = pr.norm_vector(random_state.randn(3))
-        b_unit = pr.norm_vector(random_state.randn(3))
+        a_unit = pr.norm_vector(rng.standard_normal(3))
+        b_unit = pr.norm_vector(rng.standard_normal(3))
         # a geometric product of two unit vectors is a rotor
         ab = pr.geometric_product(a_unit, b_unit)
         assert pytest.approx(np.linalg.norm(ab)) == 1.0
@@ -1868,10 +1868,10 @@ def test_rotor_from_two_directions_special_cases():
 
 
 def test_rotor_from_two_directions():
-    random_state = np.random.RandomState(84)
+    rng = np.random.default_rng(84)
     for _ in range(5):
-        a = random_state.randn(3)
-        b = random_state.randn(3)
+        a = rng.standard_normal(3)
+        b = rng.standard_normal(3)
         rotor = pr.rotor_from_two_directions(a, b)
         b2 = pr.rotor_apply(rotor, a)
         assert_array_almost_equal(pr.norm_vector(b), pr.norm_vector(b2))
@@ -1879,11 +1879,11 @@ def test_rotor_from_two_directions():
 
 
 def test_rotor_concatenation():
-    random_state = np.random.RandomState(85)
+    rng = np.random.default_rng(85)
     for _ in range(5):
-        a = random_state.randn(3)
-        b = random_state.randn(3)
-        c = random_state.randn(3)
+        a = rng.standard_normal(3)
+        b = rng.standard_normal(3)
+        c = rng.standard_normal(3)
         rotor_ab = pr.rotor_from_two_directions(a, b)
         rotor_bc = pr.rotor_from_two_directions(b, c)
         rotor_ac = pr.rotor_from_two_directions(a, c)
@@ -1893,10 +1893,10 @@ def test_rotor_concatenation():
 
 
 def test_rotor_times_reverse():
-    random_state = np.random.RandomState(85)
+    rng = np.random.default_rng(85)
     for _ in range(5):
-        a = random_state.randn(3)
-        b = random_state.randn(3)
+        a = rng.standard_normal(3)
+        b = rng.standard_normal(3)
         rotor = pr.rotor_from_two_directions(a, b)
         rotor_reverse = pr.rotor_reverse(rotor)
         result = pr.concatenate_rotors(rotor, rotor_reverse)
@@ -1904,18 +1904,18 @@ def test_rotor_times_reverse():
 
 
 def test_rotor_slerp():
-    random_state = np.random.RandomState(86)
+    rng = np.random.default_rng(86)
     for _ in range(5):
-        a_unit = pr.norm_vector(random_state.randn(3))
-        b_unit = pr.norm_vector(random_state.randn(3))
+        a_unit = pr.norm_vector(rng.standard_normal(3))
+        b_unit = pr.norm_vector(rng.standard_normal(3))
         rotor1 = pr.rotor_from_two_directions(a_unit, b_unit)
 
         axis = pr.norm_vector(np.cross(a_unit, b_unit))
         angle = pr.angle_between_vectors(a_unit, b_unit)
         q1 = pr.quaternion_from_axis_angle(np.r_[axis, angle])
 
-        c_unit = pr.norm_vector(random_state.randn(3))
-        d_unit = pr.norm_vector(random_state.randn(3))
+        c_unit = pr.norm_vector(rng.standard_normal(3))
+        d_unit = pr.norm_vector(rng.standard_normal(3))
         rotor2 = pr.rotor_from_two_directions(c_unit, d_unit)
 
         axis = pr.norm_vector(np.cross(c_unit, d_unit))
@@ -1925,7 +1925,7 @@ def test_rotor_slerp():
         rotor_025 = pr.rotor_slerp(rotor1, rotor2, 0.25)
         q_025 = pr.quaternion_slerp(q1, q2, 0.25)
 
-        e = random_state.randn(3)
+        e = rng.standard_normal(3)
         assert_array_almost_equal(
             pr.rotor_apply(rotor_025, e),
             pr.q_prod_vector(q_025, e))
@@ -1933,23 +1933,23 @@ def test_rotor_slerp():
         rotor_075 = pr.rotor_slerp(rotor1, rotor2, 0.25)
         q_075 = pr.quaternion_slerp(q1, q2, 0.25)
 
-        e = random_state.randn(3)
+        e = rng.standard_normal(3)
         assert_array_almost_equal(
             pr.rotor_apply(rotor_075, e),
             pr.q_prod_vector(q_075, e))
 
 
 def test_rotor_from_plane_angle():
-    random_state = np.random.RandomState(87)
+    rng = np.random.default_rng(87)
     for _ in range(5):
-        a = random_state.randn(3)
-        b = random_state.randn(3)
+        a = rng.standard_normal(3)
+        b = rng.standard_normal(3)
         B = pr.wedge(a, b)
-        angle = 2 * np.pi * random_state.rand()
+        angle = 2 * np.pi * rng.random()
         axis = np.cross(a, b)
         rotor = pr.rotor_from_plane_angle(B, angle)
         q = pr.quaternion_from_axis_angle(np.r_[axis, angle])
-        v = random_state.randn(3)
+        v = rng.standard_normal(3)
         assert_array_almost_equal(
             pr.rotor_apply(rotor, v),
             pr.q_prod_vector(q, v)
@@ -1957,12 +1957,12 @@ def test_rotor_from_plane_angle():
 
 
 def test_matrix_from_rotor():
-    random_state = np.random.RandomState(88)
+    rng = np.random.default_rng(88)
     for _ in range(5):
-        a = random_state.randn(3)
-        b = random_state.randn(3)
+        a = rng.standard_normal(3)
+        b = rng.standard_normal(3)
         B = pr.wedge(a, b)
-        angle = 2 * np.pi * random_state.rand()
+        angle = 2 * np.pi * rng.random()
         axis = np.cross(a, b)
         rotor = pr.rotor_from_plane_angle(B, angle)
         R_rotor = pr.matrix_from_rotor(rotor)
@@ -1972,10 +1972,10 @@ def test_matrix_from_rotor():
 
 
 def test_negative_rotor():
-    random_state = np.random.RandomState(89)
+    rng = np.random.default_rng(89)
     for _ in range(5):
-        a = random_state.randn(3)
-        b = random_state.randn(3)
+        a = rng.standard_normal(3)
+        b = rng.standard_normal(3)
         rotor = pr.rotor_from_two_directions(a, b)
         neg_rotor = pr.norm_vector(-rotor)
         a2 = pr.rotor_apply(rotor, a)
@@ -1996,18 +1996,18 @@ def test_plane_basis_from_normal():
     R = np.column_stack((x, y, pr.unitz))
     pr.assert_rotation_matrix(R)
 
-    random_state = np.random.RandomState(25)
+    rng = np.random.default_rng(25)
     for _ in range(5):
-        normal = pr.norm_vector(random_state.randn(3))
+        normal = pr.norm_vector(rng.standard_normal(3))
         x, y = pr.plane_basis_from_normal(normal)
         R = np.column_stack((x, y, normal))
         pr.assert_rotation_matrix(R)
 
 
 def test_pick_closest_quaternion():
-    random_state = np.random.RandomState(483)
+    rng = np.random.default_rng(483)
     for _ in range(10):
-        q = pr.random_quaternion(random_state)
+        q = pr.random_quaternion(rng)
         assert_array_almost_equal(pr.pick_closest_quaternion(q, q), q)
         assert_array_almost_equal(pr.pick_closest_quaternion(-q, q), q)
 
@@ -2044,10 +2044,10 @@ def test_quaternion_from_angle():
     with pytest.raises(ValueError, match="Basis must be in"):
         pr.quaternion_from_angle(3, 0)
 
-    random_state = np.random.RandomState(22)
+    rng = np.random.default_rng(22)
     for i in range(20):
-        basis = random_state.randint(0, 3)
-        angle = 2.0 * np.pi * random_state.rand() - np.pi
+        basis = rng.integers(0, 3)
+        angle = 2.0 * np.pi * rng.random() - np.pi
         R = pr.active_matrix_from_angle(basis, angle)
         q = pr.quaternion_from_angle(basis, angle)
         Rq = pr.matrix_from_quaternion(q)
@@ -2095,11 +2095,11 @@ def test_quaternion_from_euler():
         [2, 1, 0],
         [2, 0, 1]
     ]
-    random_state = np.random.RandomState(83)
+    rng = np.random.default_rng(83)
     for ea in euler_axes:
         for extrinsic in [False, True]:
             for i in range(5):
-                e = random_state.rand(3)
+                e = rng.random(3)
                 e[0] = 2.0 * np.pi * e[0] - np.pi
                 e[1] = np.pi * e[1]
                 e[2] = 2.0 * np.pi * e[2] - np.pi
@@ -2117,7 +2117,7 @@ def test_quaternion_from_euler():
 
 def test_general_matrix_euler_conversions():
     """General conversion algorithms between matrix and Euler angles."""
-    random_state = np.random.RandomState(22)
+    rng = np.random.default_rng(22)
 
     euler_axes = [
         [0, 2, 0],
@@ -2136,7 +2136,7 @@ def test_general_matrix_euler_conversions():
     for ea in euler_axes:
         for extrinsic in [False, True]:
             for i in range(5):
-                e = random_state.rand(3)
+                e = rng.random(3)
                 e[0] = 2.0 * np.pi * e[0] - np.pi
                 e[1] = np.pi * e[1]
                 e[2] = 2.0 * np.pi * e[2] - np.pi
