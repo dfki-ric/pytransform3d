@@ -48,6 +48,6 @@ def random_screw_axis(rng=np.random.default_rng(0)):
         where the first 3 components are related to rotation and the last 3
         components are related to translation.
     """
-    omega = norm_vector(rng.randn(3))
+    omega = norm_vector(rng.standard_normal(size=3))
     v = rng.standard_normal(size=3)
     return np.hstack((omega, v))
