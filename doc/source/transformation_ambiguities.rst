@@ -178,9 +178,9 @@ frame.
     ax.set_yticks(())
     ax.set_zticks(())
 
-    random_state = np.random.RandomState(42)
+    rng = np.random.default_rng(42)
     PA = np.ones((10, 4))
-    PA[:, :3] = 0.1 * random_state.randn(10, 3)
+    PA[:, :3] = 0.1 * rng.standard_normal(size=(10, 3))
     PA[:, 0] += 0.3
     PA[:, :3] += 0.3
 
@@ -234,9 +234,9 @@ frame.
     ax.set_yticks(())
     ax.set_zticks(())
 
-    random_state = np.random.RandomState(42)
+    rng = np.random.default_rng(42)
     PA = np.ones((10, 4))
-    PA[:, :3] = 0.1 * random_state.randn(10, 3)
+    PA[:, :3] = 0.1 * rng.standard_normal(size=(10, 3))
     PA[:, 0] += 0.3
     PA[:, :3] += 0.3
 
