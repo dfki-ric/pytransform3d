@@ -6,7 +6,7 @@ from ..rotations import (
 from ._conversions import transform_from
 
 
-def random_transform(rng=np.random.RandomState(0), random_state=None):
+def random_transform(rng=np.random.default_rng(0)):
     r"""Generate random transform.
 
     Each component of the translation will be sampled from
@@ -22,18 +22,13 @@ def random_transform(rng=np.random.RandomState(0), random_state=None):
     A2B : array-like, shape (4, 4)
         Random transform from frame A to frame B
     """
-    if random_state is not None:  # pragma: no cover
-        warnings.warn(
-            "The random_state argument is deprecated. Use rng.",
-            DeprecationWarning)
-        rng = random_state
     q = random_quaternion(rng)
     R = matrix_from_quaternion(q)
     p = random_vector(rng, n=3)
     return transform_from(R=R, p=p)
 
 
-def random_screw_axis(rng=np.random.RandomState(0), random_state=None):
+def random_screw_axis(rng=np.random.default_rng(0)):
     r"""Generate random screw axis.
 
     Each component of v will be sampled from a standard normal distribution
@@ -53,11 +48,6 @@ def random_screw_axis(rng=np.random.RandomState(0), random_state=None):
         where the first 3 components are related to rotation and the last 3
         components are related to translation.
     """
-    if random_state is not None:  # pragma: no cover
-        warnings.warn(
-            "The random_state argument is deprecated. Use rng.",
-            DeprecationWarning)
-        rng = random_state
-    omega = norm_vector(rng.standard_normal(3))
-    v = rng.standard_normal(3)
+    omega = norm_vector(rng.randn(3))
+    v = rng.standard_normal(size=3)
     return np.hstack((omega, v))
