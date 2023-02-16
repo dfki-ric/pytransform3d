@@ -263,14 +263,11 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.
 References
 ----------
 
-Lynch, Park: Modern Robotics (Section 3.3); available at
-http://hades.mech.northwestern.edu/index.php/Modern_Robotics
-
-Wikipedia: Dual Quaternion; available at
-https://en.wikipedia.org/wiki/Dual_quaternion
-
-Yan-Bin Jia: Dual Quaternions; available at
-http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
-
-Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
-http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
+1. Lynch, Park: Modern Robotics (Section 3.3); available at
+   http://hades.mech.northwestern.edu/index.php/Modern_Robotics
+2. Wikipedia: Dual Quaternion; available at
+   https://en.wikipedia.org/wiki/Dual_quaternion
+3. Yan-Bin Jia: Dual Quaternions; available at
+   http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
+4. Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
+   http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
