@@ -78,7 +78,9 @@ from ._conversions import (
     euler_from_matrix,
     euler_from_quaternion,
     quaternion_from_angle,
-    cross_product_matrix)
+    cross_product_matrix,
+    mrp_from_quaternion,
+    quaternion_from_mrp)
 from ._quaternion_operations import (
     quaternion_integrate, quaternion_gradient, concatenate_quaternions, q_conj,
     q_prod_vector, quaternion_diff, quaternion_dist, quaternion_from_euler)
@@ -199,6 +201,8 @@ __all__ = [
     "quaternion_from_angle",
     "quaternion_from_euler",
     "cross_product_matrix",
+    "mrp_from_quaternion",
+    "quaternion_from_mrp",
     "quaternion_integrate",
     "quaternion_gradient",
     "concatenate_quaternions",
