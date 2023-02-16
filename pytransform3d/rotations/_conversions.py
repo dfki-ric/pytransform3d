@@ -2057,3 +2057,21 @@ def quaternion_from_extrinsic_euler_xyz(e):
         "quaternion_from_euler", DeprecationWarning)
     R = active_matrix_from_extrinsic_euler_xyz(e)
     return quaternion_from_matrix(R)
+
+
+def quaternion_from_mrp(mrp):
+    """TODO"""
+    mrp = np.asarray(mrp)  # TODO introduce check function
+    dot_product_p1 = np.dot(mrp, mrp) + 1.0
+    q = np.empty(4, dtype=float)
+    q[0] = (2.0 - dot_product_p1) / dot_product_p1
+    q[1:] = 2.0 * mrp / dot_product_p1
+    return q
+
+
+def mrp_from_quaternion(q):
+    """TODO"""
+    q = check_quaternion(q)
+    sign = -1.0 if q[0] < 0.0 else 1.0
+    denom = 1.0 + sign * q[0]
+    return sign * q[1:] / denom
