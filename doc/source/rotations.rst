@@ -413,8 +413,8 @@ quaternions on the one hand and rotors on the other hand.
 References
 ----------
 
-* Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
-* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
-* Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
-* Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
-* Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
+1. Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
+2. Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+3. Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
+4. Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
+5. Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
