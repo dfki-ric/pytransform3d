@@ -49,6 +49,9 @@ is not implemented in pytransform3d then it is shown in brackets.
 | Euler angles                           | No            | No                 | No            | No            |
 | :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
+| Modified Rodrigues parameters          | Negative      | No                 | No            | No            |
+| :math:`\psi`                           |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
 
 
 ---------------
@@ -242,7 +245,8 @@ the Lie group :math:`SO(3)`.
 * There might be discontinuities during interpolation as an angle of 0 and
   any multiple of :math:`2\pi` represent the same orientation. This has to
   be considered.
-* Concatenation involves conversion to another representation
+* Concatenation and transformation of vectors requires conversion to rotation
+  matrix or quaternion
 
 -----------
 Quaternions
@@ -283,6 +287,11 @@ The following equation describes its relation to axis-axis notation.
         \omega_x \sin \frac{\theta}{2}\\
         \omega_y \sin \frac{\theta}{2}\\
         \omega_z \sin \frac{\theta}{2}\\
+    \end{array} \right)
+    =
+    \left( \begin{array}{c}
+        \cos \frac{\theta}{2}\\
+        \hat{\boldsymbol{\omega}} \sin \frac{\theta}{2}\\
     \end{array} \right)
 
 pytransform3d uses a numpy array of shape (4,) for quaternions and
@@ -409,6 +418,44 @@ quaternions on the one hand and rotors on the other hand.
 
 * The representation is not straightforward to interpret
 
+-----------------------------
+Modified Rodrigues Parameters
+-----------------------------
+
+Another minimal representation of rotation are modified Rodrigues parameters
+(MRP)
+
+.. math::
+
+    \psi = \tan \left(\frac{\theta}{4}\right) \hat{\boldsymbol{\omega}}
+
+This representation is similar to the compact axis-angle representation.
+However, the angle of rotation is converted to :math:`\tan(\frac{\theta}{4})`.
+Hence, there is an easy conversion from unit quaternions to MRP:
+
+.. math::
+
+    \psi = \frac{\hat{\boldsymbol{q}}_{x,y,z}}{1 + \hat{\boldsymbol{q}}_w}
+
+pytransform3d uses a numpy array of shape (3,) for modified Rodrigues
+parameters.
+
+.. warning::
+
+    MRPs have a singuarity at :math:`2 \pi` which we can avoid by ensuring the
+    angle of rotation does not exceed :math:`\pi`.
+
+**Pros**
+
+* Minimal representation
+
+**Cons**
+
+* The representation is not straightforward to interpret
+* Normalization of angle required to avoid singularity
+* Concatenation and transformation of vectors requires conversion to rotation
+  matrix or quaternion
+
 ----------
 References
 ----------
@@ -418,3 +465,4 @@ References
 3. Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
 4. Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
 5. Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
+6. Terzakis, Lourakis, Alt-Boudaoud: Modified Rodrigues Parameters: An Efficient Representation of Orientation in 3D Vision and Graphics, https://link.springer.com/article/10.1007/s10851-017-0765-x
