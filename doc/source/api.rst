@@ -80,11 +80,12 @@ Conversions to Quaternion
    ~pytransform3d.rotations.quaternion_from_axis_angle
    ~pytransform3d.rotations.quaternion_from_compact_axis_angle
    ~pytransform3d.rotations.quaternion_from_euler
+   ~pytransform3d.rotations.quaternion_from_mrp
    ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
    ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
 
 Conversions to Rotor
--------------------------
+--------------------
 
 .. autosummary::
    :toctree: _apidoc/
@@ -92,6 +93,15 @@ Conversions to Rotor
 
    ~pytransform3d.rotations.rotor_from_two_directions
    ~pytransform3d.rotations.rotor_from_plane_angle
+
+Conversions to Modified Rodrigues Parameters
+--------------------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.mrp_from_quaternion
 
 Quaternion and Axis-Angle Operations
 ------------------------------------
