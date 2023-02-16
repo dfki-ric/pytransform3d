@@ -2072,6 +2072,6 @@ def quaternion_from_mrp(mrp):
 def mrp_from_quaternion(q):
     """TODO"""
     q = check_quaternion(q)
-    sign = -1.0 if q[0] < 0.0 else 1.0
-    denom = 1.0 + sign * q[0]
-    return sign * q[1:] / denom
+    if q[0] < 0.0:
+        q = -q
+    return q[1:] / (1.0 + q[0])
