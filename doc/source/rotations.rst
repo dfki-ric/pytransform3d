@@ -435,7 +435,10 @@ Hence, there is an easy conversion from unit quaternions to MRP:
 
 .. math::
 
-    \psi = \frac{\hat{\boldsymbol{q}}_{x,y,z}}{1 + \hat{\boldsymbol{q}}_w}
+    \psi = \frac{\left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}.
+
+given some quaternion with a scalar :math:`w` and a vector
+:math:`\left(x, y, z \right)^T`.
 
 pytransform3d uses a numpy array of shape (3,) for modified Rodrigues
 parameters.
