@@ -273,8 +273,8 @@ Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about
 the two conventions and why Hamilton's convention should be used. Section VI A
 gives further useful hints to identify which convention is used.
 
-The unit quaternion space :math:`S^3` can be used to represent orientations.
-To do that, we use an encoding based on the rotation axis and angle.
+The unit quaternion space :math:`\mathbb{S}^3` can be used to represent
+orientations with an encoding based on the rotation axis and angle.
 A rotation quaternion is a four-dimensional unit vector (versor)
 :math:`\boldsymbol{\hat{q}}`.
 The following equation describes its relation to axis-axis notation.
