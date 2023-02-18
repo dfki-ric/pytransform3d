@@ -2060,7 +2060,18 @@ def quaternion_from_extrinsic_euler_xyz(e):
 
 
 def quaternion_from_mrp(mrp):
-    """TODO"""
+    """Compute quaternion from modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    q : array, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+    """
     mrp = np.asarray(mrp)  # TODO introduce check function
     dot_product_p1 = np.dot(mrp, mrp) + 1.0
     q = np.empty(4, dtype=float)
@@ -2070,7 +2081,18 @@ def quaternion_from_mrp(mrp):
 
 
 def mrp_from_quaternion(q):
-    """TODO"""
+    """Compute modified Rodrigues parameters from quaternion.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    ----------
+    mrp : array, shape (3,)
+        Modified Rodrigues parameters.
+    """
     q = check_quaternion(q)
     if q[0] < 0.0:
         q = -q
