@@ -306,8 +306,8 @@ typically we use the variable name q.
 
 .. warning::
 
-    The unit quaternions :math:`\boldsymbol{\hat{q}}` and
-    :math:`-\boldsymbol{\hat{q}}` represent exactly the same rotation.
+    The *antipodal* unit quaternions :math:`\boldsymbol{\hat{q}}` and
+    :math:`-\boldsymbol{\hat{q}}` represent the same rotation.
 
 **Pros**
 
