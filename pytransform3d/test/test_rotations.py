@@ -2157,3 +2157,13 @@ def test_general_matrix_euler_conversions():
                 R_R = pr.matrix_from_euler(e_R, ea[0], ea[1], ea[2], extrinsic)
                 R_q = pr.matrix_from_euler(e_q, ea[0], ea[1], ea[2], extrinsic)
                 assert_array_almost_equal(R_R, R_q)
+
+
+def test_mrp_quat_conversions():
+    rng = np.random.default_rng(22)
+
+    for _ in range(5):
+        q = pr.random_quaternion(rng)
+        mrp = pr.mrp_from_quaternion(q)
+        q2 = pr.quaternion_from_mrp(mrp)
+        pr.assert_quaternion_equal(q, q2)
