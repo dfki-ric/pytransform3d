@@ -259,6 +259,7 @@ and an vector / imaginary part
 .. math::
 
     \boldsymbol{q} = w + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}
+    \in \mathbb{H}
 
 .. warning::
 
