@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 2.3.0 documentation</title>
+    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 2.3.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -23,10 +23,10 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
-<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
 
   </head><body>
 
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,549 +127,10 @@
                        <span class="n">Cone</span><span class="p">,</span> <span class="n">Plane</span><span class="p">,</span> <span class="n">Graph</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">FigureBase</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Abstract base class of figures.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="nf">add_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add geometry to visualizer.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        geometry : Geometry</span>
-<span class="sd">            Open3D geometry.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">set_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoom</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set zoom.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        zoom : float</span>
-<span class="sd">            Zoom of the visualizer.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Save rendered image to file.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        filename : str</span>
-<span class="sd">            Path to file in which the rendered image should be stored</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Display the figure window.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
-        <span class="sd">&quot;&quot;&quot;Plot line.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        P : array-like, shape (n_points, 3)</span>
-<span class="sd">            Points of which the line consists.</span>
-
-<span class="sd">        c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)</span>
-<span class="sd">            Color can be given as individual colors per line segment or</span>
-<span class="sd">            as one color for each segment. A color is represented by 3</span>
-<span class="sd">            values between 0 and 1 indicate representing red, green, and</span>
-<span class="sd">            blue respectively.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        line : Line3D</span>
-<span class="sd">            New line.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">line3d</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">line3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">line3d</span>
-
-    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot collection of points.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        P : array, shape (n_points, 3)</span>
-<span class="sd">            Points</span>
-
-<span class="sd">        s : float, optional (default: 0.05)</span>
-<span class="sd">            Scaling of the spheres that will be drawn.</span>
-
-<span class="sd">        c : array-like, shape (3,) or (n_points, 3), optional (default: black)</span>
-<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
-<span class="sd">            representing red, green, and blue respectively.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        point_collection : PointCollection3D</span>
-<span class="sd">            New point collection.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">point_collection</span> <span class="o">=</span> <span class="n">PointCollection3D</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">point_collection</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">point_collection</span>
-
-    <span class="k">def</span> <span class="nf">plot_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
-                    <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
-        <span class="sd">&quot;&quot;&quot;Plot vector.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        start : array-like, shape (3,), optional (default: [0, 0, 0])</span>
-<span class="sd">            Start of the vector</span>
-
-<span class="sd">        direction : array-like, shape (3,), optional (default: [1, 0, 0])</span>
-<span class="sd">            Direction of the vector</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: black)</span>
-<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
-<span class="sd">            representing red, green, and blue respectively.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        vector : Vector3D</span>
-<span class="sd">            New vector.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">vector3d</span> <span class="o">=</span> <span class="n">Vector3D</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">vector3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">vector3d</span>
-
-    <span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot basis.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        R : array-like, shape (3, 3), optional (default: I)</span>
-<span class="sd">            Rotation matrix, each column contains a basis vector</span>
-
-<span class="sd">        p : array-like, shape (3,), optional (default: [0, 0, 0])</span>
-<span class="sd">            Offset from the origin</span>
-
-<span class="sd">        s : float, optional (default: 1)</span>
-<span class="sd">            Scaling of the frame that will be drawn</span>
-
-<span class="sd">        strict_check : bool, optional (default: True)</span>
-<span class="sd">            Raise a ValueError if the rotation matrix is not numerically</span>
-<span class="sd">            close enough to a real rotation matrix. Otherwise we print a</span>
-<span class="sd">            warning.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Frame : frame</span>
-<span class="sd">            New frame.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-        <span class="n">R</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
-
-        <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">frame</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">frame</span>
-
-    <span class="k">def</span> <span class="nf">plot_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot coordinate frame.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Transform from frame A to frame B</span>
-
-<span class="sd">        s : float, optional (default: 1)</span>
-<span class="sd">            Length of basis vectors</span>
-
-<span class="sd">        name : str, optional (default: None)</span>
-<span class="sd">            Name of the frame</span>
-
-<span class="sd">        strict_check : bool, optional (default: True)</span>
-<span class="sd">            Raise a ValueError if the transformation matrix is not</span>
-<span class="sd">            numerically close enough to a real transformation matrix.</span>
-<span class="sd">            Otherwise we print a warning.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Frame : frame</span>
-<span class="sd">            New frame.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-        <span class="n">A2B</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
-
-        <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-        <span class="n">frame</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">frame</span>
-
-    <span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
-        <span class="sd">&quot;&quot;&quot;Trajectory of poses.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        P : array-like, shape (n_steps, 7), optional (default: None)</span>
-<span class="sd">            Sequence of poses represented by positions and quaternions in</span>
-<span class="sd">            the order (x, y, z, w, vx, vy, vz) for each step</span>
-
-<span class="sd">        n_frames : int, optional (default: 10)</span>
-<span class="sd">            Number of frames that should be plotted to indicate the</span>
-<span class="sd">            rotation</span>
-
-<span class="sd">        s : float, optional (default: 1)</span>
-<span class="sd">            Scaling of the frames that will be drawn</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: black)</span>
-<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
-<span class="sd">            representing red, green, and blue respectively.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        trajectory : Trajectory</span>
-<span class="sd">            New trajectory.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">H</span> <span class="o">=</span> <span class="n">ptr</span><span class="o">.</span><span class="n">matrices_from_pos_quat</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
-        <span class="n">trajectory</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">trajectory</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">trajectory</span>
-
-    <span class="k">def</span> <span class="nf">plot_sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot sphere.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        radius : float, optional (default: 1)</span>
-<span class="sd">            Radius of the sphere</span>
-
-<span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Transform from frame A to frame B</span>
-
-<span class="sd">        resolution : int, optional (default: 20)</span>
-<span class="sd">            The resolution of the sphere. The longitudes will be split into</span>
-<span class="sd">            resolution segments (i.e. there are resolution + 1 latitude</span>
-<span class="sd">            lines including the north and south pole). The latitudes will</span>
-<span class="sd">            be split into 2 * resolution segments (i.e. there are</span>
-<span class="sd">            2 * resolution longitude lines.)</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Color</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        sphere : Sphere</span>
-<span class="sd">            New sphere.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sphere</span> <span class="o">=</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">sphere</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">sphere</span>
-
-    <span class="k">def</span> <span class="nf">plot_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot box.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        size : array-like, shape (3,), optional (default: [1, 1, 1])</span>
-<span class="sd">            Size of the box per dimension</span>
-
-<span class="sd">        A2B : array-like, shape (4, 4), optional (default: I)</span>
-<span class="sd">            Center of the box</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Color</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        box : Box</span>
-<span class="sd">            New box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">box</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">box</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">box</span>
-
-    <span class="k">def</span> <span class="nf">plot_cylinder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
-                      <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot cylinder.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        length : float, optional (default: 1)</span>
-<span class="sd">            Length of the cylinder.</span>
-
-<span class="sd">        radius : float, optional (default: 1)</span>
-<span class="sd">            Radius of the cylinder.</span>
-
-<span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Pose of the cylinder. The position corresponds to the center of the</span>
-<span class="sd">            line segment and the z-axis to the direction of the line segment.</span>
-
-<span class="sd">        resolution : int, optional (default: 20)</span>
-<span class="sd">            The circle will be split into resolution segments</span>
-
-<span class="sd">        split : int, optional (default: 4)</span>
-<span class="sd">            The height will be split into split segments</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Color</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cylinder : Cylinder</span>
-<span class="sd">            New cylinder.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cylinder</span> <span class="o">=</span> <span class="n">Cylinder</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">split</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">cylinder</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cylinder</span>
-
-    <span class="k">def</span> <span class="nf">plot_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot mesh.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        filename : str</span>
-<span class="sd">            Path to mesh file</span>
-
-<span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Center of the mesh</span>
-
-<span class="sd">        s : array-like, shape (3,), optional (default: [1, 1, 1])</span>
-<span class="sd">            Scaling of the mesh that will be drawn</span>
-
-<span class="sd">        c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)</span>
-<span class="sd">            Color(s)</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        mesh : Mesh</span>
-<span class="sd">            New mesh.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">mesh</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mesh</span>
-
-    <span class="k">def</span> <span class="nf">plot_ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                       <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot ellipsoid.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        radii : array-like, shape (3,)</span>
-<span class="sd">            Radii along the x-axis, y-axis, and z-axis of the ellipsoid.</span>
-
-<span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Transform from frame A to frame B</span>
-
-<span class="sd">        resolution : int, optional (default: 20)</span>
-<span class="sd">            The resolution of the ellipsoid. The longitudes will be split into</span>
-<span class="sd">            resolution segments (i.e. there are resolution + 1 latitude</span>
-<span class="sd">            lines including the north and south pole). The latitudes will</span>
-<span class="sd">            be split into 2 * resolution segments (i.e. there are</span>
-<span class="sd">            2 * resolution longitude lines.)</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Color</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        ellipsoid : Ellipsoid</span>
-<span class="sd">            New ellipsoid.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ellipsoid</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">radii</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">ellipsoid</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ellipsoid</span>
-
-    <span class="k">def</span> <span class="nf">plot_capsule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                     <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot capsule.</span>
-
-<span class="sd">        A capsule is the volume covered by a sphere moving along a line segment.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        height : float, optional (default: 1)</span>
-<span class="sd">            Height of the capsule along its z-axis.</span>
-
-<span class="sd">        radius : float, optional (default: 1)</span>
-<span class="sd">            Radius of the capsule.</span>
-
-<span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Pose of the capsule. The position corresponds to the center of the</span>
-<span class="sd">            line segment and the z-axis to the direction of the line segment.</span>
-
-<span class="sd">        resolution : int, optional (default: 20)</span>
-<span class="sd">            The resolution of the capsule. The longitudes will be split into</span>
-<span class="sd">            resolution segments (i.e. there are resolution + 1 latitude lines</span>
-<span class="sd">            including the north and south pole). The latitudes will be split</span>
-<span class="sd">            into 2 * resolution segments (i.e. there are 2 * resolution</span>
-<span class="sd">            longitude lines.)</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Color</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        capsule : Capsule</span>
-<span class="sd">            New capsule.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">capsule</span> <span class="o">=</span> <span class="n">Capsule</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">capsule</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">capsule</span>
-
-    <span class="k">def</span> <span class="nf">plot_cone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                  <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot cone.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        height : float, optional (default: 1)</span>
-<span class="sd">            Height of the cone along its z-axis.</span>
-
-<span class="sd">        radius : float, optional (default: 1)</span>
-<span class="sd">            Radius of the cone.</span>
-
-<span class="sd">        A2B : array-like, shape (4, 4)</span>
-<span class="sd">            Pose of the cone.</span>
-
-<span class="sd">        resolution : int, optional (default: 20)</span>
-<span class="sd">            The circle will be split into resolution segments.</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Color</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        cone : Cone</span>
-<span class="sd">            New cone.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cone</span> <span class="o">=</span> <span class="n">Cone</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">cone</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cone</span>
-
-    <span class="k">def</span> <span class="nf">plot_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot plane.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        normal : array-like, shape (3,), optional (default: [0, 0, 1])</span>
-<span class="sd">            Plane normal.</span>
-
-<span class="sd">        d : float, optional (default: None)</span>
-<span class="sd">            Distance to origin in Hesse normal form.</span>
-
-<span class="sd">        point_in_plane : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Point in plane.</span>
-
-<span class="sd">        s : float, optional (default: 1)</span>
-<span class="sd">            Scaling of the plane that will be drawn.</span>
-
-<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
-<span class="sd">            Color.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        plane : Plane</span>
-<span class="sd">            New plane.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">plane</span> <span class="o">=</span> <span class="n">Plane</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">point_in_plane</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-        <span class="n">plane</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">plane</span>
-
-    <span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot graph of connected frames.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        tm : TransformManager</span>
-<span class="sd">            Representation of the graph</span>
-
-<span class="sd">        frame : str</span>
-<span class="sd">            Name of the base frame in which the graph will be displayed</span>
-
-<span class="sd">        show_frames : bool, optional (default: False)</span>
-<span class="sd">            Show coordinate frames</span>
-
-<span class="sd">        show_connections : bool, optional (default: False)</span>
-<span class="sd">            Draw lines between frames of the graph</span>
-
-<span class="sd">        show_visuals : bool, optional (default: False)</span>
-<span class="sd">            Show visuals that are stored in the graph</span>
-
-<span class="sd">        show_collision_objects : bool, optional (default: False)</span>
-<span class="sd">            Show collision objects that are stored in the graph</span>
-
-<span class="sd">        show_name : bool, optional (default: False)</span>
-<span class="sd">            Show names of frames</span>
-
-<span class="sd">        whitelist : list, optional (default: all)</span>
-<span class="sd">            List of frames that should be displayed</span>
-
-<span class="sd">        s : float, optional (default: 1)</span>
-<span class="sd">            Scaling of the frames that will be drawn</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        graph : Graph</span>
-<span class="sd">            New graph.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">graph</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="p">,</span> <span class="n">show_connections</span><span class="p">,</span>
-                      <span class="n">show_visuals</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="p">,</span> <span class="n">show_name</span><span class="p">,</span>
-                      <span class="n">whitelist</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">graph</span>
-
-    <span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot camera in world coordinates.</span>
-
-<span class="sd">        This function is inspired by Blender&#39;s camera visualization. It will</span>
-<span class="sd">        show the camera center, a virtual image plane, and the top of the</span>
-<span class="sd">        virtual image plane.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        M : array-like, shape (3, 3)</span>
-<span class="sd">            Intrinsic camera matrix that contains the focal lengths on the</span>
-<span class="sd">            diagonal and the center of the the image in the last column. It</span>
-<span class="sd">            does not matter whether values are given in meters or pixels as</span>
-<span class="sd">            long as the unit is the same as for the sensor size.</span>
-
-<span class="sd">        cam2world : array-like, shape (4, 4), optional (default: I)</span>
-<span class="sd">            Transformation matrix of camera in world frame. We assume that the</span>
-<span class="sd">            position is given in meters.</span>
-
-<span class="sd">        virtual_image_distance : float, optional (default: 1)</span>
-<span class="sd">            Distance from pinhole to virtual image plane that will be</span>
-<span class="sd">            displayed. We assume that this distance is given in meters. The</span>
-<span class="sd">            unit has to be consistent with the unit of the position in</span>
-<span class="sd">            cam2world.</span>
-
-<span class="sd">        sensor_size : array-like, shape (2,), optional (default: [1920, 1080])</span>
-<span class="sd">            Size of the image sensor: (width, height). It does not matter</span>
-<span class="sd">            whether values are given in meters or pixels as long as the unit is</span>
-<span class="sd">            the same as for the sensor size.</span>
-
-<span class="sd">        strict_check : bool, optional (default: True)</span>
-<span class="sd">            Raise a ValueError if the transformation matrix is not numerically</span>
-<span class="sd">            close enough to a real transformation matrix. Otherwise we print a</span>
-<span class="sd">            warning.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        camera : Camera</span>
-<span class="sd">            New camera.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span>
-                        <span class="n">strict_check</span><span class="p">)</span>
-        <span class="n">camera</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">camera</span>
-
-
-<div class="viewcode-block" id="Figure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure">[docs]</a><span class="k">class</span> <span class="nc">Figure</span><span class="p">(</span><span class="n">FigureBase</span><span class="p">):</span>
+<div class="viewcode-block" id="Figure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure">[docs]</a><span class="k">class</span> <span class="nc">Figure</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;The top level container for all the plot elements.</span>
 
 <span class="sd">    You can close the visualizer with the keys `escape` or `q`.</span>
-
-<span class="sd">    This implementation uses the default Open3D visualizer.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -688,7 +149,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Figure.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
                  <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Figure</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">with_key_callbacks</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">VisualizerWithKeyCallback</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -847,6 +307,507 @@
             <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="p">])</span>
         <span class="n">vc</span><span class="o">.</span><span class="n">convert_from_pinhole_camera_parameters</span><span class="p">(</span><span class="n">pcp</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="Figure.plot"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Plot line.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        P : array-like, shape (n_points, 3)</span>
+<span class="sd">            Points of which the line consists.</span>
+
+<span class="sd">        c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)</span>
+<span class="sd">            Color can be given as individual colors per line segment or</span>
+<span class="sd">            as one color for each segment. A color is represented by 3</span>
+<span class="sd">            values between 0 and 1 indicate representing red, green, and</span>
+<span class="sd">            blue respectively.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        line : Line3D</span>
+<span class="sd">            New line.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">line3d</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">line3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">line3d</span></div>
+
+<div class="viewcode-block" id="Figure.scatter"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.scatter">[docs]</a>    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot collection of points.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        P : array, shape (n_points, 3)</span>
+<span class="sd">            Points</span>
+
+<span class="sd">        s : float, optional (default: 0.05)</span>
+<span class="sd">            Scaling of the spheres that will be drawn.</span>
+
+<span class="sd">        c : array-like, shape (3,) or (n_points, 3), optional (default: black)</span>
+<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
+<span class="sd">            representing red, green, and blue respectively.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        point_collection : PointCollection3D</span>
+<span class="sd">            New point collection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">point_collection</span> <span class="o">=</span> <span class="n">PointCollection3D</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">point_collection</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">point_collection</span></div>
+
+<div class="viewcode-block" id="Figure.plot_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_vector">[docs]</a>    <span class="k">def</span> <span class="nf">plot_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+                    <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Plot vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : array-like, shape (3,), optional (default: [0, 0, 0])</span>
+<span class="sd">            Start of the vector</span>
+
+<span class="sd">        direction : array-like, shape (3,), optional (default: [1, 0, 0])</span>
+<span class="sd">            Direction of the vector</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: black)</span>
+<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
+<span class="sd">            representing red, green, and blue respectively.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vector : Vector3D</span>
+<span class="sd">            New vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vector3d</span> <span class="o">=</span> <span class="n">Vector3D</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">vector3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vector3d</span></div>
+
+<div class="viewcode-block" id="Figure.plot_basis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_basis">[docs]</a>    <span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot basis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        R : array-like, shape (3, 3), optional (default: I)</span>
+<span class="sd">            Rotation matrix, each column contains a basis vector</span>
+
+<span class="sd">        p : array-like, shape (3,), optional (default: [0, 0, 0])</span>
+<span class="sd">            Offset from the origin</span>
+
+<span class="sd">        s : float, optional (default: 1)</span>
+<span class="sd">            Scaling of the frame that will be drawn</span>
+
+<span class="sd">        strict_check : bool, optional (default: True)</span>
+<span class="sd">            Raise a ValueError if the rotation matrix is not numerically</span>
+<span class="sd">            close enough to a real rotation matrix. Otherwise we print a</span>
+<span class="sd">            warning.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Frame : frame</span>
+<span class="sd">            New frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">check_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
+
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">frame</span></div>
+
+<div class="viewcode-block" id="Figure.plot_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_transform">[docs]</a>    <span class="k">def</span> <span class="nf">plot_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot coordinate frame.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Transform from frame A to frame B</span>
+
+<span class="sd">        s : float, optional (default: 1)</span>
+<span class="sd">            Length of basis vectors</span>
+
+<span class="sd">        name : str, optional (default: None)</span>
+<span class="sd">            Name of the frame</span>
+
+<span class="sd">        strict_check : bool, optional (default: True)</span>
+<span class="sd">            Raise a ValueError if the transformation matrix is not</span>
+<span class="sd">            numerically close enough to a real transformation matrix.</span>
+<span class="sd">            Otherwise we print a warning.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Frame : frame</span>
+<span class="sd">            New frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">A2B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">A2B</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
+
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">frame</span></div>
+
+<div class="viewcode-block" id="Figure.plot_trajectory"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Trajectory of poses.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        P : array-like, shape (n_steps, 7), optional (default: None)</span>
+<span class="sd">            Sequence of poses represented by positions and quaternions in</span>
+<span class="sd">            the order (x, y, z, w, vx, vy, vz) for each step</span>
+
+<span class="sd">        n_frames : int, optional (default: 10)</span>
+<span class="sd">            Number of frames that should be plotted to indicate the</span>
+<span class="sd">            rotation</span>
+
+<span class="sd">        s : float, optional (default: 1)</span>
+<span class="sd">            Scaling of the frames that will be drawn</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: black)</span>
+<span class="sd">            A color is represented by 3 values between 0 and 1 indicate</span>
+<span class="sd">            representing red, green, and blue respectively.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        trajectory : Trajectory</span>
+<span class="sd">            New trajectory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">ptr</span><span class="o">.</span><span class="n">matrices_from_pos_quat</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+        <span class="n">trajectory</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">trajectory</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">trajectory</span></div>
+
+<div class="viewcode-block" id="Figure.plot_sphere"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_sphere">[docs]</a>    <span class="k">def</span> <span class="nf">plot_sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot sphere.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        radius : float, optional (default: 1)</span>
+<span class="sd">            Radius of the sphere</span>
+
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Transform from frame A to frame B</span>
+
+<span class="sd">        resolution : int, optional (default: 20)</span>
+<span class="sd">            The resolution of the sphere. The longitudes will be split into</span>
+<span class="sd">            resolution segments (i.e. there are resolution + 1 latitude</span>
+<span class="sd">            lines including the north and south pole). The latitudes will</span>
+<span class="sd">            be split into 2 * resolution segments (i.e. there are</span>
+<span class="sd">            2 * resolution longitude lines.)</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sphere : Sphere</span>
+<span class="sd">            New sphere.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sphere</span> <span class="o">=</span> <span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">sphere</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sphere</span></div>
+
+<div class="viewcode-block" id="Figure.plot_box"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_box">[docs]</a>    <span class="k">def</span> <span class="nf">plot_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot box.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        size : array-like, shape (3,), optional (default: [1, 1, 1])</span>
+<span class="sd">            Size of the box per dimension</span>
+
+<span class="sd">        A2B : array-like, shape (4, 4), optional (default: I)</span>
+<span class="sd">            Center of the box</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        box : Box</span>
+<span class="sd">            New box.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">Box</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">box</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">box</span></div>
+
+<div class="viewcode-block" id="Figure.plot_cylinder"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cylinder">[docs]</a>    <span class="k">def</span> <span class="nf">plot_cylinder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+                      <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot cylinder.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        length : float, optional (default: 1)</span>
+<span class="sd">            Length of the cylinder.</span>
+
+<span class="sd">        radius : float, optional (default: 1)</span>
+<span class="sd">            Radius of the cylinder.</span>
+
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Pose of the cylinder. The position corresponds to the center of the</span>
+<span class="sd">            line segment and the z-axis to the direction of the line segment.</span>
+
+<span class="sd">        resolution : int, optional (default: 20)</span>
+<span class="sd">            The circle will be split into resolution segments</span>
+
+<span class="sd">        split : int, optional (default: 4)</span>
+<span class="sd">            The height will be split into split segments</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        cylinder : Cylinder</span>
+<span class="sd">            New cylinder.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cylinder</span> <span class="o">=</span> <span class="n">Cylinder</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">split</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">cylinder</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cylinder</span></div>
+
+<div class="viewcode-block" id="Figure.plot_mesh"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">plot_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot mesh.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Path to mesh file</span>
+
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Center of the mesh</span>
+
+<span class="sd">        s : array-like, shape (3,), optional (default: [1, 1, 1])</span>
+<span class="sd">            Scaling of the mesh that will be drawn</span>
+
+<span class="sd">        c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)</span>
+<span class="sd">            Color(s)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        mesh : Mesh</span>
+<span class="sd">            New mesh.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">mesh</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mesh</span></div>
+
+<div class="viewcode-block" id="Figure.plot_ellipsoid"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_ellipsoid">[docs]</a>    <span class="k">def</span> <span class="nf">plot_ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                       <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot ellipsoid.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        radii : array-like, shape (3,)</span>
+<span class="sd">            Radii along the x-axis, y-axis, and z-axis of the ellipsoid.</span>
+
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Transform from frame A to frame B</span>
+
+<span class="sd">        resolution : int, optional (default: 20)</span>
+<span class="sd">            The resolution of the ellipsoid. The longitudes will be split into</span>
+<span class="sd">            resolution segments (i.e. there are resolution + 1 latitude</span>
+<span class="sd">            lines including the north and south pole). The latitudes will</span>
+<span class="sd">            be split into 2 * resolution segments (i.e. there are</span>
+<span class="sd">            2 * resolution longitude lines.)</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ellipsoid : Ellipsoid</span>
+<span class="sd">            New ellipsoid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ellipsoid</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">radii</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">ellipsoid</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ellipsoid</span></div>
+
+<div class="viewcode-block" id="Figure.plot_capsule"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_capsule">[docs]</a>    <span class="k">def</span> <span class="nf">plot_capsule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                     <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot capsule.</span>
+
+<span class="sd">        A capsule is the volume covered by a sphere moving along a line segment.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        height : float, optional (default: 1)</span>
+<span class="sd">            Height of the capsule along its z-axis.</span>
+
+<span class="sd">        radius : float, optional (default: 1)</span>
+<span class="sd">            Radius of the capsule.</span>
+
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Pose of the capsule. The position corresponds to the center of the</span>
+<span class="sd">            line segment and the z-axis to the direction of the line segment.</span>
+
+<span class="sd">        resolution : int, optional (default: 20)</span>
+<span class="sd">            The resolution of the capsule. The longitudes will be split into</span>
+<span class="sd">            resolution segments (i.e. there are resolution + 1 latitude lines</span>
+<span class="sd">            including the north and south pole). The latitudes will be split</span>
+<span class="sd">            into 2 * resolution segments (i.e. there are 2 * resolution</span>
+<span class="sd">            longitude lines.)</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        capsule : Capsule</span>
+<span class="sd">            New capsule.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">capsule</span> <span class="o">=</span> <span class="n">Capsule</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">capsule</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">capsule</span></div>
+
+<div class="viewcode-block" id="Figure.plot_cone"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cone">[docs]</a>    <span class="k">def</span> <span class="nf">plot_cone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                  <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot cone.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        height : float, optional (default: 1)</span>
+<span class="sd">            Height of the cone along its z-axis.</span>
+
+<span class="sd">        radius : float, optional (default: 1)</span>
+<span class="sd">            Radius of the cone.</span>
+
+<span class="sd">        A2B : array-like, shape (4, 4)</span>
+<span class="sd">            Pose of the cone.</span>
+
+<span class="sd">        resolution : int, optional (default: 20)</span>
+<span class="sd">            The circle will be split into resolution segments.</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        cone : Cone</span>
+<span class="sd">            New cone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cone</span> <span class="o">=</span> <span class="n">Cone</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">cone</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cone</span></div>
+
+<div class="viewcode-block" id="Figure.plot_plane"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_plane">[docs]</a>    <span class="k">def</span> <span class="nf">plot_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot plane.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        normal : array-like, shape (3,), optional (default: [0, 0, 1])</span>
+<span class="sd">            Plane normal.</span>
+
+<span class="sd">        d : float, optional (default: None)</span>
+<span class="sd">            Distance to origin in Hesse normal form.</span>
+
+<span class="sd">        point_in_plane : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Point in plane.</span>
+
+<span class="sd">        s : float, optional (default: 1)</span>
+<span class="sd">            Scaling of the plane that will be drawn.</span>
+
+<span class="sd">        c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">            Color.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plane : Plane</span>
+<span class="sd">            New plane.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plane</span> <span class="o">=</span> <span class="n">Plane</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">point_in_plane</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">plane</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plane</span></div>
+
+<div class="viewcode-block" id="Figure.plot_graph"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot graph of connected frames.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tm : TransformManager</span>
+<span class="sd">            Representation of the graph</span>
+
+<span class="sd">        frame : str</span>
+<span class="sd">            Name of the base frame in which the graph will be displayed</span>
+
+<span class="sd">        show_frames : bool, optional (default: False)</span>
+<span class="sd">            Show coordinate frames</span>
+
+<span class="sd">        show_connections : bool, optional (default: False)</span>
+<span class="sd">            Draw lines between frames of the graph</span>
+
+<span class="sd">        show_visuals : bool, optional (default: False)</span>
+<span class="sd">            Show visuals that are stored in the graph</span>
+
+<span class="sd">        show_collision_objects : bool, optional (default: False)</span>
+<span class="sd">            Show collision objects that are stored in the graph</span>
+
+<span class="sd">        show_name : bool, optional (default: False)</span>
+<span class="sd">            Show names of frames</span>
+
+<span class="sd">        whitelist : list, optional (default: all)</span>
+<span class="sd">            List of frames that should be displayed</span>
+
+<span class="sd">        s : float, optional (default: 1)</span>
+<span class="sd">            Scaling of the frames that will be drawn</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        graph : Graph</span>
+<span class="sd">            New graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="p">,</span> <span class="n">show_connections</span><span class="p">,</span>
+                      <span class="n">show_visuals</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="p">,</span> <span class="n">show_name</span><span class="p">,</span>
+                      <span class="n">whitelist</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">graph</span></div>
+
+<div class="viewcode-block" id="Figure.plot_camera"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_camera">[docs]</a>    <span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot camera in world coordinates.</span>
+
+<span class="sd">        This function is inspired by Blender&#39;s camera visualization. It will</span>
+<span class="sd">        show the camera center, a virtual image plane, and the top of the</span>
+<span class="sd">        virtual image plane.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        M : array-like, shape (3, 3)</span>
+<span class="sd">            Intrinsic camera matrix that contains the focal lengths on the</span>
+<span class="sd">            diagonal and the center of the the image in the last column. It</span>
+<span class="sd">            does not matter whether values are given in meters or pixels as</span>
+<span class="sd">            long as the unit is the same as for the sensor size.</span>
+
+<span class="sd">        cam2world : array-like, shape (4, 4), optional (default: I)</span>
+<span class="sd">            Transformation matrix of camera in world frame. We assume that the</span>
+<span class="sd">            position is given in meters.</span>
+
+<span class="sd">        virtual_image_distance : float, optional (default: 1)</span>
+<span class="sd">            Distance from pinhole to virtual image plane that will be</span>
+<span class="sd">            displayed. We assume that this distance is given in meters. The</span>
+<span class="sd">            unit has to be consistent with the unit of the position in</span>
+<span class="sd">            cam2world.</span>
+
+<span class="sd">        sensor_size : array-like, shape (2,), optional (default: [1920, 1080])</span>
+<span class="sd">            Size of the image sensor: (width, height). It does not matter</span>
+<span class="sd">            whether values are given in meters or pixels as long as the unit is</span>
+<span class="sd">            the same as for the sensor size.</span>
+
+<span class="sd">        strict_check : bool, optional (default: True)</span>
+<span class="sd">            Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">            close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">            warning.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        camera : Camera</span>
+<span class="sd">            New camera.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span>
+                        <span class="n">strict_check</span><span class="p">)</span>
+        <span class="n">camera</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">camera</span></div>
+
 <div class="viewcode-block" id="Figure.save_image"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image">[docs]</a>    <span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save rendered image to file.</span>
 
@@ -863,146 +824,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">destroy_window</span><span class="p">()</span></div></div>
 
 
-<div class="viewcode-block" id="RendererFigure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure">[docs]</a><span class="k">class</span> <span class="nc">RendererFigure</span><span class="p">(</span><span class="n">FigureBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The top level container for all the plot elements.</span>
-
-<span class="sd">    This implementation uses the renderer interface of Open3D.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    renderer : Renderer</span>
-<span class="sd">        Open3D renderer.</span>
-
-<span class="sd">    scene : Scene</span>
-<span class="sd">        Open3D scene.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="RendererFigure.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="n">scene</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">RendererFigure</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">renderer</span> <span class="o">=</span> <span class="n">renderer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scene</span> <span class="o">=</span> <span class="n">scene</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoom</span> <span class="o">=</span> <span class="mf">1.0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">azim</span> <span class="o">=</span> <span class="o">-</span><span class="mf">60.0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">elev</span> <span class="o">=</span> <span class="mf">30.0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_n_geometries</span> <span class="o">=</span> <span class="mi">0</span></div>
-
-<div class="viewcode-block" id="RendererFigure.add_geometry"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.add_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">add_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add geometry to visualizer.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        geometry : Geometry</span>
-<span class="sd">            Open3D geometry.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>  <span class="c1"># Open3D 0.13</span>
-            <span class="n">bright</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">rendering</span><span class="o">.</span><span class="n">Material</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>  <span class="c1"># later Open3D versions</span>
-            <span class="n">bright</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">rendering</span><span class="o">.</span><span class="n">MaterialRecord</span><span class="p">()</span>
-        <span class="n">bright</span><span class="o">.</span><span class="n">base_color</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
-        <span class="n">bright</span><span class="o">.</span><span class="n">shader</span> <span class="o">=</span> <span class="s2">&quot;defaultLit&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_geometry_with_material</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">bright</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="RendererFigure.add_geometry_with_material"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.add_geometry_with_material">[docs]</a>    <span class="k">def</span> <span class="nf">add_geometry_with_material</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">material</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add geometry to visualizer with material.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        geometry : Geometry</span>
-<span class="sd">            Open3D geometry.</span>
-
-<span class="sd">        material : o3d.visualization.rendering.Material or MaterialRecord</span>
-<span class="sd">            Material specification for the geometry.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">add_geometry</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_geometries</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">material</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_n_geometries</span> <span class="o">+=</span> <span class="mi">1</span></div>
-
-<div class="viewcode-block" id="RendererFigure.view_init"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.view_init">[docs]</a>    <span class="k">def</span> <span class="nf">view_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span> <span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the elevation and azimuth of the axes.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        azim : float, optional (default: -60)</span>
-<span class="sd">            Azimuth angle in the x,y plane in degrees.</span>
-
-<span class="sd">        elev : float, optional (default: 30)</span>
-<span class="sd">            Elevation angle in the z plane.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">azim</span> <span class="o">=</span> <span class="n">azim</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">elev</span> <span class="o">=</span> <span class="n">elev</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_camera</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="RendererFigure.set_zoom"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.set_zoom">[docs]</a>    <span class="k">def</span> <span class="nf">set_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoom</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set zoom.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        zoom : float</span>
-<span class="sd">            Zoom of the visualizer.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoom</span> <span class="o">=</span> <span class="n">zoom</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_camera</span><span class="p">()</span></div>
-
-    <span class="k">def</span> <span class="nf">_setup_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">distance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">renderer</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">bounding_box</span><span class="o">.</span><span class="n">get_extent</span><span class="p">())</span>
-        <span class="c1"># azimuth and elevation are defined in world frame</span>
-        <span class="n">R_azim</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">azim</span><span class="p">))</span>
-        <span class="n">R_elev</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">elev</span><span class="p">))</span>
-        <span class="n">eye</span> <span class="o">=</span> <span class="n">R_azim</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_elev</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span><span class="mf">1.25</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoom</span> <span class="o">*</span> <span class="n">distance</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
-        <span class="c1"># field_of_view, center, eye, up</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">renderer</span><span class="o">.</span><span class="n">setup_camera</span><span class="p">(</span><span class="mf">60.0</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eye</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-
-<div class="viewcode-block" id="RendererFigure.show_axes"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.show_axes">[docs]</a>    <span class="k">def</span> <span class="nf">show_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Show coordinate axes in rendered image.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">show_axes</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="RendererFigure.set_background_color"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.set_background_color">[docs]</a>    <span class="k">def</span> <span class="nf">set_background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set background color.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        color : array-like</span>
-<span class="sd">            Red, green, blue, alpha values between 0 and 1.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="n">color</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="RendererFigure.save_image"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.save_image">[docs]</a>    <span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Save rendered image to file.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        filename : str</span>
-<span class="sd">            Path to file in which the rendered image should be stored</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">renderer</span><span class="o">.</span><span class="n">render_to_image</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="RendererFigure.show"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.RendererFigure.html#pytransform3d.visualizer.RendererFigure.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Display the figure window.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">renderer</span><span class="o">.</span><span class="n">render_to_image</span><span class="p">())</span></div></div>
-
-
-<span class="k">class</span> <span class="nc">OffscreenRendererFigure</span><span class="p">(</span><span class="n">RendererFigure</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The top level container for all the plot elements.</span>
-
-<span class="sd">    This implementation uses the offscreen renderer of Open3D.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    width : int, optional (default: 1920)</span>
-<span class="sd">        Width of the window.</span>
-
-<span class="sd">    height : int, optional (default: 1080)</span>
-<span class="sd">        Height of the window.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">):</span>
-        <span class="n">renderer</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">rendering</span><span class="o">.</span><span class="n">OffscreenRenderer</span><span class="p">(</span>
-            <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
-        <span class="n">scene</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">scene</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">OffscreenRendererFigure</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="n">scene</span><span class="p">)</span>
-
-
 <div class="viewcode-block" id="figure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.figure.html#pytransform3d.visualizer.figure">[docs]</a><span class="k">def</span> <span class="nf">figure</span><span class="p">(</span><span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
-           <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">offscreen</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+           <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a new figure.</span>
 
 <span class="sd">    Parameters</span>
@@ -1020,16 +843,11 @@
 <span class="sd">        Creates a visualizer that allows to register callbacks</span>
 <span class="sd">        for keys.</span>
 
-<span class="sd">    offscreen : bool, optional (default: False)</span>
-<span class="sd">        Use Open3D&#39;s offscreen renderer to create an image.</span>
-
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    figure : Figure</span>
 <span class="sd">        New figure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">offscreen</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">OffscreenRendererFigure</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Figure</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">with_key_callbacks</span><span class="p">)</span></div>
 </pre></div>
 
@@ -1045,7 +863,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2023.<br/>
+      Last updated on Feb 18, 2023.<br/>
     </p>
   </div>
 </footer>

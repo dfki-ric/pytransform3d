@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transformations.random_transform &#8212; pytransform3d 2.3.0 documentation</title>
+    <title>pytransform3d.transformations.random_transform &#8212; pytransform3d 2.3.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -128,14 +128,14 @@
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a>.random_transform<a class="headerlink" href="#pytransform3d-transformations-random-transform" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.transformations.random_transform">
-<span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">random_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_state=RandomState(MT19937)</span> <span class="pre">at</span> <span class="pre">0x7F7E6EB9F640</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_random.html#random_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.random_transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">random_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng=RandomState(MT19937)</span> <span class="pre">at</span> <span class="pre">0x7F2DEE1BE440</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_random.html#random_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.random_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate random transform.</p>
 <p>Each component of the translation will be sampled from
 <img class="math" src="../_images/math/a7789ff36a2799ee4385829a76e1325c5d6fb10e.png" alt="\mathcal{N}(\mu=0, \sigma=1)"/>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>random_state</strong><span class="classifier">np.random.RandomState, optional (default: random seed 0)</span></dt><dd><p>Random number generator</p>
+<dt><strong>rng</strong><span class="classifier">np.random.Generator, optional (default: random seed 0)</span></dt><dd><p>Random number generator</p>
 </dd>
 </dl>
 </dd>
@@ -150,7 +150,16 @@
 
 <section id="examples-using-pytransform3d-transformations-random-transform">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.random_transform</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-random-transform" title="Permalink to this heading">¶</a></h2>
-</section>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><img alt="Plot with Respect to Different Reference Frames" src="../_images/sphx_glr_plot_frames_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot with Respect to Different Reference Frames</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting of several geometric shapes is directly supported by the library."><img alt="Plot Random Geometries" src="../_images/sphx_glr_plot_random_geometries_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_random_geometries.html#sphx-glr-auto-examples-plots-plot-random-geometries-py"><span class="std std-ref">Plot Random Geometries</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Random Geometries</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds..."><img alt="Dual Quaternion Interpolation" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_dual_quaternion_interpolation.html#sphx-glr-auto-examples-plots-plot-dual-quaternion-interpolation-py"><span class="std std-ref">Dual Quaternion Interpolation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Dual Quaternion Interpolation</div>
+</div></div></section>
 </section>
 
 
@@ -166,7 +175,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 11, 2023.<br/>
+      Last updated on Feb 18, 2023.<br/>
     </p>
   </div>
 </footer>
