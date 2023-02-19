@@ -34,6 +34,7 @@ Input Validation Functions
    ~pytransform3d.rotations.check_quaternion
    ~pytransform3d.rotations.check_quaternions
    ~pytransform3d.rotations.check_rotor
+   ~pytransform3d.rotations.check_mrp
 
 Conversions to Rotation Matrix
 ------------------------------
