@@ -13,7 +13,7 @@ from ._utils import (
     random_quaternion,
     check_skew_symmetric_matrix, check_matrix, check_quaternion,
     check_quaternions, check_axis_angle, check_compact_axis_angle,
-    check_rotor)
+    check_rotor, check_mrp)
 from ._conversions import (
     quaternion_from_axis_angle, quaternion_from_compact_axis_angle,
     quaternion_from_matrix, quaternion_wxyz_from_xyzw,
@@ -127,6 +127,7 @@ __all__ = [
     "check_axis_angle",
     "check_rotor",
     "check_compact_axis_angle",
+    "check_mrp",
     "quaternion_from_axis_angle",
     "quaternion_from_compact_axis_angle",
     "quaternion_from_matrix",

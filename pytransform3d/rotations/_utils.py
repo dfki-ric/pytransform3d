@@ -573,3 +573,29 @@ def check_rotor(rotor):
         raise ValueError("Expected rotor with shape (4,), got "
                          "array-like object with shape %s" % (rotor.shape,))
     return norm_vector(rotor)
+
+
+def check_mrp(mrp):
+    """Input validation of modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Validated modified Rodrigues parameters.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    mrp = np.asarray(mrp)
+    if mrp.ndim != 1 or mrp.shape[0] != 3:
+        raise ValueError(
+            "Expected modified Rodrigues parameters with shape (3,), got "
+            "array-like object with shape %s" % (mrp.shape,))
+    return mrp

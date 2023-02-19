@@ -4,7 +4,7 @@ import warnings
 import numpy as np
 from ._utils import (
     check_matrix, check_quaternion, check_axis_angle, check_compact_axis_angle,
-    norm_angle, norm_vector, norm_axis_angle,
+    check_mrp, norm_angle, norm_vector, norm_axis_angle,
     perpendicular_to_vector, perpendicular_to_vectors, vector_projection)
 from ._constants import unitx, unity, unitz, eps
 
@@ -2072,7 +2072,7 @@ def quaternion_from_mrp(mrp):
     q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
-    mrp = np.asarray(mrp)  # TODO introduce check function
+    mrp = check_mrp(mrp)
     dot_product_p1 = np.dot(mrp, mrp) + 1.0
     q = np.empty(4, dtype=float)
     q[0] = (2.0 - dot_product_p1) / dot_product_p1
@@ -2089,7 +2089,7 @@ def mrp_from_quaternion(q):
         Unit quaternion to represent rotation: (w, x, y, z)
 
     Returns
-    ----------
+    -------
     mrp : array, shape (3,)
         Modified Rodrigues parameters.
     """

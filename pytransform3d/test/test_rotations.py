@@ -2159,6 +2159,17 @@ def test_general_matrix_euler_conversions():
                 assert_array_almost_equal(R_R, R_q)
 
 
+def test_check_mrp():
+    with pytest.raises(
+            ValueError,
+            match="Expected modified Rodrigues parameters with shape"):
+        pr.check_mrp([])
+    with pytest.raises(
+            ValueError,
+            match="Expected modified Rodrigues parameters with shape"):
+        pr.check_mrp(np.zeros((3, 4)))
+
+
 def test_mrp_quat_conversions():
     rng = np.random.default_rng(22)
 
