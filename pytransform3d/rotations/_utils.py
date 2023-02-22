@@ -308,7 +308,7 @@ def random_compact_axis_angle(rng=np.random.default_rng(0)):
 
     The angle will be sampled uniformly from the interval :math:`[0, \pi)`
     and each component of the rotation axis will be sampled from
-    :math:`\mathcal{N}(\mu=0, \sigma=1)` and than the axis will be normalized
+    :math:`\mathcal{N}(\mu=0, \sigma=1)` and then the axis will be normalized
     to length 1.
 
     Parameters
