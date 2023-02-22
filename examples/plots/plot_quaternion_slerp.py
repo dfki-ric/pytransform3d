@@ -9,6 +9,9 @@ significant differences as you can see in this example. The outer circle uses
 linear interpolation and the inner circle uses SLERP. You can play around with
 the value of 'end_angle' in this example.
 """
+print(__doc__)
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import (
