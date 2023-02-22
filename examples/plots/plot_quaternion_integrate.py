@@ -6,6 +6,8 @@ Quaternion Integration
 Integrate angular velocities to a sequence of quaternions.
 """
 print(__doc__)
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import (
