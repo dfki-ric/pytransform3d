@@ -24,7 +24,8 @@ if required as indicated by the solid red arrow.
     Example of a graph representing transformations that connect frames.
 
 The :class:`~pytransform3d.transform_manager.TransformManager` does this for
-you. For the given example, this would be the corresponding code.
+you. For the given example, this would be the corresponding code
+(see also: :ref:`sphx_glr__auto_examples_plots_plot_transform_manager.py`).
 
 .. literalinclude:: ../../examples/plots/plot_transform_manager.py
    :language: python
@@ -40,13 +41,10 @@ We can also export the underlying graph structure as a PNG with
     :width: 50%
     :align: center
 
-
 A subclass of :class:`~pytransform3d.transform_manager.TransformManager` is
 :class:`~pytransform3d.urdf.UrdfTransformManager` which can load robot
 definitions from `URDF <http://wiki.ros.org/urdf/Tutorials>`_ files.
 The same class can be used to display collision objects or visuals from URDF
 files. The library `trimesh <https://trimsh.org/>`_ will be used to load
 meshes. Here is a simple example with one visual that is used for two links:
-
-.. plot:: ../../examples/plots/plot_urdf_with_meshes.py
-    :include-source:
+:ref:`sphx_glr__auto_examples_plots_plot_urdf_with_meshes.py`.
