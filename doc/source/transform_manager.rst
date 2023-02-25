@@ -41,6 +41,8 @@ We can also export the underlying graph structure as a PNG with
     :width: 50%
     :align: center
 
+|
+
 A subclass of :class:`~pytransform3d.transform_manager.TransformManager` is
 :class:`~pytransform3d.urdf.UrdfTransformManager` which can load robot
 definitions from `URDF <http://wiki.ros.org/urdf/Tutorials>`_ files.
