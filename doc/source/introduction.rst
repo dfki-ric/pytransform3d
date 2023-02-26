@@ -16,18 +16,38 @@ is always expressed with respect to another frame.
 Basics
 ------
 
-**Position** of a rigid body in 3D Euclidean space is expressed as a 3D
-vector.
+.. list-table::
+   :width: 50%
+   :widths: 30 70
 
-**Orientation** of a rigid body in 3D Euclidean space is defined by a set
-of 3 orthogonal basis vectors.
-
-**Translation** is a displacement, in which points move along parallel lines
-by the same distance.
-
-**Rotation** is a displacement, in which points move about a rotation axis
-through the origin of the reference frame (fixed point) along a circle by the
-same angle.
+   * - .. image:: _static/position.png
+     - **Position** of a rigid body in 3D Euclidean space is expressed as a 3D
+       vector.
+   * - .. image:: _static/frame.png
+     - **Orientation** of a rigid body in 3D Euclidean space is defined by a
+       set of 3 orthogonal basis vectors.
+   * - .. image:: _static/position.png
+           :width: 30%
+           :align: center
+       .. image:: _static/frame.png
+           :width: 30%
+           :align: center
+     - **Pose** is a combination of position and orientation.
+   * - .. image:: _static/translation.png
+     - **Translation** is a displacement, in which points move along parallel
+       lines by the same distance.
+   * - .. image:: _static/rotation.png
+     -  **Rotation** is a displacement, in which points move about a rotation
+        axis through the origin of the reference frame (fixed point) along a
+        circle by the same angle.
+   * - .. image:: _static/translation.png
+           :width: 30%
+           :align: center
+       .. image:: _static/rotation.png
+           :width: 30%
+           :align: center
+     - A (proper) **rigid transformation** is a combination of translation and
+       rotation.
 
 --------------
 Frame Notation
