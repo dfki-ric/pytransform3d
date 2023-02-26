@@ -2,8 +2,8 @@
 SE(3): 3D Transformations
 =========================
 
-The group of all rigid transformations in the 3D Cartesian space is :math:`SE(3)`
-(SE: special Euclidean group).
+The group of all proper rigid transformations (rototranslations) in the
+3D Cartesian space is :math:`SE(3)` (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
 in different ways.
