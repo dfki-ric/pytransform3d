@@ -137,7 +137,7 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
+            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha)
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
 
