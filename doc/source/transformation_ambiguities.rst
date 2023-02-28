@@ -159,7 +159,10 @@ frame.
 .. raw:: html
 
     <table>
-    <tr><td>Active</td><td>Passive</td></tr>
+    <tr>
+        <th style="text-align:center">Active</th>
+        <th style="text-align:center">Passive</th>
+    </tr>
     <tr>
     <td>
 
