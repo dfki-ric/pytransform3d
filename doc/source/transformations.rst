@@ -109,9 +109,7 @@ quaternion:
 
 .. math::
 
-    \left( \begin{array}{c}
-        x\\y\\z\\q_w\\q_x\\q_y\\q_z
-    \end{array} \right)
+    \left( x, y, z, q_w, q_x, q_y, q_z \right)^T
 
 This representation is more compact than a transformation matrix and is
 particularly useful if you want to represent a sequence of poses in
@@ -140,7 +138,7 @@ h to represent the parameters of a screw.
 
 .. image:: _static/screw_axis.png
    :alt: Screw axis
-   :width: 80%
+   :width: 50%
    :align: center
 
 A **screw axis** is typically represented by
