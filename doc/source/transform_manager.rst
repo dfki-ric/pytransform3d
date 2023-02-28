@@ -29,7 +29,7 @@ you. For the given example, this would be the corresponding code
 
 .. literalinclude:: ../../examples/plots/plot_transform_manager.py
    :language: python
-   :lines: 30-35
+   :lines: 27-32
 
 We can also export the underlying graph structure as a PNG with
 
