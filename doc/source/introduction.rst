@@ -3,16 +3,6 @@ Introduction to 3D Rigid Transformations
 ========================================
 
 ------
-Frames
-------
-
-The basis of this introduction are (coordinate reference) frames in 3D
-Euclidean space. A frame is defined by an origin and 3 orthogonal basis
-vectors and it is attached to a rigid body.
-The pose (its position and orientation) of a rigid body (i.e., of its frame)
-is always expressed with respect to another frame.
-
-------
 Basics
 ------
 
@@ -48,6 +38,15 @@ Basics
            :align: center
      - A (proper) **rigid transformation** is a combination of translation and
        rotation.
+
+------
+Frames
+------
+
+A (coordinate reference) frames in 3D Euclidean space is defined by an origin
+(position) and 3 orthogonal basis vectors (orientation) and it is attached to
+a rigid body. The pose (position and orientation) of a rigid body (i.e., of
+its frame) is always expressed with respect to another frame.
 
 --------------
 Frame Notation
@@ -100,48 +99,50 @@ All representations are stored in NumPy arrays, of which the corresponding
 shape is shown in this table. You will find more details on these
 representations on the following pages.
 
-+----------------------------------------+---------------------+----------+-------------+
-| Representation and Mathematical Symbol | NumPy Array Shape   | Rotation | Translation |
-+========================================+=====================+==========+=============+
-| Rotation matrix                        | (3, 3)              | X        |             |
-| :math:`\pmb{R}`                        |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Compact axis-angle                     | (3,)                | X        |             |
-| :math:`\pmb{\omega}`                   |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Axis-angle                             | (4,)                | X        |             |
-| :math:`(\hat{\pmb{\omega}}, \theta)`   |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Logarithm of rotation                  | (3, 3)              | X        |             |
-| :math:`\left[\pmb{\omega}\right]`      |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Quaternion                             | (4,)                | X        |             |
-| :math:`\pmb{q}`                        |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Rotor                                  | (4,)                | X        |             |
-| :math:`R`                              |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Euler angles                           | (3,)                | X        |             |
-| :math:`(\alpha, \beta, \gamma)`        |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Modified Rodrigues parameters          | (3,)                | X        |             |
-| :math:`\psi`                           |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Transformation matrix                  | (4, 4)              | X        | X           |
-| :math:`\pmb{T}`                        |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Exponential coordinates                | (6,)                | X        | X           |
-| :math:`\mathcal{S}\theta`              |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Logarithm of transformation            | (4, 4)              | X        | X           |
-| :math:`\left[\mathcal{S}\right]\theta` |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Position and quaternion                | (7,)                | X        | X           |
-| :math:`(\pmb{p}, \pmb{q})`             |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
-| Dual quaternion                        | (8,)                | X        | X           |
-| :math:`\pmb{p} + \epsilon\pmb{q}`      |                     |          |             |
-+----------------------------------------+---------------------+----------+-------------+
++----------------------------------------+---------------------+------------------+---------------+
+|                                        |                     | Rigid Transformation - SE(3)     |
++                                        |                     +------------------+---------------+
+| Representation and Mathematical Symbol | NumPy Array Shape   | Rotation - SO(3) | Translation   |
++========================================+=====================+==================+===============+
+| Rotation matrix                        | (3, 3)              | X                |               |
+| :math:`\pmb{R}`                        |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Compact axis-angle                     | (3,)                | X                |               |
+| :math:`\pmb{\omega}`                   |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Axis-angle                             | (4,)                | X                |               |
+| :math:`(\hat{\pmb{\omega}}, \theta)`   |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Logarithm of rotation                  | (3, 3)              | X                |               |
+| :math:`\left[\pmb{\omega}\right]`      |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Quaternion                             | (4,)                | X                |               |
+| :math:`\pmb{q}`                        |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Rotor                                  | (4,)                | X                |               |
+| :math:`R`                              |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Euler angles                           | (3,)                | X                |               |
+| :math:`(\alpha, \beta, \gamma)`        |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Modified Rodrigues parameters          | (3,)                | X                |               |
+| :math:`\psi`                           |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Transformation matrix                  | (4, 4)              | X                | X             |
+| :math:`\pmb{T}`                        |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Exponential coordinates                | (6,)                | X                | X             |
+| :math:`\mathcal{S}\theta`              |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Logarithm of transformation            | (4, 4)              | X                | X             |
+| :math:`\left[\mathcal{S}\right]\theta` |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Position and quaternion                | (7,)                | X                | X             |
+| :math:`(\pmb{p}, \pmb{q})`             |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Dual quaternion                        | (8,)                | X                | X             |
+| :math:`\pmb{p} + \epsilon\pmb{q}`      |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
 
 ----------
 References

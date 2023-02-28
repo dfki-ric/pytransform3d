@@ -44,35 +44,22 @@ pytransform3d
 
         <div class="col-md-8">
 
-pytransform3d covers the following groups of transformations.
 This documentation explains how you can work with pytransform3d and with
 3D transformations in general.
-
-+-------+--------------------+-----------------------------------------+
-| Group | Description        | Representations                         |
-+=======+====================+=========================================+
-| SO(3) | 3D rotations       | unit quaternion, rotation matrix,       |
-|       |                    | axis-angle, Euler angles, rotor         |
-+-------+--------------------+-----------------------------------------+
-| SE(3) | 3D transformations | transformation matrix, translation      |
-|       | (rotation and      | and unit quaternion, exponential        |
-|       | translation)       | coordinates, logarithm of               |
-|       |                    | transformation, unit dual quaternion    |
-+-------+--------------------+-----------------------------------------+
 
 
 -----
 Scope
 -----
 
-The library focuses on readability and debugging, not on computational
+pytransform3d focuses on readability and debugging, not on computational
 efficiency. If you want to have an efficient implementation of some function
 from the library you can easily extract the relevant code and implement it
 more efficiently in a language of your choice.
 
 The library integrates well with the
 `scientific Python ecosystem <https://scipy-lectures.org/>`_
-with its core libraries Numpy, Scipy and Matplotlib.
+with its core libraries NumPy, SciPy and Matplotlib.
 We rely on `NumPy <https://numpy.org/>`_ for linear algebra and on
 `Matplotlib <https://matplotlib.org/>`_ to offer plotting functionalities.
 `SciPy <https://scipy.org/>`_ is used if you want to
@@ -80,13 +67,13 @@ automatically compute transformations from a graph of transformations.
 
 pytransform3d offers...
 
-* operations for most common representations of rotation (orientation) and
-  translation (position)
+* operations for most common representations of rotation / orientation and
+  translation / position
 * conversions between those representations
-* clear documentation of transformation conventions
+* clear documentation of conventions
 * tight coupling with matplotlib to quickly visualize (or animate)
   transformations
-* the TransformManager which manages complex chains of transformations
+* the TransformManager which organizes complex chains of transformations
 * the TransformEditor which allows to modify transformations graphically
 * the UrdfTransformManager which is able to load transformations from
   `URDF <https://wiki.ros.org/urdf>`_ files
