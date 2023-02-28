@@ -3,7 +3,7 @@
 Visualize Wrench
 ================
 
-We see a 6-DOF robot arm and we assume that we have a force/torque sensor
+We see a 6-DOF robot arm, and we assume that we have a force/torque sensor
 that measures the force of a spherical mass (gray sphere) at the tool center
 point (TCP). We can draw the screw representation of the wrench in the TCP
 frame as a force along a screw axis from the red sphere to the green sphere.

@@ -14,7 +14,7 @@ from pytransform3d.transformations import (
     random_transform, plot_transform, translate_transform)
 
 
-rng = np.random.default_rng(2823)
+rng = np.random.default_rng(2825)
 ax = make_3d_axis(2)
 
 box2origin = random_transform(rng)
