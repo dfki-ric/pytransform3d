@@ -73,9 +73,9 @@ more efficiently in a language of your choice.
 The library integrates well with the
 `scientific Python ecosystem <https://scipy-lectures.org/>`_
 with its core libraries Numpy, Scipy and Matplotlib.
-We rely on `Numpy <https://numpy.org/>`_ for linear algebra and on
+We rely on `NumPy <https://numpy.org/>`_ for linear algebra and on
 `Matplotlib <https://matplotlib.org/>`_ to offer plotting functionalities.
-`Scipy <https://scipy.org/scipylib/index.html>`_ is used if you want to
+`SciPy <https://scipy.org/>`_ is used if you want to
 automatically compute transformations from a graph of transformations.
 
 pytransform3d offers...
