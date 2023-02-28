@@ -55,8 +55,8 @@ right-handed system and with the left hand in a left-handed system.
 
     <table>
     <tr>
-        <td style="text-align:center">Right-handed</td>
-        <td style="text-align:center">Left-handed</td>
+        <th style="text-align:center">Right-handed</th>
+        <th style="text-align:center">Left-handed</th>
     </tr>
     <tr>
     <td>
