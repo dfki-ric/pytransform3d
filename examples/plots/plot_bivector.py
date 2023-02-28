@@ -12,9 +12,6 @@ of the bivector and one black arrow will represent the normal of the plane
 that can be extracted by rearranging the elements of the bivector and
 normalizing the vector.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.rotations as pr

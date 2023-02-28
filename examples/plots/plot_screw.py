@@ -15,9 +15,6 @@ indicates the position of q, which is a point on the screw axis. A straight
 arrow shows the direction of the screw axis. The spiral path represents
 a displacement of length theta along the screw axis.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import active_matrix_from_extrinsic_roll_pitch_yaw

@@ -7,9 +7,6 @@ This example shows how to load an STL mesh. This example must be
 run from within the main folder because it uses a
 hard-coded path to the STL file.
 """
-print(__doc__)
-
-
 import os
 import numpy as np
 import matplotlib.pyplot as plt

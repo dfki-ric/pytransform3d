@@ -7,9 +7,6 @@ We apply a constant body-fixed wrench to a cylinder and integrate
 acceleration to twist and exponential coordinates of transformation
 to finally compute the new pose of the cylinder.
 """
-print(__doc__)
-
-
 import numpy as np
 from pytransform3d.transformations import (
     transform_from_exponential_coordinates)

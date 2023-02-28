@@ -8,9 +8,6 @@ which we know the world coordinates. If we know the location and orientation of
 the camera in the world, we can easily compute the location of the points on
 the image.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import make_3d_axis

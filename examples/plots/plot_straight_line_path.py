@@ -7,9 +7,6 @@ We will compose a trajectory of multiple straight line paths in exponential
 coordinates. This is a demonstration of batch conversion from exponential
 coordinates to transformation matrices.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import Trajectory, make_3d_axis, remove_frame

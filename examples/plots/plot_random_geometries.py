@@ -5,9 +5,6 @@ Plot Random Geometries
 
 Plotting of several geometric shapes is directly supported by the library.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import (
