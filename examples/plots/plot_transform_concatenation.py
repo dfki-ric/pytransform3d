@@ -7,9 +7,6 @@ In this example, we have a point p that is defined in a frame C, we know
 the transform C2B and B2A. We can construct a transform C2A to extract the
 position of p in frame A.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.rotations as pyrot

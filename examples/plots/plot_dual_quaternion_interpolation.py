@@ -10,9 +10,6 @@ and the blue line corresponds to screw linear interpolation (ScLERP) with
 dual quaternions. The true screw motion from pose 1 to pose 2 is shown by
 a thick, transparent black line in the background of the ScLERP interpolation.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.transformations as pt

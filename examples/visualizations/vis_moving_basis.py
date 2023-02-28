@@ -5,9 +5,6 @@ Animate Rotation
 
 Animates a rotation about the x-axis.
 """
-print(__doc__)
-
-
 import numpy as np
 import pytransform3d.visualizer as pv
 from pytransform3d import rotations as pr

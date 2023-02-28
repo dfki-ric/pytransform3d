@@ -6,9 +6,6 @@ Visualize Plane
 Visualizes one plane in Hesse normal form and one plane defined by point and
 normal.
 """
-print(__doc__)
-
-
 import numpy as np
 import pytransform3d.rotations as pr
 import pytransform3d.visualizer as pv

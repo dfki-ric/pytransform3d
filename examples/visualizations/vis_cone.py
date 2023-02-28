@@ -3,9 +3,6 @@
 Visualize Cone
 ==============
 """
-print(__doc__)
-
-
 import numpy as np
 import pytransform3d.visualizer as pv
 

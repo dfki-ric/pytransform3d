@@ -7,9 +7,6 @@ In this example, we will demonstrate how to use the TransformManager.
 We will add several transforms to the manager and plot all frames in
 two reference frames ('world' and 'A').
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import make_3d_axis

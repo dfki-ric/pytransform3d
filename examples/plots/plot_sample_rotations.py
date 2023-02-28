@@ -7,9 +7,6 @@ There are different ways of sampling rotations. We draw random samples of
 rotations, convert them to rotation matrices, and apply these to the basis
 vector (1, 0, 0) to obtain points on the unit sphere.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.rotations as pr

@@ -5,9 +5,6 @@ Plot Transformed Cylinders
 
 Plots surfaces of transformed cylindrical shells.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.transformations import transform_from, plot_transform

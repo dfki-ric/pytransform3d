@@ -6,9 +6,6 @@ Euler Angles
 Any rotation can be represented by three consecutive rotations about three
 basis vectors. Here we use the extrinsic xyz convention.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d import rotations as pr

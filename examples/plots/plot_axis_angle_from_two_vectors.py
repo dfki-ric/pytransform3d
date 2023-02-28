@@ -10,9 +10,6 @@ axis and the initial and resulting coordinate frame, where the vector 'b'
 and its corresponding frame after the rotation are represented by shorter
 lines.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import (

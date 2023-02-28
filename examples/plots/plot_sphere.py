@@ -3,9 +3,6 @@
 Plot Sphere
 ===========
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.transformations import plot_transform

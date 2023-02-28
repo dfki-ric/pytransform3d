@@ -16,9 +16,6 @@ direction to the initial configuration and the green line indicates the
 direction to the displaced configuration in which the instantaneous
 wrench would move the base.
 """
-print(__doc__)
-
-
 import os
 import numpy as np
 from pytransform3d.urdf import UrdfTransformManager
