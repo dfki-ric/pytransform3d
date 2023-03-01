@@ -583,11 +583,10 @@ def transform_from_exponential_coordinates(Stheta, check=True):
     A2B = np.eye(4)
     A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
     omega_matrix = cross_product_matrix(omega_unit)
-    A2B[:3, 3] = np.dot(
-        np.eye(3) * theta
-        + (1.0 - math.cos(theta)) * omega_matrix
-        + (theta - math.sin(theta)) * np.dot(omega_matrix, omega_matrix),
-        v)
+    # left Jacobian of SO(3)
+    J = (np.eye(3) * theta + (1.0 - math.cos(theta)) * omega_matrix
+         + (theta - math.sin(theta)) * np.dot(omega_matrix, omega_matrix))
+    A2B[:3, 3] = np.dot(J, v)
     return A2B
 
 
