@@ -105,7 +105,7 @@ Right: [Kuka iiwa](https://www.kuka.com/en-de/products/robot-systems/industrial-
 The animation is based on pytransform3d's visualization interface to
 [Open3D](http://www.open3d.org/).
 
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_nao.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/develop-3/doc/source/_static/animation_dynamics.gif" height=200px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_nao.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_dynamics.gif" height=200px/>
 
 Visualizations based on [Open3D](http://www.open3d.org/).
 
