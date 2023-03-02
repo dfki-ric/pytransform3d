@@ -31,7 +31,7 @@ from ._transform_operations import (
 from ._dual_quaternion_operations import (
     dq_q_conj, dq_conj, concatenate_dual_quaternions, dual_quaternion_sclerp,
     dual_quaternion_power, dq_prod_vector)
-from ._random import random_transform, random_screw_axis
+from ._random import random_transform, random_screw_axis, random_exponential_coordinates
 from ._plot import plot_transform, plot_screw
 from ._testing import (
     assert_transform, assert_screw_parameters_equal,
@@ -63,7 +63,7 @@ __all__ = [
     "invert_transform", "scale_transform", "concat",
     "vector_to_point", "vectors_to_points", "vector_to_direction",
     "vectors_to_directions", "transform",
-    "random_transform", "random_screw_axis",
+    "random_transform", "random_screw_axis", "random_exponential_coordinates",
     "dq_q_conj", "dq_conj", "concatenate_dual_quaternions",
     "dual_quaternion_sclerp", "dual_quaternion_power", "dq_prod_vector",
     "plot_transform", "plot_screw",
