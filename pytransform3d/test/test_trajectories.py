@@ -22,7 +22,7 @@ from numpy.testing import assert_array_almost_equal
 
 def test_invert_transforms_0dims():
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
     B2A = invert_transform(A2B)
     assert_array_almost_equal(B2A, invert_transforms(A2B))
 
@@ -32,7 +32,7 @@ def test_invert_transforms_1dims():
     A2Bs = np.empty((3, 4, 4))
     B2As = np.empty((3, 4, 4))
     for i in range(len(A2Bs)):
-        A2Bs[i] = random_transform(rng)
+        A2Bs[i] = random_transform(rng=rng)
         B2As[i] = invert_transform(A2Bs[i])
     assert_array_almost_equal(B2As, invert_transforms(A2Bs))
 
@@ -42,7 +42,7 @@ def test_invert_transforms_2dims():
     A2Bs = np.empty((9, 4, 4))
     B2As = np.empty((9, 4, 4))
     for i in range(len(A2Bs)):
-        A2Bs[i] = random_transform(rng)
+        A2Bs[i] = random_transform(rng=rng)
         B2As[i] = invert_transform(A2Bs[i])
     assert_array_almost_equal(
         B2As.reshape(3, 3, 4, 4), invert_transforms(A2Bs.reshape(3, 3, 4, 4)))
@@ -50,24 +50,24 @@ def test_invert_transforms_2dims():
 
 def test_concat_one_to_many():
     rng = np.random.default_rng(482)
-    A2B = random_transform(rng)
-    B2C = random_transform(rng)
+    A2B = random_transform(rng=rng)
+    B2C = random_transform(rng=rng)
     A2C = concat(A2B, B2C)
     assert_array_almost_equal(A2C, concat_one_to_many(A2B, [B2C])[0])
 
-    B2Cs = [random_transform(rng) for _ in range(5)]
+    B2Cs = [random_transform(rng=rng) for _ in range(5)]
     A2Cs = [concat(A2B, B2C) for B2C in B2Cs]
     assert_array_almost_equal(A2Cs, concat_one_to_many(A2B, B2Cs))
 
 
 def test_concat_many_to_one():
     rng = np.random.default_rng(482)
-    A2B = random_transform(rng)
-    B2C = random_transform(rng)
+    A2B = random_transform(rng=rng)
+    B2C = random_transform(rng=rng)
     A2C = concat(A2B, B2C)
     assert_array_almost_equal(A2C, concat_many_to_one([A2B], B2C)[0])
 
-    A2Bs = [random_transform(rng) for _ in range(5)]
+    A2Bs = [random_transform(rng=rng) for _ in range(5)]
     A2Cs = [concat(A2B, B2C) for A2B in A2Bs]
     assert_array_almost_equal(A2Cs, concat_many_to_one(A2Bs, B2C))
 
@@ -143,7 +143,7 @@ def test_transforms_from_exponential_coordinates():
 
     rng = np.random.default_rng(53)
     for _ in range(5):
-        A2B = random_transform(rng)
+        A2B = random_transform(rng=rng)
         Stheta = exponential_coordinates_from_transform(A2B)
         A2B2 = transforms_from_exponential_coordinates(Stheta[np.newaxis])[0]
         assert_array_almost_equal(A2B, A2B2)

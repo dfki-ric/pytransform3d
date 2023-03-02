@@ -17,7 +17,7 @@ import pytest
 def test_request_added_transform():
     """Request an added transform from the transform manager."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -28,7 +28,7 @@ def test_request_added_transform():
 def test_request_inverse_transform():
     """Request an inverse transform from the transform manager."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -52,8 +52,8 @@ def test_has_frame():
 def test_transform_not_added():
     """Test request for transforms that have not been added."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
-    C2D = random_transform(rng)
+    A2B = random_transform(rng=rng)
+    C2D = random_transform(rng=rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -70,9 +70,9 @@ def test_transform_not_added():
 def test_request_concatenated_transform():
     """Request a concatenated transform from the transform manager."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
-    B2C = random_transform(rng)
-    F2A = random_transform(rng)
+    A2B = random_transform(rng=rng)
+    B2C = random_transform(rng=rng)
+    F2A = random_transform(rng=rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -94,8 +94,8 @@ def test_request_concatenated_transform():
 def test_update_transform():
     """Update an existing transform."""
     rng = np.random.default_rng(0)
-    A2B1 = random_transform(rng)
-    A2B2 = random_transform(rng)
+    A2B1 = random_transform(rng=rng)
+    A2B2 = random_transform(rng=rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B1)
@@ -111,7 +111,7 @@ def test_update_transform():
 def test_pickle():
     """Test if a transform manager can be pickled."""
     rng = np.random.default_rng(1)
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
 
@@ -132,7 +132,7 @@ def test_pickle():
 def test_whitelist():
     """Test correct handling of whitelists for plotting."""
     rng = np.random.default_rng(2)
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
 
@@ -150,29 +150,29 @@ def test_check_consistency():
 
     tm = TransformManager()
 
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
     tm.add_transform("A", "B", A2B)
-    B2A = random_transform(rng)
+    B2A = random_transform(rng=rng)
     tm.add_transform("B", "A", B2A)
     assert not tm.check_consistency()
 
     tm = TransformManager()
 
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
     tm.add_transform("A", "B", A2B)
     assert tm.check_consistency()
 
-    C2D = random_transform(rng)
+    C2D = random_transform(rng=rng)
     tm.add_transform("C", "D", C2D)
     assert tm.check_consistency()
 
-    B2C = random_transform(rng)
+    B2C = random_transform(rng=rng)
     tm.add_transform("B", "C", B2C)
     assert tm.check_consistency()
 
     A2D_over_path = tm.get_transform("A", "D")
 
-    A2D = random_transform(rng)
+    A2D = random_transform(rng=rng)
     tm.add_transform("A", "D", A2D)
     assert not tm.check_consistency()
 
@@ -290,11 +290,11 @@ def test_remove_transform():
 def test_from_to_dict():
     rng = np.random.default_rng(2323)
     tm = TransformManager()
-    A2B = random_transform(rng)
+    A2B = random_transform(rng=rng)
     tm.add_transform("A", "B", A2B)
-    B2C = random_transform(rng)
+    B2C = random_transform(rng=rng)
     tm.add_transform("B", "C", B2C)
-    C2D = random_transform(rng)
+    C2D = random_transform(rng=rng)
     tm.add_transform("C", "D", C2D)
 
     tm_dict = tm.to_dict()

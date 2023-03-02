@@ -15,10 +15,10 @@ from pytransform3d.transform_manager import TransformManager
 
 
 rng = np.random.default_rng(0)
-A2world = random_transform(rng)
-B2world = random_transform(rng)
-A2C = random_transform(rng)
-D2B = random_transform(rng)
+A2world = random_transform(rng=rng)
+B2world = random_transform(rng=rng)
+A2C = random_transform(rng=rng)
+D2B = random_transform(rng=rng)
 
 tm = TransformManager()
 tm.add_transform("A", "world", A2world)
