@@ -9,6 +9,7 @@ from ..rotations import (
     matrix_from_quaternion, quaternion_from_matrix, axis_angle_from_matrix,
     matrix_from_axis_angle, cross_product_matrix, q_conj,
     concatenate_quaternions, axis_angle_from_quaternion, norm_angle, eps)
+from ._lie import left_jacobian_SO3
 
 
 def transform_from(R, p, strict_check=True):
@@ -737,10 +738,7 @@ def transform_from_exponential_coordinates(Stheta, check=True):
 
     A2B = np.eye(4)
     A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
-    omega_matrix = cross_product_matrix(omega_unit)
-    # left Jacobian of SO(3)
-    J = (np.eye(3) * theta + (1.0 - math.cos(theta)) * omega_matrix
-         + (theta - math.sin(theta)) * np.dot(omega_matrix, omega_matrix))
+    J = left_jacobian_SO3(omega_unit, theta)
     A2B[:3, 3] = np.dot(J, v)
     return A2B
 
