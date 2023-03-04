@@ -83,7 +83,7 @@ def left_jacobian_SO3_inv(omega):
     return (
         angle_2 / math.tan(angle_2) * np.eye(3)
         + (1.0 - angle_2 / math.tan(angle_2)) * np.outer(axis, axis)
-        + angle_2 * cross_product_matrix(axis)
+        - angle_2 * cross_product_matrix(axis)
     )
 
 
