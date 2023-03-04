@@ -49,9 +49,9 @@ for i in range(6):
 
         pu.plot_error_ellipse(
             ax, x_est[indices], cov_est[indices][:, indices],
-            color="k", alpha=0.8, factors=factors)
+            color="k", alpha=0.4, factors=factors)
 
-        ax.set_xlim((-10, 10))
-        ax.set_ylim((-10, 10))
+        ax.set_xlim((-5, 5))
+        ax.set_ylim((-5, 5))
 
 plt.show()
