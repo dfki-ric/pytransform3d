@@ -1,12 +1,37 @@
 import math
 import numpy as np
 import scipy as sp
-from .transformations._lie import left_jacobian_SO3
 from .transformations import (
     exponential_coordinates_from_transform,
     transform_from_exponential_coordinates,
     invert_transform, check_exponential_coordinates)
 from .rotations import cross_product_matrix
+
+
+def left_jacobian_SO3(omega):
+    """Left Jacobian of SO(3).
+
+    Parameters
+    ----------
+    omega : array, shape (3,)
+        Compact axis-angle representation
+
+    Returns
+    -------
+    J : array, shape (3, 3)
+        Left Jacobian of SO(3).
+    """
+    angle = np.linalg.norm(omega)
+    axis = omega / angle
+
+    cph = (1.0 - math.cos(angle)) / angle
+    sph = math.sin(angle) / angle
+
+    return (
+        sph * np.eye(3)
+        + (1.0 - sph) * np.outer(axis, axis)
+        + cph * cross_product_matrix(axis)
+    )
 
 
 def jacobian_SE3(Stheta, check=True):
@@ -31,36 +56,94 @@ def jacobian_SE3(Stheta, check=True):
     """
     if check:
         Stheta = check_exponential_coordinates(Stheta)
-
-    rho = Stheta[:3]
-    theta = np.linalg.norm(rho)
-
     phi = Stheta[:3]
+    J = left_jacobian_SO3(phi)
+    return np.block([
+        [J, np.eye(3)],
+        [_Q(Stheta), J]
+    ])
+
+
+def left_jacobian_SO3_inv(omega):
+    """Inverse left Jacobian of SO(3).
+
+    Parameters
+    ----------
+    omega : array, shape (3,)
+        Compact axis-angle representation
+
+    Returns
+    -------
+    J_inv : array, shape (3, 3)
+        Inverse left Jacobian of SO(3).
+    """
+    angle = np.linalg.norm(omega)
+    axis = omega / angle
+    angle_2 = 0.5 * angle
+    return (
+        angle_2 / math.tan(angle_2) * np.eye(3)
+        + (1.0 - angle_2 / math.tan(angle_2)) * np.outer(axis, axis)
+        + angle_2 * cross_product_matrix(axis)
+    )
+
+
+def jacobian_SE3_inv(Stheta, check=True):
+    """Inverse Jacobian of SE(3).
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
+
+    check : bool, optional (default: True)
+        Check if exponential coordinates are valid
+
+    Returns
+    -------
+    J_inv : array, shape (6, 6)
+        Inverse Jacobian of SE(3).
+    """
+    if check:
+        Stheta = check_exponential_coordinates(Stheta)
+    phi = Stheta[3:]
+    J_inv = left_jacobian_SO3_inv(phi)
+    return np.block([
+        [J_inv, np.eye(3)],
+        [-np.dot(J_inv, np.dot(_Q(Stheta), J_inv)), J_inv]
+    ])
+
+
+def _Q(Stheta):
+    rho = Stheta[3:]
+    phi = Stheta[:3]
+    angle = np.linalg.norm(phi)
 
     Phi = cross_product_matrix(phi)
     Rho = cross_product_matrix(rho)
-    theta2 = theta * theta
-    theta3 = theta2 * theta
-    theta4 = theta3 * theta
-    theta5 = theta4 * theta
-    Q = (0.5 * cross_product_matrix(rho)
-         + (theta - math.sin(theta)) / theta3 * (
+
+    angle2 = angle * angle
+    angle3 = angle2 * angle
+    angle4 = angle3 * angle
+    angle5 = angle4 * angle
+
+    Q = (0.5 * Rho
+         + (angle - math.sin(angle)) / angle3 * (
                  np.dot(Phi, Rho) + np.dot(Rho, Phi)
                  + np.dot(Phi, np.dot(Rho, Phi)))
-         - (1.0 - 0.5 * theta * theta - math.cos(theta)) / theta4 * (
+         - (1.0 - 0.5 * angle * angle - math.cos(angle)) / angle4 * (
                 np.dot(Phi, np.dot(Phi, Rho))
                 + np.dot(Rho, np.dot(Phi, Phi))
                 - 3 * np.dot(Phi, np.dot(Rho, Phi)))
-         - 0.5 * ((((1.0 - 0.5 * theta2) - math.cos(theta)) / theta4
-                   - (theta - math.sin(theta) - theta3 / 6.0) / theta5)
+         - 0.5 * ((((1.0 - 0.5 * angle2) - math.cos(angle)) / angle4
+                   - (angle - math.sin(angle) - angle3 / 6.0) / angle5)
                   * (np.dot(Phi, np.dot(Rho, np.dot(Phi, Phi)))
-                     + np.dot(Phi, np.dot(Phi, np.dot(Rho, Phi)))))
-         )
-    J = left_jacobian_SO3(rho / theta, theta)
-    return np.block([
-        [J, Q],
-        [np.eye(3), J]
-    ])
+                     + np.dot(Phi, np.dot(Phi, np.dot(Rho, Phi))))))
+
+    return Q
 
 
 def fuse_poses(means, covs, return_error=False):
@@ -76,7 +159,9 @@ def fuse_poses(means, covs, return_error=False):
         for k in range(n_poses):
             x_ik = exponential_coordinates_from_transform(
                 np.dot(mean, invert_transform(means[k])))
-            J_inv = np.linalg.inv(jacobian_SE3(x_ik))
+            J_inv_num = np.linalg.inv(jacobian_SE3(x_ik))
+            J_inv = jacobian_SE3_inv(x_ik)
+            print(np.round(J_inv - J_inv_num, 2))
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
             LHS += np.dot(J_invT_S, J_inv)
             RHS += np.dot(J_invT_S, x_ik)
