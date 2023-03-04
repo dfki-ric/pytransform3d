@@ -161,9 +161,7 @@ def fuse_poses(means, covs, return_error=False):
         for k in range(n_poses):
             x_ik = exponential_coordinates_from_transform(
                 np.dot(mean, invert_transform(means[k])))
-            J_inv_num = np.linalg.inv(jacobian_SE3(x_ik))
             J_inv = jacobian_SE3_inv(x_ik)
-            print(np.round(J_inv - J_inv_num, 2))
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
             LHS += np.dot(J_invT_S, J_inv)
             RHS += np.dot(J_invT_S, x_ik)
