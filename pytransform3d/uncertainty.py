@@ -59,8 +59,8 @@ def jacobian_SE3(Stheta, check=True):
     phi = Stheta[:3]
     J = left_jacobian_SO3(phi)
     return np.block([
-        [J, np.eye(3)],
-        [_Q(Stheta), J]
+        [J, _Q(Stheta)],
+        [np.zeros((3, 3)), J]
     ])
 
 
@@ -112,8 +112,8 @@ def jacobian_SE3_inv(Stheta, check=True):
     phi = Stheta[:3]
     J_inv = left_jacobian_SO3_inv(phi)
     return np.block([
-        [J_inv, np.eye(3)],
-        [-np.dot(J_inv, np.dot(_Q(Stheta), J_inv)), J_inv]
+        [J_inv, -np.dot(J_inv, np.dot(_Q(Stheta), J_inv))],
+        [np.zeros((3, 3)), J_inv]
     ])
 
 
