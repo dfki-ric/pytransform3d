@@ -109,7 +109,7 @@ def jacobian_SE3_inv(Stheta, check=True):
     """
     if check:
         Stheta = check_exponential_coordinates(Stheta)
-    phi = Stheta[3:]
+    phi = Stheta[:3]
     J_inv = left_jacobian_SO3_inv(phi)
     return np.block([
         [J_inv, np.eye(3)],
@@ -120,28 +120,30 @@ def jacobian_SE3_inv(Stheta, check=True):
 def _Q(Stheta):
     rho = Stheta[3:]
     phi = Stheta[:3]
-    angle = np.linalg.norm(phi)
+    ph = np.linalg.norm(phi)
 
-    Phi = cross_product_matrix(phi)
-    Rho = cross_product_matrix(rho)
+    px = cross_product_matrix(phi)
+    rx = cross_product_matrix(rho)
 
-    angle2 = angle * angle
-    angle3 = angle2 * angle
-    angle4 = angle3 * angle
-    angle5 = angle4 * angle
+    ph2 = ph * ph
+    ph3 = ph2 * ph
+    ph4 = ph3 * ph
+    ph5 = ph4 * ph
 
-    Q = (0.5 * Rho
-         + (angle - math.sin(angle)) / angle3 * (
-                 np.dot(Phi, Rho) + np.dot(Rho, Phi)
-                 + np.dot(Phi, np.dot(Rho, Phi)))
-         - (1.0 - 0.5 * angle * angle - math.cos(angle)) / angle4 * (
-                np.dot(Phi, np.dot(Phi, Rho))
-                + np.dot(Rho, np.dot(Phi, Phi))
-                - 3 * np.dot(Phi, np.dot(Rho, Phi)))
-         - 0.5 * ((((1.0 - 0.5 * angle2) - math.cos(angle)) / angle4
-                   - (angle - math.sin(angle) - angle3 / 6.0) / angle5)
-                  * (np.dot(Phi, np.dot(Rho, np.dot(Phi, Phi)))
-                     + np.dot(Phi, np.dot(Phi, np.dot(Rho, Phi))))))
+    cph = math.cos(ph)
+    sph = math.sin(ph)
+
+    t1 = 0.5 * rx
+    t2 = (ph - sph) / ph3 * (np.dot(px, rx) + np.dot(rx, px)
+                             + np.dot(px, np.dot(rx, px)))
+    m3 = (1.0 - 0.5 * ph * ph - cph) / ph4
+    t3 = -m3 * (np.dot(px, np.dot(px, rx)) + np.dot(rx, np.dot(px, px))
+                - 3 * np.dot(px, np.dot(rx, px)))
+    m4 = 0.5 * (m3 - 3.0 * (ph - sph - ph3 / 6.0) / ph5)
+    t4 = -m4 * (np.dot(px, np.dot(rx, np.dot(px, px)))
+                + np.dot(px, np.dot(px, np.dot(rx, px))))
+
+    Q = t1 + t2 + t3 + t4
 
     return Q
 
