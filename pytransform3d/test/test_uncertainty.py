@@ -12,3 +12,12 @@ def test_jacobian_so3():
     J_inv = pu.left_jacobian_SO3_inv(omega)
     J_inv_J = np.dot(J_inv, J)
     assert_array_almost_equal(J_inv_J, np.eye(3))
+
+
+def test_jacobian_se3():
+    rng = np.random.default_rng(0)
+    Stheta = pt.random_exponential_coordinates(rng)
+    J = pu.jacobian_SE3(Stheta)
+    J_inv = pu.jacobian_SE3_inv(Stheta)
+    J_inv_J = np.dot(J_inv, J)
+    assert_array_almost_equal(J_inv_J, np.eye(6))
