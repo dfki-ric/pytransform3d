@@ -61,7 +61,7 @@ def cylindrical_from_cartesian(p):
         Cylindrical coordinates: axial / radial distance (rho >= 0), azimuth
         (-pi >= phi >= pi), and axial coordinate / height (z)
     """
-    p = np.asarray(p)
+    p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
     q[..., 0] = np.linalg.norm(p[..., :2], axis=-1)
     q[..., 1] = np.arctan2(p[..., 1], p[..., 0])
@@ -106,7 +106,7 @@ def spherical_from_cartesian(p):
         Spherical coordinates: radial distance (rho >= 0), inclination /
         elevation (0 <= theta <= pi), and azimuth (-pi <= phi <= pi)
     """
-    p = np.asarray(p)
+    p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
     q[..., 0] = np.linalg.norm(p, axis=-1)
     q[..., 1] = np.arctan2(np.linalg.norm(p[..., :2], axis=-1), p[..., 2])
@@ -129,7 +129,7 @@ def spherical_from_cylindrical(p):
         Spherical coordinates: radial distance (rho), inclination /
         elevation (theta), and azimuth (phi)
     """
-    p = np.asarray(p)
+    p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
     q[..., 0] = np.linalg.norm(p[..., (0, 2)], axis=-1)
     q[..., 1] = np.arctan2(p[..., 0], p[..., 2])
