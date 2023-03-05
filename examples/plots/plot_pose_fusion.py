@@ -30,9 +30,9 @@ def fuse_poses_mc(means, covs, n_samples=10000, rng=np.random.default_rng(0)):
 x_true = np.array([1.0, 0.0, 0.0, 0.0, 0.0, np.pi / 6.0])
 T_true = pt.transform_from_exponential_coordinates(x_true)
 alpha = 5.0
-cov1 = alpha * np.diag([2.0, 1.0, 1.0, 0.1, 0.2, 0.1])
-cov2 = alpha * np.diag([1.0, 3.0, 1.0, 0.1, 0.1, 0.2])
-cov3 = alpha * np.diag([1.0, 1.0, 5.0, 0.2, 0.1, 0.1])
+cov1 = alpha * np.diag([0.1, 0.2, 0.1, 2.0, 1.0, 1.0])
+cov2 = alpha * np.diag([0.1, 0.1, 0.2, 1.0, 3.0, 1.0])
+cov3 = alpha * np.diag([0.2, 0.1, 0.1, 1.0, 1.0, 5.0])
 
 rng = np.random.default_rng(0)
 T1 = pt.random_transform(rng, T_true, cov1)
