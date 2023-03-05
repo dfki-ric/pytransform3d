@@ -5,7 +5,7 @@ from .transformations import (
     exponential_coordinates_from_transform,
     transform_from_exponential_coordinates,
     invert_transform, check_exponential_coordinates)
-from .rotations import cross_product_matrix
+from .rotations import cross_product_matrix, compact_axis_angle_from_matrix, matrix_from_compact_axis_angle, eps
 
 
 def left_jacobian_SO3(omega):
@@ -22,6 +22,9 @@ def left_jacobian_SO3(omega):
         Left Jacobian of SO(3).
     """
     angle = np.linalg.norm(omega)
+    if angle < eps:
+        return np.eye(3)  # TODO check
+
     axis = omega / angle
 
     cph = (1.0 - math.cos(angle)) / angle
@@ -59,8 +62,8 @@ def jacobian_SE3(Stheta, check=True):
     phi = Stheta[:3]
     J = left_jacobian_SO3(phi)
     return np.block([
-        [J, _Q(Stheta)],
-        [np.zeros((3, 3)), J]
+        [J, np.zeros((3, 3))],
+        [_Q(Stheta), J]
     ])
 
 
@@ -78,6 +81,9 @@ def left_jacobian_SO3_inv(omega):
         Inverse left Jacobian of SO(3).
     """
     angle = np.linalg.norm(omega)
+    if angle < eps:
+        return np.eye(3)  # TODO check
+
     axis = omega / angle
     angle_2 = 0.5 * angle
     return (
@@ -112,8 +118,8 @@ def jacobian_SE3_inv(Stheta, check=True):
     phi = Stheta[:3]
     J_inv = left_jacobian_SO3_inv(phi)
     return np.block([
-        [J_inv, -np.dot(J_inv, np.dot(_Q(Stheta), J_inv))],
-        [np.zeros((3, 3)), J_inv]
+        [J_inv, np.zeros((3, 3))],
+        [-np.dot(J_inv, np.dot(_Q(Stheta), J_inv)), J_inv]
     ])
 
 
@@ -148,6 +154,49 @@ def _Q(Stheta):
     return Q
 
 
+def tran2vec(T):
+    C = T[:3, :3]
+    r = T[:3, 3]
+    #phi = rot2vec(C)
+    phi = compact_axis_angle_from_matrix(C)
+    J_inv = left_jacobian_SO3_inv(phi)
+    rho = np.dot(J_inv, r)
+    return np.hstack((phi, rho))
+
+
+def rot2vec(C):
+    d, v = np.linalg.eig(C)
+    for i in range(3):
+        if abs(d[i] - 1) < 1e-10:
+            a = np.real(v[:, i])
+            a /= np.linalg.norm(a)
+            phim = np.arccos(0.5 * (np.trace(C) - 1.0))
+            phi = phim * a
+            if abs(np.trace(np.dot(vec2rot(phi).T, C)) - 3) > 1e-14:
+                phi *= -1.0
+            return phi
+
+
+def vec2rot(phi):
+    angle = np.linalg.norm(phi)
+    axis = phi / angle
+    cp = math.cos(angle)
+    sp = math.sin(angle)
+    C = cp * np.eye(3) + (1 - cp) * np.outer(axis, axis) + sp * cross_product_matrix(axis)
+    return C
+
+
+def vec2tran(p):
+    rho = p[3:]
+    phi = p[:3]
+    C = matrix_from_compact_axis_angle(phi)
+    J = left_jacobian_SO3(phi)
+    T = np.eye(4)
+    T[:3, :3] = C
+    T[:3, 3] = np.dot(J, rho)
+    return T
+
+
 def fuse_poses(means, covs, return_error=False):
     """TODO"""
     n_poses = len(means)
@@ -155,23 +204,22 @@ def fuse_poses(means, covs, return_error=False):
     covs_inv = [np.linalg.inv(cov) for cov in covs]
 
     mean = np.eye(4)
-    for i in range(20):
+    for i in range(2):
         LHS = np.zeros((6, 6))
         RHS = np.zeros(6)
         for k in range(n_poses):
-            x_ik = exponential_coordinates_from_transform(
-                np.dot(mean, invert_transform(means[k])))
+            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
             J_inv = jacobian_SE3_inv(x_ik)
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
+            print(np.round(J_inv, 4))
             LHS += np.dot(J_invT_S, J_inv)
             RHS += np.dot(J_invT_S, x_ik)
         x_i = np.linalg.solve(-LHS, RHS)
-        mean = np.dot(transform_from_exponential_coordinates(x_i), mean)
+        mean = np.dot(vec2tran(x_i), mean)
 
     V = 0.0
     for k in range(n_poses):
-        x_ik = exponential_coordinates_from_transform(
-            np.dot(mean, invert_transform(means[k])))
+        x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
         V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
 
     cov = np.linalg.inv(LHS)
