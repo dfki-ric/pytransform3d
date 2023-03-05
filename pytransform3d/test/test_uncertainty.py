@@ -62,7 +62,19 @@ def test_same_fuse_poses():
     #   ]
     #    """)
     mean_est, cov_est, V = pu.fuse_poses(means, covs, return_error=True)
-    print(V)
-    assert_array_almost_equal(mean, mean_est)
-    assert_array_almost_equal(cov, cov_est)
-    assert pytest.approx(V, 0.0)
+    mean_exp = np.array([
+        [0.2967, -0.7157, 0.6323, -1.4887],
+        [0.5338, 0.6733, 0.5116, 0.9935],
+        [-0.7918, 0.1857, 0.5818, -2.7035],
+        [0.0, 0.0, 0.0, 1.0000]
+    ])
+    cov_exp = np.array([
+        [0.14907707, -0.01935277, -0.0107348, -0.02442925, -0.09843835, 0.0054134],
+        [-0.01935277, 0.14648459, 0.02055571, 0.11121064, 0.06272014, -0.08553834],
+        [-0.0107348, 0.02055571, 0.15260209, -0.07451066, 0.06531188, -0.01890897],
+        [-0.02442925, 0.11121064, -0.07451066, 2.10256906, 0.13695598, -0.29705468],
+        [-0.09843835, 0.06272014, 0.06531188, 0.13695598, 2.29286157, -0.58004],
+        [0.0054134, -0.08553834, -0.01890897, -0.29705468, -0.58004, 2.34528443]])
+    assert_array_almost_equal(mean_exp, mean_est, decimal=4)
+    assert_array_almost_equal(cov_exp, cov_est)
+    assert pytest.approx(V, abs=1e-4) == 4.6537

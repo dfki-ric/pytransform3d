@@ -204,14 +204,13 @@ def fuse_poses(means, covs, return_error=False):
     covs_inv = [np.linalg.inv(cov) for cov in covs]
 
     mean = np.eye(4)
-    for i in range(2):
+    for i in range(20):
         LHS = np.zeros((6, 6))
         RHS = np.zeros(6)
         for k in range(n_poses):
             x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
             J_inv = jacobian_SE3_inv(x_ik)
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
-            print(np.round(J_inv, 4))
             LHS += np.dot(J_invT_S, J_inv)
             RHS += np.dot(J_invT_S, x_ik)
         x_i = np.linalg.solve(-LHS, RHS)
