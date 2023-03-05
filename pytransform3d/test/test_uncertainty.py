@@ -52,15 +52,6 @@ def test_same_fuse_poses():
     cov3 = alpha * np.diag([0.2, 0.1, 0.1, 1.0, 1.0, 5.0])
     means = [mean1, mean2, mean3]
     covs = [cov1, cov2, cov3]
-    #for c in means:
-    #    print(f"""
-    #[
-    #       {' '.join(map(str, c[0]))};
-    #       {' '.join(map(str, c[1]))};
-    #       {' '.join(map(str, c[2]))};
-    #       {' '.join(map(str, c[3]))};
-    #   ]
-    #    """)
     mean_est, cov_est, V = pu.fuse_poses(means, covs, return_error=True)
     mean_exp = np.array([
         [0.2967, -0.7157, 0.6323, -1.4887],

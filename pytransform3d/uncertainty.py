@@ -157,7 +157,6 @@ def _Q(Stheta):
 def tran2vec(T):
     C = T[:3, :3]
     r = T[:3, 3]
-    #phi = rot2vec(C)
     phi = compact_axis_angle_from_matrix(C)
     J_inv = left_jacobian_SO3_inv(phi)
     rho = np.dot(J_inv, r)
