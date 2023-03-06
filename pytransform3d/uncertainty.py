@@ -214,28 +214,6 @@ def tran2vec(T):
     return np.hstack((phi, rho))
 
 
-def rot2vec(C):
-    d, v = np.linalg.eig(C)
-    for i in range(3):
-        if abs(d[i] - 1) < 1e-10:
-            a = np.real(v[:, i])
-            a /= np.linalg.norm(a)
-            phim = np.arccos(0.5 * (np.trace(C) - 1.0))
-            phi = phim * a
-            if abs(np.trace(np.dot(vec2rot(phi).T, C)) - 3) > 1e-14:
-                phi *= -1.0
-            return phi
-
-
-def vec2rot(phi):
-    angle = np.linalg.norm(phi)
-    axis = phi / angle
-    cp = math.cos(angle)
-    sp = math.sin(angle)
-    C = cp * np.eye(3) + (1 - cp) * np.outer(axis, axis) + sp * cross_product_matrix(axis)
-    return C
-
-
 def vec2tran(p):
     rho = p[3:]
     phi = p[:3]
