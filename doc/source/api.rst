@@ -428,6 +428,20 @@ Testing
    ~pytransform3d.trajectories.mirror_screw_axis_direction
 
 
+:mod:`pytransform3d.uncertainty`
+================================
+
+.. automodule:: pytransform3d.uncertainty
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.uncertainty.fuse_poses
+
+
 :mod:`pytransform3d.coordinates`
 =================================
 
