@@ -4,7 +4,8 @@ Fuse 3 Poses
 ============
 
 Each of the poses is has an associated covariance that is considered during
-the fusion.
+the fusion. Each of the plots shows a projection of the 6D pose vector to
+two dimensions.
 """
 import numpy as np
 import matplotlib.pyplot as plt
