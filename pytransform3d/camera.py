@@ -276,7 +276,7 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     sensor_corners_in_cam[:, 0] -= M[0, 2]
     sensor_corners_in_cam[:, 1] -= M[1, 2]
     sensor_corners_in_world = transform(
-        cam2world, vectors_to_points(sensor_corners_in_cam))[:, :3]
+        cam2world, vectors_to_points(sensor_corners_in_cam), strict_check=strict_check)[:, :3]
     virtual_image_corners = (
         virtual_image_distance / focal_length *
         (sensor_corners_in_world - camera_center_in_world[np.newaxis]) +
