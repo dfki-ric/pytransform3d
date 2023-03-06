@@ -6,7 +6,7 @@ from .rotations import (cross_product_matrix, compact_axis_angle_from_matrix,
                         matrix_from_compact_axis_angle, eps)
 
 
-def fuse_poses(means, covs, return_error=False):
+def fuse_poses(means, covs):
     """Fuse Gaussian distributions of poses.
 
     Parameters
@@ -17,9 +17,6 @@ def fuse_poses(means, covs, return_error=False):
     covs : array-like, shape (n_poses, 6, 6)
         Covariances of pose distributions.
 
-    return_error : bool, optional (default: False)
-        Return error of optimization objective.
-
     Returns
     -------
     mean : array, shape (4, 4)
@@ -28,7 +25,7 @@ def fuse_poses(means, covs, return_error=False):
     cov : array, shape (6, 6)
         Fused pose covariance.
 
-    V : float, optional
+    V : float
         Error of optimization objective.
 
     References
@@ -54,14 +51,12 @@ def fuse_poses(means, covs, return_error=False):
         mean = np.dot(vec2tran(x_i), mean)
 
     cov = np.linalg.inv(LHS)
-    if return_error:
-        V = 0.0
-        for k in range(n_poses):
-            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
-            V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
-        return mean, cov, V
-    else:
-        return mean, cov
+
+    V = 0.0
+    for k in range(n_poses):
+        x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
+        V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
+    return mean, cov, V
 
 
 def left_jacobian_SO3(omega):
