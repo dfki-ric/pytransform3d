@@ -9,7 +9,7 @@ from ..rotations import (
     matrix_from_quaternion, quaternion_from_matrix, axis_angle_from_matrix,
     matrix_from_axis_angle, cross_product_matrix, q_conj,
     concatenate_quaternions, axis_angle_from_quaternion, norm_angle, eps)
-from ._lie import left_jacobian_SO3
+from ._lie import left_jacobian_SO3, left_jacobian_SO3_inv
 
 
 def transform_from(R, p, strict_check=True):
@@ -450,12 +450,7 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
     if theta == 0:
         return np.r_[0.0, 0.0, 0.0, p]
 
-    omega_unit_matrix = cross_product_matrix(omega_unit)
-
-    G_inv = (np.eye(3) / theta - 0.5 * omega_unit_matrix
-             + (1.0 / theta - 0.5 / np.tan(theta / 2.0))
-             * np.dot(omega_unit_matrix, omega_unit_matrix))
-    v = G_inv.dot(p)
+    v = np.dot(left_jacobian_SO3_inv(omega_unit, theta), p)
 
     return np.hstack((omega_unit, v)) * theta
 
