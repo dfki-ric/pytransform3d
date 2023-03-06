@@ -1,11 +1,67 @@
 import math
 import numpy as np
 import scipy as sp
-from .transformations import (
-    exponential_coordinates_from_transform,
-    transform_from_exponential_coordinates,
-    invert_transform, check_exponential_coordinates)
-from .rotations import cross_product_matrix, compact_axis_angle_from_matrix, matrix_from_compact_axis_angle, eps
+from .transformations import invert_transform, check_exponential_coordinates
+from .rotations import (cross_product_matrix, compact_axis_angle_from_matrix,
+                        matrix_from_compact_axis_angle, eps)
+
+
+def fuse_poses(means, covs, return_error=False):
+    """Fuse Gaussian distributions of poses.
+
+    Parameters
+    ----------
+    means : array-like, shape (n_poses, 4, 4)
+        Homogeneous transformation matrices.
+
+    covs : array-like, shape (n_poses, 6, 6)
+        Covariances of pose distributions.
+
+    return_error : bool, optional (default: False)
+        Return error of optimization objective.
+
+    Returns
+    -------
+    mean : array, shape (4, 4)
+        Fused pose mean.
+
+    cov : array, shape (6, 6)
+        Fused pose covariance.
+
+    V : float, optional
+        Error of optimization objective.
+
+    References
+    ----------
+    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
+    Use in Estimation Problems,
+    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+    """
+    n_poses = len(means)
+    covs_inv = [np.linalg.inv(cov) for cov in covs]
+
+    mean = np.eye(4)
+    for i in range(20):
+        LHS = np.zeros((6, 6))
+        RHS = np.zeros(6)
+        for k in range(n_poses):
+            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
+            J_inv = jacobian_SE3_inv(x_ik)
+            J_invT_S = np.dot(J_inv.T, covs_inv[k])
+            LHS += np.dot(J_invT_S, J_inv)
+            RHS += np.dot(J_invT_S, x_ik)
+        x_i = np.linalg.solve(-LHS, RHS)
+        mean = np.dot(vec2tran(x_i), mean)
+
+    cov = np.linalg.inv(LHS)
+    if return_error:
+        V = 0.0
+        for k in range(n_poses):
+            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
+            V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
+        return mean, cov, V
+    else:
+        return mean, cov
 
 
 def left_jacobian_SO3(omega):
@@ -194,64 +250,6 @@ def vec2tran(p):
     T[:3, :3] = C
     T[:3, 3] = np.dot(J, rho)
     return T
-
-
-def fuse_poses(means, covs, return_error=False):
-    """Fuse Gaussian distributions of poses.
-
-    Parameters
-    ----------
-    means : array-like, shape (n_poses, 4, 4)
-        Homogeneous transformation matrices.
-
-    covs : array-like, shape (n_poses, 6, 6)
-        Covariances of pose distributions.
-
-    return_error : bool, optional (default: False)
-        Return error of optimization objective.
-
-    Returns
-    -------
-    mean : array, shape (4, 4)
-        Fused pose mean.
-
-    cov : array, shape (6, 6)
-        Fused pose covariance.
-
-    V : float, optional
-        Error of optimization objective.
-
-    References
-    ----------
-    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
-    Use in Estimation Problems,
-    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
-    """
-    n_poses = len(means)
-    covs_inv = [np.linalg.inv(cov) for cov in covs]
-
-    mean = np.eye(4)
-    for i in range(20):
-        LHS = np.zeros((6, 6))
-        RHS = np.zeros(6)
-        for k in range(n_poses):
-            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
-            J_inv = jacobian_SE3_inv(x_ik)
-            J_invT_S = np.dot(J_inv.T, covs_inv[k])
-            LHS += np.dot(J_invT_S, J_inv)
-            RHS += np.dot(J_invT_S, x_ik)
-        x_i = np.linalg.solve(-LHS, RHS)
-        mean = np.dot(vec2tran(x_i), mean)
-
-    cov = np.linalg.inv(LHS)
-    if return_error:
-        V = 0.0
-        for k in range(n_poses):
-            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
-            V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
-        return mean, cov, V
-    else:
-        return mean, cov
 
 
 def to_ellipse(cov, factor=1.0):
