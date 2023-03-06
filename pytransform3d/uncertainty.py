@@ -197,9 +197,37 @@ def vec2tran(p):
 
 
 def fuse_poses(means, covs, return_error=False):
-    """TODO"""
-    n_poses = len(means)
+    """Fuse Gaussian distributions of poses.
 
+    Parameters
+    ----------
+    means : array-like, shape (n_poses, 4, 4)
+        Homogeneous transformation matrices.
+
+    covs : array-like, shape (n_poses, 6, 6)
+        Covariances of pose distributions.
+
+    return_error : bool, optional (default: False)
+        Return error of optimization objective.
+
+    Returns
+    -------
+    mean : array, shape (4, 4)
+        Fused pose mean.
+
+    cov : array, shape (6, 6)
+        Fused pose covariance.
+
+    V : float, optional
+        Error of optimization objective.
+
+    References
+    ----------
+    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
+    Use in Estimation Problems,
+    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+    """
+    n_poses = len(means)
     covs_inv = [np.linalg.inv(cov) for cov in covs]
 
     mean = np.eye(4)
@@ -215,13 +243,12 @@ def fuse_poses(means, covs, return_error=False):
         x_i = np.linalg.solve(-LHS, RHS)
         mean = np.dot(vec2tran(x_i), mean)
 
-    V = 0.0
-    for k in range(n_poses):
-        x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
-        V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
-
     cov = np.linalg.inv(LHS)
     if return_error:
+        V = 0.0
+        for k in range(n_poses):
+            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
+            V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
         return mean, cov, V
     else:
         return mean, cov
