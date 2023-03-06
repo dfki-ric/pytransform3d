@@ -42,6 +42,7 @@ def left_jacobian_SO3_inv(omega_unit, theta):
         Inverse left Jacobian of SO(3).
     """
     omega_matrix = cross_product_matrix(omega_unit)
-    return (np.eye(3) / theta - 0.5 * omega_matrix
-            + (1.0 / theta - 0.5 / np.tan(theta / 2.0))
-            * np.dot(omega_matrix, omega_matrix))
+    return (
+        np.eye(3) / theta
+        + (1.0 / theta - 0.5 / np.tan(theta / 2.0)) * np.dot(omega_matrix, omega_matrix)
+        - 0.5 * omega_matrix)
