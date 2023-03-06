@@ -16,7 +16,7 @@ def cartesian_from_cylindrical(p):
     q : array, shape (..., 3)
         Cartesian coordinates (x, y, z)
     """
-    p = np.asarray(p)
+    p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
     q[..., 0] = p[..., 0] * np.cos(p[..., 1])
     q[..., 1] = p[..., 0] * np.sin(p[..., 1])
@@ -38,7 +38,7 @@ def cartesian_from_spherical(p):
     q : array, shape (..., 3)
         Cartesian coordinates (x, y, z)
     """
-    p = np.asarray(p)
+    p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
     r_sin_theta = p[..., 0] * np.sin(p[..., 1])
     q[..., 0] = np.cos(p[..., 2]) * r_sin_theta
@@ -84,7 +84,7 @@ def cylindrical_from_spherical(p):
         Cylindrical coordinates: axial / radial distance (rho), azimuth
         (phi), and axial coordinate / height (z)
     """
-    p = np.asarray(p)
+    p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
     q[..., 0] = p[..., 0] * np.sin(p[..., 1])
     q[..., 1] = p[..., 2]
