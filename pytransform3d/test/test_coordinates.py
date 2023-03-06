@@ -75,3 +75,30 @@ def test_convert_cylindrical_spherical():
         r = pc.spherical_from_cylindrical(q)
         s = pc.cylindrical_from_spherical(r)
         assert_array_almost_equal(q, s)
+
+
+def test_integer_inputs():
+    assert_array_almost_equal(
+        pc.spherical_from_cylindrical([1, 0, 0]),
+        pc.spherical_from_cylindrical([1.0, 0.0, 0.0]),
+    )
+    assert_array_almost_equal(
+        pc.spherical_from_cartesian([1, 0, 0]),
+        pc.spherical_from_cartesian([1.0, 0.0, 0.0]),
+    )
+    assert_array_almost_equal(
+        pc.cylindrical_from_cartesian([0, 1, 0]),
+        pc.cylindrical_from_cartesian([0.0, 1.0, 0.0]),
+    )
+    assert_array_almost_equal(
+        pc.cartesian_from_cylindrical([1, 1, 0]),
+        pc.cartesian_from_cylindrical([1.0, 1.0, 0.0]),
+    )
+    assert_array_almost_equal(
+        pc.cartesian_from_spherical([1, 1, 0]),
+        pc.cartesian_from_spherical([1.0, 1.0, 0.0]),
+    )
+    assert_array_almost_equal(
+        pc.cylindrical_from_spherical([1, 1, 0]),
+        pc.cylindrical_from_spherical([1.0, 1.0, 0.0]),
+    )
