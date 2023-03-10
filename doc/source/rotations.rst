@@ -199,7 +199,7 @@ It is possible to write this in a more compact way as a rotation vector:
 
 .. math::
 
-    \boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}
+    \boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3
 
 pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
 representation of a rotation and typically we use the variable name a.
