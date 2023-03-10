@@ -272,9 +272,14 @@ References
 
 1. Lynch, Park: Modern Robotics (Section 3.3); available at
    http://hades.mech.northwestern.edu/index.php/Modern_Robotics
-2. Wikipedia: Dual Quaternion; available at
+2. Bradley Evan Paden: Kinematics and Control of Robot Manipulators, PhD
+   thesis (1985); available at
+   https://digitalassets.lib.berkeley.edu/techreports/ucb/text/ERL-86-5.pdf
+3. Peter Corke: Robotics, Vision and Control, 2nd Edition,
+   https://link.springer.com/book/10.1007/978-3-319-54413-7
+4. Wikipedia: Dual Quaternion; available at
    https://en.wikipedia.org/wiki/Dual_quaternion
-3. Yan-Bin Jia: Dual Quaternions; available at
+5. Yan-Bin Jia: Dual Quaternions; available at
    http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
-4. Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
+6. Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
    http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
