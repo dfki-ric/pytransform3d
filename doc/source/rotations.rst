@@ -206,11 +206,11 @@ representation of a rotation and typically we use the variable name a.
 
 We can also refer to this representation as **exponential coordinates of
 rotation**. We can easily represent angular velocity as
-:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
+:math:`\hat{\boldsymbol{\omega}} \dot{\theta}`
 and angular acceleration as
-:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}` so that we can easily do
+:math:`\hat{\boldsymbol{\omega}} \ddot{\theta}` so that we can easily do
 component-wise integration and differentiation with this representation.
-In addition, we can represent :math:`\theta \hat{\boldsymbol{\omega}}` by
+In addition, we can represent :math:`\hat{\boldsymbol{\omega}} \theta` by
 the cross-product matrix
 
 .. math::

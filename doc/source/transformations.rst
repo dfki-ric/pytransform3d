@@ -67,6 +67,7 @@ the form
     0 & 0 & 0 & 1\\
     \end{matrix}
     \right)
+    \in SE(3).
 
 It is a partitioned matrix with a 3x3 rotation matrix :math:`\boldsymbol R`
 and a column vector :math:`\boldsymbol t` that represents the translation.
@@ -118,9 +119,9 @@ a 2D array.
 pytransform3d uses a numpy array of shape (7,) to represent position and
 quaternion and typically we use the variable name pq.
 
------------------------
-Exponential Coordinates
------------------------
+----------------
+Screw Parameters
+----------------
 
 .. plot:: ../../examples/plots/plot_screw.py
 
@@ -141,6 +142,10 @@ h to represent the parameters of a screw.
    :width: 50%
    :align: center
 
+----------
+Screw Axis
+----------
+
 A **screw axis** is typically represented by
 :math:`\mathcal{S} = \left[\begin{array}{c}\boldsymbol{\omega}\\\boldsymbol{v}\end{array}\right] \in \mathbb{R}^6`,
 where either
@@ -160,6 +165,10 @@ In case 1, we can compute the screw axis from screw parameters
     \mathcal{S} = \left[ \begin{array}{c}\hat{\boldsymbol{s}} \\ \boldsymbol{q} \times \hat{\boldsymbol{s}} + h \hat{\boldsymbol{s}}\end{array} \right]
 
 In case 2, :math:`h` is infinite and we directly translate along :math:`\hat{\boldsymbol{s}}`.
+
+-----------------------
+Exponential Coordinates
+-----------------------
 
 By multiplication with an additional parameter :math:`\theta` we can then
 define a complete transformation through its exponential coordinates
@@ -217,7 +226,7 @@ Twist
 We call spatial velocity (translation and rotation) **twist**. Similarly
 to the matrix logarithm, a twist :math:`\mathcal{V} = \mathcal{S} \dot{\theta}`
 is described by a screw axis :math:`S` and a scalar :math:`\dot{\theta}`
-and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \theta \in se(3)`
+and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)`
 is the matrix representation of a twist.
 
 ----------------
