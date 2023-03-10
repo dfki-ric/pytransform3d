@@ -182,6 +182,8 @@ Utility Functions
    ~pytransform3d.rotations.random_compact_axis_angle
    ~pytransform3d.rotations.random_quaternion
    ~pytransform3d.rotations.cross_product_matrix
+   ~pytransform3d.rotations.left_jacobian_SO3
+   ~pytransform3d.rotations.left_jacobian_SO3_inv
 
 Deprecated Functions
 --------------------

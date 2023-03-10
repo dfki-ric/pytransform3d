@@ -3,7 +3,8 @@ import numpy as np
 import scipy as sp
 from .transformations import invert_transform, check_exponential_coordinates
 from .rotations import (cross_product_matrix, compact_axis_angle_from_matrix,
-                        matrix_from_compact_axis_angle, eps)
+                        matrix_from_compact_axis_angle, left_jacobian_SO3,
+                        left_jacobian_SO3_inv)
 
 
 def fuse_poses(means, covs):
@@ -59,35 +60,6 @@ def fuse_poses(means, covs):
     return mean, cov, V
 
 
-def left_jacobian_SO3(omega):
-    """Left Jacobian of SO(3).
-
-    Parameters
-    ----------
-    omega : array, shape (3,)
-        Compact axis-angle representation
-
-    Returns
-    -------
-    J : array, shape (3, 3)
-        Left Jacobian of SO(3).
-    """
-    angle = np.linalg.norm(omega)
-    if angle < eps:
-        return np.eye(3)  # TODO check
-
-    axis = omega / angle
-
-    cph = (1.0 - math.cos(angle)) / angle
-    sph = math.sin(angle) / angle
-
-    return (
-        sph * np.eye(3)
-        + (1.0 - sph) * np.outer(axis, axis)
-        + cph * cross_product_matrix(axis)
-    )
-
-
 def jacobian_SE3(Stheta, check=True):
     """Jacobian of SE(3).
 
@@ -116,32 +88,6 @@ def jacobian_SE3(Stheta, check=True):
         [J, np.zeros((3, 3))],
         [_Q(Stheta), J]
     ])
-
-
-def left_jacobian_SO3_inv(omega):
-    """Inverse left Jacobian of SO(3).
-
-    Parameters
-    ----------
-    omega : array, shape (3,)
-        Compact axis-angle representation
-
-    Returns
-    -------
-    J_inv : array, shape (3, 3)
-        Inverse left Jacobian of SO(3).
-    """
-    angle = np.linalg.norm(omega)
-    if angle < eps:
-        return np.eye(3)  # TODO check
-
-    axis = omega / angle
-    angle_2 = 0.5 * angle
-    return (
-        angle_2 / math.tan(angle_2) * np.eye(3)
-        + (1.0 - angle_2 / math.tan(angle_2)) * np.outer(axis, axis)
-        - angle_2 * cross_product_matrix(axis)
-    )
 
 
 def jacobian_SE3_inv(Stheta, check=True):
