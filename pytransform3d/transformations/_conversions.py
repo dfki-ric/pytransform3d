@@ -1,15 +1,15 @@
 """Conversions between transform representations."""
-import math
 import numpy as np
 from ._utils import (check_transform, check_pq, check_screw_axis,
                      check_screw_parameters, check_exponential_coordinates,
                      check_screw_matrix, check_transform_log,
                      check_dual_quaternion)
 from ..rotations import (
-    matrix_from_quaternion, quaternion_from_matrix, axis_angle_from_matrix,
-    matrix_from_axis_angle, cross_product_matrix, q_conj,
-    concatenate_quaternions, axis_angle_from_quaternion, norm_angle, eps)
-from ._lie import left_jacobian_SO3, left_jacobian_SO3_inv
+    matrix_from_quaternion, quaternion_from_matrix,
+    compact_axis_angle_from_matrix, matrix_from_compact_axis_angle,
+    cross_product_matrix, q_conj, concatenate_quaternions,
+    axis_angle_from_quaternion, norm_angle, eps)
+from ..rotations import left_jacobian_SO3, left_jacobian_SO3_inv
 
 
 def transform_from(R, p, strict_check=True):
@@ -443,16 +443,15 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
     if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
         return np.r_[0.0, 0.0, 0.0, p]
 
-    omega_theta = axis_angle_from_matrix(R, check=check)
-    omega_unit = omega_theta[:3]
-    theta = omega_theta[3]
+    omega_theta = compact_axis_angle_from_matrix(R, check=check)
+    theta = np.linalg.norm(omega_theta)
 
     if theta == 0:
         return np.r_[0.0, 0.0, 0.0, p]
 
-    v = np.dot(left_jacobian_SO3_inv(omega_unit, theta), p)
+    v = np.dot(left_jacobian_SO3_inv(omega_theta) / theta, p)
 
-    return np.hstack((omega_unit, v)) * theta
+    return np.hstack((omega_theta, v * theta))
 
 
 def screw_matrix_from_screw_axis(screw_axis):
@@ -646,21 +645,16 @@ def transform_log_from_transform(A2B, strict_check=True):
         transform_log[:3, 3] = p
         return transform_log
 
-    omega_theta = axis_angle_from_matrix(R)
-    omega_unit = omega_theta[:3]
-    theta = omega_theta[3]
+    omega_theta = compact_axis_angle_from_matrix(R)
+    theta = np.linalg.norm(omega_theta)
 
     if theta == 0:
         return transform_log
 
-    omega_unit_matrix = cross_product_matrix(omega_unit)
+    J_inv = left_jacobian_SO3_inv(omega_theta)
+    v = np.dot(J_inv / theta, p)
 
-    G_inv = (np.eye(3) / theta - 0.5 * omega_unit_matrix
-             + (1.0 / theta - 0.5 / np.tan(theta / 2.0))
-             * np.dot(omega_unit_matrix, omega_unit_matrix))
-    v = G_inv.dot(p)
-
-    transform_log[:3, :3] = omega_unit_matrix
+    transform_log[:3, :3] = cross_product_matrix(omega_theta / theta)
     transform_log[:3, 3] = v
     transform_log *= theta
 
@@ -732,9 +726,9 @@ def transform_from_exponential_coordinates(Stheta, check=True):
     v = screw_axis[3:]
 
     A2B = np.eye(4)
-    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
-    J = left_jacobian_SO3(omega_unit, theta)
-    A2B[:3, 3] = np.dot(J, v)
+    A2B[:3, :3] = matrix_from_compact_axis_angle(omega_unit * theta)
+    J = left_jacobian_SO3(omega_unit * theta)
+    A2B[:3, 3] = theta * np.dot(J, v)
     return A2B
 
 
@@ -789,17 +783,12 @@ def transform_from_transform_log(transform_log):
     if theta == 0.0:  # only translation
         return translate_transform(np.eye(4), v)
 
-    omega_unit = omega_theta / theta
     v = v / theta
 
     A2B = np.eye(4)
-    A2B[:3, :3] = matrix_from_axis_angle(np.r_[omega_unit, theta])
-    omega_unit_matrix = transform_log[:3, :3] / theta
-    G = (np.eye(3) * theta
-         + (1.0 - math.cos(theta)) * omega_unit_matrix
-         + (theta - math.sin(theta)) * np.dot(omega_unit_matrix,
-                                              omega_unit_matrix))
-    A2B[:3, 3] = np.dot(G, v)
+    A2B[:3, :3] = matrix_from_compact_axis_angle(omega_theta)
+    J = left_jacobian_SO3(omega_theta)
+    A2B[:3, 3] = theta * np.dot(J, v)
     return A2B
 
 

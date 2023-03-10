@@ -1884,7 +1884,7 @@ def compact_axis_angle(a):
     return a[:3] * a[3]
 
 
-def compact_axis_angle_from_matrix(R):
+def compact_axis_angle_from_matrix(R, check=True):
     """Compute compact axis-angle from rotation matrix.
 
     This operation is called logarithmic map. Note that there are two possible
@@ -1897,13 +1897,16 @@ def compact_axis_angle_from_matrix(R):
     R : array-like, shape (3, 3)
         Rotation matrix
 
+    check : bool, optional (default: True)
+        Check if rotation matrix is valid
+
     Returns
     -------
     a : array-like, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z). The angle is
         constrained to [0, pi].
     """
-    a = axis_angle_from_matrix(R)
+    a = axis_angle_from_matrix(R, check=check)
     return compact_axis_angle(a)
 
 
