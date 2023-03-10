@@ -178,6 +178,15 @@ This is a minimal representation as it only needs 6 values.
 pytransform3d uses a numpy array of shape (6,) to represent a exponential
 coordinates of transformation and typically we use the variable name Stheta.
 
+.. warning::
+
+    Note that we use the screw theory definition of exponential coordinates
+    and :math:`so(3)` (see next section) used by Paden (1985), Lynch and Park
+    (2017), and Corke (2017). There is an alternative definition used by
+    Eade (2017) and Sola et al. (2018). They use a different order of the
+    3D vector components and they do not multiply :math:`\theta` with the
+    component that encodes the translation.
+
 ---------------------------
 Logarithm of Transformation
 ---------------------------
@@ -270,16 +279,21 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.
 References
 ----------
 
-1. Lynch, Park: Modern Robotics (Section 3.3); available at
+1. Lynch, Park: Modern Robotics (2017); available at
    http://hades.mech.northwestern.edu/index.php/Modern_Robotics
 2. Bradley Evan Paden: Kinematics and Control of Robot Manipulators, PhD
    thesis (1985); available at
    https://digitalassets.lib.berkeley.edu/techreports/ucb/text/ERL-86-5.pdf
-3. Peter Corke: Robotics, Vision and Control, 2nd Edition,
+3. Peter Corke: Robotics, Vision and Control, 2nd Edition (2017),
    https://link.springer.com/book/10.1007/978-3-319-54413-7
-4. Wikipedia: Dual Quaternion; available at
+4. Ethan Eade: Lie Groups for 2D and 3D Transformations (2017); available at
+   https://ethaneade.com/lie.pdf
+5. Sola, Deray, Atchuthan: A micro Lie theory for state estimation in robotics
+   (2018), technical report; available at:
+   http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf
+6. Wikipedia: Dual Quaternion; available at
    https://en.wikipedia.org/wiki/Dual_quaternion
-5. Yan-Bin Jia: Dual Quaternions; available at
+7. Yan-Bin Jia: Dual Quaternions; available at
    http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
-6. Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
+8. Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
    http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
