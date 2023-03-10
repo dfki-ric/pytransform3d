@@ -185,7 +185,8 @@ coordinates of transformation and typically we use the variable name Stheta.
     (2017), and Corke (2017). There is an alternative definition used by
     Eade (2017) and Sola et al. (2018). They use a different order of the
     3D vector components and they do not multiply :math:`\theta` with the
-    component that encodes the translation.
+    component that encodes the translation (:math:`\boldsymbol{v}` in our
+    case).
 
 ---------------------------
 Logarithm of Transformation
