@@ -1,7 +1,8 @@
 import math
 import numpy as np
 import scipy as sp
-from .transformations import invert_transform, check_exponential_coordinates
+from .transformations import (invert_transform, check_exponential_coordinates,
+                              adjoint_from_transform)
 from .rotations import (cross_product_matrix, compact_axis_angle_from_matrix,
                         matrix_from_compact_axis_angle, left_jacobian_SO3,
                         left_jacobian_SO3_inv)
@@ -58,6 +59,92 @@ def fuse_poses(means, covs):
         x_ik = vector_from_transform(np.dot(mean, invert_transform(means[k])))
         V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
     return mean, cov, V
+
+
+def compund_poses(T1, cov1, T2, cov2):
+    """Compound two poses.
+
+    Parameters
+    ----------
+    T1 : array, shape (4, 4)
+        Mean of first pose.
+
+    cov1 : array, shape (6, 6)
+        Covariance of first pose.
+
+    T2 : array, shape (4, 4)
+        Mean of second pose.
+
+    cov2 : array, shape (6, 6)
+        Covariance of second pose.
+
+    Returns
+    -------
+    T : array, shape (4, 4)
+        Mean of new pose (T1 T2).
+
+    cov : array, shape (6, 6)
+        Covariance of new pose.
+    """
+    T = np.dot(T1, T2)
+
+    ad1 = _swap_cov(adjoint_from_transform(T1))
+    cov1 = _swap_cov(cov1)
+    cov2 = _swap_cov(cov2)
+    cov2_prime = np.dot(ad1, np.dot(cov2, ad1))
+
+    return T, _swap_cov(cov1 + cov2_prime)
+
+    cov1_11 = cov1[:3, :3]
+    cov1_22 = cov1[3:, 3:]
+    cov1_12 = cov1[:3, 3:]
+
+    cov2_11 = cov2_prime[:3, :3]
+    cov2_22 = cov2_prime[3:, 3:]
+    cov2_12 = cov2_prime[:3, 3:]
+
+    A1 = np.block([
+        [_covop1(cov1_22), _covop1(np.dot(cov1_12, cov1_12.T))],
+        [np.zeros((3, 3)), _covop1(cov1_22)]
+    ])
+    A2 = np.block([
+        [_covop1(cov2_22), _covop1(np.dot(cov2_12, cov2_12.T))],
+        [np.zeros((3, 3)), _covop1(cov2_22)]
+    ])
+    B_11 = (_covop2(cov1_22, cov2_11) + _covop2(cov1_12.T, cov2_12)
+            + _covop2(cov1_12, cov2_12.T) + _covop2(cov1_11, cov2_22))
+    B_12 = _covop2(cov1_22, cov2_12.T) + _covop2(cov1_12.T, cov2_22)
+    B_22 = _covop2(cov1_22, cov2_22)
+    B = np.block([
+        [B_11, B_12],
+        [B_12.T, B_22]
+    ])
+
+    cov = (
+        # 2nd order
+        cov1 + cov2_prime
+        # 4th order
+        + (np.dot(A1, cov2_prime) + np.dot(cov2_prime, A1.T)
+           + np.dot(A2, cov1) + np.dot(cov1, A2.T)) / 12.0
+        + B / 4.0
+    )
+
+    return T, _swap_cov(cov)
+
+
+def _swap_cov(cov):
+    return np.block([
+        [cov[3:, 3:], cov[3:, :3]],
+        [cov[:3, 3:], cov[:3, :3]]
+    ])
+
+
+def _covop1(A):
+    return -np.trace(A) * np.eye(len(A)) + A
+
+
+def _covop2(A, B):
+    return np.dot(_covop1(A), _covop1(B)) + _covop1(np.dot(B, A))
 
 
 def jacobian_SE3(Stheta, check=True):
