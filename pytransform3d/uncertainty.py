@@ -43,19 +43,19 @@ def fuse_poses(means, covs):
         LHS = np.zeros((6, 6))
         RHS = np.zeros(6)
         for k in range(n_poses):
-            x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
+            x_ik = vector_from_transform(np.dot(mean, invert_transform(means[k])))
             J_inv = jacobian_SE3_inv(x_ik)
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
             LHS += np.dot(J_invT_S, J_inv)
             RHS += np.dot(J_invT_S, x_ik)
         x_i = np.linalg.solve(-LHS, RHS)
-        mean = np.dot(vec2tran(x_i), mean)
+        mean = np.dot(transform_from_vector(x_i), mean)
 
     cov = np.linalg.inv(LHS)
 
     V = 0.0
     for k in range(n_poses):
-        x_ik = tran2vec(np.dot(mean, invert_transform(means[k])))
+        x_ik = vector_from_transform(np.dot(mean, invert_transform(means[k])))
         V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
     return mean, cov, V
 
@@ -151,7 +151,7 @@ def _Q(Stheta):
     return Q
 
 
-def tran2vec(T):
+def vector_from_transform(T):
     C = T[:3, :3]
     r = T[:3, 3]
     phi = compact_axis_angle_from_matrix(C)
@@ -160,7 +160,7 @@ def tran2vec(T):
     return np.hstack((phi, rho))
 
 
-def vec2tran(p):
+def transform_from_vector(p):
     rho = p[3:]
     phi = p[:3]
     C = matrix_from_compact_axis_angle(phi)
