@@ -88,12 +88,19 @@ def compund_poses(T1, cov1, T2, cov2):
     """
     T = np.dot(T1, T2)
 
-    ad1 = _swap_cov(adjoint_from_transform(T1))
-    cov1 = _swap_cov(cov1)
-    cov2 = _swap_cov(cov2)
-    cov2_prime = np.dot(ad1, np.dot(cov2, ad1))
+    ad1 = adjoint_from_transform(T1)
+    cov2_prime = np.dot(ad1, np.dot(cov2, ad1.T))
+    second_order_terms = cov1 + cov2_prime
 
-    return T, _swap_cov(cov1 + cov2_prime)
+    cov = second_order_terms + _compound_cov_fourth_order_terms(
+        cov1, cov2_prime)
+
+    return T, cov
+
+
+def _compound_cov_fourth_order_terms(cov1, cov2_prime):
+    cov1 = _swap_cov(cov1)
+    cov2_prime = _swap_cov(cov2_prime)
 
     cov1_11 = cov1[:3, :3]
     cov1_22 = cov1[3:, 3:]
@@ -120,16 +127,11 @@ def compund_poses(T1, cov1, T2, cov2):
         [B_12.T, B_22]
     ])
 
-    cov = (
-        # 2nd order
-        cov1 + cov2_prime
-        # 4th order
-        + (np.dot(A1, cov2_prime) + np.dot(cov2_prime, A1.T)
-           + np.dot(A2, cov1) + np.dot(cov1, A2.T)) / 12.0
+    return _swap_cov(
+        (np.dot(A1, cov2_prime) + np.dot(cov2_prime, A1.T)
+         + np.dot(A2, cov1) + np.dot(cov1, A2.T)) / 12.0
         + B / 4.0
     )
-
-    return T, _swap_cov(cov)
 
 
 def _swap_cov(cov):
