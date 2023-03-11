@@ -325,3 +325,32 @@ def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
         if color is not None:
             ell.set_color(color)
         ax.add_artist(ell)
+
+
+def plot_projected_ellipse(
+        ax, mean, cov, dimensions, color=None, alpha=0.25, factor=1.96):
+    """Plots projected great circles of equiprobable ellipsoid in 2D.
+
+    TODO
+    """
+    vals, vecs = np.linalg.eig(cov)
+    order = vals.argsort()[::-1]
+    vals, vecs = vals[order], vecs[:, order]
+
+    abc = factor * np.sqrt(vals[:3])
+
+    mmax = 50
+    ind1 = [0, 1, 0]
+    ind2 = [1, 2, 2]
+    V = -math.pi + 2 * math.pi * (np.arange(mmax) - 1) / (mmax - 1)
+    S = np.sin(V)
+    C = np.cos(V)
+    for n in range(3):
+        clines = np.zeros((2, mmax))
+        for m in range(mmax):
+            p = (abc[ind1[n]] * vecs[:, ind1[n]] * S[m]
+                 + abc[ind2[n]] * vecs[:, ind2[n]] * C[m])
+            T = transform_from_vector(p).dot(mean)
+            r = T[:3, :3].T.dot(T[:3, 3])
+            clines[:, m] = r[dimensions]
+        ax.plot(clines[0], clines[1], color=color, alpha=alpha)
