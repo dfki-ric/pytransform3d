@@ -42,6 +42,9 @@ for t in range(n_steps):
 plt.plot(
     mc_path_vec[:, :, plot_dimensions[0]],
     mc_path_vec[:, :, plot_dimensions[1]], lw=1, c="b", alpha=0.1)
+plt.scatter(
+    mc_path_vec[-1, :, plot_dimensions[0]],
+    mc_path_vec[-1, :, plot_dimensions[1]], s=5, c="b")
 plt.plot(
     path[:, plot_dimensions[0]], path[:, plot_dimensions[1]], lw=3, color="k")
 
@@ -57,4 +60,6 @@ cov_mc = np.cov(mc_path_vec[-1, :, plot_dimensions], rowvar=True)
 pu.plot_error_ellipse(
     plt.gca(), mean_mc, cov_mc, color="r", alpha=0.4, factors=factors)
 
+plt.xlim((-5, 105))
+plt.ylim((-45, 45))
 plt.show()
