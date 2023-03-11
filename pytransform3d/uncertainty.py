@@ -331,26 +331,47 @@ def plot_projected_ellipse(
         ax, mean, cov, dimensions, color=None, alpha=0.25, factor=1.96):
     """Plots projected great circles of equiprobable ellipsoid in 2D.
 
-    TODO
+    Parameters
+    ----------
+    ax : axis
+        Matplotlib axis.
+
+    mean : array-like, shape (4, 4)
+        Mean pose.
+
+    cov : array-like, shape (6, 6)
+        Covariance in vector space.
+
+    dimensions : array, (2,)
+        Output dimensions.
+
+    color : str, optional (default: None)
+        Color in which the equiprobably lines should be plotted.
+
+    alpha : float, optional (default: 0.25)
+        Alpha value for lines.
+
+    factor : float, optional (default: 1.96)
+        Multiple of the standard deviations that should be plotted.
     """
     vals, vecs = np.linalg.eig(cov)
     order = vals.argsort()[::-1]
     vals, vecs = vals[order], vecs[:, order]
 
-    abc = factor * np.sqrt(vals[:3])
+    w = factor * np.sqrt(vals[:3])
 
-    mmax = 50
+    n_steps = 50
     ind1 = [0, 1, 0]
     ind2 = [1, 2, 2]
-    V = -math.pi + 2 * math.pi * (np.arange(mmax) - 1) / (mmax - 1)
+    V = -math.pi + 2 * math.pi * (np.arange(n_steps) - 1) / (n_steps - 1)
     S = np.sin(V)
     C = np.cos(V)
     for n in range(3):
-        clines = np.zeros((2, mmax))
-        for m in range(mmax):
-            p = (abc[ind1[n]] * vecs[:, ind1[n]] * S[m]
-                 + abc[ind2[n]] * vecs[:, ind2[n]] * C[m])
-            T = transform_from_vector(p).dot(mean)
+        clines = np.zeros((2, n_steps))
+        P = (w[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
+             + w[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis])
+        for m in range(n_steps):
+            T = transform_from_vector(P[m]).dot(mean)
             r = T[:3, :3].T.dot(T[:3, 3])
             clines[:, m] = r[dimensions]
         ax.plot(clines[0], clines[1], color=color, alpha=alpha)
