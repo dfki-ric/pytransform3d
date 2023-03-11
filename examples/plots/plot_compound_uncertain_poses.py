@@ -8,6 +8,7 @@ Each of the poses is has an associated covariance that is considered.
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.uncertainty as pu
+import pytransform3d.trajectories as ptr
 
 
 rng = np.random.default_rng(0)
@@ -34,17 +35,18 @@ for t in range(n_steps):
     diff_samples = cov_pose_chol.dot(rng.standard_normal(size=(6, n_mc_samples))).T
     for i in range(n_mc_samples):
         mc_path[t + 1, i] = pu.transform_from_vector(diff_samples[i]).dot(T_vel).dot(mc_path[t, i])
-mc_path_vec = np.zeros((n_steps, n_mc_samples, 6))
+# Plot the random samples' trajectory lines (in a frame attached to the start)
+mc_path_vec = np.zeros((n_steps, n_mc_samples, 2))
 for t in range(n_steps):
     for i in range(n_mc_samples):
-        mc_path_vec[t, i] = pu.vector_from_transform(mc_path[t, i])
+        mc_path_vec[t, i] = mc_path[t, i, :3, :3].T.dot(mc_path[t, i, :3, 3])[:2]
 
 plt.plot(
-    mc_path_vec[:, :, plot_dimensions[0]],
-    mc_path_vec[:, :, plot_dimensions[1]], lw=1, c="b", alpha=0.1)
+    mc_path_vec[:, :, 0],
+    mc_path_vec[:, :, 1], lw=1, c="b", alpha=0.1)
 plt.scatter(
-    mc_path_vec[-1, :, plot_dimensions[0]],
-    mc_path_vec[-1, :, plot_dimensions[1]], s=5, c="b")
+    mc_path_vec[-1, :, 0],
+    mc_path_vec[-1, :, 1], s=5, c="b")
 plt.plot(
     path[:, plot_dimensions[0]], path[:, plot_dimensions[1]], lw=3, color="k")
 
@@ -54,8 +56,8 @@ pu.plot_error_ellipse(
     cov[plot_dimensions][:, plot_dimensions],
     color="b", alpha=0.4, factors=factors)
 
-mean_mc = np.mean(mc_path_vec[-1, :, plot_dimensions], axis=1)
-cov_mc = np.cov(mc_path_vec[-1, :, plot_dimensions], rowvar=True)
+mean_mc = np.mean(mc_path_vec[-1, :], axis=0)
+cov_mc = np.cov(mc_path_vec[-1, :], rowvar=False)
 
 pu.plot_error_ellipse(
     plt.gca(), mean_mc, cov_mc, color="r", alpha=0.4, factors=factors)
