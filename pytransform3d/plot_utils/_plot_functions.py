@@ -94,7 +94,7 @@ def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
 
 def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
                 n_steps=20, alpha=1.0, color="k"):
-    """Plot sphere(s).
+    """Plot sphere.
 
     Parameters
     ----------
@@ -102,25 +102,25 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
         If the axis is None, a new 3d axis will be created
 
     radius : float, optional (default: 1)
-        Radius of the sphere(s)
+        Radius of the sphere
 
-    p : array-like, shape (:,3), optional (default: [0, 0, 0])
-        Center of the sphere(s)
+    p : array-like, shape (3,), optional (default: [0, 0, 0])
+        Center of the sphere
 
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
 
     wireframe : bool, optional (default: True)
-        Plot wireframe of sphere(s) and surface otherwise
+        Plot wireframe of sphere and surface otherwise
 
     n_steps : int, optional (default: 20)
         Number of discrete steps plotted in each dimension
 
     alpha : float, optional (default: 1)
-        Alpha value of the sphere(s) that will be plotted
+        Alpha value of the sphere that will be plotted
 
     color : str, optional (default: black)
-        Color in which the sphere(s) should be plotted
+        Color in which the sphere should be plotted
 
     Returns
     -------
@@ -131,20 +131,15 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
         ax = make_3d_axis(ax_s)
 
     phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    X = radius * np.sin(phi) * np.cos(theta)
-    Y = radius * np.sin(phi) * np.sin(theta)
-    Z = radius * np.cos(phi)
-    
-    for p in np.array(p, ndmin=2):
-      x = X + p[0]
-      y = Y + p[1]
-      z = Z + p[2]
-      
-      if wireframe:
-          ax.plot_wireframe(
-              x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
-      else:
-          ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
+    x = p[0] + radius * np.sin(phi) * np.cos(theta)
+    y = p[1] + radius * np.sin(phi) * np.sin(theta)
+    z = p[2] + radius * np.cos(phi)
+
+    if wireframe:
+        ax.plot_wireframe(
+            x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
+    else:
+        ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
 
     return ax
 
