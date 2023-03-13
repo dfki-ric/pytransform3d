@@ -546,9 +546,30 @@ def transform_log_from_transform(A2B, strict_check=True):
 
 
 def transform_from_exponential_coordinates(Stheta, check=True):
-    """Compute transformation matrix from exponential coordinates.
+    r"""Compute transformation matrix from exponential coordinates.
 
     Exponential map.
+
+    .. math::
+
+        Exp([\mathcal{S}]\theta) =
+        Exp\left(\left(\begin{array}{c}
+        \boldsymbol{\omega}\\
+        \boldsymbol{v}
+        \end{array}\right)\theta\right) =
+        \left(\begin{array}{cc}
+        Exp(\boldsymbol{\omega}) & \boldsymbol{G}(\theta)\boldsymbol{v}\\
+        \boldsymbol{0} & 1
+        \end{array}\right)
+
+    where
+
+    .. math::
+
+        \boldsymbol{G}(\theta)
+        = \boldsymbol{I}\theta
+        + (1 - \cos \theta) [\boldsymbol{\omega}]
+        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2
 
     Parameters
     ----------
