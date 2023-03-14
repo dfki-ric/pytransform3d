@@ -552,15 +552,23 @@ def transform_from_exponential_coordinates(Stheta, check=True):
 
     .. math::
 
-        Exp([\mathcal{S}]\theta) =
+        Exp: \mathcal{S} \theta \in \mathbb{R}^6
+        \rightarrow \boldsymbol{T} \in SE(3)
+
+    .. math::
+
+        Exp(\mathcal{S}\theta) =
         Exp\left(\left(\begin{array}{c}
         \boldsymbol{\omega}\\
         \boldsymbol{v}
-        \end{array}\right)\theta\right) =
+        \end{array}\right)\theta\right)
+        =
+        \exp(\left[\mathcal{S}\right] \theta)
+        =
         \left(\begin{array}{cc}
         Exp(\boldsymbol{\omega}) & \boldsymbol{G}(\theta)\boldsymbol{v}\\
         \boldsymbol{0} & 1
-        \end{array}\right)
+        \end{array}\right),
 
     where
 
@@ -569,7 +577,7 @@ def transform_from_exponential_coordinates(Stheta, check=True):
         \boldsymbol{G}(\theta)
         = \boldsymbol{I}\theta
         + (1 - \cos \theta) [\boldsymbol{\omega}]
-        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2
+        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2.
 
     Parameters
     ----------
@@ -612,7 +620,35 @@ def transform_from_exponential_coordinates(Stheta, check=True):
 
 
 def transform_from_transform_log(transform_log):
-    """Compute transformation from matrix logarithm of transformation.
+    r"""Compute transformation from matrix logarithm of transformation.
+
+    Exponential map.
+
+    .. math::
+
+        \exp: \left[ \mathcal{S} \right] \theta \in se(3)
+        \rightarrow \boldsymbol{T} \in SE(3)
+
+    .. math::
+
+        \exp([\mathcal{S}]\theta) =
+        \exp\left(\left(\begin{array}{cc}
+        \left[\boldsymbol{\omega}\right] & \boldsymbol{v}\\
+        \boldsymbol{0} & 1
+        \end{array}\right)\theta\right) =
+        \left(\begin{array}{cc}
+        Exp(\boldsymbol{\omega}) & \boldsymbol{G}(\theta)\boldsymbol{v}\\
+        \boldsymbol{0} & 1
+        \end{array}\right),
+
+    where
+
+    .. math::
+
+        \boldsymbol{G}(\theta)
+        = \boldsymbol{I}\theta
+        + (1 - \cos \theta) [\boldsymbol{\omega}]
+        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2.
 
     Parameters
     ----------
