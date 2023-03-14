@@ -144,6 +144,60 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     return ax
 
 
+def plot_spheres(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
+                n_steps=20, alpha=1.0, color="k"):
+    """Plot sphere(s).
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis, optional (default: None)
+        If the axis is None, a new 3d axis will be created
+
+    radius : float, optional (default: 1)
+        Radius of the sphere(s)
+
+    p : array-like, shape (n_spheres, 3), optional (default: [0, 0, 0])
+        Center of the sphere(s)
+
+    ax_s : float, optional (default: 1)
+        Scaling of the new matplotlib 3d axis
+
+    wireframe : bool, optional (default: True)
+        Plot wireframe of sphere(s) and surface otherwise
+
+    n_steps : int, optional (default: 20)
+        Number of discrete steps plotted in each dimension
+
+    alpha : float, optional (default: 1)
+        Alpha value of the sphere(s) that will be plotted
+
+    color : str, optional (default: black)
+        Color in which the sphere(s) should be plotted
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
+    """
+    if ax is None:
+        ax = make_3d_axis(ax_s)
+
+    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
+    sin_phi = np.sin(phi)
+    Vertices = radius[..., None, None, None] * np.array([sin_phi * np.cos(theta), sin_phi * np.sin(theta), np.cos(phi)])[None, ...] + p[..., None, None]
+    colors = np.resize(color, (len(Vertices), 3))
+    alphas = np.resize(alpha, len(Vertices))
+
+    for vertices, color, alpha in zip(Vertices, colors, alphas):
+      if wireframe:
+          ax.plot_wireframe(
+              *vertices, rstride=10, cstride=10, color=color, alpha=alpha)
+      else:
+          ax.plot_surface(*vertices, color=color, alpha=alpha, linewidth=0)
+
+    return ax
+
+
 def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
                   A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100,
                   alpha=1.0, color="k"):

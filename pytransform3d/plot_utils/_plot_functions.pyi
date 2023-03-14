@@ -16,6 +16,13 @@ def plot_sphere(
         color: str = ...) -> Axes3D: ...
 
 
+def plot_spheres(
+        ax: Union[None, Axes3D] = ..., radius: npt.ArrayLike = ...,
+        p: npt.ArrayLike = ..., ax_s: float = ..., wireframe: bool = ...,
+        n_steps: float = ..., alpha: npt.ArrayLike = ...,
+        color: npt.ArrayLike = ...) -> Axes3D: ...
+
+
 def plot_cylinder(
         ax: Union[None, Axes3D] = ..., length: float = ...,
         radius: float = ..., thickness: float = ..., A2B: npt.ArrayLike = ...,
