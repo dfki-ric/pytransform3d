@@ -310,7 +310,7 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
 
 
 def exponential_coordinates_from_transform_log(transform_log, check=True):
-    """Compute exponential coordinates from logarithm of transformation.
+    r"""Compute exponential coordinates from logarithm of transformation.
 
     Parameters
     ----------
@@ -341,9 +341,51 @@ def exponential_coordinates_from_transform_log(transform_log, check=True):
 
 
 def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
-    """Compute exponential coordinates from transformation matrix.
+    r"""Compute exponential coordinates from transformation matrix.
 
     Logarithmic map.
+
+    .. math::
+
+        Log: \boldsymbol{T} \in SE(3)
+        \rightarrow \mathcal{S} \theta \in \mathbb{R}^6
+
+    .. math::
+
+        Log(\boldsymbol{T}) =
+        Log\left(
+        \begin{array}{cc}
+        \boldsymbol{R} & \boldsymbol{p}\\
+        \boldsymbol{0} & 1
+        \end{array}
+        \right)
+        =
+        \left(
+        \begin{array}{c}
+        Log\boldsymbol{R}\\
+        \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}
+        \end{array}
+        \right)
+        =
+        \left(
+        \begin{array}{c}
+        \boldsymbol{\omega}\\
+        \boldsymbol{v}
+        \end{array}
+        \right)
+        \theta
+        =
+        \mathcal{S}\theta,
+
+    where
+
+    .. math::
+
+        \boldsymbol{G}^{-1}(\theta)
+        = \boldsymbol{I} \frac{1}{\theta}
+        + \frac{1}{2} [\boldsymbol{\omega}]
+        + (\frac{1}{\theta} - \frac{1}{2 \tan \frac{\theta}{2}})
+        [\boldsymbol{\omega}]^2.
 
     Parameters
     ----------
@@ -634,7 +676,7 @@ def transform_from_transform_log(transform_log):
         \exp([\mathcal{S}]\theta) =
         \exp\left(\left(\begin{array}{cc}
         \left[\boldsymbol{\omega}\right] & \boldsymbol{v}\\
-        \boldsymbol{0} & 1
+        \boldsymbol{0} & 0
         \end{array}\right)\theta\right) =
         \left(\begin{array}{cc}
         Exp(\boldsymbol{\omega}) & \boldsymbol{G}(\theta)\boldsymbol{v}\\
