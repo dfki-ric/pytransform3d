@@ -12,7 +12,16 @@ from ..rotations import (
 
 
 def transform_from(R, p, strict_check=True):
-    """Make transformation from rotation matrix and translation.
+    r"""Make transformation from rotation matrix and translation.
+
+    .. math::
+
+        \boldsymbol{T}_{BA} = \left(
+        \begin{array}{cc}
+        \boldsymbol{R} & \boldsymbol{p}\\
+        \boldsymbol{0} & 1
+        \end{array}
+        \right) \in SE(3)
 
     Parameters
     ----------
