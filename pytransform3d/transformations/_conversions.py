@@ -310,7 +310,7 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
 
 
 def exponential_coordinates_from_transform_log(transform_log, check=True):
-    r"""Compute exponential coordinates from logarithm of transformation.
+    """Compute exponential coordinates from logarithm of transformation.
 
     Parameters
     ----------
@@ -538,7 +538,51 @@ def transform_log_from_screw_matrix(screw_matrix, theta):
 
 
 def transform_log_from_transform(A2B, strict_check=True):
-    """Compute matrix logarithm of transformation from transformation.
+    r"""Compute matrix logarithm of transformation from transformation.
+
+    Logarithmic map.
+
+    .. math::
+
+        \log: \boldsymbol{T} \in SE(3)
+        \rightarrow \left[ \mathcal{S} \right] \theta \in se(3)
+
+    .. math::
+
+        \log(\boldsymbol{T}) =
+        \log\left(
+        \begin{array}{cc}
+        \boldsymbol{R} & \boldsymbol{p}\\
+        \boldsymbol{0} & 1
+        \end{array}
+        \right)
+        =
+        \left(
+        \begin{array}{cc}
+        \log\boldsymbol{R} & \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\
+        \boldsymbol{0} & 0
+        \end{array}
+        \right)
+        =
+        \left(
+        \begin{array}{cc}
+        \hat{\boldsymbol{\omega}}\theta
+        & \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\
+        \boldsymbol{0} & 0
+        \end{array}
+        \right)
+        =
+        \left[\mathcal{S}\right]\theta,
+
+    where
+
+    .. math::
+
+        \boldsymbol{G}^{-1}(\theta)
+        = \boldsymbol{I} \frac{1}{\theta}
+        + \frac{1}{2} [\boldsymbol{\omega}]
+        + (\frac{1}{\theta} - \frac{1}{2 \tan \frac{\theta}{2}})
+        [\boldsymbol{\omega}]^2.
 
     Parameters
     ----------
