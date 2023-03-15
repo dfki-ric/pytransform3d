@@ -86,9 +86,23 @@ def matrix_from_two_vectors(a, b):
 
 
 def matrix_from_axis_angle(a):
-    """Compute rotation matrix from axis-angle.
+    r"""Compute rotation matrix from axis-angle.
 
     This is called exponential map or Rodrigues' formula.
+
+    .. math::
+
+        \boldsymbol{R}(\hat{\boldsymbol{\omega}}, \theta)
+        =
+        Exp(\hat{\boldsymbol{\omega}} \theta)
+        =
+        \cos{\theta} \boldsymbol{I}
+        + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]
+        + (1 - \cos{\theta}) \hat{\boldsymbol{\omega}}\hat{\boldsymbol{\omega}}^T
+        =
+        \boldsymbol{I}
+        + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]
+        + (1 - \cos{\theta}) \left[\hat{\boldsymbol{\omega}}\right]^2
 
     This typically results in an active rotation matrix.
 
@@ -130,9 +144,21 @@ def matrix_from_axis_angle(a):
 
 
 def matrix_from_compact_axis_angle(a):
-    """Compute rotation matrix from compact axis-angle.
+    r"""Compute rotation matrix from compact axis-angle.
 
     This is called exponential map or Rodrigues' formula.
+
+    .. math::
+
+        Exp(\hat{\boldsymbol{\omega}} \theta)
+        =
+        \cos{\theta} \boldsymbol{I}
+        + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]
+        + (1 - \cos{\theta}) \hat{\boldsymbol{\omega}}\hat{\boldsymbol{\omega}}^T
+        =
+        \boldsymbol{I}
+        + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]
+        + (1 - \cos{\theta}) \left[\hat{\boldsymbol{\omega}}\right]^2
 
     This typically results in an active rotation matrix.
 
