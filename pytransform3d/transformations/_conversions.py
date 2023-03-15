@@ -310,7 +310,22 @@ def exponential_coordinates_from_screw_axis(screw_axis, theta):
 
 
 def exponential_coordinates_from_transform_log(transform_log, check=True):
-    """Compute exponential coordinates from logarithm of transformation.
+    r"""Compute exponential coordinates from logarithm of transformation.
+
+    Extracts the vector :math:`\mathcal{S} =
+    (\boldsymbol{\omega}, \boldsymbol{v}) \in \mathbb{R}^6` from the
+    matrix
+
+    .. math::
+
+        \left(
+        \begin{array}{cccc}
+        0 & -\omega_3 & \omega_2 & v_1\\
+        \omega_3 & 0 & -\omega_1 & v_2\\
+        -\omega_2 & \omega_1 & 0 & v_3\\
+        0 & 0 & 0 & 0
+        \end{array}
+        \right) = \left[ \mathcal{S} \right] \in so(3).
 
     Parameters
     ----------
@@ -489,7 +504,23 @@ def screw_matrix_from_transform_log(transform_log):
 
 
 def transform_log_from_exponential_coordinates(Stheta):
-    """Compute matrix logarithm of transformation from exponential coordinates.
+    r"""Compute matrix logarithm of transformation from exponential coordinates.
+
+    Builds the matrix
+
+    .. math::
+
+        \left(
+        \begin{array}{cccc}
+        0 & -\omega_3 & \omega_2 & v_1\\
+        \omega_3 & 0 & -\omega_1 & v_2\\
+        -\omega_2 & \omega_1 & 0 & v_3\\
+        0 & 0 & 0 & 0
+        \end{array}
+        \right) = \left[ \mathcal{S} \right] \in so(3)
+
+    from the vector :math:`\mathcal{S} = (\boldsymbol{\omega}, \boldsymbol{v})
+    \in \mathbb{R}^6`.
 
     Parameters
     ----------
