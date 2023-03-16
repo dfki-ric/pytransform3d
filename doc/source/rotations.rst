@@ -113,16 +113,13 @@ This means that we rotate a point :math:`_B\boldsymbol{p}` by
 
 This is called **linear map**.
 
+Note that using our index notation and conventions the second index of the
+rotation matrix and the left index of the point have to be the same. The
+rotation is applied incorrectly if this is not the case.
+
 We can see that *each column* of such a rotation matrix is a basis vector
 of frame :math:`A` with respect to frame :math:`B`.
-
 We can plot the basis vectors of an orientation to visualize it.
-
-.. note::
-
-    When plotting basis vectors it is a convention to use red for the x-axis,
-    green for the y-axis and blue for the z-axis (RGB for xyz).
-
 Here, we can see orientation represented by the rotation matrix
 
 .. math::
@@ -140,6 +137,11 @@ Here, we can see orientation represented by the rotation matrix
     from pytransform3d.rotations import plot_basis
     plot_basis()
 
+.. note::
+
+    When plotting basis vectors it is a convention to use red for the x-axis,
+    green for the y-axis and blue for the z-axis (RGB for xyz).
+
 We can easily chain multiple rotations: we can apply the rotation defined
 by :math:`\boldsymbol R_{AB}` after the rotation :math:`\boldsymbol R_{BC}`
 by applying the rotation
@@ -147,6 +149,9 @@ by applying the rotation
 .. math::
 
     \boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.
+
+Note that again the indices have to align. Otherwise rotations are not applied
+in the correct order.
 
 .. warning::
 
@@ -159,6 +164,12 @@ by applying the rotation
     :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates in
     which :math:`R_2` is applied. Note that this applies to both
     passive and active rotation matrices.
+
+The easiest way to construct rotation matrices is through rotations about the
+basis vectors with :func:`~pytransform3d.rotations.active_matrix_from_angle`.
+Multiple rotation matrices that were constructed like this can be concatenated.
+This will be done, for instance, to obtain rotation matrices from Euler angles
+(see :doc:`euler_angles`).
 
 **Pros**
 
