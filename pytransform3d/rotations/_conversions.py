@@ -253,7 +253,43 @@ def passive_matrix_from_angle(basis, angle):
 
 
 def active_matrix_from_angle(basis, angle):
-    """Compute active rotation matrix from rotation about basis vector.
+    r"""Compute active rotation matrix from rotation about basis vector.
+
+    With the angle :math:`\alpha` and :math:`s = \sin{\alpha}, c=\cos{\alpha}`,
+    we construct rotation matrices about the basis vectors as follows:
+
+    .. math::
+
+        \boldsymbol{R}_x(\alpha) =
+        \left(
+        \begin{array}{ccc}
+        1 & 0 & 0\\
+        0 & c & -s\\
+        0 & s & c
+        \end{array}
+        \right)
+
+    .. math::
+
+        \boldsymbol{R}_y(\alpha) =
+        \left(
+        \begin{array}{ccc}
+        c & 0 & s\\
+        0 & 1 & 0\\
+        -s & 0 & c
+        \end{array}
+        \right)
+
+    .. math::
+
+        \boldsymbol{R}_z(\alpha) =
+        \left(
+        \begin{array}{ccc}
+        c & -s & 0\\
+        s & c & 0\\
+        0 & 0 & 1
+        \end{array}
+        \right)
 
     Parameters
     ----------
