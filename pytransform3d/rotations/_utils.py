@@ -386,10 +386,20 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
 
 
 def check_matrix(R, tolerance=1e-6, strict_check=True):
-    """Input validation of a rotation matrix.
+    r"""Input validation of a rotation matrix.
 
     We check whether R multiplied by its inverse is approximately the identity
-    matrix, and whether the determinant is positive.
+    matrix
+
+    .. math::
+
+        \boldsymbol{R}\boldsymbol{R}^T = \boldsymbol{I}
+
+    and whether the determinant is positive
+
+    .. math::
+
+        det(\boldsymbol{R}) > 0
 
     Parameters
     ----------
