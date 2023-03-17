@@ -721,14 +721,13 @@ def transform_from_exponential_coordinates(Stheta, check=True):
     if theta == 0.0:  # only translation
         return translate_transform(np.eye(4), Stheta[3:], check=check)
 
-    screw_axis = Stheta / theta
-    omega_unit = screw_axis[:3]
-    v = screw_axis[3:]
+    omega = Stheta[:3]
+    v = Stheta[3:]
 
     A2B = np.eye(4)
-    A2B[:3, :3] = matrix_from_compact_axis_angle(omega_unit * theta)
-    J = left_jacobian_SO3(omega_unit * theta)
-    A2B[:3, 3] = theta * np.dot(J, v)
+    A2B[:3, :3] = matrix_from_compact_axis_angle(omega)
+    J = left_jacobian_SO3(omega)
+    A2B[:3, 3] = np.dot(J, v)
     return A2B
 
 
