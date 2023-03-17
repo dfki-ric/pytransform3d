@@ -182,11 +182,12 @@ coordinates of transformation and typically we use the variable name Stheta.
 
     Note that we use the screw theory definition of exponential coordinates
     and :math:`so(3)` (see next section) used by Paden (1985), Lynch and Park
-    (2017), and Corke (2017). There is an alternative definition used by
-    Eade (2017) and Sola et al. (2018). They use a different order of the
-    3D vector components and they do not multiply :math:`\theta` with the
-    component that encodes the translation (:math:`\boldsymbol{v}` in our
-    case).
+    (2017), and Corke (2017). They separate the parameter :math:`\theta` from
+    the screw axis. Additionally, they use the first three components to encode
+    rotation and the last three components to encode translation. There is an
+    alternative definition used by Eade (2017) and Sola et al. (2018). They use
+    a different order of the 3D vector components and they do not separate
+    :math:`\theta` from the screw axis in their notation.
 
 ---------------------------
 Logarithm of Transformation
