@@ -449,9 +449,9 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
     if theta == 0:
         return np.r_[0.0, 0.0, 0.0, p]
 
-    v = np.dot(left_jacobian_SO3_inv(omega_theta) / theta, p)
+    v = np.dot(left_jacobian_SO3_inv(omega_theta), p)
 
-    return np.hstack((omega_theta, v * theta))
+    return np.hstack((omega_theta, v))
 
 
 def screw_matrix_from_screw_axis(screw_axis):
@@ -652,11 +652,10 @@ def transform_log_from_transform(A2B, strict_check=True):
         return transform_log
 
     J_inv = left_jacobian_SO3_inv(omega_theta)
-    v = np.dot(J_inv / theta, p)
+    v = np.dot(J_inv, p)
 
-    transform_log[:3, :3] = cross_product_matrix(omega_theta / theta)
+    transform_log[:3, :3] = cross_product_matrix(omega_theta)
     transform_log[:3, 3] = v
-    transform_log *= theta
 
     return transform_log
 
@@ -782,12 +781,10 @@ def transform_from_transform_log(transform_log):
     if theta == 0.0:  # only translation
         return translate_transform(np.eye(4), v)
 
-    v = v / theta
-
     A2B = np.eye(4)
     A2B[:3, :3] = matrix_from_compact_axis_angle(omega_theta)
     J = left_jacobian_SO3(omega_theta)
-    A2B[:3, 3] = theta * np.dot(J, v)
+    A2B[:3, 3] = np.dot(J, v)
     return A2B
 
 
