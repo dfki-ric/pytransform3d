@@ -5,7 +5,17 @@ from ._conversions import cross_product_matrix
 
 
 def left_jacobian_SO3(omega):
-    """Left Jacobian of SO(3) at theta (angle of rotation).
+    r"""Left Jacobian of SO(3) at theta (angle of rotation).
+
+    .. math::
+
+        \boldsymbol{J}(\theta)
+        =
+        \frac{\sin{\theta}}{\theta} \boldsymbol{I}
+        + \left(\frac{1 - \cos{\theta}}{\theta}\right)
+        \left[\hat{\boldsymbol{\omega}}\right]
+        + \left(1 - \frac{\sin{\theta}}{\theta} \right)
+        \hat{\boldsymbol{\omega}} \hat{\boldsymbol{\omega}}^T
 
     Parameters
     ----------
@@ -57,7 +67,16 @@ def left_jacobian_SO3_series(omega, n_terms):
 
 
 def left_jacobian_SO3_inv(omega):
-    """Inverse left Jacobian of SO(3) at theta (angle of rotation).
+    r"""Inverse left Jacobian of SO(3) at theta (angle of rotation).
+
+    .. math::
+
+        \boldsymbol{J}^{-1}(\theta)
+        =
+        \frac{\theta}{2 \tan{\frac{\theta}{2}}} \boldsymbol{I}
+        - \frac{\theta}{2} \left[\hat{\boldsymbol{\omega}}\right]
+        + \left(1 - \frac{\theta}{2 \tan{\frac{\theta}{2}}}\right)
+        \hat{\boldsymbol{\omega}} \hat{\boldsymbol{\omega}}^T
 
     Parameters
     ----------
