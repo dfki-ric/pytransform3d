@@ -64,7 +64,7 @@ def fuse_poses(means, covs):
 
 
 def compund_poses(T1, cov1, T2, cov2):
-    """Compound two poses.
+    """Compound two uncertain poses.
 
     Parameters
     ----------
@@ -87,6 +87,12 @@ def compund_poses(T1, cov1, T2, cov2):
 
     cov : array, shape (6, 6)
         Covariance of new pose.
+
+    References
+    ----------
+    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
+    Use in Estimation Problems,
+    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
     """
     T = np.dot(T1, T2)
 
