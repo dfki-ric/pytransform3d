@@ -94,7 +94,9 @@ from ._rotors import (
     wedge, geometric_product, rotor_apply, rotor_reverse, concatenate_rotors,
     rotor_from_plane_angle, rotor_from_two_directions, matrix_from_rotor,
     plane_normal_from_bivector)
-from ._jacobians import left_jacobian_SO3, left_jacobian_SO3_inv
+from ._jacobians import (
+    left_jacobian_SO3, left_jacobian_SO3_series, left_jacobian_SO3_inv,
+    left_jacobian_SO3_inv_series)
 
 __all__ = [
     "eps",
@@ -237,5 +239,7 @@ __all__ = [
     "plane_normal_from_bivector",
     "plane_basis_from_normal",
     "left_jacobian_SO3",
-    "left_jacobian_SO3_inv"
+    "left_jacobian_SO3_series",
+    "left_jacobian_SO3_inv",
+    "left_jacobian_SO3_inv_series"
 ]
