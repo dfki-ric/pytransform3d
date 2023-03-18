@@ -2178,3 +2178,13 @@ def test_mrp_quat_conversions():
         mrp = pr.mrp_from_quaternion(q)
         q2 = pr.quaternion_from_mrp(mrp)
         pr.assert_quaternion_equal(q, q2)
+
+
+def test_jacobian_so3():
+    rng = np.random.default_rng(0)
+    for _ in range(5):
+        omega = pr.random_compact_axis_angle(rng)
+        J = pr.left_jacobian_SO3(omega)
+        J_inv = pr.left_jacobian_SO3_inv(omega)
+        J_inv_J = np.dot(J_inv, J)
+        assert_array_almost_equal(J_inv_J, np.eye(3))

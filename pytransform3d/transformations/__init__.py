@@ -36,6 +36,7 @@ from ._plot import plot_transform, plot_screw
 from ._testing import (
     assert_transform, assert_screw_parameters_equal,
     assert_unit_dual_quaternion_equal, assert_unit_dual_quaternion)
+from ._jacobians import jacobian_SE3, jacobian_SE3_inv
 
 
 __all__ = [
@@ -68,5 +69,6 @@ __all__ = [
     "dual_quaternion_sclerp", "dual_quaternion_power", "dq_prod_vector",
     "plot_transform", "plot_screw",
     "assert_transform", "assert_screw_parameters_equal",
-    "assert_unit_dual_quaternion_equal", "assert_unit_dual_quaternion"
+    "assert_unit_dual_quaternion_equal", "assert_unit_dual_quaternion",
+    "jacobian_SE3", "jacobian_SE3_inv"
 ]

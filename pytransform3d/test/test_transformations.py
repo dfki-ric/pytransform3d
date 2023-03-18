@@ -2,6 +2,7 @@ import warnings
 import numpy as np
 import pytest
 
+import pytransform3d.transformations as pt
 from pytransform3d.transformations import (
     random_transform, transform_from, translate_transform, rotate_transform,
     invert_transform, vector_to_point, vectors_to_points, vector_to_direction,
@@ -910,3 +911,13 @@ def test_adjoint_from_transform_without_check():
     assert_array_almost_equal(adjoint[3:, 3:], np.ones((3, 3)))
     assert_array_almost_equal(adjoint[3:, :3], np.zeros((3, 3)))
     assert_array_almost_equal(adjoint[:3, 3:], np.zeros((3, 3)))
+
+
+def test_jacobian_se3():
+    rng = np.random.default_rng(0)
+    for _ in range(5):
+        Stheta = pt.random_exponential_coordinates(rng)
+        J = pt.jacobian_SE3(Stheta)
+        J_inv = pt.jacobian_SE3_inv(Stheta)
+        J_inv_J = np.dot(J_inv, J)
+        assert_array_almost_equal(J_inv_J, np.eye(6))
