@@ -72,7 +72,18 @@ the form
 It is a partitioned matrix with a 3x3 rotation matrix :math:`\boldsymbol R`
 and a column vector :math:`\boldsymbol t` that represents the translation.
 It is also sometimes called the homogeneous representation of a transformation.
-All transformation matrices of this form generate the special Euclidean group :math:`SE(3)`.
+All transformation matrices of this form generate the special Euclidean group
+:math:`SE(3)`, that is,
+
+.. math::
+
+    SE(3) = \{ \boldsymbol{T} = \left(
+    \begin{array}{cc}
+    \boldsymbol{R} & \boldsymbol{t}\\
+    \boldsymbol{0} & 1
+    \end{array}
+    \right) \in \mathbb{R}^{4 \times 4}
+    | \boldsymbol{R} \in SO(3), \boldsymbol{t} \in \mathbb{R}^3 \}.
 
 pytransform3d uses a numpy array of shape (4, 4) to represent transformation
 matrices and typically we use the variable name A2B for a transformation

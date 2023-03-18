@@ -82,9 +82,17 @@ A more compact representation of these constraints is
 :math:`\boldsymbol R^T \boldsymbol R = \boldsymbol I
 \Leftrightarrow \boldsymbol R^T = \boldsymbol R^{-1}`.
 
-In addition, :math:`det(\boldsymbol R) = 1` because we use right-handed
-coordinate system   (:math:`det(\boldsymbol R) = -1` for left-handed
+In addition, :math:`\det(\boldsymbol R) = 1` because we use right-handed
+coordinate system   (:math:`\det(\boldsymbol R) = -1` for left-handed
 coordinate systems).
+
+Hence, the group :math:`SO(3)` is defined as
+
+.. math::
+
+    SO(3) = \{\boldsymbol{R} \in \mathbb{R}^{3 \times 3} |
+    \boldsymbol{R}\boldsymbol{R}^T = \boldsymbol{I},
+    \det(\boldsymbol{R}) = 1\}.
 
 pytransform3d uses a numpy array of shape (3, 3) to represent rotation
 matrices and typically we use the variable name R for a rotation matrix.
