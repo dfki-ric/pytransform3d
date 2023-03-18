@@ -7,7 +7,22 @@ from ._utils import check_exponential_coordinates
 
 
 def jacobian_SE3(Stheta, check=True):
-    """Jacobian of SE(3).
+    r"""Jacobian of SE(3).
+
+    .. math::
+
+        \boldsymbol{\mathcal{J}}
+        =
+        \left(
+        \begin{array}{cc}
+        \boldsymbol{J} & \boldsymbol{0}\\
+        \boldsymbol{Q} & \boldsymbol{J}
+        \end{array}
+        \right),
+
+    where :math:`\boldsymbol{J}` is the left Jacobian of SO(3) and
+    :math:`\boldsymbol{Q}` is given by Barfoot and Furgale (see reference
+    below).
 
     Parameters
     ----------
@@ -25,6 +40,12 @@ def jacobian_SE3(Stheta, check=True):
     -------
     J : array, shape (6, 6)
         Jacobian of SE(3).
+
+    References
+    ----------
+    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
+    Use in Estimation Problems,
+    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
     """
     if check:
         Stheta = check_exponential_coordinates(Stheta)
@@ -72,7 +93,23 @@ def jacobian_SE3_series(Stheta, n_terms):
 
 
 def jacobian_SE3_inv(Stheta, check=True):
-    """Inverse Jacobian of SE(3).
+    r"""Inverse Jacobian of SE(3).
+
+    .. math::
+
+        \boldsymbol{\mathcal{J}}^{-1}
+        =
+        \left(
+        \begin{array}{cc}
+        \boldsymbol{J}^{-1} & \boldsymbol{0}\\
+        -\boldsymbol{J}^{-1}\boldsymbol{Q}\boldsymbol{J}^{-1} &
+        \boldsymbol{J}^{-1}
+        \end{array}
+        \right),
+
+    where :math:`\boldsymbol{J}` is the left Jacobian of SO(3) and
+    :math:`\boldsymbol{Q}` is given by Barfoot and Furgale (see reference
+    below).
 
     Parameters
     ----------
