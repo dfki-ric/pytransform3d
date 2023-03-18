@@ -60,7 +60,7 @@ def fuse_poses(means, covs):
     return mean, cov, V
 
 
-def compund_poses(T1, cov1, T2, cov2):
+def pose_composition(T1, cov1, T2, cov2):
     """Compound two independent uncertain poses.
 
     Parameters

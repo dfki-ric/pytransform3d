@@ -30,7 +30,7 @@ path = np.zeros((n_steps + 1, 6))
 path[0] = pt.exponential_coordinates_from_transform(T_est)
 cov_est = cov_pose
 for t in range(n_steps):
-    T_est, cov_est = pu.compund_poses(T_vel, cov_pose, T_est, cov_est)
+    T_est, cov_est = pu.pose_composition(T_vel, cov_pose, T_est, cov_est)
     path[t + 1] = pt.exponential_coordinates_from_transform(T_est)
 
 T = np.eye(4)
