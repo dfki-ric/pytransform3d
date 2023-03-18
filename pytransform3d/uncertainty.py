@@ -5,8 +5,7 @@ from .transformations import (
     invert_transform, check_exponential_coordinates, adjoint_from_transform,
     transform_from_exponential_coordinates,
     exponential_coordinates_from_transform)
-from .rotations import (cross_product_matrix, compact_axis_angle_from_matrix,
-                        matrix_from_compact_axis_angle, left_jacobian_SO3,
+from .rotations import (cross_product_matrix, left_jacobian_SO3,
                         left_jacobian_SO3_inv)
 
 
