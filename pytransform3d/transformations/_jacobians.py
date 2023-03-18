@@ -6,7 +6,7 @@ from ._conversions import screw_axis_from_exponential_coordinates
 from ._utils import check_exponential_coordinates
 
 
-def jacobian_SE3(Stheta, check=True):
+def jacobian_SE3(Stheta):
     r"""Jacobian of SE(3).
 
     .. math::
@@ -33,9 +33,6 @@ def jacobian_SE3(Stheta, check=True):
         rotation and the last 3 components are related to translation.
         Theta is the rotation angle and h * theta the translation.
 
-    check : bool, optional (default: True)
-        Check if exponential coordinates are valid
-
     Returns
     -------
     J : array, shape (6, 6)
@@ -47,8 +44,7 @@ def jacobian_SE3(Stheta, check=True):
     Use in Estimation Problems,
     http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
     """
-    if check:
-        Stheta = check_exponential_coordinates(Stheta)
+    Stheta = check_exponential_coordinates(Stheta)
 
     _, theta = screw_axis_from_exponential_coordinates(Stheta)
     if theta < np.finfo(float).eps:
@@ -92,7 +88,7 @@ def jacobian_SE3_series(Stheta, n_terms):
     return J
 
 
-def jacobian_SE3_inv(Stheta, check=True):
+def jacobian_SE3_inv(Stheta):
     r"""Inverse Jacobian of SE(3).
 
     .. math::
@@ -120,16 +116,12 @@ def jacobian_SE3_inv(Stheta, check=True):
         rotation and the last 3 components are related to translation.
         Theta is the rotation angle and h * theta the translation.
 
-    check : bool, optional (default: True)
-        Check if exponential coordinates are valid
-
     Returns
     -------
     J_inv : array, shape (6, 6)
         Inverse Jacobian of SE(3).
     """
-    if check:
-        Stheta = check_exponential_coordinates(Stheta)
+    Stheta = check_exponential_coordinates(Stheta)
 
     _, theta = screw_axis_from_exponential_coordinates(Stheta)
     if theta < np.finfo(float).eps:
