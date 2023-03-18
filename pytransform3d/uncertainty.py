@@ -1,6 +1,5 @@
 import math
 import numpy as np
-import scipy as sp
 from .transformations import (
     invert_transform, adjoint_from_transform, jacobian_SE3_inv,
     transform_from_exponential_coordinates,
@@ -178,6 +177,7 @@ def to_ellipse(cov, factor=1.0):
     height : float
         Height of the ellipse (semi axis, not diameter).
     """
+    import scipy as sp
     vals, vecs = sp.linalg.eigh(cov)
     order = vals.argsort()[::-1]
     vals, vecs = vals[order], vecs[:, order]
