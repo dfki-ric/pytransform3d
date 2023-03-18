@@ -2,6 +2,7 @@ import math
 import numpy as np
 from ..rotations import (
     cross_product_matrix, left_jacobian_SO3, left_jacobian_SO3_inv)
+from ._conversions import screw_axis_from_exponential_coordinates
 from ._utils import check_exponential_coordinates
 
 
@@ -27,12 +28,47 @@ def jacobian_SE3(Stheta, check=True):
     """
     if check:
         Stheta = check_exponential_coordinates(Stheta)
+
+    _, theta = screw_axis_from_exponential_coordinates(Stheta)
+    if theta < np.finfo(float).eps:
+        return jacobian_SE3_series(Stheta, 10)
+
     phi = Stheta[:3]
     J = left_jacobian_SO3(phi)
     return np.block([
         [J, np.zeros((3, 3))],
         [_Q(Stheta), J]
     ])
+
+
+def jacobian_SE3_series(Stheta, n_terms):
+    """Jacobian of SE(3) at theta from Taylor series.
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
+
+    n_terms : int
+        Number of terms to include in the series.
+
+    Returns
+    -------
+    J : array, shape (3, 3)
+        Left Jacobian of SE(3).
+    """
+    Stheta = check_exponential_coordinates(Stheta)
+    J = np.eye(6)
+    pxn = np.eye(6)
+    px = _curlyhat(Stheta)
+    for n in range(n_terms):
+        pxn = np.dot(pxn, px) / (n + 2)
+        J += pxn
+    return J
 
 
 def jacobian_SE3_inv(Stheta, check=True):
@@ -57,6 +93,11 @@ def jacobian_SE3_inv(Stheta, check=True):
     """
     if check:
         Stheta = check_exponential_coordinates(Stheta)
+
+    _, theta = screw_axis_from_exponential_coordinates(Stheta)
+    if theta < np.finfo(float).eps:
+        return jacobian_SE3_inv_series(Stheta, 10)
+
     phi = Stheta[:3]
     J_inv = left_jacobian_SO3_inv(phi)
     return np.block([
@@ -94,3 +135,44 @@ def _Q(Stheta):
     Q = t1 + t2 + t3 + t4
 
     return Q
+
+
+def jacobian_SE3_inv_series(Stheta, n_terms):
+    """Inverse Jacobian of SE(3) at theta from Taylor series.
+
+    Parameters
+    ----------
+    Stheta : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where S is the screw axis, the first 3 components are related to
+        rotation and the last 3 components are related to translation.
+        Theta is the rotation angle and h * theta the translation.
+
+    n_terms : int
+        Number of terms to include in the series.
+
+    Returns
+    -------
+    J_inv : array, shape (3, 3)
+        Inverse left Jacobian of SE(3).
+    """
+    from scipy.special import bernoulli
+
+    Stheta = check_exponential_coordinates(Stheta)
+    J_inv = np.eye(6)
+    pxn = np.eye(6)
+    px = _curlyhat(Stheta)
+    b = bernoulli(n_terms + 1)
+    for n in range(n_terms):
+        pxn = np.dot(pxn, px / (n + 1))
+        J_inv += b[n + 1] * pxn
+    return J_inv
+
+
+def _curlyhat(Stheta):
+    omega_matrix = cross_product_matrix(Stheta[:3])
+    return np.block([
+        [omega_matrix, np.zeros((3, 3))],
+        [cross_product_matrix(Stheta[3:]), omega_matrix]
+    ])
