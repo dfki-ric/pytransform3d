@@ -447,6 +447,7 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
+   ~pytransform3d.uncertainty.invert_uncertain_transform
    ~pytransform3d.uncertainty.pose_fusion
 
 

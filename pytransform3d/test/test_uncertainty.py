@@ -1,5 +1,6 @@
 import numpy as np
 import pytransform3d.rotations as pr
+import pytransform3d.transformations as pt
 import pytransform3d.uncertainty as pu
 from numpy.testing import assert_array_almost_equal
 import pytest
@@ -50,3 +51,18 @@ def test_same_fuse_poses():
     assert_array_almost_equal(mean_exp, mean_est, decimal=4)
     assert_array_almost_equal(cov_exp, cov_est)
     assert pytest.approx(V, abs=1e-4) == 4.6537
+
+
+def test_invert_pose():
+    rng = np.random.default_rng(2)
+
+    for _ in range(5):
+        T = pt.random_transform(rng)
+        cov = np.diag(rng.random((6, 6)))
+
+        T_inv, cov_inv = pu.invert_uncertain_transform(T, cov)
+
+        T2, cov2 = pu.invert_uncertain_transform(T_inv, cov_inv)
+
+        assert_array_almost_equal(T, T2)
+        assert_array_almost_equal(cov, cov2)
