@@ -154,7 +154,24 @@ def _covop2(A, B):
 
 
 def invert_uncertain_transform(mean, cov):
-    """TODO"""
+    """Invert uncertain transform.
+
+    Parameters
+    ----------
+    mean : array-like, shape (4, 4)
+        Mean of transform from frame A to frame B
+
+    cov : array, shape (6, 6)
+        Covariance of transform from frame A to frame B
+
+    Returns
+    -------
+    mean_inv : array, shape (4, 4)
+        Mean of transform from frame B to frame A
+
+    cov_inv : array, shape (6, 6)
+        Covariance of transform from frame B to frame A
+    """
     mean_inv = invert_transform(mean)
     ad_inv = adjoint_from_transform(mean_inv)
     cov_inv = np.dot(ad_inv, np.dot(cov, ad_inv.T))
