@@ -30,21 +30,25 @@ path = np.zeros((n_steps + 1, 6))
 path[0] = pt.exponential_coordinates_from_transform(T_est)
 cov_est = cov_pose
 for t in range(n_steps):
-    T_est, cov_est = pu.pose_composition(T_vel, cov_pose, T_est, cov_est)
+    T_est, cov_est = pu.concat_uncertain_transforms(
+        T_est, cov_est, T_vel, cov_pose)
     path[t + 1] = pt.exponential_coordinates_from_transform(T_est)
 
 T = np.eye(4)
 mc_path = np.zeros((n_steps + 1, n_mc_samples, 4, 4))
 mc_path[0, :] = T
 for t in range(n_steps):
-    diff_samples = cov_pose_chol.dot(rng.standard_normal(size=(6, n_mc_samples))).T
+    diff_samples = cov_pose_chol.dot(
+        rng.standard_normal(size=(6, n_mc_samples))).T
     for i in range(n_mc_samples):
-        mc_path[t + 1, i] = pt.transform_from_exponential_coordinates(diff_samples[i]).dot(T_vel).dot(mc_path[t, i])
+        mc_path[t + 1, i] = pt.transform_from_exponential_coordinates(
+            diff_samples[i]).dot(T_vel).dot(mc_path[t, i])
 # Plot the random samples' trajectory lines (in a frame attached to the start)
 mc_path_vec = np.zeros((n_steps, n_mc_samples, 2))
 for t in range(n_steps):
     for i in range(n_mc_samples):
-        mc_path_vec[t, i] = mc_path[t, i, :3, :3].T.dot(mc_path[t, i, :3, 3])[:2]
+        mc_path_vec[t, i] = mc_path[t, i, :3, :3].T.dot(
+            mc_path[t, i, :3, 3])[:2]
 
 plt.plot(
     mc_path_vec[:, :, 0],
