@@ -153,6 +153,14 @@ def _covop2(A, B):
     return np.dot(_covop1(A), _covop1(B)) + _covop1(np.dot(B, A))
 
 
+def invert_uncertain_transform(mean, cov):
+    """TODO"""
+    mean_inv = invert_transform(mean)
+    ad_inv = adjoint_from_transform(mean_inv)
+    cov_inv = np.dot(ad_inv, np.dot(cov, ad_inv.T))
+    return mean_inv, cov_inv
+
+
 def to_ellipse(cov, factor=1.0):
     """Compute error ellipse.
 
