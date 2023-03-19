@@ -6,8 +6,8 @@ from .transformations import (
     exponential_coordinates_from_transform)
 
 
-def fuse_poses(means, covs):
-    """Fuse Gaussian distributions of poses.
+def pose_fusion(means, covs):
+    """Fuse Gaussian distributions of multiple poses.
 
     Parameters
     ----------
@@ -15,7 +15,7 @@ def fuse_poses(means, covs):
         Homogeneous transformation matrices.
 
     covs : array-like, shape (n_poses, 6, 6)
-        Covariances of pose distributions.
+        Covariances of pose distributions in exponential coordinate space.
 
     Returns
     -------

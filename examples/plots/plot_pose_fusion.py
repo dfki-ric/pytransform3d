@@ -19,7 +19,7 @@ import pytransform3d.transformations as pt
 
 
 x_true = np.array([1.0, 0.0, 0.0, 0.0, 0.0, np.pi / 6.0])
-T_true = pu.transform_from_exponential_coordinates(x_true)
+T_true = pt.transform_from_exponential_coordinates(x_true)
 alpha = 5.0
 cov1 = alpha * np.diag([0.1, 0.2, 0.1, 2.0, 1.0, 1.0])
 cov2 = alpha * np.diag([0.1, 0.1, 0.2, 1.0, 3.0, 1.0])
@@ -38,7 +38,7 @@ x1 = pt.exponential_coordinates_from_transform(T1)
 x2 = pt.exponential_coordinates_from_transform(T2)
 x3 = pt.exponential_coordinates_from_transform(T3)
 
-T_est, cov_est, V = pu.fuse_poses([T1, T2, T3], [cov1, cov2, cov3])
+T_est, cov_est, V = pu.pose_fusion([T1, T2, T3], [cov1, cov2, cov3])
 x_est = pt.exponential_coordinates_from_transform(T_est)
 
 _, axes = plt.subplots(
