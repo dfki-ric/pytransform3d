@@ -7,23 +7,45 @@ from .transformations import (
 
 
 def invert_uncertain_transform(mean, cov):
-    """Invert uncertain transform.
+    r"""Invert uncertain transform.
+
+    For the mean :math:`\boldsymbol{T}_{BA}`, the inverse is simply
+    :math:`\boldsymbol{T}_{BA}^{-1} = \boldsymbol{T}_{AB}`.
+
+    For the covariance, we need the adjoint of the inverse transformation
+    :math:`\left[Ad_{\boldsymbol{T}_{BA}^{-1}}\right]`:
+
+    .. math::
+
+        \boldsymbol{\Sigma}_{\boldsymbol{T}_{AB}}
+        =
+        \left[Ad_{\boldsymbol{T}_{BA}^{-1}}\right]
+        \boldsymbol{\Sigma}_{\boldsymbol{T}_{BA}}
+        \left[Ad_{\boldsymbol{T}_{BA}^{-1}}\right]^T
 
     Parameters
     ----------
     mean : array-like, shape (4, 4)
-        Mean of transform from frame A to frame B
+        Mean of transform from frame A to frame B.
 
     cov : array, shape (6, 6)
-        Covariance of transform from frame A to frame B
+        Covariance of transform from frame A to frame B in exponential
+        coordinate space.
 
     Returns
     -------
     mean_inv : array, shape (4, 4)
-        Mean of transform from frame B to frame A
+        Mean of transform from frame B to frame A.
 
     cov_inv : array, shape (6, 6)
-        Covariance of transform from frame B to frame A
+        Covariance of transform from frame B to frame A in exponential
+        coordinate space.
+
+    References
+    ----------
+    Mangelson, Ghaffari, Vasudevan, Eustice: Characterizing the Uncertainty of
+    Jointly Distributed Poses in the Lie Algebra,
+    https://arxiv.org/pdf/1906.07795.pdf
     """
     mean_inv = invert_transform(mean)
     ad_inv = adjoint_from_transform(mean_inv)
