@@ -33,7 +33,7 @@ def test_same_fuse_poses():
     cov3 = alpha * np.diag([0.2, 0.1, 0.1, 1.0, 1.0, 5.0])
     means = [mean1, mean2, mean3]
     covs = [cov1, cov2, cov3]
-    mean_est, cov_est, V = pu.fuse_poses(means, covs)
+    mean_est, cov_est, V = pu.pose_fusion(means, covs)
     mean_exp = np.array([
         [0.2967, -0.7157, 0.6323, -1.4887],
         [0.5338, 0.6733, 0.5116, 0.9935],
