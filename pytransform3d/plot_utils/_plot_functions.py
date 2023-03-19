@@ -145,8 +145,8 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
 
 
 def plot_spheres(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
-                n_steps=20, alpha=1.0, color="k"):
-    """Plot sphere(s).
+                 n_steps=20, alpha=1.0, color="k"):
+    """Plot multiple spheres.
 
     Parameters
     ----------
@@ -184,16 +184,19 @@ def plot_spheres(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
 
     phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
     sin_phi = np.sin(phi)
-    Vertices = radius[..., None, None, None] * np.array([sin_phi * np.cos(theta), sin_phi * np.sin(theta), np.cos(phi)])[None, ...] + p[..., None, None]
-    colors = np.resize(color, (len(Vertices), 3))
-    alphas = np.resize(alpha, len(Vertices))
+    verts = (radius[..., np.newaxis, np.newaxis, np.newaxis]
+             * np.array([sin_phi * np.cos(theta), sin_phi * np.sin(theta),
+                         np.cos(phi)])[np.newaxis, ...]
+             + p[..., np.newaxis, np.newaxis])
+    colors = np.resize(color, (len(verts), 3))
+    alphas = np.resize(alpha, len(verts))
 
-    for vertices, color, alpha in zip(Vertices, colors, alphas):
-      if wireframe:
-          ax.plot_wireframe(
-              *vertices, rstride=10, cstride=10, color=color, alpha=alpha)
-      else:
-          ax.plot_surface(*vertices, color=color, alpha=alpha, linewidth=0)
+    for vertices, color, alpha in zip(verts, colors, alphas):
+        if wireframe:
+            ax.plot_wireframe(
+                *vertices, rstride=10, cstride=10, color=color, alpha=alpha)
+        else:
+            ax.plot_surface(*vertices, color=color, alpha=alpha, linewidth=0)
 
     return ax
 
