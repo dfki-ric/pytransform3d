@@ -23,7 +23,7 @@ def invert_transform(A2B, strict_check=True, check=True):
 
     Returns
     -------
-    B2A : array-like, shape (4, 4)
+    B2A : array, shape (4, 4)
         Transform from frame B to frame A
     """
     if check:
