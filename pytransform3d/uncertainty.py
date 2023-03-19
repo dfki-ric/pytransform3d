@@ -107,7 +107,7 @@ def pose_fusion(means, covs):
 
 
 def concat_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
-    """Concatenate two uncertain transformations.
+    """Concatenate two independent uncertain transformations.
 
     Parameters
     ----------
@@ -200,32 +200,33 @@ def _covop2(A, B):
     return np.dot(_covop1(A), _covop1(B)) + _covop1(np.dot(B, A))
 
 
-def concat_dependent_uncertain_transforms(T1, cov1, T2, cov2, cov12):  # TODO make arguments consistent
-    """Compound two dependent uncertain poses.
+def concat_dependent_uncertain_transforms(
+        mean_A2B, cov_A2B, mean_B2C, cov_B2C, cov_A2B_B2C):
+    """Concatenate two dependent uncertain transformations.
 
     Parameters
     ----------
-    T1 : array, shape (4, 4)
-        Mean of first pose.
+    mean_A2B : array, shape (4, 4)
+        Mean of transform from A to B.
 
-    cov1 : array, shape (6, 6)
-        Covariance of first pose.
+    cov_A2B : array, shape (6, 6)
+        Covariance of transform from A to B.
 
-    T2 : array, shape (4, 4)
-        Mean of second pose.
+    mean_B2C : array, shape (4, 4)
+        Mean of transform from B to C.
 
-    cov2 : array, shape (6, 6)
-        Covariance of second pose.
+    cov_B2C : array, shape (6, 6)
+        Covariance of transform from B to C.
 
-    cov12 : array, shape (6, 6)
-        Covariance between first and second pose.
+    cov_A2B_B2C : array, shape (6, 6)
+        Covariance between the two transforms.
 
     Returns
     -------
-    T : array, shape (4, 4)
-        Mean of new pose (T1 T2).
+    mean_A2C : array, shape (4, 4)
+        Mean of new pose.
 
-    cov : array, shape (6, 6)
+    cov_A2C : array, shape (6, 6)
         Covariance of new pose.
 
     References
@@ -234,14 +235,15 @@ def concat_dependent_uncertain_transforms(T1, cov1, T2, cov2, cov12):  # TODO ma
     Jointly Distributed Poses in the Lie Algebra,
     https://arxiv.org/pdf/1906.07795.pdf
     """
-    T = np.dot(T1, T2)
+    mean_A2C = concat(mean_A2B, mean_B2C)
 
-    ad1 = adjoint_from_transform(T1)
-    cov2_prime = np.dot(ad1, np.dot(cov2, ad1.T))
+    ad_B2C = adjoint_from_transform(mean_B2C)
+    cov_A2B_in_C = np.dot(ad_B2C, np.dot(cov_A2B, ad_B2C.T))
+    cov_A2C = (
+        cov_B2C + cov_A2B_in_C
+        + np.dot(cov_A2B_B2C, ad_B2C.T) + np.dot(ad_B2C, cov_A2B_B2C.T))
 
-    cov = cov1 + cov2_prime + np.dot(cov12, ad1.T) + np.dot(ad1, cov12.T)
-
-    return T, cov
+    return mean_A2C, cov_A2C
 
 
 def to_ellipse(cov, factor=1.0):
