@@ -153,6 +153,50 @@ def _covop2(A, B):
     return np.dot(_covop1(A), _covop1(B)) + _covop1(np.dot(B, A))
 
 
+def pose_composition_dep(T1, cov1, T2, cov2, cov12):
+    """Compound two dependent uncertain poses.
+
+    Parameters
+    ----------
+    T1 : array, shape (4, 4)
+        Mean of first pose.
+
+    cov1 : array, shape (6, 6)
+        Covariance of first pose.
+
+    T2 : array, shape (4, 4)
+        Mean of second pose.
+
+    cov2 : array, shape (6, 6)
+        Covariance of second pose.
+
+    cov12 : array, shape (6, 6)
+        Covariance between first and second pose.
+
+    Returns
+    -------
+    T : array, shape (4, 4)
+        Mean of new pose (T1 T2).
+
+    cov : array, shape (6, 6)
+        Covariance of new pose.
+
+    References
+    ----------
+    Mangelson, Ghaffari, Vasudevan, Eustice: Characterizing the Uncertainty of
+    Jointly Distributed Poses in the Lie Algebra,
+    https://arxiv.org/pdf/1906.07795.pdf
+    """
+    T = np.dot(T1, T2)
+
+    ad1 = adjoint_from_transform(T1)
+    cov2_prime = np.dot(ad1, np.dot(cov2, ad1.T))
+
+    cov = cov1 + cov2_prime + np.dot(cov12, ad1.T) + np.dot(ad1, cov12.T)
+
+    return T, cov
+
+
 def invert_uncertain_transform(mean, cov):
     """Invert uncertain transform.
 
