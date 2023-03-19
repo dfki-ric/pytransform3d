@@ -185,8 +185,6 @@ def plot_spheres(ax=None, radius=np.ones(1), p=np.zeros((1, 3)), ax_s=1,
 
     radius = np.asarray(radius)
     p = np.asarray(p)
-    alpha = np.asarray(alpha)
-    color = np.asarray(color)
 
     phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
     sin_phi = np.sin(phi)
@@ -197,12 +195,13 @@ def plot_spheres(ax=None, radius=np.ones(1), p=np.zeros((1, 3)), ax_s=1,
     colors = np.resize(color, (len(verts), 3))
     alphas = np.resize(alpha, len(verts))
 
-    for vertices, color, alpha in zip(verts, colors, alphas):
+    for verts_i, color_i, alpha_i in zip(verts, colors, alphas):
         if wireframe:
             ax.plot_wireframe(
-                *vertices, rstride=2, cstride=2, color=color, alpha=alpha)
+                *verts_i, rstride=2, cstride=2, color=color_i, alpha=alpha_i)
         else:
-            ax.plot_surface(*vertices, color=color, alpha=alpha, linewidth=0)
+            ax.plot_surface(*verts_i, color=color_i, alpha=alpha_i,
+                            linewidth=0)
 
     return ax
 
