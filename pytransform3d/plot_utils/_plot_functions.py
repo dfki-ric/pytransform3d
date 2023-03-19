@@ -144,6 +144,68 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     return ax
 
 
+def plot_spheres(ax=None, radius=np.ones(1), p=np.zeros((1, 3)), ax_s=1,
+                 wireframe=True, n_steps=20, alpha=np.ones(1),
+                 color=np.zeros((1, 3))):
+    """Plot multiple spheres.
+
+    Parameters
+    ----------
+    ax : Matplotlib 3d axis, optional (default: None)
+        If the axis is None, a new 3d axis will be created
+
+    radius : array-like, shape (n_spheres,), optional (default: 1)
+        Radius of the sphere(s)
+
+    p : array-like, shape (n_spheres, 3), optional (default: [0, 0, 0])
+        Center of the sphere(s)
+
+    ax_s : float, optional (default: 1)
+        Scaling of the new matplotlib 3d axis
+
+    wireframe : bool, optional (default: True)
+        Plot wireframe of sphere(s) and surface otherwise
+
+    n_steps : int, optional (default: 20)
+        Number of discrete steps plotted in each dimension
+
+    alpha : array-like, shape (n_spheres,), optional (default: 1)
+        Alpha value of the sphere(s) that will be plotted
+
+    color : array-like, shape (n_spheres, 3), optional (default: black)
+        Color in which the sphere(s) should be plotted
+
+    Returns
+    -------
+    ax : Matplotlib 3d axis
+        New or old axis
+    """
+    if ax is None:
+        ax = make_3d_axis(ax_s)
+
+    radius = np.asarray(radius)
+    p = np.asarray(p)
+
+    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
+    sin_phi = np.sin(phi)
+    verts = (radius[..., np.newaxis, np.newaxis, np.newaxis]
+             * np.array([sin_phi * np.cos(theta), sin_phi * np.sin(theta),
+                         np.cos(phi)])[np.newaxis, ...]
+             + p[..., np.newaxis, np.newaxis])
+    colors = np.resize(color, (len(verts), 3))
+    alphas = np.resize(alpha, len(verts))
+
+    for verts_i, color_i, alpha_i in zip(verts, colors, alphas):
+        if wireframe:
+            ax.plot_wireframe(
+                *verts_i, rstride=2, cstride=2, color=color_i, alpha=alpha_i)
+        else:
+            ax.plot_surface(*verts_i, color=color_i, alpha=alpha_i,
+                            linewidth=0)
+
+    return ax
+
+
 def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
                   A2B=np.eye(4), ax_s=1, wireframe=True, n_steps=100,
                   alpha=1.0, color="k"):
