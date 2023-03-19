@@ -144,8 +144,9 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     return ax
 
 
-def plot_spheres(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
-                 n_steps=20, alpha=1.0, color="k"):
+def plot_spheres(ax=None, radius=np.ones(1), p=np.zeros((1, 3)), ax_s=1,
+                 wireframe=True, n_steps=20, alpha=np.ones(1),
+                 color=np.zeros((1, 3))):
     """Plot multiple spheres.
 
     Parameters
@@ -153,7 +154,7 @@ def plot_spheres(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     ax : Matplotlib 3d axis, optional (default: None)
         If the axis is None, a new 3d axis will be created
 
-    radius : float, optional (default: 1)
+    radius : array-like, shape (n_spheres,), optional (default: 1)
         Radius of the sphere(s)
 
     p : array-like, shape (n_spheres, 3), optional (default: [0, 0, 0])
@@ -168,10 +169,10 @@ def plot_spheres(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     n_steps : int, optional (default: 20)
         Number of discrete steps plotted in each dimension
 
-    alpha : float, optional (default: 1)
+    alpha : array-like, shape (n_spheres,), optional (default: 1)
         Alpha value of the sphere(s) that will be plotted
 
-    color : str, optional (default: black)
+    color : array-like, shape (n_spheres, 3), optional (default: black)
         Color in which the sphere(s) should be plotted
 
     Returns
@@ -181,6 +182,11 @@ def plot_spheres(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     """
     if ax is None:
         ax = make_3d_axis(ax_s)
+
+    radius = np.asarray(radius)
+    p = np.asarray(p)
+    alpha = np.asarray(alpha)
+    color = np.asarray(color)
 
     phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
     sin_phi = np.sin(phi)
