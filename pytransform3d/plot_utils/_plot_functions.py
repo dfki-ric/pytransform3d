@@ -200,7 +200,7 @@ def plot_spheres(ax=None, radius=np.ones(1), p=np.zeros((1, 3)), ax_s=1,
     for vertices, color, alpha in zip(verts, colors, alphas):
         if wireframe:
             ax.plot_wireframe(
-                *vertices, rstride=10, cstride=10, color=color, alpha=alpha)
+                *vertices, rstride=2, cstride=2, color=color, alpha=alpha)
         else:
             ax.plot_surface(*vertices, color=color, alpha=alpha, linewidth=0)
 
