@@ -57,10 +57,8 @@ for i in range(mc_path_vec.shape[1]):
         mc_path_vec[:, i, 0], mc_path_vec[:, i, 1], mc_path_vec[:, i, 2],
         lw=1, c="b", alpha=0.05)
 ax.scatter(
-    mc_path_vec[-1, :, 0],
-    mc_path_vec[-1, :, 1],
-    mc_path_vec[-1, :, 2],
-    s=5, c="b")
+    mc_path_vec[-1, :, 0], mc_path_vec[-1, :, 1], mc_path_vec[-1, :, 2],
+    s=3, c="b")
 
 ax.plot(path[:, 3], path[:, 4], path[:, 5], lw=3, color="k")
 
@@ -69,12 +67,9 @@ pu.plot_projected_ellipsoid(ax, T_est, cov_est, color="g", factor=3.0)
 mean_mc = np.mean(mc_path_vec[-1, :], axis=0)
 cov_mc = np.cov(mc_path_vec[-1, :], rowvar=False)
 
-factors = [1.65, 1.96, 2.58]
-for factor in factors:
-    ellipsoid2origin, radii = pu.to_ellipsoid(mean_mc, cov_mc)
-    ppu.plot_ellipsoid(
-        ax, factor * radii, ellipsoid2origin, wireframe=False, alpha=0.2,
-        color="r")
+ellipsoid2origin, radii = pu.to_ellipsoid(mean_mc, cov_mc)
+ppu.plot_ellipsoid(
+    ax, 3.0 * radii, ellipsoid2origin, wireframe=False, alpha=0.3, color="r")
 
 plt.xlim((-5, 105))
 plt.ylim((-50, 50))
