@@ -372,8 +372,9 @@ def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
 def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
     """Compute error projected ellipsoid.
 
-    An error ellipsoid shows equiprobable points. This is a projection of a
-    Gaussian distribution in exponential coordinate space to Cartesian space.
+    An error ellipsoid shows equiprobable points. This is a projection of the
+    great circles of a Gaussian distribution in exponential coordinate space
+    to 3D.
 
     Parameters
     ----------
@@ -387,7 +388,7 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
         Multiple of the standard deviations that should be plotted.
 
     n_steps : int, optional (default: 20)
-        Number of discrete steps plotted in each dimension
+        Number of discrete steps plotted in each dimension.
 
     Returns
     -------
@@ -402,7 +403,7 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
 
     ind1 = [0, 1, 0]
     ind2 = [1, 2, 2]
-    V = -math.pi + 2 * math.pi * (np.arange(n_steps) - 1) / (n_steps - 1)
+    V = np.linspace(-math.pi, math.pi, n_steps)
     S = np.sin(V)
     C = np.cos(V)
     clines = np.zeros((3, 3, n_steps))
@@ -417,8 +418,8 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
 
 
 def plot_projected_ellipsoid(
-        ax, mean, cov, color=None, alpha=0.25, factor=1.96):
-    """Plots projected great circles of equiprobable ellipsoid in 2D.
+        ax, mean, cov, color=None, alpha=1.0, lw=3, factor=1.96):
+    """Plots projected great circles of equiprobable ellipsoid in 3D.
 
     Parameters
     ----------
@@ -434,8 +435,11 @@ def plot_projected_ellipsoid(
     color : str, optional (default: None)
         Color in which the equiprobably lines should be plotted.
 
-    alpha : float, optional (default: 0.25)
+    alpha : float, optional (default: 1.0)
         Alpha value for lines.
+
+    lw : int, optional (default: 3)
+        Line width.
 
     factor : float, optional (default: 1.96)
         Multiple of the standard deviations that should be plotted.
@@ -443,4 +447,5 @@ def plot_projected_ellipsoid(
     clines = to_projected_ellipsoid(mean, cov, factor)
     for n in range(3):
         ax.plot(
-            clines[n, 0], clines[n, 1], clines[n, 2], color=color, alpha=alpha)
+            clines[n, 0], clines[n, 1], clines[n, 2],
+            color=color, alpha=alpha, lw=lw)
