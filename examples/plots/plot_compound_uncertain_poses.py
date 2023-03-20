@@ -3,12 +3,24 @@
 Compound Uncertain Poses
 ========================
 
-Each of the poses is has an associated covariance that is considered.
+Each of the poses has an associated covariance that is considered.
+In this example, we assume that a robot is moving with constant velocity
+along the x-axis, however, there is noise in the orientation of the robot
+that accumulates and leads to different paths when sampling. Uncertainty
+accumulation leads to the so-called banana distribution, which does not seem
+Gaussian in Cartesian space, but it is Gaussian in exponential coordinate
+space of SO(3).
 
 This example adapted and modified to 3D from
 
 Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for Use
 in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+
+The banana distribution was analyzed in detail by
+
+Long, Wolfe, Mashner, Chirikjian: The Banana Distribution is Gaussian:
+A Localization Study with Exponential Coordinates,
+http://www.roboticsproceedings.org/rss08/p34.pdf
 """
 import numpy as np
 import matplotlib.pyplot as plt
