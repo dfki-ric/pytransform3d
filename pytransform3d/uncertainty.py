@@ -90,7 +90,8 @@ def pose_fusion(means, covs):
         LHS = np.zeros((6, 6))
         RHS = np.zeros(6)
         for k in range(n_poses):
-            x_ik = exponential_coordinates_from_transform(np.dot(mean, invert_transform(means[k])))
+            x_ik = exponential_coordinates_from_transform(
+                np.dot(mean, invert_transform(means[k])))
             J_inv = left_jacobian_SE3_inv(x_ik)
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
             LHS += np.dot(J_invT_S, J_inv)
@@ -102,7 +103,8 @@ def pose_fusion(means, covs):
 
     V = 0.0
     for k in range(n_poses):
-        x_ik = exponential_coordinates_from_transform(np.dot(mean, invert_transform(means[k])))
+        x_ik = exponential_coordinates_from_transform(
+            np.dot(mean, invert_transform(means[k])))
         V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
     return mean, cov, V
 
