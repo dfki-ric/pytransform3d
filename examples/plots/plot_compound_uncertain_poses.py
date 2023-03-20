@@ -5,7 +5,7 @@ Compound Uncertain Poses
 
 Each of the poses is has an associated covariance that is considered.
 
-This example is from
+This example adapted and modified to 3D from
 
 Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for Use
 in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
@@ -15,16 +15,16 @@ import matplotlib.pyplot as plt
 import pytransform3d.transformations as pt
 import pytransform3d.trajectories as ptr
 import pytransform3d.uncertainty as pu
+import pytransform3d.plot_utils as ppu
 
 
 rng = np.random.default_rng(0)
-cov_pose_chol = np.diag([0, 0, 0.03, 0, 0, 0])
+cov_pose_chol = np.diag([0.03, 0, 0.03, 0, 0, 0])
 cov_pose = np.dot(cov_pose_chol, cov_pose_chol.T)
 velocity_vector = np.array([0, 0, 0, 1.0, 0, 0])
 T_vel = pt.transform_from_exponential_coordinates(velocity_vector)
 n_steps = 100
 n_mc_samples = 1000
-plot_dimensions = np.array([3, 4], dtype=int)
 
 T_est = np.eye(4)
 path = np.zeros((n_steps + 1, 6))
@@ -44,35 +44,41 @@ for t in range(n_steps):
     for i in range(n_mc_samples):
         mc_path[t + 1, i] = diff_samples[i].dot(T_vel).dot(mc_path[t, i])
 # Plot the random samples' trajectory lines (in a frame attached to the start)
-mc_path_vec = np.zeros((n_steps, n_mc_samples, 2))
+mc_path_vec = np.zeros((n_steps, n_mc_samples, 3))
 for t in range(n_steps):
     for i in range(n_mc_samples):
         mc_path_vec[t, i] = mc_path[t, i, :3, :3].T.dot(
-            mc_path[t, i, :3, 3])[:2]
+            mc_path[t, i, :3, 3])
 
-plt.plot(
-    mc_path_vec[:, :, 0],
-    mc_path_vec[:, :, 1], lw=1, c="b", alpha=0.1)
-plt.scatter(
+ax = ppu.make_3d_axis(100)
+
+for i in range(mc_path_vec.shape[1]):
+    ax.plot(
+        mc_path_vec[:, i, 0], mc_path_vec[:, i, 1], mc_path_vec[:, i, 2],
+        lw=1, c="b", alpha=0.05)
+ax.scatter(
     mc_path_vec[-1, :, 0],
-    mc_path_vec[-1, :, 1], s=5, c="b")
+    mc_path_vec[-1, :, 1],
+    mc_path_vec[-1, :, 2],
+    s=5, c="b")
 
-plt.plot(
-    path[:, plot_dimensions[0]], path[:, plot_dimensions[1]], lw=3, color="k")
+ax.plot(path[:, 3], path[:, 4], path[:, 5], lw=3, color="k")
 
-pu.plot_projected_ellipse(
-    plt.gca(), T_est, cov_est, np.array([0, 1], dtype=int), color="g",
-    factor=3.0)
+pu.plot_projected_ellipsoid(ax, T_est, cov_est, color="g", factor=3.0)
 
 mean_mc = np.mean(mc_path_vec[-1, :], axis=0)
 cov_mc = np.cov(mc_path_vec[-1, :], rowvar=False)
 
 factors = [1.65, 1.96, 2.58]
-pu.plot_error_ellipse(
-    plt.gca(), mean_mc, cov_mc, color="r", alpha=0.4, factors=factors)
+for factor in factors:
+    ellipsoid2origin, radii = pu.to_ellipsoid(mean_mc, cov_mc)
+    ppu.plot_ellipsoid(
+        ax, factor * radii, ellipsoid2origin, wireframe=False, alpha=0.2,
+        color="r")
 
 plt.xlim((-5, 105))
 plt.ylim((-50, 50))
 plt.xlabel("x")
 plt.ylabel("y")
+ax.view_init(elev=70, azim=-90)
 plt.show()

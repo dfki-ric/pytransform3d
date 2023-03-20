@@ -1,8 +1,8 @@
 import math
 import numpy as np
 from .transformations import (
-    invert_transform, concat, adjoint_from_transform, left_jacobian_SE3_inv,
-    transform_from_exponential_coordinates,
+    invert_transform, transform_from, concat, adjoint_from_transform,
+    left_jacobian_SE3_inv, transform_from_exponential_coordinates,
     exponential_coordinates_from_transform)
 from .trajectories import exponential_coordinates_from_transforms
 
@@ -305,6 +305,35 @@ def to_ellipse(cov, factor=1.0):
     return angle, width, height
 
 
+def to_ellipsoid(mean, cov):
+    """Compute error ellipsoid.
+
+    An error ellipsoid shows equiprobable points.
+
+    Parameters
+    ----------
+    mean : array-like, shape (3,)
+        Mean of distribution
+
+    cov : array-like, shape (3, 3)
+        Covariance of distribution
+
+    Returns
+    -------
+    ellipsoid2origin : array, shape (4, 4)
+        Ellipsoid frame in world frame
+
+    radii : array, shape (3,)
+        Radii of ellipsoid
+    """
+    from scipy import linalg
+    radii, R = linalg.eigh(cov)
+    if np.linalg.det(R) < 0:  # undo reflection (exploit symmetry)
+        R *= -1
+    ellipsoid2origin = transform_from(R=R, p=mean)
+    return ellipsoid2origin, np.sqrt(np.abs(radii))
+
+
 def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
                        factors=np.linspace(0.25, 2.0, 8)):
     """Plot error ellipse of MVN.
@@ -340,8 +369,55 @@ def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
         ax.add_artist(ell)
 
 
-def plot_projected_ellipse(
-        ax, mean, cov, dimensions, color=None, alpha=0.25, factor=1.96):
+def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
+    """Compute error projected ellipsoid.
+
+    An error ellipsoid shows equiprobable points. This is a projection of a
+    Gaussian distribution in exponential coordinate space to Cartesian space.
+
+    Parameters
+    ----------
+    mean : array-like, shape (4, 4)
+        Mean of pose distribution.
+
+    cov : array-like, shape (6, 6)
+        Covariance of pose distribution in exponential coordinate space.
+
+    factor : float, optional (default: 1.96)
+        Multiple of the standard deviations that should be plotted.
+
+    n_steps : int, optional (default: 20)
+        Number of discrete steps plotted in each dimension
+
+    Returns
+    -------
+    clines : array, shape (3, 3, n_steps)
+        Contour lines of projected ellipsoid.
+    """
+    vals, vecs = np.linalg.eig(cov)
+    order = vals.argsort()[::-1]
+    vals, vecs = vals[order], vecs[:, order]
+
+    w = factor * np.sqrt(vals[:3])
+
+    ind1 = [0, 1, 0]
+    ind2 = [1, 2, 2]
+    V = -math.pi + 2 * math.pi * (np.arange(n_steps) - 1) / (n_steps - 1)
+    S = np.sin(V)
+    C = np.cos(V)
+    clines = np.zeros((3, 3, n_steps))
+    for n in range(3):
+        P = (w[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
+             + w[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis])
+        for m in range(n_steps):
+            T = transform_from_exponential_coordinates(P[m]).dot(mean)
+            r = T[:3, :3].T.dot(T[:3, 3])
+            clines[n, :, m] = r
+    return clines
+
+
+def plot_projected_ellipsoid(
+        ax, mean, cov, color=None, alpha=0.25, factor=1.96):
     """Plots projected great circles of equiprobable ellipsoid in 2D.
 
     Parameters
@@ -355,9 +431,6 @@ def plot_projected_ellipse(
     cov : array-like, shape (6, 6)
         Covariance in vector space.
 
-    dimensions : array, (2,)
-        Output dimensions.
-
     color : str, optional (default: None)
         Color in which the equiprobably lines should be plotted.
 
@@ -367,24 +440,7 @@ def plot_projected_ellipse(
     factor : float, optional (default: 1.96)
         Multiple of the standard deviations that should be plotted.
     """
-    vals, vecs = np.linalg.eig(cov)
-    order = vals.argsort()[::-1]
-    vals, vecs = vals[order], vecs[:, order]
-
-    w = factor * np.sqrt(vals[:3])
-
-    n_steps = 50
-    ind1 = [0, 1, 0]
-    ind2 = [1, 2, 2]
-    V = -math.pi + 2 * math.pi * (np.arange(n_steps) - 1) / (n_steps - 1)
-    S = np.sin(V)
-    C = np.cos(V)
+    clines = to_projected_ellipsoid(mean, cov, factor)
     for n in range(3):
-        clines = np.zeros((2, n_steps))
-        P = (w[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
-             + w[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis])
-        for m in range(n_steps):
-            T = transform_from_exponential_coordinates(P[m]).dot(mean)
-            r = T[:3, :3].T.dot(T[:3, 3])
-            clines[:, m] = r[dimensions]
-        ax.plot(clines[0], clines[1], color=color, alpha=alpha)
+        ax.plot(
+            clines[n, 0], clines[n, 1], clines[n, 2], color=color, alpha=alpha)
