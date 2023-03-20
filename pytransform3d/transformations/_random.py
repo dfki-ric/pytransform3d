@@ -2,7 +2,7 @@
 import numpy as np
 from ..rotations import norm_vector
 from ._utils import check_transform
-from ._conversions import transform_from, transform_from_exponential_coordinates
+from ._conversions import transform_from_exponential_coordinates
 
 
 def random_transform(
