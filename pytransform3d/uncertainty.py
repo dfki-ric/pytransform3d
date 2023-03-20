@@ -4,6 +4,7 @@ from .transformations import (
     invert_transform, concat, adjoint_from_transform, left_jacobian_SE3_inv,
     transform_from_exponential_coordinates,
     exponential_coordinates_from_transform)
+from .trajectories import exponential_coordinates_from_transforms
 
 
 def invert_uncertain_transform(mean, cov):
@@ -246,6 +247,29 @@ def concat_dependent_uncertain_transforms(
     return mean_A2C, cov_A2C
 
 
+def estimate_gaussian_transform_from_samples(samples):
+    """Estimate Gaussian distribution over transformations from samples.
+
+    Parameters
+    ----------
+    samples : array-like, shape (n_samples, 4, 4)
+        Sampled transformations represented by homogeneous matrices.
+
+    Returns
+    -------
+    mean : array, shape (4, 4)
+        Homogeneous transformation matrix.
+
+    cov : array, shape (6, 6)
+        Covariance of distribution in exponential coordinate space.
+    """
+    exp_coord_samples = exponential_coordinates_from_transforms(samples)
+    mean = transform_from_exponential_coordinates(
+        np.mean(exp_coord_samples, axis=0))
+    cov = np.cov(exp_coord_samples, rowvar=False, bias=True)
+    return mean, cov
+
+
 def to_ellipse(cov, factor=1.0):
     """Compute error ellipse.
 
@@ -270,8 +294,8 @@ def to_ellipse(cov, factor=1.0):
     height : float
         Height of the ellipse (semi axis, not diameter).
     """
-    import scipy as sp
-    vals, vecs = sp.linalg.eigh(cov)
+    from scipy import linalg
+    vals, vecs = linalg.eigh(cov)
     order = vals.argsort()[::-1]
     vals, vecs = vals[order], vecs[:, order]
     angle = np.arctan2(*vecs[:, 0][::-1])
