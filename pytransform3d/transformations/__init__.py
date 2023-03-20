@@ -31,14 +31,15 @@ from ._transform_operations import (
 from ._dual_quaternion_operations import (
     dq_q_conj, dq_conj, concatenate_dual_quaternions, dual_quaternion_sclerp,
     dual_quaternion_power, dq_prod_vector)
-from ._random import random_transform, random_screw_axis, random_exponential_coordinates
+from ._random import (
+    random_transform, random_screw_axis, random_exponential_coordinates)
 from ._plot import plot_transform, plot_screw
 from ._testing import (
     assert_transform, assert_screw_parameters_equal,
     assert_unit_dual_quaternion_equal, assert_unit_dual_quaternion)
 from ._jacobians import (
-    jacobian_SE3, jacobian_SE3_series, jacobian_SE3_inv,
-    jacobian_SE3_inv_series)
+    left_jacobian_SE3, left_jacobian_SE3_series, left_jacobian_SE3_inv,
+    left_jacobian_SE3_inv_series)
 
 
 __all__ = [
@@ -72,6 +73,6 @@ __all__ = [
     "plot_transform", "plot_screw",
     "assert_transform", "assert_screw_parameters_equal",
     "assert_unit_dual_quaternion_equal", "assert_unit_dual_quaternion",
-    "jacobian_SE3", "jacobian_SE3_series", "jacobian_SE3_inv",
-    "jacobian_SE3_inv_series"
+    "left_jacobian_SE3", "left_jacobian_SE3_series", "left_jacobian_SE3_inv",
+    "left_jacobian_SE3_inv_series"
 ]
