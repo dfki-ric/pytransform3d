@@ -28,7 +28,7 @@ def random_transform(
         Mean transform as homogeneous transformation matrix.
 
     cov : array-like, shape (6, 6), optional (default: I)
-        Covariance of noise in tangent space.
+        Covariance of noise in exponential coordinate space.
 
     Returns
     -------
