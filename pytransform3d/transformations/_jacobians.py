@@ -6,8 +6,8 @@ from ._conversions import screw_axis_from_exponential_coordinates
 from ._utils import check_exponential_coordinates
 
 
-def jacobian_SE3(Stheta):
-    r"""Jacobian of SE(3).
+def left_jacobian_SE3(Stheta):
+    r"""Left Jacobian of SE(3).
 
     .. math::
 
@@ -48,7 +48,7 @@ def jacobian_SE3(Stheta):
 
     _, theta = screw_axis_from_exponential_coordinates(Stheta)
     if theta < np.finfo(float).eps:
-        return jacobian_SE3_series(Stheta, 10)
+        return left_jacobian_SE3_series(Stheta, 10)
 
     phi = Stheta[:3]
     J = left_jacobian_SO3(phi)
@@ -58,8 +58,8 @@ def jacobian_SE3(Stheta):
     ])
 
 
-def jacobian_SE3_series(Stheta, n_terms):
-    """Jacobian of SE(3) at theta from Taylor series.
+def left_jacobian_SE3_series(Stheta, n_terms):
+    """Left Jacobian of SE(3) at theta from Taylor series.
 
     Parameters
     ----------
@@ -88,8 +88,8 @@ def jacobian_SE3_series(Stheta, n_terms):
     return J
 
 
-def jacobian_SE3_inv(Stheta):
-    r"""Inverse Jacobian of SE(3).
+def left_jacobian_SE3_inv(Stheta):
+    r"""Left inverse Jacobian of SE(3).
 
     .. math::
 
@@ -125,7 +125,7 @@ def jacobian_SE3_inv(Stheta):
 
     _, theta = screw_axis_from_exponential_coordinates(Stheta)
     if theta < np.finfo(float).eps:
-        return jacobian_SE3_inv_series(Stheta, 10)
+        return left_jacobian_SE3_inv_series(Stheta, 10)
 
     phi = Stheta[:3]
     J_inv = left_jacobian_SO3_inv(phi)
@@ -166,8 +166,8 @@ def _Q(Stheta):
     return Q
 
 
-def jacobian_SE3_inv_series(Stheta, n_terms):
-    """Inverse Jacobian of SE(3) at theta from Taylor series.
+def left_jacobian_SE3_inv_series(Stheta, n_terms):
+    """Left inverse Jacobian of SE(3) at theta from Taylor series.
 
     Parameters
     ----------

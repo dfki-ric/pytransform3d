@@ -915,15 +915,15 @@ def test_adjoint_from_transform_without_check():
 
 def test_jacobian_se3():
     Stheta = np.zeros(6)
-    J = pt.jacobian_SE3(Stheta)
-    J_inv = pt.jacobian_SE3_inv(Stheta)
+    J = pt.left_jacobian_SE3(Stheta)
+    J_inv = pt.left_jacobian_SE3_inv(Stheta)
     J_inv_J = np.dot(J_inv, J)
     assert_array_almost_equal(J_inv_J, np.eye(6))
 
     rng = np.random.default_rng(0)
     for _ in range(5):
         Stheta = pt.random_exponential_coordinates(rng)
-        J = pt.jacobian_SE3(Stheta)
-        J_inv = pt.jacobian_SE3_inv(Stheta)
+        J = pt.left_jacobian_SE3(Stheta)
+        J_inv = pt.left_jacobian_SE3_inv(Stheta)
         J_inv_J = np.dot(J_inv, J)
         assert_array_almost_equal(J_inv_J, np.eye(6))

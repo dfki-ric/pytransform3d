@@ -215,10 +215,10 @@ Utility Functions
    ~pytransform3d.transformations.random_screw_axis
    ~pytransform3d.transformations.random_exponential_coordinates
    ~pytransform3d.transformations.norm_exponential_coordinates
-   ~pytransform3d.transformations.jacobian_SE3
-   ~pytransform3d.transformations.jacobian_SE3_series
-   ~pytransform3d.transformations.jacobian_SE3_inv
-   ~pytransform3d.transformations.jacobian_SE3_inv_series
+   ~pytransform3d.transformations.left_jacobian_SE3
+   ~pytransform3d.transformations.left_jacobian_SE3_series
+   ~pytransform3d.transformations.left_jacobian_SE3_inv
+   ~pytransform3d.transformations.left_jacobian_SE3_inv_series
 
 Input Validation Functions
 --------------------------

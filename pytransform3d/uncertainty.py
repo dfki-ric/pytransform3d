@@ -1,7 +1,7 @@
 import math
 import numpy as np
 from .transformations import (
-    invert_transform, concat, adjoint_from_transform, jacobian_SE3_inv,
+    invert_transform, concat, adjoint_from_transform, left_jacobian_SE3_inv,
     transform_from_exponential_coordinates,
     exponential_coordinates_from_transform)
 
@@ -90,7 +90,7 @@ def pose_fusion(means, covs):
         RHS = np.zeros(6)
         for k in range(n_poses):
             x_ik = exponential_coordinates_from_transform(np.dot(mean, invert_transform(means[k])))
-            J_inv = jacobian_SE3_inv(x_ik)
+            J_inv = left_jacobian_SE3_inv(x_ik)
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
             LHS += np.dot(J_invT_S, J_inv)
             RHS += np.dot(J_invT_S, x_ik)
