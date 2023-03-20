@@ -9,14 +9,15 @@ def random_transform(
         rng=np.random.default_rng(0), mean=np.eye(4), cov=np.eye(6)):
     r"""Generate random transform.
 
-    Generate :math:`\Delta T_{B_{i+1}{B_i}} T_{{B_i}A}`, with
-    :math:`\Delta T_{B_{i+1}{B_i}} = \exp(S \theta)` and
-    :math:`S\theta \sim \mathcal{N}(\boldsymbol{0}_6,
-    \boldsymbol{\Sigma}_{6 \times 6})`.
-    The mean :math:`T_{{B_i}A}` and the covariance
+    Generate :math:`\Delta \boldsymbol{T}_{B_{i+1}{B_i}}
+    \boldsymbol{T}_{{B_i}A}`, with :math:`\Delta \boldsymbol{T}_{B_{i+1}{B_i}}
+    = Exp(S \theta)` and :math:`\mathcal{S}\theta \sim
+    \mathcal{N}(\boldsymbol{0}_6, \boldsymbol{\Sigma}_{6 \times 6})`.
+    The mean :math:`\boldsymbol{T}_{{B_i}A}` and the covariance
     :math:`\boldsymbol{\Sigma}_{6 \times 6}` are parameters of the function.
 
-    Note that uncertainty is defined in the global frame.
+    Note that uncertainty is defined in the global frame B, not in the
+    body frame A.
 
     Parameters
     ----------
