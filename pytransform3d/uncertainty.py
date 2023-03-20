@@ -4,8 +4,9 @@ from .transformations import (
     invert_transform, transform_from, concat, adjoint_from_transform,
     left_jacobian_SE3_inv, transform_from_exponential_coordinates,
     exponential_coordinates_from_transform)
-from .trajectories import exponential_coordinates_from_transforms
-from .trajectories import transforms_from_exponential_coordinates
+from .trajectories import (exponential_coordinates_from_transforms,
+                           transforms_from_exponential_coordinates,
+                           concat_one_to_many)
 
 
 def invert_uncertain_transform(mean, cov):
@@ -253,6 +254,9 @@ def concat_dependent_uncertain_transforms(
 def estimate_gaussian_transform_from_samples(samples):
     """Estimate Gaussian distribution over transformations from samples.
 
+    Uses iterative approximation of mean described by Long et al. and computes
+    covariance in exponential coordinate space.
+
     Parameters
     ----------
     samples : array-like, shape (n_samples, 4, 4)
@@ -265,11 +269,26 @@ def estimate_gaussian_transform_from_samples(samples):
 
     cov : array, shape (6, 6)
         Covariance of distribution in exponential coordinate space.
+
+    References
+    ----------
+    Long, Wolfe, Mashner, Chirikjian: The Banana Distribution is Gaussian:
+    A Localization Study with Exponential Coordinates,
+    http://www.roboticsproceedings.org/rss08/p34.pdf
     """
-    exp_coord_samples = exponential_coordinates_from_transforms(samples)
-    mean = transform_from_exponential_coordinates(
-        np.mean(exp_coord_samples, axis=0))
-    cov = np.cov(exp_coord_samples, rowvar=False, bias=True)
+    mean = np.eye(4)
+    mean_inv = invert_transform(mean)
+    mean_diffs = exponential_coordinates_from_transforms(
+        concat_one_to_many(mean_inv, samples))
+    for i in range(20):
+        avg_mean_diff = np.mean(mean_diffs, axis=0)
+        mean = np.dot(
+            mean, transforms_from_exponential_coordinates(avg_mean_diff))
+        mean_inv = invert_transform(mean)
+        mean_diffs = exponential_coordinates_from_transforms(
+            concat_one_to_many(mean_inv, samples))
+
+    cov = np.cov(mean_diffs, rowvar=False, bias=True)
     return mean, cov
 
 
