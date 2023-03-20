@@ -13,6 +13,7 @@ in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.transformations as pt
+import pytransform3d.trajectories as ptr
 import pytransform3d.uncertainty as pu
 
 
@@ -38,11 +39,10 @@ T = np.eye(4)
 mc_path = np.zeros((n_steps + 1, n_mc_samples, 4, 4))
 mc_path[0, :] = T
 for t in range(n_steps):
-    diff_samples = cov_pose_chol.dot(
-        rng.standard_normal(size=(6, n_mc_samples))).T
+    diff_samples = ptr.transforms_from_exponential_coordinates(
+        cov_pose_chol.dot(rng.standard_normal(size=(6, n_mc_samples))).T)
     for i in range(n_mc_samples):
-        mc_path[t + 1, i] = pt.transform_from_exponential_coordinates(
-            diff_samples[i]).dot(T_vel).dot(mc_path[t, i])
+        mc_path[t + 1, i] = diff_samples[i].dot(T_vel).dot(mc_path[t, i])
 # Plot the random samples' trajectory lines (in a frame attached to the start)
 mc_path_vec = np.zeros((n_steps, n_mc_samples, 2))
 for t in range(n_steps):
