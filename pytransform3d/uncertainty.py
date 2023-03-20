@@ -5,6 +5,7 @@ from .transformations import (
     left_jacobian_SE3_inv, transform_from_exponential_coordinates,
     exponential_coordinates_from_transform)
 from .trajectories import exponential_coordinates_from_transforms
+from .trajectories import transforms_from_exponential_coordinates
 
 
 def invert_uncertain_transform(mean, cov):
@@ -408,11 +409,13 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
     C = np.cos(V)
     clines = np.zeros((3, 3, n_steps))
     for n in range(3):
-        P = (w[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
-             + w[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis])
+        P1 = w[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
+        P2 = w[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis]
+        P = P1 + P2
+        T_diff = transforms_from_exponential_coordinates(P)
+        T = T_diff.dot(mean)
         for m in range(n_steps):
-            T = transform_from_exponential_coordinates(P[m]).dot(mean)
-            clines[n, :, m] = T[:3, :3].T.dot(T[:3, 3])
+            clines[n, :, m] = T[m, :3, :3].T.dot(T[m, :3, 3])
     return clines
 
 
