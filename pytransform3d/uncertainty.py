@@ -388,7 +388,7 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
     factor : float, optional (default: 1.96)
         Multiple of the standard deviations that should be plotted.
 
-    n_steps : int, optional (default: 20)
+    n_steps : int, optional (default: 50)
         Number of discrete steps plotted in each dimension.
 
     Returns
@@ -420,7 +420,7 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
 
 
 def plot_projected_ellipsoid(
-        ax, mean, cov, color=None, alpha=1.0, lw=3, factor=1.96):
+        ax, mean, cov, color=None, alpha=1.0, lw=3, factor=1.96, n_steps=50):
     """Plots projected great circles of equiprobable ellipsoid in 3D.
 
     Parameters
@@ -445,8 +445,11 @@ def plot_projected_ellipsoid(
 
     factor : float, optional (default: 1.96)
         Multiple of the standard deviations that should be plotted.
+
+    n_steps : int, optional (default: 50)
+        Number of discrete steps plotted in each dimension.
     """
-    clines = to_projected_ellipsoid(mean, cov, factor)
+    clines = to_projected_ellipsoid(mean, cov, factor, n_steps)
     for n in range(len(clines)):
         ax.plot(
             clines[n, 0], clines[n, 1], clines[n, 2],
