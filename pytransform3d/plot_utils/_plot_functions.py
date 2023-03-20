@@ -445,7 +445,7 @@ def plot_ellipsoid(ax=None, radii=np.ones(3), A2B=np.eye(4), ax_s=1,
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
+            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha)
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
 
@@ -513,7 +513,7 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=10, cstride=10, color=color, alpha=alpha)
+            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha)
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
 
