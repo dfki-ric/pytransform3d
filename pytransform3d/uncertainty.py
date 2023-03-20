@@ -412,8 +412,7 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
              + w[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis])
         for m in range(n_steps):
             T = transform_from_exponential_coordinates(P[m]).dot(mean)
-            r = T[:3, :3].T.dot(T[:3, 3])
-            clines[n, :, m] = r
+            clines[n, :, m] = T[:3, :3].T.dot(T[:3, 3])
     return clines
 
 
@@ -445,7 +444,7 @@ def plot_projected_ellipsoid(
         Multiple of the standard deviations that should be plotted.
     """
     clines = to_projected_ellipsoid(mean, cov, factor)
-    for n in range(3):
+    for n in range(len(clines)):
         ax.plot(
             clines[n, 0], clines[n, 1], clines[n, 2],
             color=color, alpha=alpha, lw=lw)
