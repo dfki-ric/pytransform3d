@@ -6,7 +6,7 @@ from .transformations import (
     exponential_coordinates_from_transform)
 from .trajectories import (exponential_coordinates_from_transforms,
                            transforms_from_exponential_coordinates,
-                           concat_one_to_many)
+                           concat_many_to_one)
 
 
 def invert_uncertain_transform(mean, cov):
@@ -254,8 +254,8 @@ def concat_dependent_uncertain_transforms(
 def estimate_gaussian_transform_from_samples(samples):
     """Estimate Gaussian distribution over transformations from samples.
 
-    Uses iterative approximation of mean described by Long et al. and computes
-    covariance in exponential coordinate space.
+    Uses iterative approximation of mean described by Eade (2017) and computes
+    covariance in exponential coordinate space (using an unbiased estimator).
 
     Parameters
     ----------
@@ -272,21 +272,18 @@ def estimate_gaussian_transform_from_samples(samples):
 
     References
     ----------
-    Long, Wolfe, Mashner, Chirikjian: The Banana Distribution is Gaussian:
-    A Localization Study with Exponential Coordinates,
-    http://www.roboticsproceedings.org/rss08/p34.pdf
+    Eade: Lie Groups for 2D and 3D Transformations (2017),
+    https://ethaneade.com/lie.pdf
     """
-    mean = np.eye(4)
-    mean_inv = invert_transform(mean)
-    mean_diffs = exponential_coordinates_from_transforms(
-        concat_one_to_many(mean_inv, samples))
+    assert len(samples) > 0
+    mean = samples[0]
     for i in range(20):
-        avg_mean_diff = np.mean(mean_diffs, axis=0)
-        mean = np.dot(
-            mean, transforms_from_exponential_coordinates(avg_mean_diff))
         mean_inv = invert_transform(mean)
         mean_diffs = exponential_coordinates_from_transforms(
-            concat_one_to_many(mean_inv, samples))
+            concat_many_to_one(samples, mean_inv))
+        avg_mean_diff = np.mean(mean_diffs, axis=0)
+        mean = np.dot(
+            transform_from_exponential_coordinates(avg_mean_diff), mean)
 
     cov = np.cov(mean_diffs, rowvar=False, bias=True)
     return mean, cov

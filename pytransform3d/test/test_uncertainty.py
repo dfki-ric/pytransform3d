@@ -66,3 +66,14 @@ def test_invert_pose():
 
         assert_array_almost_equal(T, T2)
         assert_array_almost_equal(cov, cov2)
+
+
+def test_sample_estimate_gaussian():
+    rng = np.random.default_rng(2000)
+    mean = pt.transform_from(R=np.eye(3), p=np.array([0.0, 0.0, 0.5]))
+    cov = np.diag([0.001, 0.001, 0.5, 0.001, 0.001, 0.001])
+    samples = np.array([pt.random_transform(rng, mean, cov)
+                        for _ in range(1000)])
+    mean_est, cov_est = pu.estimate_gaussian_transform_from_samples(samples)
+    assert_array_almost_equal(mean, mean_est, decimal=2)
+    assert_array_almost_equal(cov, cov_est, decimal=2)
