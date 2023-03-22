@@ -451,6 +451,7 @@ Testing
    ~pytransform3d.uncertainty.invert_uncertain_transform
    ~pytransform3d.uncertainty.concat_uncertain_transforms
    ~pytransform3d.uncertainty.pose_fusion
+   ~pytransform3d.uncertainty.to_ellipsoid
 
 
 :mod:`pytransform3d.coordinates`

@@ -18,3 +18,7 @@ def concat_uncertain_transforms(
 
 
 def pose_fusion(means: npt.ArrayLike, covs: npt.ArrayLike) -> np.ndarray: ...
+
+
+def to_ellipsoid(mean: npt.ArrayLike,
+                 cov: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray]: ...
