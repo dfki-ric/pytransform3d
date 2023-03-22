@@ -377,7 +377,8 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
 
 
 def plot_projected_ellipsoid(
-        ax, mean, cov, color=None, alpha=1.0, lw=3, factor=1.96, n_steps=50):
+        ax, mean, cov, color=None, alpha=1.0, lw=3, factor=1.96,
+        n_steps=50):  # pragma: no cover
     """Plots projected great circles of equiprobable ellipsoid in 3D.
 
     Parameters
