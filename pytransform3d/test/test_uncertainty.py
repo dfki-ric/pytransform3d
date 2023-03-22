@@ -105,3 +105,23 @@ def test_concat_uncertain_transforms():
     assert cov_est[4, 2] != 0
     # achievable only with fourth-order terms
     assert cov_est[3, 3] > 0
+
+
+def test_to_ellipsoid():
+    mean = np.array([0.1, 0.2, 0.3])
+    cov = np.array([
+        [25.0, 0.0, 0.0],
+        [0.0, 4.0, 0.0],
+        [0.0, 0.0, 9.0]
+    ])
+    ellipsoid2origin, radii = pu.to_ellipsoid(mean, cov)
+    assert_array_almost_equal(ellipsoid2origin[:3, 3], mean)
+    assert_array_almost_equal(
+        ellipsoid2origin[:3, :3],
+        np.array([
+            [0, 0, 1],
+            [1, 0, 0],
+            [0, 1, 0]
+        ])
+    )
+    assert_array_almost_equal(radii, np.array([2.0, 3.0, 5.0]))
