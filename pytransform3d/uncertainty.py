@@ -9,6 +9,44 @@ from .trajectories import (exponential_coordinates_from_transforms,
                            concat_many_to_one)
 
 
+def estimate_gaussian_transform_from_samples(samples):
+    """Estimate Gaussian distribution over transformations from samples.
+
+    Uses iterative approximation of mean described by Eade (2017) and computes
+    covariance in exponential coordinate space (using an unbiased estimator).
+
+    Parameters
+    ----------
+    samples : array-like, shape (n_samples, 4, 4)
+        Sampled transformations represented by homogeneous matrices.
+
+    Returns
+    -------
+    mean : array, shape (4, 4)
+        Homogeneous transformation matrix.
+
+    cov : array, shape (6, 6)
+        Covariance of distribution in exponential coordinate space.
+
+    References
+    ----------
+    Eade: Lie Groups for 2D and 3D Transformations (2017),
+    https://ethaneade.com/lie.pdf
+    """
+    assert len(samples) > 0
+    mean = samples[0]
+    for i in range(20):
+        mean_inv = invert_transform(mean)
+        mean_diffs = exponential_coordinates_from_transforms(
+            concat_many_to_one(samples, mean_inv))
+        avg_mean_diff = np.mean(mean_diffs, axis=0)
+        mean = np.dot(
+            transform_from_exponential_coordinates(avg_mean_diff), mean)
+
+    cov = np.cov(mean_diffs, rowvar=False, bias=True)
+    return mean, cov
+
+
 def invert_uncertain_transform(mean, cov):
     r"""Invert uncertain transform.
 
@@ -56,63 +94,14 @@ def invert_uncertain_transform(mean, cov):
     return mean_inv, cov_inv
 
 
-def pose_fusion(means, covs):
-    """Fuse Gaussian distributions of multiple poses.
-
-    Parameters
-    ----------
-    means : array-like, shape (n_poses, 4, 4)
-        Homogeneous transformation matrices.
-
-    covs : array-like, shape (n_poses, 6, 6)
-        Covariances of pose distributions in exponential coordinate space.
-
-    Returns
-    -------
-    mean : array, shape (4, 4)
-        Fused pose mean.
-
-    cov : array, shape (6, 6)
-        Fused pose covariance.
-
-    V : float
-        Error of optimization objective.
-
-    References
-    ----------
-    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
-    Use in Estimation Problems,
-    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
-    """
-    n_poses = len(means)
-    covs_inv = [np.linalg.inv(cov) for cov in covs]
-
-    mean = np.eye(4)
-    for i in range(20):
-        LHS = np.zeros((6, 6))
-        RHS = np.zeros(6)
-        for k in range(n_poses):
-            x_ik = exponential_coordinates_from_transform(
-                np.dot(mean, invert_transform(means[k])))
-            J_inv = left_jacobian_SE3_inv(x_ik)
-            J_invT_S = np.dot(J_inv.T, covs_inv[k])
-            LHS += np.dot(J_invT_S, J_inv)
-            RHS += np.dot(J_invT_S, x_ik)
-        x_i = np.linalg.solve(-LHS, RHS)
-        mean = np.dot(transform_from_exponential_coordinates(x_i), mean)
-
-    cov = np.linalg.inv(LHS)
-
-    V = 0.0
-    for k in range(n_poses):
-        x_ik = exponential_coordinates_from_transform(
-            np.dot(mean, invert_transform(means[k])))
-        V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
-    return mean, cov, V
-
-
 def concat_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     """Concatenate two independent uncertain transformations.
+
+    This version of Barfoot and Furgale approximates the covariance up to
+    4th-order terms. Note that it is still an approximation of the covariance
+    after concatenation of the two transforms.
+
+    We assume that the two distributions are independent.
 
     Parameters
     ----------
@@ -205,9 +194,67 @@ def _covop2(A, B):
     return np.dot(_covop1(A), _covop1(B)) + _covop1(np.dot(B, A))
 
 
+def pose_fusion(means, covs):
+    """Fuse Gaussian distributions of multiple poses.
+
+    Parameters
+    ----------
+    means : array-like, shape (n_poses, 4, 4)
+        Homogeneous transformation matrices.
+
+    covs : array-like, shape (n_poses, 6, 6)
+        Covariances of pose distributions in exponential coordinate space.
+
+    Returns
+    -------
+    mean : array, shape (4, 4)
+        Fused pose mean.
+
+    cov : array, shape (6, 6)
+        Fused pose covariance.
+
+    V : float
+        Error of optimization objective.
+
+    References
+    ----------
+    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
+    Use in Estimation Problems,
+    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+    """
+    n_poses = len(means)
+    covs_inv = [np.linalg.inv(cov) for cov in covs]
+
+    mean = np.eye(4)
+    for i in range(20):
+        LHS = np.zeros((6, 6))
+        RHS = np.zeros(6)
+        for k in range(n_poses):
+            x_ik = exponential_coordinates_from_transform(
+                np.dot(mean, invert_transform(means[k])))
+            J_inv = left_jacobian_SE3_inv(x_ik)
+            J_invT_S = np.dot(J_inv.T, covs_inv[k])
+            LHS += np.dot(J_invT_S, J_inv)
+            RHS += np.dot(J_invT_S, x_ik)
+        x_i = np.linalg.solve(-LHS, RHS)
+        mean = np.dot(transform_from_exponential_coordinates(x_i), mean)
+
+    cov = np.linalg.inv(LHS)
+
+    V = 0.0
+    for k in range(n_poses):
+        x_ik = exponential_coordinates_from_transform(
+            np.dot(mean, invert_transform(means[k])))
+        V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
+    return mean, cov, V
+
+
 def concat_dependent_uncertain_transforms(
         mean_A2B, cov_A2B, mean_B2C, cov_B2C, cov_A2B_B2C):
     """Concatenate two dependent uncertain transformations.
+
+    This is an approximation up to 2nd-order terms that takes into account
+    the covariance between the two distributions.
 
     Parameters
     ----------
@@ -251,44 +298,6 @@ def concat_dependent_uncertain_transforms(
     return mean_A2C, cov_A2C
 
 
-def estimate_gaussian_transform_from_samples(samples):
-    """Estimate Gaussian distribution over transformations from samples.
-
-    Uses iterative approximation of mean described by Eade (2017) and computes
-    covariance in exponential coordinate space (using an unbiased estimator).
-
-    Parameters
-    ----------
-    samples : array-like, shape (n_samples, 4, 4)
-        Sampled transformations represented by homogeneous matrices.
-
-    Returns
-    -------
-    mean : array, shape (4, 4)
-        Homogeneous transformation matrix.
-
-    cov : array, shape (6, 6)
-        Covariance of distribution in exponential coordinate space.
-
-    References
-    ----------
-    Eade: Lie Groups for 2D and 3D Transformations (2017),
-    https://ethaneade.com/lie.pdf
-    """
-    assert len(samples) > 0
-    mean = samples[0]
-    for i in range(20):
-        mean_inv = invert_transform(mean)
-        mean_diffs = exponential_coordinates_from_transforms(
-            concat_many_to_one(samples, mean_inv))
-        avg_mean_diff = np.mean(mean_diffs, axis=0)
-        mean = np.dot(
-            transform_from_exponential_coordinates(avg_mean_diff), mean)
-
-    cov = np.cov(mean_diffs, rowvar=False, bias=True)
-    return mean, cov
-
-
 def to_ellipse(cov, factor=1.0):
     """Compute error ellipse.
 
@@ -320,35 +329,6 @@ def to_ellipse(cov, factor=1.0):
     angle = np.arctan2(*vecs[:, 0][::-1])
     width, height = factor * np.sqrt(vals)
     return angle, width, height
-
-
-def to_ellipsoid(mean, cov):
-    """Compute error ellipsoid.
-
-    An error ellipsoid shows equiprobable points.
-
-    Parameters
-    ----------
-    mean : array-like, shape (3,)
-        Mean of distribution
-
-    cov : array-like, shape (3, 3)
-        Covariance of distribution
-
-    Returns
-    -------
-    ellipsoid2origin : array, shape (4, 4)
-        Ellipsoid frame in world frame
-
-    radii : array, shape (3,)
-        Radii of ellipsoid
-    """
-    from scipy import linalg
-    radii, R = linalg.eigh(cov)
-    if np.linalg.det(R) < 0:  # undo reflection (exploit symmetry)
-        R *= -1
-    ellipsoid2origin = transform_from(R=R, p=mean)
-    return ellipsoid2origin, np.sqrt(np.abs(radii))
 
 
 def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
@@ -384,6 +364,35 @@ def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
         if color is not None:
             ell.set_color(color)
         ax.add_artist(ell)
+
+
+def to_ellipsoid(mean, cov):
+    """Compute error ellipsoid.
+
+    An error ellipsoid indicates the equiprobable surface.
+
+    Parameters
+    ----------
+    mean : array-like, shape (3,)
+        Mean of distribution
+
+    cov : array-like, shape (3, 3)
+        Covariance of distribution
+
+    Returns
+    -------
+    ellipsoid2origin : array, shape (4, 4)
+        Ellipsoid frame in world frame
+
+    radii : array, shape (3,)
+        Radii of ellipsoid
+    """
+    from scipy import linalg
+    radii, R = linalg.eigh(cov)
+    if np.linalg.det(R) < 0:  # undo reflection (exploit symmetry)
+        R *= -1
+    ellipsoid2origin = transform_from(R=R, p=mean)
+    return ellipsoid2origin, np.sqrt(np.abs(radii))
 
 
 def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
