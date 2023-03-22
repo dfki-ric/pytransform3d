@@ -308,7 +308,7 @@ def to_ellipse(cov, factor=1.0):
     cov : array-like, shape (2, 2)
         Covariance of the Gaussian distribution.
 
-    factor : float
+    factor : float, optional (default: 1)
         One means standard deviation.
 
     Returns
