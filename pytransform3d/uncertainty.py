@@ -353,11 +353,12 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
     clines : array, shape (3, 3, n_steps)
         Contour lines of projected ellipsoid.
     """
-    vals, vecs = np.linalg.eig(cov)
+    from scipy import linalg
+    vals, vecs = linalg.eigh(cov)
     order = vals.argsort()[::-1]
     vals, vecs = vals[order], vecs[:, order]
 
-    w = factor * np.sqrt(vals[:3])
+    radii = factor * np.sqrt(vals)
 
     ind1 = [0, 1, 0]
     ind2 = [1, 2, 2]
@@ -366,8 +367,8 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
     C = np.cos(V)
     clines = np.zeros((3, 3, n_steps))
     for n in range(3):
-        P1 = w[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
-        P2 = w[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis]
+        P1 = radii[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
+        P2 = radii[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis]
         P = P1 + P2
         T_diff = transforms_from_exponential_coordinates(P)
         T = T_diff.dot(mean)
