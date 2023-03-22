@@ -31,7 +31,7 @@ import pytransform3d.plot_utils as ppu
 
 
 rng = np.random.default_rng(0)
-cov_pose_chol = np.diag([0.05, 0, 0.03, 0, 0, 0])
+cov_pose_chol = np.diag([0, 0.02, 0.03, 0, 0, 0])
 cov_pose = np.dot(cov_pose_chol, cov_pose_chol.T)
 velocity_vector = np.array([0, 0, 0, 1.0, 0, 0])
 T_vel = pt.transform_from_exponential_coordinates(velocity_vector)
