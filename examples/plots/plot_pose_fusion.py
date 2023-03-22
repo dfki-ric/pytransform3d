@@ -18,6 +18,74 @@ import pytransform3d.uncertainty as pu
 import pytransform3d.transformations as pt
 
 
+def to_ellipse(cov, factor=1.0):
+    """Compute error ellipse.
+
+    An error ellipse shows equiprobable points of a 2D Gaussian distribution.
+
+    Parameters
+    ----------
+    cov : array-like, shape (2, 2)
+        Covariance of the Gaussian distribution.
+
+    factor : float, optional (default: 1)
+        One means standard deviation.
+
+    Returns
+    -------
+    angle : float
+        Rotation angle of the ellipse.
+
+    width : float
+        Width of the ellipse (semi axis, not diameter).
+
+    height : float
+        Height of the ellipse (semi axis, not diameter).
+    """
+    from scipy import linalg
+    vals, vecs = linalg.eigh(cov)
+    order = vals.argsort()[::-1]
+    vals, vecs = vals[order], vecs[:, order]
+    angle = np.arctan2(*vecs[:, 0][::-1])
+    width, height = factor * np.sqrt(vals)
+    return angle, width, height
+
+
+def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
+                       factors=np.linspace(0.25, 2.0, 8)):
+    """Plot error ellipse of MVN.
+
+    Parameters
+    ----------
+    ax : axis
+        Matplotlib axis.
+
+    mean : array-like, shape (2,)
+        Mean of the Gaussian distribution.
+
+    cov : array-like, shape (2, 2)
+        Covariance of the Gaussian distribution.
+
+    color : str, optional (default: None)
+        Color in which the ellipse should be plotted
+
+    alpha : float, optional (default: 0.25)
+        Alpha value for ellipse
+
+    factors : array, optional (default: np.linspace(0.25, 2.0, 8))
+        Multiples of the standard deviations that should be plotted.
+    """
+    from matplotlib.patches import Ellipse
+    for factor in factors:
+        angle, width, height = to_ellipse(cov, factor)
+        ell = Ellipse(xy=mean, width=2.0 * width, height=2.0 * height,
+                      angle=np.degrees(angle))
+        ell.set_alpha(alpha)
+        if color is not None:
+            ell.set_color(color)
+        ax.add_artist(ell)
+
+
 x_true = np.array([1.0, 0.0, 0.0, 0.0, 0.0, np.pi / 6.0])
 T_true = pt.transform_from_exponential_coordinates(x_true)
 alpha = 5.0
@@ -55,11 +123,11 @@ for i in range(6):
         ax.scatter(x_true[i], x_true[j])
 
         for x, cov, color in zip([x1, x2, x3], [cov1, cov2, cov3], "rgb"):
-            pu.plot_error_ellipse(
+            plot_error_ellipse(
                 ax, x[indices], cov[indices][:, indices],
                 color=color, alpha=0.4, factors=factors)
 
-        pu.plot_error_ellipse(
+        plot_error_ellipse(
             ax, x_est[indices], cov_est[indices][:, indices],
             color="k", alpha=0.4, factors=factors)
 
