@@ -4,8 +4,10 @@ Fuse 3 Poses
 ============
 
 Each of the poses is has an associated covariance that is considered during
-the fusion. Each of the plots shows a projection of the 6D pose vector to
-two dimensions.
+the fusion. Each of the plots shows a projection of the distributions in
+exponential coordinate space to two dimensions. Red, green, and blue ellipses
+represent the uncertain poses that will be fused. A black ellipse indicates
+the fused pose's distribution.
 
 This example is from
 
@@ -120,8 +122,6 @@ for i in range(6):
         indices = np.array([i, j])
         ax = axes[i][j]
 
-        ax.scatter(x_true[i], x_true[j])
-
         for x, cov, color in zip([x1, x2, x3], [cov1, cov2, cov3], "rgb"):
             plot_error_ellipse(
                 ax, x[indices], cov[indices][:, indices],
@@ -129,9 +129,11 @@ for i in range(6):
 
         plot_error_ellipse(
             ax, x_est[indices], cov_est[indices][:, indices],
-            color="k", alpha=0.4, factors=factors)
+            color="k", alpha=1, factors=factors)
 
-        ax.set_xlim((-5, 5))
-        ax.set_ylim((-5, 5))
+        ax.scatter(x_true[i], x_true[j])
+
+        ax.set_xlim((-10, 10))
+        ax.set_ylim((-10, 10))
 
 plt.show()
