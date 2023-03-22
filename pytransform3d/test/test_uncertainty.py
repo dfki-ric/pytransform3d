@@ -77,3 +77,31 @@ def test_sample_estimate_gaussian():
     mean_est, cov_est = pu.estimate_gaussian_transform_from_samples(samples)
     assert_array_almost_equal(mean, mean_est, decimal=2)
     assert_array_almost_equal(cov, cov_est, decimal=2)
+
+
+def test_concat_uncertain_transforms():
+    cov_pose_chol = np.diag([0, 0, 0.03, 0, 0, 0])
+    cov_pose = np.dot(cov_pose_chol, cov_pose_chol.T)
+    velocity_vector = np.array([0, 0, 0, 1.0, 0, 0])
+    T_vel = pt.transform_from_exponential_coordinates(velocity_vector)
+    n_steps = 100
+
+    T_est = np.eye(4)
+    cov_est = cov_pose
+    for t in range(n_steps):
+        T_est, cov_est = pu.concat_uncertain_transforms(
+            T_est, cov_est, T_vel, cov_pose)
+    assert_array_almost_equal(
+        T_est, np.array([
+            [1, 0, 0, n_steps],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
+        ]))
+    # achievable with second-order terms
+    assert cov_est[2, 2] > 0
+    assert cov_est[4, 4] > 0
+    assert cov_est[2, 4] != 0
+    assert cov_est[4, 2] != 0
+    # achievable only with fourth-order terms
+    assert cov_est[3, 3] > 0
