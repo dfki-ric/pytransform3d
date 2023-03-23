@@ -384,8 +384,8 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
         P = P1 + P2
         T_diff = transforms_from_exponential_coordinates(P)
         T = T_diff.dot(mean)
-        for m in range(n_steps):
-            clines[n, :, m] = T[m, :3, :3].T.dot(T[m, :3, 3])
+        # same as T[m, :3, :3].T.dot(T[m, :3, 3]) for each m in [0, n_steps)
+        clines[n] = np.einsum("ikj,ik->ji", T[:, :3, :3], T[:, :3, 3])
     return clines
 
 
