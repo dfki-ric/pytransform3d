@@ -301,23 +301,35 @@ def concat_dependent_uncertain_transforms(
 def to_ellipsoid(mean, cov):
     """Compute error ellipsoid.
 
-    An error ellipsoid indicates the equiprobable surface.
+    An error ellipsoid indicates the equiprobable surface. The resulting
+    ellipsoid includes one standard deviation of the data along each main
+    axis, which covers approximately 68.27% of the data. Multiplying the
+    radii with factors > 1 will increase the coverage. The usual factors
+    for Gaussian distributions apply:
+
+    * 1 - 68.27%
+    * 1.65 - 90%
+    * 1.96 - 95%
+    * 2 - 95.45%
+    * 2.58 - 99%
+    * 3 - 99.73%
 
     Parameters
     ----------
     mean : array-like, shape (3,)
-        Mean of distribution
+        Mean of distribution.
 
     cov : array-like, shape (3, 3)
-        Covariance of distribution
+        Covariance of distribution.
 
     Returns
     -------
     ellipsoid2origin : array, shape (4, 4)
-        Ellipsoid frame in world frame
+        Ellipsoid frame in world frame.
 
     radii : array, shape (3,)
-        Radii of ellipsoid
+        Radii of ellipsoid, coinciding with standard deviations along the
+        three axes of the ellipsoid.
     """
     from scipy import linalg
     radii, R = linalg.eigh(cov)
