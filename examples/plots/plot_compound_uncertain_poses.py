@@ -74,7 +74,8 @@ ax.scatter(
 
 ax.plot(path[:, 3], path[:, 4], path[:, 5], lw=3, color="k")
 
-pu.plot_projected_ellipsoid(ax, T_est, cov_est, color="g", factor=3.0)
+pu.plot_projected_ellipsoid(
+    ax, T_est, cov_est, wireframe=False, alpha=0.3, color="g", factor=3.0)
 
 mean_mc = np.mean(mc_path_vec[-1, :], axis=0)
 cov_mc = np.cov(mc_path_vec[-1, :], rowvar=False)
