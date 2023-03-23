@@ -403,7 +403,7 @@ def plot_projected_ellipsoid(
         Mean pose.
 
     cov : array-like, shape (6, 6)
-        Covariance in vector space.
+        Covariance in exponential coordinate space.
 
     color : str, optional (default: None)
         Color in which the equiprobably lines should be plotted.
