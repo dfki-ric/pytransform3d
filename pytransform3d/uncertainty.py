@@ -23,7 +23,7 @@ def estimate_gaussian_transform_from_samples(samples):
     Returns
     -------
     mean : array, shape (4, 4)
-        Homogeneous transformation matrix.
+        Mean as homogeneous transformation matrix.
 
     cov : array, shape (6, 6)
         Covariance of distribution in exponential coordinate space.
