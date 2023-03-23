@@ -339,12 +339,11 @@ def to_ellipsoid(mean, cov):
     return ellipsoid2origin, np.sqrt(np.abs(radii))
 
 
-def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
-    """Compute error projected ellipsoid.
+def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=20):
+    """Compute projected error ellipsoid.
 
-    An error ellipsoid shows equiprobable points. This is a projection of the
-    great circles of a Gaussian distribution in exponential coordinate space
-    to 3D.
+    An error ellipsoid shows equiprobable points. This is a projection of a
+    Gaussian distribution in exponential coordinate space to 3D.
 
     Parameters
     ----------
@@ -357,13 +356,19 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
     factor : float, optional (default: 1.96)
         Multiple of the standard deviations that should be plotted.
 
-    n_steps : int, optional (default: 50)
+    n_steps : int, optional (default: 20)
         Number of discrete steps plotted in each dimension.
 
     Returns
     -------
-    clines : array, shape (3, 3, n_steps)
-        Contour lines of projected ellipsoid.
+    x : array, shape (n_steps, n_steps)
+        Coordinates on x-axis of grid on projected ellipsoid.
+
+    y : array, shape (n_steps, n_steps)
+        Coordinates on y-axis of grid on projected ellipsoid.
+
+    z : array, shape (n_steps, n_steps)
+        Coordinates on z-axis of grid on projected ellipsoid.
     """
     from scipy import linalg
     vals, vecs = linalg.eigh(cov)
@@ -372,27 +377,36 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=50):
 
     radii = factor * np.sqrt(vals)
 
-    ind1 = [0, 1, 0]
-    ind2 = [1, 2, 2]
-    V = np.linspace(-math.pi, math.pi, n_steps)
-    S = np.sin(V)
-    C = np.cos(V)
-    clines = np.zeros((3, 3, n_steps))
-    for n in range(3):
-        P1 = radii[ind1[n]] * vecs[np.newaxis, :, ind1[n]] * S[:, np.newaxis]
-        P2 = radii[ind2[n]] * vecs[np.newaxis, :, ind2[n]] * C[:, np.newaxis]
-        P = P1 + P2
-        T_diff = transforms_from_exponential_coordinates(P)
-        T = T_diff.dot(mean)
-        # same as T[m, :3, :3].T.dot(T[m, :3, 3]) for each m in [0, n_steps)
-        clines[n] = np.einsum("ikj,ik->ji", T[:, :3, :3], T[:, :3, 3])
-    return clines
+    # Grid on ellipsoid in exponential coordinate space
+    radius_x, radius_y, radius_z = radii[:3]
+    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
+    x = radius_x * np.sin(phi) * np.cos(theta)
+    y = radius_y * np.sin(phi) * np.sin(theta)
+    z = radius_z * np.cos(phi)
+    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
+    P = np.dot(P, vecs[:, :3].T)
+
+    # Grid in Cartesian space
+    T_diff = transforms_from_exponential_coordinates(P)
+    T = T_diff.dot(mean)
+    # same as T[m, :3, :3].T.dot(T[m, :3, 3]) for each m and transposed result
+    P = np.einsum("ikj,ik->ji", T[:, :3, :3], T[:, :3, 3])
+
+    shape = x.shape
+    x = P[0].reshape(*shape)
+    y = P[1].reshape(*shape)
+    z = P[2].reshape(*shape)
+
+    return x, y, z
 
 
 def plot_projected_ellipsoid(
-        ax, mean, cov, color=None, alpha=1.0, lw=3, factor=1.96,
-        n_steps=50):  # pragma: no cover
-    """Plots projected great circles of equiprobable ellipsoid in 3D.
+        ax, mean, cov, factor=1.96, wireframe=True, n_steps=20, color=None,
+        alpha=1.0):  # pragma: no cover
+    """Plots projected equiprobable ellipsoid in 3D.
+
+    An error ellipsoid shows equiprobable points. This is a projection of a
+    Gaussian distribution in exponential coordinate space to 3D.
 
     Parameters
     ----------
@@ -405,23 +419,25 @@ def plot_projected_ellipsoid(
     cov : array-like, shape (6, 6)
         Covariance in exponential coordinate space.
 
+    factor : float, optional (default: 1.96)
+        Multiple of the standard deviations that should be plotted.
+
+    wireframe : bool, optional (default: True)
+        Plot wireframe of ellipsoid and surface otherwise.
+
+    n_steps : int, optional (default: 20)
+        Number of discrete steps plotted in each dimension.
+
     color : str, optional (default: None)
         Color in which the equiprobably lines should be plotted.
 
     alpha : float, optional (default: 1.0)
         Alpha value for lines.
-
-    lw : int, optional (default: 3)
-        Line width.
-
-    factor : float, optional (default: 1.96)
-        Multiple of the standard deviations that should be plotted.
-
-    n_steps : int, optional (default: 50)
-        Number of discrete steps plotted in each dimension.
     """
-    clines = to_projected_ellipsoid(mean, cov, factor, n_steps)
-    for n in range(len(clines)):
-        ax.plot(
-            clines[n, 0], clines[n, 1], clines[n, 2],
-            color=color, alpha=alpha, lw=lw)
+    x, y, z = to_projected_ellipsoid(mean, cov, factor, n_steps)
+
+    if wireframe:
+        ax.plot_wireframe(
+            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha)
+    else:
+        ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
