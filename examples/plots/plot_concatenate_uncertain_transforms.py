@@ -56,11 +56,9 @@ for t in range(n_steps):
     for i in range(n_mc_samples):
         mc_path[t + 1, i] = diff_samples[i].dot(T_vel).dot(mc_path[t, i])
 # Plot the random samples' trajectory lines (in a frame attached to the start)
-mc_path_vec = np.zeros((n_steps, n_mc_samples, 3))
-for t in range(n_steps):
-    for i in range(n_mc_samples):
-        mc_path_vec[t, i] = mc_path[t, i, :3, :3].T.dot(
-            mc_path[t, i, :3, 3])
+# same as mc_path[t, i, :3, :3].T.dot(mc_path[t, i, :3, 3])
+mc_path_vec = np.einsum(
+    "tinm,tin->tim", mc_path[:, :, :3, :3], mc_path[:, :, :3, 3])
 
 ax = ppu.make_3d_axis(100)
 
