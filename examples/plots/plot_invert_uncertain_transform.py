@@ -1,9 +1,9 @@
 """
-============================
-Inverse of an Uncertain Pose
-============================
+==========================
+Invert Uncertain Transform
+==========================
 
-We sample from the original pose distribution and from the inverse
+We sample from the original transform distribution and from the inverse
 distribution. Samples are then projected to all 2D planes and plotted.
 The color indicates the pose distribution. Green is the original
 distribution and red is the inverse.
