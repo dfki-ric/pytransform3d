@@ -42,7 +42,7 @@ n_skip_trajectories = 1  # plot every n-th trajectory
 T_est = np.eye(4)
 path = np.zeros((n_steps + 1, 6))
 path[0] = pt.exponential_coordinates_from_transform(T_est)
-cov_est = cov_pose
+cov_est = np.zeros((6, 6))
 for t in range(n_steps):
     T_est, cov_est = pu.concat_uncertain_transforms(
         T_est, cov_est, T_vel, cov_pose)
