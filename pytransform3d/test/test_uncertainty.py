@@ -125,3 +125,27 @@ def test_to_ellipsoid():
         ])
     )
     assert_array_almost_equal(radii, np.array([2.0, 3.0, 5.0]))
+
+
+def test_projected_ellipsoid():
+    mean = np.eye(4)
+    cov = np.eye(6)
+    x, y, z = pu.to_projected_ellipsoid(mean, cov, factor=1.0, n_steps=20)
+    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
+    r = np.linalg.norm(P, axis=1)
+    assert_array_almost_equal(r, np.ones_like(3))
+
+    pos_mean = np.array([0.5, -5.3, 10.5])
+    mean = pt.transform_from(R=np.eye(3), p=pos_mean)
+    x, y, z = pu.to_projected_ellipsoid(mean, cov, factor=1.0, n_steps=20)
+    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
+    r = np.linalg.norm(P - pos_mean[np.newaxis], axis=1)
+    assert_array_almost_equal(r, np.ones_like(3))
+
+    mean = np.eye(4)
+    cov = np.diag([1, 1, 1, 4, 1, 1])
+    x, y, z = pu.to_projected_ellipsoid(mean, cov, factor=1.0, n_steps=20)
+    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
+    r = np.linalg.norm(P, axis=1)
+    assert np.all(1.0 <= r)
+    assert np.all(r <= 2.0)
