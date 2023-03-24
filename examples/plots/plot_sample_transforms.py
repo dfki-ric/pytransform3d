@@ -1,7 +1,7 @@
 """
-=============
-Pose Sampling
-=============
+=================
+Sample Transforms
+=================
 """
 import numpy as np
 import matplotlib.pyplot as plt
