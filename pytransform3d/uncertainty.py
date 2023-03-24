@@ -276,11 +276,14 @@ def to_ellipsoid(mean, cov):
     Returns
     -------
     ellipsoid2origin : array, shape (4, 4)
-        Ellipsoid frame in world frame.
+        Ellipsoid frame in world frame. Note that there are multiple solutions
+        possible for the orientation because an ellipsoid is symmetric.
+        A body-fixed rotation around a main axis by 180 degree results in the
+        same ellipsoid.
 
     radii : array, shape (3,)
         Radii of ellipsoid, coinciding with standard deviations along the
-        three axes of the ellipsoid.
+        three axes of the ellipsoid. These are sorted in ascending order.
     """
     from scipy import linalg
     radii, R = linalg.eigh(cov)

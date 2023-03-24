@@ -126,6 +126,18 @@ def test_to_ellipsoid():
     )
     assert_array_almost_equal(radii, np.array([2.0, 3.0, 5.0]))
 
+    rng = np.random.default_rng(28)
+    for _ in range(5):
+        R = pr.matrix_from_axis_angle(pr.random_axis_angle(rng))
+        std_devs = np.array([1.0, 2.0, 3.0])
+        cov = np.dot(R, np.dot(np.diag(std_devs ** 2), R.T))
+        ellipsoid2origin, radii = pu.to_ellipsoid(mean, cov)
+        assert_array_almost_equal(ellipsoid2origin[:3, 3], mean)
+        # multiple solutions for the rotation matrix are possible because of
+        # ellipsoid symmetries, hence, we only check the absolute values
+        assert_array_almost_equal(np.abs(ellipsoid2origin[:3, :3]), np.abs(R))
+        assert_array_almost_equal(radii, std_devs)
+
 
 def test_projected_ellipsoid():
     mean = np.eye(4)
