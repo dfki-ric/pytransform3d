@@ -87,7 +87,7 @@ def test_concat_uncertain_transforms():
     n_steps = 100
 
     T_est = np.eye(4)
-    cov_est = cov_pose
+    cov_est = np.zeros((6, 6))
     for t in range(n_steps):
         T_est, cov_est = pu.concat_uncertain_transforms(
             T_est, cov_est, T_vel, cov_pose)
