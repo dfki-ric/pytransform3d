@@ -37,6 +37,7 @@ velocity_vector = np.array([0, 0, 0, 1.0, 0, 0])
 T_vel = pt.transform_from_exponential_coordinates(velocity_vector)
 n_steps = 100
 n_mc_samples = 1000
+n_skip_trajectories = 1  # plot every n-th trajectory
 
 T_est = np.eye(4)
 path = np.zeros((n_steps + 1, 6))
@@ -51,18 +52,18 @@ T = np.eye(4)
 mc_path = np.zeros((n_steps + 1, n_mc_samples, 4, 4))
 mc_path[0, :] = T
 for t in range(n_steps):
-    diff_samples = ptr.transforms_from_exponential_coordinates(
+    noise_samples = ptr.transforms_from_exponential_coordinates(
         cov_pose_chol.dot(rng.standard_normal(size=(6, n_mc_samples))).T)
-    for i in range(n_mc_samples):
-        mc_path[t + 1, i] = diff_samples[i].dot(T_vel).dot(mc_path[t, i])
+    step_samples = ptr.concat_many_to_one(noise_samples, T_vel)
+    mc_path[t + 1] = np.einsum("nij,njk->nik", step_samples, mc_path[t])
 # Plot the random samples' trajectory lines (in a frame attached to the start)
-# same as mc_path[t, i, :3, :3].T.dot(mc_path[t, i, :3, 3])
+# same as mc_path[t, i, :3, :3].T.dot(mc_path[t, i, :3, 3]), but faster
 mc_path_vec = np.einsum(
     "tinm,tin->tim", mc_path[:, :, :3, :3], mc_path[:, :, :3, 3])
 
 ax = ppu.make_3d_axis(100)
 
-for i in range(mc_path_vec.shape[1]):
+for i in range(0, mc_path_vec.shape[1], n_skip_trajectories):
     ax.plot(
         mc_path_vec[:, i, 0], mc_path_vec[:, i, 1], mc_path_vec[:, i, 2],
         lw=1, c="b", alpha=0.05)
