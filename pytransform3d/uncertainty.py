@@ -249,55 +249,6 @@ def pose_fusion(means, covs):
     return mean, cov, V
 
 
-def concat_dependent_uncertain_transforms(
-        mean_A2B, cov_A2B, mean_B2C, cov_B2C, cov_A2B_B2C):
-    """Concatenate two dependent uncertain transformations.
-
-    This is an approximation up to 2nd-order terms that takes into account
-    the covariance between the two distributions.
-
-    Parameters
-    ----------
-    mean_A2B : array, shape (4, 4)
-        Mean of transform from A to B.
-
-    cov_A2B : array, shape (6, 6)
-        Covariance of transform from A to B.
-
-    mean_B2C : array, shape (4, 4)
-        Mean of transform from B to C.
-
-    cov_B2C : array, shape (6, 6)
-        Covariance of transform from B to C.
-
-    cov_A2B_B2C : array, shape (6, 6)
-        Covariance between the two transforms.
-
-    Returns
-    -------
-    mean_A2C : array, shape (4, 4)
-        Mean of new pose.
-
-    cov_A2C : array, shape (6, 6)
-        Covariance of new pose.
-
-    References
-    ----------
-    Mangelson, Ghaffari, Vasudevan, Eustice: Characterizing the Uncertainty of
-    Jointly Distributed Poses in the Lie Algebra,
-    https://arxiv.org/pdf/1906.07795.pdf
-    """
-    mean_A2C = concat(mean_A2B, mean_B2C)
-
-    ad_B2C = adjoint_from_transform(mean_B2C)
-    cov_A2B_in_C = np.dot(ad_B2C, np.dot(cov_A2B, ad_B2C.T))
-    cov_A2C = (
-        cov_B2C + cov_A2B_in_C
-        + np.dot(cov_A2B_B2C, ad_B2C.T) + np.dot(ad_B2C, cov_A2B_B2C.T))
-
-    return mean_A2C, cov_A2C
-
-
 def to_ellipsoid(mean, cov):
     """Compute error ellipsoid.
 
