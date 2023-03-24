@@ -453,6 +453,7 @@ Testing
    ~pytransform3d.uncertainty.pose_fusion
    ~pytransform3d.uncertainty.to_ellipsoid
    ~pytransform3d.uncertainty.to_projected_ellipsoid
+   ~pytransform3d.uncertainty.plot_projected_ellipsoid
 
 
 :mod:`pytransform3d.coordinates`
