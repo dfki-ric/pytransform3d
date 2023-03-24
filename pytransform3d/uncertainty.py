@@ -433,6 +433,11 @@ def plot_projected_ellipsoid(
 
     alpha : float, optional (default: 1.0)
         Alpha value for lines.
+
+    Returns
+    -------
+    ax : axis
+        Matplotlib axis.
     """
     x, y, z = to_projected_ellipsoid(mean, cov, factor, n_steps)
 
@@ -441,3 +446,5 @@ def plot_projected_ellipsoid(
             x, y, z, rstride=2, cstride=2, color=color, alpha=alpha)
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
+
+    return ax
