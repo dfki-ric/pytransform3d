@@ -1,7 +1,7 @@
 """
-========================
-Compound Uncertain Poses
-========================
+================================
+Concatenate Uncertain Transforms
+================================
 
 Each of the poses has an associated covariance that is considered.
 In this example, we assume that a robot is moving with constant velocity
