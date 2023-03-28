@@ -156,11 +156,11 @@ def _compound_cov_fourth_order_terms(cov1, cov2_prime):
     cov2_12 = cov2_prime[:3, 3:]
 
     A1 = np.block([
-        [_covop1(cov1_22), _covop1(np.dot(cov1_12, cov1_12.T))],
+        [_covop1(cov1_22), _covop1(cov1_12 + cov1_12.T)],
         [np.zeros((3, 3)), _covop1(cov1_22)]
     ])
     A2 = np.block([
-        [_covop1(cov2_22), _covop1(np.dot(cov2_12, cov2_12.T))],
+        [_covop1(cov2_22), _covop1(cov2_12 + cov2_12.T)],
         [np.zeros((3, 3)), _covop1(cov2_22)]
     ])
     B_11 = (_covop2(cov1_22, cov2_11) + _covop2(cov1_12.T, cov2_12)
