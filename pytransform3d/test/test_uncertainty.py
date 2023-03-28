@@ -105,6 +105,8 @@ def test_concat_uncertain_transforms():
     assert cov_est[4, 2] != 0
     # achievable only with fourth-order terms
     assert cov_est[3, 3] > 0
+    assert cov_est[4, 2] != 0
+    assert cov_est[2, 4] != 0
 
 
 def test_to_ellipsoid():
