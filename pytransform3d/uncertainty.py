@@ -226,9 +226,11 @@ def pose_fusion(means, covs):
     covs_inv = [np.linalg.inv(cov) for cov in covs]
 
     mean = np.eye(4)
+    LHS = np.empty((6, 6))
+    RHS = np.empty(6)
     for _ in range(20):
-        LHS = np.zeros((6, 6))
-        RHS = np.zeros(6)
+        LHS[:, :] = 0.0
+        RHS[:] = 0.0
         for k in range(n_poses):
             x_ik = exponential_coordinates_from_transform(
                 np.dot(mean, invert_transform(means[k])))
