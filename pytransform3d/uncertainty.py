@@ -35,7 +35,7 @@ def estimate_gaussian_transform_from_samples(samples):
     """
     assert len(samples) > 0
     mean = samples[0]
-    for i in range(20):
+    for _ in range(20):
         mean_inv = invert_transform(mean)
         mean_diffs = exponential_coordinates_from_transforms(
             concat_many_to_one(samples, mean_inv))
@@ -226,7 +226,7 @@ def pose_fusion(means, covs):
     covs_inv = [np.linalg.inv(cov) for cov in covs]
 
     mean = np.eye(4)
-    for i in range(20):
+    for _ in range(20):
         LHS = np.zeros((6, 6))
         RHS = np.zeros(6)
         for k in range(n_poses):
