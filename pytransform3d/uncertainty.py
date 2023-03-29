@@ -1,4 +1,3 @@
-import math
 import numpy as np
 from .transformations import (
     invert_transform, transform_from, concat, adjoint_from_transform,
