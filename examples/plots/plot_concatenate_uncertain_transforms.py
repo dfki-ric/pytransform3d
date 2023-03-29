@@ -75,6 +75,8 @@ ax.plot(path[:, 3], path[:, 4], path[:, 5], lw=3, color="k")
 
 pu.plot_projected_ellipsoid(
     ax, T_est, cov_est, wireframe=False, alpha=0.3, color="g", factor=3.0)
+pu.plot_projected_ellipsoid(
+    ax, T_est, cov_est, wireframe=True, alpha=0.5, color="g", factor=3.0)
 
 mean_mc = np.mean(mc_path_vec[-1, :], axis=0)
 cov_mc = np.cov(mc_path_vec[-1, :], rowvar=False)
@@ -82,6 +84,8 @@ cov_mc = np.cov(mc_path_vec[-1, :], rowvar=False)
 ellipsoid2origin, radii = pu.to_ellipsoid(mean_mc, cov_mc)
 ppu.plot_ellipsoid(
     ax, 3.0 * radii, ellipsoid2origin, wireframe=False, alpha=0.3, color="r")
+ppu.plot_ellipsoid(
+    ax, 3.0 * radii, ellipsoid2origin, wireframe=True, alpha=0.5, color="r")
 
 plt.xlim((-5, 105))
 plt.ylim((-50, 50))
