@@ -98,7 +98,8 @@ def matrix_from_axis_angle(a):
         =
         \cos{\theta} \boldsymbol{I}
         + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]
-        + (1 - \cos{\theta}) \hat{\boldsymbol{\omega}}\hat{\boldsymbol{\omega}}^T
+        + (1 - \cos{\theta})
+        \hat{\boldsymbol{\omega}}\hat{\boldsymbol{\omega}}^T
         =
         \boldsymbol{I}
         + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]
@@ -154,7 +155,8 @@ def matrix_from_compact_axis_angle(a):
         =
         \cos{\theta} \boldsymbol{I}
         + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]
-        + (1 - \cos{\theta}) \hat{\boldsymbol{\omega}}\hat{\boldsymbol{\omega}}^T
+        + (1 - \cos{\theta})
+        \hat{\boldsymbol{\omega}}\hat{\boldsymbol{\omega}}^T
         =
         \boldsymbol{I}
         + \sin{\theta} \left[\hat{\boldsymbol{\omega}}\right]

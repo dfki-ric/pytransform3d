@@ -177,15 +177,18 @@ def test_vector_projection():
     a = np.ones(3)
     a_on_unitx = pr.vector_projection(a, pr.unitx)
     assert_array_almost_equal(a_on_unitx, pr.unitx)
-    assert pytest.approx(pr.angle_between_vectors(a_on_unitx, pr.unitx)) == 0.0
+    assert pytest.approx(
+        pr.angle_between_vectors(a_on_unitx, pr.unitx)) == 0.0
 
     a2_on_unitx = pr.vector_projection(2 * a, pr.unitx)
     assert_array_almost_equal(a2_on_unitx, 2 * pr.unitx)
-    assert pytest.approx(pr.angle_between_vectors(a2_on_unitx, pr.unitx)) == 0.0
+    assert pytest.approx(
+        pr.angle_between_vectors(a2_on_unitx, pr.unitx)) == 0.0
 
     a_on_unity = pr.vector_projection(a, pr.unity)
     assert_array_almost_equal(a_on_unity, pr.unity)
-    assert pytest.approx(pr.angle_between_vectors(a_on_unity, pr.unity)) == 0.0
+    assert pytest.approx(
+        pr.angle_between_vectors(a_on_unity, pr.unity)) == 0.0
 
     minus_a_on_unity = pr.vector_projection(-a, pr.unity)
     assert_array_almost_equal(minus_a_on_unity, -pr.unity)
@@ -194,7 +197,8 @@ def test_vector_projection():
 
     a_on_unitz = pr.vector_projection(a, pr.unitz)
     assert_array_almost_equal(a_on_unitz, pr.unitz)
-    assert pytest.approx(pr.angle_between_vectors(a_on_unitz, pr.unitz)) == 0.0
+    assert pytest.approx(
+        pr.angle_between_vectors(a_on_unitz, pr.unitz)) == 0.0
 
     unitz_on_a = pr.vector_projection(pr.unitz, a)
     assert_array_almost_equal(unitz_on_a, np.ones(3) / 3.0)
@@ -218,7 +222,9 @@ def test_check_skew_symmetric_matrix():
         pr.check_skew_symmetric_matrix(np.zeros((4, 3)))
     V = np.zeros((3, 3))
     V[0, 0] = 0.001
-    with pytest.raises(ValueError, match="Expected skew-symmetric matrix, but it failed the test"):
+    with pytest.raises(
+            ValueError,
+            match="Expected skew-symmetric matrix, but it failed the test"):
         pr.check_skew_symmetric_matrix(V)
     with warnings.catch_warnings(record=True) as w:
         pr.check_skew_symmetric_matrix(V, strict_check=False)
@@ -343,9 +349,9 @@ def test_check_quaternion():
     assert pytest.approx(np.linalg.norm(q)) == 1.0
 
     with pytest.raises(ValueError, match="Expected quaternion with shape"):
-         pr.check_quaternion(np.zeros(3))
+        pr.check_quaternion(np.zeros(3))
     with pytest.raises(ValueError, match="Expected quaternion with shape"):
-         pr.check_quaternion(np.zeros((3, 3)))
+        pr.check_quaternion(np.zeros((3, 3)))
 
     q = np.array([0.0, 1.2, 0.0, 0.0])
     q2 = pr.check_quaternion(q, unit=False)
@@ -372,9 +378,11 @@ def test_check_quaternions():
     for i in range(len(Q)):
         assert pytest.approx(np.linalg.norm(Q[i])) == 1
 
-    with pytest.raises(ValueError, match="Expected quaternion array with shape"):
+    with pytest.raises(
+            ValueError, match="Expected quaternion array with shape"):
         pr.check_quaternions(np.zeros(4))
-    with pytest.raises(ValueError, match="Expected quaternion array with shape"):
+    with pytest.raises(
+            ValueError, match="Expected quaternion array with shape"):
         pr.check_quaternions(np.zeros((3, 3)))
 
     Q = np.array([[0.0, 1.2, 0.0, 0.0]])
@@ -385,7 +393,7 @@ def test_check_quaternions():
 def test_passive_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
     with pytest.raises(ValueError, match="Basis must be in"):
-         pr.passive_matrix_from_angle(-1, 0)
+        pr.passive_matrix_from_angle(-1, 0)
     with pytest.raises(ValueError, match="Basis must be in"):
         pr.passive_matrix_from_angle(3, 0)
 
@@ -408,7 +416,7 @@ def test_passive_matrix_from_angle():
 def test_active_matrix_from_angle():
     """Sanity checks for rotation around basis vectors."""
     with pytest.raises(ValueError, match="Basis must be in"):
-         pr.active_matrix_from_angle(-1, 0)
+        pr.active_matrix_from_angle(-1, 0)
     with pytest.raises(ValueError, match="Basis must be in"):
         pr.active_matrix_from_angle(3, 0)
 
@@ -1316,8 +1324,10 @@ def test_axis_angle_from_two_direction_vectors():
         v1 = pr.random_vector(rng, 3)
         v2 = R.dot(v1)
         a = pr.axis_angle_from_two_directions(v1, v2)
-        assert pytest.approx(pr.angle_between_vectors(v1, a[:3])) == 0.5 * np.pi
-        assert pytest.approx(pr.angle_between_vectors(v2, a[:3])) == 0.5 * np.pi
+        assert pytest.approx(
+            pr.angle_between_vectors(v1, a[:3])) == 0.5 * np.pi
+        assert pytest.approx(
+            pr.angle_between_vectors(v2, a[:3])) == 0.5 * np.pi
         assert_array_almost_equal(v2, pr.matrix_from_axis_angle(a).dot(v1))
 
 
@@ -2108,9 +2118,12 @@ def test_quaternion_from_euler():
                 if proper_euler:
                     e[1] -= np.pi / 2.0
 
-                q = pr.quaternion_from_euler(e, ea[0], ea[1], ea[2], extrinsic)
-                e2 = pr.euler_from_quaternion(q, ea[0], ea[1], ea[2], extrinsic)
-                q2 = pr.quaternion_from_euler(e2, ea[0], ea[1], ea[2], extrinsic)
+                q = pr.quaternion_from_euler(
+                    e, ea[0], ea[1], ea[2], extrinsic)
+                e2 = pr.euler_from_quaternion(
+                    q, ea[0], ea[1], ea[2], extrinsic)
+                q2 = pr.quaternion_from_euler(
+                    e2, ea[0], ea[1], ea[2], extrinsic)
 
                 pr.assert_quaternion_equal(q, q2)
 
@@ -2145,17 +2158,21 @@ def test_general_matrix_euler_conversions():
                 if proper_euler:
                     e[1] -= np.pi / 2.0
 
-                q = pr.quaternion_from_euler(e, ea[0], ea[1], ea[2], extrinsic)
+                q = pr.quaternion_from_euler(
+                    e, ea[0], ea[1], ea[2], extrinsic)
                 R = pr.matrix_from_euler(e, ea[0], ea[1], ea[2], extrinsic)
                 q_R = pr.quaternion_from_matrix(R)
                 pr.assert_quaternion_equal(
                     q, q_R, err_msg=f"axes: {ea}, extrinsic: {extrinsic}")
 
                 e_R = pr.euler_from_matrix(R, ea[0], ea[1], ea[2], extrinsic)
-                e_q = pr.euler_from_quaternion(q, ea[0], ea[1], ea[2], extrinsic)
+                e_q = pr.euler_from_quaternion(
+                    q, ea[0], ea[1], ea[2], extrinsic)
 
-                R_R = pr.matrix_from_euler(e_R, ea[0], ea[1], ea[2], extrinsic)
-                R_q = pr.matrix_from_euler(e_q, ea[0], ea[1], ea[2], extrinsic)
+                R_R = pr.matrix_from_euler(
+                    e_R, ea[0], ea[1], ea[2], extrinsic)
+                R_q = pr.matrix_from_euler(
+                    e_q, ea[0], ea[1], ea[2], extrinsic)
                 assert_array_almost_equal(R_R, R_q)
 
 

@@ -505,7 +505,8 @@ class Figure:
                      c=None):
         """Plot capsule.
 
-        A capsule is the volume covered by a sphere moving along a line segment.
+        A capsule is the volume covered by a sphere moving along a line
+        segment.
 
         Parameters
         ----------

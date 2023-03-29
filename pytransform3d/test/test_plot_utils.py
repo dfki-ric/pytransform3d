@@ -70,7 +70,8 @@ def test_frame():
 def test_frame_no_indicator():
     ax = make_3d_axis(1.0)
     try:
-        frame = Frame(np.eye(4), label="Frame", s=0.1, draw_label_indicator=False)
+        frame = Frame(
+            np.eye(4), label="Frame", s=0.1, draw_label_indicator=False)
         frame.add_frame(ax)
         assert len(ax.lines) == 3  # 3 axes and omit black line to text
         assert len(ax.texts) == 1  # label
@@ -96,7 +97,7 @@ def test_trajectory():
             np.array([np.eye(4), np.eye(4)]), s=0.1, n_frames=2)
         trajectory.add_trajectory(ax)
         assert len(ax.lines) == 7  # 2 * 3 axes + connection line
-        #assert_equal(len(ax.artists), 1)  # arrow is not an artist anymore
+        # assert_equal(len(ax.artists), 1)  # arrow is not an artist anymore
     finally:
         ax.remove()
 
@@ -257,7 +258,7 @@ def test_plot_vector():
     ax = make_3d_axis(1.0)
     try:
         plot_vector(ax)
-        #assert_equal(len(ax.artists), 1)  # arrow is not an artist anymore
+        # assert_equal(len(ax.artists), 1)  # arrow is not an artist anymore
     finally:
         ax.remove()
 
