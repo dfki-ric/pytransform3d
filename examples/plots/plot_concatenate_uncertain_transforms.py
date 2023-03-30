@@ -71,7 +71,8 @@ ax.scatter(
     mc_path_vec[-1, :, 0], mc_path_vec[-1, :, 1], mc_path_vec[-1, :, 2],
     s=3, c="b")
 
-ax.plot(path[:, 3], path[:, 4], path[:, 5], lw=3, color="k")
+ptr.plot_trajectory(ax, ptr.pqs_from_transforms(
+    ptr.transforms_from_exponential_coordinates(path)), s=5.0, lw=3)
 
 pu.plot_projected_ellipsoid(
     ax, T_est, cov_est, wireframe=False, alpha=0.3, color="g", factor=3.0)
