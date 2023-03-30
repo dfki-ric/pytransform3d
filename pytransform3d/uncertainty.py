@@ -344,9 +344,9 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=20):
 
     # Grid in Cartesian space
     T_diff = transforms_from_exponential_coordinates(P)
-    T = T_diff.dot(mean)
-    # same as T[m, :3, :3].T.dot(T[m, :3, 3]) for each m and transposed result
-    P = np.einsum("ikj,ik->ji", T[:, :3, :3], T[:, :3, 3])
+    # same as T_diff[m, :3, :3].T.dot(T_diff[m, :3, 3]) for each m
+    P = np.einsum("ikj,ik->ij", T_diff[:, :3, :3], T_diff[:, :3, 3])
+    P = (np.dot(P, mean[:3, :3].T) + mean[np.newaxis, :3, 3]).T
 
     shape = x.shape
     x = P[0].reshape(*shape)
