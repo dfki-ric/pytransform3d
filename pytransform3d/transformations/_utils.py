@@ -352,12 +352,12 @@ def check_dual_quaternion(dq, unit=True):
 
     .. math::
 
-        \\sigma = p + \\epsilon q,
+        \\boldsymbol{\\sigma} = \\boldsymbol{p} + \\epsilon \\boldsymbol{q},
 
-    where :math:`p` and :math:`q` are both quaternions and :math:`\\epsilon`
-    is the dual unit with :math:`\\epsilon^2 = 0`. The first quaternion is
-    also called the real part and the second quaternion is called the dual
-    part.
+    where :math:`\\boldsymbol{p}` and :math:`\\boldsymbol{q}` are both
+    quaternions and :math:`\\epsilon` is the dual unit with
+    :math:`\\epsilon^2 = 0`. The first quaternion is also called the real part
+    and the second quaternion is called the dual part.
 
     Parameters
     ----------
