@@ -42,7 +42,7 @@ Basics
 Frames
 ------
 
-A (coordinate reference) frames in 3D Euclidean space is defined by an origin
+A (coordinate reference) frame in 3D Euclidean space is defined by an origin
 (position) and 3 orthogonal basis vectors (orientation) and it is attached to
 a rigid body. The pose (position and orientation) of a rigid body (i.e., of
 its frame) is always expressed with respect to another frame.
