@@ -242,7 +242,7 @@ def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
         0 & 0 & 0 & 0\\\\
         \\end{matrix}
         \\right)
-        \\in \\mathbb{R}^{4 \\times 4}
+        \\in se(3) \\subset \\mathbb{R}^{4 \\times 4}
 
     Parameters
     ----------
@@ -302,7 +302,7 @@ def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     """Input validation for logarithm of transformation.
 
     The logarithm of a transformation :math:`\\left[\\mathcal{S}\\right]\\theta
-    \\in so(3) \\subset \\mathbb{R}^{4 \\times 4}` are the product of a screw
+    \\in se(3) \\subset \\mathbb{R}^{4 \\times 4}` are the product of a screw
     matrix and a scalar :math:`\\theta`.
 
     Parameters

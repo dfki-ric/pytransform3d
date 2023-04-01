@@ -223,7 +223,7 @@ Alternatively, we can represent a screw axis :math:`\mathcal S` in a matrix
     0 & 0 & 0 & 0\\
     \end{matrix}
     \right)
-    \in \mathbb{R}^{4 \times 4}
+    \in se(3) \subset \mathbb{R}^{4 \times 4}
 
 that contains the cross-product matrix of its orientation part and its
 translation part. This is the **matrix representation of a screw axis** and
