@@ -53,6 +53,32 @@ Take a look at the
 [installation instructions](https://dfki-ric.github.io/pytransform3d/install.html)
 in the documentation for more details.
 
+## Gallery
+
+The following plots and visualizations have been generated with pytransform3d.
+The code for most examples can be found in
+[the documentation](https://dfki-ric.github.io/pytransform3d/_auto_examples/index.html).
+
+Left: [Nao robot](https://www.softbankrobotics.com/emea/en/nao) with URDF
+from [Bullet3](https://github.com/bulletphysics/bullet3).
+Right: [Kuka iiwa](https://www.kuka.com/en-de/products/robot-systems/industrial-robots/lbr-iiwa).
+The animation is based on pytransform3d's visualization interface to
+[Open3D](http://www.open3d.org/).
+
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_nao.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_dynamics.gif" height=200px/>
+
+Visualizations based on [Open3D](http://www.open3d.org/).
+
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/photogrammetry.png" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/kuka_trajectories.png" height=200px/>
+
+Various plots based on Matplotlib.
+
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_box.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/cylinders.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/plot_urdf.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/transform_manager_mesh.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/accelerate_cylinder.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_screw.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/rotations_axis_angle.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/concatenate_uncertain_transforms.png" width=200px/>
+
+Transformation editor based on Qt.
+
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/app_transformation_editor.png" height=300px/>
+
 ## Example
 
 This is just one simple example. You can find more examples in the subfolder
@@ -92,32 +118,6 @@ plt.show()
 ```
 
 ![output](https://dfki-ric.github.io/pytransform3d/_images/plot_transform_manager.png)
-
-## Gallery
-
-The following plots and visualizations have been generated with pytransform3d.
-The code for most examples can be found in
-[the documentation](https://dfki-ric.github.io/pytransform3d/_auto_examples/index.html).
-
-Left: [Nao robot](https://www.softbankrobotics.com/emea/en/nao) with URDF
-from [Bullet3](https://github.com/bulletphysics/bullet3).
-Right: [Kuka iiwa](https://www.kuka.com/en-de/products/robot-systems/industrial-robots/lbr-iiwa).
-The animation is based on pytransform3d's visualization interface to
-[Open3D](http://www.open3d.org/).
-
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_nao.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_dynamics.gif" height=200px/>
-
-Visualizations based on [Open3D](http://www.open3d.org/).
-
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/photogrammetry.png" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/kuka_trajectories.png" height=200px/>
-
-Various plots based on Matplotlib.
-
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_box.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/cylinders.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/plot_urdf.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/transform_manager_mesh.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/accelerate_cylinder.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_screw.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/rotations_axis_angle.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/concatenate_uncertain_transforms.png" width=200px/>
-
-Transformation editor based on Qt.
-
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/app_transformation_editor.png" height=300px/>
 
 ## Documentation
 
