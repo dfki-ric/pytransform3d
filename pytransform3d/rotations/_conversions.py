@@ -17,10 +17,18 @@ def cross_product_matrix(v):
     .. math::
 
         \boldsymbol{V} \boldsymbol{w} = \boldsymbol{v} \times
-        \boldsymbol{w}
+        \boldsymbol{w}.
 
-    It is a skew-symmetric (antisymmetric) matrix, i.e.
-    :math:`-\boldsymbol{V} = \boldsymbol{V}^T`.
+    It is a skew-symmetric (antisymmetric) matrix, i.e.,
+    :math:`-\boldsymbol{V} = \boldsymbol{V}^T`. Its elements are
+
+    .. math::
+
+        \boldsymbol{V} = \left(\begin{array}{ccc}
+        0 & -v_3 & v_2\\
+        v_3 & 0 & -v_1\\
+        -v_2 & v_1 & 0
+        \end{array}\right).
 
     Parameters
     ----------
