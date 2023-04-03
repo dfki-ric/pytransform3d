@@ -114,6 +114,10 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     \mathbb{R}^{6 \times 6}`, that is, :math:`\boldsymbol{\xi} \sim
     \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})`.
 
+    The concatenation order is the same as in
+    :func:`~pytransform3d.transformations.concat`, that is, the transformation
+    B2C is left-multiplied to A2B.
+
     This version of Barfoot and Furgale approximates the covariance up to
     4th-order terms. Note that it is still an approximation of the covariance
     after concatenation of the two transforms.

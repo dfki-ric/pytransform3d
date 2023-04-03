@@ -116,10 +116,14 @@ def vectors_to_directions(V):
 
 
 def concat(A2B, B2C, strict_check=True, check=True):
-    """Concatenate transformations.
+    r"""Concatenate transformations.
 
     We use the extrinsic convention, which means that B2C is left-multiplied
-    to A2B.
+    to A2B. In mathematical notation:
+
+    .. math::
+
+        \boldsymbol{T}_{CB} \boldsymbol{T}_{BA} = \boldsymbol{T}_{CA}.
 
     Parameters
     ----------
