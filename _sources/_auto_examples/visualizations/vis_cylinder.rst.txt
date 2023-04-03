@@ -24,7 +24,7 @@ Visualize Transformed Cylinders
 
 Plots transformed cylinders.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-32
+.. GENERATED FROM PYTHON SOURCE LINES 8-29
 
 
 
@@ -39,9 +39,6 @@ Plots transformed cylinders.
 
 .. code-block:: default
 
-    print(__doc__)
-
-
     import numpy as np
     from pytransform3d.transformations import transform_from
     from pytransform3d.rotations import random_axis_angle, matrix_from_axis_angle
@@ -49,10 +46,10 @@ Plots transformed cylinders.
 
 
     fig = pv.figure()
-    random_state = np.random.RandomState(42)
+    rng = np.random.default_rng(42)
     A2B = transform_from(
-        R=matrix_from_axis_angle(random_axis_angle(random_state)),
-        p=random_state.randn(3))
+        R=matrix_from_axis_angle(random_axis_angle(rng)),
+        p=rng.standard_normal(size=3))
     fig.plot_cylinder(length=1.0, radius=0.3)
     fig.plot_transform(A2B=np.eye(4))
     fig.plot_cylinder(length=1.0, radius=0.3, A2B=A2B)
@@ -67,7 +64,7 @@ Plots transformed cylinders.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.344 seconds)
+   **Total running time of the script:** ( 0 minutes  0.098 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_cylinder.py:

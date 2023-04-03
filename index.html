@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="#">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -155,55 +155,30 @@
   </div>
 </div>
 
-<div class="col-md-8"><p>pytransform3d covers the following groups of transformations.
-This documentation explains how you can work with pytransform3d and with
+<div class="col-md-8"><p>This documentation explains how you can work with pytransform3d and with
 3D transformations in general.</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Group</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Representations</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>SO(3)</p></td>
-<td><p>3D rotations</p></td>
-<td><p>unit quaternion, rotation matrix,
-axis-angle, Euler angles, rotor</p></td>
-</tr>
-<tr class="row-odd"><td><p>SE(3)</p></td>
-<td><p>3D transformations
-(rotation and
-translation)</p></td>
-<td><p>transformation matrix, translation
-and unit quaternion, exponential
-coordinates, logarithm of
-transformation, unit dual quaternion</p></td>
-</tr>
-</tbody>
-</table>
 <section id="scope">
 <h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">¶</a></h2>
-<p>The library focuses on readability and debugging, not on computational
+<p>pytransform3d focuses on readability and debugging, not on computational
 efficiency. If you want to have an efficient implementation of some function
 from the library you can easily extract the relevant code and implement it
 more efficiently in a language of your choice.</p>
 <p>The library integrates well with the
 <a class="reference external" href="https://scipy-lectures.org/">scientific Python ecosystem</a>
-with its core libraries Numpy, Scipy and Matplotlib.
-We rely on <a class="reference external" href="https://numpy.org/">Numpy</a> for linear algebra and on
+with its core libraries NumPy, SciPy and Matplotlib.
+We rely on <a class="reference external" href="https://numpy.org/">NumPy</a> for linear algebra and on
 <a class="reference external" href="https://matplotlib.org/">Matplotlib</a> to offer plotting functionalities.
-<a class="reference external" href="https://scipy.org/scipylib/index.html">Scipy</a> is used if you want to
+<a class="reference external" href="https://scipy.org/">SciPy</a> is used if you want to
 automatically compute transformations from a graph of transformations.</p>
 <p>pytransform3d offers…</p>
 <ul class="simple">
-<li><p>operations for most common representations of rotation (orientation) and
-translation (position)</p></li>
+<li><p>operations for most common representations of rotation / orientation and
+translation / position</p></li>
 <li><p>conversions between those representations</p></li>
-<li><p>clear documentation of transformation conventions</p></li>
+<li><p>clear documentation of conventions</p></li>
 <li><p>tight coupling with matplotlib to quickly visualize (or animate)
 transformations</p></li>
-<li><p>the TransformManager which manages complex chains of transformations</p></li>
+<li><p>the TransformManager which organizes complex chains of transformations</p></li>
 <li><p>the TransformEditor which allows to modify transformations graphically</p></li>
 <li><p>the UrdfTransformManager which is able to load transformations from
 <a class="reference external" href="https://wiki.ros.org/urdf">URDF</a> files</p></li>
@@ -236,7 +211,7 @@ Journal of Open Source Software, 4(33), 1159, <a class="reference external" href
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

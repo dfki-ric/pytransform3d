@@ -5,9 +5,6 @@ Add and Remove Artist
 
 A demonstration of how previously added artists can be removed.
 """
-print(__doc__)
-
-
 import os
 from pytransform3d.urdf import UrdfTransformManager
 import pytransform3d.visualizer as pv

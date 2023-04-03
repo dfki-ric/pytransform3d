@@ -7,9 +7,6 @@ The following illustration shows a camera's trajectory that has has been
 estimated from odometry. This specific trajectory has been used to reconstruct
 a colored mesh from a depth camera and an RGB camera.
 """
-print(__doc__)
-
-
 import os
 import numpy as np
 import matplotlib.pyplot as plt

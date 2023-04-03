@@ -25,24 +25,30 @@ URDF Joints
 This example shows how to load a URDF description of a robot, set some joint
 angles and display relevant frames.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-88
-
-
-
-.. image-sg:: /_auto_examples/plots/images/sphx_glr_plot_urdf_001.png
-   :alt: plot urdf
-   :srcset: /_auto_examples/plots/images/sphx_glr_plot_urdf_001.png
-   :class: sphx-glr-single-img
-
-
-
-
+.. GENERATED FROM PYTHON SOURCE LINES 9-13
 
 .. code-block:: default
 
     import matplotlib.pyplot as plt
     from pytransform3d.urdf import UrdfTransformManager
 
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 14-17
+
+URDF
+----
+URDFs have to be provided as strings. These can be loaded from files.
+
+.. GENERATED FROM PYTHON SOURCE LINES 17-82
+
+.. code-block:: default
 
     COMPI_URDF = """
     <?xml version="1.0"?>
@@ -108,10 +114,48 @@ angles and display relevant frames.
 
     tm = UrdfTransformManager()
     tm.load_urdf(COMPI_URDF)
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 83-87
+
+Set Joints
+----------
+In this example, we define joint angles manually. Joints are identified by
+their string names extracted from the URDF.
+
+.. GENERATED FROM PYTHON SOURCE LINES 87-92
+
+.. code-block:: default
+
     joint_names = ["joint%d" % i for i in range(1, 7)]
     joint_angles = [0, 0.5, 0.5, 0, 0.5, 0]
     for name, angle in zip(joint_names, joint_angles):
         tm.set_joint(name, angle)
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 93-97
+
+Visualization
+-------------
+We use matplotlib to visualize the link frames of the URDF and connections
+between these.
+
+.. GENERATED FROM PYTHON SOURCE LINES 97-104
+
+.. code-block:: default
+
     ax = tm.plot_frames_in("compi", whitelist=["link%d" % d for d in range(1, 7)],
                            s=0.05, show_name=True)
     ax = tm.plot_connections_in("compi", ax=ax)
@@ -121,9 +165,20 @@ angles and display relevant frames.
     plt.show()
 
 
+
+.. image-sg:: /_auto_examples/plots/images/sphx_glr_plot_urdf_001.png
+   :alt: plot urdf
+   :srcset: /_auto_examples/plots/images/sphx_glr_plot_urdf_001.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.119 seconds)
+   **Total running time of the script:** ( 0 minutes  0.121 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_urdf.py:

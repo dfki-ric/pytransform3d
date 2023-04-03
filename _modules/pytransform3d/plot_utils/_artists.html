@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils._artists &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.plot_utils._artists &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -125,7 +125,7 @@
 
 
 <div class="viewcode-block" id="Frame"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Frame.html#pytransform3d.plot_utils.Frame">[docs]</a><span class="k">class</span> <span class="nc">Frame</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">Artist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A Matplotlib artist that displays a frame represented by its basis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Matplotlib artist that displays a frame represented by its basis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -171,7 +171,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Frame.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Frame.html#pytransform3d.plot_utils.Frame.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the transformation data.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the transformation data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -207,7 +207,7 @@
 
 <div class="viewcode-block" id="Frame.draw"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Frame.html#pytransform3d.plot_utils.Frame.draw">[docs]</a>    <span class="nd">@artist</span><span class="o">.</span><span class="n">allow_rasterization</span>
     <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Draw the artist.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the artist.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_axis</span><span class="p">]:</span>
             <span class="n">b</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label</span><span class="p">:</span>
@@ -217,7 +217,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">Frame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Frame.add_frame"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Frame.html#pytransform3d.plot_utils.Frame.add_frame">[docs]</a>    <span class="k">def</span> <span class="nf">add_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add the frame to a 3D axis.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the frame to a 3D axis.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_axis</span><span class="p">]:</span>
             <span class="n">axis</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_label</span><span class="p">:</span>
@@ -227,7 +227,7 @@
 
 
 <div class="viewcode-block" id="LabeledFrame"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame">[docs]</a><span class="k">class</span> <span class="nc">LabeledFrame</span><span class="p">(</span><span class="n">Frame</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Displays a frame represented by its basis with axis labels.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Displays a frame represented by its basis with axis labels.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -254,7 +254,7 @@
             <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LabeledFrame.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the transformation data.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the transformation data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -286,14 +286,14 @@
 
 <div class="viewcode-block" id="LabeledFrame.draw"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame.draw">[docs]</a>    <span class="nd">@artist</span><span class="o">.</span><span class="n">allow_rasterization</span>
     <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Draw the artist.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the artist.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_label</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_label</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z_label</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LabeledFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LabeledFrame.add_frame"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame.add_frame">[docs]</a>    <span class="k">def</span> <span class="nf">add_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add the frame to a 3D axis.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the frame to a 3D axis.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LabeledFrame</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">_add_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_label</span><span class="p">)</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">_add_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_label</span><span class="p">)</span>
@@ -301,7 +301,7 @@
 
 
 <div class="viewcode-block" id="Trajectory"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory">[docs]</a><span class="k">class</span> <span class="nc">Trajectory</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">Artist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A Matplotlib artist that displays a trajectory.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Matplotlib artist that displays a trajectory.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -336,7 +336,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">H</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trajectory.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the trajectory data.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the trajectory data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -360,7 +360,7 @@
 
 <div class="viewcode-block" id="Trajectory.draw"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory.draw">[docs]</a>    <span class="nd">@artist</span><span class="o">.</span><span class="n">allow_rasterization</span>
     <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Draw the artist.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the artist.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_frames</span><span class="p">:</span>
             <span class="n">key_frame</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -369,7 +369,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">Trajectory</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Trajectory.add_trajectory"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory.add_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">add_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add the trajectory to a 3D axis.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the trajectory to a 3D axis.&quot;&quot;&quot;</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_frames</span><span class="p">:</span>
             <span class="n">key_frame</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
@@ -378,7 +378,7 @@
 
 
 <div class="viewcode-block" id="Arrow3D"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Arrow3D.html#pytransform3d.plot_utils.Arrow3D">[docs]</a><span class="k">class</span> <span class="nc">Arrow3D</span><span class="p">(</span><span class="n">FancyArrowPatch</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A Matplotlib patch that represents an arrow in 3D.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Matplotlib patch that represents an arrow in 3D.</span>
 
 <span class="sd">    Source: http://stackoverflow.com/a/11156353/915743</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -387,7 +387,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_verts3d</span> <span class="o">=</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span></div>
 
 <div class="viewcode-block" id="Arrow3D.set_data"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Arrow3D.html#pytransform3d.plot_utils.Arrow3D.set_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the arrow data.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the arrow data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -403,7 +403,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_verts3d</span> <span class="o">=</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span></div>
 
 <div class="viewcode-block" id="Arrow3D.draw"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Arrow3D.html#pytransform3d.plot_utils.Arrow3D.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Draw the patch.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the patch.&quot;&quot;&quot;</span>
         <span class="n">xs3d</span><span class="p">,</span> <span class="n">ys3d</span><span class="p">,</span> <span class="n">zs3d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verts3d</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">M</span>
@@ -431,7 +431,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

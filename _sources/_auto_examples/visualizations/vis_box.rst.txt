@@ -22,7 +22,7 @@
 Plot Box
 ========
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-27
+.. GENERATED FROM PYTHON SOURCE LINES 6-24
 
 
 
@@ -37,19 +37,16 @@ Plot Box
 
 .. code-block:: default
 
-    print(__doc__)
-
-
     import numpy as np
     import pytransform3d.visualizer as pv
     from pytransform3d.transformations import transform_from
     from pytransform3d.rotations import random_axis_angle, matrix_from_axis_angle
 
 
-    random_state = np.random.RandomState(42)
+    rng = np.random.default_rng(42)
     fig = pv.figure()
     A2B = transform_from(
-        R=matrix_from_axis_angle(random_axis_angle(random_state)),
+        R=matrix_from_axis_angle(random_axis_angle(rng)),
         p=np.zeros(3))
     fig.plot_box(size=[0.2, 0.5, 1], A2B=A2B)
     fig.plot_transform(A2B=A2B)
@@ -62,7 +59,7 @@ Plot Box
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.174 seconds)
+   **Total running time of the script:** ( 0 minutes  0.085 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_box.py:

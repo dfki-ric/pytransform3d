@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._dual_quaternion_operations &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations._dual_quaternion_operations &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -125,7 +125,7 @@
 
 
 <div class="viewcode-block" id="dq_conj"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_conj.html#pytransform3d.transformations.dq_conj">[docs]</a><span class="k">def</span> <span class="nf">dq_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Conjugate of dual quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Conjugate of dual quaternion.</span>
 
 <span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
 <span class="sd">    use here converts (pw, px, py, pz, qw, qx, qy, qz) to</span>
@@ -148,7 +148,7 @@
 
 
 <div class="viewcode-block" id="dq_q_conj"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_q_conj.html#pytransform3d.transformations.dq_q_conj">[docs]</a><span class="k">def</span> <span class="nf">dq_q_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Quaternion conjugate of dual quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Quaternion conjugate of dual quaternion.</span>
 
 <span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
 <span class="sd">    use here converts (pw, px, py, pz, qw, qx, qy, qz) to</span>
@@ -174,7 +174,7 @@
 
 
 <div class="viewcode-block" id="concatenate_dual_quaternions"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.concatenate_dual_quaternions.html#pytransform3d.transformations.concatenate_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Concatenate dual quaternions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate dual quaternions.</span>
 
 <span class="sd">    Suppose we want to apply two extrinsic transforms given by dual</span>
 <span class="sd">    quaternions dq1 and dq2 to a vector v. We can either apply dq2 to v and</span>
@@ -211,7 +211,7 @@
 
 
 <div class="viewcode-block" id="dq_prod_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector">[docs]</a><span class="k">def</span> <span class="nf">dq_prod_vector</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Apply transform represented by a dual quaternion to a vector.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply transform represented by a dual quaternion to a vector.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -236,7 +236,7 @@
 
 
 <div class="viewcode-block" id="dual_quaternion_sclerp"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_sclerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Screw linear interpolation (ScLERP) for dual quaternions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Screw linear interpolation (ScLERP) for dual quaternions.</span>
 
 <span class="sd">    Although linear interpolation of dual quaternions is possible, this does</span>
 <span class="sd">    not result in constant velocities. If you want to generate interpolations</span>
@@ -267,7 +267,7 @@
 
 
 <div class="viewcode-block" id="dual_quaternion_power"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_power.html#pytransform3d.transformations.dual_quaternion_power">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_power</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute power of unit dual quaternion with respect to scalar.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute power of unit dual quaternion with respect to scalar.</span>
 
 <span class="sd">    .. math::</span>
 
@@ -305,7 +305,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

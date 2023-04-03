@@ -22,7 +22,7 @@
 Plot Sphere
 ===========
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-22
+.. GENERATED FROM PYTHON SOURCE LINES 6-18
 
 
 
@@ -37,18 +37,14 @@ Plot Sphere
 
 .. code-block:: default
 
-    print(__doc__)
-
-
     import numpy as np
     import matplotlib.pyplot as plt
     from pytransform3d.transformations import plot_transform
     from pytransform3d.plot_utils import plot_sphere, remove_frame
 
 
-    random_state = np.random.RandomState(42)
     ax = plot_sphere(
-        radius=0.5, wireframe=False, alpha=0.1, color="k", n_steps=20, ax_s=0.5)
+        radius=0.5, wireframe=False, alpha=0.1, color="k", ax_s=0.5)
     plot_sphere(ax=ax, radius=0.5, wireframe=True)
     plot_transform(ax=ax, A2B=np.eye(4), s=0.3, lw=3)
     remove_frame(ax)
@@ -57,7 +53,7 @@ Plot Sphere
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.075 seconds)
+   **Total running time of the script:** ( 0 minutes  0.057 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_sphere.py:

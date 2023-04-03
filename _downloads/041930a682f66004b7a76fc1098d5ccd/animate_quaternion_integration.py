@@ -5,9 +5,6 @@ Quaternion Integration
 
 Integrate angular accelerations to a quaternion sequence and animate it.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
@@ -32,13 +29,13 @@ def update_lines(step, Q, rot):
 
 
 if __name__ == "__main__":
-    random_state = np.random.RandomState(3)
-    start = pr.random_quaternion(random_state)
+    rng = np.random.default_rng(3)
+    start = pr.random_quaternion(rng)
     n_frames = 1000
     dt = 0.01
     angular_accelerations = np.empty((n_frames, 3))
     for i in range(n_frames):
-        angular_accelerations[i] = pr.random_compact_axis_angle(random_state)
+        angular_accelerations[i] = pr.random_compact_axis_angle(rng)
     # Integrate angular accelerations to velocities
     angular_velocities = np.vstack(
         (np.zeros((1, 3)), np.cumsum(angular_accelerations * dt, axis=0)))

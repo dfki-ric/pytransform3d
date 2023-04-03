@@ -10,6 +10,8 @@ and make to always concatenate them in the correct way.
    :alt: Three frames
    :align: center
 
+|
+
 When modeling transformations in mathematical equations we often sequence them
 from right to left (extrinsic convention).
 Here it makes most sense to give names like :math:`\boldsymbol T_{BA}` for

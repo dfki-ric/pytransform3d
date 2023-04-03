@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._conversions &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations._conversions &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -117,20 +117,30 @@
       
   <h1>Source code for pytransform3d.transformations._conversions</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Conversions between transform representations.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">check_transform</span><span class="p">,</span> <span class="n">check_pq</span><span class="p">,</span> <span class="n">check_screw_axis</span><span class="p">,</span>
                      <span class="n">check_screw_parameters</span><span class="p">,</span> <span class="n">check_exponential_coordinates</span><span class="p">,</span>
                      <span class="n">check_screw_matrix</span><span class="p">,</span> <span class="n">check_transform_log</span><span class="p">,</span>
                      <span class="n">check_dual_quaternion</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">matrix_from_quaternion</span><span class="p">,</span> <span class="n">quaternion_from_matrix</span><span class="p">,</span> <span class="n">axis_angle_from_matrix</span><span class="p">,</span>
-    <span class="n">matrix_from_axis_angle</span><span class="p">,</span> <span class="n">cross_product_matrix</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">,</span>
-    <span class="n">concatenate_quaternions</span><span class="p">,</span> <span class="n">axis_angle_from_quaternion</span><span class="p">,</span> <span class="n">norm_angle</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="n">matrix_from_quaternion</span><span class="p">,</span> <span class="n">quaternion_from_matrix</span><span class="p">,</span>
+    <span class="n">compact_axis_angle_from_matrix</span><span class="p">,</span> <span class="n">matrix_from_compact_axis_angle</span><span class="p">,</span>
+    <span class="n">cross_product_matrix</span><span class="p">,</span> <span class="n">q_conj</span><span class="p">,</span> <span class="n">concatenate_quaternions</span><span class="p">,</span>
+    <span class="n">axis_angle_from_quaternion</span><span class="p">,</span> <span class="n">norm_angle</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">left_jacobian_SO3</span><span class="p">,</span> <span class="n">left_jacobian_SO3_inv</span>
 
 
 <div class="viewcode-block" id="transform_from"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from">[docs]</a><span class="k">def</span> <span class="nf">transform_from</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make transformation from rotation matrix and translation.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Make transformation from rotation matrix and translation.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{T}_{BA} = \left(</span>
+<span class="sd">        \begin{array}{cc}</span>
+<span class="sd">        \boldsymbol{R} &amp; \boldsymbol{p}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 1</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right) \in SE(3)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -158,7 +168,7 @@
 
 
 <div class="viewcode-block" id="translate_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.translate_transform.html#pytransform3d.transformations.translate_transform">[docs]</a><span class="k">def</span> <span class="nf">translate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sets the translation of a transform.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the translation of a transform.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -189,7 +199,7 @@
 
 
 <div class="viewcode-block" id="rotate_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.rotate_transform.html#pytransform3d.transformations.rotate_transform">[docs]</a><span class="k">def</span> <span class="nf">rotate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sets the rotation of a transform.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the rotation of a transform.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -220,7 +230,7 @@
 
 
 <div class="viewcode-block" id="pq_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.pq_from_transform.html#pytransform3d.transformations.pq_from_transform">[docs]</a><span class="k">def</span> <span class="nf">pq_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute position and quaternion from transformation matrix.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute position and quaternion from transformation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -242,7 +252,7 @@
 
 
 <div class="viewcode-block" id="transform_from_pq"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq">[docs]</a><span class="k">def</span> <span class="nf">transform_from_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute transformation matrix from position and quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute transformation matrix from position and quaternion.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -259,7 +269,7 @@
 
 
 <div class="viewcode-block" id="screw_parameters_from_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_parameters_from_screw_axis.html#pytransform3d.transformations.screw_parameters_from_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">screw_parameters_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute screw parameters from screw axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw parameters from screw axis.</span>
 
 <span class="sd">    Note that there is not just one solution since q can be any point on the</span>
 <span class="sd">    screw axis. We select q so that it is orthogonal to s_axis.</span>
@@ -303,7 +313,7 @@
 
 
 <div class="viewcode-block" id="screw_axis_from_screw_parameters"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_screw_parameters.html#pytransform3d.transformations.screw_axis_from_screw_parameters">[docs]</a><span class="k">def</span> <span class="nf">screw_axis_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute screw axis representation from screw parameters.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw axis representation from screw parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -333,7 +343,7 @@
 
 
 <div class="viewcode-block" id="screw_axis_from_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_exponential_coordinates.html#pytransform3d.transformations.screw_axis_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">screw_axis_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute screw axis and theta from exponential coordinates.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw axis and theta from exponential coordinates.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -371,7 +381,7 @@
 
 
 <div class="viewcode-block" id="screw_axis_from_screw_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_screw_matrix.html#pytransform3d.transformations.screw_axis_from_screw_matrix">[docs]</a><span class="k">def</span> <span class="nf">screw_axis_from_screw_matrix</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute screw axis from screw matrix.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw axis from screw matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -398,7 +408,7 @@
 
 
 <div class="viewcode-block" id="exponential_coordinates_from_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_screw_axis.html#pytransform3d.transformations.exponential_coordinates_from_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute exponential coordinates from screw axis and theta.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute exponential coordinates from screw axis and theta.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -428,7 +438,23 @@
 
 
 <div class="viewcode-block" id="exponential_coordinates_from_transform_log"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform_log.html#pytransform3d.transformations.exponential_coordinates_from_transform_log">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute exponential coordinates from logarithm of transformation.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute exponential coordinates from logarithm of transformation.</span>
+
+<span class="sd">    Extracts the vector :math:`\mathcal{S} \theta =</span>
+<span class="sd">    (\boldsymbol{\omega}, \boldsymbol{v}) \theta \in \mathbb{R}^6` from the</span>
+<span class="sd">    matrix</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \left(</span>
+<span class="sd">        \begin{array}{cccc}</span>
+<span class="sd">        0 &amp; -\omega_3 &amp; \omega_2 &amp; v_1\\</span>
+<span class="sd">        \omega_3 &amp; 0 &amp; -\omega_1 &amp; v_2\\</span>
+<span class="sd">        -\omega_2 &amp; \omega_1 &amp; 0 &amp; v_3\\</span>
+<span class="sd">        0 &amp; 0 &amp; 0 &amp; 0</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        \theta = \left[ \mathcal{S} \right] \theta \in so(3).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -459,9 +485,51 @@
 
 
 <div class="viewcode-block" id="exponential_coordinates_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform.html#pytransform3d.transformations.exponential_coordinates_from_transform">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute exponential coordinates from transformation matrix.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute exponential coordinates from transformation matrix.</span>
 
 <span class="sd">    Logarithmic map.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Log: \boldsymbol{T} \in SE(3)</span>
+<span class="sd">        \rightarrow \mathcal{S} \theta \in \mathbb{R}^6</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Log(\boldsymbol{T}) =</span>
+<span class="sd">        Log\left(</span>
+<span class="sd">        \begin{array}{cc}</span>
+<span class="sd">        \boldsymbol{R} &amp; \boldsymbol{p}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 1</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \left(</span>
+<span class="sd">        \begin{array}{c}</span>
+<span class="sd">        Log\boldsymbol{R}\\</span>
+<span class="sd">        \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \left(</span>
+<span class="sd">        \begin{array}{c}</span>
+<span class="sd">        \boldsymbol{\omega}\\</span>
+<span class="sd">        \boldsymbol{v}</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        \theta</span>
+<span class="sd">        =</span>
+<span class="sd">        \mathcal{S}\theta,</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{G}^{-1}(\theta)</span>
+<span class="sd">        = \boldsymbol{I} \frac{1}{\theta}</span>
+<span class="sd">        + \frac{1}{2} [\boldsymbol{\omega}]</span>
+<span class="sd">        + (\frac{1}{\theta} - \frac{1}{2 \tan \frac{\theta}{2}})</span>
+<span class="sd">        [\boldsymbol{\omega}]^2.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -494,25 +562,19 @@
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">R</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">p</span><span class="p">]</span>
 
-    <span class="n">omega_theta</span> <span class="o">=</span> <span class="n">axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">)</span>
-    <span class="n">omega_unit</span> <span class="o">=</span> <span class="n">omega_theta</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">omega_theta</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">omega_theta</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">omega_theta</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">p</span><span class="p">]</span>
 
-    <span class="n">omega_unit_matrix</span> <span class="o">=</span> <span class="n">cross_product_matrix</span><span class="p">(</span><span class="n">omega_unit</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">left_jacobian_SO3_inv</span><span class="p">(</span><span class="n">omega_theta</span><span class="p">),</span> <span class="n">p</span><span class="p">)</span>
 
-    <span class="n">G_inv</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">theta</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">omega_unit_matrix</span>
-             <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
-             <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega_unit_matrix</span><span class="p">,</span> <span class="n">omega_unit_matrix</span><span class="p">))</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">G_inv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">omega_unit</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="o">*</span> <span class="n">theta</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">omega_theta</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="screw_matrix_from_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_matrix_from_screw_axis.html#pytransform3d.transformations.screw_matrix_from_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">screw_matrix_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute screw matrix from screw axis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw matrix from screw axis.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -539,7 +601,7 @@
 
 
 <div class="viewcode-block" id="screw_matrix_from_transform_log"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_matrix_from_transform_log.html#pytransform3d.transformations.screw_matrix_from_transform_log">[docs]</a><span class="k">def</span> <span class="nf">screw_matrix_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute screw matrix from logarithm of transformation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw matrix from logarithm of transformation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -565,7 +627,24 @@
 
 
 <div class="viewcode-block" id="transform_log_from_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_exponential_coordinates.html#pytransform3d.transformations.transform_log_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">transform_log_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from exponential coordinates.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from exponential coordinates.</span>
+
+<span class="sd">    Builds the matrix</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \left(</span>
+<span class="sd">        \begin{array}{cccc}</span>
+<span class="sd">        0 &amp; -\omega_3 &amp; \omega_2 &amp; v_1\\</span>
+<span class="sd">        \omega_3 &amp; 0 &amp; -\omega_1 &amp; v_2\\</span>
+<span class="sd">        -\omega_2 &amp; \omega_1 &amp; 0 &amp; v_3\\</span>
+<span class="sd">        0 &amp; 0 &amp; 0 &amp; 0</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right) \theta</span>
+<span class="sd">        = \left[ \mathcal{S} \right] \theta \in so(3)</span>
+
+<span class="sd">    from the vector :math:`\mathcal{S} \theta = (\boldsymbol{\omega},</span>
+<span class="sd">    \boldsymbol{v}) \theta \in \mathbb{R}^6`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -592,7 +671,7 @@
 
 
 <div class="viewcode-block" id="transform_log_from_screw_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_screw_matrix.html#pytransform3d.transformations.transform_log_from_screw_matrix">[docs]</a><span class="k">def</span> <span class="nf">transform_log_from_screw_matrix</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from screw matrix and theta.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from screw matrix and theta.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -614,7 +693,51 @@
 
 
 <div class="viewcode-block" id="transform_log_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_transform.html#pytransform3d.transformations.transform_log_from_transform">[docs]</a><span class="k">def</span> <span class="nf">transform_log_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from transformation.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from transformation.</span>
+
+<span class="sd">    Logarithmic map.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \log: \boldsymbol{T} \in SE(3)</span>
+<span class="sd">        \rightarrow \left[ \mathcal{S} \right] \theta \in se(3)</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \log(\boldsymbol{T}) =</span>
+<span class="sd">        \log\left(</span>
+<span class="sd">        \begin{array}{cc}</span>
+<span class="sd">        \boldsymbol{R} &amp; \boldsymbol{p}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 1</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \left(</span>
+<span class="sd">        \begin{array}{cc}</span>
+<span class="sd">        \log\boldsymbol{R} &amp; \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 0</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \left(</span>
+<span class="sd">        \begin{array}{cc}</span>
+<span class="sd">        \hat{\boldsymbol{\omega}}\theta</span>
+<span class="sd">        &amp; \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 0</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \left[\mathcal{S}\right]\theta,</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{G}^{-1}(\theta)</span>
+<span class="sd">        = \boldsymbol{I} \frac{1}{\theta}</span>
+<span class="sd">        + \frac{1}{2} [\boldsymbol{\omega}]</span>
+<span class="sd">        + (\frac{1}{\theta} - \frac{1}{2 \tan \frac{\theta}{2}})</span>
+<span class="sd">        [\boldsymbol{\omega}]^2.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -642,31 +765,54 @@
         <span class="n">transform_log</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
         <span class="k">return</span> <span class="n">transform_log</span>
 
-    <span class="n">omega_theta</span> <span class="o">=</span> <span class="n">axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
-    <span class="n">omega_unit</span> <span class="o">=</span> <span class="n">omega_theta</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">omega_theta</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">omega_theta</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">omega_theta</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">theta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">transform_log</span>
 
-    <span class="n">omega_unit_matrix</span> <span class="o">=</span> <span class="n">cross_product_matrix</span><span class="p">(</span><span class="n">omega_unit</span><span class="p">)</span>
+    <span class="n">J_inv</span> <span class="o">=</span> <span class="n">left_jacobian_SO3_inv</span><span class="p">(</span><span class="n">omega_theta</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">J_inv</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 
-    <span class="n">G_inv</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">theta</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">omega_unit_matrix</span>
-             <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
-             <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega_unit_matrix</span><span class="p">,</span> <span class="n">omega_unit_matrix</span><span class="p">))</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">G_inv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-
-    <span class="n">transform_log</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">omega_unit_matrix</span>
+    <span class="n">transform_log</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">cross_product_matrix</span><span class="p">(</span><span class="n">omega_theta</span><span class="p">)</span>
     <span class="n">transform_log</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-    <span class="n">transform_log</span> <span class="o">*=</span> <span class="n">theta</span>
 
     <span class="k">return</span> <span class="n">transform_log</span></div>
 
 
 <div class="viewcode-block" id="transform_from_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute transformation matrix from exponential coordinates.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute transformation matrix from exponential coordinates.</span>
 
 <span class="sd">    Exponential map.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Exp: \mathcal{S} \theta \in \mathbb{R}^6</span>
+<span class="sd">        \rightarrow \boldsymbol{T} \in SE(3)</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Exp(\mathcal{S}\theta) =</span>
+<span class="sd">        Exp\left(\left(\begin{array}{c}</span>
+<span class="sd">        \boldsymbol{\omega}\\</span>
+<span class="sd">        \boldsymbol{v}</span>
+<span class="sd">        \end{array}\right)\theta\right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \exp(\left[\mathcal{S}\right] \theta)</span>
+<span class="sd">        =</span>
+<span class="sd">        \left(\begin{array}{cc}</span>
+<span class="sd">        Exp(\boldsymbol{\omega}) &amp; \boldsymbol{G}(\theta)\boldsymbol{v}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 1</span>
+<span class="sd">        \end{array}\right),</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{G}(\theta)</span>
+<span class="sd">        = \boldsymbol{I}\theta</span>
+<span class="sd">        + (1 - \cos \theta) [\boldsymbol{\omega}]</span>
+<span class="sd">        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -694,23 +840,46 @@
     <span class="k">if</span> <span class="n">theta</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>  <span class="c1"># only translation</span>
         <span class="k">return</span> <span class="n">translate_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">Stheta</span><span class="p">[</span><span class="mi">3</span><span class="p">:],</span> <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">)</span>
 
-    <span class="n">screw_axis</span> <span class="o">=</span> <span class="n">Stheta</span> <span class="o">/</span> <span class="n">theta</span>
-    <span class="n">omega_unit</span> <span class="o">=</span> <span class="n">screw_axis</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">screw_axis</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">Stheta</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">Stheta</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
 
     <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">omega_unit</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
-    <span class="n">omega_matrix</span> <span class="o">=</span> <span class="n">cross_product_matrix</span><span class="p">(</span><span class="n">omega_unit</span><span class="p">)</span>
-    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span>
-        <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="n">omega_matrix</span>
-        <span class="o">+</span> <span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega_matrix</span><span class="p">,</span> <span class="n">omega_matrix</span><span class="p">),</span>
-        <span class="n">v</span><span class="p">)</span>
+    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_from_compact_axis_angle</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">left_jacobian_SO3</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
+    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
 <div class="viewcode-block" id="transform_from_transform_log"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_transform_log.html#pytransform3d.transformations.transform_from_transform_log">[docs]</a><span class="k">def</span> <span class="nf">transform_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute transformation from matrix logarithm of transformation.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute transformation from matrix logarithm of transformation.</span>
+
+<span class="sd">    Exponential map.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \exp: \left[ \mathcal{S} \right] \theta \in se(3)</span>
+<span class="sd">        \rightarrow \boldsymbol{T} \in SE(3)</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \exp([\mathcal{S}]\theta) =</span>
+<span class="sd">        \exp\left(\left(\begin{array}{cc}</span>
+<span class="sd">        \left[\boldsymbol{\omega}\right] &amp; \boldsymbol{v}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 0</span>
+<span class="sd">        \end{array}\right)\theta\right) =</span>
+<span class="sd">        \left(\begin{array}{cc}</span>
+<span class="sd">        Exp(\boldsymbol{\omega}) &amp; \boldsymbol{G}(\theta)\boldsymbol{v}\\</span>
+<span class="sd">        \boldsymbol{0} &amp; 1</span>
+<span class="sd">        \end{array}\right),</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{G}(\theta)</span>
+<span class="sd">        = \boldsymbol{I}\theta</span>
+<span class="sd">        + (1 - \cos \theta) [\boldsymbol{\omega}]</span>
+<span class="sd">        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -732,22 +901,15 @@
     <span class="k">if</span> <span class="n">theta</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>  <span class="c1"># only translation</span>
         <span class="k">return</span> <span class="n">translate_transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
 
-    <span class="n">omega_unit</span> <span class="o">=</span> <span class="n">omega_theta</span> <span class="o">/</span> <span class="n">theta</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">theta</span>
-
     <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">omega_unit</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
-    <span class="n">omega_unit_matrix</span> <span class="o">=</span> <span class="n">transform_log</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">theta</span>
-    <span class="n">G</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span>
-         <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="n">omega_unit_matrix</span>
-         <span class="o">+</span> <span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">omega_unit_matrix</span><span class="p">,</span>
-                                              <span class="n">omega_unit_matrix</span><span class="p">))</span>
-    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_from_compact_axis_angle</span><span class="p">(</span><span class="n">omega_theta</span><span class="p">)</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">left_jacobian_SO3</span><span class="p">(</span><span class="n">omega_theta</span><span class="p">)</span>
+    <span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
 <div class="viewcode-block" id="dual_quaternion_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_transform.html#pytransform3d.transformations.dual_quaternion_from_transform">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute dual quaternion from transformation matrix.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute dual quaternion from transformation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -768,7 +930,7 @@
 
 
 <div class="viewcode-block" id="dual_quaternion_from_pq"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_pq.html#pytransform3d.transformations.dual_quaternion_from_pq">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute dual quaternion from position and quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute dual quaternion from position and quaternion.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -789,7 +951,7 @@
 
 
 <div class="viewcode-block" id="dual_quaternion_from_screw_parameters"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_screw_parameters.html#pytransform3d.transformations.dual_quaternion_from_screw_parameters">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute dual quaternion from screw parameters.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute dual quaternion from screw parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -836,7 +998,7 @@
 
 
 <div class="viewcode-block" id="transform_from_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_dual_quaternion.html#pytransform3d.transformations.transform_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">transform_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute transformation matrix from dual quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute transformation matrix from dual quaternion.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -858,7 +1020,7 @@
 
 
 <div class="viewcode-block" id="pq_from_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.pq_from_dual_quaternion.html#pytransform3d.transformations.pq_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">pq_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute position and quaternion from dual quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute position and quaternion from dual quaternion.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -879,7 +1041,7 @@
 
 
 <div class="viewcode-block" id="screw_parameters_from_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_parameters_from_dual_quaternion.html#pytransform3d.transformations.screw_parameters_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">screw_parameters_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute screw parameters from dual quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw parameters from dual quaternion.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -935,7 +1097,7 @@
 
 
 <div class="viewcode-block" id="adjoint_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.adjoint_from_transform.html#pytransform3d.transformations.adjoint_from_transform">[docs]</a><span class="k">def</span> <span class="nf">adjoint_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute adjoint representation of a transformation matrix.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute adjoint representation of a transformation matrix.</span>
 
 <span class="sd">    The adjoint representation of a transformation</span>
 <span class="sd">    :math:`\\left[Ad_{\\boldsymbol{T}_{BA}}\\right]`</span>
@@ -1011,7 +1173,7 @@
 
 
 <div class="viewcode-block" id="norm_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.norm_exponential_coordinates.html#pytransform3d.transformations.norm_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">norm_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Normalize exponential coordinates of transformation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize exponential coordinates of transformation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1061,7 +1223,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

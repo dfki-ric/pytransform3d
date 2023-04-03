@@ -27,7 +27,7 @@ We can see that the Cartesian distances between points are not regular and
 there are many points that were converted to the same Cartesian point at the
 poles of the sphere.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-27
+.. GENERATED FROM PYTHON SOURCE LINES 11-28
 
 
 
@@ -51,7 +51,8 @@ poles of the sphere.
     thetas, phis = np.meshgrid(np.linspace(0, np.pi, 11),
                                np.linspace(-np.pi, np.pi, 21))
     rhos = np.ones_like(thetas)
-    spherical_grid = np.column_stack((rhos.reshape(-1), thetas.reshape(-1), phis.reshape(-1)))
+    spherical_grid = np.column_stack((
+        rhos.reshape(-1), thetas.reshape(-1), phis.reshape(-1)))
     cartesian_grid = pc.cartesian_from_spherical(spherical_grid)
 
     ax = make_3d_axis(ax_s=1, unit="m", n_ticks=6)
@@ -62,7 +63,7 @@ poles of the sphere.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.092 seconds)
+   **Total running time of the script:** ( 0 minutes  0.083 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_spherical_grid.py:

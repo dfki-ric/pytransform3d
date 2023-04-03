@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._utils &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations._utils &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -123,7 +123,7 @@
 
 
 <div class="viewcode-block" id="check_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_transform.html#pytransform3d.transformations.check_transform">[docs]</a><span class="k">def</span> <span class="nf">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input validation of transform.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input validation of transform.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -161,7 +161,7 @@
 
 
 <div class="viewcode-block" id="check_pq"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_pq.html#pytransform3d.transformations.check_pq">[docs]</a><span class="k">def</span> <span class="nf">check_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input validation for position and orientation quaternion.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input validation for position and orientation quaternion.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -188,7 +188,7 @@
 
 
 <div class="viewcode-block" id="check_screw_parameters"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_screw_parameters.html#pytransform3d.transformations.check_screw_parameters">[docs]</a><span class="k">def</span> <span class="nf">check_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Input validation of screw parameters.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Input validation of screw parameters.</span>
 
 <span class="sd">    The parameters :math:`(\boldsymbol{q}, \hat{\boldsymbol{s}}, h)`</span>
 <span class="sd">    describe a screw.</span>
@@ -241,7 +241,7 @@
 
 
 <div class="viewcode-block" id="check_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_screw_axis.html#pytransform3d.transformations.check_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">check_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Input validation of screw axis.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Input validation of screw axis.</span>
 
 <span class="sd">    A screw axis</span>
 
@@ -297,7 +297,7 @@
 
 
 <div class="viewcode-block" id="check_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_exponential_coordinates.html#pytransform3d.transformations.check_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">check_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input validation for exponential coordinates of transformation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input validation for exponential coordinates of transformation.</span>
 
 <span class="sd">    Exponential coordinates of a transformation :math:`\\mathcal{S}\\theta</span>
 <span class="sd">    \\in \\mathbb{R}^6` are the product of a screw axis and a scalar</span>
@@ -338,7 +338,7 @@
 
 
 <div class="viewcode-block" id="check_screw_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_screw_matrix.html#pytransform3d.transformations.check_screw_matrix">[docs]</a><span class="k">def</span> <span class="nf">check_screw_matrix</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input validation for screw matrix.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input validation for screw matrix.</span>
 
 <span class="sd">    A screw matrix consists of the cross-product matrix of a rotation</span>
 <span class="sd">    axis and a translation.</span>
@@ -360,7 +360,7 @@
 <span class="sd">        0 &amp; 0 &amp; 0 &amp; 0\\\\</span>
 <span class="sd">        \\end{matrix}</span>
 <span class="sd">        \\right)</span>
-<span class="sd">        \\in \\mathbb{R}^{4 \\times 4}</span>
+<span class="sd">        \\in se(3) \\subset \\mathbb{R}^{4 \\times 4}</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -417,11 +417,11 @@
 
 
 <div class="viewcode-block" id="check_transform_log"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_transform_log.html#pytransform3d.transformations.check_transform_log">[docs]</a><span class="k">def</span> <span class="nf">check_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input validation for logarithm of transformation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input validation for logarithm of transformation.</span>
 
 <span class="sd">    The logarithm of a transformation :math:`\\left[\\mathcal{S}\\right]\\theta</span>
-<span class="sd">    \\in \\mathbb{R}^{4 \\times 4}` are the product of a screw matrix and a</span>
-<span class="sd">    scalar :math:`\\theta`.</span>
+<span class="sd">    \\in se(3) \\subset \\mathbb{R}^{4 \\times 4}` are the product of a screw</span>
+<span class="sd">    matrix and a scalar :math:`\\theta`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -462,7 +462,7 @@
 
 
 <div class="viewcode-block" id="check_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Input validation of dual quaternion representation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Input validation of dual quaternion representation.</span>
 
 <span class="sd">    See http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf</span>
 
@@ -470,12 +470,12 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \\sigma = p + \\epsilon q,</span>
+<span class="sd">        \\boldsymbol{\\sigma} = \\boldsymbol{p} + \\epsilon \\boldsymbol{q},</span>
 
-<span class="sd">    where :math:`p` and :math:`q` are both quaternions and :math:`\\epsilon`</span>
-<span class="sd">    is the dual unit with :math:`\\epsilon^2 = 0`. The first quaternion is</span>
-<span class="sd">    also called the real part and the second quaternion is called the dual</span>
-<span class="sd">    part.</span>
+<span class="sd">    where :math:`\\boldsymbol{p}` and :math:`\\boldsymbol{q}` are both</span>
+<span class="sd">    quaternions and :math:`\\epsilon` is the dual unit with</span>
+<span class="sd">    :math:`\\epsilon^2 = 0`. The first quaternion is also called the real part</span>
+<span class="sd">    and the second quaternion is called the dual part.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -526,7 +526,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

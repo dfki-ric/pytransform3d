@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transformations.exponential_coordinates_from_transform_log &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations.exponential_coordinates_from_transform_log &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,7 +127,20 @@
 <dt class="sig sig-object py" id="pytransform3d.transformations.exponential_coordinates_from_transform_log">
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">exponential_coordinates_from_transform_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform_log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_conversions.html#exponential_coordinates_from_transform_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.exponential_coordinates_from_transform_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute exponential coordinates from logarithm of transformation.</p>
-<dl class="field-list simple">
+<p>Extracts the vector <img class="math" src="../_images/math/d82f0fcd2b7280f874258bec9675d42f108ba30d.png" alt="\mathcal{S} \theta =
+(\boldsymbol{\omega}, \boldsymbol{v}) \theta \in \mathbb{R}^6"/> from the
+matrix</p>
+<div class="math">
+<p><img src="../_images/math/6e25a45b39e70ff71acee72ffb4868a707a0da1c.png" alt="\left(
+\begin{array}{cccc}
+0 &amp; -\omega_3 &amp; \omega_2 &amp; v_1\\
+\omega_3 &amp; 0 &amp; -\omega_1 &amp; v_2\\
+-\omega_2 &amp; \omega_1 &amp; 0 &amp; v_3\\
+0 &amp; 0 &amp; 0 &amp; 0
+\end{array}
+\right)
+\theta = \left[ \mathcal{S} \right] \theta \in so(3)."/></p>
+</div><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>transform_log</strong><span class="classifier">array-like, shape (4, 4)</span></dt><dd><p>Matrix logarithm of transformation matrix: [S] * theta.</p>
@@ -164,7 +177,7 @@ Theta is the rotation angle and h * theta the translation.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

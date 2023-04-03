@@ -49,6 +49,9 @@ is not implemented in pytransform3d then it is shown in brackets.
 | Euler angles                           | No            | No                 | No            | No            |
 | :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
+| Modified Rodrigues parameters          | Negative      | No                 | No            | No            |
+| :math:`\psi`                           |               |                    |               |               |
++----------------------------------------+---------------+--------------------+---------------+---------------+
 
 
 ---------------
@@ -79,9 +82,17 @@ A more compact representation of these constraints is
 :math:`\boldsymbol R^T \boldsymbol R = \boldsymbol I
 \Leftrightarrow \boldsymbol R^T = \boldsymbol R^{-1}`.
 
-In addition, :math:`det(\boldsymbol R) = 1` because we use right-handed
-coordinate system   (:math:`det(\boldsymbol R) = -1` for left-handed
+In addition, :math:`\det(\boldsymbol R) = 1` because we use right-handed
+coordinate system   (:math:`\det(\boldsymbol R) = -1` for left-handed
 coordinate systems).
+
+Hence, the group :math:`SO(3)` is defined as
+
+.. math::
+
+    SO(3) = \{\boldsymbol{R} \in \mathbb{R}^{3 \times 3} |
+    \boldsymbol{R}\boldsymbol{R}^T = \boldsymbol{I},
+    \det(\boldsymbol{R}) = 1\}.
 
 pytransform3d uses a numpy array of shape (3, 3) to represent rotation
 matrices and typically we use the variable name R for a rotation matrix.
@@ -110,16 +121,13 @@ This means that we rotate a point :math:`_B\boldsymbol{p}` by
 
 This is called **linear map**.
 
+Note that using our index notation and conventions the second index of the
+rotation matrix and the left index of the point have to be the same. The
+rotation is applied incorrectly if this is not the case.
+
 We can see that *each column* of such a rotation matrix is a basis vector
 of frame :math:`A` with respect to frame :math:`B`.
-
 We can plot the basis vectors of an orientation to visualize it.
-
-.. note::
-
-    When plotting basis vectors it is a convention to use red for the x-axis,
-    green for the y-axis and blue for the z-axis (RGB for xyz).
-
 Here, we can see orientation represented by the rotation matrix
 
 .. math::
@@ -137,6 +145,11 @@ Here, we can see orientation represented by the rotation matrix
     from pytransform3d.rotations import plot_basis
     plot_basis()
 
+.. note::
+
+    When plotting basis vectors it is a convention to use red for the x-axis,
+    green for the y-axis and blue for the z-axis (RGB for xyz).
+
 We can easily chain multiple rotations: we can apply the rotation defined
 by :math:`\boldsymbol R_{AB}` after the rotation :math:`\boldsymbol R_{BC}`
 by applying the rotation
@@ -144,6 +157,9 @@ by applying the rotation
 .. math::
 
     \boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.
+
+Note that again the indices have to align. Otherwise rotations are not applied
+in the correct order.
 
 .. warning::
 
@@ -156,6 +172,12 @@ by applying the rotation
     :math:`R_1 \cdot R_2`, which means :math:`R_1` defines new coordinates in
     which :math:`R_2` is applied. Note that this applies to both
     passive and active rotation matrices.
+
+The easiest way to construct rotation matrices is through rotations about the
+basis vectors with :func:`~pytransform3d.rotations.active_matrix_from_angle`.
+Multiple rotation matrices that were constructed like this can be concatenated.
+This will be done, for instance, to obtain rotation matrices from Euler angles
+(see :doc:`euler_angles`).
 
 **Pros**
 
@@ -196,18 +218,18 @@ It is possible to write this in a more compact way as a rotation vector:
 
 .. math::
 
-    \boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}
+    \boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3
 
 pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
 representation of a rotation and typically we use the variable name a.
 
 We can also refer to this representation as **exponential coordinates of
 rotation**. We can easily represent angular velocity as
-:math:`\dot{\theta} \hat{\boldsymbol{\omega}}`
+:math:`\hat{\boldsymbol{\omega}} \dot{\theta}`
 and angular acceleration as
-:math:`\ddot{\theta} \hat{\boldsymbol{\omega}}` so that we can easily do
+:math:`\hat{\boldsymbol{\omega}} \ddot{\theta}` so that we can easily do
 component-wise integration and differentiation with this representation.
-In addition, we can represent :math:`\theta \hat{\boldsymbol{\omega}}` by
+In addition, we can represent :math:`\hat{\boldsymbol{\omega}} \theta` by
 the cross-product matrix
 
 .. math::
@@ -242,7 +264,8 @@ the Lie group :math:`SO(3)`.
 * There might be discontinuities during interpolation as an angle of 0 and
   any multiple of :math:`2\pi` represent the same orientation. This has to
   be considered.
-* Concatenation involves conversion to another representation
+* Concatenation and transformation of vectors requires conversion to rotation
+  matrix or quaternion
 
 -----------
 Quaternions
@@ -255,6 +278,7 @@ and an vector / imaginary part
 .. math::
 
     \boldsymbol{q} = w + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}
+    \in \mathbb{H}
 
 .. warning::
 
@@ -268,8 +292,8 @@ Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about
 the two conventions and why Hamilton's convention should be used. Section VI A
 gives further useful hints to identify which convention is used.
 
-The unit quaternion space :math:`S^3` can be used to represent orientations.
-To do that, we use an encoding based on the rotation axis and angle.
+The unit quaternion space :math:`\mathbb{S}^3` can be used to represent
+orientations with an encoding based on the rotation axis and angle.
 A rotation quaternion is a four-dimensional unit vector (versor)
 :math:`\boldsymbol{\hat{q}}`.
 The following equation describes its relation to axis-axis notation.
@@ -284,6 +308,11 @@ The following equation describes its relation to axis-axis notation.
         \omega_y \sin \frac{\theta}{2}\\
         \omega_z \sin \frac{\theta}{2}\\
     \end{array} \right)
+    =
+    \left( \begin{array}{c}
+        \cos \frac{\theta}{2}\\
+        \hat{\boldsymbol{\omega}} \sin \frac{\theta}{2}\\
+    \end{array} \right)
 
 pytransform3d uses a numpy array of shape (4,) for quaternions and
 typically we use the variable name q.
@@ -296,8 +325,8 @@ typically we use the variable name q.
 
 .. warning::
 
-    The unit quaternions :math:`\boldsymbol{\hat{q}}` and
-    :math:`-\boldsymbol{\hat{q}}` represent exactly the same rotation.
+    The *antipodal* unit quaternions :math:`\boldsymbol{\hat{q}}` and
+    :math:`-\boldsymbol{\hat{q}}` represent the same rotation.
 
 **Pros**
 
@@ -409,12 +438,54 @@ quaternions on the one hand and rotors on the other hand.
 
 * The representation is not straightforward to interpret
 
+-----------------------------
+Modified Rodrigues Parameters
+-----------------------------
+
+Another minimal representation of rotation are modified Rodrigues parameters
+(MRP)
+
+.. math::
+
+    \psi = \tan \left(\frac{\theta}{4}\right) \hat{\boldsymbol{\omega}}
+
+This representation is similar to the compact axis-angle representation.
+However, the angle of rotation is converted to :math:`\tan(\frac{\theta}{4})`.
+Hence, there is an easy conversion from unit quaternions to MRP:
+
+.. math::
+
+    \psi = \frac{\left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}.
+
+given some quaternion with a scalar :math:`w` and a vector
+:math:`\left(x, y, z \right)^T`.
+
+pytransform3d uses a numpy array of shape (3,) for modified Rodrigues
+parameters.
+
+.. warning::
+
+    MRPs have a singuarity at :math:`2 \pi` which we can avoid by ensuring the
+    angle of rotation does not exceed :math:`\pi`.
+
+**Pros**
+
+* Minimal representation
+
+**Cons**
+
+* The representation is not straightforward to interpret
+* Normalization of angle required to avoid singularity
+* Concatenation and transformation of vectors requires conversion to rotation
+  matrix or quaternion
+
 ----------
 References
 ----------
 
-* Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
-* Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
-* Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
-* Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
-* Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
+1. Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
+2. Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+3. Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
+4. Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
+5. Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
+6. Terzakis, Lourakis, Alt-Boudaoud: Modified Rodrigues Parameters: An Efficient Representation of Orientation in 3D Vision and Graphics, https://link.springer.com/article/10.1007/s10851-017-0765-x

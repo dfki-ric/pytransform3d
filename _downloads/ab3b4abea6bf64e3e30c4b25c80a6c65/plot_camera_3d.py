@@ -7,9 +7,6 @@ This visualization is inspired by Blender's camera visualization. It will
 show the camera center, a virtual image plane at a desired distance to the
 camera center, and the top direction of the virtual image plane.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.camera as pc

@@ -5,16 +5,13 @@ Scatter Plot
 
 Visualizes a point collection.
 """
-print(__doc__)
-
-
 import numpy as np
 import pytransform3d.visualizer as pv
 
 
 fig = pv.figure()
-random_state = np.random.RandomState(41)
-P = random_state.randn(100, 3)
+rng = np.random.default_rng(41)
+P = rng.standard_normal(size=(100, 3))
 colors = np.empty((100, 3))
 for d in range(colors.shape[1]):
     colors[:, d] = np.linspace(0, 1, len(colors))

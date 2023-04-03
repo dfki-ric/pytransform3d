@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>Index &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -428,6 +428,8 @@
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.check_matrix.html#pytransform3d.rotations.check_matrix">check_matrix() (in module pytransform3d.rotations)</a>
 </li>
+      <li><a href="_apidoc/pytransform3d.rotations.check_mrp.html#pytransform3d.rotations.check_mrp">check_mrp() (in module pytransform3d.rotations)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.transformations.check_pq.html#pytransform3d.transformations.check_pq">check_pq() (in module pytransform3d.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.check_quaternion.html#pytransform3d.rotations.check_quaternion">check_quaternion() (in module pytransform3d.rotations)</a>
@@ -457,6 +459,8 @@
       <li><a href="_apidoc/pytransform3d.rotations.compact_axis_angle_from_quaternion.html#pytransform3d.rotations.compact_axis_angle_from_quaternion">compact_axis_angle_from_quaternion() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.concat.html#pytransform3d.transformations.concat">concat() (in module pytransform3d.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.uncertainty.concat_globally_uncertain_transforms.html#pytransform3d.uncertainty.concat_globally_uncertain_transforms">concat_globally_uncertain_transforms() (in module pytransform3d.uncertainty)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.trajectories.concat_many_to_one.html#pytransform3d.trajectories.concat_many_to_one">concat_many_to_one() (in module pytransform3d.trajectories)</a>
 </li>
@@ -533,6 +537,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid">Ellipsoid (class in pytransform3d.visualizer)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples">estimate_gaussian_transform_from_samples() (in module pytransform3d.uncertainty)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.euler_from_matrix.html#pytransform3d.rotations.euler_from_matrix">euler_from_matrix() (in module pytransform3d.rotations)</a>
 </li>
@@ -684,10 +690,10 @@
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix">intrinsic_euler_yxz_from_active_matrix() (in module pytransform3d.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix">intrinsic_euler_yzx_from_active_matrix() (in module pytransform3d.rotations)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix">intrinsic_euler_yzy_from_active_matrix() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix">intrinsic_euler_zxy_from_active_matrix() (in module pytransform3d.rotations)</a>
@@ -701,6 +707,8 @@
       <li><a href="_apidoc/pytransform3d.transformations.invert_transform.html#pytransform3d.transformations.invert_transform">invert_transform() (in module pytransform3d.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.trajectories.invert_transforms.html#pytransform3d.trajectories.invert_transforms">invert_transforms() (in module pytransform3d.trajectories)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.uncertainty.invert_uncertain_transform.html#pytransform3d.uncertainty.invert_uncertain_transform">invert_uncertain_transform() (in module pytransform3d.uncertainty)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -718,10 +726,26 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame">LabeledFrame (class in pytransform3d.plot_utils)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D">Line3D (class in pytransform3d.visualizer)</a>
+      <li><a href="_apidoc/pytransform3d.transformations.left_jacobian_SE3.html#pytransform3d.transformations.left_jacobian_SE3">left_jacobian_SE3() (in module pytransform3d.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.transformations.left_jacobian_SE3_inv.html#pytransform3d.transformations.left_jacobian_SE3_inv">left_jacobian_SE3_inv() (in module pytransform3d.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.transformations.left_jacobian_SE3_inv_series.html#pytransform3d.transformations.left_jacobian_SE3_inv_series">left_jacobian_SE3_inv_series() (in module pytransform3d.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.transformations.left_jacobian_SE3_series.html#pytransform3d.transformations.left_jacobian_SE3_series">left_jacobian_SE3_series() (in module pytransform3d.transformations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.rotations.left_jacobian_SO3.html#pytransform3d.rotations.left_jacobian_SO3">left_jacobian_SO3() (in module pytransform3d.rotations)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform3d.rotations.left_jacobian_SO3_inv.html#pytransform3d.rotations.left_jacobian_SO3_inv">left_jacobian_SO3_inv() (in module pytransform3d.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.rotations.left_jacobian_SO3_inv_series.html#pytransform3d.rotations.left_jacobian_SO3_inv_series">left_jacobian_SO3_inv_series() (in module pytransform3d.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.rotations.left_jacobian_SO3_series.html#pytransform3d.rotations.left_jacobian_SO3_series">left_jacobian_SO3_series() (in module pytransform3d.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D">Line3D (class in pytransform3d.visualizer)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.urdf.Link.html#pytransform3d.urdf.Link">Link (class in pytransform3d.urdf)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf">load_urdf() (pytransform3d.urdf.UrdfTransformManager method)</a>
@@ -760,10 +784,10 @@
         <li><a href="_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh">(class in pytransform3d.visualizer)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.trajectories.mirror_screw_axis_direction.html#pytransform3d.trajectories.mirror_screw_axis_direction">mirror_screw_axis_direction() (in module pytransform3d.trajectories)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
@@ -786,11 +810,15 @@
 </li>
         <li><a href="api.html#module-pytransform3d.transformations">pytransform3d.transformations</a>
 </li>
+        <li><a href="api.html#module-pytransform3d.uncertainty">pytransform3d.uncertainty</a>
+</li>
         <li><a href="api.html#module-pytransform3d.urdf">pytransform3d.urdf</a>
 </li>
         <li><a href="api.html#module-pytransform3d.visualizer">pytransform3d.visualizer</a>
 </li>
       </ul></li>
+      <li><a href="_apidoc/pytransform3d.rotations.mrp_from_quaternion.html#pytransform3d.rotations.mrp_from_quaternion">mrp_from_quaternion() (in module pytransform3d.rotations)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -921,8 +949,6 @@
       </ul></li>
       <li><a href="_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph">plot_graph() (pytransform3d.visualizer.Figure method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.plot_utils.plot_length_variable.html#pytransform3d.plot_utils.plot_length_variable">plot_length_variable() (in module pytransform3d.plot_utils)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.plot_utils.plot_mesh.html#pytransform3d.plot_utils.plot_mesh">plot_mesh() (in module pytransform3d.plot_utils)</a>
@@ -931,7 +957,11 @@
         <li><a href="_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_mesh">(pytransform3d.visualizer.Figure method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_plane">plot_plane() (pytransform3d.visualizer.Figure method)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.uncertainty.plot_projected_ellipsoid.html#pytransform3d.uncertainty.plot_projected_ellipsoid">plot_projected_ellipsoid() (in module pytransform3d.uncertainty)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.plot_screw.html#pytransform3d.transformations.plot_screw">plot_screw() (in module pytransform3d.transformations)</a>
 </li>
@@ -941,6 +971,8 @@
         <li><a href="_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_sphere">(pytransform3d.visualizer.Figure method)</a>
 </li>
       </ul></li>
+      <li><a href="_apidoc/pytransform3d.plot_utils.plot_spheres.html#pytransform3d.plot_utils.plot_spheres">plot_spheres() (in module pytransform3d.plot_utils)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">plot_trajectory() (in module pytransform3d.trajectories)</a>
 
       <ul>
@@ -962,6 +994,8 @@
       <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_visuals">plot_visuals() (pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.visualizer.PointCollection3D.html#pytransform3d.visualizer.PointCollection3D">PointCollection3D (class in pytransform3d.visualizer)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.uncertainty.pose_fusion.html#pytransform3d.uncertainty.pose_fusion">pose_fusion() (in module pytransform3d.uncertainty)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.pq_from_dual_quaternion.html#pytransform3d.transformations.pq_from_dual_quaternion">pq_from_dual_quaternion() (in module pytransform3d.transformations)</a>
 </li>
@@ -1035,6 +1069,13 @@
 </li>
       </ul></li>
       <li>
+    pytransform3d.uncertainty
+
+      <ul>
+        <li><a href="api.html#module-pytransform3d.uncertainty">module</a>
+</li>
+      </ul></li>
+      <li>
     pytransform3d.urdf
 
       <ul>
@@ -1070,11 +1111,13 @@
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.quaternion_from_euler.html#pytransform3d.rotations.quaternion_from_euler">quaternion_from_euler() (in module pytransform3d.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz.html#pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz">quaternion_from_extrinsic_euler_xyz() (in module pytransform3d.rotations)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.rotations.quaternion_from_matrix.html#pytransform3d.rotations.quaternion_from_matrix">quaternion_from_matrix() (in module pytransform3d.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.rotations.quaternion_from_mrp.html#pytransform3d.rotations.quaternion_from_mrp">quaternion_from_mrp() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.quaternion_gradient.html#pytransform3d.rotations.quaternion_gradient">quaternion_gradient() (in module pytransform3d.rotations)</a>
 </li>
@@ -1100,6 +1143,8 @@
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.random_compact_axis_angle.html#pytransform3d.rotations.random_compact_axis_angle">random_compact_axis_angle() (in module pytransform3d.rotations)</a>
 </li>
+      <li><a href="_apidoc/pytransform3d.transformations.random_exponential_coordinates.html#pytransform3d.transformations.random_exponential_coordinates">random_exponential_coordinates() (in module pytransform3d.transformations)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.rotations.random_quaternion.html#pytransform3d.rotations.random_quaternion">random_quaternion() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.random_screw_axis.html#pytransform3d.transformations.random_screw_axis">random_screw_axis() (in module pytransform3d.transformations)</a>
@@ -1110,10 +1155,10 @@
 </li>
       <li><a href="_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.remove_artist">remove_artist() (pytransform3d.visualizer.Figure method)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.plot_utils.remove_frame.html#pytransform3d.plot_utils.remove_frame">remove_frame() (in module pytransform3d.plot_utils)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform3d.plot_utils.remove_frame.html#pytransform3d.plot_utils.remove_frame">remove_frame() (in module pytransform3d.plot_utils)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.remove_transform">remove_transform() (pytransform3d.transform_manager.TransformManager method)</a>
 
       <ul>
@@ -1254,6 +1299,10 @@
         <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.to_dict">(pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
+      <li><a href="_apidoc/pytransform3d.uncertainty.to_ellipsoid.html#pytransform3d.uncertainty.to_ellipsoid">to_ellipsoid() (in module pytransform3d.uncertainty)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.uncertainty.to_projected_ellipsoid.html#pytransform3d.uncertainty.to_projected_ellipsoid">to_projected_ellipsoid() (in module pytransform3d.uncertainty)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory">Trajectory (class in pytransform3d.plot_utils)</a>
 
       <ul>
@@ -1268,10 +1317,10 @@
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates">transform_from_exponential_coordinates() (in module pytransform3d.transformations)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq">transform_from_pq() (in module pytransform3d.transformations)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq">transform_from_pq() (in module pytransform3d.transformations)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.transformations.transform_from_transform_log.html#pytransform3d.transformations.transform_from_transform_log">transform_from_transform_log() (in module pytransform3d.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.transform_log_from_exponential_coordinates.html#pytransform3d.transformations.transform_log_from_exponential_coordinates">transform_log_from_exponential_coordinates() (in module pytransform3d.transformations)</a>
@@ -1359,7 +1408,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

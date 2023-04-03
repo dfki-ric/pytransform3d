@@ -24,7 +24,7 @@ Plot Transformed Cylinders
 
 Plots surfaces of transformed cylindrical shells.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-33
+.. GENERATED FROM PYTHON SOURCE LINES 8-30
 
 
 
@@ -39,9 +39,6 @@ Plots surfaces of transformed cylindrical shells.
 
 .. code-block:: default
 
-    print(__doc__)
-
-
     import numpy as np
     import matplotlib.pyplot as plt
     from pytransform3d.transformations import transform_from, plot_transform
@@ -49,10 +46,10 @@ Plots surfaces of transformed cylindrical shells.
     from pytransform3d.plot_utils import plot_cylinder, remove_frame
 
 
-    random_state = np.random.RandomState(42)
+    rng = np.random.default_rng(44)
     A2B = transform_from(
-        R=matrix_from_axis_angle(random_axis_angle(random_state)),
-        p=random_state.randn(3))
+        R=matrix_from_axis_angle(random_axis_angle(rng)),
+        p=rng.standard_normal(size=3))
     ax = plot_cylinder(length=1.0, radius=0.3, thickness=0.1,
                        wireframe=False, alpha=0.2)
     plot_transform(ax=ax, A2B=np.eye(4), s=0.3, lw=3)
@@ -68,7 +65,7 @@ Plots surfaces of transformed cylindrical shells.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.070 seconds)
+   **Total running time of the script:** ( 0 minutes  0.074 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_cylinder.py:

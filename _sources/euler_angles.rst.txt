@@ -51,22 +51,35 @@ Euler angles rotate about three basis vectors with by the angles
 :math:`\alpha`, :math:`\beta`, and :math:`\gamma`. If we want to find the
 Euler angles that correspond to one rotation matrix :math:`R`, there is an
 infinite number of solutions because we can always add or subtract
-:math:`2\pi` to one of the angles and get the same result. For this
-reason the proper Euler angles are typically restricted to
+:math:`2\pi` to one of the angles and get the same result. In addition,
+for proper Euler angles
 
 .. math::
 
-    -\pi \leq \alpha \leq \pi,\\
-    0 \leq \beta \leq \pi,\\
-    -\pi \leq \gamma \leq \pi
+    R(\alpha, \beta, \gamma) = R(\alpha + \pi, -\beta, \gamma - \pi).
+
+For Cardan angles
+
+.. math::
+
+    R(\alpha, \beta, \gamma) = R(\alpha + \pi, \pi - \beta, \gamma - \pi).
+
+For this reason the proper Euler angles are typically restricted to
+
+.. math::
+
+    -\pi \leq \alpha < \pi, \qquad 0 \leq \beta \leq \pi, \qquad -\pi \leq \gamma < \pi
 
 and Cardan angles are usually restricted to
 
 .. math::
 
-    -\pi \leq \alpha \leq \pi,\\
-    -\frac{\pi}{2} \leq \beta \leq \frac{\pi}{2},\\
-    -\pi \leq \gamma \leq \pi
+    -\pi \leq \alpha < \pi, \qquad -\frac{\pi}{2} \leq \beta \leq \frac{\pi}{2}, \qquad -\pi \leq \gamma < \pi
+
+to make these representations unique.
+
+An alternative convention limits the range of :math:`\alpha` and :math:`\beta` to
+:math:`\left[0, 2 \pi\right)`.
 
 -----------
 Gimbal Lock
@@ -162,3 +175,11 @@ API: Euler Angles from Rotation Matrix / Quaternion
    ~pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix
    ~pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix
    ~pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix
+
+----------
+References
+----------
+
+1. Malcolm D. Shuster: A Survery of Attitude Representations.
+   In: The Journal of Astronautical Sciences, Vol. 41, No.4, 1993,
+   pp. 475-476, http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf

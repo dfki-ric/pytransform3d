@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transformations.check_screw_matrix &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations.check_screw_matrix &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -130,7 +130,7 @@
 <p>A screw matrix consists of the cross-product matrix of a rotation
 axis and a translation.</p>
 <div class="math">
-<p><img src="../_images/math/9ed263e5bd353ad700157286c1f96fd8af1d3598.png" alt="\left[\mathcal S\right]
+<p><img src="../_images/math/408ed51ae2ce158baba3f5a79b53e7652b7fdbde.png" alt="\left[\mathcal S\right]
 =
 \left( \begin{array}{cc}
     \left[\boldsymbol{\omega}\right] &amp; \boldsymbol v\\
@@ -145,7 +145,7 @@ axis and a translation.</p>
 0 &amp; 0 &amp; 0 &amp; 0\\
 \end{matrix}
 \right)
-\in \mathbb{R}^{4 \times 4}"/></p>
+\in se(3) \subset \mathbb{R}^{4 \times 4}"/></p>
 </div><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -190,7 +190,7 @@ axis of rotation, a translation, and a row of zeros.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

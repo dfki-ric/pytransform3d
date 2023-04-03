@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.uncertainty &#8212; pytransform3d 3.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../index.html">Contents</a></li>
+                <li><a href="../../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction to 3D Rigid Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pytransform3d.uncertainty</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Operations related to uncertain transformations.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">invert_transform</span><span class="p">,</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">concat</span><span class="p">,</span> <span class="n">adjoint_from_transform</span><span class="p">,</span>
+    <span class="n">left_jacobian_SE3_inv</span><span class="p">,</span> <span class="n">transform_from_exponential_coordinates</span><span class="p">,</span>
+    <span class="n">exponential_coordinates_from_transform</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.trajectories</span> <span class="kn">import</span> <span class="p">(</span><span class="n">exponential_coordinates_from_transforms</span><span class="p">,</span>
+                           <span class="n">transforms_from_exponential_coordinates</span><span class="p">,</span>
+                           <span class="n">concat_many_to_one</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="estimate_gaussian_transform_from_samples"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples">[docs]</a><span class="k">def</span> <span class="nf">estimate_gaussian_transform_from_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over transformations from samples.</span>
+
+<span class="sd">    Uses iterative approximation of mean described by Eade (2017) and computes</span>
+<span class="sd">    covariance in exponential coordinate space (using an unbiased estimator).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    samples : array-like, shape (n_samples, 4, 4)</span>
+<span class="sd">        Sampled transformations represented by homogeneous matrices.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean : array, shape (4, 4)</span>
+<span class="sd">        Mean as homogeneous transformation matrix.</span>
+
+<span class="sd">    cov : array, shape (6, 6)</span>
+<span class="sd">        Covariance of distribution in exponential coordinate space.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Eade: Lie Groups for 2D and 3D Transformations (2017),</span>
+<span class="sd">    https://ethaneade.com/lie.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">mean_inv</span> <span class="o">=</span> <span class="n">invert_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+        <span class="n">mean_diffs</span> <span class="o">=</span> <span class="n">exponential_coordinates_from_transforms</span><span class="p">(</span>
+            <span class="n">concat_many_to_one</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">mean_inv</span><span class="p">))</span>
+        <span class="n">avg_mean_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mean_diffs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">avg_mean_diff</span><span class="p">),</span> <span class="n">mean</span><span class="p">)</span>
+
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">mean_diffs</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span></div>
+
+
+<div class="viewcode-block" id="invert_uncertain_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.invert_uncertain_transform.html#pytransform3d.uncertainty.invert_uncertain_transform">[docs]</a><span class="k">def</span> <span class="nf">invert_uncertain_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Invert uncertain transform.</span>
+
+<span class="sd">    For the mean :math:`\boldsymbol{T}_{BA}`, the inverse is simply</span>
+<span class="sd">    :math:`\boldsymbol{T}_{BA}^{-1} = \boldsymbol{T}_{AB}`.</span>
+
+<span class="sd">    For the covariance, we need the adjoint of the inverse transformation</span>
+<span class="sd">    :math:`\left[Ad_{\boldsymbol{T}_{BA}^{-1}}\right]`:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{\Sigma}_{\boldsymbol{T}_{AB}}</span>
+<span class="sd">        =</span>
+<span class="sd">        \left[Ad_{\boldsymbol{T}_{BA}^{-1}}\right]</span>
+<span class="sd">        \boldsymbol{\Sigma}_{\boldsymbol{T}_{BA}}</span>
+<span class="sd">        \left[Ad_{\boldsymbol{T}_{BA}^{-1}}\right]^T</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mean : array-like, shape (4, 4)</span>
+<span class="sd">        Mean of transform from frame A to frame B.</span>
+
+<span class="sd">    cov : array, shape (6, 6)</span>
+<span class="sd">        Covariance of transform from frame A to frame B in exponential</span>
+<span class="sd">        coordinate space.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean_inv : array, shape (4, 4)</span>
+<span class="sd">        Mean of transform from frame B to frame A.</span>
+
+<span class="sd">    cov_inv : array, shape (6, 6)</span>
+<span class="sd">        Covariance of transform from frame B to frame A in exponential</span>
+<span class="sd">        coordinate space.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Mangelson, Ghaffari, Vasudevan, Eustice: Characterizing the Uncertainty of</span>
+<span class="sd">    Jointly Distributed Poses in the Lie Algebra,</span>
+<span class="sd">    https://arxiv.org/pdf/1906.07795.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean_inv</span> <span class="o">=</span> <span class="n">invert_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+    <span class="n">ad_inv</span> <span class="o">=</span> <span class="n">adjoint_from_transform</span><span class="p">(</span><span class="n">mean_inv</span><span class="p">)</span>
+    <span class="n">cov_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ad_inv</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cov</span><span class="p">,</span> <span class="n">ad_inv</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">mean_inv</span><span class="p">,</span> <span class="n">cov_inv</span></div>
+
+
+<div class="viewcode-block" id="concat_globally_uncertain_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.concat_globally_uncertain_transforms.html#pytransform3d.uncertainty.concat_globally_uncertain_transforms">[docs]</a><span class="k">def</span> <span class="nf">concat_globally_uncertain_transforms</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">cov_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">,</span> <span class="n">cov_B2C</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Concatenate two independent globally uncertain transformations.</span>
+
+<span class="sd">    We assume that the two distributions are independent.</span>
+
+<span class="sd">    Each of the two transformations is globally uncertain (not in the local /</span>
+<span class="sd">    body frame), that is, samples are generated through</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{T} = Exp(\boldsymbol{\xi}) \overline{\boldsymbol{T}},</span>
+
+<span class="sd">    where :math:`\boldsymbol{T} \in SE(3)` is a sampled transformation matrix,</span>
+<span class="sd">    :math:`\overline{\boldsymbol{T}} \in SE(3)` is the mean transformation,</span>
+<span class="sd">    and :math:`\boldsymbol{\xi} \in \mathbb{R}^6` are exponential coordinates</span>
+<span class="sd">    of transformations and are distributed according to a Gaussian</span>
+<span class="sd">    distribution with zero mean and covariance :math:`\boldsymbol{\Sigma} \in</span>
+<span class="sd">    \mathbb{R}^{6 \times 6}`, that is, :math:`\boldsymbol{\xi} \sim</span>
+<span class="sd">    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})`.</span>
+
+<span class="sd">    The concatenation order is the same as in</span>
+<span class="sd">    :func:`~pytransform3d.transformations.concat`, that is, the transformation</span>
+<span class="sd">    B2C is left-multiplied to A2B.</span>
+
+<span class="sd">    This version of Barfoot and Furgale approximates the covariance up to</span>
+<span class="sd">    4th-order terms. Note that it is still an approximation of the covariance</span>
+<span class="sd">    after concatenation of the two transforms.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mean_A2B : array, shape (4, 4)</span>
+<span class="sd">        Mean of transform from A to B.</span>
+
+<span class="sd">    cov_A2B : array, shape (6, 6)</span>
+<span class="sd">        Covariance of transform from A to B.</span>
+
+<span class="sd">    mean_B2C : array, shape (4, 4)</span>
+<span class="sd">        Mean of transform from B to C.</span>
+
+<span class="sd">    cov_B2C : array, shape (6, 6)</span>
+<span class="sd">        Covariance of transform from B to C.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean_A2C : array, shape (4, 4)</span>
+<span class="sd">        Mean of new pose.</span>
+
+<span class="sd">    cov_A2C : array, shape (6, 6)</span>
+<span class="sd">        Covariance of new pose.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for</span>
+<span class="sd">    Use in Estimation Problems,</span>
+<span class="sd">    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean_A2C</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">)</span>
+
+    <span class="n">ad_B2C</span> <span class="o">=</span> <span class="n">adjoint_from_transform</span><span class="p">(</span><span class="n">mean_B2C</span><span class="p">)</span>
+    <span class="n">cov_A2B_in_C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ad_B2C</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cov_A2B</span><span class="p">,</span> <span class="n">ad_B2C</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="n">second_order_terms</span> <span class="o">=</span> <span class="n">cov_B2C</span> <span class="o">+</span> <span class="n">cov_A2B_in_C</span>
+
+    <span class="n">cov_A2C</span> <span class="o">=</span> <span class="n">second_order_terms</span> <span class="o">+</span> <span class="n">_compound_cov_fourth_order_terms</span><span class="p">(</span>
+        <span class="n">cov_B2C</span><span class="p">,</span> <span class="n">cov_A2B_in_C</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mean_A2C</span><span class="p">,</span> <span class="n">cov_A2C</span></div>
+
+
+<span class="k">def</span> <span class="nf">_compound_cov_fourth_order_terms</span><span class="p">(</span><span class="n">cov1</span><span class="p">,</span> <span class="n">cov2_prime</span><span class="p">):</span>
+    <span class="n">cov1</span> <span class="o">=</span> <span class="n">_swap_cov</span><span class="p">(</span><span class="n">cov1</span><span class="p">)</span>
+    <span class="n">cov2_prime</span> <span class="o">=</span> <span class="n">_swap_cov</span><span class="p">(</span><span class="n">cov2_prime</span><span class="p">)</span>
+
+    <span class="n">cov1_11</span> <span class="o">=</span> <span class="n">cov1</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">cov1_22</span> <span class="o">=</span> <span class="n">cov1</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span> <span class="mi">3</span><span class="p">:]</span>
+    <span class="n">cov1_12</span> <span class="o">=</span> <span class="n">cov1</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span>
+
+    <span class="n">cov2_11</span> <span class="o">=</span> <span class="n">cov2_prime</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">cov2_22</span> <span class="o">=</span> <span class="n">cov2_prime</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span> <span class="mi">3</span><span class="p">:]</span>
+    <span class="n">cov2_12</span> <span class="o">=</span> <span class="n">cov2_prime</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span>
+
+    <span class="n">A1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([</span>
+        <span class="p">[</span><span class="n">_covop1</span><span class="p">(</span><span class="n">cov1_22</span><span class="p">),</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">cov1_12</span> <span class="o">+</span> <span class="n">cov1_12</span><span class="o">.</span><span class="n">T</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">cov1_22</span><span class="p">)]</span>
+    <span class="p">])</span>
+    <span class="n">A2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([</span>
+        <span class="p">[</span><span class="n">_covop1</span><span class="p">(</span><span class="n">cov2_22</span><span class="p">),</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">cov2_12</span> <span class="o">+</span> <span class="n">cov2_12</span><span class="o">.</span><span class="n">T</span><span class="p">)],</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">cov2_22</span><span class="p">)]</span>
+    <span class="p">])</span>
+    <span class="n">B_11</span> <span class="o">=</span> <span class="p">(</span><span class="n">_covop2</span><span class="p">(</span><span class="n">cov1_22</span><span class="p">,</span> <span class="n">cov2_11</span><span class="p">)</span> <span class="o">+</span> <span class="n">_covop2</span><span class="p">(</span><span class="n">cov1_12</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cov2_12</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">_covop2</span><span class="p">(</span><span class="n">cov1_12</span><span class="p">,</span> <span class="n">cov2_12</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">_covop2</span><span class="p">(</span><span class="n">cov1_11</span><span class="p">,</span> <span class="n">cov2_22</span><span class="p">))</span>
+    <span class="n">B_12</span> <span class="o">=</span> <span class="n">_covop2</span><span class="p">(</span><span class="n">cov1_22</span><span class="p">,</span> <span class="n">cov2_12</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">_covop2</span><span class="p">(</span><span class="n">cov1_12</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cov2_22</span><span class="p">)</span>
+    <span class="n">B_22</span> <span class="o">=</span> <span class="n">_covop2</span><span class="p">(</span><span class="n">cov1_22</span><span class="p">,</span> <span class="n">cov2_22</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([</span>
+        <span class="p">[</span><span class="n">B_11</span><span class="p">,</span> <span class="n">B_12</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">B_12</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">B_22</span><span class="p">]</span>
+    <span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">_swap_cov</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A1</span><span class="p">,</span> <span class="n">cov2_prime</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cov2_prime</span><span class="p">,</span> <span class="n">A1</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+         <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A2</span><span class="p">,</span> <span class="n">cov1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cov1</span><span class="p">,</span> <span class="n">A2</span><span class="o">.</span><span class="n">T</span><span class="p">))</span> <span class="o">/</span> <span class="mf">12.0</span>
+        <span class="o">+</span> <span class="n">B</span> <span class="o">/</span> <span class="mf">4.0</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_swap_cov</span><span class="p">(</span><span class="n">cov</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([</span>
+        <span class="p">[</span><span class="n">cov</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span> <span class="mi">3</span><span class="p">:],</span> <span class="n">cov</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]],</span>
+        <span class="p">[</span><span class="n">cov</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">:],</span> <span class="n">cov</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+    <span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_covop1</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">))</span> <span class="o">+</span> <span class="n">A</span>
+
+
+<span class="k">def</span> <span class="nf">_covop2</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_covop1</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">B</span><span class="p">))</span> <span class="o">+</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="pose_fusion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.pose_fusion.html#pytransform3d.uncertainty.pose_fusion">[docs]</a><span class="k">def</span> <span class="nf">pose_fusion</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">covs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fuse Gaussian distributions of multiple poses.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    means : array-like, shape (n_poses, 4, 4)</span>
+<span class="sd">        Homogeneous transformation matrices.</span>
+
+<span class="sd">    covs : array-like, shape (n_poses, 6, 6)</span>
+<span class="sd">        Covariances of pose distributions in exponential coordinate space.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean : array, shape (4, 4)</span>
+<span class="sd">        Fused pose mean.</span>
+
+<span class="sd">    cov : array, shape (6, 6)</span>
+<span class="sd">        Fused pose covariance.</span>
+
+<span class="sd">    V : float</span>
+<span class="sd">        Error of optimization objective.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for</span>
+<span class="sd">    Use in Estimation Problems,</span>
+<span class="sd">    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_poses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">means</span><span class="p">)</span>
+    <span class="n">covs_inv</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span> <span class="k">for</span> <span class="n">cov</span> <span class="ow">in</span> <span class="n">covs</span><span class="p">]</span>
+
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">LHS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">RHS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">LHS</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">RHS</span><span class="p">[:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_poses</span><span class="p">):</span>
+            <span class="n">x_ik</span> <span class="o">=</span> <span class="n">exponential_coordinates_from_transform</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">invert_transform</span><span class="p">(</span><span class="n">means</span><span class="p">[</span><span class="n">k</span><span class="p">])))</span>
+            <span class="n">J_inv</span> <span class="o">=</span> <span class="n">left_jacobian_SE3_inv</span><span class="p">(</span><span class="n">x_ik</span><span class="p">)</span>
+            <span class="n">J_invT_S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">J_inv</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">covs_inv</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="n">LHS</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">J_invT_S</span><span class="p">,</span> <span class="n">J_inv</span><span class="p">)</span>
+            <span class="n">RHS</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">J_invT_S</span><span class="p">,</span> <span class="n">x_ik</span><span class="p">)</span>
+        <span class="n">x_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="o">-</span><span class="n">LHS</span><span class="p">,</span> <span class="n">RHS</span><span class="p">)</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">x_i</span><span class="p">),</span> <span class="n">mean</span><span class="p">)</span>
+
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">LHS</span><span class="p">)</span>
+
+    <span class="n">V</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_poses</span><span class="p">):</span>
+        <span class="n">x_ik</span> <span class="o">=</span> <span class="n">exponential_coordinates_from_transform</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">invert_transform</span><span class="p">(</span><span class="n">means</span><span class="p">[</span><span class="n">k</span><span class="p">])))</span>
+        <span class="n">V</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_ik</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">covs_inv</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">x_ik</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">V</span></div>
+
+
+<div class="viewcode-block" id="to_ellipsoid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.to_ellipsoid.html#pytransform3d.uncertainty.to_ellipsoid">[docs]</a><span class="k">def</span> <span class="nf">to_ellipsoid</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute error ellipsoid.</span>
+
+<span class="sd">    An error ellipsoid indicates the equiprobable surface. The resulting</span>
+<span class="sd">    ellipsoid includes one standard deviation of the data along each main</span>
+<span class="sd">    axis, which covers approximately 68.27% of the data. Multiplying the</span>
+<span class="sd">    radii with factors &gt; 1 will increase the coverage. The usual factors</span>
+<span class="sd">    for Gaussian distributions apply:</span>
+
+<span class="sd">    * 1 - 68.27%</span>
+<span class="sd">    * 1.65 - 90%</span>
+<span class="sd">    * 1.96 - 95%</span>
+<span class="sd">    * 2 - 95.45%</span>
+<span class="sd">    * 2.58 - 99%</span>
+<span class="sd">    * 3 - 99.73%</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mean : array-like, shape (3,)</span>
+<span class="sd">        Mean of distribution.</span>
+
+<span class="sd">    cov : array-like, shape (3, 3)</span>
+<span class="sd">        Covariance of distribution.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ellipsoid2origin : array, shape (4, 4)</span>
+<span class="sd">        Ellipsoid frame in world frame. Note that there are multiple solutions</span>
+<span class="sd">        possible for the orientation because an ellipsoid is symmetric.</span>
+<span class="sd">        A body-fixed rotation around a main axis by 180 degree results in the</span>
+<span class="sd">        same ellipsoid.</span>
+
+<span class="sd">    radii : array, shape (3,)</span>
+<span class="sd">        Radii of ellipsoid, coinciding with standard deviations along the</span>
+<span class="sd">        three axes of the ellipsoid. These are sorted in ascending order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">linalg</span>
+    <span class="n">radii</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># undo reflection (exploit symmetry)</span>
+        <span class="n">R</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">ellipsoid2origin</span> <span class="o">=</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">mean</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ellipsoid2origin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">radii</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="to_projected_ellipsoid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.to_projected_ellipsoid.html#pytransform3d.uncertainty.to_projected_ellipsoid">[docs]</a><span class="k">def</span> <span class="nf">to_projected_ellipsoid</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.96</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute projected error ellipsoid.</span>
+
+<span class="sd">    An error ellipsoid shows equiprobable points. This is a projection of a</span>
+<span class="sd">    Gaussian distribution in exponential coordinate space to 3D.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mean : array-like, shape (4, 4)</span>
+<span class="sd">        Mean of pose distribution.</span>
+
+<span class="sd">    cov : array-like, shape (6, 6)</span>
+<span class="sd">        Covariance of pose distribution in exponential coordinate space.</span>
+
+<span class="sd">    factor : float, optional (default: 1.96)</span>
+<span class="sd">        Multiple of the standard deviations that should be plotted.</span>
+
+<span class="sd">    n_steps : int, optional (default: 20)</span>
+<span class="sd">        Number of discrete steps plotted in each dimension.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x : array, shape (n_steps, n_steps)</span>
+<span class="sd">        Coordinates on x-axis of grid on projected ellipsoid.</span>
+
+<span class="sd">    y : array, shape (n_steps, n_steps)</span>
+<span class="sd">        Coordinates on y-axis of grid on projected ellipsoid.</span>
+
+<span class="sd">    z : array, shape (n_steps, n_steps)</span>
+<span class="sd">        Coordinates on z-axis of grid on projected ellipsoid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">linalg</span>
+    <span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">order</span><span class="p">],</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="n">order</span><span class="p">]</span>
+
+    <span class="n">radii</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+
+    <span class="c1"># Grid on ellipsoid in exponential coordinate space</span>
+    <span class="n">radius_x</span><span class="p">,</span> <span class="n">radius_y</span><span class="p">,</span> <span class="n">radius_z</span> <span class="o">=</span> <span class="n">radii</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">phi</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mf">0.0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">:</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">radius_x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">radius_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">radius_z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Grid in Cartesian space</span>
+    <span class="n">T_diff</span> <span class="o">=</span> <span class="n">transforms_from_exponential_coordinates</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="c1"># same as T_diff[m, :3, :3].T.dot(T_diff[m, :3, 3]) for each m</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ikj,ik-&gt;ij&quot;</span><span class="p">,</span> <span class="n">T_diff</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">T_diff</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">mean</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">mean</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span></div>
+
+
+<div class="viewcode-block" id="plot_projected_ellipsoid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.plot_projected_ellipsoid.html#pytransform3d.uncertainty.plot_projected_ellipsoid">[docs]</a><span class="k">def</span> <span class="nf">plot_projected_ellipsoid</span><span class="p">(</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.96</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots projected equiprobable ellipsoid in 3D.</span>
+
+<span class="sd">    An error ellipsoid shows equiprobable points. This is a projection of a</span>
+<span class="sd">    Gaussian distribution in exponential coordinate space to 3D.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : axis</span>
+<span class="sd">        Matplotlib axis.</span>
+
+<span class="sd">    mean : array-like, shape (4, 4)</span>
+<span class="sd">        Mean pose.</span>
+
+<span class="sd">    cov : array-like, shape (6, 6)</span>
+<span class="sd">        Covariance in exponential coordinate space.</span>
+
+<span class="sd">    factor : float, optional (default: 1.96)</span>
+<span class="sd">        Multiple of the standard deviations that should be plotted.</span>
+
+<span class="sd">    wireframe : bool, optional (default: True)</span>
+<span class="sd">        Plot wireframe of ellipsoid and surface otherwise.</span>
+
+<span class="sd">    n_steps : int, optional (default: 20)</span>
+<span class="sd">        Number of discrete steps plotted in each dimension.</span>
+
+<span class="sd">    color : str, optional (default: None)</span>
+<span class="sd">        Color in which the equiprobably lines should be plotted.</span>
+
+<span class="sd">    alpha : float, optional (default: 1.0)</span>
+<span class="sd">        Alpha value for lines.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : axis</span>
+<span class="sd">        Matplotlib axis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">to_projected_ellipsoid</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">wireframe</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_wireframe</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Apr 03, 2023.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

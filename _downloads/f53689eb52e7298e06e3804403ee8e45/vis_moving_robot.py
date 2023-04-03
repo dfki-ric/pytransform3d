@@ -5,9 +5,6 @@ Animated Robot
 
 In this example we animate a 6-DOF robot arm with cylindrical visuals.
 """
-print(__doc__)
-
-
 import os
 import numpy as np
 from pytransform3d.urdf import UrdfTransformManager

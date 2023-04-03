@@ -5,9 +5,6 @@ Animate Trajectory
 
 Animates a trajectory.
 """
-print(__doc__)
-
-
 import numpy as np
 import pytransform3d.visualizer as pv
 from pytransform3d.rotations import passive_matrix_from_angle, R_id

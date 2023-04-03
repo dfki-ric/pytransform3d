@@ -7,9 +7,6 @@ Any rotation can be represented with a single rotation about some axis.
 Here we see a frame that is rotated in multiple steps around a rotation
 axis.
 """
-print(__doc__)
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import (random_axis_angle, matrix_from_axis_angle,

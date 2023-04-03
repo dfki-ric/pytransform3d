@@ -10,6 +10,10 @@ import matplotlib.pyplot as plt
 from pytransform3d.urdf import UrdfTransformManager
 
 
+# %%
+# URDF
+# ----
+# URDFs have to be provided as strings. These can be loaded from files.
 COMPI_URDF = """
 <?xml version="1.0"?>
   <robot name="compi">
@@ -74,10 +78,22 @@ COMPI_URDF = """
 
 tm = UrdfTransformManager()
 tm.load_urdf(COMPI_URDF)
+
+# %%
+# Set Joints
+# ----------
+# In this example, we define joint angles manually. Joints are identified by
+# their string names extracted from the URDF.
 joint_names = ["joint%d" % i for i in range(1, 7)]
 joint_angles = [0, 0.5, 0.5, 0, 0.5, 0]
 for name, angle in zip(joint_names, joint_angles):
     tm.set_joint(name, angle)
+
+# %%
+# Visualization
+# -------------
+# We use matplotlib to visualize the link frames of the URDF and connections
+# between these.
 ax = tm.plot_frames_in("compi", whitelist=["link%d" % d for d in range(1, 7)],
                        s=0.05, show_name=True)
 ax = tm.plot_connections_in("compi", ax=ax)

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._rotors &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.rotations._rotors &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -124,7 +124,7 @@
 
 
 <div class="viewcode-block" id="wedge"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.wedge.html#pytransform3d.rotations.wedge">[docs]</a><span class="k">def</span> <span class="nf">wedge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Outer product of two vectors (also exterior or wedge product).</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Outer product of two vectors (also exterior or wedge product).</span>
 
 <span class="sd">    .. math::</span>
 
@@ -148,7 +148,7 @@
 
 
 <div class="viewcode-block" id="plane_normal_from_bivector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.plane_normal_from_bivector.html#pytransform3d.rotations.plane_normal_from_bivector">[docs]</a><span class="k">def</span> <span class="nf">plane_normal_from_bivector</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert bivector to normal vector of a plane.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert bivector to normal vector of a plane.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -164,7 +164,7 @@
 
 
 <div class="viewcode-block" id="geometric_product"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.geometric_product.html#pytransform3d.rotations.geometric_product">[docs]</a><span class="k">def</span> <span class="nf">geometric_product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Geometric product of two vectors.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Geometric product of two vectors.</span>
 
 <span class="sd">    The geometric product consists of the symmetric inner / dot product and the</span>
 <span class="sd">    antisymmetric outer product of two vectors.</span>
@@ -194,7 +194,7 @@
 
 
 <div class="viewcode-block" id="rotor_reverse"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.rotor_reverse.html#pytransform3d.rotations.rotor_reverse">[docs]</a><span class="k">def</span> <span class="nf">rotor_reverse</span><span class="p">(</span><span class="n">rotor</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Invert rotor.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Invert rotor.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -211,7 +211,7 @@
 
 
 <div class="viewcode-block" id="concatenate_rotors"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.concatenate_rotors.html#pytransform3d.rotations.concatenate_rotors">[docs]</a><span class="k">def</span> <span class="nf">concatenate_rotors</span><span class="p">(</span><span class="n">rotor1</span><span class="p">,</span> <span class="n">rotor2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Concatenate rotors.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate rotors.</span>
 
 <span class="sd">    Suppose we want to apply two extrinsic rotations given by rotors</span>
 <span class="sd">    R1 and R2 to a vector v. We can either apply R2 to v and then R1 to</span>
@@ -236,7 +236,7 @@
 
 
 <div class="viewcode-block" id="rotor_apply"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.rotor_apply.html#pytransform3d.rotations.rotor_apply">[docs]</a><span class="k">def</span> <span class="nf">rotor_apply</span><span class="p">(</span><span class="n">rotor</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute rotation matrix from rotor.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute rotation matrix from rotor.</span>
 
 <span class="sd">    .. math::</span>
 
@@ -260,7 +260,7 @@
 
 
 <div class="viewcode-block" id="matrix_from_rotor"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.matrix_from_rotor.html#pytransform3d.rotations.matrix_from_rotor">[docs]</a><span class="k">def</span> <span class="nf">matrix_from_rotor</span><span class="p">(</span><span class="n">rotor</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute rotation matrix from rotor.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute rotation matrix from rotor.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -279,7 +279,7 @@
 
 
 <div class="viewcode-block" id="rotor_from_two_directions"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.rotor_from_two_directions.html#pytransform3d.rotations.rotor_from_two_directions">[docs]</a><span class="k">def</span> <span class="nf">rotor_from_two_directions</span><span class="p">(</span><span class="n">v_from</span><span class="p">,</span> <span class="n">v_to</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Construct the rotor that rotates one vector to another.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct the rotor that rotates one vector to another.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -309,7 +309,7 @@
 
 
 <div class="viewcode-block" id="rotor_from_plane_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.rotor_from_plane_angle.html#pytransform3d.rotations.rotor_from_plane_angle">[docs]</a><span class="k">def</span> <span class="nf">rotor_from_plane_angle</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute rotor from plane bivector and angle.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute rotor from plane bivector and angle.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -343,7 +343,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

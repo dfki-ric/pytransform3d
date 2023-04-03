@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.rotations.check_matrix &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.rotations.check_matrix &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -128,8 +128,13 @@
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">check_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_utils.html#check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.check_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input validation of a rotation matrix.</p>
 <p>We check whether R multiplied by its inverse is approximately the identity
-matrix, and whether the determinant is positive.</p>
-<dl class="field-list simple">
+matrix</p>
+<div class="math">
+<p><img src="../_images/math/07aa63e892a445fbe693463f436d922999204eb8.png" alt="\boldsymbol{R}\boldsymbol{R}^T = \boldsymbol{I}"/></p>
+</div><p>and whether the determinant is positive</p>
+<div class="math">
+<p><img src="../_images/math/b3648b9372a85e49c5f981b2538c3d072353b39f.png" alt="det(\boldsymbol{R}) &gt; 0"/></p>
+</div><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>R</strong><span class="classifier">array-like, shape (3, 3)</span></dt><dd><p>Rotation matrix</p>
@@ -172,7 +177,7 @@ enough to a real rotation matrix. Otherwise we print a warning.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

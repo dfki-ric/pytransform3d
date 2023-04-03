@@ -2,8 +2,8 @@
 SE(3): 3D Transformations
 =========================
 
-The group of all rigid transformations in the 3D Cartesian space is :math:`SE(3)`
-(SE: special Euclidean group).
+The group of all proper rigid transformations (rototranslations) in the
+3D Cartesian space is :math:`SE(3)` (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
 in different ways.
@@ -67,11 +67,23 @@ the form
     0 & 0 & 0 & 1\\
     \end{matrix}
     \right)
+    \in SE(3).
 
 It is a partitioned matrix with a 3x3 rotation matrix :math:`\boldsymbol R`
 and a column vector :math:`\boldsymbol t` that represents the translation.
 It is also sometimes called the homogeneous representation of a transformation.
-All transformation matrices of this form generate the special Euclidean group :math:`SE(3)`.
+All transformation matrices of this form generate the special Euclidean group
+:math:`SE(3)`, that is,
+
+.. math::
+
+    SE(3) = \{ \boldsymbol{T} = \left(
+    \begin{array}{cc}
+    \boldsymbol{R} & \boldsymbol{t}\\
+    \boldsymbol{0} & 1
+    \end{array}
+    \right) \in \mathbb{R}^{4 \times 4}
+    | \boldsymbol{R} \in SO(3), \boldsymbol{t} \in \mathbb{R}^3 \}.
 
 pytransform3d uses a numpy array of shape (4, 4) to represent transformation
 matrices and typically we use the variable name A2B for a transformation
@@ -109,9 +121,7 @@ quaternion:
 
 .. math::
 
-    \left( \begin{array}{c}
-        x\\y\\z\\q_w\\q_x\\q_y\\q_z
-    \end{array} \right)
+    \left( x, y, z, q_w, q_x, q_y, q_z \right)^T
 
 This representation is more compact than a transformation matrix and is
 particularly useful if you want to represent a sequence of poses in
@@ -120,9 +130,9 @@ a 2D array.
 pytransform3d uses a numpy array of shape (7,) to represent position and
 quaternion and typically we use the variable name pq.
 
------------------------
-Exponential Coordinates
------------------------
+----------------
+Screw Parameters
+----------------
 
 .. plot:: ../../examples/plots/plot_screw.py
 
@@ -140,8 +150,12 @@ h to represent the parameters of a screw.
 
 .. image:: _static/screw_axis.png
    :alt: Screw axis
-   :width: 80%
+   :width: 50%
    :align: center
+
+----------
+Screw Axis
+----------
 
 A **screw axis** is typically represented by
 :math:`\mathcal{S} = \left[\begin{array}{c}\boldsymbol{\omega}\\\boldsymbol{v}\end{array}\right] \in \mathbb{R}^6`,
@@ -163,6 +177,10 @@ In case 1, we can compute the screw axis from screw parameters
 
 In case 2, :math:`h` is infinite and we directly translate along :math:`\hat{\boldsymbol{s}}`.
 
+-----------------------
+Exponential Coordinates
+-----------------------
+
 By multiplication with an additional parameter :math:`\theta` we can then
 define a complete transformation through its exponential coordinates
 :math:`\mathcal{S} \theta = \left[\begin{array}{c}\boldsymbol{\omega}\theta\\\boldsymbol{v}\theta\end{array}\right] \in \mathbb{R}^6`.
@@ -170,6 +188,17 @@ This is a minimal representation as it only needs 6 values.
 
 pytransform3d uses a numpy array of shape (6,) to represent a exponential
 coordinates of transformation and typically we use the variable name Stheta.
+
+.. warning::
+
+    Note that we use the screw theory definition of exponential coordinates
+    and :math:`so(3)` (see next section) used by Paden (1985), Lynch and Park
+    (2017), and Corke (2017). They separate the parameter :math:`\theta` from
+    the screw axis. Additionally, they use the first three components to encode
+    rotation and the last three components to encode translation. There is an
+    alternative definition used by Eade (2017) and Sola et al. (2018). They use
+    a different order of the 3D vector components and they do not separate
+    :math:`\theta` from the screw axis in their notation.
 
 ---------------------------
 Logarithm of Transformation
@@ -194,7 +223,7 @@ Alternatively, we can represent a screw axis :math:`\mathcal S` in a matrix
     0 & 0 & 0 & 0\\
     \end{matrix}
     \right)
-    \in \mathbb{R}^{4 \times 4}
+    \in se(3) \subset \mathbb{R}^{4 \times 4}
 
 that contains the cross-product matrix of its orientation part and its
 translation part. This is the **matrix representation of a screw axis** and
@@ -219,7 +248,7 @@ Twist
 We call spatial velocity (translation and rotation) **twist**. Similarly
 to the matrix logarithm, a twist :math:`\mathcal{V} = \mathcal{S} \dot{\theta}`
 is described by a screw axis :math:`S` and a scalar :math:`\dot{\theta}`
-and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \theta \in se(3)`
+and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)`
 is the matrix representation of a twist.
 
 ----------------
@@ -263,14 +292,21 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.
 References
 ----------
 
-Lynch, Park: Modern Robotics (Section 3.3); available at
-http://hades.mech.northwestern.edu/index.php/Modern_Robotics
-
-Wikipedia: Dual Quaternion; available at
-https://en.wikipedia.org/wiki/Dual_quaternion
-
-Yan-Bin Jia: Dual Quaternions; available at
-http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
-
-Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
-http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
+1. Lynch, Park: Modern Robotics (2017); available at
+   http://hades.mech.northwestern.edu/index.php/Modern_Robotics
+2. Bradley Evan Paden: Kinematics and Control of Robot Manipulators, PhD
+   thesis (1985); available at
+   https://digitalassets.lib.berkeley.edu/techreports/ucb/text/ERL-86-5.pdf
+3. Peter Corke: Robotics, Vision and Control, 2nd Edition (2017),
+   https://link.springer.com/book/10.1007/978-3-319-54413-7
+4. Ethan Eade: Lie Groups for 2D and 3D Transformations (2017); available at
+   https://ethaneade.com/lie.pdf
+5. Sola, Deray, Atchuthan: A micro Lie theory for state estimation in robotics
+   (2018), technical report; available at:
+   http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf
+6. Wikipedia: Dual Quaternion; available at
+   https://en.wikipedia.org/wiki/Dual_quaternion
+7. Yan-Bin Jia: Dual Quaternions; available at
+   http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
+8. Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
+   http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf

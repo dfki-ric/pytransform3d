@@ -54,7 +54,10 @@ right-handed system and with the left hand in a left-handed system.
 .. raw:: html
 
     <table>
-    <tr><td>Right-handed</td><td>Left-handed</td></tr>
+    <tr>
+        <th style="text-align:center">Right-handed</th>
+        <th style="text-align:center">Left-handed</th>
+    </tr>
     <tr>
     <td>
 
@@ -156,7 +159,10 @@ frame.
 .. raw:: html
 
     <table>
-    <tr><td>Active</td><td>Passive</td></tr>
+    <tr>
+        <th style="text-align:center">Active</th>
+        <th style="text-align:center">Passive</th>
+    </tr>
     <tr>
     <td>
 
@@ -178,9 +184,9 @@ frame.
     ax.set_yticks(())
     ax.set_zticks(())
 
-    random_state = np.random.RandomState(42)
+    rng = np.random.default_rng(42)
     PA = np.ones((10, 4))
-    PA[:, :3] = 0.1 * random_state.randn(10, 3)
+    PA[:, :3] = 0.1 * rng.standard_normal(size=(10, 3))
     PA[:, 0] += 0.3
     PA[:, :3] += 0.3
 
@@ -234,9 +240,9 @@ frame.
     ax.set_yticks(())
     ax.set_zticks(())
 
-    random_state = np.random.RandomState(42)
+    rng = np.random.default_rng(42)
     PA = np.ones((10, 4))
-    PA[:, :3] = 0.1 * random_state.randn(10, 3)
+    PA[:, :3] = 0.1 * rng.standard_normal(size=(10, 3))
     PA[:, 0] += 0.3
     PA[:, :3] += 0.3
 

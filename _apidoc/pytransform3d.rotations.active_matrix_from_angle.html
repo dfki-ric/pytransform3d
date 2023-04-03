@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.rotations.active_matrix_from_angle &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.rotations.active_matrix_from_angle &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -130,7 +130,36 @@
 <dt class="sig sig-object py" id="pytransform3d.rotations.active_matrix_from_angle">
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">active_matrix_from_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_conversions.html#active_matrix_from_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.active_matrix_from_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute active rotation matrix from rotation about basis vector.</p>
-<dl class="field-list simple">
+<p>With the angle <img class="math" src="../_images/math/2f5aa019312e1bbc969deab8dca8b00f76025404.png" alt="\alpha"/> and <img class="math" src="../_images/math/deffea2689377b9472a6bd74e2a8bd04a5618d47.png" alt="s = \sin{\alpha}, c=\cos{\alpha}"/>,
+we construct rotation matrices about the basis vectors as follows:</p>
+<div class="math">
+<p><img src="../_images/math/c9d952248a094bee93370a02537097c51e4e4aef.png" alt="\boldsymbol{R}_x(\alpha) =
+\left(
+\begin{array}{ccc}
+1 &amp; 0 &amp; 0\\
+0 &amp; c &amp; -s\\
+0 &amp; s &amp; c
+\end{array}
+\right)"/></p>
+</div><div class="math">
+<p><img src="../_images/math/cdd648833b96a9d5336c8dfd4570d1772876a71f.png" alt="\boldsymbol{R}_y(\alpha) =
+\left(
+\begin{array}{ccc}
+c &amp; 0 &amp; s\\
+0 &amp; 1 &amp; 0\\
+-s &amp; 0 &amp; c
+\end{array}
+\right)"/></p>
+</div><div class="math">
+<p><img src="../_images/math/5c104a58b8ab5b9e3ac372d2ddaade44100f31c7.png" alt="\boldsymbol{R}_z(\alpha) =
+\left(
+\begin{array}{ccc}
+c &amp; -s &amp; 0\\
+s &amp; c &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{array}
+\right)"/></p>
+</div><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>basis</strong><span class="classifier">int from [0, 1, 2]</span></dt><dd><p>The rotation axis (0: x, 1: y, 2: z)</p>
@@ -181,7 +210,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

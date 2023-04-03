@@ -5,9 +5,6 @@ Robot
 
 We see a 6-DOF robot arm with visuals.
 """
-print(__doc__)
-
-
 import os
 import numpy as np
 import matplotlib.pyplot as plt

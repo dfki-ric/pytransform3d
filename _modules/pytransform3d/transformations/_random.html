@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._random &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations._random &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -117,42 +117,50 @@
       
   <h1>Source code for pytransform3d.transformations._random</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Random transform generation.&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">random_quaternion</span><span class="p">,</span> <span class="n">random_vector</span><span class="p">,</span> <span class="n">matrix_from_quaternion</span><span class="p">,</span> <span class="n">norm_vector</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="n">transform_from</span>
+<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">norm_vector</span>
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">check_transform</span>
+<span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="n">transform_from_exponential_coordinates</span>
 
 
-<div class="viewcode-block" id="random_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_transform.html#pytransform3d.transformations.random_transform">[docs]</a><span class="k">def</span> <span class="nf">random_transform</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random transform.</span>
+<div class="viewcode-block" id="random_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_transform.html#pytransform3d.transformations.random_transform">[docs]</a><span class="k">def</span> <span class="nf">random_transform</span><span class="p">(</span>
+        <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random transform.</span>
 
-<span class="sd">    Each component of the translation will be sampled from</span>
-<span class="sd">    :math:`\mathcal{N}(\mu=0, \sigma=1)`.</span>
+<span class="sd">    Generate :math:`\Delta \boldsymbol{T}_{B_{i+1}{B_i}}</span>
+<span class="sd">    \boldsymbol{T}_{{B_i}A}`, with :math:`\Delta \boldsymbol{T}_{B_{i+1}{B_i}}</span>
+<span class="sd">    = Exp(S \theta)` and :math:`\mathcal{S}\theta \sim</span>
+<span class="sd">    \mathcal{N}(\boldsymbol{0}_6, \boldsymbol{\Sigma}_{6 \times 6})`.</span>
+<span class="sd">    The mean :math:`\boldsymbol{T}_{{B_i}A}` and the covariance</span>
+<span class="sd">    :math:`\boldsymbol{\Sigma}_{6 \times 6}` are parameters of the function.</span>
+
+<span class="sd">    Note that uncertainty is defined in the global frame B, not in the</span>
+<span class="sd">    body frame A.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    rng : np.random.Generator, optional (default: random seed 0)</span>
 <span class="sd">        Random number generator</span>
 
+<span class="sd">    mean : array-like, shape (4, 4), optional (default: I)</span>
+<span class="sd">        Mean transform as homogeneous transformation matrix.</span>
+
+<span class="sd">    cov : array-like, shape (6, 6), optional (default: I)</span>
+<span class="sd">        Covariance of noise in exponential coordinate space.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Random transform from frame A to frame B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;The random_state argument is deprecated. Use rng.&quot;</span><span class="p">,</span>
-            <span class="ne">DeprecationWarning</span><span class="p">)</span>
-        <span class="n">rng</span> <span class="o">=</span> <span class="n">random_state</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="n">random_quaternion</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">matrix_from_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">random_vector</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+    <span class="n">Stheta</span> <span class="o">=</span> <span class="n">random_exponential_coordinates</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="random_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_screw_axis.html#pytransform3d.transformations.random_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">random_screw_axis</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random screw axis.</span>
+<div class="viewcode-block" id="random_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_screw_axis.html#pytransform3d.transformations.random_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">random_screw_axis</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random screw axis.</span>
 
 <span class="sd">    Each component of v will be sampled from a standard normal distribution</span>
 <span class="sd">    :math:`\mathcal{N}(\mu=0, \sigma=1)`. Components of :math:`\omega` will</span>
@@ -171,14 +179,39 @@
 <span class="sd">        where the first 3 components are related to rotation and the last 3</span>
 <span class="sd">        components are related to translation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;The random_state argument is deprecated. Use rng.&quot;</span><span class="p">,</span>
-            <span class="ne">DeprecationWarning</span><span class="p">)</span>
-        <span class="n">rng</span> <span class="o">=</span> <span class="n">random_state</span>
-    <span class="n">omega</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">omega</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="random_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_exponential_coordinates.html#pytransform3d.transformations.random_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">random_exponential_coordinates</span><span class="p">(</span>
+        <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random exponential coordinates.</span>
+
+<span class="sd">    Each component of Stheta will be sampled from a standard normal</span>
+<span class="sd">    distribution :math:`\mathcal{N}(\boldsymbol{0}_6,</span>
+<span class="sd">    \boldsymbol{\Sigma}_{6 \times 6})`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rng : np.random.Generator, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    cov : array-like, shape (6, 6), optional (default: I)</span>
+<span class="sd">        Covariance of normal distribution.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Stheta : array, shape (6,)</span>
+<span class="sd">        Exponential coordinates of transformation:</span>
+<span class="sd">        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,</span>
+<span class="sd">        where the first 3 components are related to rotation and the last 3</span>
+<span class="sd">        components are related to translation. Theta is the rotation angle</span>
+<span class="sd">        and h * theta the translation. Theta should be &gt;= 0. Negative rotations</span>
+<span class="sd">        will be represented by a negative screw axis instead. This is relevant</span>
+<span class="sd">        if you want to recover theta from exponential coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">)</span></div>
 </pre></div>
 
     </div>
@@ -193,7 +226,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

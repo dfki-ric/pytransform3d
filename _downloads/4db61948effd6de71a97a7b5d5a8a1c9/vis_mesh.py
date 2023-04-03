@@ -8,9 +8,6 @@ run from within the main folder because it uses a
 hard-coded path to the STL file. Press 'H' to print the viewer's
 help message to stdout.
 """
-print(__doc__)
-
-
 import os
 import numpy as np
 from pytransform3d import visualizer as pv

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._plot &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.rotations._plot &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,7 +127,7 @@
 
 <div class="viewcode-block" id="plot_basis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.plot_basis.html#pytransform3d.rotations.plot_basis">[docs]</a><span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot basis of a rotation matrix.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot basis of a rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -177,7 +177,7 @@
 
 
 <div class="viewcode-block" id="plot_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.plot_axis_angle.html#pytransform3d.rotations.plot_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">plot_axis_angle</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a_id</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot rotation axis and angle.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot rotation axis and angle.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -231,7 +231,7 @@
 
 
 <span class="k">def</span> <span class="nf">_arc_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-    <span class="sd">&quot;&quot;&quot;Compute arc defined by a around p with scaling s.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute arc defined by a around p with scaling s.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -261,7 +261,7 @@
 
 
 <div class="viewcode-block" id="plot_bivector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.plot_bivector.html#pytransform3d.rotations.plot_bivector">[docs]</a><span class="k">def</span> <span class="nf">plot_bivector</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot bivector from wedge product of two vectors a and b.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot bivector from wedge product of two vectors a and b.</span>
 
 <span class="sd">    The two vectors will be displayed in grey together with the parallelogram</span>
 <span class="sd">    that they form. Each component of the bivector corresponds to the area of</span>
@@ -319,7 +319,7 @@
 
 
 <span class="k">def</span> <span class="nf">_plot_projected_parallelograms</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot projected parallelograms.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot projected parallelograms.</span>
 
 <span class="sd">    We visualize a plane described by two vectors in 3D as a parallelogram.</span>
 <span class="sd">    Furthermore, we project the parallelogram to the three basis planes and</span>
@@ -349,7 +349,7 @@
 
 
 <span class="k">def</span> <span class="nf">_plot_parallelogram</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot parallelogram.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot parallelogram.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -383,7 +383,7 @@
 
 
 <span class="k">def</span> <span class="nf">_arc_between_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-    <span class="sd">&quot;&quot;&quot;Compute arc defined by a around p with scaling s.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute arc defined by a around p with scaling s.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -418,7 +418,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

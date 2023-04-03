@@ -34,6 +34,7 @@ Input Validation Functions
    ~pytransform3d.rotations.check_quaternion
    ~pytransform3d.rotations.check_quaternions
    ~pytransform3d.rotations.check_rotor
+   ~pytransform3d.rotations.check_mrp
 
 Conversions to Rotation Matrix
 ------------------------------
@@ -80,11 +81,12 @@ Conversions to Quaternion
    ~pytransform3d.rotations.quaternion_from_axis_angle
    ~pytransform3d.rotations.quaternion_from_compact_axis_angle
    ~pytransform3d.rotations.quaternion_from_euler
+   ~pytransform3d.rotations.quaternion_from_mrp
    ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
    ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
 
 Conversions to Rotor
--------------------------
+--------------------
 
 .. autosummary::
    :toctree: _apidoc/
@@ -92,6 +94,15 @@ Conversions to Rotor
 
    ~pytransform3d.rotations.rotor_from_two_directions
    ~pytransform3d.rotations.rotor_from_plane_angle
+
+Conversions to Modified Rodrigues Parameters
+--------------------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.mrp_from_quaternion
 
 Quaternion and Axis-Angle Operations
 ------------------------------------
@@ -171,6 +182,10 @@ Utility Functions
    ~pytransform3d.rotations.random_compact_axis_angle
    ~pytransform3d.rotations.random_quaternion
    ~pytransform3d.rotations.cross_product_matrix
+   ~pytransform3d.rotations.left_jacobian_SO3
+   ~pytransform3d.rotations.left_jacobian_SO3_series
+   ~pytransform3d.rotations.left_jacobian_SO3_inv
+   ~pytransform3d.rotations.left_jacobian_SO3_inv_series
 
 Deprecated Functions
 --------------------
@@ -198,7 +213,12 @@ Utility Functions
 
    ~pytransform3d.transformations.random_transform
    ~pytransform3d.transformations.random_screw_axis
+   ~pytransform3d.transformations.random_exponential_coordinates
    ~pytransform3d.transformations.norm_exponential_coordinates
+   ~pytransform3d.transformations.left_jacobian_SE3
+   ~pytransform3d.transformations.left_jacobian_SE3_series
+   ~pytransform3d.transformations.left_jacobian_SE3_inv
+   ~pytransform3d.transformations.left_jacobian_SE3_inv_series
 
 Input Validation Functions
 --------------------------
@@ -416,6 +436,26 @@ Testing
    ~pytransform3d.trajectories.mirror_screw_axis_direction
 
 
+:mod:`pytransform3d.uncertainty`
+================================
+
+.. automodule:: pytransform3d.uncertainty
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.uncertainty.estimate_gaussian_transform_from_samples
+   ~pytransform3d.uncertainty.invert_uncertain_transform
+   ~pytransform3d.uncertainty.concat_globally_uncertain_transforms
+   ~pytransform3d.uncertainty.pose_fusion
+   ~pytransform3d.uncertainty.to_ellipsoid
+   ~pytransform3d.uncertainty.to_projected_ellipsoid
+   ~pytransform3d.uncertainty.plot_projected_ellipsoid
+
+
 :mod:`pytransform3d.coordinates`
 =================================
 
@@ -527,6 +567,7 @@ Testing
    ~pytransform3d.plot_utils.plot_length_variable
    ~pytransform3d.plot_utils.plot_box
    ~pytransform3d.plot_utils.plot_sphere
+   ~pytransform3d.plot_utils.plot_spheres
    ~pytransform3d.plot_utils.plot_cylinder
    ~pytransform3d.plot_utils.plot_mesh
    ~pytransform3d.plot_utils.plot_ellipsoid

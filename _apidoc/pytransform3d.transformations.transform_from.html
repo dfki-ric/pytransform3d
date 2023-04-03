@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transformations.transform_from &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations.transform_from &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -130,7 +130,14 @@
 <dt class="sig sig-object py" id="pytransform3d.transformations.transform_from">
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">transform_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_conversions.html#transform_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.transform_from" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make transformation from rotation matrix and translation.</p>
-<dl class="field-list simple">
+<div class="math">
+<p><img src="../_images/math/d5480df33c965bf7689d91d9a998f1cd060cbe03.png" alt="\boldsymbol{T}_{BA} = \left(
+\begin{array}{cc}
+\boldsymbol{R} &amp; \boldsymbol{p}\\
+\boldsymbol{0} &amp; 1
+\end{array}
+\right) \in SE(3)"/></p>
+</div><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>R</strong><span class="classifier">array-like, shape (3, 3)</span></dt><dd><p>Rotation matrix</p>
@@ -154,7 +161,10 @@ warning.</p>
 
 <section id="examples-using-pytransform3d-transformations-transform-from">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.transform_from</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-transform-from" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ..."><img alt="Transform Concatenation" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Sample Transforms"><img alt="Sample Transforms" src="../_images/sphx_glr_plot_sample_transforms_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_sample_transforms.html#sphx-glr-auto-examples-plots-plot-sample-transforms-py"><span class="std std-ref">Sample Transforms</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Sample Transforms</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ..."><img alt="Transform Concatenation" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_transform_concatenation.html#sphx-glr-auto-examples-plots-plot-transform-concatenation-py"><span class="std std-ref">Transform Concatenation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Transform Concatenation</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots surfaces of transformed cylindrical shells."><img alt="Plot Transformed Cylinders" src="../_images/sphx_glr_plot_cylinder_thumb.png" />
@@ -175,6 +185,9 @@ warning.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i..."><img alt="Plot Straight Line Paths" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_straight_line_path.html#sphx-glr-auto-examples-plots-plot-straight-line-path-py"><span class="std std-ref">Plot Straight Line Paths</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Straight Line Paths</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We sample from the original transform distribution and from the inverse distribution. Samples a..."><img alt="Invert Uncertain Transform" src="../_images/sphx_glr_plot_invert_uncertain_transform_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_invert_uncertain_transform.html#sphx-glr-auto-examples-plots-plot-invert-uncertain-transform-py"><span class="std std-ref">Invert Uncertain Transform</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Invert Uncertain Transform</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="Animate Trajectory" src="../_images/sphx_glr_animate_trajectory_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/animations/animate_trajectory.html#sphx-glr-auto-examples-animations-animate-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animate Trajectory</div>
@@ -206,7 +219,7 @@ warning.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

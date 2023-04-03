@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transformations.transform_from_transform_log &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>pytransform3d.transformations.transform_from_transform_log &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,7 +127,27 @@
 <dt class="sig sig-object py" id="pytransform3d.transformations.transform_from_transform_log">
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">transform_from_transform_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform_log</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_conversions.html#transform_from_transform_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.transform_from_transform_log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute transformation from matrix logarithm of transformation.</p>
-<dl class="field-list simple">
+<p>Exponential map.</p>
+<div class="math">
+<p><img src="../_images/math/0ab763476869429bfe2283d80821dde54c7e734f.png" alt="\exp: \left[ \mathcal{S} \right] \theta \in se(3)
+\rightarrow \boldsymbol{T} \in SE(3)"/></p>
+</div><div class="math">
+<p><img src="../_images/math/85641578ea7393ca2bbbb9d5bf7d03a0bfc4a035.png" alt="\exp([\mathcal{S}]\theta) =
+\exp\left(\left(\begin{array}{cc}
+\left[\boldsymbol{\omega}\right] &amp; \boldsymbol{v}\\
+\boldsymbol{0} &amp; 0
+\end{array}\right)\theta\right) =
+\left(\begin{array}{cc}
+Exp(\boldsymbol{\omega}) &amp; \boldsymbol{G}(\theta)\boldsymbol{v}\\
+\boldsymbol{0} &amp; 1
+\end{array}\right),"/></p>
+</div><p>where</p>
+<div class="math">
+<p><img src="../_images/math/66fb8a3544e9237d41bc7aae664a424fc79993c1.png" alt="\boldsymbol{G}(\theta)
+= \boldsymbol{I}\theta
++ (1 - \cos \theta) [\boldsymbol{\omega}]
++ (\theta - \sin \theta) [\boldsymbol{\omega}]^2."/></p>
+</div><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>transform_log</strong><span class="classifier">array-like, shape (4, 4)</span></dt><dd><p>Matrix logarithm of transformation matrix: [S] * theta.</p>
@@ -158,7 +178,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>

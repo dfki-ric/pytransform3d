@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Introduction to 3D Rigid Transformations &#8212; pytransform3d 2.3.1 documentation</title>
+    <title>Introduction to 3D Rigid Transformations &#8212; pytransform3d 3.0.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>2.3.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,8 +90,8 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Introduction to 3D Rigid Transformations</a><ul>
-<li><a class="reference internal" href="#frames">Frames</a></li>
 <li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#frames">Frames</a></li>
 <li><a class="reference internal" href="#frame-notation">Frame Notation</a></li>
 <li><a class="reference internal" href="#duality-of-transformations-and-poses">Duality of Transformations and Poses</a></li>
 <li><a class="reference internal" href="#representations">Representations</a></li>
@@ -131,25 +131,54 @@
       
   <section id="introduction-to-3d-rigid-transformations">
 <h1>Introduction to 3D Rigid Transformations<a class="headerlink" href="#introduction-to-3d-rigid-transformations" title="Permalink to this heading">¶</a></h1>
-<section id="frames">
-<h2>Frames<a class="headerlink" href="#frames" title="Permalink to this heading">¶</a></h2>
-<p>The basis of this introduction are (coordinate reference) frames in 3D
-Euclidean space. A frame is defined by an origin and 3 orthogonal basis
-vectors and it is attached to a rigid body.
-The pose (its position and orientation) of a rigid body (i.e., of its frame)
-is always expressed with respect to another frame.</p>
-</section>
 <section id="basics">
 <h2>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">¶</a></h2>
-<p><strong>Position</strong> of a rigid body in 3D Euclidean space is expressed as a 3D
-vector.</p>
-<p><strong>Orientation</strong> of a rigid body in 3D Euclidean space is defined by a set
-of 3 orthogonal basis vectors.</p>
-<p><strong>Translation</strong> is a displacement, in which points move along parallel lines
-by the same distance.</p>
-<p><strong>Rotation</strong> is a displacement, in which points move about a rotation axis
-through the origin of the reference frame (fixed point) along a circle by the
-same angle.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 35%" />
+<col style="width: 15%" />
+<col style="width: 35%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><img alt="_images/position.png" src="_images/position.png" />
+</td>
+<td><p><strong>Position</strong> of a rigid body in 3D Euclidean space is expressed as a 3D
+vector.</p></td>
+<td><img alt="_images/translation.png" src="_images/translation.png" />
+</td>
+<td><p><strong>Translation</strong> is a displacement, in which points move along parallel
+lines by the same distance.</p></td>
+</tr>
+<tr class="row-even"><td><img alt="_images/frame.png" src="_images/frame.png" />
+</td>
+<td><p><strong>Orientation</strong> of a rigid body in 3D Euclidean space is defined by a
+set of 3 orthogonal basis vectors.</p></td>
+<td><img alt="_images/rotation.png" src="_images/rotation.png" />
+</td>
+<td><p><strong>Rotation</strong> is a displacement, in which points move about a rotation
+axis through the origin of the reference frame (fixed point) along a
+circle by the same angle.</p></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal image-reference" href="_images/position.png"><img alt="_images/position.png" class="align-center" src="_images/position.png" style="width: 30%;" /></a>
+<a class="reference internal image-reference" href="_images/frame.png"><img alt="_images/frame.png" class="align-center" src="_images/frame.png" style="width: 30%;" /></a>
+</td>
+<td><p><strong>Pose</strong> is a combination of position and orientation.</p></td>
+<td><a class="reference internal image-reference" href="_images/translation.png"><img alt="_images/translation.png" class="align-center" src="_images/translation.png" style="width: 30%;" /></a>
+<a class="reference internal image-reference" href="_images/rotation.png"><img alt="_images/rotation.png" class="align-center" src="_images/rotation.png" style="width: 30%;" /></a>
+</td>
+<td><p>A (proper) <strong>rigid transformation</strong> is a combination of translation and
+rotation.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="frames">
+<h2>Frames<a class="headerlink" href="#frames" title="Permalink to this heading">¶</a></h2>
+<p>A (coordinate reference) frame in 3D Euclidean space is defined by an origin
+(position) and 3 orthogonal basis vectors (orientation) and it is attached to
+a rigid body. The pose (position and orientation) of a rigid body (i.e., of
+its frame) is always expressed with respect to another frame.</p>
 </section>
 <section id="frame-notation">
 <h2>Frame Notation<a class="headerlink" href="#frame-notation" title="Permalink to this heading">¶</a></h2>
@@ -193,51 +222,59 @@ shape is shown in this table. You will find more details on these
 representations on the following pages.</p>
 <table class="docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Representation and Mathematical Symbol</p></th>
-<th class="head"><p>NumPy Array Shape</p></th>
-<th class="head"><p>Rotation</p></th>
+<tr class="row-odd"><th class="head" rowspan="2"><p>Representation and Mathematical Symbol</p></th>
+<th class="head" rowspan="2"><p>NumPy Array Shape</p></th>
+<th class="head" colspan="2"><p>Rigid Transformation - SE(3)</p></th>
+</tr>
+<tr class="row-even"><th class="head"><p>Rotation - SO(3)</p></th>
 <th class="head"><p>Translation</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Rotation matrix
+<tr class="row-odd"><td><p>Rotation matrix
 <img class="math" src="_images/math/7580223f19f8adeaebf264954a214856067e3074.png" alt="\pmb{R}"/></p></td>
 <td><p>(3, 3)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Compact axis-angle
+<tr class="row-even"><td><p>Compact axis-angle
 <img class="math" src="_images/math/e053af6bf928b8c528cb031ebb9c37ab1b39abc3.png" alt="\pmb{\omega}"/></p></td>
 <td><p>(3,)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Axis-angle
+<tr class="row-odd"><td><p>Axis-angle
 <img class="math" src="_images/math/70583ffeb32a0843b74c661c2ffb65fd2fc0daa1.png" alt="(\hat{\pmb{\omega}}, \theta)"/></p></td>
 <td><p>(4,)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Logarithm of rotation
+<tr class="row-even"><td><p>Logarithm of rotation
 <img class="math" src="_images/math/0b9e14c5cc096d7fbff8198de5f08cb44ba42af5.png" alt="\left[\pmb{\omega}\right]"/></p></td>
 <td><p>(3, 3)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Quaternion
+<tr class="row-odd"><td><p>Quaternion
 <img class="math" src="_images/math/4093d557bd0321bf32c1cd4263badce666a9d0e2.png" alt="\pmb{q}"/></p></td>
 <td><p>(4,)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Rotor
+<tr class="row-even"><td><p>Rotor
 <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/></p></td>
 <td><p>(4,)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Euler angles
+<tr class="row-odd"><td><p>Euler angles
 <img class="math" src="_images/math/83c71b6e07feeb9e154a6ba4919e7e3455f0e5ed.png" alt="(\alpha, \beta, \gamma)"/></p></td>
+<td><p>(3,)</p></td>
+<td><p>X</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Modified Rodrigues parameters
+<img class="math" src="_images/math/b6c245d487949782a89cab9ee83504a62fdc2337.png" alt="\psi"/></p></td>
 <td><p>(3,)</p></td>
 <td><p>X</p></td>
 <td></td>
@@ -277,13 +314,13 @@ representations on the following pages.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
-<ul class="simple">
+<ol class="arabic simple">
 <li><p>Waldron, K., Schmiedeler, J. (2008). Kinematics. In: Siciliano, B., Khatib,
 O. (eds) Springer Handbook of Robotics. Springer, Berlin, Heidelberg.
 <a class="reference external" href="https://doi.org/10.1007/978-3-540-30301-5_2">https://doi.org/10.1007/978-3-540-30301-5_2</a></p></li>
 <li><p>Representing Robot Pose: The good, the bad, and the ugly (slides): <a class="reference external" href="http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf">http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf</a></p></li>
 <li><p>Representing Robot Pose: The good, the bad, and the ugly (blog): <a class="reference external" href="http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly">http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly</a></p></li>
-</ul>
+</ol>
 </section>
 </section>
 
@@ -300,7 +337,7 @@ O. (eds) Springer Handbook of Robotics. Springer, Berlin, Heidelberg.
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Feb 18, 2023.<br/>
+      Last updated on Apr 03, 2023.<br/>
     </p>
   </div>
 </footer>
