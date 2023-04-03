@@ -46,6 +46,8 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
                        package_dir=package_dir)
         self.ee2base_home, self.screw_axes = \
             self._get_screw_axes(ee_frame, base_frame, joint_names)
+        self.joint_limits = np.array([
+            self.get_joint_limits(jn) for jn in joint_names])
 
     def _get_screw_axes(self, ee_frame, base_frame, joint_names):
         """Get screw axes of joints in space frame at robot's home position.
@@ -108,6 +110,8 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
             frame when the joints are at the specified coordinates.
         """
         assert len(thetas) == self.screw_axes.shape[1]
+        thetas = np.clip(
+            thetas, self.joint_limits[:, 0], self.joint_limits[:, 1])
         T = self.ee2base_home
         cov = np.zeros((6, 6))
         Sthetas = self.screw_axes * thetas[np.newaxis]
