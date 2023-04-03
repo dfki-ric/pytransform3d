@@ -213,6 +213,71 @@ def _covop2(A, B):
     return np.dot(_covop1(A), _covop1(B)) + _covop1(np.dot(B, A))
 
 
+def concat_locally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
+    r"""Concatenate two independent locally uncertain transformations.
+
+    We assume that the two distributions are independent.
+
+    Each of the two transformations is locally uncertain (not in the global /
+    world frame), that is, samples are generated through
+
+    .. math::
+
+        \boldsymbol{T} = \overline{\boldsymbol{T}} Exp(\boldsymbol{\xi}),
+
+    where :math:`\boldsymbol{T} \in SE(3)` is a sampled transformation matrix,
+    :math:`\overline{\boldsymbol{T}} \in SE(3)` is the mean transformation,
+    and :math:`\boldsymbol{\xi} \in \mathbb{R}^6` are exponential coordinates
+    of transformations and are distributed according to a Gaussian
+    distribution with zero mean and covariance :math:`\boldsymbol{\Sigma} \in
+    \mathbb{R}^{6 \times 6}`, that is, :math:`\boldsymbol{\xi} \sim
+    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})`.
+
+    The concatenation order is the same as in
+    :func:`~pytransform3d.transformations.concat`, that is, the transformation
+    B2C is left-multiplied to A2B.
+
+    This version of Meyer et al. approximates the covariance up to 2nd-order
+    terms.
+
+    Parameters
+    ----------
+    mean_A2B : array, shape (4, 4)
+        Mean of transform from A to B.
+
+    cov_A2B : array, shape (6, 6)
+        Covariance of transform from A to B.
+
+    mean_B2C : array, shape (4, 4)
+        Mean of transform from B to C.
+
+    cov_B2C : array, shape (6, 6)
+        Covariance of transform from B to C.
+
+    Returns
+    -------
+    mean_A2C : array, shape (4, 4)
+        Mean of new pose.
+
+    cov_A2C : array, shape (6, 6)
+        Covariance of new pose.
+
+    References
+    ----------
+    Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its
+    Application to Sensor Fusion,
+    https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
+    """
+    mean_A2C = concat(mean_A2B, mean_B2C)
+
+    mean_B2A = invert_transform(mean_A2B)
+    ad_B2A = adjoint_from_transform(mean_B2A)
+    cov_B2C_in_B = np.dot(ad_B2A, np.dot(cov_B2C, ad_B2A.T))
+    cov_A2C = cov_A2B + cov_B2C_in_B
+
+    return mean_A2C, cov_A2C
+
+
 def pose_fusion(means, covs):
     """Fuse Gaussian distributions of multiple poses.
 
