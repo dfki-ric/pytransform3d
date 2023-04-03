@@ -85,7 +85,7 @@ def test_sample_estimate_gaussian():
     assert_array_almost_equal(cov, cov_est, decimal=2)
 
 
-def test_concat_uncertain_transforms():
+def test_concat_globally_uncertain_transforms():
     cov_pose_chol = np.diag([0, 0, 0.03, 0, 0, 0])
     cov_pose = np.dot(cov_pose_chol, cov_pose_chol.T)
     velocity_vector = np.array([0, 0, 0, 1.0, 0, 0])
@@ -95,7 +95,7 @@ def test_concat_uncertain_transforms():
     T_est = np.eye(4)
     cov_est = np.zeros((6, 6))
     for t in range(n_steps):
-        T_est, cov_est = pu.concat_uncertain_transforms(
+        T_est, cov_est = pu.concat_globally_uncertain_transforms(
             T_est, cov_est, T_vel, cov_pose)
     assert_array_almost_equal(
         T_est, np.array([

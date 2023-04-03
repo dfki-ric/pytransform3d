@@ -13,7 +13,7 @@ def invert_uncertain_transform(
         cov: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray]: ...
 
 
-def concat_uncertain_transforms(
+def concat_globally_uncertain_transforms(
         mean_A2B: npt.ArrayLike, cov_A2B: npt.ArrayLike,
         mean_B2C: npt.ArrayLike, cov_B2C: npt.ArrayLike) -> np.ndarray: ...
 

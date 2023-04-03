@@ -449,7 +449,7 @@ Testing
 
    ~pytransform3d.uncertainty.estimate_gaussian_transform_from_samples
    ~pytransform3d.uncertainty.invert_uncertain_transform
-   ~pytransform3d.uncertainty.concat_uncertain_transforms
+   ~pytransform3d.uncertainty.concat_globally_uncertain_transforms
    ~pytransform3d.uncertainty.pose_fusion
    ~pytransform3d.uncertainty.to_ellipsoid
    ~pytransform3d.uncertainty.to_projected_ellipsoid

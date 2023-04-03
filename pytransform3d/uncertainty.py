@@ -94,14 +94,29 @@ def invert_uncertain_transform(mean, cov):
     return mean_inv, cov_inv
 
 
-def concat_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
-    """Concatenate two independent uncertain transformations.
+def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
+    r"""Concatenate two independent globally uncertain transformations.
+
+    We assume that the two distributions are independent.
+
+    Each of the two transformations is globally uncertain (not in the local /
+    body frame), that is, samples are generated through
+
+    .. math::
+
+        \boldsymbol{T} = Exp(\boldsymbol{\xi}) \overline{\boldsymbol{T}},
+
+    where :math:`\boldsymbol{T} \in SE(3)` is a sampled transformation matrix,
+    :math:`\overline{\boldsymbol{T}} \in SE(3)` is the mean transformation,
+    and :math:`\boldsymbol{\xi} \in \mathbb{R}^6` are exponential coordinates
+    of transformations and are distributed according to a Gaussian
+    distribution with zero mean and covariance :math:`\boldsymbol{\Sigma} \in
+    \mathbb{R}^{6 \times 6}`, that is, :math:`\boldsymbol{\xi} \sim
+    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})`.
 
     This version of Barfoot and Furgale approximates the covariance up to
     4th-order terms. Note that it is still an approximation of the covariance
     after concatenation of the two transforms.
-
-    We assume that the two distributions are independent.
 
     Parameters
     ----------
