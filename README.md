@@ -117,7 +117,7 @@ ax.set_zlim((0.0, 1.0))
 plt.show()
 ```
 
-![output](https://dfki-ric.github.io/pytransform3d/_images/plot_transform_manager.png)
+![output](https://dfki-ric.github.io/pytransform3d/_images/sphx_glr_plot_transform_manager_001.png)
 
 ## Documentation
 
