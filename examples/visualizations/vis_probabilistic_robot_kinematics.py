@@ -140,12 +140,17 @@ tm = ProbabilisticRobotKinematics(
     robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
 
 thetas = 0.5 * np.ones(len(joint_names))
+#thetas = np.array([0, 1, 0, 0, 0, 1])
 for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
-print(np.round(tm.screw_axes, 3))
 covs = np.zeros((len(thetas), 6, 6))
 covs[0] = np.diag([0, 0, 1, 0, 0, 0])
+covs[1] = np.diag([0, 1, 0, 0, 0, 0])
+covs[2] = np.diag([0, 1, 0, 0, 0, 0])
+covs[3] = np.diag([0, 0, 1, 0, 0, 0])
+covs[4] = np.diag([0, 1, 0, 0, 0, 0])
+covs[5] = np.diag([0, 0, 1, 0, 0, 0])
 #for i in range(len(thetas)):
 #    covs[i] = (0.5 * theta) ** 2 * np.diag(tm.screw_axes[i])
 T, cov = tm.probabilistic_forward_kinematics(thetas, covs)
