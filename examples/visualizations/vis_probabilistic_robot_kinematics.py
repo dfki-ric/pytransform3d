@@ -77,8 +77,9 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         ee2base_home = self.get_transform(ee_frame, base_frame)
         screw_axes = []
         for jn in joint_names:
-            _, ln, _, s_axis, limits, joint_type = self._joints[jn]
+            ln, _, _, s_axis, limits, joint_type = self._joints[jn]
             link2base = self.get_transform(ln, base_frame)
+            s_axis = np.dot(link2base[:3, :3], s_axis)
             q = link2base[:3, 3]
             if joint_type == "revolute":
                 h = 0.0
