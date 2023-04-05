@@ -143,11 +143,36 @@ thetas = 0.5 * np.ones(len(joint_names))
 for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
-T, cov = tm.probabilistic_forward_kinematics(
-    thetas, np.zeros((len(thetas), 6, 6)))
+print(np.round(tm.screw_axes, 3))
+covs = np.zeros((len(thetas), 6, 6))
+covs[0] = np.diag([0, 0, 1, 0, 0, 0])
+#for i in range(len(thetas)):
+#    covs[i] = (0.5 * theta) ** 2 * np.diag(tm.screw_axes[i])
+T, cov = tm.probabilistic_forward_kinematics(thetas, covs)
+
+# TODO refactor
+import open3d as o3d
+from matplotlib import cbook
+x, y, z = pu.to_projected_ellipsoid(T, cov, factor=1, n_steps=50)
+polys = np.stack(
+    [cbook._array_patch_perimeters(a, 1, 1)
+     for a in (x, y, z)],
+    axis=-1)
+vertices = polys.reshape(-1, 3)
+triangles = [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))] + \
+            [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))] + \
+            [[4 * i + 0, 4 * i + 3, 4 * i + 2] for i in range(len(polys))] + \
+            [[4 * i + 2, 4 * i + 1, 4 * i + 0] for i in range(len(polys))]
+mesh = o3d.geometry.TriangleMesh(
+    o3d.utility.Vector3dVector(vertices),
+    o3d.utility.Vector3iVector(triangles)
+)
+mesh.paint_uniform_color((0, 0.5, 0))
 
 fig = pv.figure()
 graph = fig.plot_graph(tm, "robot_arm", show_visuals=True)
-fig.plot_transform(T, s=0.1)
+fig.plot_transform(np.eye(4), s=0.3)
+fig.plot_transform(T, s=0.3)
+fig.add_geometry(mesh)
 fig.view_init()
 fig.show()
