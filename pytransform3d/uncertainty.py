@@ -270,11 +270,10 @@ def concat_locally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     """
     mean_A2C = concat(mean_A2B, mean_B2C)
 
-    # TODO check
-    mean_B2A = invert_transform(mean_A2B)
-    ad_B2A = adjoint_from_transform(mean_B2A)
-    cov_B2C_in_B = np.dot(ad_B2A, np.dot(cov_B2C, ad_B2A.T))
-    cov_A2C = cov_A2B + cov_B2C_in_B
+    # TODO check why this is not inverted in comparison to paper
+    ad_B2A = adjoint_from_transform(mean_A2B)
+    cov_B2C_in_A = np.dot(ad_B2A, np.dot(cov_B2C, ad_B2A.T))
+    cov_A2C = cov_B2C_in_A + cov_A2B
 
     return mean_A2C, cov_A2C
 
