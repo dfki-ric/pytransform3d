@@ -1,7 +1,10 @@
 """
-====
-TODO
-====
+=====================================
+Probabilistic Product of Exponentials
+=====================================
+
+We compute the probabilistic forward kinematics of a robot with flexible
+links or joints.
 """
 import os
 import numpy as np
@@ -44,7 +47,7 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         super(ProbabilisticRobotKinematics, self).__init__(check=False)
         self.load_urdf(robot_urdf, mesh_path=mesh_path,
                        package_dir=package_dir)
-        self.ee2base_home, self.screw_axes = \
+        self.ee2base_home, self.screw_axes_home = \
             self._get_screw_axes(ee_frame, base_frame, joint_names)
         self.joint_limits = np.array([
             self.get_joint_limits(jn) for jn in joint_names])
@@ -69,18 +72,18 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
             The home configuration (position and orientation) of the
             end-effector.
 
-        screw_axes : array, shape (6, n_joints)
+        screw_axes_home : array, shape (n_joints, 6)
             The joint screw axes in the space frame when the manipulator is at
-            the home position, in the format of a matrix with axes as the
-            columns.
+            the home position.
         """
         ee2base_home = self.get_transform(ee_frame, base_frame)
-        screw_axes = []
+        screw_axes_home = []
         for jn in joint_names:
             ln, _, _, s_axis, limits, joint_type = self._joints[jn]
             link2base = self.get_transform(ln, base_frame)
             s_axis = np.dot(link2base[:3, :3], s_axis)
             q = link2base[:3, 3]
+
             if joint_type == "revolute":
                 h = 0.0
             elif joint_type == "prismatic":
@@ -88,10 +91,11 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
             else:
                 raise NotImplementedError(
                     "Joint type %s not supported." % joint_type)
+
             screw_axis = pt.screw_axis_from_screw_parameters(q, s_axis, h)
-            screw_axes.append(screw_axis)
-        screw_axes = np.column_stack(screw_axes)
-        return ee2base_home, screw_axes
+            screw_axes_home.append(screw_axis)
+        screw_axes_home = np.row_stack(screw_axes_home)
+        return ee2base_home, screw_axes_home
 
     def probabilistic_forward_kinematics(self, thetas, covs):
         """Compute probabilistic forward kinematics.
@@ -110,17 +114,25 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
             A homogeneous transformation matrix representing the end-effector
             frame when the joints are at the specified coordinates.
         """
-        assert len(thetas) == self.screw_axes.shape[1]
+        assert len(thetas) == self.screw_axes_home.shape[0]
         thetas = np.clip(
             thetas, self.joint_limits[:, 0], self.joint_limits[:, 1])
-        T = self.ee2base_home
+
+        Sthetas = self.screw_axes_home * thetas[:, np.newaxis]
+        joint_displacements = ptr.transforms_from_exponential_coordinates(
+            Sthetas)
+
+        T = np.eye(4)
         cov = np.zeros((6, 6))
-        Sthetas = self.screw_axes * thetas[np.newaxis]
-        Sthetas_transforms = ptr.transforms_from_exponential_coordinates(
-            Sthetas.T)
-        for i in range(len(thetas) - 1, -1, -1):
+        for i in range(len(thetas)):
             T, cov = pu.concat_locally_uncertain_transforms(
-                T, cov, Sthetas_transforms[i], covs[i])
+                joint_displacements[i], T, covs[i], cov)
+
+        # TODO not sure about this:
+        cov_ee = np.zeros((6, 6))
+        T, cov = pu.concat_locally_uncertain_transforms(
+            self.ee2base_home, T, cov, cov_ee)
+
         return T, cov
 
 
@@ -138,21 +150,22 @@ with open(filename, "r") as f:
 joint_names = ["joint%d" % i for i in range(1, 7)]
 tm = ProbabilisticRobotKinematics(
     robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
+print(np.round(tm.screw_axes_home, 3))
 
-thetas = 0.5 * np.ones(len(joint_names))
-#thetas = np.array([0, 1, 0, 0, 0, 1])
+#thetas = 0.5 * np.ones(len(joint_names))
+thetas = 0.5 * np.array([0, 1, 1, 0, 1, 0])
 for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
 covs = np.zeros((len(thetas), 6, 6))
-covs[0] = np.diag([0, 0, 1, 0, 0, 0])
+covs[0] = 0.1 * np.diag([0, 0, 1, 0, 0, 0])
 covs[1] = np.diag([0, 1, 0, 0, 0, 0])
-covs[2] = np.diag([0, 1, 0, 0, 0, 0])
-covs[3] = np.diag([0, 0, 1, 0, 0, 0])
-covs[4] = np.diag([0, 1, 0, 0, 0, 0])
-covs[5] = np.diag([0, 0, 1, 0, 0, 0])
+#covs[2] = np.diag([0, 1, 0, 0, 0, 0])
+#covs[3] = np.diag([0, 0, 1, 0, 0, 0])
+#covs[4] = np.diag([0, 1, 0, 0, 0, 0])
+#covs[5] = np.diag([0, 0, 1, 0, 0, 0])
 #for i in range(len(thetas)):
-#    covs[i] = (0.5 * theta) ** 2 * np.diag(tm.screw_axes[i])
+#    covs[i] = (0.5 * thetas) ** 2 * np.diag(tm.screw_axes_home[i])
 T, cov = tm.probabilistic_forward_kinematics(thetas, covs)
 
 # TODO refactor
