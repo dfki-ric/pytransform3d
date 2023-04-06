@@ -979,33 +979,33 @@ def screw_parameters_from_dual_quaternion(dq):
 
 
 def adjoint_from_transform(A2B, strict_check=True, check=True):
-    """Compute adjoint representation of a transformation matrix.
+    r"""Compute adjoint representation of a transformation matrix.
 
     The adjoint representation of a transformation
-    :math:`\\left[Ad_{\\boldsymbol{T}_{BA}}\\right]`
+    :math:`\left[Ad_{\boldsymbol{T}_{BA}}\right] \in \mathbb{R}^{6 \times 6}`
     from frame A to frame B translates a twist from frame A to frame B
     through the adjoint map
 
     .. math::
 
-        \\mathcal{V}_{B}
-        = \\left[Ad_{\\boldsymbol{T}_{BA}}\\right] \\mathcal{V}_A
+        \mathcal{V}_{B}
+        = \left[Ad_{\boldsymbol{T}_{BA}}\right] \mathcal{V}_A
 
-    The corresponding matrix form is
+    The corresponding transformation matrix operation is
 
     .. math::
 
-        \\left[\\mathcal{V}_{B}\\right]
-        = \\boldsymbol{T}_{BA} \\left[\\mathcal{V}_A\\right]
-        \\boldsymbol{T}_{BA}^{-1}
+        \left[\mathcal{V}_{B}\right]
+        = \boldsymbol{T}_{BA} \left[\mathcal{V}_A\right]
+        \boldsymbol{T}_{BA}^{-1}
 
     We can also use the adjoint representation to transform a wrench from frame
     A to frame B:
 
     .. math::
 
-        \\mathcal{F}_B
-        = \\left[ Ad_{\\boldsymbol{T}_{AB}} \\right]^T \\mathcal{F}_A
+        \mathcal{F}_B
+        = \left[ Ad_{\boldsymbol{T}_{AB}} \right]^T \mathcal{F}_A
 
     Note that not only the adjoint is transposed but also the transformation is
     inverted.
@@ -1014,14 +1014,39 @@ def adjoint_from_transform(A2B, strict_check=True, check=True):
 
     .. math::
 
-        \\left[Ad_{\\boldsymbol{T}_1 \\boldsymbol{T}_2}\\right]
-        = \\left[Ad_{\\boldsymbol{T}_1}\\right]
-        \\left[Ad_{\\boldsymbol{T}_2}\\right]
+        \left[Ad_{\boldsymbol{T}_1 \boldsymbol{T}_2}\right]
+        = \left[Ad_{\boldsymbol{T}_1}\right]
+        \left[Ad_{\boldsymbol{T}_2}\right]
 
     .. math::
 
-        \\left[Ad_{\\boldsymbol{T}}\\right]^{-1} =
-        \\left[Ad_{\\boldsymbol{T}^{-1}}\\right]
+        \left[Ad_{\boldsymbol{T}}\right]^{-1} =
+        \left[Ad_{\boldsymbol{T}^{-1}}\right]
+
+    For a transformation matrix
+
+    .. math::
+
+        \boldsymbol T =
+        \left( \begin{array}{cc}
+            \boldsymbol R & \boldsymbol t\\
+            \boldsymbol 0 & 1\\
+        \end{array} \right)
+
+    the adjoint is defined as
+
+    .. math::
+
+        \left[Ad_{\boldsymbol{T}}\right]
+        =
+        \left( \begin{array}{cc}
+            \boldsymbol R & \boldsymbol 0\\
+            \left[\boldsymbol{t}\right]_{\times}\boldsymbol R & \boldsymbol R\\
+        \end{array} \right),
+
+    where :math:`\left[\boldsymbol{t}\right]_{\times}` is the cross-product
+    matrix (see :func:`~pytransform3d.rotations.cross_product_matrix`) of the
+    translation component.
 
     Parameters
     ----------
