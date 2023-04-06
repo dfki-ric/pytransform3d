@@ -24,7 +24,15 @@ def cross_product_matrix(v):
 
     .. math::
 
-        \boldsymbol{V} = \left(\begin{array}{ccc}
+        \left[\boldsymbol{v}\right]_{\times}
+        =
+        \left[\begin{array}{c}
+        v_1\\ v_2\\ v_3
+        \end{array}\right]_{\times}
+        =
+        \boldsymbol{V}
+        =
+        \left(\begin{array}{ccc}
         0 & -v_3 & v_2\\
         v_3 & 0 & -v_1\\
         -v_2 & v_1 & 0
