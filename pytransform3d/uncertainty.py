@@ -213,7 +213,7 @@ def _covop2(A, B):
     return np.dot(_covop1(A), _covop1(B)) + _covop1(np.dot(B, A))
 
 
-def concat_locally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
+def concat_locally_uncertain_transforms(mean_A2B, cov_A, mean_B2C, cov_B):
     r"""Concatenate two independent locally uncertain transformations.
 
     We assume that the two distributions are independent.
@@ -245,14 +245,14 @@ def concat_locally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     mean_A2B : array, shape (4, 4)
         Mean of transform from A to B.
 
-    cov_A2B : array, shape (6, 6)
-        Covariance of transform from A to B.
+    cov_A : array, shape (6, 6)
+        Covariance of noise in frame A.
 
     mean_B2C : array, shape (4, 4)
         Mean of transform from B to C.
 
-    cov_B2C : array, shape (6, 6)
-        Covariance of transform from B to C.
+    cov_B : array, shape (6, 6)
+        Covariance of noise in frame B.
 
     Returns
     -------
@@ -270,12 +270,11 @@ def concat_locally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     """
     mean_A2C = concat(mean_A2B, mean_B2C)
 
-    # TODO check why this is not inverted in comparison to paper
-    ad_A2B = adjoint_from_transform(mean_A2B)
-    cov_B2C_in_A = np.dot(ad_A2B, np.dot(cov_B2C, ad_A2B.T))
-    cov_A2C = cov_B2C_in_A + cov_A2B
+    ad_B2A = adjoint_from_transform(invert_transform(mean_A2B))
+    cov_B_in_A = np.dot(ad_B2A, np.dot(cov_B, ad_B2A.T))
+    total_cov_A = cov_B_in_A + cov_A
 
-    return mean_A2C, cov_A2C
+    return mean_A2C, total_cov_A
 
 
 def pose_fusion(means, covs):
