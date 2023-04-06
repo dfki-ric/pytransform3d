@@ -129,9 +129,9 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
                 joint_displacements[i], T, covs[i], cov)
 
         # TODO not sure about this:
-        cov_ee = np.zeros((6, 6))
-        T, cov = pu.concat_locally_uncertain_transforms(
-            self.ee2base_home, T, cov, cov_ee)
+        T = T.dot(self.ee2base_home)
+        ad = pt.adjoint_from_transform(self.ee2base_home)
+        cov = ad.dot(cov).dot(ad.T)
 
         return T, cov
 
