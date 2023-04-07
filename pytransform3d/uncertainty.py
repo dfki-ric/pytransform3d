@@ -128,13 +128,13 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
         Mean of transform from A to B.
 
     cov_A2B : array, shape (6, 6)
-        Covariance of transform from A to B.
+        Covariance of transform from A to B. Models uncertainty in frame B.
 
     mean_B2C : array, shape (4, 4)
         Mean of transform from B to C.
 
     cov_B2C : array, shape (6, 6)
-        Covariance of transform from B to C.
+        Covariance of transform from B to C. Models uncertainty in frame C.
 
     Returns
     -------
@@ -142,7 +142,7 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
         Mean of new pose.
 
     cov_A2C : array, shape (6, 6)
-        Covariance of new pose.
+        Covariance of new pose. Models uncertainty in frame C.
 
     References
     ----------
