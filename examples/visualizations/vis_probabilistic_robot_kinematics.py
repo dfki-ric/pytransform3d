@@ -136,6 +136,10 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         return T, cov
 
 
+import open3d as o3d
+from matplotlib import cbook
+
+
 class Surface(pv.Artist):
     """Surface.
 
@@ -154,25 +158,37 @@ class Surface(pv.Artist):
         Color
     """
     def __init__(self, x, y, z, c=None):
-        import open3d as o3d
-        from matplotlib import cbook
+        self.c = c
+        self.mesh = o3d.geometry.TriangleMesh()
+        self.set_data(x, y, z)
+
+    def set_data(self, x, y, z):
+        """Update data.
+
+        Parameters
+        ----------
+        x : array, shape (n_steps, n_steps)
+            Coordinates on x-axis of grid on surface.
+
+        y : array, shape (n_steps, n_steps)
+            Coordinates on y-axis of grid on surface.
+
+        z : array, shape (n_steps, n_steps)
+            Coordinates on z-axis of grid on surface.
+        """
         polys = np.stack([cbook._array_patch_perimeters(a, 1, 1)
                           for a in (x, y, z)], axis=-1)
         vertices = polys.reshape(-1, 3)
         triangles = (
-            [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))]
-            + [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))]
+            [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))] +
+            [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))] +
+            [[4 * i + 0, 4 * i + 3, 4 * i + 2] for i in range(len(polys))] +
+            [[4 * i + 2, 4 * i + 1, 4 * i + 0] for i in range(len(polys))]
         )
-        self.mesh = o3d.geometry.TriangleMesh(
-            o3d.utility.Vector3dVector(vertices),
-            o3d.utility.Vector3iVector(triangles)
-        )
-        if c is not None:
-            self.mesh.paint_uniform_color(c)
-
-    def set_data(self):
-        """Update data."""
-        raise NotImplementedError()
+        self.mesh.vertices = o3d.utility.Vector3dVector(vertices)
+        self.mesh.triangles = o3d.utility.Vector3iVector(triangles)
+        if self.c is not None:
+            self.mesh.paint_uniform_color(self.c)
 
     @property
     def geometries(self):
@@ -201,8 +217,8 @@ joint_names = ["joint%d" % i for i in range(1, 7)]
 tm = ProbabilisticRobotKinematics(
     robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
 
-#thetas = 0.5 * np.ones(len(joint_names))
-thetas = 0.5 * np.array([0, 1, 1, 0, 1, 0])
+thetas = 0.5 * np.ones(len(joint_names))
+#thetas = 0.5 * np.array([0, 1, 1, 0, 1, 0])
 for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
