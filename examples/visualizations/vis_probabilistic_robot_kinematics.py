@@ -193,4 +193,7 @@ fig.plot_transform(np.eye(4), s=0.3)
 fig.plot_transform(T, s=0.3)
 fig.add_geometry(mesh)
 fig.view_init()
-fig.show()
+if "__file__" in globals():
+    fig.show()
+else:
+    fig.save_image("__open3d_rendered_image.jpg")
