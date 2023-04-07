@@ -136,6 +136,56 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         return T, cov
 
 
+class Surface(pv.Artist):
+    """Surface.
+
+    Parameters
+    ----------
+    x : array, shape (n_steps, n_steps)
+        Coordinates on x-axis of grid on surface.
+
+    y : array, shape (n_steps, n_steps)
+        Coordinates on y-axis of grid on surface.
+
+    z : array, shape (n_steps, n_steps)
+        Coordinates on z-axis of grid on surface.
+
+    c : array-like, shape (3,), optional (default: None)
+        Color
+    """
+    def __init__(self, x, y, z, c=None):
+        import open3d as o3d
+        from matplotlib import cbook
+        polys = np.stack([cbook._array_patch_perimeters(a, 1, 1)
+                          for a in (x, y, z)], axis=-1)
+        vertices = polys.reshape(-1, 3)
+        triangles = (
+            [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))]
+            + [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))]
+        )
+        self.mesh = o3d.geometry.TriangleMesh(
+            o3d.utility.Vector3dVector(vertices),
+            o3d.utility.Vector3iVector(triangles)
+        )
+        if c is not None:
+            self.mesh.paint_uniform_color(c)
+
+    def set_data(self):
+        """Update data."""
+        raise NotImplementedError()
+
+    @property
+    def geometries(self):
+        """Expose geometries.
+
+        Returns
+        -------
+        geometries : list
+            List of geometries that can be added to the visualizer.
+        """
+        return [self.mesh]
+
+
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
@@ -150,7 +200,6 @@ with open(filename, "r") as f:
 joint_names = ["joint%d" % i for i in range(1, 7)]
 tm = ProbabilisticRobotKinematics(
     robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
-print(np.round(tm.screw_axes_home, 3))
 
 #thetas = 0.5 * np.ones(len(joint_names))
 thetas = 0.5 * np.array([0, 1, 1, 0, 1, 0])
@@ -158,41 +207,21 @@ for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
 covs = np.zeros((len(thetas), 6, 6))
-covs[0] = 0.1 * np.diag([0, 0, 1, 0, 0, 0])
+covs[0] = np.diag([0, 0, 1, 0, 0, 0])
 covs[1] = np.diag([0, 1, 0, 0, 0, 0])
-#covs[2] = np.diag([0, 1, 0, 0, 0, 0])
-#covs[3] = np.diag([0, 0, 1, 0, 0, 0])
-#covs[4] = np.diag([0, 1, 0, 0, 0, 0])
-#covs[5] = np.diag([0, 0, 1, 0, 0, 0])
-#for i in range(len(thetas)):
-#    covs[i] = (0.5 * thetas) ** 2 * np.diag(tm.screw_axes_home[i])
+covs[2] = np.diag([0, 1, 0, 0, 0, 0])
+covs[4] = np.diag([0, 1, 0, 0, 0, 0])
+covs *= 0.1
 T, cov = tm.probabilistic_forward_kinematics(thetas, covs)
 
-# TODO refactor
-import open3d as o3d
-from matplotlib import cbook
 x, y, z = pu.to_projected_ellipsoid(T, cov, factor=1, n_steps=50)
-polys = np.stack(
-    [cbook._array_patch_perimeters(a, 1, 1)
-     for a in (x, y, z)],
-    axis=-1)
-vertices = polys.reshape(-1, 3)
-triangles = [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))] + \
-            [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))] + \
-            [[4 * i + 0, 4 * i + 3, 4 * i + 2] for i in range(len(polys))] + \
-            [[4 * i + 2, 4 * i + 1, 4 * i + 0] for i in range(len(polys))]
-mesh = o3d.geometry.TriangleMesh(
-    o3d.utility.Vector3dVector(vertices),
-    o3d.utility.Vector3iVector(triangles)
-)
-mesh.paint_uniform_color((0, 0.5, 0))
 
 fig = pv.figure()
 graph = fig.plot_graph(tm, "robot_arm", show_visuals=True)
 fig.plot_transform(np.eye(4), s=0.3)
 fig.plot_transform(T, s=0.3)
-fig.add_geometry(mesh)
-fig.view_init()
+Surface(x, y, z, c=(0, 0.5, 0.5)).add_artist(fig)
+fig.view_init(elev=20)
 if "__file__" in globals():
     fig.show()
 else:

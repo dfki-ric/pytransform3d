@@ -420,10 +420,10 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=20):
     order = vals.argsort()[::-1]
     vals, vecs = vals[order], vecs[:, order]
 
-    radii = factor * np.sqrt(vals)
+    radii = factor * np.sqrt(vals[:3])
 
     # Grid on ellipsoid in exponential coordinate space
-    radius_x, radius_y, radius_z = radii[:3]
+    radius_x, radius_y, radius_z = radii
     phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
     x = radius_x * np.sin(phi) * np.cos(theta)
     y = radius_y * np.sin(phi) * np.sin(theta)
