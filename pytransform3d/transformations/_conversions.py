@@ -323,8 +323,8 @@ def exponential_coordinates_from_transform_log(transform_log, check=True):
     r"""Compute exponential coordinates from logarithm of transformation.
 
     Extracts the vector :math:`\mathcal{S} \theta =
-    (\boldsymbol{\omega}, \boldsymbol{v}) \theta \in \mathbb{R}^6` from the
-    matrix
+    (\hat{\boldsymbol{\omega}}, \boldsymbol{v}) \theta \in \mathbb{R}^6` from
+    the matrix
 
     .. math::
 
@@ -388,14 +388,14 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
         =
         \left(
         \begin{array}{c}
-        Log\boldsymbol{R}\\
-        \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}
+        Log(\boldsymbol{R})\\
+        \boldsymbol{J}^{-1}(\theta) \boldsymbol{p}
         \end{array}
         \right)
         =
         \left(
         \begin{array}{c}
-        \boldsymbol{\omega}\\
+        \hat{\boldsymbol{\omega}}\\
         \boldsymbol{v}
         \end{array}
         \right)
@@ -403,15 +403,8 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
         =
         \mathcal{S}\theta,
 
-    where
-
-    .. math::
-
-        \boldsymbol{G}^{-1}(\theta)
-        = \boldsymbol{I} \frac{1}{\theta}
-        + \frac{1}{2} [\boldsymbol{\omega}]
-        + (\frac{1}{\theta} - \frac{1}{2 \tan \frac{\theta}{2}})
-        [\boldsymbol{\omega}]^2.
+    where :math:`\boldsymbol{J}^{-1}(\theta)` is the inverse left Jacobian of
+    :math:`SO(3)` (see :func:`~pytransform3d.rotations.left_jacobian_SO3_inv`).
 
     Parameters
     ----------
@@ -450,9 +443,9 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
     if theta == 0:
         return np.r_[0.0, 0.0, 0.0, p]
 
-    v = np.dot(left_jacobian_SO3_inv(omega_theta), p)
+    v_theta = np.dot(left_jacobian_SO3_inv(omega_theta), p)
 
-    return np.hstack((omega_theta, v))
+    return np.hstack((omega_theta, v_theta))
 
 
 def screw_matrix_from_screw_axis(screw_axis):
@@ -525,7 +518,7 @@ def transform_log_from_exponential_coordinates(Stheta):
         \right) \theta
         = \left[ \mathcal{S} \right] \theta \in so(3)
 
-    from the vector :math:`\mathcal{S} \theta = (\boldsymbol{\omega},
+    from the vector :math:`\mathcal{S} \theta = (\hat{\boldsymbol{\omega}},
     \boldsymbol{v}) \theta \in \mathbb{R}^6`.
 
     Parameters
@@ -596,30 +589,23 @@ def transform_log_from_transform(A2B, strict_check=True):
         =
         \left(
         \begin{array}{cc}
-        \log\boldsymbol{R} & \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\
+        \log\boldsymbol{R} & \boldsymbol{J}^{-1}(\theta) \boldsymbol{p}\\
         \boldsymbol{0} & 0
         \end{array}
         \right)
         =
         \left(
         \begin{array}{cc}
-        \hat{\boldsymbol{\omega}}\theta
-        & \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\
+        \hat{\boldsymbol{\omega}} \theta
+        & \boldsymbol{v} \theta\\
         \boldsymbol{0} & 0
         \end{array}
         \right)
         =
         \left[\mathcal{S}\right]\theta,
 
-    where
-
-    .. math::
-
-        \boldsymbol{G}^{-1}(\theta)
-        = \boldsymbol{I} \frac{1}{\theta}
-        + \frac{1}{2} [\boldsymbol{\omega}]
-        + (\frac{1}{\theta} - \frac{1}{2 \tan \frac{\theta}{2}})
-        [\boldsymbol{\omega}]^2.
+    where :math:`\boldsymbol{J}^{-1}(\theta)` is the inverse left Jacobian of
+    :math:`SO(3)` (see :func:`~pytransform3d.rotations.left_jacobian_SO3_inv`).
 
     Parameters
     ----------
@@ -654,10 +640,10 @@ def transform_log_from_transform(A2B, strict_check=True):
         return transform_log
 
     J_inv = left_jacobian_SO3_inv(omega_theta)
-    v = np.dot(J_inv, p)
+    v_theta = np.dot(J_inv, p)
 
     transform_log[:3, :3] = cross_product_matrix(omega_theta)
-    transform_log[:3, 3] = v
+    transform_log[:3, 3] = v_theta
 
     return transform_log
 
@@ -676,25 +662,20 @@ def transform_from_exponential_coordinates(Stheta, check=True):
 
         Exp(\mathcal{S}\theta) =
         Exp\left(\left(\begin{array}{c}
-        \boldsymbol{\omega}\\
+        \hat{\boldsymbol{\omega}}\\
         \boldsymbol{v}
         \end{array}\right)\theta\right)
         =
         \exp(\left[\mathcal{S}\right] \theta)
         =
         \left(\begin{array}{cc}
-        Exp(\boldsymbol{\omega}) & \boldsymbol{G}(\theta)\boldsymbol{v}\\
+        Exp(\hat{\boldsymbol{\omega}} \theta) &
+        \boldsymbol{J}(\theta)\boldsymbol{v}\theta\\
         \boldsymbol{0} & 1
         \end{array}\right),
 
-    where
-
-    .. math::
-
-        \boldsymbol{G}(\theta)
-        = \boldsymbol{I}\theta
-        + (1 - \cos \theta) [\boldsymbol{\omega}]
-        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2.
+    where :math:`\boldsymbol{J}(\theta)` is the left Jacobian of :math:`SO(3)`
+    (see :func:`~pytransform3d.rotations.left_jacobian_SO3`).
 
     Parameters
     ----------
@@ -722,13 +703,13 @@ def transform_from_exponential_coordinates(Stheta, check=True):
     if theta == 0.0:  # only translation
         return translate_transform(np.eye(4), Stheta[3:], check=check)
 
-    omega = Stheta[:3]
-    v = Stheta[3:]
+    omega_theta = Stheta[:3]
+    v_theta = Stheta[3:]
 
     A2B = np.eye(4)
-    A2B[:3, :3] = matrix_from_compact_axis_angle(omega)
-    J = left_jacobian_SO3(omega)
-    A2B[:3, 3] = np.dot(J, v)
+    A2B[:3, :3] = matrix_from_compact_axis_angle(omega_theta)
+    J = left_jacobian_SO3(omega_theta)
+    A2B[:3, 3] = np.dot(J, v_theta)
     return A2B
 
 
@@ -746,22 +727,17 @@ def transform_from_transform_log(transform_log):
 
         \exp([\mathcal{S}]\theta) =
         \exp\left(\left(\begin{array}{cc}
-        \left[\boldsymbol{\omega}\right] & \boldsymbol{v}\\
+        \left[\hat{\boldsymbol{\omega}}\right] & \boldsymbol{v}\\
         \boldsymbol{0} & 0
         \end{array}\right)\theta\right) =
         \left(\begin{array}{cc}
-        Exp(\boldsymbol{\omega}) & \boldsymbol{G}(\theta)\boldsymbol{v}\\
+        Exp(\hat{\boldsymbol{\omega}} \theta) &
+        \boldsymbol{J}(\theta)\boldsymbol{v}\theta\\
         \boldsymbol{0} & 1
         \end{array}\right),
 
-    where
-
-    .. math::
-
-        \boldsymbol{G}(\theta)
-        = \boldsymbol{I}\theta
-        + (1 - \cos \theta) [\boldsymbol{\omega}]
-        + (\theta - \sin \theta) [\boldsymbol{\omega}]^2.
+    where :math:`\boldsymbol{J}(\theta)` is the left Jacobian of :math:`SO(3)`
+    (see :func:`~pytransform3d.rotations.left_jacobian_SO3`).
 
     Parameters
     ----------
@@ -777,16 +753,16 @@ def transform_from_transform_log(transform_log):
 
     omega_theta = np.array([
         transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]])
-    v = transform_log[:3, 3]
+    v_theta = transform_log[:3, 3]
     theta = np.linalg.norm(omega_theta)
 
     if theta == 0.0:  # only translation
-        return translate_transform(np.eye(4), v)
+        return translate_transform(np.eye(4), v_theta)
 
     A2B = np.eye(4)
     A2B[:3, :3] = matrix_from_compact_axis_angle(omega_theta)
     J = left_jacobian_SO3(omega_theta)
-    A2B[:3, 3] = np.dot(J, v)
+    A2B[:3, 3] = np.dot(J, v_theta)
     return A2B
 
 
