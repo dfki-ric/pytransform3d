@@ -249,10 +249,12 @@ def concat_locally_uncertain_transforms(mean_A2B, mean_B2C, cov_A, cov_B):
         Mean of transform from B to C.
 
     cov_A : array, shape (6, 6)
-        Covariance of noise in frame A.
+        Covariance of noise in frame A. Noise samples are right-multiplied with
+        the mean transform A2B.
 
     cov_B : array, shape (6, 6)
-        Covariance of noise in frame B.
+        Covariance of noise in frame B. Noise samples are right-multiplied with
+        the mean transform B2C.
 
     Returns
     -------
