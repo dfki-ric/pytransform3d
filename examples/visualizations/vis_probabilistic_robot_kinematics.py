@@ -232,7 +232,7 @@ joint_names = ["joint%d" % i for i in range(1, 7)]
 tm = ProbabilisticRobotKinematics(
     robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
 
-thetas = 0.5 * np.array([0, 1, 1, 0, 1, 0])
+thetas = np.array([1, 1, 1, 0, 1, 0])
 for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
@@ -241,7 +241,7 @@ covs[0] = np.diag([0, 0, 1, 0, 0, 0])
 covs[1] = np.diag([0, 1, 0, 0, 0, 0])
 covs[2] = np.diag([0, 1, 0, 0, 0, 0])
 covs[4] = np.diag([0, 1, 0, 0, 0, 0])
-covs *= 0.1
+covs *= 0.05
 T, cov = tm.probabilistic_forward_kinematics(thetas, covs)
 
 x, y, z = pu.to_projected_ellipsoid(T, cov, factor=1, n_steps=50)
