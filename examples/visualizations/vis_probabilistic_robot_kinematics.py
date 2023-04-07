@@ -202,6 +202,21 @@ class Surface(pv.Artist):
         return [self.mesh]
 
 
+def animation_callback(
+        step, n_frames, tm, graph, joint_names, thetas, covs, surface):
+    angle = 0.5 * np.cos(2.0 * np.pi * (step / n_frames))
+    thetas_t = angle * thetas
+    for joint_name, value in zip(joint_names, thetas_t):
+        tm.set_joint(joint_name, value)
+    graph.set_data()
+
+    T, cov = tm.probabilistic_forward_kinematics(thetas_t, covs)
+    x, y, z = pu.to_projected_ellipsoid(T, cov, factor=1, n_steps=50)
+    surface.set_data(x, y, z)
+
+    return graph, surface
+
+
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
@@ -217,8 +232,7 @@ joint_names = ["joint%d" % i for i in range(1, 7)]
 tm = ProbabilisticRobotKinematics(
     robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
 
-thetas = 0.5 * np.ones(len(joint_names))
-#thetas = 0.5 * np.array([0, 1, 1, 0, 1, 0])
+thetas = 0.5 * np.array([0, 1, 1, 0, 1, 0])
 for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
@@ -235,10 +249,14 @@ x, y, z = pu.to_projected_ellipsoid(T, cov, factor=1, n_steps=50)
 fig = pv.figure()
 graph = fig.plot_graph(tm, "robot_arm", show_visuals=True)
 fig.plot_transform(np.eye(4), s=0.3)
-fig.plot_transform(T, s=0.3)
-Surface(x, y, z, c=(0, 0.5, 0.5)).add_artist(fig)
+surface = Surface(x, y, z, c=(0, 0.5, 0.5))
+surface.add_artist(fig)
 fig.view_init(elev=20)
+n_frames = 200
 if "__file__" in globals():
+    fig.animate(animation_callback, n_frames, loop=True,
+                fargs=(n_frames, tm, graph, joint_names, thetas, covs,
+                       surface))
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")
