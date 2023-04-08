@@ -120,6 +120,20 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     different from
     :func:`~pytransform3d.uncertainty.concat_locally_uncertain_transforms`.
 
+    Hence, the full model is
+
+    .. math::
+
+        Exp(_C\boldsymbol{\xi'}) \overline{\boldsymbol{T}}_{CA} =
+        Exp(_C\boldsymbol{\xi}) \overline{\boldsymbol{T}}_{CB}
+        Exp(_B\boldsymbol{\xi}) \overline{\boldsymbol{T}}_{BA},
+
+    where :math:`_B\boldsymbol{\xi} \sim \mathcal{N}(\boldsymbol{0},
+    \boldsymbol{\Sigma}_{BA})`, :math:`_C\boldsymbol{\xi} \sim
+    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma}_{CB})`, and
+    :math:`_C\boldsymbol{\xi'} \sim \mathcal{N}(\boldsymbol{0},
+    \boldsymbol{\Sigma}_{CA})`.
+
     This version of Barfoot and Furgale approximates the covariance up to
     4th-order terms. Note that it is still an approximation of the covariance
     after concatenation of the two transforms.
@@ -245,7 +259,7 @@ def concat_locally_uncertain_transforms(mean_A2B, mean_B2C, cov_A, cov_B):
 
     .. math::
 
-        \boldsymbol{T}_{CA} Exp(_A\boldsymbol{\xi'}) =
+        \overline{\boldsymbol{T}}_{CA} Exp(_A\boldsymbol{\xi'}) =
         \overline{\boldsymbol{T}}_{CB} Exp(_B\boldsymbol{\xi})
         \overline{\boldsymbol{T}}_{BA} Exp(_A\boldsymbol{\xi}),
 
