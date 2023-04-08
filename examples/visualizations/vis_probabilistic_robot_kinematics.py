@@ -4,10 +4,20 @@ Probabilistic Product of Exponentials
 =====================================
 
 We compute the probabilistic forward kinematics of a robot with flexible
-links or joints.
+links or joints and visualize the projected equiprobably ellipsoid of the
+end-effector's pose distribution.
+
+The end-effector's pose distribution is computed based on the probabilistic
+product of exponentials (PPOE):
+
+Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its
+Application to Sensor Fusion,
+https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
 """
 import os
 import numpy as np
+from matplotlib import cbook
+import open3d as o3d
 from pytransform3d.urdf import UrdfTransformManager
 import pytransform3d.transformations as pt
 import pytransform3d.trajectories as ptr
@@ -100,6 +110,8 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
     def probabilistic_forward_kinematics(self, thetas, covs):
         """Compute probabilistic forward kinematics.
 
+        This is based on the probabilistic product of exponentials.
+
         Parameters
         ----------
         thetas : array, shape (n_joints,)
@@ -113,6 +125,9 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         ee2base : array, shape (4, 4)
             A homogeneous transformation matrix representing the end-effector
             frame when the joints are at the specified coordinates.
+
+        cov : array, shape (6, 6)
+            Covariance of the pose in tangent space.
         """
         assert len(thetas) == self.screw_axes_home.shape[0]
         thetas = np.clip(
@@ -128,16 +143,11 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
             T, cov = pu.concat_locally_uncertain_transforms(
                 joint_displacements[i], T, covs[i], cov)
 
-        # TODO not sure about this:
         T = T.dot(self.ee2base_home)
         ad = pt.adjoint_from_transform(self.ee2base_home)
         cov = ad.dot(cov).dot(ad.T)
 
         return T, cov
-
-
-import open3d as o3d
-from matplotlib import cbook
 
 
 class Surface(pv.Artist):
