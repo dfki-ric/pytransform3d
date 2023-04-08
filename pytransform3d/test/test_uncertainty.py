@@ -115,6 +115,33 @@ def test_concat_globally_uncertain_transforms():
     assert cov_est[2, 4] != 0
 
 
+def test_concat_locally_uncertain_transforms():
+    mean_A2B = pt.transform_from(
+        R=pr.matrix_from_euler([0.5, 0.0, 0.0], 0, 1, 2, True),
+        p=np.array([1.0, 0.0, 0.0])
+    )
+    mean_B2C = pt.transform_from(
+        R=pr.matrix_from_euler([0.0, 0.5, 0.0], 0, 1, 2, True),
+        p=np.array([0.0, 1.0, 0.0])
+    )
+    cov_A = np.diag([1.0, 0, 0, 0, 0, 0])
+    cov_B = np.diag([0, 1.0, 0, 0, 0, 0])
+
+    mean_A2C, cov_A_total = pu.concat_locally_uncertain_transforms(
+        mean_A2B, mean_B2C, cov_A, np.zeros((6, 6)))
+    assert_array_almost_equal(mean_A2C, pt.concat(mean_A2B, mean_B2C))
+    assert_array_almost_equal(cov_A_total, cov_A)
+
+    mean_A2C, cov_A_total = pu.concat_locally_uncertain_transforms(
+        np.eye(4), mean_B2C, np.zeros((6, 6)), cov_B)
+    assert_array_almost_equal(cov_A_total, cov_B)
+
+    mean_A2C, cov_A_total = pu.concat_locally_uncertain_transforms(
+        mean_A2B, mean_B2C, np.zeros((6, 6)), cov_B)
+    ad_B2A = pt.adjoint_from_transform(pt.invert_transform(mean_A2B))
+    assert_array_almost_equal(cov_A_total, ad_B2A.dot(cov_B).dot(ad_B2A.T))
+
+
 def test_to_ellipsoid():
     mean = np.array([0.1, 0.2, 0.3])
     cov = np.array([
