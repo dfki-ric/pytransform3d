@@ -241,24 +241,38 @@ def concat_locally_uncertain_transforms(mean_A2B, mean_B2C, cov_A, cov_B):
     different from
     :func:`~pytransform3d.uncertainty.concat_globally_uncertain_transforms`.
 
+    Hence, the full model is
+
+    .. math::
+
+        \boldsymbol{T}_{CA} Exp(_A\boldsymbol{\xi'}) =
+        \overline{\boldsymbol{T}}_{CB} Exp(_B\boldsymbol{\xi})
+        \overline{\boldsymbol{T}}_{BA} Exp(_A\boldsymbol{\xi}),
+
+    where :math:`_B\boldsymbol{\xi} \sim \mathcal{N}(\boldsymbol{0},
+    \boldsymbol{\Sigma}_B)`, :math:`_A\boldsymbol{\xi} \sim
+    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma}_A)`, and
+    :math:`_A\boldsymbol{\xi'} \sim \mathcal{N}(\boldsymbol{0},
+    \boldsymbol{\Sigma}_{A,total})`.
+
     This version of Meyer et al. approximates the covariance up to 2nd-order
     terms.
 
     Parameters
     ----------
     mean_A2B : array, shape (4, 4)
-        Mean of transform from A to B.
+        Mean of transform from A to B: :math:`\overline{\boldsymbol{T}}_{BA}`.
 
     mean_B2C : array, shape (4, 4)
-        Mean of transform from B to C.
+        Mean of transform from B to C: :math:`\overline{\boldsymbol{T}}_{CB}`.
 
     cov_A : array, shape (6, 6)
-        Covariance of noise in frame A. Noise samples are right-multiplied with
-        the mean transform A2B.
+        Covariance of noise in frame A: :math:`\boldsymbol{\Sigma}_A`. Noise
+        samples are right-multiplied with the mean transform A2B.
 
     cov_B : array, shape (6, 6)
-        Covariance of noise in frame B. Noise samples are right-multiplied with
-        the mean transform B2C.
+        Covariance of noise in frame B: :math:`\boldsymbol{\Sigma}_B`. Noise
+        samples are right-multiplied with the mean transform B2C.
 
     Returns
     -------
