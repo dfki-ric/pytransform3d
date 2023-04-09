@@ -36,8 +36,11 @@ Input Validation Functions
    ~pytransform3d.rotations.check_rotor
    ~pytransform3d.rotations.check_mrp
 
+Conversions
+-----------
+
 Conversions to Rotation Matrix
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 See also :doc:`euler_angles` for conversions from and to Euler angles
 that have been omitted here for the sake of brevity.
@@ -56,7 +59,7 @@ that have been omitted here for the sake of brevity.
    ~pytransform3d.rotations.matrix_from_rotor
 
 Conversions to Axis-Angle
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -70,7 +73,7 @@ Conversions to Axis-Angle
    ~pytransform3d.rotations.compact_axis_angle_from_quaternion
 
 Conversions to Quaternion
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -86,7 +89,7 @@ Conversions to Quaternion
    ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
 
 Conversions to Rotor
---------------------
+^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -96,7 +99,7 @@ Conversions to Rotor
    ~pytransform3d.rotations.rotor_from_plane_angle
 
 Conversions to Modified Rodrigues Parameters
---------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -161,8 +164,8 @@ Testing
    ~pytransform3d.rotations.assert_quaternion_equal
    ~pytransform3d.rotations.assert_rotation_matrix
 
-Utility Functions
------------------
+Normalization
+-------------
 
 .. autosummary::
    :toctree: _apidoc/
@@ -173,19 +176,43 @@ Utility Functions
    ~pytransform3d.rotations.norm_angle
    ~pytransform3d.rotations.norm_axis_angle
    ~pytransform3d.rotations.norm_compact_axis_angle
-   ~pytransform3d.rotations.perpendicular_to_vectors
-   ~pytransform3d.rotations.angle_between_vectors
-   ~pytransform3d.rotations.vector_projection
-   ~pytransform3d.rotations.plane_basis_from_normal
+
+Random Sampling
+---------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.rotations.random_vector
    ~pytransform3d.rotations.random_axis_angle
    ~pytransform3d.rotations.random_compact_axis_angle
    ~pytransform3d.rotations.random_quaternion
-   ~pytransform3d.rotations.cross_product_matrix
+
+Jacobians
+---------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~pytransform3d.rotations.left_jacobian_SO3
    ~pytransform3d.rotations.left_jacobian_SO3_series
    ~pytransform3d.rotations.left_jacobian_SO3_inv
    ~pytransform3d.rotations.left_jacobian_SO3_inv_series
+
+Utility Functions
+-----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.rotations.perpendicular_to_vectors
+   ~pytransform3d.rotations.angle_between_vectors
+   ~pytransform3d.rotations.vector_projection
+   ~pytransform3d.rotations.plane_basis_from_normal
+   ~pytransform3d.rotations.cross_product_matrix
 
 Deprecated Functions
 --------------------
@@ -204,22 +231,6 @@ Deprecated Functions
     :no-members:
     :no-inherited-members:
 
-Utility Functions
------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pytransform3d.transformations.random_transform
-   ~pytransform3d.transformations.random_screw_axis
-   ~pytransform3d.transformations.random_exponential_coordinates
-   ~pytransform3d.transformations.norm_exponential_coordinates
-   ~pytransform3d.transformations.left_jacobian_SE3
-   ~pytransform3d.transformations.left_jacobian_SE3_series
-   ~pytransform3d.transformations.left_jacobian_SE3_inv
-   ~pytransform3d.transformations.left_jacobian_SE3_inv_series
-
 Input Validation Functions
 --------------------------
 
@@ -236,8 +247,11 @@ Input Validation Functions
    ~pytransform3d.transformations.check_transform_log
    ~pytransform3d.transformations.check_dual_quaternion
 
+Conversions
+-----------
+
 Conversions to Transformation Matrix
-------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -253,7 +267,7 @@ Conversions to Transformation Matrix
    ~pytransform3d.transformations.transform_from_dual_quaternion
 
 Conversions to Position and Quaternion
---------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -263,7 +277,7 @@ Conversions to Position and Quaternion
    ~pytransform3d.transformations.pq_from_dual_quaternion
 
 Conversions to Screw Parameters
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -273,7 +287,7 @@ Conversions to Screw Parameters
    ~pytransform3d.transformations.screw_parameters_from_dual_quaternion
 
 Conversions to Screw Axis
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -284,7 +298,7 @@ Conversions to Screw Axis
    ~pytransform3d.transformations.screw_axis_from_screw_matrix
 
 Conversions to Exponential Coordinates
---------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -295,7 +309,7 @@ Conversions to Exponential Coordinates
    ~pytransform3d.transformations.exponential_coordinates_from_transform_log
 
 Conversions to Screw Matrix
----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -305,7 +319,7 @@ Conversions to Screw Matrix
    ~pytransform3d.transformations.screw_matrix_from_transform_log
 
 Conversions to Matrix Logarithm
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -316,7 +330,7 @@ Conversions to Matrix Logarithm
    ~pytransform3d.transformations.transform_log_from_transform
 
 Conversions to Dual Quaternions
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: _apidoc/
@@ -378,6 +392,38 @@ Testing
    ~pytransform3d.transformations.assert_unit_dual_quaternion
    ~pytransform3d.transformations.assert_unit_dual_quaternion_equal
    ~pytransform3d.transformations.assert_screw_parameters_equal
+
+Random Sampling
+---------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.random_transform
+   ~pytransform3d.transformations.random_screw_axis
+   ~pytransform3d.transformations.random_exponential_coordinates
+
+Normalization
+-------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.norm_exponential_coordinates
+
+Jacobians
+---------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.left_jacobian_SE3
+   ~pytransform3d.transformations.left_jacobian_SE3_series
+   ~pytransform3d.transformations.left_jacobian_SE3_inv
+   ~pytransform3d.transformations.left_jacobian_SE3_inv_series
 
 
 :mod:`pytransform3d.batch_rotations`
