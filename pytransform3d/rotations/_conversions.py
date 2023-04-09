@@ -24,11 +24,11 @@ def cross_product_matrix(v):
 
     .. math::
 
-        \left[\boldsymbol{v}\right]_{\times}
+        \left[\boldsymbol{v}\right]
         =
         \left[\begin{array}{c}
         v_1\\ v_2\\ v_3
-        \end{array}\right]_{\times}
+        \end{array}\right]
         =
         \boldsymbol{V}
         =
