@@ -433,12 +433,13 @@ Jacobians
     :no-members:
     :no-inherited-members:
 
+Conversions
+-----------
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.batch_rotations.norm_vectors
-   ~pytransform3d.batch_rotations.angles_between_vectors
    ~pytransform3d.batch_rotations.active_matrices_from_angles
    ~pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles
    ~pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles
@@ -447,12 +448,30 @@ Jacobians
    ~pytransform3d.batch_rotations.cross_product_matrices
    ~pytransform3d.batch_rotations.matrices_from_quaternions
    ~pytransform3d.batch_rotations.quaternions_from_matrices
-   ~pytransform3d.batch_rotations.quaternion_slerp_batch
-   ~pytransform3d.batch_rotations.batch_q_conj
-   ~pytransform3d.batch_rotations.batch_concatenate_quaternions
    ~pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw
    ~pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz
+
+Operations
+----------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.batch_rotations.batch_q_conj
+   ~pytransform3d.batch_rotations.batch_concatenate_quaternions
+   ~pytransform3d.batch_rotations.quaternion_slerp_batch
    ~pytransform3d.batch_rotations.smooth_quaternion_trajectory
+
+Utility Functions
+-----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.batch_rotations.norm_vectors
+   ~pytransform3d.batch_rotations.angles_between_vectors
 
 
 :mod:`pytransform3d.trajectories`
@@ -462,6 +481,23 @@ Jacobians
     :no-members:
     :no-inherited-members:
 
+Conversions
+-----------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.trajectories.transforms_from_pqs
+   ~pytransform3d.trajectories.pqs_from_transforms
+   ~pytransform3d.trajectories.exponential_coordinates_from_transforms
+   ~pytransform3d.trajectories.transforms_from_exponential_coordinates
+   ~pytransform3d.trajectories.dual_quaternions_from_pqs
+   ~pytransform3d.trajectories.pqs_from_dual_quaternions
+
+Operations and Utility Functions
+--------------------------------
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
@@ -469,12 +505,6 @@ Jacobians
    ~pytransform3d.trajectories.invert_transforms
    ~pytransform3d.trajectories.concat_one_to_many
    ~pytransform3d.trajectories.concat_many_to_one
-   ~pytransform3d.trajectories.transforms_from_pqs
-   ~pytransform3d.trajectories.pqs_from_transforms
-   ~pytransform3d.trajectories.exponential_coordinates_from_transforms
-   ~pytransform3d.trajectories.transforms_from_exponential_coordinates
-   ~pytransform3d.trajectories.dual_quaternions_from_pqs
-   ~pytransform3d.trajectories.pqs_from_dual_quaternions
    ~pytransform3d.trajectories.batch_dq_conj
    ~pytransform3d.trajectories.batch_concatenate_dual_quaternions
    ~pytransform3d.trajectories.batch_dq_prod_vector
