@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transformations.transform_log_from_transform &#8212; pytransform3d 3.0.0 documentation</title>
+    <title>pytransform3d.transformations.transform_log_from_transform &#8212; pytransform3d 3.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -132,7 +132,7 @@
 <p><img src="../_images/math/9a7185dc100f072d488fa599659151ff6c54a0e6.png" alt="\log: \boldsymbol{T} \in SE(3)
 \rightarrow \left[ \mathcal{S} \right] \theta \in se(3)"/></p>
 </div><div class="math">
-<p><img src="../_images/math/216fcfba3ab797e9f57067d9d462e3fa5151c033.png" alt="\log(\boldsymbol{T}) =
+<p><img src="../_images/math/557de498405c85005606a2f3c8fa907994603f70.png" alt="\log(\boldsymbol{T}) =
 \log\left(
 \begin{array}{cc}
 \boldsymbol{R} &amp; \boldsymbol{p}\\
@@ -142,28 +142,23 @@
 =
 \left(
 \begin{array}{cc}
-\log\boldsymbol{R} &amp; \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\
+\log\boldsymbol{R} &amp; \boldsymbol{J}^{-1}(\theta) \boldsymbol{p}\\
 \boldsymbol{0} &amp; 0
 \end{array}
 \right)
 =
 \left(
 \begin{array}{cc}
-\hat{\boldsymbol{\omega}}\theta
-&amp; \boldsymbol{G}^{-1}(\theta) \boldsymbol{p}\\
+\hat{\boldsymbol{\omega}} \theta
+&amp; \boldsymbol{v} \theta\\
 \boldsymbol{0} &amp; 0
 \end{array}
 \right)
 =
 \left[\mathcal{S}\right]\theta,"/></p>
-</div><p>where</p>
-<div class="math">
-<p><img src="../_images/math/6556bf041407334dc6923db404e4fc8552918dc3.png" alt="\boldsymbol{G}^{-1}(\theta)
-= \boldsymbol{I} \frac{1}{\theta}
-+ \frac{1}{2} [\boldsymbol{\omega}]
-+ (\frac{1}{\theta} - \frac{1}{2 \tan \frac{\theta}{2}})
-[\boldsymbol{\omega}]^2."/></p>
-</div><dl class="field-list simple">
+</div><p>where <img class="math" src="../_images/math/f5833c2e51af3c49556d80475fc803cf9b85ef66.png" alt="\boldsymbol{J}^{-1}(\theta)"/> is the inverse left Jacobian of
+<img class="math" src="../_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/> (see <a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3_inv.html#pytransform3d.rotations.left_jacobian_SO3_inv" title="pytransform3d.rotations.left_jacobian_SO3_inv"><code class="xref py py-func docutils literal notranslate"><span class="pre">left_jacobian_SO3_inv()</span></code></a>).</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>A2B</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Transform from frame A to frame B</p>
@@ -198,7 +193,7 @@ warning.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 03, 2023.<br/>
+      Last updated on Apr 14, 2023.<br/>
     </p>
   </div>
 </footer>

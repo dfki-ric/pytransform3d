@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Probabilistic Product of Exponentials &#8212; pytransform3d 3.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="GUI Applications" href="../apps/index.html" />
+    <link rel="prev" title="Render URDF" href="render_urdf.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../index.html">Contents</a></li>
+                <li><a href="../index.html">Examples</a></li>
+                <li><a href="../../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction to 3D Rigid Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Probabilistic Product of Exponentials</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="probabilistic-product-of-exponentials">
+<span id="sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"></span><h1>Probabilistic Product of Exponentials<a class="headerlink" href="#probabilistic-product-of-exponentials" title="Permalink to this heading">¶</a></h1>
+<p>We compute the probabilistic forward kinematics of a robot with flexible
+links or joints and visualize the projected equiprobably ellipsoid of the
+end-effector’s pose distribution.</p>
+<p>The end-effector’s pose distribution is computed based on the probabilistic
+product of exponentials (PPOE):</p>
+<p>Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its
+Application to Sensor Fusion,
+<a class="reference external" href="https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf">https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf</a></p>
+<img src="../../_images/sphx_glr_vis_probabilistic_robot_kinematics_001.png" srcset="../../_images/sphx_glr_vis_probabilistic_robot_kinematics_001.png" alt="vis probabilistic robot kinematics" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cbook</span>
+<span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.urdf</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a>
+<span class="kn">import</span> <span class="nn">pytransform3d.transformations</span> <span class="k">as</span> <span class="nn">pt</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.trajectories</span> <span class="k">as</span> <span class="nn">ptr</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.uncertainty</span> <span class="k">as</span> <span class="nn">pu</span>
+<span class="kn">import</span> <span class="nn">pytransform3d.visualizer</span> <span class="k">as</span> <span class="nn">pv</span>
+
+
+<span class="k">class</span> <span class="nc">ProbabilisticRobotKinematics</span><span class="p">(</span><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Probabilistic robot kinematics.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    robot_urdf : str</span>
+<span class="sd">        URDF description of robot</span>
+
+<span class="sd">    ee_frame : str</span>
+<span class="sd">        Name of the end-effector frame</span>
+
+<span class="sd">    base_frame : str</span>
+<span class="sd">        Name of the base frame</span>
+
+<span class="sd">    joint_names : list</span>
+<span class="sd">        Names of joints in order from base to end effector</span>
+
+<span class="sd">    mesh_path : str, optional (default: None)</span>
+<span class="sd">        Path in which we search for meshes that are defined in the URDF.</span>
+<span class="sd">        Meshes will be ignored if it is set to None and no &#39;package_dir&#39;</span>
+<span class="sd">        is given.</span>
+
+<span class="sd">    package_dir : str, optional (default: None)</span>
+<span class="sd">        Some URDFs start file names with &#39;package://&#39; to refer to the ROS</span>
+<span class="sd">        package in which these files (textures, meshes) are located. This</span>
+<span class="sd">        variable defines to which path this prefix will be resolved.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">robot_urdf</span></a><span class="p">,</span> <span class="n">ee_frame</span><span class="p">,</span> <span class="n">base_frame</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">,</span>
+                 <span class="n">mesh_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">ProbabilisticRobotKinematics</span></a><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_urdf</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">robot_urdf</span></a><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="n">mesh_path</span><span class="p">,</span>
+                       <span class="n">package_dir</span><span class="o">=</span><span class="n">package_dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ee2base_home</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">screw_axes_home</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_screw_axes</span><span class="p">(</span><span class="n">ee_frame</span><span class="p">,</span> <span class="n">base_frame</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joint_limits</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_joint_limits</span><span class="p">(</span><span class="n">jn</span><span class="p">)</span> <span class="k">for</span> <span class="n">jn</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_get_screw_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ee_frame</span><span class="p">,</span> <span class="n">base_frame</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get screw axes of joints in space frame at robot&#39;s home position.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ee_frame : str</span>
+<span class="sd">            Name of the end-effector frame</span>
+
+<span class="sd">        base_frame : str</span>
+<span class="sd">            Name of the base frame</span>
+
+<span class="sd">        joint_names : list</span>
+<span class="sd">            Names of joints in order from base to end effector</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ee2base_home : array, shape (4, 4)</span>
+<span class="sd">            The home configuration (position and orientation) of the</span>
+<span class="sd">            end-effector.</span>
+
+<span class="sd">        screw_axes_home : array, shape (n_joints, 6)</span>
+<span class="sd">            The joint screw axes in the space frame when the manipulator is at</span>
+<span class="sd">            the home position.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ee2base_home</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">ee_frame</span><span class="p">,</span> <span class="n">base_frame</span><span class="p">)</span>
+        <span class="n">screw_axes_home</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">jn</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">:</span>
+            <span class="n">ln</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">limits</span><span class="p">,</span> <span class="n">joint_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">jn</span><span class="p">]</span>
+            <span class="n">link2base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">base_frame</span><span class="p">)</span>
+            <span class="n">s_axis</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.dot.html#numpy.dot" title="numpy.dot" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">dot</span></a><span class="p">(</span><span class="n">link2base</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">s_axis</span><span class="p">)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">link2base</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;revolute&quot;</span><span class="p">:</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">elif</span> <span class="n">joint_type</span> <span class="o">==</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">:</span>
+                <span class="n">h</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">inf</span></a>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;Joint type </span><span class="si">%s</span><span class="s2"> not supported.&quot;</span> <span class="o">%</span> <span class="n">joint_type</span><span class="p">)</span>
+
+            <span class="n">screw_axis</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.screw_axis_from_screw_parameters.html#pytransform3d.transformations.screw_axis_from_screw_parameters" title="pytransform3d.transformations.screw_axis_from_screw_parameters" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">pt</span><span class="o">.</span><span class="n">screw_axis_from_screw_parameters</span></a><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+            <span class="n">screw_axes_home</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">)</span>
+        <span class="n">screw_axes_home</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.row_stack.html#numpy.row_stack" title="numpy.row_stack" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">row_stack</span></a><span class="p">(</span><span class="n">screw_axes_home</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ee2base_home</span><span class="p">,</span> <span class="n">screw_axes_home</span>
+
+    <span class="k">def</span> <span class="nf">probabilistic_forward_kinematics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute probabilistic forward kinematics.</span>
+
+<span class="sd">        This is based on the probabilistic product of exponentials.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        thetas : array, shape (n_joints,)</span>
+<span class="sd">            A list of joint coordinates.</span>
+
+<span class="sd">        covs : array, shape (n_joints, 6, 6)</span>
+<span class="sd">            Covariances of joint transformations.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ee2base : array, shape (4, 4)</span>
+<span class="sd">            A homogeneous transformation matrix representing the end-effector</span>
+<span class="sd">            frame when the joints are at the specified coordinates.</span>
+
+<span class="sd">        cov : array, shape (6, 6)</span>
+<span class="sd">            Covariance of the pose in tangent space.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">screw_axes_home</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.clip.html#numpy.clip" title="numpy.clip" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">clip</span></a><span class="p">(</span>
+            <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_limits</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_limits</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">Sthetas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">screw_axes_home</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">[:,</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.newaxis" title="numpy.newaxis" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span></a><span class="p">]</span>
+        <span class="n">joint_displacements</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates" title="pytransform3d.trajectories.transforms_from_exponential_coordinates" class="sphx-glr-backref-module-pytransform3d-trajectories sphx-glr-backref-type-py-function"><span class="n">ptr</span><span class="o">.</span><span class="n">transforms_from_exponential_coordinates</span></a><span class="p">(</span>
+            <span class="n">Sthetas</span><span class="p">)</span>
+
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.eye.html#numpy.eye" title="numpy.eye" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">eye</span></a><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">)):</span>
+            <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.uncertainty.concat_locally_uncertain_transforms.html#pytransform3d.uncertainty.concat_locally_uncertain_transforms" title="pytransform3d.uncertainty.concat_locally_uncertain_transforms" class="sphx-glr-backref-module-pytransform3d-uncertainty sphx-glr-backref-type-py-function"><span class="n">pu</span><span class="o">.</span><span class="n">concat_locally_uncertain_transforms</span></a><span class="p">(</span>
+                <span class="n">joint_displacements</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">[</span><span class="n">i</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a><span class="p">)</span>
+
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ee2base_home</span><span class="p">)</span>
+        <span class="n">ad</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.adjoint_from_transform.html#pytransform3d.transformations.adjoint_from_transform" title="pytransform3d.transformations.adjoint_from_transform" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">pt</span><span class="o">.</span><span class="n">adjoint_from_transform</span></a><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ee2base_home</span><span class="p">)</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ad</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">)</span>
+
+        <span class="k">return</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a>
+
+
+<span class="k">class</span> <span class="nc">Surface</span><span class="p">(</span><a href="../../_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist" title="pytransform3d.visualizer.Artist" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class"><span class="n">pv</span><span class="o">.</span><span class="n">Artist</span></a><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Surface.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array, shape (n_steps, n_steps)</span>
+<span class="sd">        Coordinates on x-axis of grid on surface.</span>
+
+<span class="sd">    y : array, shape (n_steps, n_steps)</span>
+<span class="sd">        Coordinates on y-axis of grid on surface.</span>
+
+<span class="sd">    z : array, shape (n_steps, n_steps)</span>
+<span class="sd">        Coordinates on z-axis of grid on surface.</span>
+
+<span class="sd">    c : array-like, shape (3,), optional (default: None)</span>
+<span class="sd">        Color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : array, shape (n_steps, n_steps)</span>
+<span class="sd">            Coordinates on x-axis of grid on surface.</span>
+
+<span class="sd">        y : array, shape (n_steps, n_steps)</span>
+<span class="sd">            Coordinates on y-axis of grid on surface.</span>
+
+<span class="sd">        z : array, shape (n_steps, n_steps)</span>
+<span class="sd">            Coordinates on z-axis of grid on surface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">polys</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.stack.html#numpy.stack" title="numpy.stack" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">stack</span></a><span class="p">([</span><span class="n">cbook</span><span class="o">.</span><span class="n">_array_patch_perimeters</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                          <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a><span class="p">)],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="n">polys</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">triangles</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[[</span><span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polys</span><span class="p">))]</span> <span class="o">+</span>
+            <span class="p">[[</span><span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polys</span><span class="p">))]</span> <span class="o">+</span>
+            <span class="p">[[</span><span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polys</span><span class="p">))]</span> <span class="o">+</span>
+            <span class="p">[[</span><span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polys</span><span class="p">))]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangles</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3iVector</span><span class="p">(</span><span class="n">triangles</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">paint_uniform_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geometries : list</span>
+<span class="sd">            List of geometries that can be added to the visualizer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">animation_callback</span><span class="p">(</span>
+        <span class="n">step</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">,</span> <span class="n">surface</span><span class="p">):</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="p">(</span><span class="n">step</span> <span class="o">/</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">))</span>
+    <span class="n">thetas_t</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a>
+    <span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">,</span> <span class="n">thetas_t</span><span class="p">):</span>
+        <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint" title="pytransform3d.urdf.UrdfTransformManager.set_joint" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.set_data" title="pytransform3d.visualizer.Graph.set_data" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">graph</span><span class="o">.</span><span class="n">set_data</span></a><span class="p">()</span>
+
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">probabilistic_forward_kinematics</span><span class="p">(</span><span class="n">thetas_t</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">)</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.uncertainty.to_projected_ellipsoid.html#pytransform3d.uncertainty.to_projected_ellipsoid" title="pytransform3d.uncertainty.to_projected_ellipsoid" class="sphx-glr-backref-module-pytransform3d-uncertainty sphx-glr-backref-type-py-function"><span class="n">pu</span><span class="o">.</span><span class="n">to_projected_ellipsoid</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">surface</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a><span class="p">)</span>
+
+    <span class="k">return</span> <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a><span class="p">,</span> <span class="n">surface</span>
+
+
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a> <span class="o">=</span> <span class="s2">&quot;test/test_data/&quot;</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+<span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.exists" title="os.path.exists" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">)</span> <span class="ow">and</span>
+       <a href="https://docs.python.org/3/library/os.path.html#os.path.dirname" title="os.path.dirname" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;pytransform3d&quot;</span><span class="p">):</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a><span class="p">)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">filename</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">,</span> <span class="s2">&quot;robot_with_visuals.urdf&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">filename</span></a><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <a href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper" class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">f</span></a><span class="p">:</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">robot_urdf</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper" class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">f</span></a><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;joint</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)]</span>
+<span class="n">tm</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">ProbabilisticRobotKinematics</span></a><span class="p">(</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">robot_urdf</span></a><span class="p">,</span> <span class="s2">&quot;tcp&quot;</span><span class="p">,</span> <span class="s2">&quot;linkmount&quot;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">theta</span></a> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">):</span>
+    <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint" title="pytransform3d.urdf.UrdfTransformManager.set_joint" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_name</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">theta</span></a><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="nb">len</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">),</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.diag.html#numpy.diag" title="numpy.diag" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">diag</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.diag.html#numpy.diag" title="numpy.diag" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">diag</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.diag.html#numpy.diag" title="numpy.diag" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">diag</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.diag.html#numpy.diag" title="numpy.diag" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">diag</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a> <span class="o">*=</span> <span class="mf">0.05</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">probabilistic_forward_kinematics</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.uncertainty.to_projected_ellipsoid.html#pytransform3d.uncertainty.to_projected_ellipsoid" title="pytransform3d.uncertainty.to_projected_ellipsoid" class="sphx-glr-backref-module-pytransform3d-uncertainty sphx-glr-backref-type-py-function"><span class="n">pu</span><span class="o">.</span><span class="n">to_projected_ellipsoid</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov</span></a><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure" title="pytransform3d.visualizer.Figure" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.visualizer.figure.html#pytransform3d.visualizer.figure" title="pytransform3d.visualizer.figure" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-function"><span class="n">pv</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">plot_graph</span></a><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="s2">&quot;robot_arm&quot;</span><span class="p">,</span> <span class="n">show_visuals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_transform" title="pytransform3d.visualizer.Figure.plot_transform" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">plot_transform</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.eye.html#numpy.eye" title="numpy.eye" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">eye</span></a><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">surface</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist" title="pytransform3d.visualizer.Artist" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class"><span class="n">Surface</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z</span></a><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<a href="../../_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist.add_artist" title="pytransform3d.visualizer.Artist.add_artist" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">surface</span><span class="o">.</span><span class="n">add_artist</span></a><span class="p">(</span><a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure" title="pytransform3d.visualizer.Figure" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">)</span>
+<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.view_init" title="pytransform3d.visualizer.Figure.view_init" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">view_init</span></a><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a> <span class="o">=</span> <span class="mi">200</span>
+<span class="k">if</span> <span class="s2">&quot;__file__&quot;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.animate" title="pytransform3d.visualizer.Figure.animate" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">animate</span></a><span class="p">(</span><span class="n">animation_callback</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">fargs</span><span class="o">=</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph" title="pytransform3d.visualizer.Graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">graph</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">joint_names</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thetas</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">covs</span></a><span class="p">,</span>
+                       <span class="n">surface</span><span class="p">))</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.show" title="pytransform3d.visualizer.Figure.show" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">save_image</span></a><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.158 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8630ba1403f468d0c354b432e8397ce7/vis_probabilistic_robot_kinematics.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_probabilistic_robot_kinematics.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/ae747dcd65487475e5bbb7403b4ec297/vis_probabilistic_robot_kinematics.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vis_probabilistic_robot_kinematics.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Apr 14, 2023.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

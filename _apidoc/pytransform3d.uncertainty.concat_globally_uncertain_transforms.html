@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.uncertainty.concat_globally_uncertain_transforms &#8212; pytransform3d 3.0.0 documentation</title>
+    <title>pytransform3d.uncertainty.concat_globally_uncertain_transforms &#8212; pytransform3d 3.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -20,7 +20,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.uncertainty.pose_fusion" href="pytransform3d.uncertainty.pose_fusion.html" />
+    <link rel="next" title="pytransform3d.uncertainty.concat_locally_uncertain_transforms" href="pytransform3d.uncertainty.concat_locally_uncertain_transforms.html" />
     <link rel="prev" title="pytransform3d.uncertainty.invert_uncertain_transform" href="pytransform3d.uncertainty.invert_uncertain_transform.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -144,7 +144,19 @@ distribution with zero mean and covariance <img class="math" src="../_images/mat
 \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})"/>.</p>
 <p>The concatenation order is the same as in
 <a class="reference internal" href="pytransform3d.transformations.concat.html#pytransform3d.transformations.concat" title="pytransform3d.transformations.concat"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat()</span></code></a>, that is, the transformation
-B2C is left-multiplied to A2B.</p>
+B2C is left-multiplied to A2B. Note that the order of arguments is
+different from
+<a class="reference internal" href="pytransform3d.uncertainty.concat_locally_uncertain_transforms.html#pytransform3d.uncertainty.concat_locally_uncertain_transforms" title="pytransform3d.uncertainty.concat_locally_uncertain_transforms"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_locally_uncertain_transforms()</span></code></a>.</p>
+<p>Hence, the full model is</p>
+<div class="math">
+<p><img src="../_images/math/e498bd2700cb29e41fe2bbd56b369b50d06c2371.png" alt="Exp(_C\boldsymbol{\xi'}) \overline{\boldsymbol{T}}_{CA} =
+Exp(_C\boldsymbol{\xi}) \overline{\boldsymbol{T}}_{CB}
+Exp(_B\boldsymbol{\xi}) \overline{\boldsymbol{T}}_{BA},"/></p>
+</div><p>where <img class="math" src="../_images/math/7cbe7825ba59dc4a0a7c5a0329713b5a117e7e91.png" alt="_B\boldsymbol{\xi} \sim \mathcal{N}(\boldsymbol{0},
+\boldsymbol{\Sigma}_{BA})"/>, <img class="math" src="../_images/math/cb317e1b0dd2456872ecd0435d5435acb478e803.png" alt="_C\boldsymbol{\xi} \sim
+\mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma}_{CB})"/>, and
+<img class="math" src="../_images/math/9872b6f135e01f494cf55486710f8f8dd1fa95c4.png" alt="_C\boldsymbol{\xi'} \sim \mathcal{N}(\boldsymbol{0},
+\boldsymbol{\Sigma}_{CA})"/>.</p>
 <p>This version of Barfoot and Furgale approximates the covariance up to
 4th-order terms. Note that it is still an approximation of the covariance
 after concatenation of the two transforms.</p>
@@ -153,11 +165,11 @@ after concatenation of the two transforms.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>mean_A2B</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Mean of transform from A to B.</p>
 </dd>
-<dt><strong>cov_A2B</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of transform from A to B.</p>
+<dt><strong>cov_A2B</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of transform from A to B. Models uncertainty in frame B.</p>
 </dd>
 <dt><strong>mean_B2C</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Mean of transform from B to C.</p>
 </dd>
-<dt><strong>cov_B2C</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of transform from B to C.</p>
+<dt><strong>cov_B2C</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of transform from B to C. Models uncertainty in frame C.</p>
 </dd>
 </dl>
 </dd>
@@ -165,7 +177,7 @@ after concatenation of the two transforms.</p>
 <dd class="field-even"><dl class="simple">
 <dt><strong>mean_A2C</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Mean of new pose.</p>
 </dd>
-<dt><strong>cov_A2C</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of new pose.</p>
+<dt><strong>cov_A2C</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of new pose. Models uncertainty in frame C.</p>
 </dd>
 </dl>
 </dd>
@@ -197,7 +209,7 @@ Use in Estimation Problems,
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 03, 2023.<br/>
+      Last updated on Apr 14, 2023.<br/>
     </p>
   </div>
 </footer>

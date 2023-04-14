@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.uncertainty &#8212; pytransform3d 3.0.0 documentation</title>
+    <title>pytransform3d.uncertainty &#8212; pytransform3d 3.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -234,7 +234,23 @@
 
 <span class="sd">    The concatenation order is the same as in</span>
 <span class="sd">    :func:`~pytransform3d.transformations.concat`, that is, the transformation</span>
-<span class="sd">    B2C is left-multiplied to A2B.</span>
+<span class="sd">    B2C is left-multiplied to A2B. Note that the order of arguments is</span>
+<span class="sd">    different from</span>
+<span class="sd">    :func:`~pytransform3d.uncertainty.concat_locally_uncertain_transforms`.</span>
+
+<span class="sd">    Hence, the full model is</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Exp(_C\boldsymbol{\xi&#39;}) \overline{\boldsymbol{T}}_{CA} =</span>
+<span class="sd">        Exp(_C\boldsymbol{\xi}) \overline{\boldsymbol{T}}_{CB}</span>
+<span class="sd">        Exp(_B\boldsymbol{\xi}) \overline{\boldsymbol{T}}_{BA},</span>
+
+<span class="sd">    where :math:`_B\boldsymbol{\xi} \sim \mathcal{N}(\boldsymbol{0},</span>
+<span class="sd">    \boldsymbol{\Sigma}_{BA})`, :math:`_C\boldsymbol{\xi} \sim</span>
+<span class="sd">    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma}_{CB})`, and</span>
+<span class="sd">    :math:`_C\boldsymbol{\xi&#39;} \sim \mathcal{N}(\boldsymbol{0},</span>
+<span class="sd">    \boldsymbol{\Sigma}_{CA})`.</span>
 
 <span class="sd">    This version of Barfoot and Furgale approximates the covariance up to</span>
 <span class="sd">    4th-order terms. Note that it is still an approximation of the covariance</span>
@@ -246,13 +262,13 @@
 <span class="sd">        Mean of transform from A to B.</span>
 
 <span class="sd">    cov_A2B : array, shape (6, 6)</span>
-<span class="sd">        Covariance of transform from A to B.</span>
+<span class="sd">        Covariance of transform from A to B. Models uncertainty in frame B.</span>
 
 <span class="sd">    mean_B2C : array, shape (4, 4)</span>
 <span class="sd">        Mean of transform from B to C.</span>
 
 <span class="sd">    cov_B2C : array, shape (6, 6)</span>
-<span class="sd">        Covariance of transform from B to C.</span>
+<span class="sd">        Covariance of transform from B to C. Models uncertainty in frame C.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -260,7 +276,7 @@
 <span class="sd">        Mean of new pose.</span>
 
 <span class="sd">    cov_A2C : array, shape (6, 6)</span>
-<span class="sd">        Covariance of new pose.</span>
+<span class="sd">        Covariance of new pose. Models uncertainty in frame C.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -329,6 +345,88 @@
 
 <span class="k">def</span> <span class="nf">_covop2</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_covop1</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">B</span><span class="p">))</span> <span class="o">+</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="concat_locally_uncertain_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.concat_locally_uncertain_transforms.html#pytransform3d.uncertainty.concat_locally_uncertain_transforms">[docs]</a><span class="k">def</span> <span class="nf">concat_locally_uncertain_transforms</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">,</span> <span class="n">cov_A</span><span class="p">,</span> <span class="n">cov_B</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Concatenate two independent locally uncertain transformations.</span>
+
+<span class="sd">    We assume that the two distributions are independent.</span>
+
+<span class="sd">    Each of the two transformations is locally uncertain (not in the global /</span>
+<span class="sd">    world frame), that is, samples are generated through</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{T} = \overline{\boldsymbol{T}} Exp(\boldsymbol{\xi}),</span>
+
+<span class="sd">    where :math:`\boldsymbol{T} \in SE(3)` is a sampled transformation matrix,</span>
+<span class="sd">    :math:`\overline{\boldsymbol{T}} \in SE(3)` is the mean transformation,</span>
+<span class="sd">    and :math:`\boldsymbol{\xi} \in \mathbb{R}^6` are exponential coordinates</span>
+<span class="sd">    of transformations and are distributed according to a Gaussian</span>
+<span class="sd">    distribution with zero mean and covariance :math:`\boldsymbol{\Sigma} \in</span>
+<span class="sd">    \mathbb{R}^{6 \times 6}`, that is, :math:`\boldsymbol{\xi} \sim</span>
+<span class="sd">    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})`.</span>
+
+<span class="sd">    The concatenation order is the same as in</span>
+<span class="sd">    :func:`~pytransform3d.transformations.concat`, that is, the transformation</span>
+<span class="sd">    B2C is left-multiplied to A2B. Note that the order of arguments is</span>
+<span class="sd">    different from</span>
+<span class="sd">    :func:`~pytransform3d.uncertainty.concat_globally_uncertain_transforms`.</span>
+
+<span class="sd">    Hence, the full model is</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \overline{\boldsymbol{T}}_{CA} Exp(_A\boldsymbol{\xi&#39;}) =</span>
+<span class="sd">        \overline{\boldsymbol{T}}_{CB} Exp(_B\boldsymbol{\xi})</span>
+<span class="sd">        \overline{\boldsymbol{T}}_{BA} Exp(_A\boldsymbol{\xi}),</span>
+
+<span class="sd">    where :math:`_B\boldsymbol{\xi} \sim \mathcal{N}(\boldsymbol{0},</span>
+<span class="sd">    \boldsymbol{\Sigma}_B)`, :math:`_A\boldsymbol{\xi} \sim</span>
+<span class="sd">    \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma}_A)`, and</span>
+<span class="sd">    :math:`_A\boldsymbol{\xi&#39;} \sim \mathcal{N}(\boldsymbol{0},</span>
+<span class="sd">    \boldsymbol{\Sigma}_{A,total})`.</span>
+
+<span class="sd">    This version of Meyer et al. approximates the covariance up to 2nd-order</span>
+<span class="sd">    terms.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mean_A2B : array, shape (4, 4)</span>
+<span class="sd">        Mean of transform from A to B: :math:`\overline{\boldsymbol{T}}_{BA}`.</span>
+
+<span class="sd">    mean_B2C : array, shape (4, 4)</span>
+<span class="sd">        Mean of transform from B to C: :math:`\overline{\boldsymbol{T}}_{CB}`.</span>
+
+<span class="sd">    cov_A : array, shape (6, 6)</span>
+<span class="sd">        Covariance of noise in frame A: :math:`\boldsymbol{\Sigma}_A`. Noise</span>
+<span class="sd">        samples are right-multiplied with the mean transform A2B.</span>
+
+<span class="sd">    cov_B : array, shape (6, 6)</span>
+<span class="sd">        Covariance of noise in frame B: :math:`\boldsymbol{\Sigma}_B`. Noise</span>
+<span class="sd">        samples are right-multiplied with the mean transform B2C.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean_A2C : array, shape (4, 4)</span>
+<span class="sd">        Mean of new pose.</span>
+
+<span class="sd">    cov_A_total : array, shape (6, 6)</span>
+<span class="sd">        Covariance of accumulated noise in frame A.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its</span>
+<span class="sd">    Application to Sensor Fusion,</span>
+<span class="sd">    https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean_A2C</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">)</span>
+
+    <span class="n">ad_B2A</span> <span class="o">=</span> <span class="n">adjoint_from_transform</span><span class="p">(</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">))</span>
+    <span class="n">cov_B_in_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ad_B2A</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cov_B</span><span class="p">,</span> <span class="n">ad_B2A</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="n">cov_A_total</span> <span class="o">=</span> <span class="n">cov_B_in_A</span> <span class="o">+</span> <span class="n">cov_A</span>
+
+    <span class="k">return</span> <span class="n">mean_A2C</span><span class="p">,</span> <span class="n">cov_A_total</span></div>
 
 
 <div class="viewcode-block" id="pose_fusion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.pose_fusion.html#pytransform3d.uncertainty.pose_fusion">[docs]</a><span class="k">def</span> <span class="nf">pose_fusion</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">covs</span><span class="p">):</span>
@@ -468,10 +566,10 @@
     <span class="n">order</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">order</span><span class="p">],</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="n">order</span><span class="p">]</span>
 
-    <span class="n">radii</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+    <span class="n">radii</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vals</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
 
     <span class="c1"># Grid on ellipsoid in exponential coordinate space</span>
-    <span class="n">radius_x</span><span class="p">,</span> <span class="n">radius_y</span><span class="p">,</span> <span class="n">radius_z</span> <span class="o">=</span> <span class="n">radii</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">radius_x</span><span class="p">,</span> <span class="n">radius_y</span><span class="p">,</span> <span class="n">radius_z</span> <span class="o">=</span> <span class="n">radii</span>
     <span class="n">phi</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mf">0.0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">:</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="n">n_steps</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">radius_x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">radius_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
@@ -555,7 +653,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 03, 2023.<br/>
+      Last updated on Apr 14, 2023.<br/>
     </p>
   </div>
 </footer>

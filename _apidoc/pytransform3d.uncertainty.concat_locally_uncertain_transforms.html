@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>pytransform3d.uncertainty.concat_locally_uncertain_transforms &#8212; pytransform3d 3.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pytransform3d.uncertainty.pose_fusion" href="pytransform3d.uncertainty.pose_fusion.html" />
+    <link rel="prev" title="pytransform3d.uncertainty.concat_globally_uncertain_transforms" href="pytransform3d.uncertainty.concat_globally_uncertain_transforms.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../index.html">Contents</a></li>
+                <li><a href="../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to 3D Rigid Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../animations.html">Animations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.concat_locally_uncertain_transforms</a><ul>
+<li><a class="reference internal" href="#examples-using-pytransform3d-uncertainty-concat-locally-uncertain-transforms">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.uncertainty.concat_locally_uncertain_transforms</span></code></a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="pytransform3d-uncertainty-concat-locally-uncertain-transforms">
+<h1><a class="reference internal" href="../api.html#module-pytransform3d.uncertainty" title="pytransform3d.uncertainty"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code></a>.concat_locally_uncertain_transforms<a class="headerlink" href="#pytransform3d-uncertainty-concat-locally-uncertain-transforms" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytransform3d.uncertainty.concat_locally_uncertain_transforms">
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.uncertainty.</span></span><span class="sig-name descname"><span class="pre">concat_locally_uncertain_transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean_A2B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_B2C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/uncertainty.html#concat_locally_uncertain_transforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.uncertainty.concat_locally_uncertain_transforms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate two independent locally uncertain transformations.</p>
+<p>We assume that the two distributions are independent.</p>
+<p>Each of the two transformations is locally uncertain (not in the global /
+world frame), that is, samples are generated through</p>
+<div class="math">
+<p><img src="../_images/math/94b68959d9b76cdc2860b67cfd5912f958904021.png" alt="\boldsymbol{T} = \overline{\boldsymbol{T}} Exp(\boldsymbol{\xi}),"/></p>
+</div><p>where <img class="math" src="../_images/math/e82d29942d0fc33d5a938c36886fd032669ccd0c.png" alt="\boldsymbol{T} \in SE(3)"/> is a sampled transformation matrix,
+<img class="math" src="../_images/math/126d1cdf7ee6da0752fb2e84711213d13f3900cf.png" alt="\overline{\boldsymbol{T}} \in SE(3)"/> is the mean transformation,
+and <img class="math" src="../_images/math/4f92462818b412603051a6e78f363acb8b284cc9.png" alt="\boldsymbol{\xi} \in \mathbb{R}^6"/> are exponential coordinates
+of transformations and are distributed according to a Gaussian
+distribution with zero mean and covariance <img class="math" src="../_images/math/dea9600bf2ea2870eb1910dd09632f6e05a82219.png" alt="\boldsymbol{\Sigma} \in
+\mathbb{R}^{6 \times 6}"/>, that is, <img class="math" src="../_images/math/1adbbda5543c5b03d8524d37a9a42ab9ec86cbcb.png" alt="\boldsymbol{\xi} \sim
+\mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})"/>.</p>
+<p>The concatenation order is the same as in
+<a class="reference internal" href="pytransform3d.transformations.concat.html#pytransform3d.transformations.concat" title="pytransform3d.transformations.concat"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat()</span></code></a>, that is, the transformation
+B2C is left-multiplied to A2B. Note that the order of arguments is
+different from
+<a class="reference internal" href="pytransform3d.uncertainty.concat_globally_uncertain_transforms.html#pytransform3d.uncertainty.concat_globally_uncertain_transforms" title="pytransform3d.uncertainty.concat_globally_uncertain_transforms"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_globally_uncertain_transforms()</span></code></a>.</p>
+<p>Hence, the full model is</p>
+<div class="math">
+<p><img src="../_images/math/0aaf022d65b1da89208adb1f452b8ef247d4597d.png" alt="\overline{\boldsymbol{T}}_{CA} Exp(_A\boldsymbol{\xi'}) =
+\overline{\boldsymbol{T}}_{CB} Exp(_B\boldsymbol{\xi})
+\overline{\boldsymbol{T}}_{BA} Exp(_A\boldsymbol{\xi}),"/></p>
+</div><p>where <img class="math" src="../_images/math/7df204bede71f98af72007899d24ea56f691f841.png" alt="_B\boldsymbol{\xi} \sim \mathcal{N}(\boldsymbol{0},
+\boldsymbol{\Sigma}_B)"/>, <img class="math" src="../_images/math/d8f32f63213b5e358ae1c269fd859dc9d22a0141.png" alt="_A\boldsymbol{\xi} \sim
+\mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma}_A)"/>, and
+<img class="math" src="../_images/math/123fc683afb504e1d5ca8b8e4b6b2c5c0b26656f.png" alt="_A\boldsymbol{\xi'} \sim \mathcal{N}(\boldsymbol{0},
+\boldsymbol{\Sigma}_{A,total})"/>.</p>
+<p>This version of Meyer et al. approximates the covariance up to 2nd-order
+terms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>mean_A2B</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Mean of transform from A to B: <img class="math" src="../_images/math/91a9cb89e4cae0181020402d7e132a8d1668feb8.png" alt="\overline{\boldsymbol{T}}_{BA}"/>.</p>
+</dd>
+<dt><strong>mean_B2C</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Mean of transform from B to C: <img class="math" src="../_images/math/a2cc9319c4f744f6f8215d4394ba93da58094290.png" alt="\overline{\boldsymbol{T}}_{CB}"/>.</p>
+</dd>
+<dt><strong>cov_A</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of noise in frame A: <img class="math" src="../_images/math/a77f374163c360b5ade6f3465d064f55de5e0dea.png" alt="\boldsymbol{\Sigma}_A"/>. Noise
+samples are right-multiplied with the mean transform A2B.</p>
+</dd>
+<dt><strong>cov_B</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of noise in frame B: <img class="math" src="../_images/math/0ec893507607759a3b09190c064d3791c0af2ab6.png" alt="\boldsymbol{\Sigma}_B"/>. Noise
+samples are right-multiplied with the mean transform B2C.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mean_A2C</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Mean of new pose.</p>
+</dd>
+<dt><strong>cov_A_total</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of accumulated noise in frame A.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its
+Application to Sensor Fusion,
+<a class="reference external" href="https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf">https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf</a></p>
+</dd></dl>
+
+<section id="examples-using-pytransform3d-uncertainty-concat-locally-uncertain-transforms">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.uncertainty.concat_locally_uncertain_transforms</span></code><a class="headerlink" href="#examples-using-pytransform3d-uncertainty-concat-locally-uncertain-transforms" title="Permalink to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and vi..."><img alt="Probabilistic Product of Exponentials" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_probabilistic_robot_kinematics.html#sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">Probabilistic Product of Exponentials</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Probabilistic Product of Exponentials</div>
+</div></div></section>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Apr 14, 2023.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

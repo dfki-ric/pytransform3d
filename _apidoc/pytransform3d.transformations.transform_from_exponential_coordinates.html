@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transformations.transform_from_exponential_coordinates &#8212; pytransform3d 3.0.0 documentation</title>
+    <title>pytransform3d.transformations.transform_from_exponential_coordinates &#8212; pytransform3d 3.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -135,25 +135,22 @@
 <p><img src="../_images/math/e10f58e9215ca2b23915f46b31dc4058e96d46cf.png" alt="Exp: \mathcal{S} \theta \in \mathbb{R}^6
 \rightarrow \boldsymbol{T} \in SE(3)"/></p>
 </div><div class="math">
-<p><img src="../_images/math/5ba14c67f42113479a0035f0756efee3a172b9c8.png" alt="Exp(\mathcal{S}\theta) =
+<p><img src="../_images/math/47602c265416a6e46feee809f02a72e392668345.png" alt="Exp(\mathcal{S}\theta) =
 Exp\left(\left(\begin{array}{c}
-\boldsymbol{\omega}\\
+\hat{\boldsymbol{\omega}}\\
 \boldsymbol{v}
 \end{array}\right)\theta\right)
 =
 \exp(\left[\mathcal{S}\right] \theta)
 =
 \left(\begin{array}{cc}
-Exp(\boldsymbol{\omega}) &amp; \boldsymbol{G}(\theta)\boldsymbol{v}\\
+Exp(\hat{\boldsymbol{\omega}} \theta) &amp;
+\boldsymbol{J}(\theta)\boldsymbol{v}\theta\\
 \boldsymbol{0} &amp; 1
 \end{array}\right),"/></p>
-</div><p>where</p>
-<div class="math">
-<p><img src="../_images/math/66fb8a3544e9237d41bc7aae664a424fc79993c1.png" alt="\boldsymbol{G}(\theta)
-= \boldsymbol{I}\theta
-+ (1 - \cos \theta) [\boldsymbol{\omega}]
-+ (\theta - \sin \theta) [\boldsymbol{\omega}]^2."/></p>
-</div><dl class="field-list simple">
+</div><p>where <img class="math" src="../_images/math/6e9b28f622ea46081c58016cdb82627411330a24.png" alt="\boldsymbol{J}(\theta)"/> is the left Jacobian of <img class="math" src="../_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/>
+(see <a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3.html#pytransform3d.rotations.left_jacobian_SO3" title="pytransform3d.rotations.left_jacobian_SO3"><code class="xref py py-func docutils literal notranslate"><span class="pre">left_jacobian_SO3()</span></code></a>).</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>Stheta</strong><span class="classifier">array-like, shape (6,)</span></dt><dd><p>Exponential coordinates of transformation:
@@ -208,7 +205,7 @@ Theta is the rotation angle and h * theta the translation.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 03, 2023.<br/>
+      Last updated on Apr 14, 2023.<br/>
     </p>
   </div>
 </footer>
