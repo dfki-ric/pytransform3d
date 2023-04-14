@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/logo.png" height=400px/>
+
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/dfki-ric/pytransform3d/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/dfki-ric/pytransform3d/tree/master)
 [![codecov](https://codecov.io/gh/dfki-ric/pytransform3d/branch/master/graph/badge.svg?token=jB10RM3Ujj)](https://codecov.io/gh/dfki-ric/pytransform3d)
 [![Paper DOI](http://joss.theoj.org/papers/10.21105/joss.01159/status.svg)](https://doi.org/10.21105/joss.01159)
