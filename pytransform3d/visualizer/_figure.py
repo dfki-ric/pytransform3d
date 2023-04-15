@@ -602,7 +602,8 @@ class Figure:
     def plot_graph(
             self, tm, frame, show_frames=False, show_connections=False,
             show_visuals=False, show_collision_objects=False,
-            show_name=False, whitelist=None, s=1.0):
+            show_name=False, whitelist=None,
+            convex_hull_of_collision_objects=False, s=1.0):
         """Plot graph of connected frames.
 
         Parameters
@@ -631,6 +632,9 @@ class Figure:
         whitelist : list, optional (default: all)
             List of frames that should be displayed
 
+        convex_hull_of_collision_objects : bool, optional (default: False)
+            Show convex hull of collision objects.
+
         s : float, optional (default: 1)
             Scaling of the frames that will be drawn
 
@@ -641,7 +645,7 @@ class Figure:
         """
         graph = Graph(tm, frame, show_frames, show_connections,
                       show_visuals, show_collision_objects, show_name,
-                      whitelist, s)
+                      whitelist, convex_hull_of_collision_objects, s)
         graph.add_artist(self)
         return graph
 

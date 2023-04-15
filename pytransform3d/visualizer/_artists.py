@@ -548,9 +548,17 @@ class Mesh(Artist):
 
     c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)
         Color(s)
+
+    convex_hull : bool, optional (default: False)
+        Compute convex hull of mesh.
     """
-    def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None):
-        self.mesh = o3d.io.read_triangle_mesh(filename)
+    def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None,
+                 convex_hull=False):
+        mesh = o3d.io.read_triangle_mesh(filename)
+        if convex_hull:
+            self.mesh = mesh.compute_convex_hull()[0]
+        else:
+            self.mesh = mesh
         self.mesh.vertices = o3d.utility.Vector3dVector(
             np.asarray(self.mesh.vertices) * s)
         self.mesh.compute_vertex_normals()
@@ -1050,12 +1058,16 @@ class Graph(Artist):
     whitelist : list, optional (default: all)
         List of frames that should be displayed
 
+    convex_hull_of_collision_objects : bool, optional (default: False)
+        Show convex hull of collision objects.
+
     s : float, optional (default: 1)
         Scaling of the frames that will be drawn
     """
     def __init__(self, tm, frame, show_frames=False, show_connections=False,
                  show_visuals=False, show_collision_objects=False,
-                 show_name=False, whitelist=None, s=1.0):
+                 show_name=False, whitelist=None,
+                 convex_hull_of_collision_objects=False, s=1.0):
         self.tm = tm
         self.frame = frame
         self.show_frames = show_frames
@@ -1063,6 +1075,8 @@ class Graph(Artist):
         self.show_visuals = show_visuals
         self.show_collision_objects = show_collision_objects
         self.whitelist = whitelist
+        self.convex_hull_of_collision_objects = \
+            convex_hull_of_collision_objects
         self.s = s
 
         if self.frame not in self.tm.nodes:
@@ -1101,7 +1115,8 @@ class Graph(Artist):
         if show_collision_objects and hasattr(
                 self.tm, "collision_objects"):
             self.collision_objects.update(
-                _objects_to_artists(self.tm.collision_objects))
+                _objects_to_artists(self.tm.collision_objects,
+                                    convex_hull_of_collision_objects))
 
         self.set_data()
 
@@ -1161,13 +1176,16 @@ class Graph(Artist):
         return geometries
 
 
-def _objects_to_artists(objects):
+def _objects_to_artists(objects, convex_hull=False):
     """Convert geometries from URDF to artists.
 
     Parameters
     ----------
     objects : list of Geometry
         Objects parsed from URDF.
+
+    convex_hull : bool, optional (default: False)
+        Compute convex hull for each object.
 
     Returns
     -------
@@ -1190,7 +1208,8 @@ def _objects_to_artists(objects):
                 artist = Cylinder(obj.length, obj.radius, c=color)
             else:
                 assert isinstance(obj, urdf.Mesh)
-                artist = Mesh(obj.filename, s=obj.scale, c=color)
+                artist = Mesh(obj.filename, s=obj.scale, c=color,
+                              convex_hull=convex_hull)
             artists[obj.frame] = artist
         except RuntimeError as e:
             warnings.warn(str(e))
