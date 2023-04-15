@@ -100,7 +100,8 @@ class Cylinder(Artist):
 
 class Mesh(Artist):
     def __init__(self, filename: str, A2B: npt.ArrayLike = ...,
-                 s: npt.ArrayLike = ..., c: Union[None, npt.ArrayLike] = ...): ...
+                 s: npt.ArrayLike = ..., c: Union[None, npt.ArrayLike] = ...,
+                 convex_hull: bool = ...): ...
 
     def set_data(self, A2B: npt.ArrayLike): ...
 
@@ -179,7 +180,8 @@ class Graph(Artist):
             self, tm: TransformManager, frame: str, show_frames: bool = ...,
             show_connections: bool = ..., show_visuals: bool = ...,
             show_collision_objects: bool = ..., show_name: bool = ...,
-            whitelist: Union[None, List[str]] = ..., s: float = ...): ...
+            whitelist: Union[None, List[str]] = ...,
+            convex_hull_of_collision_objects: bool = ..., s: float = ...): ...
 
     def set_data(self): ...
 

@@ -93,6 +93,7 @@ class Figure:
             show_connections: bool = ..., show_visuals: bool = ...,
             show_collision_objects: bool = ..., show_name: bool = ...,
             whitelist: Union[None, List[str]] = ...,
+            convex_hull_of_collision_objects: bool = ...,
             s: float = ...) -> Graph: ...
 
     def plot_camera(
