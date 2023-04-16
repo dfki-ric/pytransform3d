@@ -1,4 +1,5 @@
 """Basic functionality for geometrical shapes."""
+import math
 from itertools import product
 import numpy as np
 from .transformations import transform, vectors_to_points
@@ -112,6 +113,38 @@ class Cylinder(GeometricShape):
         x, y, z = transform_surface(self.pose, x, y, z)
 
         return x, y, z
+
+    def mesh(self, n_steps_circle=20, n_steps_length=4):
+        vertices = np.empty((n_steps_circle * (n_steps_length + 1) + 2, 3))
+        vertices[0] = np.array([0.0, 0.0, self.length * 0.5])
+        vertices[1] = np.array([0.0, 0.0, -self.length * 0.5])
+        step = math.pi * 2.0 / n_steps_circle
+        h_step = self.length / n_steps_length
+        for i in range(n_steps_length + 1):
+            for j in range(n_steps_circle):
+                theta = step * j
+                vertices[2 + n_steps_circle * i + j] = np.array([
+                    math.cos(theta) * self.radius,
+                    math.sin(theta) * self.radius,
+                    self.length * 0.5 - h_step * i])
+
+        triangles = []
+        for j in range(n_steps_circle):
+            j1 = (j + 1) % n_steps_circle
+            base = 2
+            triangles.append(np.array([0, base + j, base + j1], dtype=int))
+            base = 2 + n_steps_circle * n_steps_length
+            triangles.append(np.array([1, base + j1, base + j], dtype=int))
+
+        for i in range(n_steps_length):
+            base1 = 2 + n_steps_circle * i
+            base2 = base1 + n_steps_circle
+            for j in range(n_steps_circle):
+                j1 = (j + 1) % n_steps_circle
+                triangles.append(np.array([base2 + j, base1 + j1, base1 + j]))
+                triangles.append(np.array([base2 + j, base2 + j1, base1 + j1]))
+
+        return vertices, np.row_stack(triangles)
 
 
 class Mesh(GeometricShape):
