@@ -19,7 +19,7 @@ x, y, z = shape.surface(20)
 #ax.plot_surface(x, y, z, alpha=0.5, linewidth=0)
 #ax.plot_wireframe(x, y, z, alpha=0.5)
 vertices, triangles = shape.mesh()
-"""
+#"""
 import pytransform3d.visualizer as pv
 import open3d as o3d
 fig = pv.figure()
