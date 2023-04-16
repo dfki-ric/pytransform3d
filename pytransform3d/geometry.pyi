@@ -10,6 +10,8 @@ class GeometricShape(object):
 
 
 class Sphere(GeometricShape):
+    radius: np.ndarray
+
     def __init__(self, pose: npt.ArrayLike, radius: npt.ArrayLike): ...
 
     def surface(self, n_steps: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]: ...

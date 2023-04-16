@@ -35,26 +35,21 @@ class Cylinder(GeometricShape):
         self.length = length
 
     def surface(self, n_steps):
-        axis_start = self.pose.dot(np.array([0, 0, -0.5 * self.length, 1]))[:3]
-        axis_end = self.pose.dot(np.array([0, 0, 0.5 * self.length, 1]))[:3]
-        axis = axis_end - axis_start
-        axis /= self.length
+        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
+        x = self.radius * np.sin(phi) * np.cos(theta)
+        y = self.radius * np.sin(phi) * np.sin(theta)
+        z = np.zeros_like(phi)
+        z[len(z) // 2:] -= 0.5 * self.length
+        z[:len(z) // 2] += 0.5 * self.length
 
-        not_axis = np.array([1, 0, 0])
-        if np.allclose(axis, not_axis) or np.allclose(-axis, not_axis):
-            not_axis = np.array([0, 1, 0])
+        shape = x.shape
 
-        n1 = np.cross(axis, not_axis)
-        n1 /= np.linalg.norm(n1)
-        n2 = np.cross(axis, n1)
+        P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
+        P = transform(self.pose, vectors_to_points(P))[:, :3]
 
-        t = np.linspace(0, self.length, n_steps)
-        theta = np.linspace(0, 2 * np.pi, n_steps)
-        t, theta = np.meshgrid(t, theta)
-
-        x, y, z = [axis_start[i] + axis[i] * t
-                   + self.radius * np.sin(theta) * n1[i]
-                   + self.radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+        x = P[:, 0].reshape(*shape)
+        y = P[:, 1].reshape(*shape)
+        z = P[:, 2].reshape(*shape)
 
         return x, y, z
 
