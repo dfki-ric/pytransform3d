@@ -13,6 +13,16 @@ def unit_sphere_surface_grid(n_steps):
     return x, y, z
 
 
+def transform_surface(pose, x, y, z):
+    shape = x.shape
+    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
+    P = transform(pose, vectors_to_points(P))[:, :3]
+    x = P[:, 0].reshape(*shape)
+    y = P[:, 1].reshape(*shape)
+    z = P[:, 2].reshape(*shape)
+    return x, y, z
+
+
 class GeometricShape(object):
     def __init__(self, pose):
         self.pose = pose
@@ -35,9 +45,8 @@ class Sphere(GeometricShape):
         x *= self.radius
         y *= self.radius
         z *= self.radius
-        x += self.pose[0, 3]
-        y += self.pose[1, 3]
-        z += self.pose[2, 3]
+
+        x, y, z = transform_surface(self.pose, x, y, z)
 
         return x, y, z
 
@@ -49,25 +58,14 @@ class Cylinder(GeometricShape):
         self.length = length
 
     def surface(self, n_steps):
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
-                              0.0:2.0 * np.pi:n_steps * 1j]
-        x = np.sin(phi) * np.cos(theta)
-        y = np.sin(phi) * np.sin(theta)
-        z = np.zeros_like(phi)
+        x, y, z = unit_sphere_surface_grid(n_steps)
 
         x *= self.radius
         y *= self.radius
-        z[len(z) // 2:] -= 0.5 * self.length
-        z[:len(z) // 2] += 0.5 * self.length
+        z[len(z) // 2:] = -0.5 * self.length
+        z[:len(z) // 2] = 0.5 * self.length
 
-        shape = x.shape
-
-        P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-        P = transform(self.pose, vectors_to_points(P))[:, :3]
-
-        x = P[:, 0].reshape(*shape)
-        y = P[:, 1].reshape(*shape)
-        z = P[:, 2].reshape(*shape)
+        x, y, z = transform_surface(self.pose, x, y, z)
 
         return x, y, z
 
@@ -91,14 +89,7 @@ class Ellipsoid(GeometricShape):
         y *= self.radii[1]
         z *= self.radii[2]
 
-        shape = x.shape
-
-        P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-        P = transform(self.pose, vectors_to_points(P))[:, :3]
-
-        x = P[:, 0].reshape(*shape)
-        y = P[:, 1].reshape(*shape)
-        z = P[:, 2].reshape(*shape)
+        x, y, z = transform_surface(self.pose, x, y, z)
 
         return x, y, z
 
@@ -118,14 +109,7 @@ class Capsule(GeometricShape):
         z[len(z) // 2:] -= 0.5 * self.height
         z[:len(z) // 2] += 0.5 * self.height
 
-        shape = x.shape
-
-        P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-        P = transform(self.pose, vectors_to_points(P))[:, :3]
-
-        x = P[:, 0].reshape(*shape)
-        y = P[:, 1].reshape(*shape)
-        z = P[:, 2].reshape(*shape)
+        x, y, z = transform_surface(self.pose, x, y, z)
 
         return x, y, z
 
@@ -137,24 +121,15 @@ class Cone(GeometricShape):
         self.radius = radius
 
     def surface(self, n_steps):
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-        x = np.sin(phi) * np.cos(theta)
-        y = np.sin(phi) * np.sin(theta)
-        z = np.zeros_like(phi)
+        x, y, z = unit_sphere_surface_grid(n_steps)
         x[len(x) // 2:] = 0.0
         y[len(y) // 2:] = 0.0
+        z[:len(z) // 2, :] = 0.0
 
-        z[len(z) // 2:] += self.height
+        z[len(z) // 2:] = self.height
         x *= self.radius
         y *= self.radius
 
-        shape = x.shape
-
-        P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-        P = transform(self.pose, vectors_to_points(P))[:, :3]
-
-        x = P[:, 0].reshape(*shape)
-        y = P[:, 1].reshape(*shape)
-        z = P[:, 2].reshape(*shape)
+        x, y, z = transform_surface(self.pose, x, y, z)
 
         return x, y, z
