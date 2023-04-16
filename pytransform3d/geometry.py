@@ -95,6 +95,41 @@ class Sphere(GeometricShape):
 
         return x, y, z
 
+    def mesh(self, n_steps=20):
+        vertices = np.empty((2 * n_steps * (n_steps - 1) + 2, 3))
+
+        vertices[0] = np.array([0.0, 0.0, self.radius])
+        vertices[1] = np.array([0.0, 0.0, -self.radius])
+        step = math.pi / n_steps
+        for i in range(1, n_steps):
+            alpha = step * i
+            base = 2 + 2 * n_steps * (i - 1)
+            for j in range(2 * n_steps):
+                theta = step * j
+                vertices[base + j] = np.array([
+                    math.sin(alpha) * math.cos(theta),
+                    math.sin(alpha) * math.sin(theta),
+                    math.cos(alpha)]) * self.radius
+
+        triangles = []
+
+        for j in range(2 * n_steps):
+            j1 = (j + 1) % (2 * n_steps)
+            base = 2
+            triangles.append(np.array([0, base + j, base + j1]))
+            base = 2 + 2 * n_steps * (n_steps - 2)
+            triangles.append(np.array([1, base + j1, base + j]))
+
+        for i in range(1, n_steps - 1):
+            base1 = 2 + 2 * n_steps * (i - 1)
+            base2 = base1 + 2 * n_steps
+            for j in range(2 * n_steps):
+                j1 = (j + 1) % (2 * n_steps)
+                triangles.append(np.array([base2 + j, base1 + j1, base1 + j]))
+                triangles.append(np.array([base2 + j, base2 + j1, base1 + j1]))
+
+        return vertices, np.row_stack(triangles)
+
 
 class Cylinder(GeometricShape):
     def __init__(self, pose, radius, length):
@@ -152,6 +187,9 @@ class Mesh(GeometricShape):
         super(Mesh, self).__init__(pose)
         self.vertices = vertices
         self.triangles = triangles
+
+    def mesh(self):
+        return self.vertices, self.triangles
 
 
 class Ellipsoid(GeometricShape):
