@@ -3,6 +3,16 @@ import numpy as np
 from .transformations import transform, vectors_to_points
 
 
+def unit_sphere_surface_grid(n_steps):
+    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
+                          0.0:2.0 * np.pi:n_steps * 1j]
+    sin_phi = np.sin(phi)
+    x = sin_phi * np.cos(theta)
+    y = sin_phi * np.sin(theta)
+    z = np.cos(phi)
+    return x, y, z
+
+
 class GeometricShape(object):
     def __init__(self, pose):
         self.pose = pose
@@ -20,11 +30,7 @@ class Sphere(GeometricShape):
         self.radius = radius
 
     def surface(self, n_steps):
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
-                              0.0:2.0 * np.pi:n_steps * 1j]
-        x = np.sin(phi) * np.cos(theta)
-        y = np.sin(phi) * np.sin(theta)
-        z = np.cos(phi)
+        x, y, z = unit_sphere_surface_grid(n_steps)
 
         x *= self.radius
         y *= self.radius
@@ -79,11 +85,7 @@ class Ellipsoid(GeometricShape):
         self.radii = radii
 
     def surface(self, n_steps):
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
-                              0.0:2.0 * np.pi:n_steps * 1j]
-        x = np.sin(phi) * np.cos(theta)
-        y = np.sin(phi) * np.sin(theta)
-        z = np.cos(phi)
+        x, y, z = unit_sphere_surface_grid(n_steps)
 
         x *= self.radii[0]
         y *= self.radii[1]
@@ -108,11 +110,7 @@ class Capsule(GeometricShape):
         self.radius = radius
 
     def surface(self, n_steps):
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
-                              0.0:2.0 * np.pi:n_steps * 1j]
-        x = np.sin(phi) * np.cos(theta)
-        y = np.sin(phi) * np.sin(theta)
-        z = np.cos(phi)
+        x, y, z = unit_sphere_surface_grid(n_steps)
 
         x *= self.radius
         y *= self.radius
