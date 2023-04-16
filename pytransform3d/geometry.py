@@ -33,6 +33,23 @@ class Box(GeometricShape):
         super(Box, self).__init__(pose)
         self.size = size
 
+    def surface(self, n_steps):
+        x, y, z = unit_sphere_surface_grid(n_steps)
+
+        max_distance_to_center = np.linalg.norm(self.size)
+
+        x *= max_distance_to_center
+        y *= max_distance_to_center
+        z *= max_distance_to_center
+
+        x = np.clip(x, -0.5 * self.size[0], 0.5 * self.size[0])
+        y = np.clip(y, -0.5 * self.size[1], 0.5 * self.size[1])
+        z = np.clip(z, -0.5 * self.size[2], 0.5 * self.size[2])
+
+        x, y, z = transform_surface(self.pose, x, y, z)
+
+        return x, y, z
+
 
 class Sphere(GeometricShape):
     def __init__(self, pose, radius):

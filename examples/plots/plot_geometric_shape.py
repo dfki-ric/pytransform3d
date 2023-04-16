@@ -9,7 +9,8 @@ import pytransform3d.plot_utils as ppu
 #shape = pg.Ellipsoid(np.eye(4), [0.2, 0.3, 0.5])
 #shape = pg.Capsule(np.eye(4), 1.2, 0.2)
 #shape = pg.Cylinder(np.eye(4), 0.2, 1.2)
-shape = pg.Cone(np.eye(4), 1.2, 0.2)
+#shape = pg.Cone(np.eye(4), 1.2, 0.2)
+shape = pg.Box(np.eye(4), [1.5, 2.0, 0.9])
 
 plt.figure()
 ax = ppu.make_3d_axis(1)
