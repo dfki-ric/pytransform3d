@@ -22,9 +22,17 @@ class Sphere(GeometricShape):
     def surface(self, n_steps):
         phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
                               0.0:2.0 * np.pi:n_steps * 1j]
-        x = self.pose[0, 3] + self.radius * np.sin(phi) * np.cos(theta)
-        y = self.pose[1, 3] + self.radius * np.sin(phi) * np.sin(theta)
-        z = self.pose[2, 3] + self.radius * np.cos(phi)
+        x = np.sin(phi) * np.cos(theta)
+        y = np.sin(phi) * np.sin(theta)
+        z = np.cos(phi)
+
+        x *= self.radius
+        y *= self.radius
+        z *= self.radius
+        x += self.pose[0, 3]
+        y += self.pose[1, 3]
+        z += self.pose[2, 3]
+
         return x, y, z
 
 
@@ -35,10 +43,14 @@ class Cylinder(GeometricShape):
         self.length = length
 
     def surface(self, n_steps):
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-        x = self.radius * np.sin(phi) * np.cos(theta)
-        y = self.radius * np.sin(phi) * np.sin(theta)
+        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
+                              0.0:2.0 * np.pi:n_steps * 1j]
+        x = np.sin(phi) * np.cos(theta)
+        y = np.sin(phi) * np.sin(theta)
         z = np.zeros_like(phi)
+
+        x *= self.radius
+        y *= self.radius
         z[len(z) // 2:] -= 0.5 * self.length
         z[:len(z) // 2] += 0.5 * self.length
 
@@ -67,13 +79,15 @@ class Ellipsoid(GeometricShape):
         self.radii = radii
 
     def surface(self, n_steps):
-        radius_x, radius_y, radius_z = self.radii
-
         phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
                               0.0:2.0 * np.pi:n_steps * 1j]
-        x = radius_x * np.sin(phi) * np.cos(theta)
-        y = radius_y * np.sin(phi) * np.sin(theta)
-        z = radius_z * np.cos(phi)
+        x = np.sin(phi) * np.cos(theta)
+        y = np.sin(phi) * np.sin(theta)
+        z = np.cos(phi)
+
+        x *= self.radii[0]
+        y *= self.radii[1]
+        z *= self.radii[2]
 
         shape = x.shape
 
@@ -94,10 +108,15 @@ class Capsule(GeometricShape):
         self.radius = radius
 
     def surface(self, n_steps):
-        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-        x = self.radius * np.sin(phi) * np.cos(theta)
-        y = self.radius * np.sin(phi) * np.sin(theta)
-        z = self.radius * np.cos(phi)
+        phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
+                              0.0:2.0 * np.pi:n_steps * 1j]
+        x = np.sin(phi) * np.cos(theta)
+        y = np.sin(phi) * np.sin(theta)
+        z = np.cos(phi)
+
+        x *= self.radius
+        y *= self.radius
+        z *= self.radius
         z[len(z) // 2:] -= 0.5 * self.height
         z[:len(z) // 2] += 0.5 * self.height
 
@@ -121,12 +140,15 @@ class Cone(GeometricShape):
 
     def surface(self, n_steps):
         phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-        x = self.radius * np.sin(phi) * np.cos(theta)
-        y = self.radius * np.sin(phi) * np.sin(theta)
+        x = np.sin(phi) * np.cos(theta)
+        y = np.sin(phi) * np.sin(theta)
         z = np.zeros_like(phi)
         x[len(x) // 2:] = 0.0
         y[len(y) // 2:] = 0.0
+
         z[len(z) // 2:] += self.height
+        x *= self.radius
+        y *= self.radius
 
         shape = x.shape
 
