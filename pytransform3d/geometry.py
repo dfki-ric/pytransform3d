@@ -1,4 +1,5 @@
 """Basic functionality for geometrical shapes."""
+from itertools import product
 import numpy as np
 from .transformations import transform, vectors_to_points
 
@@ -21,6 +22,13 @@ def transform_surface(pose, x, y, z):
     y = P[:, 1].reshape(*shape)
     z = P[:, 2].reshape(*shape)
     return x, y, z
+
+
+def transform_vertices(pose, vertices):
+    return transform(pose, vectors_to_points(vertices))[:, :3]
+
+
+BOX_COORDS = np.array(list(product([-0.5, 0.5], repeat=3)))
 
 
 class GeometricShape(object):
@@ -49,6 +57,25 @@ class Box(GeometricShape):
         x, y, z = transform_surface(self.pose, x, y, z)
 
         return x, y, z
+
+    def mesh(self):
+        vertices = BOX_COORDS * self.size
+        vertices = transform_vertices(self.pose, vertices)
+        triangles = np.array([
+            [0, 1, 2],
+            [2, 1, 3],
+            [0, 4, 5],
+            [1, 0, 5],
+            [2, 7, 6],
+            [2, 3, 7],
+            [0, 6, 4],
+            [0, 2, 6],
+            [3, 1, 5],
+            [3, 5, 7],
+            [5, 4, 6],
+            [5, 6, 7],
+        ], dtype=int)
+        return vertices, triangles
 
 
 class Sphere(GeometricShape):
