@@ -110,13 +110,16 @@ class Sphere(GeometricShape):
                                         np.cos(phi))) * self.radius
 
         triangles = []
-
-        for j in range(2 * n_steps):
-            j1 = (j + 1) % (2 * n_steps)
-            base = 2
-            triangles.append(np.array([0, base + j, base + j1]))
-            base = 2 + 2 * n_steps * (n_steps - 2)
-            triangles.append(np.array([1, base + j1, base + j]))
+        base = 2
+        triangles.extend(np.column_stack(
+            (np.zeros(2 * n_steps, dtype=int),
+             base + np.arange(2 * n_steps, dtype=int),
+             base + (np.arange(2 * n_steps, dtype=int) + 1) % (2 * n_steps))))
+        base = 2 + 2 * n_steps * (n_steps - 2)
+        triangles.extend(np.column_stack(
+            (np.ones(2 * n_steps, dtype=int),
+             base + (np.arange(2 * n_steps, dtype=int) + 1) % (2 * n_steps),
+             base + np.arange(2 * n_steps, dtype=int))))
 
         for i in range(1, n_steps - 1):
             base1 = 2 + 2 * n_steps * (i - 1)
