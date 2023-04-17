@@ -101,15 +101,13 @@ class Sphere(GeometricShape):
         vertices[0] = np.array([0.0, 0.0, self.radius])
         vertices[1] = np.array([0.0, 0.0, -self.radius])
         step = math.pi / n_steps
-        for i in range(1, n_steps):
-            alpha = step * i
-            base = 2 + 2 * n_steps * (i - 1)
-            for j in range(2 * n_steps):
-                theta = step * j
-                vertices[base + j] = np.array([
-                    math.sin(alpha) * math.cos(theta),
-                    math.sin(alpha) * math.sin(theta),
-                    math.cos(alpha)]) * self.radius
+        theta, phi = np.meshgrid(np.arange(2 * n_steps) * step,
+                                 np.arange(1, n_steps) * step)
+        phi = phi.reshape(-1)
+        theta = theta.reshape(-1)
+        vertices[2:] = np.column_stack((np.sin(phi) * np.cos(theta),
+                                        np.sin(phi) * np.sin(theta),
+                                        np.cos(phi))) * self.radius
 
         triangles = []
 
