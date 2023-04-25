@@ -992,6 +992,10 @@ def _general_intrinsic_euler_from_active_matrix(
 
     # Step 4
     # - Equation 10a
+    if abs(O[2, 2] - 1.0) == np.finfo(float).eps:
+        O[2, 2] = 1.0
+    elif abs(O[2, 2] - 0.0) == np.finfo(float).eps:
+        O[2, 2] = 0.0
     beta = lmbda + np.arccos(O[2, 2])
 
     safe1 = abs(beta - lmbda) >= np.finfo(float).eps

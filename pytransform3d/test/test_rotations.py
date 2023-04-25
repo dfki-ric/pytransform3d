@@ -2225,3 +2225,9 @@ def test_jacobian_so3():
 
         J_inv_J = np.dot(J_inv, J)
         assert_array_almost_equal(J_inv_J, np.eye(3))
+
+def test_euler_from_quaternion_edge_case():
+    quaternion = [0.57114154, -0.41689009, -0.57114154, -0.41689009]
+    matrix = pr.matrix_from_quaternion(quaternion)
+    euler_xyz = pr.extrinsic_euler_xyz_from_active_matrix(matrix)
+    assert not np.isnan(euler_xyz).all()
