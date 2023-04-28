@@ -2232,4 +2232,3 @@ def test_euler_from_quaternion_edge_case():
     matrix = pr.matrix_from_quaternion(quaternion)
     euler_xyz = pr.extrinsic_euler_xyz_from_active_matrix(matrix)
     assert not np.isnan(euler_xyz).all()
-    
