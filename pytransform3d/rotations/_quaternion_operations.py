@@ -9,6 +9,9 @@ from ._conversions import (
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     """Integrate angular velocities to quaternions.
 
+     Angular velocities are given in global frame and will be left-multiplied
+     to the initial or previous orientation respectively.
+
     Parameters
     ----------
     Qd : array-like, shape (n_steps, 3)
@@ -16,7 +19,7 @@ def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
         velocity represents the rotational offset after one unit of time.
 
     q0 : array-like, shape (4,), optional (default: [1, 0, 0, 0])
-        Unit quaternion to represent initial rotation: (w, x, y, z)
+        Unit quaternion to represent initial orientation: (w, x, y, z)
 
     dt : float, optional (default: 1)
         Time interval between steps.
@@ -61,6 +64,9 @@ def quaternion_gradient(Q, dt=1.0):
     A : array-like, shape (n_steps, 3)
         Angular velocities in a compact axis-angle representation. Each angular
         velocity represents the rotational offset after one unit of time.
+        Angular velocities are given in global frame and will be
+        left-multiplied during integration to the initial or previous
+        orientation respectively.
     """
     Q = check_quaternions(Q)
     Qd = np.empty((len(Q), 3))
