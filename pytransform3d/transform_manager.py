@@ -44,13 +44,6 @@ class TransformManager(object):
     for instance, as JSON. If a more compact format is required, binary
     formats like msgpack can be used. Use :func:`TransformManager.to_dict`
     and :func:`TransformManager.from_dict` for this purpose.
-    
-    In order to tackle the temporal aspect given multiple streams of transformations 
-    over time, it is recommended to interpolate both the translation and rotation
-    information. For the translation vector you can use linear interpolation,
-    for rotation the SLERP interpolation.
-    Given a set of interpolated transformations for a specific point in time,
-    instantiate the :func:`TransformManager` to conduct further processing.
 
     Parameters
     ----------
