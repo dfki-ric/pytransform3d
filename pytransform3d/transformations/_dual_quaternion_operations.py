@@ -141,6 +141,12 @@ def dual_quaternion_sclerp(start, end, t):
     -------
     a : array, shape (8,)
         Interpolated unit dual quaternion: (pw, px, py, pz, qw, qx, qy, qz)
+
+    References
+    ----------
+    Kavan, Collins, O'Sullivan, Zara: Dual Quaternions for Rigid Transformation
+    Blending (2006), Technical report, Trinity College Dublin,
+    https://users.cs.utah.edu/~ladislav/kavan06dual/kavan06dual.pdf
     """
     start = check_dual_quaternion(start)
     end = check_dual_quaternion(end)
