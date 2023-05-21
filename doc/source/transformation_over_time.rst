@@ -17,7 +17,7 @@ In order to use the :class:`~pytransform3d.transform_manager.TransformManager`
 to traverse the graph, we have to interpolate the transformation between 
 the A and B frame.
 
-.. figure:: _static/tf-trafo-over-time.svg
+.. figure:: _static/tf-trafo-over-time.png
     :width: 60%
     :align: center
 
