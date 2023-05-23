@@ -12,8 +12,8 @@ We can visualize the problem in the figure below. The tranformation graph with
 represents a sample (measurement) holding the transformation from the parent 
 to the child frame.
 
-Let's assume we want inspect the situation at the timestep tq (q=query). further
-we want to transform points in B to points in A. As shown in the previous example
+Let's assume we want to inspect the situation at the timestep :math:`t_q` (q=query). 
+Further we want to transform points from A to B. As shown in the previous example
 :class:`~pytransform3d.transform_manager.TransformManager` is helpful to deal 
 with transformation graphs.
 
@@ -26,8 +26,9 @@ the according transformation direction.
     :align: center
 
 In this example, the screw linear interpolation (ScLERP) will be used
-(refer to :func:`~pytransform3d.transformations.pq_from_dual_quaternion`). Note that a dual 
-quaternion holds both the translation and rotation info.
+(which operates on dual quaternions, refer to 
+:func:`~pytransform3d.transformations.pq_from_dual_quaternion`). A dual 
+quaternion representation holds both the translation and rotation information.
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
