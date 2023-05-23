@@ -58,8 +58,10 @@ def interpolate_pq(query_time, t_arr, pq_array):
     ----------
     query_time : float
         Target timestamp
+
     t_arr : array-like, shape (N,)
         Timesteps from the transformation trajectory
+
     pq_array : array-like, shape (N,7)
         Transformation trajectory with each row representing
         position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
