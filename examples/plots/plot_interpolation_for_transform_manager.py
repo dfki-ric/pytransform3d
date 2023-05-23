@@ -7,6 +7,7 @@ In this example, given two tranformation trajectories, we will interpolate both
 and use the transform manager for the target timestep.
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
 from pytransform3d import rotations as pr
 from pytransform3d import transformations as pt
@@ -17,7 +18,6 @@ def create_sinusoidal_movement(
     duration_sec, sample_period, x_velocity, y_start_offset, start_time
 ):
     """Create a planar (z=0) sinusoidal movement around x-axis."""
-
     time_arr = np.arange(0, duration_sec, sample_period) + start_time
     N = len(time_arr)
     x_arr = np.linspace(0, x_velocity * duration_sec, N)
@@ -88,7 +88,8 @@ def interpolate_pq(query_time, t_arr, pq_array):
     return pt.pq_from_dual_quaternion(dq_interpolated)
 
 
-query_time = 5.0
+query_time = 4.9
+
 pq_W2A = interpolate_pq(query_time, time_W2A, pq_arr_W2A)
 pq_W2B = interpolate_pq(query_time, time_W2B, pq_arr_W2B)
 
@@ -97,12 +98,30 @@ tm = TransformManager()
 tm.add_transform("world", "A", pt.transform_from_pq(pq_W2A))
 tm.add_transform("world", "B", pt.transform_from_pq(pq_W2B))
 
-query_transform_A2B = tm.get_transform("A", "B")
+A2B_at_query_time = tm.get_transform("A", "B")
 
-origin_of_B_in_A = pt.transform(query_transform_A2B,
-                                pt.vector_to_point([0, 0, 0]))
-origin_of_B_in_A = origin_of_B_in_A[:-1]
+origin_of_A_pos = pt.vector_to_point([0, 0, 0])
+origin_of_A_in_B_pos = pt.transform(A2B_at_query_time, origin_of_A_pos)
+origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
 
-assert origin_of_B_in_A[0] < 0  # x
-assert origin_of_B_in_A[1] > 0  # y
-assert origin_of_B_in_A[2] == 0  # z
+# --- Idea 3
+plt.figure(figsize=(8, 8))
+plt.plot(pq_arr_W2A[:, 0], pq_arr_W2A[:, 1], "bo--", label="$A(t)$")
+plt.plot(pq_arr_W2B[:, 0], pq_arr_W2B[:, 1], "yo--", label="$B(t)$")
+plt.scatter(pq_W2A[0], pq_W2A[1], color="red", s=120, marker="d",
+            label="$A(t_q)$")
+plt.scatter(pq_W2B[0], pq_W2B[1], color="red", s=120, marker="^",
+            label="$B(t_q)$")
+plt.text(
+    pq_W2A[0],
+    pq_W2A[1],
+    f"point A in B = ({origin_of_A_in_B_xyz[0]:.2f},"
+    + f"{origin_of_A_in_B_xyz[1]:.2f})",
+)
+plt.xlabel("x [m]")
+plt.ylabel("y [m]")
+plt.xlim(0, 10)
+plt.ylim(-5, 5)
+plt.grid()
+plt.legend()
+plt.show()
