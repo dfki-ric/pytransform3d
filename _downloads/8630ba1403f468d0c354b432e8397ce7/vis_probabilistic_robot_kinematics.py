@@ -199,6 +199,7 @@ class Surface(pv.Artist):
         self.mesh.triangles = o3d.utility.Vector3iVector(triangles)
         if self.c is not None:
             self.mesh.paint_uniform_color(self.c)
+        self.mesh.compute_vertex_normals()
 
     @property
     def geometries(self):

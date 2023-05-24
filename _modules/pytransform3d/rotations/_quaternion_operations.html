@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._quaternion_operations &#8212; pytransform3d 3.1.0 documentation</title>
+    <title>pytransform3d.rotations._quaternion_operations &#8212; pytransform3d 3.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,6 +127,9 @@
 <div class="viewcode-block" id="quaternion_integrate"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_integrate.html#pytransform3d.rotations.quaternion_integrate">[docs]</a><span class="k">def</span> <span class="nf">quaternion_integrate</span><span class="p">(</span><span class="n">Qd</span><span class="p">,</span> <span class="n">q0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">dt</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Integrate angular velocities to quaternions.</span>
 
+<span class="sd">     Angular velocities are given in global frame and will be left-multiplied</span>
+<span class="sd">     to the initial or previous orientation respectively.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    Qd : array-like, shape (n_steps, 3)</span>
@@ -134,7 +137,7 @@
 <span class="sd">        velocity represents the rotational offset after one unit of time.</span>
 
 <span class="sd">    q0 : array-like, shape (4,), optional (default: [1, 0, 0, 0])</span>
-<span class="sd">        Unit quaternion to represent initial rotation: (w, x, y, z)</span>
+<span class="sd">        Unit quaternion to represent initial orientation: (w, x, y, z)</span>
 
 <span class="sd">    dt : float, optional (default: 1)</span>
 <span class="sd">        Time interval between steps.</span>
@@ -179,6 +182,9 @@
 <span class="sd">    A : array-like, shape (n_steps, 3)</span>
 <span class="sd">        Angular velocities in a compact axis-angle representation. Each angular</span>
 <span class="sd">        velocity represents the rotational offset after one unit of time.</span>
+<span class="sd">        Angular velocities are given in global frame and will be</span>
+<span class="sd">        left-multiplied during integration to the initial or previous</span>
+<span class="sd">        orientation respectively.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Q</span> <span class="o">=</span> <span class="n">check_quaternions</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
     <span class="n">Qd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Q</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
@@ -380,7 +386,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 14, 2023.<br/>
+      Last updated on May 24, 2023.<br/>
     </p>
   </div>
 </footer>

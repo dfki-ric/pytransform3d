@@ -33,7 +33,7 @@ Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its
 Application to Sensor Fusion,
 https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-273
+.. GENERATED FROM PYTHON SOURCE LINES 17-274
 
 
 
@@ -233,6 +233,7 @@ https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
             self.mesh.triangles = o3d.utility.Vector3iVector(triangles)
             if self.c is not None:
                 self.mesh.paint_uniform_color(self.c)
+            self.mesh.compute_vertex_normals()
 
         @property
         def geometries(self):
@@ -308,7 +309,7 @@ https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.158 seconds)
+   **Total running time of the script:** ( 0 minutes  0.355 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_probabilistic_robot_kinematics.py:

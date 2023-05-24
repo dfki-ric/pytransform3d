@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Probabilistic Product of Exponentials &#8212; pytransform3d 3.1.0 documentation</title>
+    <title>Probabilistic Product of Exponentials &#8212; pytransform3d 3.2.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.2.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -321,6 +321,7 @@ Application to Sensor Fusion,
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">triangles</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3iVector</span><span class="p">(</span><span class="n">triangles</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">paint_uniform_color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -394,7 +395,7 @@ Application to Sensor Fusion,
     <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">save_image</span></a><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.158 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.355 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/8630ba1403f468d0c354b432e8397ce7/vis_probabilistic_robot_kinematics.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_probabilistic_robot_kinematics.py</span></code></a></p>
@@ -419,7 +420,7 @@ Application to Sensor Fusion,
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Apr 14, 2023.<br/>
+      Last updated on May 24, 2023.<br/>
     </p>
   </div>
 </footer>
