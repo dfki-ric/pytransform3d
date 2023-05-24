@@ -39,7 +39,7 @@ def create_sinusoidal_movement(
     return time_arr, np.array(pq_arr)
 
 
-# create entities A and B
+# create entities A and B together with their transformations from world
 duration = 10.0  # [s]
 sample_period = 0.5  # [s]
 velocity_x = 1  # [m/s]
@@ -90,12 +90,12 @@ def interpolate_pq(query_time, t_arr, pq_array):
     return pt.pq_from_dual_quaternion(dq_interpolated)
 
 
-query_time = 4.9
+query_time = 4.9  # [s]
 
 pq_W2A = interpolate_pq(query_time, time_W2A, pq_arr_W2A)
 pq_W2B = interpolate_pq(query_time, time_W2B, pq_arr_W2B)
 
-# now we can feed the transform manager
+# with data from a single timestamp, we can use the transform manager
 tm = TransformManager()
 tm.add_transform("world", "A", pt.transform_from_pq(pq_W2A))
 tm.add_transform("world", "B", pt.transform_from_pq(pq_W2B))
