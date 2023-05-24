@@ -23,10 +23,11 @@ def create_sinusoidal_movement(
     x_arr = np.linspace(0, x_velocity * duration_sec, N)
 
     spatial_freq = 1 / 5  # 1 sinus per 5m
-    y_arr = np.sin(2 * np.pi * spatial_freq * x_arr)
+    omega = 2 * np.pi * spatial_freq
+    y_arr = np.sin(omega * x_arr)
     y_arr += y_start_offset
 
-    dydx_arr = np.cos(2 * np.pi * spatial_freq * x_arr)
+    dydx_arr = omega * np.cos(omega * x_arr)
     yaw_arr = np.arctan2(dydx_arr, np.ones_like(dydx_arr))
 
     pq_arr = list()
@@ -43,10 +44,10 @@ def create_sinusoidal_movement(
 duration = 10.0  # [s]
 sample_period = 0.5  # [s]
 velocity_x = 1  # [m/s]
-time_W2A, pq_arr_W2A = create_sinusoidal_movement(
+time_A, pq_arr_A = create_sinusoidal_movement(
     duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
 )
-time_W2B, pq_arr_W2B = create_sinusoidal_movement(
+time_B, pq_arr_B = create_sinusoidal_movement(
     duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.35
 )
 
@@ -92,13 +93,19 @@ def interpolate_pq(query_time, t_arr, pq_array):
 
 query_time = 4.9  # [s]
 
-pq_W2A = interpolate_pq(query_time, time_W2A, pq_arr_W2A)
-pq_W2B = interpolate_pq(query_time, time_W2B, pq_arr_W2B)
+pq_A = interpolate_pq(query_time, time_A, pq_arr_A)
+pq_B = interpolate_pq(query_time, time_B, pq_arr_B)
+
+T_A2W = pt.transform_from_pq(pq_A)
+T_W2A = pt.invert_transform(T_A2W)
+
+T_B2W = pt.transform_from_pq(pq_B)
+T_W2B = pt.invert_transform(T_B2W)
 
 # with data from a single timestamp, we can use the transform manager
 tm = TransformManager()
-tm.add_transform("world", "A", pt.transform_from_pq(pq_W2A))
-tm.add_transform("world", "B", pt.transform_from_pq(pq_W2B))
+tm.add_transform("world", "A", T_W2A)
+tm.add_transform("world", "B", T_W2B)
 
 A2B_at_query_time = tm.get_transform("A", "B")
 
@@ -108,17 +115,17 @@ origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
 
 # --- Idea 3
 plt.figure(figsize=(8, 8))
-plt.plot(pq_arr_W2A[:, 0], pq_arr_W2A[:, 1], "bo--", label="$A(t)$")
-plt.plot(pq_arr_W2B[:, 0], pq_arr_W2B[:, 1], "yo--", label="$B(t)$")
-plt.scatter(pq_W2A[0], pq_W2A[1], color="red", s=120, marker="d",
+plt.plot(pq_arr_A[:, 0], pq_arr_A[:, 1], "bo--", label="$A(t)$")
+plt.plot(pq_arr_B[:, 0], pq_arr_B[:, 1], "yo--", label="$B(t)$")
+plt.scatter(pq_A[0], pq_A[1], color="red", s=120, marker="d",
             label="$A(t_q)$")
-plt.scatter(pq_W2B[0], pq_W2B[1], color="red", s=120, marker="^",
+plt.scatter(pq_B[0], pq_B[1], color="red", s=120, marker="^",
             label="$B(t_q)$")
 plt.text(
-    pq_W2A[0],
-    pq_W2A[1],
-    f"point A in B = ({origin_of_A_in_B_xyz[0]:.2f},"
-    + f"{origin_of_A_in_B_xyz[1]:.2f})",
+    pq_A[0] + 0.3,
+    pq_A[1] - 0.3,
+    f"origin of A in B:\n({origin_of_A_in_B_xyz[0]:.2f},"
+    + f" {origin_of_A_in_B_xyz[1]:.2f})",
 )
 plt.xlabel("x [m]")
 plt.ylabel("y [m]")
