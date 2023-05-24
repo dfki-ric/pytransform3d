@@ -68,7 +68,7 @@ def interpolate_pq(query_time, t_arr, pq_array):
 
     Returns
     -------
-    pq : array-like, shape (7,)
+    pq : array, shape (7,)
         Interpolated position and orientation quaternion:
         (x, y, z, qw, qx, qy, qz)
     """
