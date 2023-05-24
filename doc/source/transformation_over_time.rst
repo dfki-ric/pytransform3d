@@ -38,4 +38,4 @@ quaternion representation holds both the translation and rotation information.
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
-   :lines: 42-51, 93-106
+   :lines: 43-52, 94-113
