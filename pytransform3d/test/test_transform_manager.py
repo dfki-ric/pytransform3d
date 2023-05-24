@@ -302,3 +302,36 @@ def test_from_to_dict():
 
     assert_array_almost_equal(tm.get_transform("D", "A"),
                               tm2.get_transform("D", "A"))
+
+
+def test_remove_twice():
+    tm = TransformManager()
+    tm.add_transform("a", "b", np.eye(4))
+    tm.add_transform("c", "d", np.eye(4))
+    tm.remove_transform("a", "b")
+    tm.remove_transform("c", "d")
+
+
+def test_remove_connection():
+    tm = TransformManager()
+    tm.add_transform("a", "b", np.eye(4))
+    tm.add_transform("b", "c", np.eye(4))
+    tm.add_transform("c", "d", np.eye(4))
+    tm.add_transform("d", "e", np.eye(4))
+    tm.remove_transform("b", "c")
+    tm.remove_transform("c", "d")
+    with pytest.raises(KeyError, match="Cannot compute path"):
+        tm.get_transform("a", "e")
+
+
+def test_remove_and_add_connection():
+    tm = TransformManager()
+    tm.add_transform("a", "b", np.eye(4))
+    tm.add_transform("b", "c", np.eye(4))
+    tm.add_transform("c", "d", np.eye(4))
+    tm.add_transform("d", "e", np.eye(4))
+    tm.remove_transform("b", "c")
+    tm.remove_transform("c", "d")
+    tm.add_transform("b", "c", np.eye(4))
+    tm.add_transform("c", "d", np.eye(4))
+    tm.get_transform("a", "e")
