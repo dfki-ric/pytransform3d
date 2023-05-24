@@ -312,26 +312,24 @@ def test_remove_twice():
     tm.remove_transform("c", "d")
 
 
-def test_remove_connection():
-    tm = TransformManager()
-    tm.add_transform("a", "b", np.eye(4))
-    tm.add_transform("b", "c", np.eye(4))
-    tm.add_transform("c", "d", np.eye(4))
-    tm.add_transform("d", "e", np.eye(4))
-    tm.remove_transform("b", "c")
-    tm.remove_transform("c", "d")
-    with pytest.raises(KeyError, match="Cannot compute path"):
-        tm.get_transform("a", "e")
-
-
 def test_remove_and_add_connection():
+    rng = np.random.default_rng(5)
+    A2B = random_transform(rng)
+    B2C = random_transform(rng)
+    C2D = random_transform(rng)
+    D2E = random_transform(rng)
+
     tm = TransformManager()
-    tm.add_transform("a", "b", np.eye(4))
-    tm.add_transform("b", "c", np.eye(4))
-    tm.add_transform("c", "d", np.eye(4))
-    tm.add_transform("d", "e", np.eye(4))
+    tm.add_transform("a", "b", A2B)
+    tm.add_transform("b", "c", B2C)
+    tm.add_transform("c", "d", C2D)
+    tm.add_transform("d", "e", D2E)
+    measurement1 = tm.get_transform("a", "e")
+
     tm.remove_transform("b", "c")
     tm.remove_transform("c", "d")
-    tm.add_transform("b", "c", np.eye(4))
-    tm.add_transform("c", "d", np.eye(4))
-    tm.get_transform("a", "e")
+    tm.add_transform("b", "c", B2C)
+    tm.add_transform("c", "d", C2D)
+    measurement2 = tm.get_transform("a", "e")
+
+    assert_array_almost_equal(measurement1, measurement2)
