@@ -1,6 +1,6 @@
-========================
+==================================
 Managing Transformations over Time
-========================
+==================================
 
 In applications, where the transformations between coordinate frames are 
 changing over time, prior to using 
@@ -12,6 +12,10 @@ We can visualize the problem in the figure below. The tranformation graph with
 represents a sample (measurement) holding the transformation from the parent 
 to the child frame.
 
+.. figure:: _static/tf-trafo-over-time.png
+    :width: 60%
+    :align: center
+
 Let's assume we want to inspect the situation at the timestep :math:`t_q` (q=query). 
 Further we want to transform points from A to B. As shown in the previous example
 :class:`~pytransform3d.transform_manager.TransformManager` is helpful to deal 
@@ -21,9 +25,11 @@ However, prior to creating the manager, we have to interpolate the transformatio
 at a timestep of interest. This is visualized with small circles filled with color of
 the according transformation direction.
 
-.. figure:: _static/tf-trafo-over-time.png
-    :width: 60%
-    :align: center
+The function for interpolation from an timeseries of transformation is shown below:
+
+.. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
+   :language: python
+   :lines: 54-90
 
 In this example, the screw linear interpolation (ScLERP) will be used
 (which operates on dual quaternions, refer to 
@@ -32,3 +38,4 @@ quaternion representation holds both the translation and rotation information.
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
+   :lines: 42-51, 93-106
