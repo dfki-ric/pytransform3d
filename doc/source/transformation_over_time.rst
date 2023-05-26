@@ -29,7 +29,7 @@ The function for interpolation from an timeseries of transformation is shown bel
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
-   :lines: 54-90
+   :lines: 55-91
 
 In this example, the screw linear interpolation (ScLERP) will be used
 (which operates on dual quaternions, refer to 
@@ -38,6 +38,6 @@ quaternion representation holds both the translation and rotation information.
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
-   :lines: 43-52, 94-113
+   :lines: 43-52, 94-111
 
 .. plot:: ../../examples/plots/plot_interpolation_for_transform_manager.py
