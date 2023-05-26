@@ -97,15 +97,12 @@ pq_A = interpolate_pq(query_time, time_A, pq_arr_A)
 pq_B = interpolate_pq(query_time, time_B, pq_arr_B)
 
 T_A2W = pt.transform_from_pq(pq_A)
-T_W2A = pt.invert_transform(T_A2W)
-
 T_B2W = pt.transform_from_pq(pq_B)
-T_W2B = pt.invert_transform(T_B2W)
 
 # with data from a single timestamp, we can use the transform manager
 tm = TransformManager()
-tm.add_transform("world", "A", T_W2A)
-tm.add_transform("world", "B", T_W2B)
+tm.add_transform("A", "world", T_A2W)
+tm.add_transform("B", "world", T_B2W)
 
 A2B_at_query_time = tm.get_transform("A", "B")
 
@@ -113,7 +110,6 @@ origin_of_A_pos = pt.vector_to_point([0, 0, 0])
 origin_of_A_in_B_pos = pt.transform(A2B_at_query_time, origin_of_A_pos)
 origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
 
-# --- Idea 3
 plt.figure(figsize=(8, 8))
 plt.plot(pq_arr_A[:, 0], pq_arr_A[:, 1], "bo--", label="$A(t)$")
 plt.plot(pq_arr_B[:, 0], pq_arr_B[:, 1], "yo--", label="$B(t)$")
