@@ -4,7 +4,7 @@ import numpy.typing as npt
 
 
 def unit_sphere_surface_grid(
-        n_steps: float) -> Tuple[np.ndarray, np.ndarray, np.ndarray]: ...
+        n_steps: int) -> Tuple[np.ndarray, np.ndarray, np.ndarray]: ...
 
 
 def transform_surface(
