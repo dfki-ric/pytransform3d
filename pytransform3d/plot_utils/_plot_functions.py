@@ -488,21 +488,14 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    x = radius * np.sin(phi) * np.cos(theta)
-    y = radius * np.sin(phi) * np.sin(theta)
-    z = radius * np.cos(phi)
+    x, y, z = unit_sphere_surface_grid(n_steps)
+    x *= radius
+    y *= radius
+    z *= radius
     z[len(z) // 2:] -= 0.5 * height
     z[:len(z) // 2] += 0.5 * height
 
-    shape = x.shape
-
-    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-    P = transform(A2B, vectors_to_points(P))[:, :3]
-
-    x = P[:, 0].reshape(*shape)
-    y = P[:, 1].reshape(*shape)
-    z = P[:, 2].reshape(*shape)
+    x, y, z = transform_surface(A2B, x, y, z)
 
     if wireframe:
         ax.plot_wireframe(
