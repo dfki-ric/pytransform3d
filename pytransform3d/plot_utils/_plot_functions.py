@@ -6,8 +6,12 @@ from ._layout import make_3d_axis
 from ._artists import Arrow3D
 from ..transformations import transform, vectors_to_points
 from ..rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
+<<<<<<< HEAD
 from ..mesh_loader import load_mesh
 from ..geometry import unit_sphere_surface_grid
+=======
+from ..geometry import unit_sphere_surface_grid, transform_surface
+>>>>>>> Refactor plot_ellipsoid
 
 
 def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
@@ -425,19 +429,12 @@ def plot_ellipsoid(ax=None, radii=np.ones(3), A2B=np.eye(4), ax_s=1,
 
     radius_x, radius_y, radius_z = radii
 
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    x = radius_x * np.sin(phi) * np.cos(theta)
-    y = radius_y * np.sin(phi) * np.sin(theta)
-    z = radius_z * np.cos(phi)
+    x, y, z = unit_sphere_surface_grid(n_steps)
+    x *= radius_x
+    y *= radius_y
+    z *= radius_z
 
-    shape = x.shape
-
-    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-    P = transform(A2B, vectors_to_points(P))[:, :3]
-
-    x = P[:, 0].reshape(*shape)
-    y = P[:, 1].reshape(*shape)
-    z = P[:, 2].reshape(*shape)
+    x, y, z = transform_surface(A2B, x, y, z)
 
     if wireframe:
         ax.plot_wireframe(
