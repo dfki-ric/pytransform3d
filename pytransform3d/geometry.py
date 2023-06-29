@@ -14,9 +14,15 @@ def unit_sphere_surface_grid(n_steps):
 
 
 def transform_surface(pose, x, y, z):
+    x = np.asarray(x)
+    y = np.asarray(y)
+    z = np.asarray(z)
+
     shape = x.shape
+
     P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
     P = transform(pose, vectors_to_points(P))[:, :3]
+
     x = P[:, 0].reshape(*shape)
     y = P[:, 1].reshape(*shape)
     z = P[:, 2].reshape(*shape)
