@@ -7,6 +7,7 @@ from .transformations import (
 from .trajectories import (exponential_coordinates_from_transforms,
                            transforms_from_exponential_coordinates,
                            concat_many_to_one)
+from .geometry import unit_sphere_surface_grid
 
 
 def estimate_gaussian_transform_from_samples(samples):
@@ -452,10 +453,10 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=20):
 
     # Grid on ellipsoid in exponential coordinate space
     radius_x, radius_y, radius_z = radii
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    x = radius_x * np.sin(phi) * np.cos(theta)
-    y = radius_y * np.sin(phi) * np.sin(theta)
-    z = radius_z * np.cos(phi)
+    x, y, z = unit_sphere_surface_grid(n_steps)
+    x *= radius_x
+    y *= radius_y
+    z *= radius_z
     P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
     P = np.dot(P, vecs[:, :3].T)
 
