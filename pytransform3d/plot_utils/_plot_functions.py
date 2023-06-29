@@ -7,6 +7,7 @@ from ._artists import Arrow3D
 from ..transformations import transform, vectors_to_points
 from ..rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
 from ..mesh_loader import load_mesh
+from ..geometry import unit_sphere_surface_grid
 
 
 def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
@@ -131,10 +132,10 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    x = p[0] + radius * np.sin(phi) * np.cos(theta)
-    y = p[1] + radius * np.sin(phi) * np.sin(theta)
-    z = p[2] + radius * np.cos(phi)
+    x, y, z = unit_sphere_surface_grid(n_steps)
+    x = p[0] + radius * x
+    y = p[1] + radius * y
+    z = p[2] + radius * z
 
     if wireframe:
         ax.plot_wireframe(
