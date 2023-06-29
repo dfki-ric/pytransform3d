@@ -34,6 +34,33 @@ def unit_sphere_surface_grid(n_steps):
 
 
 def transform_surface(pose, x, y, z):
+    """Transform surface grid.
+
+    Parameters
+    ----------
+    pose : array, shape (4, 4)
+        Pose: transformation that will be applied to the surface grid.
+
+    x : array, shape (n_steps, n_steps)
+        x-coordinates of grid points.
+
+    y : array, shape (n_steps, n_steps)
+        y-coordinates of grid points.
+
+    z : array, shape (n_steps, n_steps)
+        z-coordinates of grid points.
+
+    Returns
+    -------
+    x : array, shape (n_steps, n_steps)
+        x-coordinates of transformed grid points.
+
+    y : array, shape (n_steps, n_steps)
+        y-coordinates of transformed grid points.
+
+    z : array, shape (n_steps, n_steps)
+        z-coordinates of transformed grid points.
+    """
     x = np.asarray(x)
     y = np.asarray(y)
     z = np.asarray(z)
