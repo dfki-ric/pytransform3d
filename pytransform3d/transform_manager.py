@@ -2,6 +2,7 @@
 
 See :doc:`transform_manager` for more information.
 """
+from typing import Any, Dict, Hashable, Optional, Union
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
@@ -12,6 +13,7 @@ except ImportError:
     PYDOT_AVAILABLE = False
 from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
+from .transform_base import TransformBase, TransformNumpy
 
 
 class TransformManager(object):
@@ -60,7 +62,7 @@ class TransformManager(object):
         self.strict_check = strict_check
         self.check = check
 
-        self.transforms = {}
+        self.transforms: Dict[Hashable, TransformBase] = {}
         self.nodes = []
 
         # A pair (self.i[n], self.j[n]) represents indices of connected nodes
@@ -79,7 +81,8 @@ class TransformManager(object):
 
         self._cached_shortest_paths = {}
 
-    def add_transform(self, from_frame, to_frame, A2B):
+    def add_transform(self, from_frame, to_frame,
+                      transform: Union[np.ndarray, TransformBase]):
         """Register a transformation.
 
         Parameters
@@ -91,8 +94,8 @@ class TransformManager(object):
         to_frame : Hashable
             Name of the frame in which the transformation is defined
 
-        A2B : array-like, shape (4, 4)
-            Homogeneous matrix that represents the transformation from
+        transform : array-like, shape (4, 4)
+            Object or matrix that represents the transformation from
             'from_frame' to 'to_frame'
 
         Returns
@@ -100,6 +103,12 @@ class TransformManager(object):
         self : TransformManager
             This object for chaining
         """
+
+        if isinstance(transform, np.ndarray):
+            transform = TransformNumpy(from_frame, to_frame, transform)
+
+        A2B = transform.as_homogenous_matrix()
+
         if self.check:
             A2B = check_transform(A2B, strict_check=self.strict_check)
         if from_frame not in self.nodes:
@@ -117,7 +126,7 @@ class TransformManager(object):
             self.transform_to_ij_index[transform_key] = ij_index
             recompute_shortest_path = True
 
-        self.transforms[transform_key] = A2B
+        self.transforms[transform_key] = transform
 
         if recompute_shortest_path:
             self._recompute_shortest_path()
@@ -181,7 +190,7 @@ class TransformManager(object):
         """
         return frame in self.nodes
 
-    def get_transform(self, from_frame, to_frame):
+    def get_transform(self, from_frame, to_frame, time: Optional[float] = None):
         """Request a transformation.
 
         Parameters
@@ -212,11 +221,11 @@ class TransformManager(object):
                 raise KeyError("Unknown frame '%s'" % to_frame)
 
         if (from_frame, to_frame) in self.transforms:
-            return self.transforms[(from_frame, to_frame)]
+            return self.transforms[(from_frame, to_frame)].as_homogenous_matrix(time)
 
         if (to_frame, from_frame) in self.transforms:
             return invert_transform(
-                self.transforms[(to_frame, from_frame)],
+                self.transforms[(to_frame, from_frame)].as_homogenous_matrix(time),
                 strict_check=self.strict_check, check=self.check)
 
         i = self.nodes.index(from_frame)
@@ -240,10 +249,10 @@ class TransformManager(object):
         self._cached_shortest_paths[(i, j)] = path
         return path
 
-    def _path_transform(self, path):
+    def _path_transform(self, path, time: Optional[float] = None):
         A2B = np.eye(4)
         for from_f, to_f in zip(path[:-1], path[1:]):
-            A2B = concat(A2B, self.get_transform(from_f, to_f),
+            A2B = concat(A2B, self.get_transform(from_f, to_f, time),
                          strict_check=self.strict_check, check=self.check)
         return A2B
 
@@ -477,7 +486,8 @@ class TransformManager(object):
                 _dot_display_name(frame), style="filled",
                 fillcolor=frame_color, shape="egg")
             graph.add_node(node)
-        for frames, A2B in self.transforms.items():
+        for frames, transform in self.transforms.items():
+            A2B = transform.as_homogenous_matrix()
             frame_a, frame_b = frames
             connection_name = "%s to %s\n%s" % (
                 _dot_display_name(frame_a), _dot_display_name(frame_b),
@@ -507,7 +517,7 @@ class TransformManager(object):
             "class": self.__class__.__name__,
             "strict_check": self.strict_check,
             "check": self.check,
-            "transforms": [(k, v.ravel().tolist())
+            "transforms": [(k, v.as_homogenous_matrix().ravel().tolist())
                            for k, v in self.transforms.items()],
             "nodes": self.nodes,
             "i": self.i,
@@ -552,7 +562,7 @@ class TransformManager(object):
         """
         transforms = tm_dict.get("transforms")
         self.transforms = dict([
-            (tuple(k), np.array(v).reshape(4, 4)) for k, v in transforms])
+            (tuple(k), TransformNumpy(k[0], k[1], np.array(v).reshape(4, 4))) for k, v in transforms])
         self.nodes = tm_dict.get("nodes")
         self.i = tm_dict.get("i")
         self.j = tm_dict.get("j")
