@@ -21,7 +21,9 @@ class TransformTreeBase(abc.ABC):
         self.strict_check = strict_check
         self.check = check
 
+        # Names of nodes
         self.nodes = []
+        # Rigid transformations between nodes
         self.transforms = {}
 
         # A pair (self.i[n], self.j[n]) represents indices of connected nodes
@@ -167,6 +169,7 @@ class TransformTreeBase(abc.ABC):
         """Invert rigid transformation stored in the tree."""
 
     def _shortest_path(self, i, j):
+        """Names of nodes along the shortest path between two indices."""
         if (i, j) in self._cached_shortest_paths:
             return self._cached_shortest_paths[(i, j)]
 
