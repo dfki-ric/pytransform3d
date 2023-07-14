@@ -2,6 +2,7 @@
 
 See :doc:`transform_manager` for more information.
 """
+import abc
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
@@ -14,9 +15,12 @@ from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
 
 
-class TransformTreeBase(object):
+class TransformTreeBase(abc.ABC):
     """Base class for all trees of rigid transformations."""
-    def __init__(self):
+    def __init__(self, strict_check=True, check=True):
+        self.strict_check = strict_check
+        self.check = check
+
         self.nodes = []
         self.transforms = {}
 
@@ -34,6 +38,149 @@ class TransformTreeBase(object):
         self.predecessors = np.empty(0, dtype=np.int32)
 
         self._cached_shortest_paths = {}
+
+    def has_frame(self, frame):
+        """Check if frame has been registered.
+
+        Parameters
+        ----------
+        frame : Hashable
+            Frame name
+
+        Returns
+        -------
+        has_frame : bool
+            Frame is registered
+        """
+        return frame in self.nodes
+
+    def _add_transform(self, from_frame, to_frame, A2B):
+        if from_frame not in self.nodes:
+            self.nodes.append(from_frame)
+        if to_frame not in self.nodes:
+            self.nodes.append(to_frame)
+
+        transform_key = (from_frame, to_frame)
+
+        recompute_shortest_path = False
+        if transform_key not in self.transforms:
+            ij_index = len(self.i)
+            self.i.append(self.nodes.index(from_frame))
+            self.j.append(self.nodes.index(to_frame))
+            self.transform_to_ij_index[transform_key] = ij_index
+            recompute_shortest_path = True
+
+        if recompute_shortest_path:
+            self._recompute_shortest_path()
+
+        self.transforms[transform_key] = A2B
+
+    def _recompute_shortest_path(self):
+        n_nodes = len(self.nodes)
+        self.connections = sp.csr_matrix(
+            (np.zeros(len(self.i)), (self.i, self.j)),
+            shape=(n_nodes, n_nodes))
+        self.dist, self.predecessors = csgraph.shortest_path(
+            self.connections, unweighted=True, directed=False, method="D",
+            return_predecessors=True)
+        self._cached_shortest_paths.clear()
+
+    def remove_transform(self, from_frame, to_frame):
+        """Remove a transformation.
+
+        Nothing happens if there is no such transformation.
+
+        Parameters
+        ----------
+        from_frame : Hashable
+            Name of the frame for which the transformation is added in the
+            to_frame coordinate system
+
+        to_frame : Hashable
+            Name of the frame in which the transformation is defined
+
+        Returns
+        -------
+        self : TransformManager
+            This object for chaining
+        """
+        transform_key = (from_frame, to_frame)
+        if transform_key in self.transforms:
+            del self.transforms[transform_key]
+            ij_index = self.transform_to_ij_index[transform_key]
+            del self.transform_to_ij_index[transform_key]
+            self.transform_to_ij_index = dict(
+                (k, v if v < ij_index else v - 1)
+                for k, v in self.transform_to_ij_index.items())
+            del self.i[ij_index]
+            del self.j[ij_index]
+            self._recompute_shortest_path()
+        return self
+
+    def get_transform(self, from_frame, to_frame):
+        """Request a transformation.
+
+        Parameters
+        ----------
+        from_frame : Hashable
+            Name of the frame for which the transformation is requested in the
+            to_frame coordinate system
+
+        to_frame : Hashable
+            Name of the frame in which the transformation is defined
+
+        Returns
+        -------
+        A2B : Any
+            Transformation from 'from_frame' to 'to_frame'
+
+        Raises
+        ------
+        KeyError
+            If one of the frames is unknown or there is no connection between
+            them
+        """
+        if self.check:
+            if from_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % from_frame)
+            if to_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % to_frame)
+
+        if (from_frame, to_frame) in self.transforms:
+            return self.transforms[(from_frame, to_frame)]
+
+        if (to_frame, from_frame) in self.transforms:
+            return self._invert_transform(
+                self.transforms[(to_frame, from_frame)])
+
+        i = self.nodes.index(from_frame)
+        j = self.nodes.index(to_frame)
+        if not np.isfinite(self.dist[i, j]):
+            raise KeyError("Cannot compute path from frame '%s' to "
+                           "frame '%s'." % (from_frame, to_frame))
+
+        path = self.__shortest_path(i, j)
+        return self._path_transform(path)
+
+    @abc.abstractmethod
+    def _invert_transform(self, A2B):
+        """Invert rigid transformation stored in the tree."""
+
+    def __shortest_path(self, i, j):
+        if (i, j) in self._cached_shortest_paths:
+            return self._cached_shortest_paths[(i, j)]
+
+        path = []
+        k = i
+        while k != -9999:
+            path.append(self.nodes[k])
+            k = self.predecessors[j, k]
+        self._cached_shortest_paths[(i, j)] = path
+        return path
+
+    @abc.abstractmethod
+    def _path_transform(self, path):
+        """Convert sequence of node names to rigid transformation."""
 
 
 class TransformManager(TransformTreeBase):
@@ -79,9 +226,7 @@ class TransformManager(TransformTreeBase):
         which might significantly slow down some operations.
     """
     def __init__(self, strict_check=True, check=True):
-        super(TransformManager, self).__init__()
-        self.strict_check = strict_check
-        self.check = check
+        super(TransformManager, self).__init__(strict_check, check)
 
     def add_transform(self, from_frame, to_frame, A2B):
         """Register a transformation.
@@ -106,143 +251,12 @@ class TransformManager(TransformTreeBase):
         """
         if self.check:
             A2B = check_transform(A2B, strict_check=self.strict_check)
-        if from_frame not in self.nodes:
-            self.nodes.append(from_frame)
-        if to_frame not in self.nodes:
-            self.nodes.append(to_frame)
-
-        transform_key = (from_frame, to_frame)
-
-        recompute_shortest_path = False
-        if transform_key not in self.transforms:
-            ij_index = len(self.i)
-            self.i.append(self.nodes.index(from_frame))
-            self.j.append(self.nodes.index(to_frame))
-            self.transform_to_ij_index[transform_key] = ij_index
-            recompute_shortest_path = True
-
-        self.transforms[transform_key] = A2B
-
-        if recompute_shortest_path:
-            self._recompute_shortest_path()
-
+        self._add_transform(from_frame, to_frame, A2B)
         return self
 
-    def remove_transform(self, from_frame, to_frame):
-        """Remove a transformation.
-
-        Nothing happens if there is no such transformation.
-
-        Parameters
-        ----------
-        from_frame : Hashable
-            Name of the frame for which the transformation is added in the
-            to_frame coordinate system
-
-        to_frame : Hashable
-            Name of the frame in which the transformation is defined
-
-        Returns
-        -------
-        self : TransformManager
-            This object for chaining
-        """
-        transform_key = (from_frame, to_frame)
-        if transform_key in self.transforms:
-            del self.transforms[transform_key]
-            ij_index = self.transform_to_ij_index[transform_key]
-            del self.transform_to_ij_index[transform_key]
-            self.transform_to_ij_index = dict(
-                (k, v if v < ij_index else v - 1)
-                for k, v in self.transform_to_ij_index.items())
-            del self.i[ij_index]
-            del self.j[ij_index]
-            self._recompute_shortest_path()
-        return self
-
-    def _recompute_shortest_path(self):
-        n_nodes = len(self.nodes)
-        self.connections = sp.csr_matrix(
-            (np.zeros(len(self.i)), (self.i, self.j)),
-            shape=(n_nodes, n_nodes))
-        self.dist, self.predecessors = csgraph.shortest_path(
-            self.connections, unweighted=True, directed=False, method="D",
-            return_predecessors=True)
-        self._cached_shortest_paths.clear()
-
-    def has_frame(self, frame):
-        """Check if frame has been registered.
-
-        Parameters
-        ----------
-        frame : Hashable
-            Frame name
-
-        Returns
-        -------
-        has_frame : bool
-            Frame is registered
-        """
-        return frame in self.nodes
-
-    def get_transform(self, from_frame, to_frame):
-        """Request a transformation.
-
-        Parameters
-        ----------
-        from_frame : Hashable
-            Name of the frame for which the transformation is requested in the
-            to_frame coordinate system
-
-        to_frame : Hashable
-            Name of the frame in which the transformation is defined
-
-        Returns
-        -------
-        A2B : array-like, shape (4, 4)
-            Homogeneous matrix that represents the transformation from
-            'from_frame' to 'to_frame'
-
-        Raises
-        ------
-        KeyError
-            If one of the frames is unknown or there is no connection between
-            them
-        """
-        if self.check:
-            if from_frame not in self.nodes:
-                raise KeyError("Unknown frame '%s'" % from_frame)
-            if to_frame not in self.nodes:
-                raise KeyError("Unknown frame '%s'" % to_frame)
-
-        if (from_frame, to_frame) in self.transforms:
-            return self.transforms[(from_frame, to_frame)]
-
-        if (to_frame, from_frame) in self.transforms:
-            return invert_transform(
-                self.transforms[(to_frame, from_frame)],
-                strict_check=self.strict_check, check=self.check)
-
-        i = self.nodes.index(from_frame)
-        j = self.nodes.index(to_frame)
-        if not np.isfinite(self.dist[i, j]):
-            raise KeyError("Cannot compute path from frame '%s' to "
-                           "frame '%s'." % (from_frame, to_frame))
-
-        path = self._shortest_path(i, j)
-        return self._path_transform(path)
-
-    def _shortest_path(self, i, j):
-        if (i, j) in self._cached_shortest_paths:
-            return self._cached_shortest_paths[(i, j)]
-
-        path = []
-        k = i
-        while k != -9999:
-            path.append(self.nodes[k])
-            k = self.predecessors[j, k]
-        self._cached_shortest_paths[(i, j)] = path
-        return path
+    def _invert_transform(self, A2B):
+        return invert_transform(
+            A2B, strict_check=self.strict_check, check=self.check)
 
     def _path_transform(self, path):
         A2B = np.eye(4)
