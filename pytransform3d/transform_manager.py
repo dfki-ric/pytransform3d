@@ -159,14 +159,14 @@ class TransformTreeBase(abc.ABC):
             raise KeyError("Cannot compute path from frame '%s' to "
                            "frame '%s'." % (from_frame, to_frame))
 
-        path = self.__shortest_path(i, j)
+        path = self._shortest_path(i, j)
         return self._path_transform(path)
 
     @abc.abstractmethod
     def _invert_transform(self, A2B):
         """Invert rigid transformation stored in the tree."""
 
-    def __shortest_path(self, i, j):
+    def _shortest_path(self, i, j):
         if (i, j) in self._cached_shortest_paths:
             return self._cached_shortest_paths[(i, j)]
 
@@ -181,6 +181,47 @@ class TransformTreeBase(abc.ABC):
     @abc.abstractmethod
     def _path_transform(self, path):
         """Convert sequence of node names to rigid transformation."""
+
+    def connected_components(self):
+        """Get number of connected components.
+
+        If the number is larger than 1 there will be frames without
+        connections.
+
+        Returns
+        -------
+        n_connected_components : int
+            Number of connected components.
+        """
+        return csgraph.connected_components(
+            self.connections, directed=False, return_labels=False)
+
+    def check_consistency(self):
+        """Check consistency of the known transformations.
+
+        The complexity of this is between :math:`O(n^2)` and :math:`O(n^3)`,
+        where :math:`n` is the number of nodes. In graphs where each pair of
+        nodes is directly connected the complexity is :math:`O(n^2)`. In graphs
+        that are actually paths, the complexity is :math:`O(n^3)`.
+
+        Returns
+        -------
+        consistent : bool
+            Is the graph consistent, i.e. is A2B always the same as the inverse
+            of B2A?
+        """
+        consistent = True
+        for node1 in self.nodes:
+            for node2 in self.nodes:
+                try:
+                    node1_to_node2 = self.get_transform(node1, node2)
+                    node2_to_node1 = self.get_transform(node2, node1)
+                    node1_to_node2_inv = self._invert_transform(node2_to_node1)
+                    consistent = consistent and np.allclose(node1_to_node2,
+                                                            node1_to_node2_inv)
+                except KeyError:
+                    pass  # Frames are not connected
+        return consistent
 
 
 class TransformManager(TransformTreeBase):
@@ -416,49 +457,6 @@ class TransformManager(TransformTreeBase):
                 raise KeyError("Whitelist contains unknown nodes: '%s'"
                                % nonwhitlisted_nodes)
         return nodes
-
-    def check_consistency(self):
-        """Check consistency of the known transformations.
-
-        The complexity of this is between :math:`O(n^2)` and :math:`O(n^3)`,
-        where :math:`n` is the number of nodes. In graphs where each pair of
-        nodes is directly connected the complexity is :math:`O(n^2)`. In graphs
-        that are actually paths, the complexity is :math:`O(n^3)`.
-
-        Returns
-        -------
-        consistent : bool
-            Is the graph consistent, i.e. is A2B always the same as the inverse
-            of B2A?
-        """
-        consistent = True
-        for node1 in self.nodes:
-            for node2 in self.nodes:
-                try:
-                    node1_to_node2 = self.get_transform(node1, node2)
-                    node2_to_node1 = self.get_transform(node2, node1)
-                    node1_to_node2_inv = invert_transform(
-                        node2_to_node1, strict_check=self.strict_check,
-                        check=self.check)
-                    consistent = consistent and np.allclose(node1_to_node2,
-                                                            node1_to_node2_inv)
-                except KeyError:
-                    pass  # Frames are not connected
-        return consistent
-
-    def connected_components(self):
-        """Get number of connected components.
-
-        If the number is larger than 1 there will be frames without
-        connections.
-
-        Returns
-        -------
-        n_connected_components : int
-            Number of connected components.
-        """
-        return csgraph.connected_components(
-            self.connections, directed=False, return_labels=False)
 
     def write_png(self, filename, prog=None):  # pragma: no cover
         """Create PNG from dot graph of the transformations.
