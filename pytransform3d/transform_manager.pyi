@@ -7,7 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from typing import Dict, Tuple, List, Union, Set, Hashable, Any
 
 
-class TransformTreeBase(abc.ABC):
+class TransformGraphBase(abc.ABC):
     strict_check: bool
     check: bool
     nodes: List[Hashable]
@@ -47,7 +47,7 @@ class TransformTreeBase(abc.ABC):
     def check_consistency(self) -> bool: ...
 
 
-class TransformManager(TransformTreeBase):
+class TransformManager(TransformGraphBase):
     def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 
     def add_transform(self, from_frame: Hashable, to_frame: Hashable,
