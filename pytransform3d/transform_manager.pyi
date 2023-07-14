@@ -5,11 +5,9 @@ from mpl_toolkits.mplot3d import Axes3D
 from typing import Dict, Tuple, List, Union, Set, Hashable, Any
 
 
-class TransformManager(object):
-    strict_check: bool
-    check: bool
-    transforms: Dict[Tuple[Hashable, Hashable], np.ndarray]
+class TransformTreeBase(object):
     nodes: List[Hashable]
+    transforms: Dict[Tuple[Hashable, Hashable], np.ndarray]
     i: List[int]
     j: List[int]
     transform_to_ij_index = Dict[Tuple[Hashable, Hashable], int]
@@ -17,6 +15,11 @@ class TransformManager(object):
     dist: np.ndarray
     predecessors: np.ndarray
     _cached_shortest_paths: Dict[Tuple[int, int], List[Hashable]]
+
+
+class TransformManager(TransformTreeBase):
+    strict_check: bool
+    check: bool
 
     def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 

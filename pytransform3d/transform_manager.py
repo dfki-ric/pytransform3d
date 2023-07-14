@@ -14,7 +14,29 @@ from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
 
 
-class TransformManager(object):
+class TransformTreeBase(object):
+    """Base class for all trees of rigid transformations."""
+    def __init__(self):
+        self.nodes = []
+        self.transforms = {}
+
+        # A pair (self.i[n], self.j[n]) represents indices of connected nodes
+        self.i = []
+        self.j = []
+        # We have to store the index n associated to a transformation to be
+        # able to remove the transformation later
+        self.transform_to_ij_index = {}
+        # Connection information as sparse matrix
+        self.connections = sp.csr_matrix((0, 0))
+        # Result of shortest path algorithm:
+        # distance matrix (distance is the number of transformations)
+        self.dist = np.empty(0)
+        self.predecessors = np.empty(0, dtype=np.int32)
+
+        self._cached_shortest_paths = {}
+
+
+class TransformManager(TransformTreeBase):
     """Manage transformations between frames.
 
     This is a simplified version of `ROS tf <http://wiki.ros.org/tf>`_ that
@@ -57,27 +79,9 @@ class TransformManager(object):
         which might significantly slow down some operations.
     """
     def __init__(self, strict_check=True, check=True):
+        super(TransformManager, self).__init__()
         self.strict_check = strict_check
         self.check = check
-
-        self.transforms = {}
-        self.nodes = []
-
-        # A pair (self.i[n], self.j[n]) represents indices of connected nodes
-        self.i = []
-        self.j = []
-        # We have to store the index n associated to a transformation to be
-        # able to remove the transformation later
-        self.transform_to_ij_index = {}
-        # Connection information as sparse matrix
-        self.connections = sp.csr_matrix((0, 0))
-
-        # Result of shortest path algorithm:
-        # distance matrix (distance is the number of transformations)
-        self.dist = np.empty(0)
-        self.predecessors = np.empty(0, dtype=np.int32)
-
-        self._cached_shortest_paths = {}
 
     def add_transform(self, from_frame, to_frame, A2B):
         """Register a transformation.
