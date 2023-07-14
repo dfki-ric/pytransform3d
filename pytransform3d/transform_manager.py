@@ -56,7 +56,29 @@ class TransformGraphBase(abc.ABC):
         """
         return frame in self.nodes
 
-    def _add_transform(self, from_frame, to_frame, A2B):
+    def add_transform(self, from_frame, to_frame, A2B):
+        """Register a transformation.
+
+        Parameters
+        ----------
+        from_frame : Hashable
+            Name of the frame for which the transformation is added in the
+            to_frame coordinate system
+
+        to_frame : Hashable
+            Name of the frame in which the transformation is defined
+
+        A2B : Any
+            Transformation from 'from_frame' to 'to_frame'
+
+        Returns
+        -------
+        self : TransformManager
+            This object for chaining
+        """
+        if self.check:
+            A2B = self._check_transform(A2B)
+
         if from_frame not in self.nodes:
             self.nodes.append(from_frame)
         if to_frame not in self.nodes:
@@ -76,6 +98,8 @@ class TransformGraphBase(abc.ABC):
             self._recompute_shortest_path()
 
         self.transforms[transform_key] = A2B
+
+        return self
 
     def _recompute_shortest_path(self):
         n_nodes = len(self.nodes)
@@ -272,31 +296,8 @@ class TransformManager(TransformGraphBase):
     def __init__(self, strict_check=True, check=True):
         super(TransformManager, self).__init__(strict_check, check)
 
-    def add_transform(self, from_frame, to_frame, A2B):
-        """Register a transformation.
-
-        Parameters
-        ----------
-        from_frame : Hashable
-            Name of the frame for which the transformation is added in the
-            to_frame coordinate system
-
-        to_frame : Hashable
-            Name of the frame in which the transformation is defined
-
-        A2B : array-like, shape (4, 4)
-            Homogeneous matrix that represents the transformation from
-            'from_frame' to 'to_frame'
-
-        Returns
-        -------
-        self : TransformManager
-            This object for chaining
-        """
-        if self.check:
-            A2B = check_transform(A2B, strict_check=self.strict_check)
-        self._add_transform(from_frame, to_frame, A2B)
-        return self
+    def _check_transform(self, A2B):
+        return check_transform(A2B, strict_check=self.strict_check)
 
     def _invert_transform(self, A2B):
         return invert_transform(
