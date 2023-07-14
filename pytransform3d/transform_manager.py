@@ -16,7 +16,19 @@ from .transformations import (check_transform, invert_transform, concat,
 
 
 class TransformGraphBase(abc.ABC):
-    """Base class for all trees of rigid transformations."""
+    """Base class for all trees of rigid transformations.
+
+    Parameters
+    ----------
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
+    check : bool, optional (default: True)
+        Check if transformation matrices are valid and requested nodes exist,
+        which might significantly slow down some operations.
+    """
     def __init__(self, strict_check=True, check=True):
         self.strict_check = strict_check
         self.check = check
