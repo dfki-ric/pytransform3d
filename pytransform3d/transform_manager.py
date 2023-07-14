@@ -15,7 +15,7 @@ from .transformations import (check_transform, invert_transform, concat,
                               plot_transform)
 
 
-class TransformTreeBase(abc.ABC):
+class TransformGraphBase(abc.ABC):
     """Base class for all trees of rigid transformations."""
     def __init__(self, strict_check=True, check=True):
         self.strict_check = strict_check
@@ -227,7 +227,7 @@ class TransformTreeBase(abc.ABC):
         return consistent
 
 
-class TransformManager(TransformTreeBase):
+class TransformManager(TransformGraphBase):
     """Manage transformations between frames.
 
     This is a simplified version of `ROS tf <http://wiki.ros.org/tf>`_ that
