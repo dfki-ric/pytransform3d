@@ -24,8 +24,7 @@ if __name__ == "__main__":
           ],
           license='BSD-3-Clause',
           packages=find_packages(),
-          install_requires=["numpy", "scipy", "matplotlib", "lxml",
-                            "beautifulsoup4"],
+          install_requires=["numpy", "scipy", "matplotlib", "lxml"],
           extras_require={
               "all": ["pydot", "trimesh", "open3d"],
               "doc": ["numpydoc", "sphinx", "sphinx-gallery",

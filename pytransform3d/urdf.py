@@ -5,7 +5,7 @@ See :doc:`transform_manager` for more information.
 import os
 import numpy as np
 import warnings
-from bs4 import BeautifulSoup
+from lxml import etree
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat
 from .rotations import (
@@ -23,7 +23,7 @@ class UrdfTransformManager(TransformManager):
 
     .. warning::
 
-        Note that this module requires the Python package beautifulsoup4.
+        Note that this module requires the Python package lxml.
 
     .. note::
 
@@ -326,30 +326,34 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
     UrdfException
         If URDF is not valid
     """
-    urdf = BeautifulSoup(urdf_xml, "xml")
+    urdf_xml = urdf_xml.strip()
+    try:
+        root = etree.XML(urdf_xml)
+    except etree.XMLSyntaxError:
+        raise UrdfException("Invalid XML.")
 
     # URDF XML schema:
     # https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd
 
-    robot = urdf.find("robot")
-    if robot is None:
+    if root.tag != "robot":
         raise UrdfException("Robot tag is missing.")
 
-    if not robot.has_attr("name"):
+    tree = etree.ElementTree(root)
+
+    if "name" not in root.attrib:
         raise UrdfException("Attribute 'name' is missing in robot tag.")
 
-    robot_name = robot["name"]
+    robot_name = root.attrib["name"]
 
-    materials = dict([
-        _parse_material(material)
-        for material in robot.findAll("material", recursive=False)])
+    materials = dict([_parse_material(material)
+                      for material in tree.findall("material")])
 
     links = [_parse_link(link, materials, mesh_path, package_dir, strict_check)
-             for link in robot.findAll("link", recursive=False)]
+             for link in tree.findall("link")]
 
     link_names = [link.name for link in links]
     joints = [_parse_joint(joint, link_names, strict_check)
-              for joint in robot.findAll("joint", recursive=False)]
+              for joint in tree.findall("joint")]
 
     return robot_name, links, joints
 
@@ -378,9 +382,9 @@ def initialize_urdf_transform_manager(tm, robot_name, links, joints):
 
 def _parse_material(material):
     """Parse material."""
-    if not material.has_attr("name"):
+    if "name" not in material.attrib:
         raise UrdfException("Material name is missing.")
-    colors = material.findAll("color")
+    colors = material.findall("color")
     if len(colors) not in [0, 1]:
         raise UrdfException("More than one color is not allowed.")
     if len(colors) == 1:
@@ -388,23 +392,23 @@ def _parse_material(material):
     else:
         color = None
     # TODO texture is currently ignored
-    return material["name"], color
+    return material.attrib["name"], color
 
 
 def _parse_color(color):
     """Parse color."""
-    if not color.has_attr("rgba"):
+    if "rgba" not in color.attrib:
         raise UrdfException("Attribute 'rgba' of color tag is missing.")
-    return np.fromstring(color["rgba"], sep=" ")
+    return np.fromstring(color.attrib["rgba"], sep=" ")
 
 
 def _parse_link(link, materials, mesh_path, package_dir, strict_check):
     """Create link."""
-    if not link.has_attr("name"):
+    if "name" not in link.attrib:
         raise UrdfException("Link name is missing.")
 
     result = Link()
-    result.name = link["name"]
+    result.name = link.attrib["name"]
 
     visuals, visual_transforms = _parse_link_children(
         link, "visual", materials, mesh_path, package_dir, strict_check)
@@ -431,14 +435,15 @@ def _parse_link(link, materials, mesh_path, package_dir, strict_check):
 def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
                          strict_check):
     """Parse collision objects or visuals."""
-    children = link.findAll(child_type)
+    children = link.findall(child_type)
     shape_objects = []
     transforms = []
     for i, child in enumerate(children):
-        if child.has_attr("name"):
-            name = "%s:%s/%s" % (child_type, link["name"], child["name"])
+        if "name" in child.attrib:
+            name = "%s:%s/%s" % (child_type, link.attrib["name"],
+                                 child.attrib["name"])
         else:
-            name = "%s:%s/%s" % (child_type, link["name"], i)
+            name = "%s:%s/%s" % (child_type, link.attrib["name"], i)
 
         color = None
         if child_type == "visual":
@@ -449,7 +454,7 @@ def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
                     color = materials[material_name]
 
         child2link = _parse_origin(child, strict_check)
-        transforms.append((name, link["name"], child2link))
+        transforms.append((name, link.attrib["name"], child2link))
 
         shape_objects.extend(_parse_geometry(
             child, name, color, mesh_path, package_dir))
@@ -463,7 +468,7 @@ def _parse_geometry(child, name, color, mesh_path, package_dir):
         raise UrdfException("Missing geometry tag in link '%s'" % name)
     result = []
     for shape_type in ["box", "cylinder", "sphere", "mesh"]:
-        shapes = geometry.findAll(shape_type)
+        shapes = geometry.findall(shape_type)
         Cls = shape_classes[shape_type]
         for shape in shapes:
             shape_object = Cls(
@@ -480,10 +485,10 @@ def _parse_origin(entry, strict_check):
     translation = np.zeros(3)
     rotation = np.eye(3)
     if origin is not None:
-        if origin.has_attr("xyz"):
-            translation = np.fromstring(origin["xyz"], sep=" ")
-        if origin.has_attr("rpy"):
-            roll_pitch_yaw = np.fromstring(origin["rpy"], sep=" ")
+        if "xyz" in origin.attrib:
+            translation = np.fromstring(origin.attrib["xyz"], sep=" ")
+        if "rpy" in origin.attrib:
+            roll_pitch_yaw = np.fromstring(origin.attrib["rpy"], sep=" ")
             # URDF and KDL use the active convention for rotation matrices.
             # For more details on how the URDF parser handles the
             # conversion from Euler angles, see this blog post:
@@ -497,8 +502,8 @@ def _parse_origin(entry, strict_check):
 def _parse_mass(inertial):
     """Parse link mass."""
     mass = inertial.find("mass")
-    if mass is not None and mass.has_attr("value"):
-        result = float(mass["value"])
+    if mass is not None and "value" in mass.attrib:
+        result = float(mass.attrib["value"])
     else:
         result = 0.0
     return result
@@ -512,24 +517,24 @@ def _parse_inertia(inertial):
     if inertia is None:
         return result
 
-    if inertia.has_attr("ixx"):
-        result[0, 0] = float(inertia["ixx"])
-    if inertia.has_attr("ixy"):
-        ixy = float(inertia["ixy"])
+    if "ixx" in inertia.attrib:
+        result[0, 0] = float(inertia.attrib["ixx"])
+    if "ixy" in inertia.attrib:
+        ixy = float(inertia.attrib["ixy"])
         result[0, 1] = ixy
         result[1, 0] = ixy
-    if inertia.has_attr("ixz"):
-        ixz = float(inertia["ixz"])
+    if "ixz" in inertia.attrib:
+        ixz = float(inertia.attrib["ixz"])
         result[0, 2] = ixz
         result[2, 0] = ixz
-    if inertia.has_attr("iyy"):
-        result[1, 1] = float(inertia["iyy"])
-    if inertia.has_attr("iyz"):
-        iyz = float(inertia["iyz"])
+    if "iyy" in inertia.attrib:
+        result[1, 1] = float(inertia.attrib["iyy"])
+    if "iyz" in inertia.attrib:
+        iyz = float(inertia.attrib["iyz"])
         result[1, 2] = iyz
         result[2, 1] = iyz
-    if inertia.has_attr("izz"):
-        result[2, 2] = float(inertia["izz"])
+    if "izz" in inertia.attrib:
+        result[2, 2] = float(inertia.attrib["izz"])
     return result
 
 
@@ -537,11 +542,11 @@ def _parse_joint(joint, link_names, strict_check):
     """Create joint object."""
     j = Joint()
 
-    if not joint.has_attr("name"):
+    if "name" not in joint.attrib:
         raise UrdfException("Joint name is missing.")
-    j.joint_name = joint["name"]
+    j.joint_name = joint.attrib["name"]
 
-    if not joint.has_attr("type"):
+    if "type" not in joint.attrib:
         raise UrdfException("Joint type is missing in joint '%s'."
                             % j.joint_name)
 
@@ -549,10 +554,10 @@ def _parse_joint(joint, link_names, strict_check):
     if parent is None:
         raise UrdfException("No parent specified in joint '%s'"
                             % j.joint_name)
-    if not parent.has_attr("link"):
+    if "link" not in parent.attrib:
         raise UrdfException("No parent link name given in joint '%s'."
                             % j.joint_name)
-    j.parent = parent["link"]
+    j.parent = parent.attrib["link"]
     if j.parent not in link_names:
         raise UrdfException("Parent link '%s' of joint '%s' is not "
                             "defined." % (j.parent, j.joint_name))
@@ -561,15 +566,15 @@ def _parse_joint(joint, link_names, strict_check):
     if child is None:
         raise UrdfException("No child specified in joint '%s'"
                             % j.joint_name)
-    if not child.has_attr("link"):
+    if "link" not in child.attrib:
         raise UrdfException("No child link name given in joint '%s'."
                             % j.joint_name)
-    j.child = child["link"]
+    j.child = child.attrib["link"]
     if j.child not in link_names:
         raise UrdfException("Child link '%s' of joint '%s' is not "
                             "defined." % (j.child, j.joint_name))
 
-    j.joint_type = joint["type"]
+    j.joint_type = joint.attrib["type"]
 
     if j.joint_type in ["planar", "floating"]:
         raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
@@ -583,8 +588,8 @@ def _parse_joint(joint, link_names, strict_check):
     j.joint_axis = np.array([1, 0, 0])
     if j.joint_type in ["revolute", "continuous", "prismatic"]:
         axis = joint.find("axis")
-        if axis is not None and axis.has_attr("xyz"):
-            j.joint_axis = np.fromstring(axis["xyz"], sep=" ")
+        if axis is not None and "xyz" in axis.attrib:
+            j.joint_axis = np.fromstring(axis.attrib["xyz"], sep=" ")
 
     j.limits = _parse_limits(joint)
     return j
@@ -595,10 +600,10 @@ def _parse_limits(joint):
     limit = joint.find("limit")
     lower, upper = float("-inf"), float("inf")
     if limit is not None:
-        if limit.has_attr("lower"):
-            lower = float(limit["lower"])
-        if limit.has_attr("upper"):
-            upper = float(limit["upper"])
+        if "lower" in limit.attrib:
+            lower = float(limit.attrib["lower"])
+        if "upper" in limit.attrib:
+            upper = float(limit.attrib["upper"])
     return lower, upper
 
 
@@ -752,8 +757,8 @@ class Box(Geometry):
 
     def parse(self, xml):
         """Parse box size."""
-        if xml.has_attr("size"):
-            self.size[:] = np.fromstring(xml["size"], sep=" ")
+        if "size" in xml.attrib:
+            self.size[:] = np.fromstring(xml.attrib["size"], sep=" ")
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
@@ -773,9 +778,9 @@ class Sphere(Geometry):
 
     def parse(self, xml):
         """Parse sphere radius."""
-        if not xml.has_attr("radius"):
+        if "radius" not in xml.attrib:
             raise UrdfException("Sphere has no radius.")
-        self.radius = float(xml["radius"])
+        self.radius = float(xml.attrib["radius"])
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
@@ -797,12 +802,12 @@ class Cylinder(Geometry):
 
     def parse(self, xml):
         """Parse cylinder radius and length."""
-        if not xml.has_attr("radius"):
+        if "radius" not in xml.attrib:
             raise UrdfException("Cylinder has no radius.")
-        self.radius = float(xml["radius"])
-        if not xml.has_attr("length"):
+        self.radius = float(xml.attrib["radius"])
+        if "length" not in xml.attrib:
             raise UrdfException("Cylinder has no length.")
-        self.length = float(xml["length"])
+        self.length = float(xml.attrib["length"])
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
@@ -827,16 +832,17 @@ class Mesh(Geometry):
         if self.mesh_path is None and self.package_dir is None:
             self.filename = None
         else:
-            if not xml.has_attr("filename"):
+            if "filename" not in xml.attrib:
                 raise UrdfException("Mesh has no filename.")
             if self.mesh_path is not None:
-                self.filename = os.path.join(self.mesh_path, xml["filename"])
+                self.filename = os.path.join(
+                    self.mesh_path, xml.attrib["filename"])
             else:
                 assert self.package_dir is not None
-                self.filename = xml["filename"].replace(
+                self.filename = xml.attrib["filename"].replace(
                     "package://", self.package_dir)
-            if xml.has_attr("scale"):
-                self.scale = np.fromstring(xml["scale"], sep=" ")
+            if "scale" in xml.attrib:
+                self.scale = np.fromstring(xml.attrib["scale"], sep=" ")
 
     def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
              convex_hull=True):  # pragma: no cover
