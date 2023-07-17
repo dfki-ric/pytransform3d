@@ -35,8 +35,6 @@ class TransformGraphBase(abc.ABC):
 
         # Names of nodes
         self.nodes = []
-        # Rigid transformations between nodes
-        self.transforms = {}
 
         # A pair (self.i[n], self.j[n]) represents indices of connected nodes
         self.i = []
@@ -52,6 +50,11 @@ class TransformGraphBase(abc.ABC):
         self.predecessors = np.empty(0, dtype=np.int32)
 
         self._cached_shortest_paths = {}
+
+    @property
+    @abc.abstractmethod
+    def transforms(self):
+        """Rigid transformations between nodes."""
 
     def has_frame(self, frame):
         """Check if frame has been registered.
@@ -307,6 +310,12 @@ class TransformManager(TransformGraphBase):
     """
     def __init__(self, strict_check=True, check=True):
         super(TransformManager, self).__init__(strict_check, check)
+        self._transforms = {}
+
+    @property
+    def transforms(self):
+        """Rigid transformations between nodes."""
+        return self._transforms
 
     def _check_transform(self, A2B):
         return check_transform(A2B, strict_check=self.strict_check)
@@ -583,7 +592,7 @@ class TransformManager(TransformGraphBase):
             Serializable dict.
         """
         transforms = tm_dict.get("transforms")
-        self.transforms = dict([
+        self._transforms = dict([
             (tuple(k), np.array(v).reshape(4, 4)) for k, v in transforms])
         self.nodes = tm_dict.get("nodes")
         self.i = tm_dict.get("i")
