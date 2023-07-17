@@ -3,7 +3,7 @@ from typing import Any
 
 import numpy as np
 
-from .transform_manager import TransformGraphBase
+from ._transform_graph_base import TransformGraphBase
 
 
 def NumpyTransform():
