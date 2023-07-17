@@ -1,9 +1,9 @@
+from typing import Dict, Tuple, List, Union, Type, Hashable
 import numpy as np
 import numpy.typing as npt
 from mpl_toolkits.mplot3d import Axes3D
-from bs4.element import Tag
+from lxml.etree import Element
 from .transform_manager import TransformManager
-from typing import Dict, Tuple, List, Any, Union, Type, Hashable
 
 
 class UrdfTransformManager(TransformManager):
@@ -72,7 +72,7 @@ class Geometry(object):
     def __init__(self, frame: str, mesh_path: Union[None, str],
                  package_dir: Union[None, str], color: str): ...
 
-    def parse(self, xml: Tag): ...
+    def parse(self, xml: Element): ...
 
     def plot(self, tm: UrdfTransformManager, frame: Hashable,
              ax: Union[None, Axes3D] = ..., alpha: float = ...,
