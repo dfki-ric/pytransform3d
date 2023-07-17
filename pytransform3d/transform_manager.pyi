@@ -11,7 +11,6 @@ class TransformGraphBase(abc.ABC):
     strict_check: bool
     check: bool
     nodes: List[Hashable]
-    transforms: Dict[Tuple[Hashable, Hashable], np.ndarray]
     i: List[int]
     j: List[int]
     transform_to_ij_index = Dict[Tuple[Hashable, Hashable], int]
@@ -19,6 +18,13 @@ class TransformGraphBase(abc.ABC):
     dist: np.ndarray
     predecessors: np.ndarray
     _cached_shortest_paths: Dict[Tuple[int, int], List[Hashable]]
+
+    def __init__(self, strict_check: bool = ...,
+                 check: bool = ...) -> "TransformGraphBase": ...
+
+    @property
+    @abc.abstractmethod
+    def transforms(self) -> Dict[Tuple[Hashable, Hashable], np.ndarray]: ...
 
     def has_frame(self, frame: Hashable) -> bool: ...
 
@@ -31,7 +37,7 @@ class TransformGraphBase(abc.ABC):
 
     def remove_transform(
             self, from_frame: Hashable,
-            to_frame: Hashable) -> "TransformManager": ...
+            to_frame: Hashable) -> "TransformGraphBase": ...
 
     def get_transform(
             self, from_frame: Hashable, to_frame: Hashable) -> Any: ...
@@ -50,7 +56,13 @@ class TransformGraphBase(abc.ABC):
 
 
 class TransformManager(TransformGraphBase):
-    def __init__(self, strict_check: bool = ..., check: bool = ...): ...
+    _transforms: Dict[Tuple[Hashable, Hashable], np.ndarray]
+
+    def __init__(self, strict_check: bool = ...,
+                 check: bool = ...) -> "TransformManager": ...
+
+    @property
+    def transforms(self) -> Dict[Tuple[Hashable, Hashable], np.ndarray]: ...
 
     def add_transform(self, from_frame: Hashable, to_frame: Hashable,
                       A2B: np.ndarray) -> "TransformManager": ...
