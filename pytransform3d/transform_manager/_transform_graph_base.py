@@ -3,6 +3,8 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
 
+from ..transformations import invert_transform, check_transform
+
 
 class TransformGraphBase(abc.ABC):
     """Base class for all trees of rigid transformations.
@@ -37,6 +39,7 @@ class TransformGraphBase(abc.ABC):
         # distance matrix (distance is the number of transformations)
         self.dist = np.empty(0)
         self.predecessors = np.empty(0, dtype=np.int32)
+        self._transforms = {}
 
         self._cached_shortest_paths = {}
 
@@ -45,13 +48,14 @@ class TransformGraphBase(abc.ABC):
     def transforms(self):
         """Rigid transformations between nodes."""
 
-    @abc.abstractmethod
-    def _check_transform(self, A2B):
+    def _check_transform(self, A2B_matrix):
         """Check validity of rigid transformation."""
+        return check_transform(A2B_matrix, strict_check=self.strict_check)
 
-    @abc.abstractmethod
-    def _invert_transform(self, A2B):
+    def _invert_transform(self, A2B_matrix):
         """Invert rigid transformation stored in the tree."""
+        return invert_transform(
+            A2B_matrix, strict_check=self.strict_check, check=self.check)
 
     @abc.abstractmethod
     def _path_transform(self, path):
