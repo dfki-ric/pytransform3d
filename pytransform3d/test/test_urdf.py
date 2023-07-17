@@ -924,8 +924,8 @@ def test_parse_material():
             <visual>
                 <geometry>
                     <box size="0.758292 1.175997 0.8875"/>
-                    <material name="Black"/>
                 </geometry>
+                <material name="Black"/>
             </visual>
         </link>
     </robot>
@@ -1028,10 +1028,10 @@ def test_parse_material_local():
             <visual>
                 <geometry>
                     <box size="0.758292 1.175997 0.8875"/>
-                    <material name="Black">
-                        <color rgba="1.0 0.0 0.0 1.0"/>
-                    </material>
                 </geometry>
+                <material name="Black">
+                    <color rgba="1.0 0.0 0.0 1.0"/>
+                </material>
             </visual>
         </link>
     </robot>
