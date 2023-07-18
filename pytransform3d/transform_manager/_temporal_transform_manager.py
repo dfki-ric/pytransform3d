@@ -15,16 +15,29 @@ class TimeTransform(abc.ABC):
     def as_matrix(self, time) -> np.ndarray:
         ...
 
+    @abc.abstractmethod
+    def check_transforms(self) -> "TimeTransform":
+        """Checks all transformation in a sequence. If checks are successful,
+        returns the original object"""
+        ...
+
 
 class StaticTransform(TimeTransform):
+    """Transformation, which does not change over time."""
 
     def __init__(self, A2B):
+        """Initialize a StaticTransform with a transformation matrix.
+
+        Args:
+            A2B (matrix): 4x4 transformation 
+        """
         self._A2B = A2B
 
     def as_matrix(self, time):
         return self._A2B
     
-    def check_transform(self):
+    def check_transforms(self):
+        self._A2B = check_transform(self._A2B)
         return self
 
 
@@ -64,5 +77,5 @@ class TemporalTransformManager(TransformGraphBase):
 
     def _check_transform(self, A2B):
         """Check validity of rigid transformation."""
-        return A2B.check_transform()
+        return A2B.check_transforms()
 
