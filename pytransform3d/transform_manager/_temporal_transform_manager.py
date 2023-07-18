@@ -1,4 +1,5 @@
 import abc
+from typing import Dict, Tuple, Hashable
 
 import numpy as np
 
@@ -70,14 +71,16 @@ class TemporalTransformManager(TransformGraphBase):
     """
     def __init__(self, strict_check=True, check=True):
         super(TemporalTransformManager, self).__init__(strict_check, check)
-        self._transforms = {}
-        self._current_time = 0.0
+        self._transforms: Dict[Tuple[Hashable, Hashable], TimeVaryingTransform] = {}
+        self._current_time: float = 0.0
 
     @property
-    def current_time(self):
+    def current_time(self) -> float:
+        """Current time at which we evaluate transformations."""
         return self._current_time
 
-    def set_time(self, time):
+    def set_time(self, time: float):
+        """Set current time at which we evaluate transformations."""
         self._current_time = time
 
     @property
@@ -86,7 +89,32 @@ class TemporalTransformManager(TransformGraphBase):
         return {tf_direction: transform.as_matrix(self.current_time) for
                 tf_direction, transform in self._transforms.items()}
 
-    def get_transform_in_time(self, from_frame, to_frame, time):
+    def get_transform_at_time(self, from_frame, to_frame, time):
+        """Request a transformation at a given time.
+
+        Parameters
+        ----------
+        from_frame : Hashable
+            Name of the frame for which the transformation is requested in the
+            to_frame coordinate system
+
+        to_frame : Hashable
+            Name of the frame in which the transformation is defined
+
+        time : float
+            Time at which we request the transformation.
+
+        Returns
+        -------
+        A2B : array, shape (4, 4)
+            Transformation from 'from_frame' to 'to_frame'
+
+        Raises
+        ------
+        KeyError
+            If one of the frames is unknown or there is no connection between
+            them
+        """
         previous_time = self._current_time
         self.set_time(time)
 
