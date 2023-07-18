@@ -20,7 +20,9 @@ def test_request_added_transform():
     A2B = random_transform(rng)
 
     tm = TransformManager()
+    assert len(tm.transforms) == 0
     tm.add_transform("A", "B", A2B)
+    assert len(tm.transforms) == 1
     A2B_2 = tm.get_transform("A", "B")
     assert_array_almost_equal(A2B, A2B_2)
 
