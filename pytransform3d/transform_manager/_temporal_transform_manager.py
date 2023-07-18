@@ -1,5 +1,4 @@
 import abc
-from typing import Dict, Tuple, Hashable
 
 import numpy as np
 
@@ -49,7 +48,7 @@ class StaticTransform(TimeVaryingTransform):
 
     def as_matrix(self, time):
         return self._A2B
-    
+
     def check_transforms(self):
         self._A2B = check_transform(self._A2B)
         return self
@@ -71,15 +70,16 @@ class TemporalTransformManager(TransformGraphBase):
     """
     def __init__(self, strict_check=True, check=True):
         super(TemporalTransformManager, self).__init__(strict_check, check)
-        self._transforms: Dict[Tuple[Hashable, Hashable], TimeVaryingTransform] = {}
-        self._current_time: float = 0.0
+        self._transforms = {}
+        self._current_time = 0.0
 
     @property
     def current_time(self) -> float:
         """Current time at which we evaluate transformations."""
         return self._current_time
 
-    def set_time(self, time: float):
+    @current_time.setter
+    def current_time(self, time: float):
         """Set current time at which we evaluate transformations."""
         self._current_time = time
 
@@ -137,5 +137,4 @@ class TemporalTransformManager(TransformGraphBase):
         del self._transforms[key]
 
     def _check_transform(self, A2B):
-        """Check validity of rigid transformation."""
         return A2B.check_transforms()

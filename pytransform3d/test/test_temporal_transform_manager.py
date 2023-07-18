@@ -19,7 +19,7 @@ def test_request_added_transform():
     tm.add_transform("A", "B", StaticTransform(A2B))
     tm.add_transform("A", "C", StaticTransform(A2C))
 
-    tm.set_time(1234.0)
+    tm.current_time = 1234.0
     B2C = tm.get_transform("B", "C")
 
     C2B = tm.get_transform("C", "B")
