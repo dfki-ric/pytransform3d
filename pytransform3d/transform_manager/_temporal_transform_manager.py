@@ -60,6 +60,16 @@ class TemporalTransformManager(TransformGraphBase):
         """Rigid transformations between nodes."""
         return {tf_direction: transform.as_matrix(self.current_time) for
                 tf_direction, transform in self._transforms.items()}
+    
+    def get_transform_in_time(self, from_frame, to_frame, time):
+        previous_time = self._current_time
+        self.set_time(time)
+
+        A2B = self.get_transform(from_frame, to_frame)
+
+        # revert internal state
+        self.set_time(previous_time)
+        return A2B
 
     def _transform_available(self, key):
         return key in self._transforms
