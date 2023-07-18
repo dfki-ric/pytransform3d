@@ -16,6 +16,18 @@ class TimeTransform(abc.ABC):
         ...
 
 
+class StaticTransform(TimeTransform):
+
+    def __init__(self, A2B):
+        self._A2B = A2B
+
+    def as_matrix(self, time):
+        return self._A2B
+    
+    def check_transform(self):
+        return self
+
+
 class TemporalTransformManager(TransformGraphBase):
 
     def __init__(self, strict_check=True, check=True):
@@ -40,6 +52,8 @@ class TemporalTransformManager(TransformGraphBase):
         return key in self._transforms
 
     def _set_transform(self, key, A2B):
+        if not isinstance(A2B, TimeTransform):
+            A2B = StaticTransform(A2B)
         self._transforms[key] = A2B
 
     def _get_transform(self, key):
@@ -47,4 +61,8 @@ class TemporalTransformManager(TransformGraphBase):
 
     def _del_transform(self, key):
         del self._transforms[key]
+
+    def _check_transform(self, A2B):
+        """Check validity of rigid transformation."""
+        return A2B.check_transform()
 
