@@ -57,6 +57,22 @@ class TransformGraphBase(abc.ABC):
     def _path_transform(self, path):
         """Convert sequence of node names to rigid transformation."""
 
+    @abc.abstractmethod
+    def _transform_available(self, key):
+        """Check if transformation key is available."""
+
+    @abc.abstractmethod
+    def _set_transform(self, key, A2B):
+        """Store transformation under given key."""
+
+    @abc.abstractmethod
+    def _get_transform(self, key):
+        """Retrieve stored transformation under given key."""
+
+    @abc.abstractmethod
+    def _del_transform(self, key):
+        """Delete transformation stored under given key."""
+
     def has_frame(self, frame):
         """Check if frame has been registered.
 
@@ -103,7 +119,7 @@ class TransformGraphBase(abc.ABC):
         transform_key = (from_frame, to_frame)
 
         recompute_shortest_path = False
-        if transform_key not in self.transforms:
+        if not self._transform_available(transform_key):
             ij_index = len(self.i)
             self.i.append(self.nodes.index(from_frame))
             self.j.append(self.nodes.index(to_frame))
@@ -113,7 +129,7 @@ class TransformGraphBase(abc.ABC):
         if recompute_shortest_path:
             self._recompute_shortest_path()
 
-        self.transforms[transform_key] = A2B
+        self._set_transform(transform_key, A2B)
 
         return self
 
@@ -147,8 +163,8 @@ class TransformGraphBase(abc.ABC):
             This object for chaining
         """
         transform_key = (from_frame, to_frame)
-        if transform_key in self.transforms:
-            del self.transforms[transform_key]
+        if self._transform_available(transform_key):
+            self._del_transform(transform_key)
             ij_index = self.transform_to_ij_index[transform_key]
             del self.transform_to_ij_index[transform_key]
             self.transform_to_ij_index = dict(
@@ -188,12 +204,12 @@ class TransformGraphBase(abc.ABC):
             if to_frame not in self.nodes:
                 raise KeyError("Unknown frame '%s'" % to_frame)
 
-        if (from_frame, to_frame) in self.transforms:
-            return self.transforms[(from_frame, to_frame)]
+        if self._transform_available((from_frame, to_frame)):
+            return self._get_transform((from_frame, to_frame))
 
-        if (to_frame, from_frame) in self.transforms:
+        if self._transform_available((to_frame, from_frame)):
             return self._invert_transform(
-                self.transforms[(to_frame, from_frame)])
+                self._get_transform((to_frame, from_frame)))
 
         i = self.nodes.index(from_frame)
         j = self.nodes.index(to_frame)
