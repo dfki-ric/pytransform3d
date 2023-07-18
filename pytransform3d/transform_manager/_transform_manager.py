@@ -106,13 +106,6 @@ class TransformManager(TransformGraphBase):
         path = self._shortest_path(i, j)
         return self._path_transform(path)
 
-    def _path_transform(self, path):
-        A2B = np.eye(4)
-        for from_f, to_f in zip(path[:-1], path[1:]):
-            A2B = concat(A2B, self.get_transform(from_f, to_f),
-                         strict_check=self.strict_check, check=self.check)
-        return A2B
-
     def _transform_available(self, key):
         return key in self._transforms
 
