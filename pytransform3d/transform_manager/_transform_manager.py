@@ -75,6 +75,18 @@ class TransformManager(TransformGraphBase):
                          strict_check=self.strict_check, check=self.check)
         return A2B
 
+    def _transform_available(self, key):
+        return key in self._transforms
+
+    def _set_transform(self, key, A2B):
+        self._transforms[key] = A2B
+
+    def _get_transform(self, key):
+        return self._transforms[key]
+
+    def _del_transform(self, key):
+        del self._transforms[key]
+
     def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True,
                        whitelist=None, **kwargs):  # pragma: no cover
         """Plot all frames in a given reference frame.
