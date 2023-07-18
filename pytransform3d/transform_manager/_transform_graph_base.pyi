@@ -53,7 +53,7 @@ class TransformGraphBase(abc.ABC):
     def remove_transform(
             self, from_frame: Hashable,
             to_frame: Hashable) -> "TransformGraphBase": ...
-    
+
     def get_transform(
             self, from_frame: Hashable, to_frame: Hashable) -> np.ndarray: ...
 
