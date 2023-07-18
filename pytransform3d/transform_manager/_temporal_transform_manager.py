@@ -131,7 +131,7 @@ class TemporalTransformManager(TransformGraphBase):
         self._transforms[key] = A2B
 
     def _get_transform(self, key):
-        return self.transforms[key]
+        return self._transforms[key].as_matrix(self._current_time)
 
     def _del_transform(self, key):
         del self._transforms[key]
