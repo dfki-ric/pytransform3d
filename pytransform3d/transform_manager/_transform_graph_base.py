@@ -51,11 +51,6 @@ class TransformGraphBase(abc.ABC):
     def _check_transform(self, A2B):
         """Check validity of rigid transformation."""
 
-    def _invert_transform(self, A2B_matrix):
-        """Invert rigid transformation stored in the tree."""
-        return invert_transform(
-            A2B_matrix, strict_check=self.strict_check, check=self.check)
-
     def _path_transform(self, path):
         """Convert sequence of node names to rigid transformation."""
         A2B = np.eye(4)
@@ -216,7 +211,9 @@ class TransformGraphBase(abc.ABC):
 
         if self._transform_available((to_frame, from_frame)):
             return invert_transform(
-                self._get_transform((to_frame, from_frame))
+                self._get_transform((to_frame, from_frame)),
+                strict_check=self.strict_check,
+                check=self.check
             )
 
         i = self.nodes.index(from_frame)
