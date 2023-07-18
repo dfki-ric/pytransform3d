@@ -47,6 +47,6 @@ class TemporalTransformManager(TransformGraphBase):
     def get_transform(self, from_frame: Hashable,
                       to_frame: Hashable) -> np.ndarray: ...
 
-    def get_transform_from_time(self, from_frame: Hashable,
+    def get_transform_at_time(self, from_frame: Hashable,
                                 to_frame: Hashable,
                                 time: float) -> np.ndarray: ...
