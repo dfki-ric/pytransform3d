@@ -1,8 +1,7 @@
 import numpy as np
 import scipy.sparse as sp
 from ._transform_graph_base import TransformGraphBase
-from ..transformations import (check_transform, invert_transform, concat,
-                               plot_transform)
+from ..transformations import (check_transform, plot_transform)
 try:  # pragma: no cover
     import pydot
     PYDOT_AVAILABLE = True

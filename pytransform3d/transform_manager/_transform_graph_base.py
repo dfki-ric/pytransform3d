@@ -3,7 +3,7 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
 
-from ..transformations import invert_transform, check_transform, concat
+from ..transformations import invert_transform, concat
 
 
 class TransformGraphBase(abc.ABC):
@@ -215,8 +215,9 @@ class TransformGraphBase(abc.ABC):
             return self._get_transform((from_frame, to_frame))
 
         if self._transform_available((to_frame, from_frame)):
-            return self._invert_transform(
-                self._get_transform((to_frame, from_frame)))
+            return invert_transform(
+                self._get_transform((to_frame, from_frame))
+            )
 
         i = self.nodes.index(from_frame)
         j = self.nodes.index(to_frame)
@@ -274,7 +275,7 @@ class TransformGraphBase(abc.ABC):
                 try:
                     node1_to_node2 = self.get_transform(node1, node2)
                     node2_to_node1 = self.get_transform(node2, node1)
-                    node1_to_node2_inv = self._invert_transform(node2_to_node1)
+                    node1_to_node2_inv = invert_transform(node2_to_node1)
                     consistent = consistent and np.allclose(node1_to_node2,
                                                             node1_to_node2_inv)
                 except KeyError:
