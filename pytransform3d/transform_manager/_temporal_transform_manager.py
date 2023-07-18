@@ -1,36 +1,49 @@
 import abc
-from typing import Any
 
 import numpy as np
 
 from ._transform_graph_base import TransformGraphBase
-from ..transformations import (check_transform, invert_transform, concat)
+from ..transformations import check_transform
 
 
-class TimeTransform(abc.ABC):
-    """Base class passed to TemporalTransformManager.add_transform() to deal with time.
-    """
-    
+class TimeVaryingTransform(abc.ABC):
+    """Time-varying rigid transformation."""
+
     @abc.abstractmethod
     def as_matrix(self, time) -> np.ndarray:
-        ...
+        """Get transformation matrix at given time.
+
+        Parameters
+        ----------
+        time : float
+            Time
+
+        Returns
+        -------
+        A2B_t : array, shape (4, 4)
+            Homogeneous transformation matrix at given time.
+        """
 
     @abc.abstractmethod
-    def check_transforms(self) -> "TimeTransform":
-        """Checks all transformation in a sequence. If checks are successful,
-        returns the original object"""
-        ...
+    def check_transforms(self) -> "TimeVaryingTransform":
+        """Checks all transformations.
 
-
-class StaticTransform(TimeTransform):
-    """Transformation, which does not change over time."""
-
-    def __init__(self, A2B):
-        """Initialize a StaticTransform with a transformation matrix.
-
-        Args:
-            A2B (matrix): 4x4 transformation 
+        Returns
+        -------
+        self : TimeVaryingTransform
+            Validated transformations.
         """
+
+
+class StaticTransform(TimeVaryingTransform):
+    """Transformation, which does not change over time.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Homogeneous transformation matrix.
+    """
+    def __init__(self, A2B):
         self._A2B = A2B
 
     def as_matrix(self, time):
@@ -42,25 +55,37 @@ class StaticTransform(TimeTransform):
 
 
 class TemporalTransformManager(TransformGraphBase):
+    """Transform manager with time-varying transformations.
 
+    Parameters
+    ----------
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
+    check : bool, optional (default: True)
+        Check if transformation matrices are valid and requested nodes exist,
+        which might significantly slow down some operations.
+    """
     def __init__(self, strict_check=True, check=True):
+        super(TemporalTransformManager, self).__init__(strict_check, check)
         self._transforms = {}
         self._current_time = 0.0
-        super(TemporalTransformManager, self).__init__(strict_check, check)
-    
+
     @property
     def current_time(self):
         return self._current_time
 
     def set_time(self, time):
         self._current_time = time
-    
+
     @property
     def transforms(self):
         """Rigid transformations between nodes."""
         return {tf_direction: transform.as_matrix(self.current_time) for
                 tf_direction, transform in self._transforms.items()}
-    
+
     def get_transform_in_time(self, from_frame, to_frame, time):
         previous_time = self._current_time
         self.set_time(time)
@@ -75,7 +100,7 @@ class TemporalTransformManager(TransformGraphBase):
         return key in self._transforms
 
     def _set_transform(self, key, A2B):
-        if not isinstance(A2B, TimeTransform):
+        if not isinstance(A2B, TimeVaryingTransform):
             A2B = StaticTransform(A2B)
         self._transforms[key] = A2B
 
@@ -88,4 +113,3 @@ class TemporalTransformManager(TransformGraphBase):
     def _check_transform(self, A2B):
         """Check validity of rigid transformation."""
         return A2B.check_transforms()
-
