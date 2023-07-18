@@ -16,7 +16,6 @@ class TransformGraphBase(abc.ABC):
     dist: np.ndarray
     predecessors: np.ndarray
     _cached_shortest_paths: Dict[Tuple[int, int], List[Hashable]]
-    _transforms = Dict[Tuple[Hashable, Hashable], Any]
 
     def __init__(self, strict_check: bool = ...,
                  check: bool = ...) -> "TransformGraphBase": ...
