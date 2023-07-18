@@ -182,7 +182,7 @@ class TransformManager(TransformGraphBase):
         if "c" not in kwargs and "color" not in kwargs:
             kwargs["color"] = "black"
 
-        for frame_names in self.transforms:
+        for frame_names in self._transforms:
             from_frame, to_frame = frame_names
             if from_frame in nodes and to_frame in nodes:
                 try:
@@ -262,7 +262,7 @@ class TransformManager(TransformGraphBase):
                 _dot_display_name(frame), style="filled",
                 fillcolor=frame_color, shape="egg")
             graph.add_node(node)
-        for frames, A2B in self.transforms.items():
+        for frames, A2B in self._transforms.items():
             frame_a, frame_b = frames
             connection_name = "%s to %s\n%s" % (
                 _dot_display_name(frame_a), _dot_display_name(frame_b),
@@ -293,7 +293,7 @@ class TransformManager(TransformGraphBase):
             "strict_check": self.strict_check,
             "check": self.check,
             "transforms": [(k, v.ravel().tolist())
-                           for k, v in self.transforms.items()],
+                           for k, v in self._transforms.items()],
             "nodes": self.nodes,
             "i": self.i,
             "j": self.j,
