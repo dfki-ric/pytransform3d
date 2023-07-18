@@ -47,6 +47,10 @@ class TransformGraphBase(abc.ABC):
     def transforms(self):
         """Rigid transformations between nodes."""
 
+    @abc.abstractmethod
+    def _check_transform(self, A2B):
+        """Check validity of rigid transformation."""
+
     def _invert_transform(self, A2B_matrix):
         """Invert rigid transformation stored in the tree."""
         return invert_transform(
