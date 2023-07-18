@@ -86,8 +86,8 @@ class TemporalTransformManager(TransformGraphBase):
     @property
     def transforms(self):
         """Rigid transformations between nodes."""
-        return {tf_direction: transform.as_matrix(self.current_time) for
-                tf_direction, transform in self._transforms.items()}
+        return {transform_key: transform.as_matrix(self.current_time) for
+                transform_key, transform in self._transforms.items()}
 
     def get_transform_at_time(self, from_frame, to_frame, time):
         """Request a transformation at a given time.
