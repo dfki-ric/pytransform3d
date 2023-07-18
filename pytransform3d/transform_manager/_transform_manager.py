@@ -61,6 +61,10 @@ class TransformManager(TransformGraphBase):
         """Rigid transformations between nodes."""
         return self._transforms
 
+    def _check_transform(self, A2B_matrix):
+        """Check validity of rigid transformation."""
+        return check_transform(A2B_matrix, strict_check=self.strict_check)
+
     def _transform_available(self, key):
         return key in self._transforms
 
@@ -72,10 +76,6 @@ class TransformManager(TransformGraphBase):
 
     def _del_transform(self, key):
         del self._transforms[key]
-
-    def _check_transform(self, A2B_matrix):
-        """Check validity of rigid transformation."""
-        return check_transform(A2B_matrix, strict_check=self.strict_check)
 
     def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True,
                        whitelist=None, **kwargs):  # pragma: no cover
