@@ -128,8 +128,6 @@ class TemporalTransformManager(TransformGraphBase):
         return key in self._transforms
 
     def _set_transform(self, key, A2B):
-        if not isinstance(A2B, TimeVaryingTransform):
-            A2B = StaticTransform(A2B)
         self._transforms[key] = A2B
 
     def _get_transform(self, key):
