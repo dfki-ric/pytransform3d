@@ -19,6 +19,7 @@ class TimeTransform(abc.ABC):
 class TemporalTransformManager(TransformGraphBase):
 
     def __init__(self, strict_check=True, check=True):
+        self._transforms = {}
         super(TemporalTransformManager, self).__init__(strict_check, check)
     
     def get_transform(self, from_frame, to_frame, time):
