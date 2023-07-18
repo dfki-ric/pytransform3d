@@ -1,9 +1,9 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
-from pytransform3d.transform_manager import TemporalTransformManager, StaticTransform
+from pytransform3d.transform_manager import (
+    TemporalTransformManager, StaticTransform)
 from pytransform3d.transformations import random_transform, invert_transform
-
 
 
 def test_request_added_transform():
