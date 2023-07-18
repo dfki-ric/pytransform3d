@@ -54,6 +54,7 @@ class TransformManager(TransformGraphBase):
     """
     def __init__(self, strict_check=True, check=True):
         super(TransformManager, self).__init__(strict_check, check)
+        self._transforms = {}
 
     @property
     def transforms(self):
