@@ -115,13 +115,13 @@ class TemporalTransformManager(TransformGraphBase):
             If one of the frames is unknown or there is no connection between
             them
         """
-        previous_time = self._current_time
-        self.set_time(time)
+        previous_time = self.current_time
+        self.current_time = time
 
         A2B = self.get_transform(from_frame, to_frame)
 
         # revert internal state
-        self.set_time(previous_time)
+        self.current_time = previous_time
         return A2B
 
     def _transform_available(self, key):
