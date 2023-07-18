@@ -3,7 +3,7 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
 
-from ..transformations import invert_transform, check_transform
+from ..transformations import invert_transform, check_transform, concat
 
 
 class TransformGraphBase(abc.ABC):
@@ -56,9 +56,13 @@ class TransformGraphBase(abc.ABC):
         return invert_transform(
             A2B_matrix, strict_check=self.strict_check, check=self.check)
 
-    @abc.abstractmethod
     def _path_transform(self, path):
         """Convert sequence of node names to rigid transformation."""
+        A2B = np.eye(4)
+        for from_f, to_f in zip(path[:-1], path[1:]):
+            A2B = concat(A2B, self.get_transform(from_f, to_f),
+                         strict_check=self.strict_check, check=self.check)
+        return A2B
 
     @abc.abstractmethod
     def _transform_available(self, key):
