@@ -8,10 +8,9 @@ from ._transform_graph_base import TransformGraphBase
 
 
 class TimeVaryingTransform(abc.ABC):
-    """Time-varying rigid transformation."""
 
     @abc.abstractmethod
-    def as_matrix(self, time) -> np.ndarray: ...
+    def as_matrix(self, time: float) -> np.ndarray: ...
 
     @abc.abstractmethod
     def check_transforms(self) -> "TimeVaryingTransform": ...

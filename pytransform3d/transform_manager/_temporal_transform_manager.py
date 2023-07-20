@@ -1,7 +1,5 @@
 import abc
 
-import numpy as np
-
 from ._transform_graph_base import TransformGraphBase
 from ..transformations import check_transform
 
@@ -10,7 +8,7 @@ class TimeVaryingTransform(abc.ABC):
     """Time-varying rigid transformation."""
 
     @abc.abstractmethod
-    def as_matrix(self, time) -> np.ndarray:
+    def as_matrix(self, time):
         """Get transformation matrix at given time.
 
         Parameters
