@@ -554,7 +554,23 @@ class Mesh(Artist):
     """
     def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None,
                  convex_hull=False):
-        mesh = o3d.io.read_triangle_mesh(filename)
+        if filename.endswith(".dae"):
+            import collada
+            mesh = o3d.geometry.TriangleMesh()
+            try:
+                model = collada.Collada(filename)
+                for geometry in model.geometries:
+                    for primitive in geometry.primitives:
+                        p = o3d.geometry.TriangleMesh()
+                        vertices = primitive.vertex
+                        p.vertices = o3d.utility.Vector3dVector(vertices)
+                        triangles = primitive.vertex_index
+                        p.triangles = o3d.utility.Vector3iVector(triangles)
+                        mesh += p
+            except:
+                warnings.warn("Parsing collada file '%s' failed" % filename)
+        else:
+            mesh = o3d.io.read_triangle_mesh(filename)
         if convex_hull:
             self.mesh = mesh.compute_convex_hull()[0]
         else:
