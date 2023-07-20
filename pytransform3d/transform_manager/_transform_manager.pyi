@@ -13,8 +13,7 @@ PYDOT_AVAILABLE: bool
 class TransformManager(TransformGraphBase):
     _transforms: Dict[Tuple[Hashable, Hashable], np.ndarray]
 
-    def __init__(self, strict_check: bool = ...,
-                 check: bool = ...) -> "TransformManager": ...
+    def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 
     @property
     def transforms(self) -> Dict[Tuple[Hashable, Hashable], np.ndarray]: ...
