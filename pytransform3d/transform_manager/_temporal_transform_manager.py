@@ -57,35 +57,48 @@ class StaticTransform(TimeVaryingTransform):
     
 
 class PandasTimeseriesTransform(TimeVaryingTransform):
-    """Transformation, which does not change over time.
+    """Transformation, which does change over time, represented in a pandas
+    dataframe.
 
     Parameters
     ----------
-    A2B : array-like, shape (4, 4)
-        Homogeneous transformation matrix.
+    df : dataframe, shape (N, 7)
+        Time-sequence of transformations, with each row representing a single
+        sample as position-quarternion (PQ) structure.
     """
     def __init__(self, df):
         self._df = df
 
-    def as_matrix(self, time):
-        indices = find_two_closest_indices(self._df.index.to_numpy(), time)
-        print(self._df.index.to_numpy(), time, indices)
+    @property
+    def _time_index(self):
+        return self._df.index.to_numpy()
+    
+    def _check_if_time_is_in_bounds(self, time):
+        time_index = self._time_index
 
+        if (time < time_index[0]) or (time > time_index[-1]):
+            raise ValueError("Time value is out of range!")
+
+    def as_matrix(self, time):
+        self._check_if_time_is_in_bounds(time)
+        pq = self._interpolate_on_demand(time)
+        return transform_from_pq(pq)
+    
+    def _interpolate_on_demand(self, time):
+        indices = find_two_closest_indices(self._time_index, time)
         if indices[0] == indices[1]:
-            # Match!
+            # Match, no interpolation needed, we just take the sample!
             pq = self.pq_from_record(indices[0])
         else:
             pq = self._interpolate_pq(time)
-        return transform_from_pq(pq)
+        return pq
 
-    def _interpolate_pq(self, query_time):
-        # TODO
-
-        t_arr = self._df.index
+    def _interpolate_pq(self, time):
+        t_arr = self._time_index
 
         pq_array = self._df[self.pq_column_names()].to_numpy()
 
-        idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= query_time) - 1
+        idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
 
         t_prev = t_arr[idx_timestep_earlier_wrt_query_time]
         pq_prev = pq_array[idx_timestep_earlier_wrt_query_time, :]
@@ -96,7 +109,7 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         dq_next = dual_quaternion_from_pq(pq_next)
 
         # since sclerp works with relative (0-1) positions
-        rel_delta_t = (query_time - t_prev) / (t_next - t_prev)
+        rel_delta_t = (time - t_prev) / (t_next - t_prev)
         dq_interpolated = dual_quaternion_sclerp(dq_prev, dq_next, rel_delta_t)
 
         return pq_from_dual_quaternion(dq_interpolated)
