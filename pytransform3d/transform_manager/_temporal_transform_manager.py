@@ -53,7 +53,7 @@ class StaticTransform(TimeVaryingTransform):
 
 
 class TemporalTransformManager(TransformGraphBase):
-    """Transform manager with time-varying transformations.
+    """Manage time-varying transformations.
 
     Parameters
     ----------
