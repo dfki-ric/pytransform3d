@@ -16,6 +16,16 @@ class TimeVaryingTransform(abc.ABC):
     def check_transforms(self) -> "TimeVaryingTransform": ...
 
 
+class StaticTransform(TimeVaryingTransform):
+    _A2B: npt.ArrayLike
+
+    def __init__(self, A2B: npt.ArrayLike) -> "StaticTransform": ...
+
+    def as_matrix(self, time: float) -> np.ndarray: ...
+
+    def check_transforms(self) -> "StaticTransform": ...
+
+
 class TemporalTransformManager(TransformGraphBase):
     _transforms: Dict[Tuple[Hashable, Hashable], TimeVaryingTransform]
     _current_time: float
