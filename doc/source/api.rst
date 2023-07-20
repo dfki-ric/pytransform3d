@@ -563,7 +563,9 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: class.rst
 
+   ~pytransform3d.transform_manager.TransformGraphBase
    ~pytransform3d.transform_manager.TransformManager
+   ~pytransform3d.transform_manager.TemporalTransformManager
 
 
 :mod:`pytransform3d.editor`
