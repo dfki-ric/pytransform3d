@@ -62,9 +62,11 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
 
     Parameters
     ----------
-    df : dataframe, shape (N, 7)
+    df : dataframe, shape (N, 7+)
         Time-sequence of transformations, with each row representing a single
         sample as position-quarternion (PQ) structure.
+        Refer to `pq_column_names()` for column naming.
+
     """
     def __init__(self, df):
         self._df = df
@@ -85,6 +87,8 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         return transform_from_pq(pq)
     
     def _interpolate_on_demand(self, time):
+        # interpolate only if needed, otherwise take the corresponding
+        # sample from the dataframe
         indices = find_two_closest_indices(self._time_index, time)
         if indices[0] == indices[1]:
             # Match, no interpolation needed, we just take the sample!
