@@ -91,9 +91,14 @@ COMPI_URDF = """
     """
 
 
-def test_missing_robot_tag():
+def test_empty():
     with pytest.raises(UrdfException):
         UrdfTransformManager().load_urdf("")
+
+
+def test_missing_robot_tag():
+    with pytest.raises(UrdfException):
+        UrdfTransformManager().load_urdf("<robt></robt>")
 
 
 def test_missing_robot_name():

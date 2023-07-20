@@ -326,9 +326,13 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
     UrdfException
         If URDF is not valid
     """
+    # lxml does not allow whitespaces in the beginning
     urdf_xml = urdf_xml.strip()
+    # lxml complains about unicode strings that start with unicode encoding
+    # declaration. Hence, we have to convert them to bytes first.
+    urdf_xml = bytes(urdf_xml.encode("utf-8"))
     try:
-        root = etree.XML(urdf_xml)
+        root = etree.XML(urdf_xml, parser=etree.XMLParser(recover=True))
     except etree.XMLSyntaxError:
         raise UrdfException("Invalid XML.")
 
