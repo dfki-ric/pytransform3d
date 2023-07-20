@@ -94,16 +94,19 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         return pq
 
     def _interpolate_pq(self, time):
+        # identify the index of the preceding sample
         t_arr = self._time_index
-
-        pq_array = self._df[self.pq_column_names()].to_numpy()
-
         idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
 
+        # TODO: maybe not that efficient to do this
+        pq_array = self._df[self.pq_column_names()].to_numpy()
+        
+        # dual quaternion from preceding sample
         t_prev = t_arr[idx_timestep_earlier_wrt_query_time]
         pq_prev = pq_array[idx_timestep_earlier_wrt_query_time, :]
         dq_prev = dual_quaternion_from_pq(pq_prev)
 
+        # dual quaternion from successive sample
         t_next = t_arr[idx_timestep_earlier_wrt_query_time + 1]
         pq_next = pq_array[idx_timestep_earlier_wrt_query_time + 1, :]
         dq_next = dual_quaternion_from_pq(pq_next)
