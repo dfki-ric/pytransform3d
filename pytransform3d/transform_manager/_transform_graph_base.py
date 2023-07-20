@@ -4,7 +4,7 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.sparse import csgraph
 
-from ..transformations import invert_transform, concat
+from ..transformations import concat, invert_transform
 
 
 class TransformGraphBase(abc.ABC):
