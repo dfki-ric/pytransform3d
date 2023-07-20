@@ -3,7 +3,7 @@ import abc
 import numpy as np
 
 from ._transform_graph_base import TransformGraphBase
-from ._utils import find_two_closest_indices
+from ._utils import find_neighboring_indices_around_value
 from ..transformations import check_transform, transform_from_pq, \
     dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp
 
@@ -89,7 +89,7 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
     def _interpolate_on_demand(self, time):
         # interpolate only if needed, otherwise take the corresponding
         # sample from the dataframe
-        indices = find_two_closest_indices(self._time_index, time)
+        indices = find_neighboring_indices_around_value(self._time_index, time)
         if indices[0] == indices[1]:
             # Match, no interpolation needed, we just take the sample!
             pq = self.pq_from_record(indices[0])
