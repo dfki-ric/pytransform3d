@@ -60,9 +60,9 @@ class TransformManager(TransformGraphBase):
         """Rigid transformations between nodes."""
         return self._transforms
 
-    def _check_transform(self, A2B_matrix):
+    def _check_transform(self, A2B):
         """Check validity of rigid transformation."""
-        return check_transform(A2B_matrix, strict_check=self.strict_check)
+        return check_transform(A2B, strict_check=self.strict_check)
 
     def _transform_available(self, key):
         return key in self._transforms
