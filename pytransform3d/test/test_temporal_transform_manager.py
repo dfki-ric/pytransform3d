@@ -7,7 +7,6 @@ from pytransform3d.transformations import random_transform, invert_transform
 
 
 def test_temporal_transform():
-    """Request an added transform from the transform manager."""
     rng = np.random.default_rng(0)
     A2B = random_transform(rng)
 
