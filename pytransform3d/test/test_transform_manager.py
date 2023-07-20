@@ -3,14 +3,17 @@ import pickle
 import warnings
 import tempfile
 import numpy as np
+import pandas as pd
 from pytransform3d.rotations import (
     q_id, active_matrix_from_intrinsic_euler_xyz, random_quaternion)
 from pytransform3d.transformations import (
     random_transform, invert_transform, concat, transform_from_pq,
-    transform_from)
+    transform_from, transform, vector_to_point)
 from pytransform3d.transform_manager import (
-    TransformManager, TemporalTransformManager, StaticTransform)
+    TransformManager, TemporalTransformManager, StaticTransform,
+    PandasTimeseriesTransform)
 from pytransform3d import transform_manager
+from pytransform3d.test._utils import create_sinusoidal_movement
 from numpy.testing import assert_array_almost_equal
 import pytest
 
@@ -375,3 +378,48 @@ def test_internals():
 
     tm.remove_transform("A", "C")
     assert ("A", "C") not in tm.transforms
+
+
+def test_pandas_timeseries_transform():
+    # create entities A and B together with their transformations from world
+    duration = 10.0  # [s]
+    sample_period = 0.5  # [s]
+    velocity_x = 1  # [m/s]
+    time_A, pq_arr_A = create_sinusoidal_movement(
+        duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
+    )
+    df_A = pd.DataFrame(index=time_A, data=pq_arr_A, 
+                        columns=PandasTimeseriesTransform.pq_column_names())
+
+    transform_WA = PandasTimeseriesTransform(df_A)
+
+    time_B, pq_arr_B = create_sinusoidal_movement(
+        duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.35
+    )
+    df_B = pd.DataFrame(index=time_B, data=pq_arr_B,
+                        columns=PandasTimeseriesTransform.pq_column_names())
+
+    transform_WB = PandasTimeseriesTransform(df_B)
+
+    tm = TemporalTransformManager()
+
+    tm.add_transform("A", "W", transform_WA)
+    tm.add_transform("B", "W", transform_WB)
+
+    query_time = time_A[0]  # start time
+    A2W_at_start = transform_from_pq(pq_arr_A[0, :])
+    A2W_at_start_2 = tm.get_transform_at_time("A", "W", query_time)
+    assert_array_almost_equal(A2W_at_start, A2W_at_start_2, decimal=2)
+
+    query_time = 4.9  # [s]
+    A2B_at_query_time = tm.get_transform_at_time("A", "B", query_time)
+
+    origin_of_A_pos = vector_to_point([0, 0, 0])
+    origin_of_A_in_B_pos = transform(A2B_at_query_time, origin_of_A_pos)
+    origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
+
+    origin_of_A_in_B_x, origin_of_A_in_B_y = \
+        origin_of_A_in_B_xyz[0], origin_of_A_in_B_xyz[1]
+
+    assert origin_of_A_in_B_x == pytest.approx(-1.11, abs=1e-2)
+    assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)

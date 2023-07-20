@@ -1,7 +1,11 @@
 import abc
 
+import numpy as np
+
 from ._transform_graph_base import TransformGraphBase
-from ..transformations import check_transform
+from ._utils import find_two_closest_indices
+from ..transformations import check_transform, transform_from_pq, \
+    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp
 
 
 class TimeVaryingTransform(abc.ABC):
@@ -50,6 +54,66 @@ class StaticTransform(TimeVaryingTransform):
     def check_transforms(self):
         self._A2B = check_transform(self._A2B)
         return self
+    
+
+class PandasTimeseriesTransform(TimeVaryingTransform):
+    """Transformation, which does not change over time.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Homogeneous transformation matrix.
+    """
+    def __init__(self, df):
+        self._df = df
+
+    def as_matrix(self, time):
+        indices = find_two_closest_indices(self._df.index.to_numpy(), time)
+        print(self._df.index.to_numpy(), time, indices)
+
+        if indices[0] == indices[1]:
+            # Match!
+            pq = self.pq_from_record(indices[0])
+        else:
+            pq = self._interpolate_pq(time)
+        return transform_from_pq(pq)
+
+    def _interpolate_pq(self, query_time):
+        # TODO
+
+        t_arr = self._df.index
+
+        pq_array = self._df[self.pq_column_names()].to_numpy()
+
+        idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= query_time) - 1
+
+        t_prev = t_arr[idx_timestep_earlier_wrt_query_time]
+        pq_prev = pq_array[idx_timestep_earlier_wrt_query_time, :]
+        dq_prev = dual_quaternion_from_pq(pq_prev)
+
+        t_next = t_arr[idx_timestep_earlier_wrt_query_time + 1]
+        pq_next = pq_array[idx_timestep_earlier_wrt_query_time + 1, :]
+        dq_next = dual_quaternion_from_pq(pq_next)
+
+        # since sclerp works with relative (0-1) positions
+        rel_delta_t = (query_time - t_prev) / (t_next - t_prev)
+        dq_interpolated = dual_quaternion_sclerp(dq_prev, dq_next, rel_delta_t)
+
+        return pq_from_dual_quaternion(dq_interpolated)
+
+    def check_transforms(self):
+        # TODO: check if index is numeric
+        return self
+    
+    @staticmethod
+    def pq_column_names():
+        return [f"p{axis}" for axis in "xyz"] + [f"q{axis}" for axis in "wxyz"]
+    
+    def pq_from_record(self, index: int) -> np.ndarray:
+        transform_sample = self._df.iloc[index]
+        pq = transform_sample[self.pq_column_names()].array
+        return pq
+
 
 
 class TemporalTransformManager(TransformGraphBase):
