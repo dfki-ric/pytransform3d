@@ -72,12 +72,12 @@ class TemporalTransformManager(TransformGraphBase):
         self._current_time = 0.0
 
     @property
-    def current_time(self) -> float:
+    def current_time(self):
         """Current time at which we evaluate transformations."""
         return self._current_time
 
     @current_time.setter
-    def current_time(self, time: float):
+    def current_time(self, time):
         """Set current time at which we evaluate transformations."""
         self._current_time = time
 

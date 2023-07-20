@@ -18,6 +18,7 @@ class TimeVaryingTransform(abc.ABC):
 
 class TemporalTransformManager(TransformGraphBase):
     _transforms: Dict[Tuple[Hashable, Hashable], TimeVaryingTransform]
+    _current_time: float
 
     def __init__(self, strict_check: bool = ...,
                  check: bool = ...) -> "TemporalTransformManager": ...
@@ -28,7 +29,11 @@ class TemporalTransformManager(TransformGraphBase):
     @property
     def current_time(self) -> float: ...
 
-    def _check_transform(self, A2B: npt.ArrayLike) -> np.ndarray: ...
+    @current_time.setter
+    def current_time(self, time: float): ...
+
+    def _check_transform(
+            self, A2B: TimeVaryingTransform) -> TimeVaryingTransform: ...
 
     def _transform_available(self, key: Tuple[Hashable, Hashable]) -> bool: ...
 
