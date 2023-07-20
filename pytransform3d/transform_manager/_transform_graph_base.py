@@ -7,7 +7,7 @@ from ..transformations import invert_transform, concat
 
 
 class TransformGraphBase(abc.ABC):
-    """Base class for all trees of rigid transformations.
+    """Base class for all graphs of rigid transformations.
 
     Parameters
     ----------
