@@ -23,7 +23,7 @@ class TimeVaryingTransform(abc.ABC):
         """
 
     @abc.abstractmethod
-    def check_transforms(self) -> "TimeVaryingTransform":
+    def check_transforms(self):
         """Checks all transformations.
 
         Returns
