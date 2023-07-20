@@ -1,5 +1,6 @@
 import abc
 from typing import Dict, Tuple, List, Hashable, Any
+
 import scipy.sparse as sp
 import numpy as np
 import numpy.typing as npt

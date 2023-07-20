@@ -1,7 +1,9 @@
 from typing import Dict, Tuple, List, Union, Set, Hashable, Any
+
 import numpy as np
 import numpy.typing as npt
 from mpl_toolkits.mplot3d import Axes3D
+
 from ._transform_graph_base import TransformGraphBase
 
 
