@@ -389,7 +389,7 @@ def test_pandas_timeseries_transform():
         duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
     )
     df_A = pd.DataFrame(index=time_A, data=pq_arr_A, 
-                        columns=PandasTimeseriesTransform.pq_column_names())
+                        columns=PandasTimeseriesTransform.column_names)
 
     transform_WA = PandasTimeseriesTransform(df_A)
 
@@ -397,7 +397,7 @@ def test_pandas_timeseries_transform():
         duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.35
     )
     df_B = pd.DataFrame(index=time_B, data=pq_arr_B,
-                        columns=PandasTimeseriesTransform.pq_column_names())
+                        columns=PandasTimeseriesTransform.column_names)
 
     transform_WB = PandasTimeseriesTransform(df_B)
 
