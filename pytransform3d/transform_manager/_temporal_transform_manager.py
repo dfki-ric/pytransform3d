@@ -76,15 +76,8 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
     @property
     def _time_index(self):
         return self._df.index.to_numpy()
-    
-    def _check_if_time_is_in_bounds(self, time):
-        time_index = self._time_index
-
-        if time < time_index[0] or time > time_index[-1]:
-            raise ValueError("Time value is out of range!")
 
     def as_matrix(self, time):
-        self._check_if_time_is_in_bounds(time)
         pq = self._interpolate_on_demand(time)
         return transform_from_pq(pq)
     
