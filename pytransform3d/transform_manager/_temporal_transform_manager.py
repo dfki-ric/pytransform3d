@@ -77,10 +77,10 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         return self._df.index.to_numpy()
 
     def as_matrix(self, time):
-        pq = pq = self._interpolate_pq(time)
+        pq = pq = self._interpolate_pq_using_sclerp(time)
         return transform_from_pq(pq)
 
-    def _interpolate_pq(self, time):
+    def _interpolate_pq_using_sclerp(self, time):
         # identify the index of the preceding sample
         t_arr = self._time_index
         idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
