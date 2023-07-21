@@ -3,7 +3,6 @@ import abc
 import numpy as np
 
 from ._transform_graph_base import TransformGraphBase
-from ._utils import find_neighboring_timesteps
 from ..transformations import check_transform, transform_from_pq, \
     dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp
 
