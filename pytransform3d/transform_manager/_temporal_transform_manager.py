@@ -62,12 +62,14 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
 
     Parameters
     ----------
-    df : dataframe, shape (N, 7+)
+    df : pandas.DataFrame, shape (N, 7+)
         Time-sequence of transformations, with each row representing a single
         sample as position-quarternion (PQ) structure.
         Refer to `pq_column_names()` for column naming.
 
     """
+    column_names = ["px", "py", "pz", "qw", "qx", "qy", "qz"]
+
     def __init__(self, df):
         self._df = df
 
@@ -78,7 +80,7 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
     def _check_if_time_is_in_bounds(self, time):
         time_index = self._time_index
 
-        if (time < time_index[0]) or (time > time_index[-1]):
+        if time < time_index[0] or time > time_index[-1]:
             raise ValueError("Time value is out of range!")
 
     def as_matrix(self, time):
@@ -103,7 +105,7 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
 
         # TODO: maybe not that efficient to do this
-        pq_array = self._df[self.pq_column_names()].to_numpy()
+        pq_array = self._df[self.column_names].to_numpy()
         
         # dual quaternion from preceding sample
         t_prev = t_arr[idx_timestep_earlier_wrt_query_time]
@@ -125,13 +127,9 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         # TODO: check if index is numeric
         return self
     
-    @staticmethod
-    def pq_column_names():
-        return [f"p{axis}" for axis in "xyz"] + [f"q{axis}" for axis in "wxyz"]
-    
     def pq_from_record(self, index: int) -> np.ndarray:
         transform_sample = self._df.iloc[index]
-        pq = transform_sample[self.pq_column_names()].array
+        pq = transform_sample[self.column_names].array
         return pq
 
 
