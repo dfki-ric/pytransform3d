@@ -78,24 +78,16 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         return self._df.index.to_numpy()
 
     def as_matrix(self, time):
-        pq = self._interpolate_on_demand(time)
+        pq = pq = self._interpolate_pq(time)
         return transform_from_pq(pq)
-    
-    def _interpolate_on_demand(self, time):
-        # interpolate only if needed, otherwise take the corresponding
-        # sample from the dataframe
-        indices = find_neighboring_timesteps(self._time_index, time)
-        if indices[0] == indices[1]:
-            # Match, no interpolation needed, we just take the sample!
-            pq = self.pq_from_record(indices[0])
-        else:
-            pq = self._interpolate_pq(time)
-        return pq
 
     def _interpolate_pq(self, time):
         # identify the index of the preceding sample
         t_arr = self._time_index
         idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
+
+        # deal with first timestamp
+        idx_timestep_earlier_wrt_query_time = max(idx_timestep_earlier_wrt_query_time, 0)
 
         # TODO: maybe not that efficient to do this
         pq_array = self._df[self.column_names].to_numpy()
