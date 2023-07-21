@@ -5,15 +5,15 @@ import tempfile
 import numpy as np
 import pandas as pd
 from pytransform3d.rotations import (
-    q_id, active_matrix_from_intrinsic_euler_xyz, random_quaternion)
+    q_id, active_matrix_from_intrinsic_euler_xyz,
+    active_matrix_from_extrinsic_euler_zyx, random_quaternion)
 from pytransform3d.transformations import (
     random_transform, invert_transform, concat, transform_from_pq,
-    transform_from, transform, vector_to_point)
+    transform_from, transform, vector_to_point, pq_from_transform)
 from pytransform3d.transform_manager import (
     TransformManager, TemporalTransformManager, StaticTransform,
     PandasTimeseriesTransform)
 from pytransform3d import transform_manager
-from pytransform3d.test._utils import create_sinusoidal_movement
 from numpy.testing import assert_array_almost_equal
 import pytest
 
@@ -378,6 +378,32 @@ def test_internals():
 
     tm.remove_transform("A", "C")
     assert ("A", "C") not in tm.transforms
+
+
+def create_sinusoidal_movement(
+    duration_sec, sample_period, x_velocity, y_start_offset, start_time
+):
+    """Create a planar (z=0) sinusoidal movement around x-axis."""
+    time_arr = np.arange(0, duration_sec, sample_period) + start_time
+    N = len(time_arr)
+    x_arr = np.linspace(0, x_velocity * duration_sec, N)
+
+    spatial_freq = 1 / 5  # 1 sinus per 5m
+    omega = 2 * np.pi * spatial_freq
+    y_arr = np.sin(omega * x_arr)
+    y_arr += y_start_offset
+
+    dydx_arr = omega * np.cos(omega * x_arr)
+    yaw_arr = np.arctan2(dydx_arr, np.ones_like(dydx_arr))
+
+    pq_arr = list()
+    for i in range(N):
+        R = active_matrix_from_extrinsic_euler_zyx([yaw_arr[i], 0, 0])
+        T = transform_from(R, [x_arr[i], y_arr[i], 0])
+        pq = pq_from_transform(T)
+        pq_arr.append(pq)
+
+    return time_arr, np.array(pq_arr)
 
 
 def test_pandas_timeseries_transform():

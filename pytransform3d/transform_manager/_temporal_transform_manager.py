@@ -133,7 +133,6 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         return pq
 
 
-
 class TemporalTransformManager(TransformGraphBase):
     """Manage time-varying transformations.
 
