@@ -62,11 +62,12 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
     Parameters
     ----------
-    df : pandas.DataFrame, shape (N, 7+)
+    time_arr: np.ndarray, shape (N,)
+        Numeric timesteps corresponding to the transformation samples.
+        You can use unixtime, relative time (starting with 0.0).
+    pq_arr : pandas.DataFrame, shape (N, 7)
         Time-sequence of transformations, with each row representing a single
         sample as position-quarternion (PQ) structure.
-        Refer to `pq_column_names()` for column naming.
-
     """
 
     def __init__(self, time_arr, pq_arr):
@@ -81,22 +82,20 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         self._time_arr = time_arr
         self._pq_arr = pq_arr
 
-    @property
-    def _time_index(self):
-        return self._time_arr
-
     def as_matrix(self, time):
         pq = pq = self._interpolate_pq_using_sclerp(time)
         return transform_from_pq(pq)
 
     def _interpolate_pq_using_sclerp(self, time):
+
         # identify the index of the preceding sample
-        t_arr = self._time_index
+        t_arr = self._time_arr
         idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
 
         # deal with first timestamp
         idx_timestep_earlier_wrt_query_time = max(
-            idx_timestep_earlier_wrt_query_time, 0)
+            idx_timestep_earlier_wrt_query_time, 0
+        )
 
         pq_array = self._pq_arr
 
