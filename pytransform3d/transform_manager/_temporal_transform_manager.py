@@ -4,7 +4,8 @@ import numpy as np
 
 from ._transform_graph_base import TransformGraphBase
 from ..transformations import check_transform, transform_from_pq, \
-    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp
+    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp,\
+    pq_from_transform
 
 
 class TimeVaryingTransform(abc.ABC):
@@ -53,9 +54,9 @@ class StaticTransform(TimeVaryingTransform):
     def check_transforms(self):
         self._A2B = check_transform(self._A2B)
         return self
-    
 
-class PandasTimeseriesTransform(TimeVaryingTransform):
+
+class NumpyTimeseriesTransform(TimeVaryingTransform):
     """Transformation, which does change over time, represented in a pandas
     dataframe.
 
@@ -67,14 +68,22 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         Refer to `pq_column_names()` for column naming.
 
     """
-    column_names = ["px", "py", "pz", "qw", "qx", "qy", "qz"]
 
-    def __init__(self, df):
-        self._df = df
+    def __init__(self, time_arr, pq_arr):
+
+        if len(pq_arr.shape) != 2:
+            raise ValueError("Shape of PQ array must be 2-dimensional.")
+
+        if time_arr.size != pq_arr.shape[0]:
+            raise ValueError("Number of timesteps is not equal to number of PQ"
+                             "samples")
+
+        self._time_arr = time_arr
+        self._pq_arr = pq_arr
 
     @property
     def _time_index(self):
-        return self._df.index.to_numpy()
+        return self._time_arr
 
     def as_matrix(self, time):
         pq = pq = self._interpolate_pq_using_sclerp(time)
@@ -86,11 +95,11 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
 
         # deal with first timestamp
-        idx_timestep_earlier_wrt_query_time = max(idx_timestep_earlier_wrt_query_time, 0)
+        idx_timestep_earlier_wrt_query_time = max(
+            idx_timestep_earlier_wrt_query_time, 0)
 
-        # TODO: maybe not that efficient to do this
-        pq_array = self._df[self.column_names].to_numpy()
-        
+        pq_array = self._pq_arr
+
         # dual quaternion from preceding sample
         t_prev = t_arr[idx_timestep_earlier_wrt_query_time]
         pq_prev = pq_array[idx_timestep_earlier_wrt_query_time, :]
@@ -108,9 +117,13 @@ class PandasTimeseriesTransform(TimeVaryingTransform):
         return pq_from_dual_quaternion(dq_interpolated)
 
     def check_transforms(self):
-        # TODO: check if index is numeric
+        N = self._pq_arr.shape[0]
+        for i in range(N):
+            transform_at_i = transform_from_pq(self._pq_arr[i, :])
+            checked_transfom = check_transform(transform_at_i)
+            self._pq_arr[i, :] = pq_from_transform(checked_transfom)
         return self
-    
+
     def pq_from_record(self, index: int) -> np.ndarray:
         transform_sample = self._df.iloc[index]
         pq = transform_sample[self.column_names].array
