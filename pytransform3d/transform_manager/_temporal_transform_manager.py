@@ -12,13 +12,13 @@ class TimeVaryingTransform(abc.ABC):
     """Time-varying rigid transformation."""
 
     @abc.abstractmethod
-    def as_matrix(self, time):
+    def as_matrix(self, query_time):
         """Get transformation matrix at given time.
 
         Parameters
         ----------
-        time : float
-            Time
+        query_time : float
+            Query time
 
         Returns
         -------
@@ -48,7 +48,7 @@ class StaticTransform(TimeVaryingTransform):
     def __init__(self, A2B):
         self._A2B = A2B
 
-    def as_matrix(self, time):
+    def as_matrix(self, query_time):
         return self._A2B
 
     def check_transforms(self):
@@ -57,8 +57,9 @@ class StaticTransform(TimeVaryingTransform):
 
 
 class NumpyTimeseriesTransform(TimeVaryingTransform):
-    """Transformation, which does change over time, represented in a pandas
-    dataframe.
+    """Transformation sequence, represented in a numpy array.
+    The interpolation is computed using screw linear interpolation (ScLERP)
+    method.
 
     Parameters
     ----------
@@ -70,34 +71,35 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         sample as position-quarternion (PQ) structure.
     """
 
-    def __init__(self, time_arr, pq_arr):
+    def __init__(self, time, pqs):
 
-        if len(pq_arr.shape) != 2:
+        if len(pqs.shape) != 2:
             raise ValueError("Shape of PQ array must be 2-dimensional.")
 
-        if time_arr.size != pq_arr.shape[0]:
+        if time.size != pqs.shape[0]:
             raise ValueError("Number of timesteps is not equal to number of PQ"
                              "samples")
 
-        self._time_arr = time_arr
-        self._pq_arr = pq_arr
+        self._time_arr = time
+        self._pqs = pqs
 
-    def as_matrix(self, time):
-        pq = pq = self._interpolate_pq_using_sclerp(time)
+    def as_matrix(self, query_time):
+        pq = pq = self._interpolate_pq_using_sclerp(query_time)
         return transform_from_pq(pq)
 
-    def _interpolate_pq_using_sclerp(self, time):
+    def _interpolate_pq_using_sclerp(self, query_time):
 
         # identify the index of the preceding sample
         t_arr = self._time_arr
-        idx_timestep_earlier_wrt_query_time = np.argmax(t_arr >= time) - 1
+        idx_timestep_earlier_wrt_query_time = \
+            np.argmax(t_arr >= query_time) - 1
 
         # deal with first timestamp
         idx_timestep_earlier_wrt_query_time = max(
             idx_timestep_earlier_wrt_query_time, 0
         )
 
-        pq_array = self._pq_arr
+        pq_array = self._pqs
 
         # dual quaternion from preceding sample
         t_prev = t_arr[idx_timestep_earlier_wrt_query_time]
@@ -110,23 +112,18 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         dq_next = dual_quaternion_from_pq(pq_next)
 
         # since sclerp works with relative (0-1) positions
-        rel_delta_t = (time - t_prev) / (t_next - t_prev)
+        rel_delta_t = (query_time - t_prev) / (t_next - t_prev)
         dq_interpolated = dual_quaternion_sclerp(dq_prev, dq_next, rel_delta_t)
 
         return pq_from_dual_quaternion(dq_interpolated)
 
     def check_transforms(self):
-        N = self._pq_arr.shape[0]
+        N = self._pqs.shape[0]
         for i in range(N):
-            transform_at_i = transform_from_pq(self._pq_arr[i, :])
+            transform_at_i = transform_from_pq(self._pqs[i, :])
             checked_transfom = check_transform(transform_at_i)
-            self._pq_arr[i, :] = pq_from_transform(checked_transfom)
+            self._pqs[i, :] = pq_from_transform(checked_transfom)
         return self
-
-    def pq_from_record(self, index: int) -> np.ndarray:
-        transform_sample = self._df.iloc[index]
-        pq = transform_sample[self.column_names].array
-        return pq
 
 
 class TemporalTransformManager(TransformGraphBase):
