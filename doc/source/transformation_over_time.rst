@@ -20,6 +20,16 @@ to the child frame.
     :align: center
 
 A common use-case is to transform points originating from system A to system B at
-a specific point in time :math:`t_q` (q=query). 
+a specific point in time (i.e. :math:`t_q`, where :math:`q` refers to query) 
 Imagine two moving robots A & B reporting their observations between each other.
 
+In this example, the screw linear interpolation (ScLERP) will be used
+(which operates on dual quaternions, refer to 
+:func:`~pytransform3d.transformations.pq_from_dual_quaternion`). A dual 
+quaternion representation holds both the translation and rotation information.
+
+--------------------------------------
+Preparing the transformation sequences
+--------------------------------------
+
+First, you need to prepare the 
