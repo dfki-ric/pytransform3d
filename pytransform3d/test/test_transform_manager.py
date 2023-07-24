@@ -3,7 +3,6 @@ import pickle
 import warnings
 import tempfile
 import numpy as np
-import pandas as pd
 from pytransform3d.rotations import (
     q_id, active_matrix_from_intrinsic_euler_xyz,
     active_matrix_from_extrinsic_euler_zyx, random_quaternion)
@@ -12,7 +11,7 @@ from pytransform3d.transformations import (
     transform_from, transform, vector_to_point, pq_from_transform)
 from pytransform3d.transform_manager import (
     TransformManager, TemporalTransformManager, StaticTransform,
-    PandasTimeseriesTransform)
+    NumpyTimeseriesTransform)
 from pytransform3d import transform_manager
 from numpy.testing import assert_array_almost_equal
 import pytest
@@ -414,18 +413,13 @@ def test_pandas_timeseries_transform():
     time_A, pq_arr_A = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
     )
-    df_A = pd.DataFrame(index=time_A, data=pq_arr_A, 
-                        columns=PandasTimeseriesTransform.column_names)
-
-    transform_WA = PandasTimeseriesTransform(df_A)
+    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
 
     time_B, pq_arr_B = create_sinusoidal_movement(
-        duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.35
+        duration, sample_period, velocity_x, y_start_offset=2.0,
+        start_time=0.35
     )
-    df_B = pd.DataFrame(index=time_B, data=pq_arr_B,
-                        columns=PandasTimeseriesTransform.column_names)
-
-    transform_WB = PandasTimeseriesTransform(df_B)
+    transform_WB = NumpyTimeseriesTransform(time_B, pq_arr_B)
 
     tm = TemporalTransformManager()
 

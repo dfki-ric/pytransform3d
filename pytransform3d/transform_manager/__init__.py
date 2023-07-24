@@ -7,9 +7,9 @@ from ._transform_manager import TransformManager
 from ._temporal_transform_manager import (StaticTransform,
                                           TimeVaryingTransform,
                                           TemporalTransformManager,
-                                          PandasTimeseriesTransform)
+                                          NumpyTimeseriesTransform)
 
 
 __all__ = ["TransformGraphBase", "TransformManager",
            "TemporalTransformManager", "TimeVaryingTransform",
-           "StaticTransform", "PandasTimeseriesTransform"]
+           "StaticTransform", "NumpyTimeseriesTransform"]
