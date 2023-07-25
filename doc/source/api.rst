@@ -566,6 +566,9 @@ Operations and Utility Functions
    ~pytransform3d.transform_manager.TransformGraphBase
    ~pytransform3d.transform_manager.TransformManager
    ~pytransform3d.transform_manager.TemporalTransformManager
+   ~pytransform3d.transform_manager.TimeVaryingTransform
+   ~pytransform3d.transform_manager.StaticTransform
+   ~pytransform3d.transform_manager.NumpyTimeseriesTransform
 
 
 :mod:`pytransform3d.editor`
