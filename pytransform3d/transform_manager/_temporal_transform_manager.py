@@ -58,6 +58,7 @@ class StaticTransform(TimeVaryingTransform):
 
 class NumpyTimeseriesTransform(TimeVaryingTransform):
     """Transformation sequence, represented in a numpy array.
+
     The interpolation is computed using screw linear interpolation (ScLERP)
     method.
 
@@ -72,13 +73,15 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
     """
 
     def __init__(self, time, pqs):
-
         if len(pqs.shape) != 2:
             raise ValueError("Shape of PQ array must be 2-dimensional.")
 
         if time.size != pqs.shape[0]:
             raise ValueError("Number of timesteps is not equal to number of PQ"
                              "samples")
+
+        if pqs.shape[1] != 7:
+            raise ValueError("`pqs` matrix shall have 7 columns.")
 
         self._time_arr = time
         self._pqs = pqs
