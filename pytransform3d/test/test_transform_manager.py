@@ -405,7 +405,7 @@ def create_sinusoidal_movement(
     return time_arr, np.array(pq_arr)
 
 
-def test_pandas_timeseries_transform():
+def test_numpy_timeseries_transform():
     # create entities A and B together with their transformations from world
     duration = 10.0  # [s]
     sample_period = 0.5  # [s]
