@@ -2,10 +2,11 @@ import abc
 
 import numpy as np
 
+from pytransform3d.trajectories import pqs_from_transforms, transforms_from_pqs
+
 from ._transform_graph_base import TransformGraphBase
 from ..transformations import check_transform, transform_from_pq, \
-    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp, \
-    pq_from_transform
+    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp
 
 
 class TimeVaryingTransform(abc.ABC):
@@ -83,7 +84,7 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         if pqs.shape[1] != 7:
             raise ValueError("`pqs` matrix shall have 7 columns.")
 
-        self._time_arr = time
+        self.time = time
         self._pqs = pqs
 
     def as_matrix(self, query_time):
@@ -91,17 +92,13 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         return transform_from_pq(pq)
 
     def check_transforms(self):
-        N = self._pqs.shape[0]
-        for i in range(N):
-            transform_at_i = transform_from_pq(self._pqs[i, :])
-            checked_transfom = check_transform(transform_at_i)
-            self._pqs[i, :] = pq_from_transform(checked_transfom)
+        transforms = transforms_from_pqs(self._pqs, normalize_quaternions=True)
+        self._pqs = pqs_from_transforms(transforms)
         return self
 
     def _interpolate_pq_using_sclerp(self, query_time):
-
         # identify the index of the preceding sample
-        t_arr = self._time_arr
+        t_arr = self.time
         idx_timestep_earlier_wrt_query_time = \
             np.argmax(t_arr >= query_time) - 1
 
