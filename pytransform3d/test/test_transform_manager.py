@@ -443,3 +443,30 @@ def test_numpy_timeseries_transform():
 
     assert origin_of_A_in_B_x == pytest.approx(-1.11, abs=1e-2)
     assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)
+
+
+def test_numpy_timeseries_transform_wrong_input_shapes():
+
+    N = 10
+
+    with pytest.raises(ValueError):
+
+        # timesteps and sample number does not match
+
+        time = np.arange(N)
+        pqs = np.random.randn(N+1, 7)
+        _ = NumpyTimeseriesTransform(time, pqs)
+
+    with pytest.raises(ValueError):
+
+        # PQ matrix has more than 7 columns
+        time = np.arange(10)
+        pqs = np.random.randn(N, 8)
+        _ = NumpyTimeseriesTransform(time, pqs)
+
+    with pytest.raises(ValueError):
+
+        # PQ matrix is not of shape Nx7
+        time = np.arange(10)
+        pqs = np.random.randn(N, 8).flatten()
+        _ = NumpyTimeseriesTransform(time, pqs)
