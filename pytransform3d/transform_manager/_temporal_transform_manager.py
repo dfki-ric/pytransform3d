@@ -63,10 +63,10 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
     Parameters
     ----------
-    time_arr: np.ndarray, shape (N,)
+    time: np.ndarray, shape (N,)
         Numeric timesteps corresponding to the transformation samples.
         You can use unixtime, relative time (starting with 0.0).
-    pq_arr : pandas.DataFrame, shape (N, 7)
+    pqs : np.ndarray, shape (N, 7)
         Time-sequence of transformations, with each row representing a single
         sample as position-quarternion (PQ) structure.
     """
@@ -86,6 +86,14 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
     def as_matrix(self, query_time):
         pq = pq = self._interpolate_pq_using_sclerp(query_time)
         return transform_from_pq(pq)
+
+    def check_transforms(self):
+        N = self._pqs.shape[0]
+        for i in range(N):
+            transform_at_i = transform_from_pq(self._pqs[i, :])
+            checked_transfom = check_transform(transform_at_i)
+            self._pqs[i, :] = pq_from_transform(checked_transfom)
+        return self
 
     def _interpolate_pq_using_sclerp(self, query_time):
 
@@ -116,14 +124,6 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         dq_interpolated = dual_quaternion_sclerp(dq_prev, dq_next, rel_delta_t)
 
         return pq_from_dual_quaternion(dq_interpolated)
-
-    def check_transforms(self):
-        N = self._pqs.shape[0]
-        for i in range(N):
-            transform_at_i = transform_from_pq(self._pqs[i, :])
-            checked_transfom = check_transform(transform_at_i)
-            self._pqs[i, :] = pq_from_transform(checked_transfom)
-        return self
 
 
 class TemporalTransformManager(TransformGraphBase):
