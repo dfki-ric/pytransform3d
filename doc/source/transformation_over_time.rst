@@ -32,7 +32,7 @@ First, you need to prepare the transfomation sequences using the
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
-   :lines: 44-57
+   :lines: 43-56
 
 In this example, the screw linear interpolation (ScLERP) will be used
 (which operates on dual quaternions, refer to 
@@ -47,7 +47,7 @@ to the :class:`~pytransform3d.transform_manager.TemporalTransformManager` instan
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
-   :lines: 59-62
+   :lines: 58-61
 
 ------------------------------------
 Transform between coordinate systems
@@ -57,7 +57,7 @@ Finally, you can transform between coordinate systems at a particular time :math
 
 .. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
-   :lines: 64-69
+   :lines: 63-68
 
 The coordinates of A's origin (blue diamond) transformed to B are visualized in the plot below:
 

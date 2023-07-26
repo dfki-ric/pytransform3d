@@ -16,45 +16,44 @@ from pytransform3d.transform_manager import (TemporalTransformManager,
 
 
 def create_sinusoidal_movement(
-    duration_sec, sample_period, x_velocity, y_start_offset, start_time
-):
+        duration_sec, sample_period, x_velocity, y_start_offset, start_time):
     """Create a planar (z=0) sinusoidal movement around x-axis."""
-    time_arr = np.arange(0, duration_sec, sample_period) + start_time
-    N = len(time_arr)
-    x_arr = np.linspace(0, x_velocity * duration_sec, N)
+    time = np.arange(0, duration_sec, sample_period) + start_time
+    n_steps = len(time)
+    x = np.linspace(0, x_velocity * duration_sec, n_steps)
 
-    spatial_freq = 1 / 5  # 1 sinus per 5m
-    omega = 2 * np.pi * spatial_freq
-    y_arr = np.sin(omega * x_arr)
-    y_arr += y_start_offset
+    spatial_freq = 1.0 / 5.0  # 1 sinus per 5m
+    omega = 2.0 * np.pi * spatial_freq
+    y = np.sin(omega * x)
+    y += y_start_offset
 
-    dydx_arr = omega * np.cos(omega * x_arr)
-    yaw_arr = np.arctan2(dydx_arr, np.ones_like(dydx_arr))
+    dydx_arr = omega * np.cos(omega * x)
+    yaw = np.arctan2(dydx_arr, np.ones_like(dydx_arr))
 
-    pq_arr = list()
-    for i in range(N):
-        R = pr.active_matrix_from_extrinsic_euler_zyx([yaw_arr[i], 0, 0])
-        T = pt.transform_from(R, [x_arr[i], y_arr[i], 0])
+    pqs = []
+    for i in range(n_steps):
+        R = pr.active_matrix_from_extrinsic_euler_zyx([yaw[i], 0, 0])
+        T = pt.transform_from(R, [x[i], y[i], 0])
         pq = pt.pq_from_transform(T)
-        pq_arr.append(pq)
+        pqs.append(pq)
 
-    return time_arr, np.array(pq_arr)
+    return time, np.array(pqs)
 
 
 # create entities A and B together with their transformations from world
 duration = 10.0  # [s]
 sample_period = 0.5  # [s]
 velocity_x = 1  # [m/s]
-time_A, pq_arr_A = create_sinusoidal_movement(
+time_A, pqs_A = create_sinusoidal_movement(
     duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.1
 )
-time_B, pq_arr_B = create_sinusoidal_movement(
+time_B, pqs_B = create_sinusoidal_movement(
     duration, sample_period, velocity_x, y_start_offset=-2.0, start_time=0.35
 )
 
 # package them into an instance of `TimeVaryingTransform` abstract class
-transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
-transform_WB = NumpyTimeseriesTransform(time_B, pq_arr_B)
+transform_WA = NumpyTimeseriesTransform(time_A, pqs_A)
+transform_WB = NumpyTimeseriesTransform(time_B, pqs_B)
 
 tm = TemporalTransformManager()
 
@@ -73,8 +72,8 @@ pq_A = pt.pq_from_transform(transform_WA.as_matrix(query_time))
 pq_B = pt.pq_from_transform(transform_WB.as_matrix(query_time))
 
 plt.figure(figsize=(8, 8))
-plt.plot(pq_arr_A[:, 0], pq_arr_A[:, 1], "bo--", label="trajectory $A(t)$")
-plt.plot(pq_arr_B[:, 0], pq_arr_B[:, 1], "yo--", label="trajectory $B(t)$")
+plt.plot(pqs_A[:, 0], pqs_A[:, 1], "bo--", label="trajectory $A(t)$")
+plt.plot(pqs_B[:, 0], pqs_B[:, 1], "yo--", label="trajectory $B(t)$")
 plt.scatter(pq_A[0], pq_A[1], color="b", s=120, marker="d",
             label="$A(t_q)$")
 plt.scatter(pq_B[0], pq_B[1], color="y", s=120, marker="^",
