@@ -27,8 +27,8 @@ def create_sinusoidal_movement(
     y = np.sin(omega * x)
     y += y_start_offset
 
-    dydx_arr = omega * np.cos(omega * x)
-    yaw = np.arctan2(dydx_arr, np.ones_like(dydx_arr))
+    dydx = omega * np.cos(omega * x)
+    yaw = np.arctan2(dydx, np.ones_like(dydx))
 
     pqs = []
     for i in range(n_steps):
