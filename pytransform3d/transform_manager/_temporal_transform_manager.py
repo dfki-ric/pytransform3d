@@ -2,7 +2,6 @@ import abc
 
 import numpy as np
 
-from ..trajectories import pqs_from_transforms
 from ..batch_rotations import norm_vectors
 
 from ._transform_graph_base import TransformGraphBase
