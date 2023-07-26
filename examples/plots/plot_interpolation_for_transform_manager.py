@@ -3,8 +3,8 @@
 Managing Transformations over Time
 ==================================
 
-In this example, given two tranformation trajectories, we will interpolate both
-and use the transform manager for the target timestep.
+In this example, given two trajectories of 3D rigid transformations, we will
+interpolate both and use the transform manager for the target timestep.
 """
 import numpy as np
 import matplotlib.pyplot as plt
