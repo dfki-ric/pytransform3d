@@ -2,7 +2,8 @@ import abc
 
 import numpy as np
 
-from pytransform3d.trajectories import pqs_from_transforms, transforms_from_pqs
+from ..trajectories import pqs_from_transforms
+from ..batch_rotations import norm_vectors
 
 from ._transform_graph_base import TransformGraphBase
 from ..transformations import check_transform, transform_from_pq, \
@@ -65,35 +66,36 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
     Parameters
     ----------
-    time: np.ndarray, shape (N,)
+    time: array, shape (n_steps,)
         Numeric timesteps corresponding to the transformation samples.
-        You can use unixtime, relative time (starting with 0.0).
-    pqs : np.ndarray, shape (N, 7)
+        You can use, for example, unix timestamps, relative time (starting
+        with 0).
+
+    pqs : array, shape (n_steps, 7)
         Time-sequence of transformations, with each row representing a single
         sample as position-quarternion (PQ) structure.
     """
 
     def __init__(self, time, pqs):
-        if len(pqs.shape) != 2:
+        self.time = np.asarray(time)
+        self._pqs = np.asarray(pqs)
+
+        if len(self._pqs.shape) != 2:
             raise ValueError("Shape of PQ array must be 2-dimensional.")
 
-        if time.size != pqs.shape[0]:
-            raise ValueError("Number of timesteps is not equal to number of PQ"
-                             "samples")
+        if self.time.size != self._pqs.shape[0]:
+            raise ValueError(
+                "Number of timesteps does not equal to number of PQ samples")
 
-        if pqs.shape[1] != 7:
+        if self._pqs.shape[1] != 7:
             raise ValueError("`pqs` matrix shall have 7 columns.")
 
-        self.time = time
-        self._pqs = pqs
-
     def as_matrix(self, query_time):
-        pq = pq = self._interpolate_pq_using_sclerp(query_time)
+        pq = self._interpolate_pq_using_sclerp(query_time)
         return transform_from_pq(pq)
 
     def check_transforms(self):
-        transforms = transforms_from_pqs(self._pqs, normalize_quaternions=True)
-        self._pqs = pqs_from_transforms(transforms)
+        self._pqs[:, 3:] = norm_vectors(self._pqs[:, 3:])
         return self
 
     def _interpolate_pq_using_sclerp(self, query_time):
