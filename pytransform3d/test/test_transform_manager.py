@@ -446,27 +446,21 @@ def test_numpy_timeseries_transform():
 
 
 def test_numpy_timeseries_transform_wrong_input_shapes():
+    n_steps = 10
+    with pytest.raises(
+            ValueError, match="Number of timesteps does not equal to number "
+                              "of PQ samples"):
+        time = np.arange(n_steps)
+        pqs = np.random.randn(n_steps + 1, 7)
+        NumpyTimeseriesTransform(time, pqs)
 
-    N = 10
-
-    with pytest.raises(ValueError):
-
-        # timesteps and sample number does not match
-
-        time = np.arange(N)
-        pqs = np.random.randn(N+1, 7)
-        _ = NumpyTimeseriesTransform(time, pqs)
-
-    with pytest.raises(ValueError):
-
-        # PQ matrix has more than 7 columns
+    with pytest.raises(ValueError, match="`pqs` matrix shall have 7 columns."):
         time = np.arange(10)
-        pqs = np.random.randn(N, 8)
-        _ = NumpyTimeseriesTransform(time, pqs)
+        pqs = np.random.randn(n_steps, 8)
+        NumpyTimeseriesTransform(time, pqs)
 
-    with pytest.raises(ValueError):
-
-        # PQ matrix is not of shape Nx7
+    with pytest.raises(
+            ValueError, match="Shape of PQ array must be 2-dimensional."):
         time = np.arange(10)
-        pqs = np.random.randn(N, 8).flatten()
-        _ = NumpyTimeseriesTransform(time, pqs)
+        pqs = np.random.randn(n_steps, 8).flatten()
+        NumpyTimeseriesTransform(time, pqs)

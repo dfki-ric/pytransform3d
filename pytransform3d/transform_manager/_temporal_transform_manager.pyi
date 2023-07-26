@@ -27,6 +27,8 @@ class StaticTransform(TimeVaryingTransform):
 
 
 class NumpyTimeseriesTransform(TimeVaryingTransform):
+    time: np.ndarray
+    _pqs: np.ndarray
 
     def __init__(self, time: npt.ArrayLike, pqs: npt.ArrayLike): ...
 
