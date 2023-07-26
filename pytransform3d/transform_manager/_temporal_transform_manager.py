@@ -99,13 +99,12 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
     def _interpolate_pq_using_sclerp(self, query_time):
         # identify the index of the preceding sample
-        idx_timestep_earlier_wrt_query_time = \
-            np.argmax(self.time >= query_time) - 1
+        idx_timestep_earlier_wrt_query_time = np.argmax(
+            self.time >= query_time) - 1
 
         # deal with first timestamp
         idx_timestep_earlier_wrt_query_time = max(
-            idx_timestep_earlier_wrt_query_time, 0
-        )
+            idx_timestep_earlier_wrt_query_time, 0)
 
         # dual quaternion from preceding sample
         t_prev = self.time[idx_timestep_earlier_wrt_query_time]
