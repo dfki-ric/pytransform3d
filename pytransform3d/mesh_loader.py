@@ -120,7 +120,7 @@ class _Trimesh(MeshBase):
         return self.mesh.faces
 
 
-class _Open3DMesh(MeshBase):
+class _Open3DMesh(MeshBase):  # pragma: no cover
     def __init__(self, filename):
         super(_Open3DMesh, self).__init__(filename)
         self.mesh = None
