@@ -365,7 +365,10 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
             "package directory.")
         return ax
 
-    mesh = load_mesh(filename, convex_hull=convex_hull)
+    mesh = load_mesh(filename)
+    if convex_hull:
+        mesh.convex_hull()
+
     vertices = mesh.vertices * s
     vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
     vertices = transform(A2B, vertices)[:, :3]
