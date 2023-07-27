@@ -555,7 +555,10 @@ class Mesh(Artist):
     """
     def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None,
                  convex_hull=False):
-        mesh = mesh_loader.load_mesh(filename, convex_hull=convex_hull)
+        mesh = mesh_loader.load_mesh(filename)
+        if convex_hull:
+            mesh.convex_hull()
+
         self.mesh = mesh.get_open3d_mesh()
         self.mesh.vertices = o3d.utility.Vector3dVector(
             np.asarray(self.mesh.vertices) * s)
