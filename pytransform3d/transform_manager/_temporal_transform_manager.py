@@ -10,7 +10,13 @@ from ..transformations import check_transform, transform_from_pq, \
 
 
 class TimeVaryingTransform(abc.ABC):
-    """Time-varying rigid transformation."""
+    """Time-varying rigid transformation.
+
+    You have to inherit from this abstract base class to use the
+    TemporalTransformManager. Two implementations of the interface that
+    are already available are :class:`StaticTransform` and
+    :class:`NumpyTimeseriesTransform`.
+    """
 
     @abc.abstractmethod
     def as_matrix(self, query_time):
