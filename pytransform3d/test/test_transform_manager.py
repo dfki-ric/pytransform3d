@@ -3,12 +3,8 @@ import pickle
 import warnings
 import tempfile
 import numpy as np
-from pytransform3d.rotations import (
-    q_id, active_matrix_from_intrinsic_euler_xyz,
-    active_matrix_from_extrinsic_euler_zyx, random_quaternion)
-from pytransform3d.transformations import (
-    random_transform, invert_transform, concat, transform_from_pq,
-    transform_from, transform, vector_to_point, pq_from_transform)
+import pytransform3d.rotations as pr
+import pytransform3d.transformations as pt
 from pytransform3d.transform_manager import (
     TransformManager, TemporalTransformManager, StaticTransform,
     NumpyTimeseriesTransform)
@@ -20,7 +16,7 @@ import pytest
 def test_request_added_transform():
     """Request an added transform from the transform manager."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
 
     tm = TransformManager()
     assert len(tm.transforms) == 0
@@ -33,7 +29,7 @@ def test_request_added_transform():
 def test_request_inverse_transform():
     """Request an inverse transform from the transform manager."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -41,7 +37,7 @@ def test_request_inverse_transform():
     assert_array_almost_equal(A2B, A2B_2)
 
     B2A = tm.get_transform("B", "A")
-    B2A_2 = invert_transform(A2B)
+    B2A_2 = pt.invert_transform(A2B)
     assert_array_almost_equal(B2A, B2A_2)
 
 
@@ -57,8 +53,8 @@ def test_has_frame():
 def test_transform_not_added():
     """Test request for transforms that have not been added."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
-    C2D = random_transform(rng)
+    A2B = pt.random_transform(rng)
+    C2D = pt.random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -75,9 +71,9 @@ def test_transform_not_added():
 def test_request_concatenated_transform():
     """Request a concatenated transform from the transform manager."""
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
-    B2C = random_transform(rng)
-    F2A = random_transform(rng)
+    A2B = pt.random_transform(rng)
+    B2C = pt.random_transform(rng)
+    F2A = pt.random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
@@ -86,21 +82,21 @@ def test_request_concatenated_transform():
     tm.add_transform("F", "A", F2A)
 
     A2C = tm.get_transform("A", "C")
-    assert_array_almost_equal(A2C, concat(A2B, B2C))
+    assert_array_almost_equal(A2C, pt.concat(A2B, B2C))
 
     C2A = tm.get_transform("C", "A")
-    assert_array_almost_equal(C2A, concat(invert_transform(B2C),
-                                          invert_transform(A2B)))
+    assert_array_almost_equal(
+        C2A, pt.concat(pt.invert_transform(B2C), pt.invert_transform(A2B)))
 
     F2B = tm.get_transform("F", "B")
-    assert_array_almost_equal(F2B, concat(F2A, A2B))
+    assert_array_almost_equal(F2B, pt.concat(F2A, A2B))
 
 
 def test_update_transform():
     """Update an existing transform."""
     rng = np.random.default_rng(0)
-    A2B1 = random_transform(rng)
-    A2B2 = random_transform(rng)
+    A2B1 = pt.random_transform(rng)
+    A2B2 = pt.random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("A", "B", A2B1)
@@ -116,7 +112,7 @@ def test_update_transform():
 def test_pickle():
     """Test if a transform manager can be pickled."""
     rng = np.random.default_rng(1)
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
 
@@ -137,7 +133,7 @@ def test_pickle():
 def test_whitelist():
     """Test correct handling of whitelists for plotting."""
     rng = np.random.default_rng(2)
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
     tm = TransformManager()
     tm.add_transform("A", "B", A2B)
 
@@ -155,29 +151,29 @@ def test_check_consistency():
 
     tm = TransformManager()
 
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
     tm.add_transform("A", "B", A2B)
-    B2A = random_transform(rng)
+    B2A = pt.random_transform(rng)
     tm.add_transform("B", "A", B2A)
     assert not tm.check_consistency()
 
     tm = TransformManager()
 
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
     tm.add_transform("A", "B", A2B)
     assert tm.check_consistency()
 
-    C2D = random_transform(rng)
+    C2D = pt.random_transform(rng)
     tm.add_transform("C", "D", C2D)
     assert tm.check_consistency()
 
-    B2C = random_transform(rng)
+    B2C = pt.random_transform(rng)
     tm.add_transform("B", "C", B2C)
     assert tm.check_consistency()
 
     A2D_over_path = tm.get_transform("A", "D")
 
-    A2D = random_transform(rng)
+    A2D = pt.random_transform(rng)
     tm.add_transform("A", "D", A2D)
     assert not tm.check_consistency()
 
@@ -202,13 +198,13 @@ def test_png_export():
     """Test if the graph can be exported to PNG."""
     rng = np.random.default_rng(0)
 
-    ee2robot = transform_from_pq(
+    ee2robot = pt.transform_from_pq(
         np.hstack((np.array([0.4, -0.3, 0.5]),
-                   random_quaternion(rng))))
-    cam2robot = transform_from_pq(
-        np.hstack((np.array([0.0, 0.0, 0.8]), q_id)))
-    object2cam = transform_from(
-        active_matrix_from_intrinsic_euler_xyz(np.array([0.0, 0.0, 0.5])),
+                   pr.random_quaternion(rng))))
+    cam2robot = pt.transform_from_pq(
+        np.hstack((np.array([0.0, 0.0, 0.8]), pr.q_id)))
+    object2cam = pt.transform_from(
+        pr.active_matrix_from_intrinsic_euler_xyz(np.array([0.0, 0.0, 0.5])),
         np.array([0.5, 0.1, 0.1]))
 
     tm = TransformManager()
@@ -295,11 +291,11 @@ def test_remove_transform():
 def test_from_to_dict():
     rng = np.random.default_rng(2323)
     tm = TransformManager()
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
     tm.add_transform("A", "B", A2B)
-    B2C = random_transform(rng)
+    B2C = pt.random_transform(rng)
     tm.add_transform("B", "C", B2C)
-    C2D = random_transform(rng)
+    C2D = pt.random_transform(rng)
     tm.add_transform("C", "D", C2D)
 
     tm_dict = tm.to_dict()
@@ -319,10 +315,10 @@ def test_remove_twice():
 
 def test_remove_and_add_connection():
     rng = np.random.default_rng(5)
-    A2B = random_transform(rng)
-    B2C = random_transform(rng)
-    C2D = random_transform(rng)
-    D2E = random_transform(rng)
+    A2B = pt.random_transform(rng)
+    B2C = pt.random_transform(rng)
+    C2D = pt.random_transform(rng)
+    D2E = pt.random_transform(rng)
 
     tm = TransformManager()
     tm.add_transform("a", "b", A2B)
@@ -342,10 +338,10 @@ def test_remove_and_add_connection():
 
 def test_temporal_transform():
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
 
     rng = np.random.default_rng(42)
-    A2C = random_transform(rng)
+    A2C = pt.random_transform(rng)
 
     tm = TemporalTransformManager()
 
@@ -356,7 +352,7 @@ def test_temporal_transform():
     B2C = tm.get_transform("B", "C")
 
     C2B = tm.get_transform("C", "B")
-    B2C_2 = invert_transform(C2B)
+    B2C_2 = pt.invert_transform(C2B)
     assert_array_almost_equal(B2C, B2C_2)
 
     B2C_3 = tm.get_transform_at_time("B", "C", 1234.0)
@@ -365,10 +361,10 @@ def test_temporal_transform():
 
 def test_internals():
     rng = np.random.default_rng(0)
-    A2B = random_transform(rng)
+    A2B = pt.random_transform(rng)
 
     rng = np.random.default_rng(42)
-    A2C = random_transform(rng)
+    A2C = pt.random_transform(rng)
 
     tm = TemporalTransformManager()
 
@@ -397,9 +393,9 @@ def create_sinusoidal_movement(
 
     pq_arr = list()
     for i in range(N):
-        R = active_matrix_from_extrinsic_euler_zyx([yaw_arr[i], 0, 0])
-        T = transform_from(R, [x_arr[i], y_arr[i], 0])
-        pq = pq_from_transform(T)
+        R = pr.active_matrix_from_extrinsic_euler_zyx([yaw_arr[i], 0, 0])
+        T = pt.transform_from(R, [x_arr[i], y_arr[i], 0])
+        pq = pt.pq_from_transform(T)
         pq_arr.append(pq)
 
     return time_arr, np.array(pq_arr)
@@ -427,15 +423,15 @@ def test_numpy_timeseries_transform():
     tm.add_transform("B", "W", transform_WB)
 
     query_time = time_A[0]  # start time
-    A2W_at_start = transform_from_pq(pq_arr_A[0, :])
+    A2W_at_start = pt.transform_from_pq(pq_arr_A[0, :])
     A2W_at_start_2 = tm.get_transform_at_time("A", "W", query_time)
     assert_array_almost_equal(A2W_at_start, A2W_at_start_2, decimal=2)
 
     query_time = 4.9  # [s]
     A2B_at_query_time = tm.get_transform_at_time("A", "B", query_time)
 
-    origin_of_A_pos = vector_to_point([0, 0, 0])
-    origin_of_A_in_B_pos = transform(A2B_at_query_time, origin_of_A_pos)
+    origin_of_A_pos = pt.vector_to_point([0, 0, 0])
+    origin_of_A_in_B_pos = pt.transform(A2B_at_query_time, origin_of_A_pos)
     origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
 
     origin_of_A_in_B_x, origin_of_A_in_B_y = \
