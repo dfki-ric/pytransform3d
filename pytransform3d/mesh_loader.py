@@ -3,7 +3,7 @@ import abc
 import numpy as np
 
 
-def load_mesh(filename, convex_hull=False):
+def load_mesh(filename):
     """Load mesh from file.
 
     This feature relies on optional dependencies. It can use trimesh or
@@ -17,26 +17,22 @@ def load_mesh(filename, convex_hull=False):
     filename : str
         File in which the mesh is stored.
 
-    convex_hull : bool, optional (default: False)
-        Compute convex hull of mesh.
-
     Returns
     -------
     mesh : MeshBase
         Mesh instance.
     """
     mesh = _Trimesh(filename)
-    success = mesh.load()
+    loader_available = mesh.load()
 
-    if not success:
+    if not loader_available:
         mesh = _Open3DMesh(filename)
-        success = mesh.load()
+        loader_available = mesh.load()
 
-    if not success:
-        raise IOError("Could not load mesh from '%s'" % filename)
-
-    if convex_hull:
-        mesh.convex_hull()
+    if not loader_available:
+        raise IOError(
+            "Could not load mesh from '%s'. Please install one of the "
+            "optional dependencies 'trimesh' or 'open3d'." % filename)
 
     return mesh
 
@@ -58,8 +54,8 @@ class MeshBase(abc.ABC):
 
         Returns
         -------
-        success : bool
-            Has the mesh been loaded?
+        loader_available : bool
+            Is the mesh loader available?
         """
 
     @abc.abstractmethod
@@ -97,7 +93,6 @@ class _Trimesh(MeshBase):
             import trimesh
         except ImportError:
             return False
-
         obj = trimesh.load(self.filename)
         if isinstance(obj, trimesh.Scene):
             obj = obj.dump().sum()
