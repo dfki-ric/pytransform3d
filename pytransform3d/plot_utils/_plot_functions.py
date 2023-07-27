@@ -6,6 +6,7 @@ from ._layout import make_3d_axis
 from ._artists import Arrow3D
 from ..transformations import transform, vectors_to_points
 from ..rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
+from ..mesh_loader import load_mesh
 
 
 def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
@@ -316,8 +317,8 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
               convex_hull=False, alpha=1.0, color="k"):
     """Plot mesh.
 
-    Note that this function requires the additional library 'trimesh'.
-    It will print a warning if trimesh is not available.
+    Note that this function requires the additional library to load meshes
+    such as trimesh or open3d.
 
     Parameters
     ----------
@@ -364,20 +365,11 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
             "package directory.")
         return ax
 
-    try:
-        import trimesh
-    except ImportError:
-        warnings.warn(
-            "Cannot display mesh. Library 'trimesh' not installed.")
-        return ax
-
-    mesh = trimesh.load(filename)
-    if convex_hull:
-        mesh = mesh.convex_hull
-    vertices = mesh.vertices * s
+    vertices, triangles = load_mesh(filename, convex_hull=convex_hull)
+    vertices = vertices * s
     vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
     vertices = transform(A2B, vertices)[:, :3]
-    vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
+    vectors = np.array([vertices[[i, j, k]] for i, j, k in triangles])
     if wireframe:
         surface = Line3DCollection(vectors)
         surface.set_color(color)
