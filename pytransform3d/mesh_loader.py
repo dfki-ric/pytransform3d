@@ -105,7 +105,7 @@ class _Trimesh(MeshBase):
     def convex_hull(self):
         self.mesh = self.mesh.convex_hull
 
-    def get_open3d_mesh(self):
+    def get_open3d_mesh(self):  # pragma: no cover
         import open3d
         return open3d.geometry.TriangleMesh(
             open3d.utility.Vector3dVector(self.vertices),
