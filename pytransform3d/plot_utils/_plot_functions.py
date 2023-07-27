@@ -365,11 +365,11 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
             "package directory.")
         return ax
 
-    vertices, triangles = load_mesh(filename, convex_hull=convex_hull)
-    vertices = vertices * s
+    mesh = load_mesh(filename, convex_hull=convex_hull)
+    vertices = mesh.vertices * s
     vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
     vertices = transform(A2B, vertices)[:, :3]
-    vectors = np.array([vertices[[i, j, k]] for i, j, k in triangles])
+    vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.triangles])
     if wireframe:
         surface = Line3DCollection(vectors)
         surface.set_color(color)
