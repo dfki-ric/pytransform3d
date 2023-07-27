@@ -1,3 +1,4 @@
+"""Common interface to load meshes."""
 import abc
 
 import numpy as np
