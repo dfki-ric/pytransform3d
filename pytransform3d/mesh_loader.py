@@ -29,8 +29,8 @@ def load_mesh(filename):
         mesh = _Open3DMesh(filename)
         loader_available = mesh.load()
 
-    if not loader_available:
-        raise IOError(
+    if not loader_available:  # pragma: no cover
+        raise ImportError(
             "Could not load mesh from '%s'. Please install one of the "
             "optional dependencies 'trimesh' or 'open3d'." % filename)
 
