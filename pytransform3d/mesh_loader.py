@@ -12,8 +12,7 @@ def load_mesh(filename, convex_hull=False, return_as_open3d_mesh=False):
         done = True
 
         if isinstance(geometry, trimesh.Scene):
-            geometry = trimesh.util.concatenate(
-                list(geometry.geometry.values()))
+            geometry = geometry.dump().sum()
         if convex_hull:
             geometry = geometry.convex_hull
 
