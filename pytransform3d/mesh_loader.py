@@ -6,6 +6,12 @@ import numpy as np
 def load_mesh(filename, convex_hull=False):
     """Load mesh from file.
 
+    This feature relies on optional dependencies. It can use trimesh or
+    Open3D to load meshes. If both are not available, it will fail.
+    Furthermore, some mesh formats require additional dependencies. For
+    example, loading collada files ('.dae' file ending) requires pycollada
+    and trimesh.
+
     Parameters
     ----------
     filename : str
