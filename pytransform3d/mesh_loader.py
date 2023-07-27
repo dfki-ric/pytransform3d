@@ -25,7 +25,7 @@ def load_mesh(filename):
     mesh = _Trimesh(filename)
     loader_available = mesh.load()
 
-    if not loader_available:
+    if not loader_available:  # pragma: no cover
         mesh = _Open3DMesh(filename)
         loader_available = mesh.load()
 
