@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 3.2.0 documentation</title>
+    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 3.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -69,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_over_time.html">Managing Transformations over Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
@@ -720,7 +721,8 @@
 <div class="viewcode-block" id="Figure.plot_graph"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+            <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">convex_hull_of_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot graph of connected frames.</span>
 
 <span class="sd">        Parameters</span>
@@ -749,6 +751,9 @@
 <span class="sd">        whitelist : list, optional (default: all)</span>
 <span class="sd">            List of frames that should be displayed</span>
 
+<span class="sd">        convex_hull_of_collision_objects : bool, optional (default: False)</span>
+<span class="sd">            Show convex hull of collision objects.</span>
+
 <span class="sd">        s : float, optional (default: 1)</span>
 <span class="sd">            Scaling of the frames that will be drawn</span>
 
@@ -759,7 +764,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">graph</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="p">,</span> <span class="n">show_connections</span><span class="p">,</span>
                       <span class="n">show_visuals</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="p">,</span> <span class="n">show_name</span><span class="p">,</span>
-                      <span class="n">whitelist</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+                      <span class="n">whitelist</span><span class="p">,</span> <span class="n">convex_hull_of_collision_objects</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
         <span class="n">graph</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span></div>
 
@@ -864,7 +869,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on May 24, 2023.<br/>
+      Last updated on Jul 27, 2023.<br/>
     </p>
   </div>
 </footer>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; pytransform3d 3.2.0 documentation</title>
+    <title>Index &#8212; pytransform3d 3.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -69,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">Managing Transformations over Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
@@ -156,6 +157,16 @@
         <li><a href="_apidoc/pytransform3d.plot_utils.LabeledFrame.html#pytransform3d.plot_utils.LabeledFrame.__init__">(pytransform3d.plot_utils.LabeledFrame method)</a>
 </li>
         <li><a href="_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory.__init__">(pytransform3d.plot_utils.Trajectory method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.NumpyTimeseriesTransform.html#pytransform3d.transform_manager.NumpyTimeseriesTransform.__init__">(pytransform3d.transform_manager.NumpyTimeseriesTransform method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.StaticTransform.html#pytransform3d.transform_manager.StaticTransform.__init__">(pytransform3d.transform_manager.StaticTransform method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.__init__">(pytransform3d.transform_manager.TemporalTransformManager method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TimeVaryingTransform.html#pytransform3d.transform_manager.TimeVaryingTransform.__init__">(pytransform3d.transform_manager.TimeVaryingTransform method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.__init__">(pytransform3d.transform_manager.TransformGraphBase method)</a>
 </li>
         <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.__init__">(pytransform3d.transform_manager.TransformManager method)</a>
 </li>
@@ -322,9 +333,13 @@
 </li>
       <li><a href="_apidoc/pytransform3d.plot_utils.Trajectory.html#pytransform3d.plot_utils.Trajectory.add_trajectory">add_trajectory() (pytransform3d.plot_utils.Trajectory method)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.add_transform">add_transform() (pytransform3d.transform_manager.TransformManager method)</a>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.add_transform">add_transform() (pytransform3d.transform_manager.TemporalTransformManager method)</a>
 
       <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.add_transform">(pytransform3d.transform_manager.TransformGraphBase method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.add_transform">(pytransform3d.transform_manager.TransformManager method)</a>
+</li>
         <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.add_transform">(pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
@@ -340,6 +355,14 @@
 </li>
       <li><a href="_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist">Artist (class in pytransform3d.visualizer)</a>
 </li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.NumpyTimeseriesTransform.html#pytransform3d.transform_manager.NumpyTimeseriesTransform.as_matrix">as_matrix() (pytransform3d.transform_manager.NumpyTimeseriesTransform method)</a>
+
+      <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.StaticTransform.html#pytransform3d.transform_manager.StaticTransform.as_matrix">(pytransform3d.transform_manager.StaticTransform method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TimeVaryingTransform.html#pytransform3d.transform_manager.TimeVaryingTransform.as_matrix">(pytransform3d.transform_manager.TimeVaryingTransform method)</a>
+</li>
+      </ul></li>
       <li><a href="_apidoc/pytransform3d.rotations.assert_axis_angle_equal.html#pytransform3d.rotations.assert_axis_angle_equal">assert_axis_angle_equal() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.assert_compact_axis_angle_equal.html#pytransform3d.rotations.assert_compact_axis_angle_equal">assert_compact_axis_angle_equal() (in module pytransform3d.rotations)</a>
@@ -416,9 +439,13 @@
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.check_compact_axis_angle.html#pytransform3d.rotations.check_compact_axis_angle">check_compact_axis_angle() (in module pytransform3d.rotations)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.check_consistency">check_consistency() (pytransform3d.transform_manager.TransformManager method)</a>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.check_consistency">check_consistency() (pytransform3d.transform_manager.TemporalTransformManager method)</a>
 
       <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.check_consistency">(pytransform3d.transform_manager.TransformGraphBase method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.check_consistency">(pytransform3d.transform_manager.TransformManager method)</a>
+</li>
         <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.check_consistency">(pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
@@ -446,12 +473,20 @@
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.check_skew_symmetric_matrix.html#pytransform3d.rotations.check_skew_symmetric_matrix">check_skew_symmetric_matrix() (in module pytransform3d.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.transformations.check_transform.html#pytransform3d.transformations.check_transform">check_transform() (in module pytransform3d.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.check_transform_log.html#pytransform3d.transformations.check_transform_log">check_transform_log() (in module pytransform3d.transformations)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform3d.transform_manager.NumpyTimeseriesTransform.html#pytransform3d.transform_manager.NumpyTimeseriesTransform.check_transforms">check_transforms() (pytransform3d.transform_manager.NumpyTimeseriesTransform method)</a>
+
+      <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.StaticTransform.html#pytransform3d.transform_manager.StaticTransform.check_transforms">(pytransform3d.transform_manager.StaticTransform method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TimeVaryingTransform.html#pytransform3d.transform_manager.TimeVaryingTransform.check_transforms">(pytransform3d.transform_manager.TimeVaryingTransform method)</a>
+</li>
+      </ul></li>
       <li><a href="_apidoc/pytransform3d.rotations.compact_axis_angle.html#pytransform3d.rotations.compact_axis_angle">compact_axis_angle() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.compact_axis_angle_from_matrix.html#pytransform3d.rotations.compact_axis_angle_from_matrix">compact_axis_angle_from_matrix() (in module pytransform3d.rotations)</a>
@@ -476,15 +511,21 @@
 </li>
       <li><a href="_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone">Cone (class in pytransform3d.visualizer)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.connected_components">connected_components() (pytransform3d.transform_manager.TransformManager method)</a>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.connected_components">connected_components() (pytransform3d.transform_manager.TemporalTransformManager method)</a>
 
       <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.connected_components">(pytransform3d.transform_manager.TransformGraphBase method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.connected_components">(pytransform3d.transform_manager.TransformManager method)</a>
+</li>
         <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.connected_components">(pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
       <li><a href="_apidoc/pytransform3d.batch_rotations.cross_product_matrices.html#pytransform3d.batch_rotations.cross_product_matrices">cross_product_matrices() (in module pytransform3d.batch_rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.cross_product_matrix.html#pytransform3d.rotations.cross_product_matrix">cross_product_matrix() (in module pytransform3d.rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.current_time">current_time (pytransform3d.transform_manager.TemporalTransformManager property)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder">Cylinder (class in pytransform3d.urdf)</a>
 
@@ -652,12 +693,18 @@
 </li>
       <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.get_joint_limits">get_joint_limits() (pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.get_transform">get_transform() (pytransform3d.transform_manager.TransformManager method)</a>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.get_transform">get_transform() (pytransform3d.transform_manager.TemporalTransformManager method)</a>
 
       <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.get_transform">(pytransform3d.transform_manager.TransformGraphBase method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.get_transform">(pytransform3d.transform_manager.TransformManager method)</a>
+</li>
         <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.get_transform">(pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.get_transform_at_time">get_transform_at_time() (pytransform3d.transform_manager.TemporalTransformManager method)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph">Graph (class in pytransform3d.visualizer)</a>
 </li>
   </ul></td>
@@ -666,9 +713,13 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.has_frame">has_frame() (pytransform3d.transform_manager.TransformManager method)</a>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.has_frame">has_frame() (pytransform3d.transform_manager.TemporalTransformManager method)</a>
 
       <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.has_frame">(pytransform3d.transform_manager.TransformGraphBase method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.has_frame">(pytransform3d.transform_manager.TransformManager method)</a>
+</li>
         <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.has_frame">(pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
@@ -833,15 +884,17 @@
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.norm_compact_axis_angle.html#pytransform3d.rotations.norm_compact_axis_angle">norm_compact_axis_angle() (in module pytransform3d.rotations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.transformations.norm_exponential_coordinates.html#pytransform3d.transformations.norm_exponential_coordinates">norm_exponential_coordinates() (in module pytransform3d.transformations)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix">norm_matrix() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.rotations.norm_vector.html#pytransform3d.rotations.norm_vector">norm_vector() (in module pytransform3d.rotations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.batch_rotations.norm_vectors.html#pytransform3d.batch_rotations.norm_vectors">norm_vectors() (in module pytransform3d.batch_rotations)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.NumpyTimeseriesTransform.html#pytransform3d.transform_manager.NumpyTimeseriesTransform">NumpyTimeseriesTransform (class in pytransform3d.transform_manager)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1157,13 +1210,17 @@
 </li>
       <li><a href="_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.remove_artist">remove_artist() (pytransform3d.visualizer.Figure method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.plot_utils.remove_frame.html#pytransform3d.plot_utils.remove_frame">remove_frame() (in module pytransform3d.plot_utils)</a>
 </li>
-      <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.remove_transform">remove_transform() (pytransform3d.transform_manager.TransformManager method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.remove_transform">remove_transform() (pytransform3d.transform_manager.TemporalTransformManager method)</a>
 
       <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.remove_transform">(pytransform3d.transform_manager.TransformGraphBase method)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.remove_transform">(pytransform3d.transform_manager.TransformManager method)</a>
+</li>
         <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.remove_transform">(pytransform3d.urdf.UrdfTransformManager method)</a>
 </li>
       </ul></li>
@@ -1289,12 +1346,18 @@
 </li>
       <li><a href="_apidoc/pytransform3d.coordinates.spherical_from_cylindrical.html#pytransform3d.coordinates.spherical_from_cylindrical">spherical_from_cylindrical() (in module pytransform3d.coordinates)</a>
 </li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.StaticTransform.html#pytransform3d.transform_manager.StaticTransform">StaticTransform (class in pytransform3d.transform_manager)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager">TemporalTransformManager (class in pytransform3d.transform_manager)</a>
+</li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TimeVaryingTransform.html#pytransform3d.transform_manager.TimeVaryingTransform">TimeVaryingTransform (class in pytransform3d.transform_manager)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.to_dict">to_dict() (pytransform3d.transform_manager.TransformManager method)</a>
 
       <ul>
@@ -1319,10 +1382,10 @@
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates">transform_from_exponential_coordinates() (in module pytransform3d.transformations)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq">transform_from_pq() (in module pytransform3d.transformations)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_apidoc/pytransform3d.transformations.transform_from_transform_log.html#pytransform3d.transformations.transform_from_transform_log">transform_from_transform_log() (in module pytransform3d.transformations)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.transformations.transform_log_from_exponential_coordinates.html#pytransform3d.transformations.transform_log_from_exponential_coordinates">transform_log_from_exponential_coordinates() (in module pytransform3d.transformations)</a>
@@ -1333,8 +1396,20 @@
 </li>
       <li><a href="_apidoc/pytransform3d.editor.TransformEditor.html#pytransform3d.editor.TransformEditor">TransformEditor (class in pytransform3d.editor)</a>
 </li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase">TransformGraphBase (class in pytransform3d.transform_manager)</a>
+</li>
       <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager">TransformManager (class in pytransform3d.transform_manager)</a>
 </li>
+      <li><a href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.transforms">transforms (pytransform3d.transform_manager.TemporalTransformManager property)</a>
+
+      <ul>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.transforms">(pytransform3d.transform_manager.TransformGraphBase property)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.transforms">(pytransform3d.transform_manager.TransformManager property)</a>
+</li>
+        <li><a href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.transforms">(pytransform3d.urdf.UrdfTransformManager property)</a>
+</li>
+      </ul></li>
       <li><a href="_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates">transforms_from_exponential_coordinates() (in module pytransform3d.trajectories)</a>
 </li>
       <li><a href="_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs">transforms_from_pqs() (in module pytransform3d.trajectories)</a>
@@ -1410,7 +1485,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on May 24, 2023.<br/>
+      Last updated on Jul 27, 2023.<br/>
     </p>
   </div>
 </footer>

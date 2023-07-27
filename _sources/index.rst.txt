@@ -31,6 +31,7 @@ pytransform3d
    euler_angles
    transformation_modeling
    transform_manager
+   transformation_over_time
    camera
    animations
    api

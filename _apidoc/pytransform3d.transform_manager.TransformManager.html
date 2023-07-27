@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.transform_manager.TransformManager &#8212; pytransform3d 3.2.0 documentation</title>
+    <title>pytransform3d.transform_manager.TransformManager &#8212; pytransform3d 3.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -20,8 +20,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.editor.TransformEditor" href="pytransform3d.editor.TransformEditor.html" />
-    <link rel="prev" title="pytransform3d.coordinates.spherical_from_cylindrical" href="pytransform3d.coordinates.spherical_from_cylindrical.html" />
+    <link rel="next" title="pytransform3d.transform_manager.TemporalTransformManager" href="pytransform3d.transform_manager.TemporalTransformManager.html" />
+    <link rel="prev" title="pytransform3d.transform_manager.TransformGraphBase" href="pytransform3d.transform_manager.TransformGraphBase.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,6 +72,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../transformation_over_time.html">Managing Transformations over Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../animations.html">Animations</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
@@ -128,8 +129,8 @@
 <h1>pytransform3d.transform_manager.TransformManager<a class="headerlink" href="#pytransform3d-transform-manager-transformmanager" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.transform_manager.</span></span><span class="sig-name descname"><span class="pre">TransformManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.transform_manager.</span></span><span class="sig-name descname"><span class="pre">TransformManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase" title="pytransform3d.transform_manager._transform_graph_base.TransformGraphBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformGraphBase</span></code></a></p>
 <p>Manage transformations between frames.</p>
 <p>This is a simplified version of <a class="reference external" href="http://wiki.ros.org/tf">ROS tf</a> that
 ignores the temporal aspect. A user can register transformations. The
@@ -171,7 +172,7 @@ which might significantly slow down some operations.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -218,110 +219,23 @@ which might significantly slow down some operations.</p>
 </tr>
 </tbody>
 </table>
-<dl class="py method">
-<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.add_transform">
-<span class="sig-name descname"><span class="pre">add_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.add_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.add_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Register a transformation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>from_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame for which the transformation is added in the
-to_frame coordinate system</p>
-</dd>
-<dt><strong>to_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame in which the transformation is defined</p>
-</dd>
-<dt><strong>A2B</strong><span class="classifier">array-like, shape (4, 4)</span></dt><dd><p>Homogeneous matrix that represents the transformation from
-‘from_frame’ to ‘to_frame’</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>self</strong><span class="classifier">TransformManager</span></dt><dd><p>This object for chaining</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.remove_transform">
-<span class="sig-name descname"><span class="pre">remove_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.remove_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.remove_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a transformation.</p>
-<p>Nothing happens if there is no such transformation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>from_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame for which the transformation is added in the
-to_frame coordinate system</p>
-</dd>
-<dt><strong>to_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame in which the transformation is defined</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>self</strong><span class="classifier">TransformManager</span></dt><dd><p>This object for chaining</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.has_frame">
-<span class="sig-name descname"><span class="pre">has_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.has_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.has_frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if frame has been registered.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>frame</strong><span class="classifier">Hashable</span></dt><dd><p>Frame name</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>has_frame</strong><span class="classifier">bool</span></dt><dd><p>Frame is registered</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.get_transform">
-<span class="sig-name descname"><span class="pre">get_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.get_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.get_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Request a transformation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>from_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame for which the transformation is requested in the
-to_frame coordinate system</p>
-</dd>
-<dt><strong>to_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame in which the transformation is defined</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>A2B</strong><span class="classifier">array-like, shape (4, 4)</span></dt><dd><p>Homogeneous matrix that represents the transformation from
-‘from_frame’ to ‘to_frame’</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt>KeyError</dt><dd><p>If one of the frames is unknown or there is no connection between
-them</p>
-</dd>
-</dl>
-</dd>
-</dl>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.transforms" title="pytransform3d.transform_manager.TransformManager.transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms</span></code></a></p></td>
+<td><p>Rigid transformations between nodes.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.transforms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transforms</span></span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.transforms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rigid transformations between nodes.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.plot_frames_in">
-<span class="sig-name descname"><span class="pre">plot_frames_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.plot_frames_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.plot_frames_in" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot_frames_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.plot_frames_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.plot_frames_in" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot all frames in a given reference frame.</p>
 <p>Note that frames that cannot be connected to the reference frame are
 omitted.</p>
@@ -361,7 +275,7 @@ omitted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.plot_connections_in">
-<span class="sig-name descname"><span class="pre">plot_connections_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.plot_connections_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.plot_connections_in" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot_connections_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.plot_connections_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.plot_connections_in" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot direct frame connections in a given reference frame.</p>
 <p>A line between each pair of frames for which a direct transformation
 is known will be plotted. Direct means that either A2B or B2A has been
@@ -400,43 +314,8 @@ connection</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.check_consistency">
-<span class="sig-name descname"><span class="pre">check_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.check_consistency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.check_consistency" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check consistency of the known transformations.</p>
-<p>The complexity of this is between <img class="math" src="../_images/math/cb487c73415b93656e35ddcbb45a04f8f8ee33fa.png" alt="O(n^2)"/> and <img class="math" src="../_images/math/174aef04544e022a085aab16ddeae821c5667e2b.png" alt="O(n^3)"/>,
-where <img class="math" src="../_images/math/5a939c5280da7202ca4531f175a7780ad5e1f80a.png" alt="n"/> is the number of nodes. In graphs where each pair of
-nodes is directly connected the complexity is <img class="math" src="../_images/math/cb487c73415b93656e35ddcbb45a04f8f8ee33fa.png" alt="O(n^2)"/>. In graphs
-that are actually paths, the complexity is <img class="math" src="../_images/math/174aef04544e022a085aab16ddeae821c5667e2b.png" alt="O(n^3)"/>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>consistent</strong><span class="classifier">bool</span></dt><dd><p>Is the graph consistent, i.e. is A2B always the same as the inverse
-of B2A?</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.connected_components">
-<span class="sig-name descname"><span class="pre">connected_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.connected_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.connected_components" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get number of connected components.</p>
-<p>If the number is larger than 1 there will be frames without
-connections.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>n_connected_components</strong><span class="classifier">int</span></dt><dd><p>Number of connected components.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.write_png">
-<span class="sig-name descname"><span class="pre">write_png</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.write_png"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.write_png" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_png</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.write_png"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.write_png" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create PNG from dot graph of the transformations.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -465,7 +344,7 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.to_dict" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the transform manager to a dict that is serializable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -479,7 +358,7 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.from_dict">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.from_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create transform manager from dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -499,12 +378,146 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.set_transform_manager_state">
-<span class="sig-name descname"><span class="pre">set_transform_manager_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager.html#TransformManager.set_transform_manager_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.set_transform_manager_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_transform_manager_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.set_transform_manager_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.set_transform_manager_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set state of transform manager from dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>tm_dict</strong><span class="classifier">dict</span></dt><dd><p>Serializable dict.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.add_transform">
+<span class="sig-name descname"><span class="pre">add_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2B</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.add_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>from_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame for which the transformation is added in the
+to_frame coordinate system</p>
+</dd>
+<dt><strong>to_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame in which the transformation is defined</p>
+</dd>
+<dt><strong>A2B</strong><span class="classifier">Any</span></dt><dd><p>Transformation from ‘from_frame’ to ‘to_frame’</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>self</strong><span class="classifier">TransformManager</span></dt><dd><p>This object for chaining</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.check_consistency">
+<span class="sig-name descname"><span class="pre">check_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.check_consistency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check consistency of the known transformations.</p>
+<p>The complexity of this is between <img class="math" src="../_images/math/cb487c73415b93656e35ddcbb45a04f8f8ee33fa.png" alt="O(n^2)"/> and <img class="math" src="../_images/math/174aef04544e022a085aab16ddeae821c5667e2b.png" alt="O(n^3)"/>,
+where <img class="math" src="../_images/math/5a939c5280da7202ca4531f175a7780ad5e1f80a.png" alt="n"/> is the number of nodes. In graphs where each pair of
+nodes is directly connected the complexity is <img class="math" src="../_images/math/cb487c73415b93656e35ddcbb45a04f8f8ee33fa.png" alt="O(n^2)"/>. In graphs
+that are actually paths, the complexity is <img class="math" src="../_images/math/174aef04544e022a085aab16ddeae821c5667e2b.png" alt="O(n^3)"/>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>consistent</strong><span class="classifier">bool</span></dt><dd><p>Is the graph consistent, i.e. is A2B always the same as the inverse
+of B2A?</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.connected_components">
+<span class="sig-name descname"><span class="pre">connected_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.connected_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of connected components.</p>
+<p>If the number is larger than 1 there will be frames without
+connections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_connected_components</strong><span class="classifier">int</span></dt><dd><p>Number of connected components.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.get_transform">
+<span class="sig-name descname"><span class="pre">get_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.get_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request a transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>from_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame for which the transformation is requested in the
+to_frame coordinate system</p>
+</dd>
+<dt><strong>to_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame in which the transformation is defined</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>A2B</strong><span class="classifier">Any</span></dt><dd><p>Transformation from ‘from_frame’ to ‘to_frame’</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>KeyError</dt><dd><p>If one of the frames is unknown or there is no connection between
+them</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.has_frame">
+<span class="sig-name descname"><span class="pre">has_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.has_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if frame has been registered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>frame</strong><span class="classifier">Hashable</span></dt><dd><p>Frame name</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>has_frame</strong><span class="classifier">bool</span></dt><dd><p>Frame is registered</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.remove_transform">
+<span class="sig-name descname"><span class="pre">remove_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.remove_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a transformation.</p>
+<p>Nothing happens if there is no such transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>from_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame for which the transformation is added in the
+to_frame coordinate system</p>
+</dd>
+<dt><strong>to_frame</strong><span class="classifier">Hashable</span></dt><dd><p>Name of the frame in which the transformation is defined</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>self</strong><span class="classifier">TransformManager</span></dt><dd><p>This object for chaining</p>
 </dd>
 </dl>
 </dd>
@@ -573,7 +586,7 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on May 24, 2023.<br/>
+      Last updated on Jul 27, 2023.<br/>
     </p>
   </div>
 </footer>

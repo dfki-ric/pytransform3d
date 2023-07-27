@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 3.2.0 documentation</title>
+    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 3.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -69,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_over_time.html">Managing Transformations over Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
@@ -666,9 +667,17 @@
 
 <span class="sd">    c : array-like, shape (n_vertices, 3) or (3,), optional (default: None)</span>
 <span class="sd">        Color(s)</span>
+
+<span class="sd">    convex_hull : bool, optional (default: False)</span>
+<span class="sd">        Compute convex hull of mesh.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Mesh.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_triangle_mesh</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<div class="viewcode-block" id="Mesh.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">convex_hull</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_triangle_mesh</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">convex_hull</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">compute_convex_hull</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">compute_vertex_normals</span><span class="p">()</span>
@@ -1168,12 +1177,16 @@
 <span class="sd">    whitelist : list, optional (default: all)</span>
 <span class="sd">        List of frames that should be displayed</span>
 
+<span class="sd">    convex_hull_of_collision_objects : bool, optional (default: False)</span>
+<span class="sd">        Show convex hull of collision objects.</span>
+
 <span class="sd">    s : float, optional (default: 1)</span>
 <span class="sd">        Scaling of the frames that will be drawn</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Graph.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+                 <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">convex_hull_of_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tm</span> <span class="o">=</span> <span class="n">tm</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">show_frames</span> <span class="o">=</span> <span class="n">show_frames</span>
@@ -1181,6 +1194,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">show_visuals</span> <span class="o">=</span> <span class="n">show_visuals</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">show_collision_objects</span> <span class="o">=</span> <span class="n">show_collision_objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span> <span class="o">=</span> <span class="n">whitelist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convex_hull_of_collision_objects</span> <span class="o">=</span> \
+            <span class="n">convex_hull_of_collision_objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
@@ -1219,7 +1234,8 @@
         <span class="k">if</span> <span class="n">show_collision_objects</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="p">,</span> <span class="s2">&quot;collision_objects&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="n">_objects_to_artists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">collision_objects</span><span class="p">))</span>
+                <span class="n">_objects_to_artists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tm</span><span class="o">.</span><span class="n">collision_objects</span><span class="p">,</span>
+                                    <span class="n">convex_hull_of_collision_objects</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">()</span></div>
 
@@ -1279,13 +1295,16 @@
         <span class="k">return</span> <span class="n">geometries</span></div>
 
 
-<span class="k">def</span> <span class="nf">_objects_to_artists</span><span class="p">(</span><span class="n">objects</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_objects_to_artists</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">convex_hull</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert geometries from URDF to artists.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    objects : list of Geometry</span>
 <span class="sd">        Objects parsed from URDF.</span>
+
+<span class="sd">    convex_hull : bool, optional (default: False)</span>
+<span class="sd">        Compute convex hull for each object.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1308,7 +1327,8 @@
                 <span class="n">artist</span> <span class="o">=</span> <span class="n">Cylinder</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">urdf</span><span class="o">.</span><span class="n">Mesh</span><span class="p">)</span>
-                <span class="n">artist</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+                <span class="n">artist</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                              <span class="n">convex_hull</span><span class="o">=</span><span class="n">convex_hull</span><span class="p">)</span>
             <span class="n">artists</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">frame</span><span class="p">]</span> <span class="o">=</span> <span class="n">artist</span>
         <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
@@ -1327,7 +1347,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on May 24, 2023.<br/>
+      Last updated on Jul 27, 2023.<br/>
     </p>
   </div>
 </footer>

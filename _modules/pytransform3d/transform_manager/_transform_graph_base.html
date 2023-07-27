@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pytransform3d.transform_manager._transform_graph_base &#8212; pytransform3d 3.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          pytransform3d</a>
+        <span class="navbar-text navbar-version pull-left"><b>3.3.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../../index.html">Contents</a></li>
+                <li><a href="../../../_auto_examples/index.html">Examples</a></li>
+                <li><a href="../../../api.html">API</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction to 3D Rigid Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../rotations.html">SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformations.html">SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../euler_angles.html">Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_modeling.html">Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../transformation_over_time.html">Managing Transformations over Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../animations.html">Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_auto_examples/index.html">Examples</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for pytransform3d.transform_manager._transform_graph_base</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">abc</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csgraph</span>
+
+<span class="kn">from</span> <span class="nn">..transformations</span> <span class="kn">import</span> <span class="n">concat</span><span class="p">,</span> <span class="n">invert_transform</span>
+
+
+<div class="viewcode-block" id="TransformGraphBase"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase">[docs]</a><span class="k">class</span> <span class="nc">TransformGraphBase</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all graphs of rigid transformations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    strict_check : bool, optional (default: True)</span>
+<span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
+<span class="sd">        close enough to a real transformation matrix. Otherwise we print a</span>
+<span class="sd">        warning.</span>
+
+<span class="sd">    check : bool, optional (default: True)</span>
+<span class="sd">        Check if transformation matrices are valid and requested nodes exist,</span>
+<span class="sd">        which might significantly slow down some operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TransformGraphBase.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span> <span class="o">=</span> <span class="n">strict_check</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check</span> <span class="o">=</span> <span class="n">check</span>
+
+        <span class="c1"># Names of nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># A pair (self.i[n], self.j[n]) represents indices of connected nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># We have to store the index n associated to a transformation to be</span>
+        <span class="c1"># able to remove the transformation later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Connection information as sparse matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="c1"># Result of shortest path algorithm:</span>
+        <span class="c1"># distance matrix (distance is the number of transformations)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rigid transformations between nodes.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_check_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check validity of rigid transformation.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_path_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert sequence of node names to rigid transformation.&quot;&quot;&quot;</span>
+        <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">A2B</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span><span class="p">),</span>
+                         <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">A2B</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_transform_available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if transformation key is available.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_set_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store transformation under given key.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve stored transformation under given key.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_del_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete transformation stored under given key.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TransformGraphBase.has_frame"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.has_frame">[docs]</a>    <span class="k">def</span> <span class="nf">has_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if frame has been registered.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        frame : Hashable</span>
+<span class="sd">            Frame name</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        has_frame : bool</span>
+<span class="sd">            Frame is registered</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span></div>
+
+<div class="viewcode-block" id="TransformGraphBase.add_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.add_transform">[docs]</a>    <span class="k">def</span> <span class="nf">add_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a transformation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_frame : Hashable</span>
+<span class="sd">            Name of the frame for which the transformation is added in the</span>
+<span class="sd">            to_frame coordinate system</span>
+
+<span class="sd">        to_frame : Hashable</span>
+<span class="sd">            Name of the frame in which the transformation is defined</span>
+
+<span class="sd">        A2B : Any</span>
+<span class="sd">            Transformation from &#39;from_frame&#39; to &#39;to_frame&#39;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : TransformManager</span>
+<span class="sd">            This object for chaining</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">:</span>
+            <span class="n">A2B</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">from_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">from_frame</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">to_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_frame</span><span class="p">)</span>
+
+        <span class="n">transform_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span>
+
+        <span class="n">recompute_shortest_path</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_available</span><span class="p">(</span><span class="n">transform_key</span><span class="p">):</span>
+            <span class="n">ij_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">from_frame</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">to_frame</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ij_index</span>
+            <span class="n">recompute_shortest_path</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">recompute_shortest_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recompute_shortest_path</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_transform</span><span class="p">(</span><span class="n">transform_key</span><span class="p">,</span> <span class="n">A2B</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_recompute_shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">)),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">)),</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_nodes</span><span class="p">,</span> <span class="n">n_nodes</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span> <span class="o">=</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">,</span> <span class="n">unweighted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">,</span>
+            <span class="n">return_predecessors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TransformGraphBase.remove_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.remove_transform">[docs]</a>    <span class="k">def</span> <span class="nf">remove_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove a transformation.</span>
+
+<span class="sd">        Nothing happens if there is no such transformation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_frame : Hashable</span>
+<span class="sd">            Name of the frame for which the transformation is added in the</span>
+<span class="sd">            to_frame coordinate system</span>
+
+<span class="sd">        to_frame : Hashable</span>
+<span class="sd">            Name of the frame in which the transformation is defined</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : TransformManager</span>
+<span class="sd">            This object for chaining</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">transform_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_available</span><span class="p">(</span><span class="n">transform_key</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_del_transform</span><span class="p">(</span><span class="n">transform_key</span><span class="p">)</span>
+            <span class="n">ij_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">ij_index</span> <span class="k">else</span> <span class="n">v</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ij_index</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">[</span><span class="n">ij_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recompute_shortest_path</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="TransformGraphBase.get_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.get_transform">[docs]</a>    <span class="k">def</span> <span class="nf">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Request a transformation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_frame : Hashable</span>
+<span class="sd">            Name of the frame for which the transformation is requested in the</span>
+<span class="sd">            to_frame coordinate system</span>
+
+<span class="sd">        to_frame : Hashable</span>
+<span class="sd">            Name of the frame in which the transformation is defined</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A2B : Any</span>
+<span class="sd">            Transformation from &#39;from_frame&#39; to &#39;to_frame&#39;</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        KeyError</span>
+<span class="sd">            If one of the frames is unknown or there is no connection between</span>
+<span class="sd">            them</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">from_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Unknown frame &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">from_frame</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">to_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Unknown frame &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">to_frame</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_available</span><span class="p">((</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_transform</span><span class="p">((</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_available</span><span class="p">((</span><span class="n">to_frame</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">invert_transform</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_transform</span><span class="p">((</span><span class="n">to_frame</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">)),</span>
+                <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
+                <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span>
+            <span class="p">)</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">from_frame</span><span class="p">)</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">to_frame</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Cannot compute path from frame &#39;</span><span class="si">%s</span><span class="s2">&#39; to &quot;</span>
+                           <span class="s2">&quot;frame &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">))</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shortest_path</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_transform</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Names of nodes along the shortest path between two indices.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">while</span> <span class="n">k</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">9999</span><span class="p">:</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="k">return</span> <span class="n">path</span>
+
+<div class="viewcode-block" id="TransformGraphBase.connected_components"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.connected_components">[docs]</a>    <span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get number of connected components.</span>
+
+<span class="sd">        If the number is larger than 1 there will be frames without</span>
+<span class="sd">        connections.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        n_connected_components : int</span>
+<span class="sd">            Number of connected components.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransformGraphBase.check_consistency"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.check_consistency">[docs]</a>    <span class="k">def</span> <span class="nf">check_consistency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check consistency of the known transformations.</span>
+
+<span class="sd">        The complexity of this is between :math:`O(n^2)` and :math:`O(n^3)`,</span>
+<span class="sd">        where :math:`n` is the number of nodes. In graphs where each pair of</span>
+<span class="sd">        nodes is directly connected the complexity is :math:`O(n^2)`. In graphs</span>
+<span class="sd">        that are actually paths, the complexity is :math:`O(n^3)`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        consistent : bool</span>
+<span class="sd">            Is the graph consistent, i.e. is A2B always the same as the inverse</span>
+<span class="sd">            of B2A?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">consistent</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">node1_to_node2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span>
+                    <span class="n">node2_to_node1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="n">node1</span><span class="p">)</span>
+                    <span class="n">node1_to_node2_inv</span> <span class="o">=</span> <span class="n">invert_transform</span><span class="p">(</span><span class="n">node2_to_node1</span><span class="p">)</span>
+                    <span class="n">consistent</span> <span class="o">=</span> <span class="n">consistent</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">node1_to_node2</span><span class="p">,</span>
+                                                            <span class="n">node1_to_node2_inv</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># Frames are not connected</span>
+        <span class="k">return</span> <span class="n">consistent</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Jul 27, 2023.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

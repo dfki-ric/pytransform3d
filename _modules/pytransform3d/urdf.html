@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.urdf &#8212; pytransform3d 3.2.0 documentation</title>
+    <title>pytransform3d.urdf &#8212; pytransform3d 3.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.2.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.3.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -69,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../euler_angles.html">Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transformation_modeling.html">Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../transform_manager.html">Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../transformation_over_time.html">Managing Transformations over Time</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../animations.html">Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
@@ -123,7 +124,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
 <span class="kn">from</span> <span class="nn">.transform_manager</span> <span class="kn">import</span> <span class="n">TransformManager</span>
 <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">transform_from</span><span class="p">,</span> <span class="n">concat</span>
 <span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="p">(</span>
@@ -141,7 +142,7 @@
 
 <span class="sd">    .. warning::</span>
 
-<span class="sd">        Note that this module requires the Python package beautifulsoup4.</span>
+<span class="sd">        Note that this module requires the Python package lxml.</span>
 
 <span class="sd">    .. note::</span>
 
@@ -444,30 +445,38 @@
 <span class="sd">    UrdfException</span>
 <span class="sd">        If URDF is not valid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">urdf</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">urdf_xml</span><span class="p">,</span> <span class="s2">&quot;xml&quot;</span><span class="p">)</span>
+    <span class="c1"># lxml does not allow whitespaces in the beginning</span>
+    <span class="n">urdf_xml</span> <span class="o">=</span> <span class="n">urdf_xml</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c1"># lxml complains about unicode strings that start with unicode encoding</span>
+    <span class="c1"># declaration. Hence, we have to convert them to bytes first.</span>
+    <span class="n">urdf_xml</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">urdf_xml</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">XML</span><span class="p">(</span><span class="n">urdf_xml</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">etree</span><span class="o">.</span><span class="n">XMLParser</span><span class="p">(</span><span class="n">recover</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">etree</span><span class="o">.</span><span class="n">XMLSyntaxError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Invalid XML.&quot;</span><span class="p">)</span>
 
     <span class="c1"># URDF XML schema:</span>
     <span class="c1"># https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd</span>
 
-    <span class="n">robot</span> <span class="o">=</span> <span class="n">urdf</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;robot&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">robot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">tag</span> <span class="o">!=</span> <span class="s2">&quot;robot&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Robot tag is missing.&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">robot</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Attribute &#39;name&#39; is missing in robot tag.&quot;</span><span class="p">)</span>
 
-    <span class="n">robot_name</span> <span class="o">=</span> <span class="n">robot</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="n">robot_name</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
-    <span class="n">materials</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span>
-        <span class="n">_parse_material</span><span class="p">(</span><span class="n">material</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)])</span>
+    <span class="n">materials</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span><span class="n">_parse_material</span><span class="p">(</span><span class="n">material</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">)])</span>
 
     <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="n">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">materials</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span>
-             <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+             <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">)]</span>
 
     <span class="n">link_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">]</span>
     <span class="n">joints</span> <span class="o">=</span> <span class="p">[</span><span class="n">_parse_joint</span><span class="p">(</span><span class="n">joint</span><span class="p">,</span> <span class="n">link_names</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span>
-              <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">robot</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+              <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">)]</span>
 
     <span class="k">return</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">joints</span></div>
 
@@ -496,9 +505,9 @@
 
 <span class="k">def</span> <span class="nf">_parse_material</span><span class="p">(</span><span class="n">material</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse material.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">material</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">material</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Material name is missing.&quot;</span><span class="p">)</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="n">material</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">)</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">material</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;More than one color is not allowed.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -506,23 +515,23 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># TODO texture is currently ignored</span>
-    <span class="k">return</span> <span class="n">material</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">color</span>
+    <span class="k">return</span> <span class="n">material</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">color</span>
 
 
 <span class="k">def</span> <span class="nf">_parse_color</span><span class="p">(</span><span class="n">color</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse color.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">color</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;rgba&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">color</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Attribute &#39;rgba&#39; of color tag is missing.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="s2">&quot;rgba&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">color</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;rgba&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_parse_link</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">materials</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create link.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">link</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Link name is missing.&quot;</span><span class="p">)</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="n">Link</span><span class="p">()</span>
-    <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
     <span class="n">visuals</span><span class="p">,</span> <span class="n">visual_transforms</span> <span class="o">=</span> <span class="n">_parse_link_children</span><span class="p">(</span>
         <span class="n">link</span><span class="p">,</span> <span class="s2">&quot;visual&quot;</span><span class="p">,</span> <span class="n">materials</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span>
@@ -549,14 +558,15 @@
 <span class="k">def</span> <span class="nf">_parse_link_children</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">child_type</span><span class="p">,</span> <span class="n">materials</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span>
                          <span class="n">strict_check</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse collision objects or visuals.&quot;&quot;&quot;</span>
-    <span class="n">children</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="n">child_type</span><span class="p">)</span>
+    <span class="n">children</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">child_type</span><span class="p">)</span>
     <span class="n">shape_objects</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">transforms</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">child_type</span><span class="p">,</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">child</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">child_type</span><span class="p">,</span> <span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                                 <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">child_type</span><span class="p">,</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">child_type</span><span class="p">,</span> <span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
 
         <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">child_type</span> <span class="o">==</span> <span class="s2">&quot;visual&quot;</span><span class="p">:</span>
@@ -567,7 +577,7 @@
                     <span class="n">color</span> <span class="o">=</span> <span class="n">materials</span><span class="p">[</span><span class="n">material_name</span><span class="p">]</span>
 
         <span class="n">child2link</span> <span class="o">=</span> <span class="n">_parse_origin</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">strict_check</span><span class="p">)</span>
-        <span class="n">transforms</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">link</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">child2link</span><span class="p">))</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">link</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">child2link</span><span class="p">))</span>
 
         <span class="n">shape_objects</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_parse_geometry</span><span class="p">(</span>
             <span class="n">child</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">))</span>
@@ -581,7 +591,7 @@
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Missing geometry tag in link &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">shape_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;box&quot;</span><span class="p">,</span> <span class="s2">&quot;cylinder&quot;</span><span class="p">,</span> <span class="s2">&quot;sphere&quot;</span><span class="p">,</span> <span class="s2">&quot;mesh&quot;</span><span class="p">]:</span>
-        <span class="n">shapes</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="n">shape_type</span><span class="p">)</span>
+        <span class="n">shapes</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">shape_type</span><span class="p">)</span>
         <span class="n">Cls</span> <span class="o">=</span> <span class="n">shape_classes</span><span class="p">[</span><span class="n">shape_type</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">:</span>
             <span class="n">shape_object</span> <span class="o">=</span> <span class="n">Cls</span><span class="p">(</span>
@@ -598,10 +608,10 @@
     <span class="n">translation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
     <span class="n">rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">origin</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">):</span>
-            <span class="n">translation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">origin</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;rpy&quot;</span><span class="p">):</span>
-            <span class="n">roll_pitch_yaw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">origin</span><span class="p">[</span><span class="s2">&quot;rpy&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;xyz&quot;</span> <span class="ow">in</span> <span class="n">origin</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">translation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;rpy&quot;</span> <span class="ow">in</span> <span class="n">origin</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">roll_pitch_yaw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;rpy&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
             <span class="c1"># URDF and KDL use the active convention for rotation matrices.</span>
             <span class="c1"># For more details on how the URDF parser handles the</span>
             <span class="c1"># conversion from Euler angles, see this blog post:</span>
@@ -615,8 +625,8 @@
 <span class="k">def</span> <span class="nf">_parse_mass</span><span class="p">(</span><span class="n">inertial</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse link mass.&quot;&quot;&quot;</span>
     <span class="n">mass</span> <span class="o">=</span> <span class="n">inertial</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;mass&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">mass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mass</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">mass</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">mass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;value&quot;</span> <span class="ow">in</span> <span class="n">mass</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">mass</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">return</span> <span class="n">result</span>
@@ -630,24 +640,24 @@
     <span class="k">if</span> <span class="n">inertia</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">if</span> <span class="n">inertia</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;ixx&quot;</span><span class="p">):</span>
-        <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="p">[</span><span class="s2">&quot;ixx&quot;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">inertia</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;ixy&quot;</span><span class="p">):</span>
-        <span class="n">ixy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="p">[</span><span class="s2">&quot;ixy&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;ixx&quot;</span> <span class="ow">in</span> <span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;ixx&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;ixy&quot;</span> <span class="ow">in</span> <span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">ixy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;ixy&quot;</span><span class="p">])</span>
         <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">ixy</span>
         <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ixy</span>
-    <span class="k">if</span> <span class="n">inertia</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;ixz&quot;</span><span class="p">):</span>
-        <span class="n">ixz</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="p">[</span><span class="s2">&quot;ixz&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;ixz&quot;</span> <span class="ow">in</span> <span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">ixz</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;ixz&quot;</span><span class="p">])</span>
         <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">ixz</span>
         <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ixz</span>
-    <span class="k">if</span> <span class="n">inertia</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;iyy&quot;</span><span class="p">):</span>
-        <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="p">[</span><span class="s2">&quot;iyy&quot;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">inertia</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;iyz&quot;</span><span class="p">):</span>
-        <span class="n">iyz</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="p">[</span><span class="s2">&quot;iyz&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;iyy&quot;</span> <span class="ow">in</span> <span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;iyy&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;iyz&quot;</span> <span class="ow">in</span> <span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">iyz</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;iyz&quot;</span><span class="p">])</span>
         <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">iyz</span>
         <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">iyz</span>
-    <span class="k">if</span> <span class="n">inertia</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;izz&quot;</span><span class="p">):</span>
-        <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="p">[</span><span class="s2">&quot;izz&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;izz&quot;</span> <span class="ow">in</span> <span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">inertia</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;izz&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">result</span>
 
 
@@ -655,11 +665,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create joint object.&quot;&quot;&quot;</span>
     <span class="n">j</span> <span class="o">=</span> <span class="n">Joint</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">joint</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">joint</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint name is missing.&quot;</span><span class="p">)</span>
-    <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">joint</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">joint</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Joint type is missing in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
                             <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
 
@@ -667,10 +677,10 @@
     <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No parent specified in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
                             <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;link&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parent</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No parent link name given in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
                             <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
-    <span class="n">j</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
+    <span class="n">j</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">parent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">link_names</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Parent link &#39;</span><span class="si">%s</span><span class="s2">&#39; of joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not &quot;</span>
                             <span class="s2">&quot;defined.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">))</span>
@@ -679,15 +689,15 @@
     <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No child specified in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
                             <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;link&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;No child link name given in joint &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span>
                             <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">)</span>
-    <span class="n">j</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">child</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
+    <span class="n">j</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">link_names</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Child link &#39;</span><span class="si">%s</span><span class="s2">&#39; of joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not &quot;</span>
                             <span class="s2">&quot;defined.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_name</span><span class="p">))</span>
 
-    <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">=</span> <span class="n">joint</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+    <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;planar&quot;</span><span class="p">,</span> <span class="s2">&quot;floating&quot;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Unsupported joint type &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span><span class="p">)</span>
@@ -701,8 +711,8 @@
     <span class="n">j</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">joint_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;revolute&quot;</span><span class="p">,</span> <span class="s2">&quot;continuous&quot;</span><span class="p">,</span> <span class="s2">&quot;prismatic&quot;</span><span class="p">]:</span>
         <span class="n">axis</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;axis&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">axis</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">):</span>
-            <span class="n">j</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">axis</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;xyz&quot;</span> <span class="ow">in</span> <span class="n">axis</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">j</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">axis</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 
     <span class="n">j</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="n">_parse_limits</span><span class="p">(</span><span class="n">joint</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">j</span>
@@ -713,10 +723,10 @@
     <span class="n">limit</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;limit&quot;</span><span class="p">)</span>
     <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">limit</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;lower&quot;</span><span class="p">):</span>
-            <span class="n">lower</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">limit</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">limit</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;upper&quot;</span><span class="p">):</span>
-            <span class="n">upper</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">limit</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;lower&quot;</span> <span class="ow">in</span> <span class="n">limit</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">lower</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">limit</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;upper&quot;</span> <span class="ow">in</span> <span class="n">limit</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">upper</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">limit</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span>
 
 
@@ -870,8 +880,8 @@
 
 <div class="viewcode-block" id="Box.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse box size.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">xml</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="s2">&quot;size&quot;</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Box.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
@@ -891,9 +901,9 @@
 
 <div class="viewcode-block" id="Sphere.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse sphere radius.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">xml</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;radius&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;radius&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Sphere has no radius.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">])</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Sphere.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
@@ -915,12 +925,12 @@
 
 <div class="viewcode-block" id="Cylinder.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse cylinder radius and length.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">xml</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;radius&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;radius&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Cylinder has no radius.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">xml</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;length&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Cylinder has no length.&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Cylinder.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
@@ -945,16 +955,17 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">xml</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;filename&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Mesh has no filename.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span><span class="p">,</span> <span class="n">xml</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span><span class="p">,</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">xml</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                     <span class="s2">&quot;package://&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_dir</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">xml</span><span class="o">.</span><span class="n">has_attr</span><span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
+            <span class="k">if</span> <span class="s2">&quot;scale&quot;</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Mesh.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
@@ -989,7 +1000,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on May 24, 2023.<br/>
+      Last updated on Jul 27, 2023.<br/>
     </p>
   </div>
 </footer>
