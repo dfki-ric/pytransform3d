@@ -12,14 +12,14 @@ def plot_box(ax: Union[None, Axes3D] = ..., size: npt.ArrayLike = ...,
 def plot_sphere(
         ax: Union[None, Axes3D] = ..., radius: float = ...,
         p: npt.ArrayLike = ..., ax_s: float = ..., wireframe: bool = ...,
-        n_steps: float = ..., alpha: float = ...,
+        n_steps: int = ..., alpha: float = ...,
         color: str = ...) -> Axes3D: ...
 
 
 def plot_spheres(
         ax: Union[None, Axes3D] = ..., radius: npt.ArrayLike = ...,
         p: npt.ArrayLike = ..., ax_s: float = ..., wireframe: bool = ...,
-        n_steps: float = ..., alpha: npt.ArrayLike = ...,
+        n_steps: int = ..., alpha: npt.ArrayLike = ...,
         color: npt.ArrayLike = ...) -> Axes3D: ...
 
 
