@@ -1,6 +1,6 @@
 """Basic functionality for geometrical shapes."""
 import numpy as np
-from .transformations import transform, vectors_to_points
+from .transformations import check_transform
 
 
 def unit_sphere_surface_grid(n_steps):
@@ -33,12 +33,12 @@ def unit_sphere_surface_grid(n_steps):
     return x, y, z
 
 
-def transform_surface(pose, x, y, z):
+def transform_surface(surface2origin, x, y, z):
     """Transform surface grid.
 
     Parameters
     ----------
-    pose : array, shape (4, 4)
+    surface2origin : array-like, shape (4, 4)
         Pose: transformation that will be applied to the surface grid.
 
     x : array, shape (n_steps, n_steps)
@@ -61,6 +61,7 @@ def transform_surface(pose, x, y, z):
     z : array, shape (n_steps, n_steps)
         z-coordinates of transformed grid points.
     """
+    surface2origin = check_transform(surface2origin)
     x = np.asarray(x)
     y = np.asarray(y)
     z = np.asarray(z)
@@ -68,7 +69,7 @@ def transform_surface(pose, x, y, z):
     shape = x.shape
 
     P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-    P = transform(pose, vectors_to_points(P))[:, :3]
+    P = P.dot(surface2origin[:3, :3].T) + surface2origin[np.newaxis, :3, 3]
 
     x = P[:, 0].reshape(*shape)
     y = P[:, 1].reshape(*shape)
