@@ -4,7 +4,7 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 from ._layout import make_3d_axis
 from ._artists import Arrow3D
-from ..transformations import transform, vectors_to_points
+from ..transformations import transform
 from ..rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
 from ..mesh_loader import load_mesh
 from ..geometry import unit_sphere_surface_grid, transform_surface
