@@ -7,7 +7,7 @@ from .transformations import (
 from .trajectories import (exponential_coordinates_from_transforms,
                            transforms_from_exponential_coordinates,
                            concat_many_to_one)
-from .geometry import unit_sphere_surface_grid
+from ._geometry import unit_sphere_surface_grid
 
 
 def estimate_gaussian_transform_from_samples(samples):

@@ -1,6 +1,6 @@
 import numpy as np
 
-import pytransform3d.geometry as pg
+import pytransform3d._geometry as pg
 import pytransform3d.transformations as pt
 from numpy.testing import assert_array_equal, assert_array_almost_equal
 
