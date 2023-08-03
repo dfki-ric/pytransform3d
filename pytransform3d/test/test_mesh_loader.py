@@ -1,10 +1,10 @@
-from pytransform3d import mesh_loader
+from pytransform3d import _mesh_loader
 
 import pytest
 
 
 def test_trimesh():
-    mesh = mesh_loader._Trimesh("test/test_data/cone.stl")
+    mesh = _mesh_loader._Trimesh("test/test_data/cone.stl")
     loader_available = mesh.load()
     if not loader_available:
         pytest.skip("trimesh is required for this test")
@@ -18,7 +18,7 @@ def test_trimesh():
 
 
 def test_open3d():
-    mesh = mesh_loader._Open3DMesh("test/test_data/cone.stl")
+    mesh = _mesh_loader._Open3DMesh("test/test_data/cone.stl")
     loader_available = mesh.load()
     if not loader_available:
         pytest.skip("open3d is required for this test")
@@ -35,7 +35,7 @@ def test_open3d():
 
 
 def test_trimesh_with_open3d():
-    mesh = mesh_loader._Trimesh("test/test_data/cone.stl")
+    mesh = _mesh_loader._Trimesh("test/test_data/cone.stl")
     loader_available = mesh.load()
     if not loader_available:
         pytest.skip("trimesh is required for this test")
@@ -48,7 +48,7 @@ def test_trimesh_with_open3d():
 
 def test_interface():
     try:
-        mesh = mesh_loader.load_mesh("test/test_data/cone.stl")
+        mesh = _mesh_loader.load_mesh("test/test_data/cone.stl")
         assert len(mesh.triangles) == 124
     except ImportError:
         pytest.skip("trimesh or open3d are required for this test")

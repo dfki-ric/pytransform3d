@@ -6,7 +6,7 @@ import open3d as o3d
 from .. import rotations as pr
 from .. import transformations as pt
 from .. import urdf
-from .. import mesh_loader
+from .._mesh_loader import load_mesh
 
 
 class Artist:
@@ -555,7 +555,7 @@ class Mesh(Artist):
     """
     def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None,
                  convex_hull=False):
-        mesh = mesh_loader.load_mesh(filename)
+        mesh = load_mesh(filename)
         if convex_hull:
             mesh.convex_hull()
 
