@@ -36,6 +36,9 @@ pytransform3d is used in various domains, for example:
 The API documentation can be found
 [here](https://dfki-ric.github.io/pytransform3d/).
 
+I gave a talk at EuroSciPy 2023 about pytransform3d. Slides are available
+[here](https://github.com/AlexanderFabisch/pytransform3d_euroscipy2023/).
+
 ## Installation
 
 Use pip to install the package from PyPI:
