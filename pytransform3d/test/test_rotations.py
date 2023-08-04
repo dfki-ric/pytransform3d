@@ -2232,3 +2232,23 @@ def test_euler_from_quaternion_edge_case():
     matrix = pr.matrix_from_quaternion(quaternion)
     euler_xyz = pr.extrinsic_euler_xyz_from_active_matrix(matrix)
     assert not np.isnan(euler_xyz).all()
+
+
+def test_norm_angle_precision():
+    # test precision of float32
+    # NOTE: it would be better if angles are divided into 1e16 numbers
+    #       to test precision of float64 but it is limited by memory
+    a_norm = np.linspace(np.pi, -np.pi, num=10000000,
+                         endpoint=False, dtype=np.float64)[::-1]
+    for b in np.linspace(-10.0 * np.pi, 10.0 * np.pi, 11):
+        a = a_norm + b
+        assert_array_almost_equal(pr.norm_angle(a), a_norm)
+
+    # eps and epsneg around zero
+    a_eps = np.array([np.finfo(np.float64).eps, 
+                      -np.finfo(np.float64).eps])
+    a_epsneg = np.array([np.finfo(np.float64).epsneg, 
+                         -np.finfo(np.float64).epsneg])
+
+    assert_array_equal(pr.norm_angle(a_eps), a_eps)
+    assert_array_equal(pr.norm_angle(a_epsneg), a_epsneg)
