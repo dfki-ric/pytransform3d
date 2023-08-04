@@ -2,7 +2,7 @@
 import warnings
 import math
 import numpy as np
-from ._constants import unitz, eps
+from ._constants import unitz, eps, two_pi
 
 
 def norm_vector(v):
@@ -49,6 +49,14 @@ def norm_matrix(R):
 def norm_angle(a):
     """Normalize angle to (-pi, pi].
 
+    It is worth noting that using `numpy.ceil` to normalize angles will lose
+    more digits of precision as angles going larger but can keep more digits
+    of precision when angles are around zero. In common use cases, for example,
+    -10.0*pi to 10.0*pi, it performs well.
+
+    For more discussions on numerical precision:
+    https://github.com/dfki-ric/pytransform3d/pull/263
+
     Parameters
     ----------
     a : float or array-like, shape (n,)
@@ -60,7 +68,7 @@ def norm_angle(a):
         Normalized angle(s) in radians
     """
     a = np.asarray(a, dtype=np.float64)
-    return (a - (np.ceil((a + np.pi) / (2.0 * np.pi)) - 1.0) * (2.0 * np.pi))
+    return (a - (np.ceil((a + np.pi) / two_pi) - 1.0) * two_pi)
 
 
 def norm_axis_angle(a):
