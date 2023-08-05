@@ -4,8 +4,10 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 from ._layout import make_3d_axis
 from ._artists import Arrow3D
-from ..transformations import transform, vectors_to_points
+from ..transformations import transform
 from ..rotations import unitx, unitz, perpendicular_to_vectors, norm_vector
+from .._mesh_loader import load_mesh
+from .._geometry import unit_sphere_surface_grid, transform_surface
 
 
 def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
@@ -130,10 +132,10 @@ def plot_sphere(ax=None, radius=1.0, p=np.zeros(3), ax_s=1, wireframe=True,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    x = p[0] + radius * np.sin(phi) * np.cos(theta)
-    y = p[1] + radius * np.sin(phi) * np.sin(theta)
-    z = p[2] + radius * np.cos(phi)
+    x, y, z = unit_sphere_surface_grid(n_steps)
+    x = p[0] + radius * x
+    y = p[1] + radius * y
+    z = p[2] + radius * z
 
     if wireframe:
         ax.plot_wireframe(
@@ -316,8 +318,8 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
               convex_hull=False, alpha=1.0, color="k"):
     """Plot mesh.
 
-    Note that this function requires the additional library 'trimesh'.
-    It will print a warning if trimesh is not available.
+    Note that this function requires the additional library to load meshes
+    such as trimesh or open3d.
 
     Parameters
     ----------
@@ -364,20 +366,14 @@ def plot_mesh(ax=None, filename=None, A2B=np.eye(4),
             "package directory.")
         return ax
 
-    try:
-        import trimesh
-    except ImportError:
-        warnings.warn(
-            "Cannot display mesh. Library 'trimesh' not installed.")
-        return ax
-
-    mesh = trimesh.load(filename)
+    mesh = load_mesh(filename)
     if convex_hull:
-        mesh = mesh.convex_hull
+        mesh.convex_hull()
+
     vertices = mesh.vertices * s
     vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
     vertices = transform(A2B, vertices)[:, :3]
-    vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.faces])
+    vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.triangles])
     if wireframe:
         surface = Line3DCollection(vectors)
         surface.set_color(color)
@@ -429,19 +425,12 @@ def plot_ellipsoid(ax=None, radii=np.ones(3), A2B=np.eye(4), ax_s=1,
 
     radius_x, radius_y, radius_z = radii
 
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    x = radius_x * np.sin(phi) * np.cos(theta)
-    y = radius_y * np.sin(phi) * np.sin(theta)
-    z = radius_z * np.cos(phi)
+    x, y, z = unit_sphere_surface_grid(n_steps)
+    x *= radius_x
+    y *= radius_y
+    z *= radius_z
 
-    shape = x.shape
-
-    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-    P = transform(A2B, vectors_to_points(P))[:, :3]
-
-    x = P[:, 0].reshape(*shape)
-    y = P[:, 1].reshape(*shape)
-    z = P[:, 2].reshape(*shape)
+    x, y, z = transform_surface(A2B, x, y, z)
 
     if wireframe:
         ax.plot_wireframe(
@@ -495,21 +484,14 @@ def plot_capsule(ax=None, A2B=np.eye(4), height=1.0, radius=1.0,
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j, 0.0:2.0 * np.pi:n_steps * 1j]
-    x = radius * np.sin(phi) * np.cos(theta)
-    y = radius * np.sin(phi) * np.sin(theta)
-    z = radius * np.cos(phi)
+    x, y, z = unit_sphere_surface_grid(n_steps)
+    x *= radius
+    y *= radius
+    z *= radius
     z[len(z) // 2:] -= 0.5 * height
     z[:len(z) // 2] += 0.5 * height
 
-    shape = x.shape
-
-    P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
-    P = transform(A2B, vectors_to_points(P))[:, :3]
-
-    x = P[:, 0].reshape(*shape)
-    y = P[:, 1].reshape(*shape)
-    z = P[:, 2].reshape(*shape)
+    x, y, z = transform_surface(A2B, x, y, z)
 
     if wireframe:
         ax.plot_wireframe(
