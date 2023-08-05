@@ -1,7 +1,9 @@
 .. pytransform3d documentation master file, created by
    sphinx-quickstart on Thu Nov 20 21:01:30 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+
+.. raw:: html
+
+    <div class="text-right">
 
 =============
 pytransform3d
@@ -9,9 +11,10 @@ pytransform3d
 
 .. raw:: html
 
+    </div>
+
     <div class="container-fluid">
       <div class="row">
-
 
         <div class="col-md-4">
           <div class="panel panel-default">

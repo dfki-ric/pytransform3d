@@ -6,6 +6,7 @@ import open3d as o3d
 from .. import rotations as pr
 from .. import transformations as pt
 from .. import urdf
+from .._mesh_loader import load_mesh
 
 
 class Artist:
@@ -554,11 +555,11 @@ class Mesh(Artist):
     """
     def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None,
                  convex_hull=False):
-        mesh = o3d.io.read_triangle_mesh(filename)
+        mesh = load_mesh(filename)
         if convex_hull:
-            self.mesh = mesh.compute_convex_hull()[0]
-        else:
-            self.mesh = mesh
+            mesh.convex_hull()
+
+        self.mesh = mesh.get_open3d_mesh()
         self.mesh.vertices = o3d.utility.Vector3dVector(
             np.asarray(self.mesh.vertices) * s)
         self.mesh.compute_vertex_normals()
