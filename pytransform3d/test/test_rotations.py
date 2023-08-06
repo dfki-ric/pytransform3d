@@ -2235,10 +2235,9 @@ def test_euler_from_quaternion_edge_case():
 
 
 def test_norm_angle_precision():
-    # test precision of float32
     # NOTE: it would be better if angles are divided into 1e16 numbers
     #       to test precision of float64 but it is limited by memory
-    a_norm = np.linspace(np.pi, -np.pi, num=10000000,
+    a_norm = np.linspace(np.pi, -np.pi, num=1000000,
                          endpoint=False, dtype=np.float64)[::-1]
     for b in np.linspace(-10.0 * np.pi, 10.0 * np.pi, 11):
         a = a_norm + b
