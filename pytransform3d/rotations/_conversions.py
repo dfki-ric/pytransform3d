@@ -1813,7 +1813,8 @@ def axis_angle_from_quaternion(q):
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     axis = p / p_norm
-    angle = (2.0 * np.arccos(q[0]),)
+    w_clamped = max(min(q[0], 1.0), -1.0)
+    angle = (2.0 * np.arccos(w_clamped),)
     return norm_axis_angle(np.hstack((axis, angle)))
 
 

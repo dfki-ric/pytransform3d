@@ -302,7 +302,7 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
             # out[False, n] = value will not assign value to out[n]
             traces = traces[0]
 
-    angles = np.arccos((traces - 1.0) / 2.0)
+    angles = np.arccos(np.clip((traces - 1.0) / 2.0, -1, 1))
 
     if out is None:
         out = np.empty(instances_shape + (4,))
