@@ -1875,7 +1875,7 @@ def axis_angle_from_two_directions(a, b):
         axis = np.cross(a, b)
     aa = np.empty(4)
     aa[:3] = norm_vector(axis)
-    aa[3] = np.arccos(cos_angle)
+    aa[3] = np.arccos(max(min(cos_angle, 1.0), -1.0))
     return norm_axis_angle(aa)
 
 
