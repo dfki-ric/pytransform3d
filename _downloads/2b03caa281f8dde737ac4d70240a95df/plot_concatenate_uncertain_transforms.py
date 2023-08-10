@@ -75,18 +75,18 @@ ptr.plot_trajectory(ax, ptr.pqs_from_transforms(
     ptr.transforms_from_exponential_coordinates(path)), s=5.0, lw=3)
 
 pu.plot_projected_ellipsoid(
-    ax, T_est, cov_est, wireframe=False, alpha=0.3, color="g", factor=3.0)
+    ax, T_est, cov_est, wireframe=False, alpha=0.3, color="y", factor=3.0)
 pu.plot_projected_ellipsoid(
-    ax, T_est, cov_est, wireframe=True, alpha=0.5, color="g", factor=3.0)
+    ax, T_est, cov_est, wireframe=True, alpha=0.5, color="y", factor=3.0)
 
 mean_mc = np.mean(mc_path_vec[-1, :], axis=0)
 cov_mc = np.cov(mc_path_vec[-1, :], rowvar=False)
 
 ellipsoid2origin, radii = pu.to_ellipsoid(mean_mc, cov_mc)
 ppu.plot_ellipsoid(
-    ax, 3.0 * radii, ellipsoid2origin, wireframe=False, alpha=0.3, color="r")
+    ax, 3.0 * radii, ellipsoid2origin, wireframe=False, alpha=0.1, color="m")
 ppu.plot_ellipsoid(
-    ax, 3.0 * radii, ellipsoid2origin, wireframe=True, alpha=0.5, color="r")
+    ax, 3.0 * radii, ellipsoid2origin, wireframe=True, alpha=0.3, color="m")
 
 plt.xlim((-5, 105))
 plt.ylim((-50, 50))

@@ -31,28 +31,35 @@ is not implemented in pytransform3d then it is shown in brackets.
 | Rotation matrix                        | Transpose     | Yes                | Yes           | No            |
 | :math:`\pmb{R}`                        |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
-| Compact axis-angle                     | Negative      | No                 | No            | (Yes)         |
+| Compact axis-angle                     | Negative      | No                 | No            | (Yes) `(2)`   |
 | :math:`\pmb{\omega}`                   |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
-| Axis-angle                             | Negative axis | No                 | No            | Yes           |
+| Axis-angle                             | Negative axis | No                 | No            | SLERP         |
 | :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
-| Logarithm of rotation                  | Negative      | No                 | No            | (Yes)         |
+| Logarithm of rotation                  | Negative      | No                 | No            | (Yes) `(2)`   |
 | :math:`\left[\pmb{\omega}\right]`      |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
-| Quaternion                             | Conjugate     | Yes                | Yes           | Yes           |
+| Quaternion                             | Conjugate     | Yes                | Yes           | SLERP         |
 | :math:`\pmb{q}`                        |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
-| Rotor                                  | Reverse       | Yes                | Yes           | Yes           |
+| Rotor                                  | Reverse       | Yes                | Yes           | SLERP         |
 | :math:`R`                              |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
-| Euler angles                           | No            | No                 | No            | No            |
+| Euler angles                           | `(1)`         | No                 | No            | No            |
 | :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
 | Modified Rodrigues parameters          | Negative      | No                 | No            | No            |
 | :math:`\psi`                           |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
 
+Footnotes:
+
+`(1)` Inversion of Euler angles in convention ABC (e.g., xyz) requires using
+another convention CBA (e.g., zyx), reversing the order of angles, and taking
+the negative of these.
+
+`(2)` Linear interpolation is approximately correct.
 
 ---------------
 Rotation Matrix
@@ -182,10 +189,10 @@ This will be done, for instance, to obtain rotation matrices from Euler angles
 **Pros**
 
 * It is easy to apply rotations on point vectors by matrix-vector
-  multiplication
-* Concatenation of rotations is trivial through matrix multiplication
-* You can directly read the basis vectors from the columns
-* No singularities
+  multiplication.
+* Concatenation of rotations is trivial through matrix multiplication.
+* You can directly read the basis vectors from the columns.
+* No singularities.
 
 **Cons**
 
@@ -213,6 +220,11 @@ pytransform3d uses a numpy array of shape (4,) for the axis-angle
 representation of a rotation, where the first 3 entries correspond to the
 unit axis of rotation and the fourth entry to the rotation angle in
 radians, and typically we use the variable name a.
+
+Note that the axis-angle representation has a singularity at
+:math:`\theta = 0` as there is an infinite number of rotation axes that
+represent the identity rotation in this case. However, we can modify the
+representation to avoid this singularity.
 
 It is possible to write this in a more compact way as a rotation vector:
 
@@ -253,8 +265,8 @@ the Lie group :math:`SO(3)`.
 
 **Pros**
 
-* Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)
-* It is easy to interpret the representation (as axis and angle)
+* Minimal representation (as rotation vector, also referred to as compact
+  axis-angle in the code).
 * Can also represent angular velocity and acceleration when we replace
   :math:`\theta` by :math:`\dot{\theta}` or :math:`\ddot{\theta}` respectively,
   which makes numerical integration and differentiation easy.
@@ -263,9 +275,12 @@ the Lie group :math:`SO(3)`.
 
 * There might be discontinuities during interpolation as an angle of 0 and
   any multiple of :math:`2\pi` represent the same orientation. This has to
-  be considered.
+  be considered. Normalization is recommended.
+* When :math:`\theta = \pi`, the axes :math:`\hat{\boldsymbol{\omega}}` and
+  :math:`-\hat{\boldsymbol{\omega}}` represent the same rotation, which is
+  a problem for interpolation.
 * Concatenation and transformation of vectors requires conversion to rotation
-  matrix or quaternion
+  matrix or quaternion.
 
 -----------
 Quaternions
@@ -326,28 +341,28 @@ typically we use the variable name q.
 .. warning::
 
     The *antipodal* unit quaternions :math:`\boldsymbol{\hat{q}}` and
-    :math:`-\boldsymbol{\hat{q}}` represent the same rotation.
+    :math:`-\boldsymbol{\hat{q}}` represent the same rotation (double cover).
 
 **Pros**
 
 * More compact than the matrix representation and less susceptible to
-  round-off errors
+  round-off errors.
 * The quaternion elements vary continuously over the unit sphere in
   :math:`\mathbb{R}^4` as the orientation changes, avoiding discontinuous
-  jumps (inherent to three-dimensional parameterizations)
+  jumps (inherent to three-dimensional parameterizations).
 * Expression of the rotation matrix in terms of quaternion parameters
-  involves no trigonometric functions
+  involves no trigonometric functions.
 * Concatenation is simple and computationally cheaper with the quaternion
-  product than with rotation matrices
-* No singularities
+  product than with rotation matrices.
+* No singularities.
 * Renormalization is cheap in comparison to rotation matrices: we only
   have to divide by the norm of the quaternion.
 
 **Cons**
 
-* The representation is not straightforward to interpret
+* The representation is not straightforward to interpret.
 * There are always two unit quaternions that represent exactly the same
-  rotation
+  rotation.
 
 ------------
 Euler Angles
@@ -369,14 +384,16 @@ information.
 
 **Pros**
 
-* Minimal representation
+* Minimal representation.
+* Euler angles are easy to interpret for users (when the convention is clearly
+  defined) in comparison to axis-angle or quaternions.
 
 **Cons**
 
-* 24 different conventions
-* Singularities (gimbal lock)
+* 24 different conventions.
+* Singularities (gimbal lock).
 * Concatenation and transformation of vectors requires conversion to rotation
-  matrix or quaternion
+  matrix or quaternion.
 
 
 ------
@@ -425,18 +442,8 @@ quaternions on the one hand and rotors on the other hand.
     to change the order of the scalar and the bivector (similar to a
     quaterion), but also to change the order of bivector components.
 
-**Pros**
-
-* More compact than the matrix representation.
-* Concatenation is simple and computationally cheaper than with rotation
-  matrices.
-* No singularities.
-* Renormalization is cheap in comparison to rotation matrices: we only
-  have to divide by the norm of the rotor.
-
-**Cons**
-
-* The representation is not straightforward to interpret
+Pros and cons for rotors are the same as for quaternions as they have the
+same representation in 3D.
 
 -----------------------------
 Modified Rodrigues Parameters
@@ -470,14 +477,14 @@ parameters.
 
 **Pros**
 
-* Minimal representation
+* Minimal representation.
 
 **Cons**
 
-* The representation is not straightforward to interpret
-* Normalization of angle required to avoid singularity
+* The representation is not straightforward to interpret.
+* Normalization of angle required to avoid singularity.
 * Concatenation and transformation of vectors requires conversion to rotation
-  matrix or quaternion
+  matrix or quaternion.
 
 ----------
 References
@@ -489,3 +496,4 @@ References
 4. Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
 5. Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
 6. Terzakis, Lourakis, Alt-Boudaoud: Modified Rodrigues Parameters: An Efficient Representation of Orientation in 3D Vision and Graphics, https://link.springer.com/article/10.1007/s10851-017-0765-x
+7. Hauser, Kris: Robotic Systems (draft), http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html

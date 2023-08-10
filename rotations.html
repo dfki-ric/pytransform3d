@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>SO(3): 3D Rotations &#8212; pytransform3d 3.3.0 documentation</title>
+    <title>SO(3): 3D Rotations &#8212; pytransform3d 3.4.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.3.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.4.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -179,39 +179,39 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Negative</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>(Yes)</p></td>
+<td><p>(Yes) <cite>(2)</cite></p></td>
 </tr>
 <tr class="row-even"><td><p>Axis-angle
 <img class="math" src="_images/math/70583ffeb32a0843b74c661c2ffb65fd2fc0daa1.png" alt="(\hat{\pmb{\omega}}, \theta)"/></p></td>
 <td><p>Negative axis</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>Yes</p></td>
+<td><p>SLERP</p></td>
 </tr>
 <tr class="row-odd"><td><p>Logarithm of rotation
 <img class="math" src="_images/math/0b9e14c5cc096d7fbff8198de5f08cb44ba42af5.png" alt="\left[\pmb{\omega}\right]"/></p></td>
 <td><p>Negative</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>(Yes)</p></td>
+<td><p>(Yes) <cite>(2)</cite></p></td>
 </tr>
 <tr class="row-even"><td><p>Quaternion
 <img class="math" src="_images/math/4093d557bd0321bf32c1cd4263badce666a9d0e2.png" alt="\pmb{q}"/></p></td>
 <td><p>Conjugate</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>Yes</p></td>
+<td><p>SLERP</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rotor
 <img class="math" src="_images/math/1ebe654cc7b8f2a0d8100aa5825cf2b9021adbbc.png" alt="R"/></p></td>
 <td><p>Reverse</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>Yes</p></td>
+<td><p>SLERP</p></td>
 </tr>
 <tr class="row-even"><td><p>Euler angles
 <img class="math" src="_images/math/83c71b6e07feeb9e154a6ba4919e7e3455f0e5ed.png" alt="(\alpha, \beta, \gamma)"/></p></td>
-<td><p>No</p></td>
+<td><p><cite>(1)</cite></p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
@@ -225,6 +225,11 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 </tr>
 </tbody>
 </table>
+<p>Footnotes:</p>
+<p><cite>(1)</cite> Inversion of Euler angles in convention ABC (e.g., xyz) requires using
+another convention CBA (e.g., zyx), reversing the order of angles, and taking
+the negative of these.</p>
+<p><cite>(2)</cite> Linear interpolation is approximately correct.</p>
 <section id="rotation-matrix">
 <h2><a class="toc-backref" href="#id1" role="doc-backlink">Rotation Matrix</a><a class="headerlink" href="#rotation-matrix" title="Permalink to this heading">¶</a></h2>
 <p>One of the most practical representations of orientation is a rotation matrix</p>
@@ -329,10 +334,10 @@ This will be done, for instance, to obtain rotation matrices from Euler angles
 <p><strong>Pros</strong></p>
 <ul class="simple">
 <li><p>It is easy to apply rotations on point vectors by matrix-vector
-multiplication</p></li>
-<li><p>Concatenation of rotations is trivial through matrix multiplication</p></li>
-<li><p>You can directly read the basis vectors from the columns</p></li>
-<li><p>No singularities</p></li>
+multiplication.</p></li>
+<li><p>Concatenation of rotations is trivial through matrix multiplication.</p></li>
+<li><p>You can directly read the basis vectors from the columns.</p></li>
+<li><p>No singularities.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
@@ -357,6 +362,10 @@ by a scalar:</p>
 representation of a rotation, where the first 3 entries correspond to the
 unit axis of rotation and the fourth entry to the rotation angle in
 radians, and typically we use the variable name a.</p>
+<p>Note that the axis-angle representation has a singularity at
+<img class="math" src="_images/math/109ffdd25f4d03b396550bcee7b0a44b1d1ae8a6.png" alt="\theta = 0"/> as there is an infinite number of rotation axes that
+represent the identity rotation in this case. However, we can modify the
+representation to avoid this singularity.</p>
 <p>It is possible to write this in a more compact way as a rotation vector:</p>
 <div class="math">
 <p><img src="_images/math/60b7a7ea3c1d4d9145e0af4abdea517ab30d9090.png" alt="\boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3"/></p>
@@ -388,8 +397,8 @@ logarithm of a rotation matrix and <img class="math" src="_images/math/a0a12b779
 the Lie group <img class="math" src="_images/math/f7f7fa0383c715b76a3ed7b029fd07e2f542451a.png" alt="SO(3)"/>.</p>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>Minimal representation (as rotation vector, also referred to as compact axis-angle in the code)</p></li>
-<li><p>It is easy to interpret the representation (as axis and angle)</p></li>
+<li><p>Minimal representation (as rotation vector, also referred to as compact
+axis-angle in the code).</p></li>
 <li><p>Can also represent angular velocity and acceleration when we replace
 <img class="math" src="_images/math/8a87f04e7d7cca18343c084cceca5237fae62491.png" alt="\theta"/> by <img class="math" src="_images/math/156be057a637fe3140b40c304b4c9a44631b057b.png" alt="\dot{\theta}"/> or <img class="math" src="_images/math/96b8f8a8da08691f9653aa25764e645178573334.png" alt="\ddot{\theta}"/> respectively,
 which makes numerical integration and differentiation easy.</p></li>
@@ -398,9 +407,12 @@ which makes numerical integration and differentiation easy.</p></li>
 <ul class="simple">
 <li><p>There might be discontinuities during interpolation as an angle of 0 and
 any multiple of <img class="math" src="_images/math/2ef04e0a4bcc5f1840308dabe353cfe6e48632c4.png" alt="2\pi"/> represent the same orientation. This has to
-be considered.</p></li>
+be considered. Normalization is recommended.</p></li>
+<li><p>When <img class="math" src="_images/math/1184d7371127cddc7d82dacb13faacc5959d91e0.png" alt="\theta = \pi"/>, the axes <img class="math" src="_images/math/a23fb3f80862b2cb49da5ab4d61c5a70147a0bd5.png" alt="\hat{\boldsymbol{\omega}}"/> and
+<img class="math" src="_images/math/d3082e87b8052a94c2c358f31c7f86a358c35541.png" alt="-\hat{\boldsymbol{\omega}}"/> represent the same rotation, which is
+a problem for interpolation.</p></li>
 <li><p>Concatenation and transformation of vectors requires conversion to rotation
-matrix or quaternion</p></li>
+matrix or quaternion.</p></li>
 </ul>
 </section>
 <section id="quaternions">
@@ -452,28 +464,28 @@ the first element to store the scalar component.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <em>antipodal</em> unit quaternions <img class="math" src="_images/math/ccac8697bdb80904a21d231b0f7103543f8001f2.png" alt="\boldsymbol{\hat{q}}"/> and
-<img class="math" src="_images/math/86225c865643a22807d20c325823a7d08846f8b6.png" alt="-\boldsymbol{\hat{q}}"/> represent the same rotation.</p>
+<img class="math" src="_images/math/86225c865643a22807d20c325823a7d08846f8b6.png" alt="-\boldsymbol{\hat{q}}"/> represent the same rotation (double cover).</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
 <li><p>More compact than the matrix representation and less susceptible to
-round-off errors</p></li>
+round-off errors.</p></li>
 <li><p>The quaternion elements vary continuously over the unit sphere in
 <img class="math" src="_images/math/1963e1d8fcb281cbc6b8edecfb23c75fd27f06e8.png" alt="\mathbb{R}^4"/> as the orientation changes, avoiding discontinuous
-jumps (inherent to three-dimensional parameterizations)</p></li>
+jumps (inherent to three-dimensional parameterizations).</p></li>
 <li><p>Expression of the rotation matrix in terms of quaternion parameters
-involves no trigonometric functions</p></li>
+involves no trigonometric functions.</p></li>
 <li><p>Concatenation is simple and computationally cheaper with the quaternion
-product than with rotation matrices</p></li>
-<li><p>No singularities</p></li>
+product than with rotation matrices.</p></li>
+<li><p>No singularities.</p></li>
 <li><p>Renormalization is cheap in comparison to rotation matrices: we only
 have to divide by the norm of the quaternion.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li><p>The representation is not straightforward to interpret</p></li>
+<li><p>The representation is not straightforward to interpret.</p></li>
 <li><p>There are always two unit quaternions that represent exactly the same
-rotation</p></li>
+rotation.</p></li>
 </ul>
 </section>
 <section id="euler-angles">
@@ -493,14 +505,16 @@ XYZ, YXZ, YZX, ZYX, and ZXY.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>Minimal representation</p></li>
+<li><p>Minimal representation.</p></li>
+<li><p>Euler angles are easy to interpret for users (when the convention is clearly
+defined) in comparison to axis-angle or quaternions.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li><p>24 different conventions</p></li>
-<li><p>Singularities (gimbal lock)</p></li>
+<li><p>24 different conventions.</p></li>
+<li><p>Singularities (gimbal lock).</p></li>
 <li><p>Concatenation and transformation of vectors requires conversion to rotation
-matrix or quaternion</p></li>
+matrix or quaternion.</p></li>
 </ul>
 </section>
 <section id="rotors">
@@ -542,19 +556,8 @@ equivalent quaternion. There are other conventions. It is not just possible
 to change the order of the scalar and the bivector (similar to a
 quaterion), but also to change the order of bivector components.</p>
 </div>
-<p><strong>Pros</strong></p>
-<ul class="simple">
-<li><p>More compact than the matrix representation.</p></li>
-<li><p>Concatenation is simple and computationally cheaper than with rotation
-matrices.</p></li>
-<li><p>No singularities.</p></li>
-<li><p>Renormalization is cheap in comparison to rotation matrices: we only
-have to divide by the norm of the rotor.</p></li>
-</ul>
-<p><strong>Cons</strong></p>
-<ul class="simple">
-<li><p>The representation is not straightforward to interpret</p></li>
-</ul>
+<p>Pros and cons for rotors are the same as for quaternions as they have the
+same representation in 3D.</p>
 </section>
 <section id="modified-rodrigues-parameters">
 <h2><a class="toc-backref" href="#id6" role="doc-backlink">Modified Rodrigues Parameters</a><a class="headerlink" href="#modified-rodrigues-parameters" title="Permalink to this heading">¶</a></h2>
@@ -578,14 +581,14 @@ angle of rotation does not exceed <img class="math" src="_images/math/9cc8517129
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>Minimal representation</p></li>
+<li><p>Minimal representation.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li><p>The representation is not straightforward to interpret</p></li>
-<li><p>Normalization of angle required to avoid singularity</p></li>
+<li><p>The representation is not straightforward to interpret.</p></li>
+<li><p>Normalization of angle required to avoid singularity.</p></li>
 <li><p>Concatenation and transformation of vectors requires conversion to rotation
-matrix or quaternion</p></li>
+matrix or quaternion.</p></li>
 </ul>
 </section>
 <section id="references">
@@ -597,6 +600,7 @@ matrix or quaternion</p></li>
 <li><p>Applications of Geometric Algebra: <a class="reference external" href="http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf">http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf</a></p></li>
 <li><p>Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: <a class="reference external" href="https://doi.org/10.1016/j.mechmachtheory.2015.03.004">https://doi.org/10.1016/j.mechmachtheory.2015.03.004</a></p></li>
 <li><p>Terzakis, Lourakis, Alt-Boudaoud: Modified Rodrigues Parameters: An Efficient Representation of Orientation in 3D Vision and Graphics, <a class="reference external" href="https://link.springer.com/article/10.1007/s10851-017-0765-x">https://link.springer.com/article/10.1007/s10851-017-0765-x</a></p></li>
+<li><p>Hauser, Kris: Robotic Systems (draft), <a class="reference external" href="http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html">http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html</a></p></li>
 </ol>
 </section>
 </section>
@@ -614,7 +618,7 @@ matrix or quaternion</p></li>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Jul 27, 2023.<br/>
+      Last updated on Aug 10, 2023.<br/>
     </p>
   </div>
 </footer>
