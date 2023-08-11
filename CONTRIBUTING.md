@@ -37,7 +37,7 @@ then submit a "pull request" (PR):
 
        $ git checkout -b my-feature
 
-   and start making changes. Never work in the `master` branch!
+   and start making changes. Never work in the `main` branch!
 
 5. Work on this copy, on your computer, using Git to do the version
    control. When you're done editing, do:
@@ -78,9 +78,9 @@ Adding a new feature to pytransform3d requires a few other changes:
 
 ## Merge Policy
 
-Usually it is not possible to push directly to the develop or master branch for
+Usually it is not possible to push directly to the develop or main branch for
 anyone. Only tiny changes, urgent bugfixes, and maintenance commits can be
-pushed directly to the master branch by the maintainer without a review.
+pushed directly to the develop branch by the maintainer without a review.
 "Tiny" means backwards compatibility is mandatory and all tests must succeed.
 No new feature must be added.
 
