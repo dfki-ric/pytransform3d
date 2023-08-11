@@ -1,7 +1,7 @@
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/logo.png" />
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/logo.png" />
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/dfki-ric/pytransform3d/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/dfki-ric/pytransform3d/tree/master)
-[![codecov](https://codecov.io/gh/dfki-ric/pytransform3d/branch/master/graph/badge.svg?token=jB10RM3Ujj)](https://codecov.io/gh/dfki-ric/pytransform3d)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/dfki-ric/pytransform3d/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/dfki-ric/pytransform3d/tree/main)
+[![codecov](https://codecov.io/gh/dfki-ric/pytransform3d/branch/main/graph/badge.svg?token=jB10RM3Ujj)](https://codecov.io/gh/dfki-ric/pytransform3d)
 [![Paper DOI](http://joss.theoj.org/papers/10.21105/joss.01159/status.svg)](https://doi.org/10.21105/joss.01159)
 [![Release DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2553450.svg)](https://doi.org/10.5281/zenodo.2553450)
 
@@ -69,19 +69,19 @@ Right: [Kuka iiwa](https://www.kuka.com/en-de/products/robot-systems/industrial-
 The animation is based on pytransform3d's visualization interface to
 [Open3D](http://www.open3d.org/).
 
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_nao.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_kuka.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/animation_dynamics.gif" height=200px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/animation_nao.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/animation_kuka.gif" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/animation_dynamics.gif" height=200px/>
 
 Visualizations based on [Open3D](http://www.open3d.org/).
 
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/photogrammetry.png" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/kuka_trajectories.png" height=200px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/photogrammetry.png" height=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/kuka_trajectories.png" height=200px/>
 
 Various plots based on Matplotlib.
 
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_box.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/cylinders.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/plot_urdf.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/transform_manager_mesh.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/accelerate_cylinder.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/example_plot_screw.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/rotations_axis_angle.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/doc/source/_static/concatenate_uncertain_transforms.png" width=200px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/example_plot_box.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/cylinders.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/paper/plot_urdf.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/transform_manager_mesh.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/accelerate_cylinder.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/example_plot_screw.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/rotations_axis_angle.png" width=200px/><img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/concatenate_uncertain_transforms.png" width=200px/>
 
 Transformation editor based on Qt.
 
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/master/paper/app_transformation_editor.png" height=300px/>
+<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/paper/app_transformation_editor.png" height=300px/>
 
 ## Example
 
@@ -160,7 +160,7 @@ If you wish to report bugs, please use the
 Github. If you would like to contribute to pytransform3d, just open an issue
 or a [pull request](https://github.com/dfki-ric/pytransform3d/pulls).
 The target branch for pull requests is the develop branch.
-The development branch will be merged to master for new releases.
+The development branch will be merged to main for new releases.
 If you have questions about the software, you should ask them in the
 [discussion section](https://github.com/dfki-ric/pytransform3d/discussions).
 
@@ -178,7 +178,7 @@ Note that there is a
 [checklist](https://github.com/dfki-ric/pytransform3d/wiki#checklist-for-new-features)
 for new features.
 
-It is forbidden to directly push to the main branch (master). Each new version
+It is forbidden to directly push to the main branch. Each new version
 has its own development branch from which a pull request will be opened to the
 main branch. Only the maintainer of the software is allowed to merge a
 development branch to the main branch.
@@ -186,7 +186,7 @@ development branch to the main branch.
 ## License
 
 The library is distributed under the
-[3-Clause BSD license](https://github.com/dfki-ric/pytransform3d/blob/master/LICENSE).
+[3-Clause BSD license](https://github.com/dfki-ric/pytransform3d/blob/main/LICENSE).
 
 ## Citation
 
