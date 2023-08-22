@@ -1,6 +1,7 @@
 """Utility functions for rotations."""
 import warnings
 import math
+import array_api_compat
 import numpy as np
 from ._constants import unitz, eps, two_pi
 
@@ -18,11 +19,13 @@ def norm_vector(v):
     u : array, shape (n,)
         nd unit vector with norm 1 or the zero vector
     """
-    norm = np.linalg.norm(v)
+    xp = array_api_compat.array_namespace(v)
+
+    norm = xp.linalg.norm(v)
     if norm == 0.0:
         return v
 
-    return np.asarray(v) / norm
+    return xp.asarray(v) / norm
 
 
 def norm_matrix(R):
