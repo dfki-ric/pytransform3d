@@ -24,7 +24,8 @@ if __name__ == "__main__":
           ],
           license='BSD-3-Clause',
           packages=find_packages(),
-          install_requires=["numpy", "scipy", "matplotlib", "lxml"],
+          install_requires=["numpy", "scipy", "matplotlib", "lxml",
+                            "array-api-compat"],
           extras_require={
               "all": ["pydot", "trimesh", "pycollada", "open3d"],
               "doc": ["numpydoc", "sphinx", "sphinx-gallery",
