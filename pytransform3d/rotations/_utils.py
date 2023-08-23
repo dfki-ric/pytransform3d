@@ -3,6 +3,7 @@ import warnings
 import math
 import numpy as np
 from ._constants import unitz, eps, two_pi
+from .._array_api_compat import array_namespace
 
 
 def norm_vector(v):
@@ -18,11 +19,13 @@ def norm_vector(v):
     u : array, shape (n,)
         nd unit vector with norm 1 or the zero vector
     """
-    norm = np.linalg.norm(v)
+    xp = array_namespace(v)
+
+    norm = xp.linalg.norm(v)
     if norm == 0.0:
         return v
 
-    return np.asarray(v) / norm
+    return xp.asarray(v) / norm
 
 
 def norm_matrix(R):
@@ -38,12 +41,14 @@ def norm_matrix(R):
     R : array, shape (3, 3)
         Normalized rotation matrix
     """
-    R = np.asarray(R)
+    xp = array_namespace(R)
+
+    R = xp.asarray(R)
     c2 = R[:, 1]
     c3 = norm_vector(R[:, 2])
-    c1 = norm_vector(np.cross(c2, c3))
-    c2 = norm_vector(np.cross(c3, c1))
-    return np.column_stack((c1, c2, c3))
+    c1 = norm_vector(xp.cross(c2, c3))
+    c2 = norm_vector(xp.cross(c3, c1))
+    return xp.stack((c1, c2, c3), axis=1)
 
 
 def norm_angle(a):
@@ -67,8 +72,9 @@ def norm_angle(a):
     a_norm : float or array-like, shape (n,)
         Normalized angle(s) in radians
     """
-    a = np.asarray(a, dtype=np.float64)
-    return (a - (np.ceil((a + np.pi) / two_pi) - 1.0) * two_pi)
+    xp = array_namespace(a)
+    a = xp.asarray(a, dtype=xp.float64)
+    return a - (xp.ceil((a + xp.pi) / two_pi) - 1.0) * two_pi
 
 
 def norm_axis_angle(a):
@@ -86,12 +92,16 @@ def norm_axis_angle(a):
         of the axis vector is 1 and the angle is in [0, pi). No rotation
         is represented by [1, 0, 0, 0].
     """
-    angle = a[3]
-    norm = np.linalg.norm(a[:3])
-    if angle == 0.0 or norm == 0.0:
-        return np.array([1.0, 0.0, 0.0, 0.0])
+    xp = array_namespace(a)
 
-    res = np.empty(4)
+    angle = a[3]
+    norm = xp.linalg.norm(a[:3])
+    if angle == 0.0 or norm == 0.0:
+        res = xp.zeros_like(a)
+        res[0] = 1.0
+        return res
+
+    res = xp.empty_like(a)
     res[:3] = a[:3] / norm
 
     angle = norm_angle(angle)
