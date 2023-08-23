@@ -41,12 +41,14 @@ def norm_matrix(R):
     R : array, shape (3, 3)
         Normalized rotation matrix
     """
-    R = np.asarray(R)
+    xp = array_namespace(R)
+
+    R = xp.asarray(R)
     c2 = R[:, 1]
     c3 = norm_vector(R[:, 2])
-    c1 = norm_vector(np.cross(c2, c3))
-    c2 = norm_vector(np.cross(c3, c1))
-    return np.column_stack((c1, c2, c3))
+    c1 = norm_vector(xp.cross(c2, c3))
+    c2 = norm_vector(xp.cross(c3, c1))
+    return xp.stack((c1, c2, c3), axis=1)
 
 
 def norm_angle(a):
