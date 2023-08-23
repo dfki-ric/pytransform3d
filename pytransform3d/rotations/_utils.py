@@ -92,12 +92,16 @@ def norm_axis_angle(a):
         of the axis vector is 1 and the angle is in [0, pi). No rotation
         is represented by [1, 0, 0, 0].
     """
-    angle = a[3]
-    norm = np.linalg.norm(a[:3])
-    if angle == 0.0 or norm == 0.0:
-        return np.array([1.0, 0.0, 0.0, 0.0])
+    xp = array_namespace(a)
 
-    res = np.empty(4)
+    angle = a[3]
+    norm = xp.linalg.norm(a[:3])
+    if angle == 0.0 or norm == 0.0:
+        res = xp.zeros_like(a)
+        res[0] = 1.0
+        return res
+
+    res = xp.empty_like(a)
     res[:3] = a[:3] / norm
 
     angle = norm_angle(angle)
