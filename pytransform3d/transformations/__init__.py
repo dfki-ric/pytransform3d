@@ -28,6 +28,7 @@ from ._transform_operations import (
     invert_transform, scale_transform, concat,
     vector_to_point, vectors_to_points, vector_to_direction,
     vectors_to_directions, transform)
+from ._pq_operations import pq_slerp
 from ._dual_quaternion_operations import (
     dq_q_conj, dq_conj, concatenate_dual_quaternions, dual_quaternion_sclerp,
     dual_quaternion_power, dq_prod_vector)
@@ -68,6 +69,7 @@ __all__ = [
     "vector_to_point", "vectors_to_points", "vector_to_direction",
     "vectors_to_directions", "transform",
     "random_transform", "random_screw_axis", "random_exponential_coordinates",
+    "pq_slerp",
     "dq_q_conj", "dq_conj", "concatenate_dual_quaternions",
     "dual_quaternion_sclerp", "dual_quaternion_power", "dq_prod_vector",
     "plot_transform", "plot_screw",
