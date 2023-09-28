@@ -22,7 +22,7 @@ def dq_conj(dq):
 
     Returns
     -------
-    dq_conjugate : array-like, shape (8,)
+    dq_conjugate : array, shape (8,)
         Conjugate of dual quaternion: (pw, -px, -py, -pz, -qw, qx, qy, qz)
     """
     dq = check_dual_quaternion(dq)
@@ -48,7 +48,7 @@ def dq_q_conj(dq):
 
     Returns
     -------
-    dq_q_conjugate : array-like, shape (8,)
+    dq_q_conjugate : array, shape (8,)
         Conjugate of dual quaternion: (pw, -px, -py, -pz, qw, -qx, -qy, -qz)
     """
     dq = check_dual_quaternion(dq)
@@ -139,7 +139,7 @@ def dual_quaternion_sclerp(start, end, t):
 
     Returns
     -------
-    a : array, shape (8,)
+    dq_t : array, shape (8,)
         Interpolated unit dual quaternion: (pw, px, py, pz, qw, qx, qy, qz)
 
     References
@@ -172,7 +172,7 @@ def dual_quaternion_power(dq, t):
 
     Returns
     -------
-    dq_t : array-like, shape (8,)
+    dq_t : array, shape (8,)
         Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz) ** t
     """
