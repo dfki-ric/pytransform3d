@@ -108,7 +108,7 @@ def norm_axis_angle(a):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The length
         of the axis vector is 1 and the angle is in [0, pi). No rotation
         is represented by [1, 0, 0, 0].
@@ -141,7 +141,7 @@ def norm_compact_axis_angle(a):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z).
         The angle is in [0, pi). No rotation is represented by [0, 0, 0].
     """
@@ -165,7 +165,7 @@ def perpendicular_to_vectors(a, b):
 
     Returns
     -------
-    c : array-like, shape (3,)
+    c : array, shape (3,)
         3d vector that is orthogonal to a and b
     """
     return np.cross(a, b)
@@ -185,7 +185,7 @@ def perpendicular_to_vector(a):
 
     Returns
     -------
-    b : array-like, shape (3,)
+    b : array, shape (3,)
         A 3d vector that is orthogonal to a. It does not necessarily have
         unit length.
     """
