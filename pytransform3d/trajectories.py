@@ -26,6 +26,11 @@ def invert_transforms(A2Bs):
     -------
     B2As : array, shape (..., 4, 4)
         Transforms from frames B to frames A
+
+    See Also
+    --------
+    pytransform3d.transformations.invert_transform :
+        Invert one transformation.
     """
     A2Bs = np.asarray(A2Bs)
     instances_shape = A2Bs.shape[:-2]

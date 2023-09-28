@@ -83,6 +83,11 @@ def invert_uncertain_transform(mean, cov):
         Covariance of transform from frame B to frame A in exponential
         coordinate space.
 
+    See Also
+    --------
+    pytransform3d.transformations.invert_transform :
+        Invert transformation without uncertainty.
+
     References
     ----------
     Mangelson, Ghaffari, Vasudevan, Eustice: Characterizing the Uncertainty of
