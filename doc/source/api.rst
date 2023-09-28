@@ -503,6 +503,7 @@ Conversions
    ~pytransform3d.trajectories.transforms_from_exponential_coordinates
    ~pytransform3d.trajectories.dual_quaternions_from_pqs
    ~pytransform3d.trajectories.pqs_from_dual_quaternions
+   ~pytransform3d.trajectories.transforms_from_dual_quaternions
 
 Operations and Utility Functions
 --------------------------------
