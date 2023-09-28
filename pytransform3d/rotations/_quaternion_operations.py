@@ -102,6 +102,10 @@ def concatenate_quaternions(q1, q2):
     -------
     q12 : array-like, shape (4,)
         Quaternion that represents the concatenated rotation q1 * q2
+
+    See Also
+    --------
+    concatenate_rotors : Concatenate rotors, which is the same operation.
     """
     q1 = check_quaternion(q1, unit=False)
     q2 = check_quaternion(q2, unit=False)
@@ -128,6 +132,10 @@ def q_prod_vector(q, v):
     -------
     w : array-like, shape (3,)
         3d vector
+
+    See Also
+    --------
+    rotor_apply : The same operation with a different name.
     """
     q = check_quaternion(q)
     t = 2 * np.cross(q[1:], v)
@@ -150,6 +158,10 @@ def q_conj(q):
     -------
     q_c : array-like, shape (4,)
         Conjugate (w, -x, -y, -z)
+
+    See Also
+    --------
+    rotor_reverse : Reverse of a rotor, which is the same operation.
     """
     q = check_quaternion(q)
     return np.array([q[0], -q[1], -q[2], -q[3]])
