@@ -67,6 +67,14 @@ def concat_one_to_many(A2B, B2Cs):
     -------
     A2Cs : array, shape (n_transforms, 4, 4)
         Transforms from frame A to frame C
+
+    See Also
+    --------
+    concat_many_to_one :
+        Concatenate multiple transformations with one.
+
+    pytransform3d.transformations.concat :
+        Concatenate two transformations.
     """
     return np.einsum("nij,jk->nik", B2Cs, A2B)
 
@@ -89,6 +97,14 @@ def concat_many_to_one(A2Bs, B2C):
     -------
     A2Cs : array, shape (n_transforms, 4, 4)
         Transforms from frame A to frame C
+
+    See Also
+    --------
+    concat_one_to_many :
+        Concatenate one transformation with multiple transformations.
+
+    pytransform3d.transformations.concat :
+        Concatenate two transformations.
     """
     return np.einsum("ij,njk->nik", B2C, A2Bs)
 
