@@ -153,6 +153,20 @@ def concat(A2B, B2C, strict_check=True, check=True):
     -------
     A2C : array-like, shape (4, 4)
         Transform from frame A to frame C
+
+    See Also
+    --------
+    pytransform3d.trajectories.concat_one_to_many :
+        Concatenate one transformation with multiple transformations.
+
+    pytransform3d.trajectories.concat_many_to_one :
+        Concatenate multiple transformations with one.
+
+    pytransform3d.uncertainty.concat_globally_uncertain_transforms :
+        Concatenate two independent globally uncertain transformations.
+
+    pytransform3d.uncertainty.concat_locally_uncertain_transforms :
+        Concatenate two independent locally uncertain transformations.
     """
     if check:
         A2B = check_transform(A2B, strict_check=strict_check)

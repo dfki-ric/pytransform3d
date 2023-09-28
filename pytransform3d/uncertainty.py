@@ -166,6 +166,14 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     cov_A2C : array, shape (6, 6)
         Covariance of new pose. Models uncertainty in frame C.
 
+    See Also
+    --------
+    concat_locally_uncertain_transforms :
+        Concatenate two independent locally uncertain transformations.
+
+    pytransform3d.transformations.concat :
+        Concatenate two transformations.
+
     References
     ----------
     Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
@@ -301,6 +309,14 @@ def concat_locally_uncertain_transforms(mean_A2B, mean_B2C, cov_A, cov_B):
 
     cov_A_total : array, shape (6, 6)
         Covariance of accumulated noise in frame A.
+
+    See Also
+    --------
+    concat_globally_uncertain_transforms :
+        Concatenate two independent globally uncertain transformations.
+
+    pytransform3d.transformations.concat :
+        Concatenate two transformations.
 
     References
     ----------
