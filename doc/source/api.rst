@@ -357,6 +357,15 @@ Apply Transformations
    ~pytransform3d.transformations.scale_transform
    ~pytransform3d.transformations.adjoint_from_transform
 
+Position+Quaternion Operations
+------------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~pytransform3d.transformations.pq_slerp
+
 Dual Quaternion Operations
 --------------------------
 

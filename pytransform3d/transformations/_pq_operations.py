@@ -10,10 +10,6 @@ def pq_slerp(start, end, t):
     We will use spherical linear interpolation (SLERP) for the quaternion and
     linear interpolation for the position.
 
-    An alternative approach is screw linear interpolation (ScLERP) with dual
-    quaternions (see
-    :func:`pytransform3d.transformations.dual_quaternion_sclerp`).
-
     Parameters
     ----------
     start : array-like, shape (7,)
@@ -29,6 +25,21 @@ def pq_slerp(start, end, t):
     -------
     pq_t : array-like, shape (7,)
         Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
+
+    See Also
+    --------
+    dual_quaternion_sclerp :
+        An alternative approach is screw linear interpolation (ScLERP) with
+        dual quaternions.
+
+    pytransform3d.rotations.axis_angle_slerp :
+        SLERP for axis-angle representation.
+
+    pytransform3d.rotations.quaternion_slerp :
+        SLERP for quaternions.
+
+    pytransform3d.rotations.rotor_slerp :
+        SLERP for rotors.
     """
     start = check_pq(start)
     end = check_pq(end)

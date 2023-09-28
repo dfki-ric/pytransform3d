@@ -22,6 +22,17 @@ def axis_angle_slerp(start, end, t):
     -------
     a : array, shape (4,)
         Interpolated axis of rotation and rotation angle: (x, y, z, angle)
+
+    See Also
+    --------
+    quaternion_slerp :
+        SLERP for quaternions.
+
+    rotor_slerp :
+        SLERP for rotors.
+
+    pytransform3d.transformations.pq_slerp :
+        SLERP for position + quaternion.
     """
     start = check_axis_angle(start)
     end = check_axis_angle(end)
@@ -54,6 +65,17 @@ def quaternion_slerp(start, end, t, shortest_path=False):
     -------
     q : array, shape (4,)
         Interpolated unit quaternion to represent rotation: (w, x, y, z)
+
+    See Also
+    --------
+    axis_angle_slerp :
+        SLERP for axis-angle representation.
+
+    rotor_slerp :
+        SLERP for rotors.
+
+    pytransform3d.transformations.pq_slerp :
+        SLERP for position + quaternion.
     """
     start = check_quaternion(start)
     end = check_quaternion(end)
@@ -137,6 +159,17 @@ def rotor_slerp(start, end, t, shortest_path=False):
     -------
     rotor : array, shape (4,)
         Interpolated rotor: (a, b_yz, b_zx, b_xy)
+
+    See Also
+    --------
+    axis_angle_slerp :
+        SLERP for axis-angle representation.
+
+    quaternion_slerp :
+        SLERP for quaternions.
+
+    pytransform3d.transformations.pq_slerp :
+        SLERP for position + quaternion.
     """
     start = check_rotor(start)
     end = check_rotor(end)
