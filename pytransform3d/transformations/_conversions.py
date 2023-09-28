@@ -39,7 +39,7 @@ def transform_from(R, p, strict_check=True):
 
     Returns
     -------
-    A2B : array-like, shape (4, 4)
+    A2B : array, shape (4, 4)
         Transform from frame A to frame B
     """
     A2B = rotate_transform(
@@ -70,7 +70,7 @@ def translate_transform(A2B, p, strict_check=True, check=True):
 
     Returns
     -------
-    A2B : array-like, shape (4, 4)
+    A2B : array, shape (4, 4)
         Transform from frame A to frame B
     """
     if check:
@@ -101,7 +101,7 @@ def rotate_transform(A2B, R, strict_check=True, check=True):
 
     Returns
     -------
-    A2B : array-like, shape (4, 4)
+    A2B : array, shape (4, 4)
         Transform from frame A to frame B
     """
     if check:
@@ -126,7 +126,7 @@ def pq_from_transform(A2B, strict_check=True):
 
     Returns
     -------
-    pq : array-like, shape (7,)
+    pq : array, shape (7,)
         Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
     """
     A2B = check_transform(A2B, strict_check=strict_check)
@@ -143,7 +143,7 @@ def transform_from_pq(pq):
 
     Returns
     -------
-    A2B : array-like, shape (4, 4)
+    A2B : array, shape (4, 4)
         Transformation matrix from frame A to frame B
     """
     pq = check_pq(pq)
