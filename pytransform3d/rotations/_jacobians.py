@@ -25,6 +25,14 @@ def left_jacobian_SO3(omega):
     -------
     J : array, shape (3, 3)
         Left Jacobian of SO(3).
+
+    See also
+    --------
+    left_jacobian_SO3_series :
+        Left Jacobian of SO(3) at theta from Taylor series.
+
+    left_jacobian_SO3_inv :
+        Inverse left Jacobian of SO(3) at theta (angle of rotation).
     """
     omega = np.asarray(omega)
     theta = np.linalg.norm(omega)
@@ -54,6 +62,10 @@ def left_jacobian_SO3_series(omega, n_terms):
     -------
     J : array, shape (3, 3)
         Left Jacobian of SO(3).
+
+    See Also
+    --------
+    left_jacobian_SO3 : Left Jacobian of SO(3) at theta (angle of rotation).
     """
     omega = np.asarray(omega)
     J = np.eye(3)
@@ -86,6 +98,13 @@ def left_jacobian_SO3_inv(omega):
     -------
     J_inv : array, shape (3, 3)
         Inverse left Jacobian of SO(3).
+
+    See Also
+    --------
+    left_jacobian_SO3 : Left Jacobian of SO(3) at theta (angle of rotation).
+
+    left_jacobian_SO3_inv_series :
+        Inverse left Jacobian of SO(3) at theta from Taylor series.
     """
     omega = np.asarray(omega)
     theta = np.linalg.norm(omega)
@@ -116,6 +135,11 @@ def left_jacobian_SO3_inv_series(omega, n_terms):
     -------
     J_inv : array, shape (3, 3)
         Inverse left Jacobian of SO(3).
+
+    See Also
+    --------
+    left_jacobian_SO3_inv :
+        Inverse left Jacobian of SO(3) at theta (angle of rotation).
     """
     from scipy.special import bernoulli
 
