@@ -914,3 +914,14 @@ def test_jacobian_se3():
 
         J_inv_J = np.dot(J_inv, J)
         assert_array_almost_equal(J_inv_J, np.eye(6))
+
+
+def test_pq_slerp():
+    start = np.array([0.2, 0.3, 0.4, 1.0, 0.0, 0.0, 0.0])
+    end = np.array([1.0, 0.5, 0.8, 0.0, 1.0, 0.0, 0.0])
+    pq_05 = pt.pq_slerp(start, end, 0.5)
+    assert_array_almost_equal(pq_05, [0.6, 0.4, 0.6, 0.707107, 0.707107, 0, 0])
+    pq_025 = pt.pq_slerp(start, end, 0.25)
+    assert_array_almost_equal(pq_025, [0.4, 0.35, 0.5, 0.92388, 0.382683, 0, 0])
+    pq_075 = pt.pq_slerp(start, end, 0.75)
+    assert_array_almost_equal(pq_075, [0.8, 0.45, 0.7, 0.382683, 0.92388, 0, 0])
