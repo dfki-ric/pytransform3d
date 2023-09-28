@@ -87,6 +87,10 @@ def rotor_reverse(rotor):
     -------
     reverse_rotor : array, shape (4,)
         Reverse of the rotor: (a, b_yz, b_zx, b_xy)
+
+    See Also
+    --------
+    q_conj : Quaternion conjugate, which is the same operation.
     """
     rotor = check_rotor(rotor)
     return np.hstack(((rotor[0],), -rotor[1:]))
@@ -111,6 +115,11 @@ def concatenate_rotors(rotor1, rotor2):
     -------
     rotor : array, shape (4,)
         rotor1 applied to rotor2: (a, b_yz, b_zx, b_xy)
+
+    See Also
+    --------
+    concatenate_quaternions : Concatenate quaternions, which is the same
+                              operation.
     """
     rotor1 = check_rotor(rotor1)
     rotor2 = check_rotor(rotor2)
@@ -118,7 +127,7 @@ def concatenate_rotors(rotor1, rotor2):
 
 
 def rotor_apply(rotor, v):
-    r"""Compute rotation matrix from rotor.
+    r"""Apply rotor to vector.
 
     .. math::
 
@@ -136,6 +145,10 @@ def rotor_apply(rotor, v):
     -------
     v : array, shape (3,)
         Rotated vector
+
+    See Also
+    --------
+    q_prod_vector : The same operation with a different name.
     """
     rotor = check_rotor(rotor)
     return q_prod_vector(rotor, v)
