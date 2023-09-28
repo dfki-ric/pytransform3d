@@ -64,11 +64,11 @@ def norm_angle(a):
 
     Returns
     -------
-    a_norm : float or array-like, shape (n,)
+    a_norm : float or array, shape (n,)
         Normalized angle(s) in radians
     """
     a = np.asarray(a, dtype=np.float64)
-    return (a - (np.ceil((a + np.pi) / two_pi) - 1.0) * two_pi)
+    return a - (np.ceil((a + np.pi) / two_pi) - 1.0) * two_pi
 
 
 def norm_axis_angle(a):
