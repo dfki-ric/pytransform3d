@@ -26,17 +26,44 @@ def norm_vector(v):
 
 
 def norm_matrix(R):
-    """Orthonormalize rotation matrix.
+    r"""Orthonormalize rotation matrix.
+
+    A rotation matrix is defined as
+
+    .. math::
+
+        \boldsymbol R =
+        \left( \begin{array}{ccc}
+            r_{11} & r_{12} & r_{13}\\
+            r_{21} & r_{22} & r_{23}\\
+            r_{31} & r_{32} & r_{33}\\
+        \end{array} \right)
+        \in SO(3)
+
+    and must be orthonormal, which results in 6 constraints:
+
+    * column vectors must have unit norm (3 constraints)
+    * and must be orthogonal to each other (3 constraints)
+
+    A more compact representation of these constraints is
+    :math:`\boldsymbol R^T \boldsymbol R = \boldsymbol I`.
+
+    Because of numerical problems, a rotation matrix might not satisfy the
+    constraints anymore. This function will enforce them.
 
     Parameters
     ----------
     R : array-like, shape (3, 3)
-        Rotation matrix with small numerical errors
+        Rotation matrix with small numerical errors.
 
     Returns
     -------
     R : array, shape (3, 3)
-        Normalized rotation matrix
+        Orthonormalized rotation matrix.
+
+    See Also
+    --------
+    check_matrix : Checks orthonormality of a rotation matrix.
     """
     R = np.asarray(R)
     c2 = R[:, 1]
@@ -431,6 +458,10 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
     ------
     ValueError
         If input is invalid
+
+    See Also
+    --------
+    norm_matrix : Enforces orthonormality of a rotation matrix.
     """
     R = np.asarray(R, dtype=np.float64)
     if R.ndim != 2 or R.shape[0] != 3 or R.shape[1] != 3:
