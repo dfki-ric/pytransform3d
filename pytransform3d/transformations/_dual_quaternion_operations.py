@@ -147,6 +147,12 @@ def dual_quaternion_sclerp(start, end, t):
     Kavan, Collins, O'Sullivan, Zara: Dual Quaternions for Rigid Transformation
     Blending (2006), Technical report, Trinity College Dublin,
     https://users.cs.utah.edu/~ladislav/kavan06dual/kavan06dual.pdf
+
+    See Also
+    --------
+    pq_slerp :
+        An alternative approach is spherical linear interpolation (SLERP) with
+        position and quaternion.
     """
     start = check_dual_quaternion(start)
     end = check_dual_quaternion(end)
