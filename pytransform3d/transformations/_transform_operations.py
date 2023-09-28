@@ -25,6 +25,14 @@ def invert_transform(A2B, strict_check=True, check=True):
     -------
     B2A : array, shape (4, 4)
         Transform from frame B to frame A
+
+    See Also
+    --------
+    pytransform3d.uncertainty.invert_uncertain_transform :
+        Invert transformation with uncertainty.
+
+    pytransform3d.trajectories.invert_transforms :
+        Invert multiple transformations.
     """
     if check:
         A2B = check_transform(A2B, strict_check=strict_check)
