@@ -38,6 +38,13 @@ def left_jacobian_SE3(Stheta):
     J : array, shape (6, 6)
         Jacobian of SE(3).
 
+    See Also
+    --------
+    left_jacobian_SE3_series :
+        Left Jacobian of SE(3) at theta from Taylor series.
+
+    left_jacobian_SE3_inv : Left inverse Jacobian of SE(3).
+
     References
     ----------
     Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
@@ -77,6 +84,10 @@ def left_jacobian_SE3_series(Stheta, n_terms):
     -------
     J : array, shape (3, 3)
         Left Jacobian of SE(3).
+
+    See Also
+    --------
+    left_jacobian_SE3 : Left Jacobian of SE(3).
     """
     Stheta = check_exponential_coordinates(Stheta)
     J = np.eye(6)
@@ -120,6 +131,13 @@ def left_jacobian_SE3_inv(Stheta):
     -------
     J_inv : array, shape (6, 6)
         Inverse Jacobian of SE(3).
+
+    See Also
+    --------
+    left_jacobian_SE3 : Left Jacobian of SE(3).
+
+    left_jacobian_SE3_inv_series :
+        Left inverse Jacobian of SE(3) at theta from Taylor series.
     """
     Stheta = check_exponential_coordinates(Stheta)
 
@@ -185,6 +203,10 @@ def left_jacobian_SE3_inv_series(Stheta, n_terms):
     -------
     J_inv : array, shape (3, 3)
         Inverse left Jacobian of SE(3).
+
+    See Also
+    --------
+    left_jacobian_SE3_inv : Left inverse Jacobian of SE(3).
     """
     from scipy.special import bernoulli
 
