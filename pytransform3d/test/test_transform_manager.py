@@ -300,9 +300,12 @@ def test_from_to_dict():
 
     tm_dict = tm.to_dict()
     tm2 = TransformManager.from_dict(tm_dict)
+    tm2_dict = tm2.to_dict()
 
     assert_array_almost_equal(tm.get_transform("D", "A"),
                               tm2.get_transform("D", "A"))
+    
+    assert tm_dict == tm2_dict, f"{tm_dict} != {tm2_dict}"
 
 
 def test_remove_twice():
