@@ -344,9 +344,8 @@ class TransformManager(TransformGraphBase):
         self.nodes = tm_dict.get("nodes")
         self.i = tm_dict.get("i")
         self.j = tm_dict.get("j")
-        # FIXME: set is created instead of a dict
-        self.transform_to_ij_index = {
-            (tuple(k), v) for k, v in tm_dict.get("transform_to_ij_index")}
+        self.transform_to_ij_index = dict(
+            (tuple(k), v) for k, v in tm_dict.get("transform_to_ij_index"))
         connections = tm_dict.get("connections")
         self.connections = sp.csr_matrix((
             connections["data"], connections["indices"],
