@@ -305,7 +305,7 @@ def test_from_to_dict():
     assert_array_almost_equal(tm.get_transform("D", "A"),
                               tm2.get_transform("D", "A"))
     
-    assert tm_dict == tm2_dict, f"{tm_dict} != {tm2_dict}"
+    assert tm_dict == tm2_dict
 
 
 def test_remove_twice():
