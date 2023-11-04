@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>pytransform3d.rotations.norm_matrix &#8212; pytransform3d 3.4.0 documentation</title>
+    <title>pytransform3d.rotations.norm_matrix &#8212; pytransform3d 3.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.4.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -128,20 +128,45 @@
 <dt class="sig sig-object py" id="pytransform3d.rotations.norm_matrix">
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">norm_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_utils.html#norm_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.norm_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Orthonormalize rotation matrix.</p>
+<p>A rotation matrix is defined as</p>
+<div class="math">
+<p><img src="../_images/math/06c3ad8f9c412417a9a1cb17cb352ac3d6453f6a.png" alt="\boldsymbol R =
+\left( \begin{array}{ccc}
+    r_{11} &amp; r_{12} &amp; r_{13}\\
+    r_{21} &amp; r_{22} &amp; r_{23}\\
+    r_{31} &amp; r_{32} &amp; r_{33}\\
+\end{array} \right)
+\in SO(3)"/></p>
+</div><p>and must be orthonormal, which results in 6 constraints:</p>
+<ul class="simple">
+<li><p>column vectors must have unit norm (3 constraints)</p></li>
+<li><p>and must be orthogonal to each other (3 constraints)</p></li>
+</ul>
+<p>A more compact representation of these constraints is
+<img class="math" src="../_images/math/ff2a1f6c4285f7a3b73313ff624bfe4d31d20b8a.png" alt="\boldsymbol R^T \boldsymbol R = \boldsymbol I"/>.</p>
+<p>Because of numerical problems, a rotation matrix might not satisfy the
+constraints anymore. This function will enforce them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>R</strong><span class="classifier">array-like, shape (3, 3)</span></dt><dd><p>Rotation matrix with small numerical errors</p>
+<dt><strong>R</strong><span class="classifier">array-like, shape (3, 3)</span></dt><dd><p>Rotation matrix with small numerical errors.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>R</strong><span class="classifier">array, shape (3, 3)</span></dt><dd><p>Normalized rotation matrix</p>
+<dt><strong>R</strong><span class="classifier">array, shape (3, 3)</span></dt><dd><p>Orthonormalized rotation matrix.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="pytransform3d.rotations.check_matrix.html#pytransform3d.rotations.check_matrix" title="pytransform3d.rotations.check_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_matrix</span></code></a></dt><dd><p>Checks orthonormality of a rotation matrix.</p>
+</dd>
+</dl>
+</div>
 </dd></dl>
 
 </section>
@@ -159,7 +184,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Aug 10, 2023.<br/>
+      Last updated on Nov 04, 2023.<br/>
     </p>
   </div>
 </footer>

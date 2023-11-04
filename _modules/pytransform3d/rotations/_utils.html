@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._utils &#8212; pytransform3d 3.4.0 documentation</title>
+    <title>pytransform3d.rotations._utils &#8212; pytransform3d 3.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.4.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -145,17 +145,44 @@
 
 
 <div class="viewcode-block" id="norm_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix">[docs]</a><span class="k">def</span> <span class="nf">norm_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Orthonormalize rotation matrix.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthonormalize rotation matrix.</span>
+
+<span class="sd">    A rotation matrix is defined as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol R =</span>
+<span class="sd">        \left( \begin{array}{ccc}</span>
+<span class="sd">            r_{11} &amp; r_{12} &amp; r_{13}\\</span>
+<span class="sd">            r_{21} &amp; r_{22} &amp; r_{23}\\</span>
+<span class="sd">            r_{31} &amp; r_{32} &amp; r_{33}\\</span>
+<span class="sd">        \end{array} \right)</span>
+<span class="sd">        \in SO(3)</span>
+
+<span class="sd">    and must be orthonormal, which results in 6 constraints:</span>
+
+<span class="sd">    * column vectors must have unit norm (3 constraints)</span>
+<span class="sd">    * and must be orthogonal to each other (3 constraints)</span>
+
+<span class="sd">    A more compact representation of these constraints is</span>
+<span class="sd">    :math:`\boldsymbol R^T \boldsymbol R = \boldsymbol I`.</span>
+
+<span class="sd">    Because of numerical problems, a rotation matrix might not satisfy the</span>
+<span class="sd">    constraints anymore. This function will enforce them.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    R : array-like, shape (3, 3)</span>
-<span class="sd">        Rotation matrix with small numerical errors</span>
+<span class="sd">        Rotation matrix with small numerical errors.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    R : array, shape (3, 3)</span>
-<span class="sd">        Normalized rotation matrix</span>
+<span class="sd">        Orthonormalized rotation matrix.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    check_matrix : Checks orthonormality of a rotation matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
@@ -183,11 +210,11 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    a_norm : float or array-like, shape (n,)</span>
+<span class="sd">    a_norm : float or array, shape (n,)</span>
 <span class="sd">        Normalized angle(s) in radians</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">two_pi</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">two_pi</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">two_pi</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">two_pi</span></div>
 
 
 <div class="viewcode-block" id="norm_axis_angle"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_axis_angle.html#pytransform3d.rotations.norm_axis_angle">[docs]</a><span class="k">def</span> <span class="nf">norm_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
@@ -200,7 +227,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    a : array-like, shape (4,)</span>
+<span class="sd">    a : array, shape (4,)</span>
 <span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle). The length</span>
 <span class="sd">        of the axis vector is 1 and the angle is in [0, pi). No rotation</span>
 <span class="sd">        is represented by [1, 0, 0, 0].</span>
@@ -233,7 +260,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">    a : array, shape (3,)</span>
 <span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z).</span>
 <span class="sd">        The angle is in [0, pi). No rotation is represented by [0, 0, 0].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -257,7 +284,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    c : array-like, shape (3,)</span>
+<span class="sd">    c : array, shape (3,)</span>
 <span class="sd">        3d vector that is orthogonal to a and b</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
@@ -277,7 +304,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    b : array-like, shape (3,)</span>
+<span class="sd">    b : array, shape (3,)</span>
 <span class="sd">        A 3d vector that is orthogonal to a. It does not necessarily have</span>
 <span class="sd">        unit length.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -550,6 +577,10 @@
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If input is invalid</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    norm_matrix : Enforces orthonormality of a rotation matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">R</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
@@ -750,7 +781,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Aug 10, 2023.<br/>
+      Last updated on Nov 04, 2023.<br/>
     </p>
   </div>
 </footer>

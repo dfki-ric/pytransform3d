@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._quaternion_operations &#8212; pytransform3d 3.4.0 documentation</title>
+    <title>pytransform3d.rotations._quaternion_operations &#8212; pytransform3d 3.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.4.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -221,6 +221,10 @@
 <span class="sd">    -------</span>
 <span class="sd">    q12 : array-like, shape (4,)</span>
 <span class="sd">        Quaternion that represents the concatenated rotation q1 * q2</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    concatenate_rotors : Concatenate rotors, which is the same operation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q1</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">q2</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -247,6 +251,10 @@
 <span class="sd">    -------</span>
 <span class="sd">    w : array-like, shape (3,)</span>
 <span class="sd">        3d vector</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    rotor_apply : The same operation with a different name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
     <span class="n">t</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">v</span><span class="p">)</span>
@@ -269,6 +277,10 @@
 <span class="sd">    -------</span>
 <span class="sd">    q_c : array-like, shape (4,)</span>
 <span class="sd">        Conjugate (w, -x, -y, -z)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    rotor_reverse : Reverse of a rotor, which is the same operation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="n">q</span><span class="p">[</span><span class="mi">3</span><span class="p">]])</span></div>
@@ -387,7 +399,7 @@
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Aug 10, 2023.<br/>
+      Last updated on Nov 04, 2023.<br/>
     </p>
   </div>
 </footer>

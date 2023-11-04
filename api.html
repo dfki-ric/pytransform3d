@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>API Documentation &#8212; pytransform3d 3.4.0 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 3.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -44,7 +44,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.4.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -126,6 +126,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#apply-transformations">Apply Transformations</a></li>
+<li><a class="reference internal" href="#position-quaternion-operations">Position+Quaternion Operations</a></li>
 <li><a class="reference internal" href="#dual-quaternion-operations">Dual Quaternion Operations</a></li>
 <li><a class="reference internal" href="#id3">Plotting</a></li>
 <li><a class="reference internal" href="#id4">Testing</a></li>
@@ -423,7 +424,7 @@ that have been omitted here for the sake of brevity.</p>
 <td><p>Invert rotor.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.rotor_apply.html#pytransform3d.rotations.rotor_apply" title="pytransform3d.rotations.rotor_apply"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotor_apply</span></code></a>(rotor, v)</p></td>
-<td><p>Compute rotation matrix from rotor.</p></td>
+<td><p>Apply rotor to vector.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.rotor_slerp.html#pytransform3d.rotations.rotor_slerp" title="pytransform3d.rotations.rotor_slerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotor_slerp</span></code></a>(start, end, t[, shortest_path])</p></td>
 <td><p>Spherical linear interpolation.</p></td>
@@ -762,6 +763,16 @@ that have been omitted here for the sake of brevity.</p>
 </tbody>
 </table>
 </section>
+<section id="position-quaternion-operations">
+<h3>Position+Quaternion Operations<a class="headerlink" href="#position-quaternion-operations" title="Permalink to this heading">¶</a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.pq_slerp.html#pytransform3d.transformations.pq_slerp" title="pytransform3d.transformations.pq_slerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pq_slerp</span></code></a>(start, end, t)</p></td>
+<td><p>Spherical linear interpolation of position and quaternion.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="dual-quaternion-operations">
 <h3>Dual Quaternion Operations<a class="headerlink" href="#dual-quaternion-operations" title="Permalink to this heading">¶</a></h3>
 <table class="autosummary longtable docutils align-default">
@@ -954,20 +965,23 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs" title="pytransform3d.trajectories.transforms_from_pqs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_pqs</span></code></a>(P[, normalize_quaternions])</p></td>
 <td><p>Get sequence of homogeneous matrices from positions and quaternions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.pqs_from_transforms.html#pytransform3d.trajectories.pqs_from_transforms" title="pytransform3d.trajectories.pqs_from_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pqs_from_transforms</span></code></a>(A2Bs)</p></td>
-<td><p>Get sequence of positions and quaternions from homogeneous matrices.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.exponential_coordinates_from_transforms.html#pytransform3d.trajectories.exponential_coordinates_from_transforms" title="pytransform3d.trajectories.exponential_coordinates_from_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_coordinates_from_transforms</span></code></a>(A2Bs)</p></td>
-<td><p>Compute exponential coordinates from transformations.</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates" title="pytransform3d.trajectories.transforms_from_exponential_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_exponential_coordinates</span></code></a>(Sthetas)</p></td>
 <td><p>Compute transformations from exponential coordinates.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_dual_quaternions.html#pytransform3d.trajectories.transforms_from_dual_quaternions" title="pytransform3d.trajectories.transforms_from_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_dual_quaternions</span></code></a>(dqs)</p></td>
+<td><p>Get transformations from dual quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.pqs_from_transforms.html#pytransform3d.trajectories.pqs_from_transforms" title="pytransform3d.trajectories.pqs_from_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pqs_from_transforms</span></code></a>(A2Bs)</p></td>
+<td><p>Get sequence of positions and quaternions from homogeneous matrices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.pqs_from_dual_quaternions.html#pytransform3d.trajectories.pqs_from_dual_quaternions" title="pytransform3d.trajectories.pqs_from_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pqs_from_dual_quaternions</span></code></a>(dqs)</p></td>
+<td><p>Get positions and quaternions from dual quaternions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.exponential_coordinates_from_transforms.html#pytransform3d.trajectories.exponential_coordinates_from_transforms" title="pytransform3d.trajectories.exponential_coordinates_from_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exponential_coordinates_from_transforms</span></code></a>(A2Bs)</p></td>
+<td><p>Compute exponential coordinates from transformations.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.dual_quaternions_from_pqs.html#pytransform3d.trajectories.dual_quaternions_from_pqs" title="pytransform3d.trajectories.dual_quaternions_from_pqs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual_quaternions_from_pqs</span></code></a>(pqs)</p></td>
 <td><p>Get dual quaternions from positions and quaternions.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.pqs_from_dual_quaternions.html#pytransform3d.trajectories.pqs_from_dual_quaternions" title="pytransform3d.trajectories.pqs_from_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pqs_from_dual_quaternions</span></code></a>(dqs)</p></td>
-<td><p>Get positions and quaternions from dual quaternions.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1311,7 +1325,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
     </p>
     <p>
         &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Aug 10, 2023.<br/>
+      Last updated on Nov 04, 2023.<br/>
     </p>
   </div>
 </footer>

@@ -90,7 +90,7 @@ A more compact representation of these constraints is
 \Leftrightarrow \boldsymbol R^T = \boldsymbol R^{-1}`.
 
 In addition, :math:`\det(\boldsymbol R) = 1` because we use right-handed
-coordinate system   (:math:`\det(\boldsymbol R) = -1` for left-handed
+coordinate system (:math:`\det(\boldsymbol R) = -1` for left-handed
 coordinate systems).
 
 Hence, the group :math:`SO(3)` is defined as
