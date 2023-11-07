@@ -9,34 +9,10 @@ from ._artists import (Line3D, PointCollection3D, Vector3D, Frame, Trajectory,
                        Cone, Plane, Graph)
 
 
-class Figure:
-    """The top level container for all the plot elements.
-
-    You can close the visualizer with the keys `escape` or `q`.
-
-    Parameters
-    ----------
-    window_name : str, optional (default: Open3D)
-        Window title name.
-
-    width : int, optional (default: 1920)
-        Width of the window.
-
-    height : int, optional (default: 1080)
-        Height of the window.
-
-    with_key_callbacks : bool, optional (default: False)
-        Creates a visualizer that allows to register callbacks
-        for keys.
-    """
-    def __init__(self, window_name="Open3D", width=1920, height=1080,
-                 with_key_callbacks=False):
-        if with_key_callbacks:
-            self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
-        else:
-            self.visualizer = o3d.visualization.Visualizer()
-        self.visualizer.create_window(
-            window_name=window_name, width=width, height=height)
+class FigureBase:
+    """Abstract base class of figures."""
+    def __init__(self):
+        pass
 
     def add_geometry(self, geometry):
         """Add geometry to visualizer.
@@ -46,58 +22,6 @@ class Figure:
         geometry : Geometry
             Open3D geometry.
         """
-        self.visualizer.add_geometry(geometry)
-
-    def _remove_geometry(self, geometry):
-        """Remove geometry to visualizer.
-
-        .. warning::
-
-            This function is not public because the interface of the
-            underlying visualizer might change in the future causing the
-            signature of this function to change as well.
-
-        Parameters
-        ----------
-        geometry : Geometry
-            Open3D geometry.
-        """
-        self.visualizer.remove_geometry(geometry)
-
-    def update_geometry(self, geometry):
-        """Indicate that geometry has been updated.
-
-        Parameters
-        ----------
-        geometry : Geometry
-            Open3D geometry.
-        """
-        self.visualizer.update_geometry(geometry)
-
-    def remove_artist(self, artist):
-        """Remove artist from visualizer.
-
-        Parameters
-        ----------
-        artist : Artist
-            Artist that should be removed from this figure.
-        """
-        for g in artist.geometries:
-            self._remove_geometry(g)
-
-    def set_line_width(self, line_width):
-        """Set render option line width.
-
-        Note: this feature does not work in Open3D's visualizer at the
-        moment.
-
-        Parameters
-        ----------
-        line_width : float
-            Line width.
-        """
-        self.visualizer.get_render_option().line_width = line_width
-        self.visualizer.update_renderer()
 
     def set_zoom(self, zoom):
         """Set zoom.
@@ -107,87 +31,18 @@ class Figure:
         zoom : float
             Zoom of the visualizer.
         """
-        self.visualizer.get_view_control().set_zoom(zoom)
 
-    def animate(self, callback, n_frames, loop=False, fargs=()):
-        """Make animation with callback.
-
-        Parameters
-        ----------
-        callback : callable
-            Callback that will be called in a loop to update geometries.
-            The first input of the function will be the current frame
-            index from [0, `n_frames`). Further arguments can be given as
-            `fargs`. The function should return one artist object or a
-            list of artists that have been updated.
-
-        n_frames : int
-            Total number of frames.
-
-        loop : bool, optional (default: False)
-            Run callback in an infinite loop.
-
-        fargs : list, optional (default: [])
-            Arguments that will be passed to the callback.
-
-        Raises
-        ------
-        RuntimeError
-            When callback does not return any artists
-        """
-        initialized = False
-        window_open = True
-        while window_open and (loop or not initialized):
-            for i in range(n_frames):
-                drawn_artists = callback(i, *fargs)
-
-                if drawn_artists is None:
-                    raise RuntimeError(
-                        "The animation function must return a "
-                        "sequence of Artist objects.")
-                try:
-                    drawn_artists = [a for a in drawn_artists]
-                except TypeError:
-                    drawn_artists = [drawn_artists]
-
-                for a in drawn_artists:
-                    for geometry in a.geometries:
-                        self.update_geometry(geometry)
-
-                window_open = self.visualizer.poll_events()
-                if not window_open:
-                    break
-                self.visualizer.update_renderer()
-            initialized = True
-
-    def view_init(self, azim=-60, elev=30):
-        """Set the elevation and azimuth of the axes.
+    def save_image(self, filename):
+        """Save rendered image to file.
 
         Parameters
         ----------
-        azim : float, optional (default: -60)
-            Azimuth angle in the x,y plane in degrees.
-
-        elev : float, optional (default: 30)
-            Elevation angle in the z plane.
+        filename : str
+            Path to file in which the rendered image should be stored
         """
-        vc = self.visualizer.get_view_control()
-        pcp = vc.convert_to_pinhole_camera_parameters()
-        distance = np.linalg.norm(pcp.extrinsic[:3, 3])
-        R_azim_elev_0_world2camera = np.array([
-            [0, 1, 0],
-            [0, 0, -1],
-            [-1, 0, 0]])
-        R_azim_elev_0_camera2world = R_azim_elev_0_world2camera.T
-        # azimuth and elevation are defined in world frame
-        R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
-        R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
-        R_elev_azim_camera2world = R_azim.dot(R_elev).dot(
-            R_azim_elev_0_camera2world)
-        pcp.extrinsic = pt.transform_from(  # world2camera
-            R=R_elev_azim_camera2world.T,
-            p=[0, 0, distance])
-        vc.convert_from_pinhole_camera_parameters(pcp)
+
+    def show(self):
+        """Display the figure window."""
 
     def plot(self, P, c=(0, 0, 0)):
         """Plot line.
@@ -695,6 +550,190 @@ class Figure:
         camera.add_artist(self)
         return camera
 
+
+class Figure(FigureBase):
+    """The top level container for all the plot elements.
+
+    You can close the visualizer with the keys `escape` or `q`.
+
+    This implementation uses the default Open3D visualizer.
+
+    Parameters
+    ----------
+    window_name : str, optional (default: Open3D)
+        Window title name.
+
+    width : int, optional (default: 1920)
+        Width of the window.
+
+    height : int, optional (default: 1080)
+        Height of the window.
+
+    with_key_callbacks : bool, optional (default: False)
+        Creates a visualizer that allows to register callbacks
+        for keys.
+    """
+    def __init__(self, window_name="Open3D", width=1920, height=1080,
+                 with_key_callbacks=False):
+        super(Figure, self).__init__()
+        if with_key_callbacks:
+            self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
+        else:
+            self.visualizer = o3d.visualization.Visualizer()
+        self.visualizer.create_window(
+            window_name=window_name, width=width, height=height)
+
+    def add_geometry(self, geometry):
+        """Add geometry to visualizer.
+
+        Parameters
+        ----------
+        geometry : Geometry
+            Open3D geometry.
+        """
+        self.visualizer.add_geometry(geometry)
+
+    def _remove_geometry(self, geometry):
+        """Remove geometry to visualizer.
+
+        .. warning::
+
+            This function is not public because the interface of the
+            underlying visualizer might change in the future causing the
+            signature of this function to change as well.
+
+        Parameters
+        ----------
+        geometry : Geometry
+            Open3D geometry.
+        """
+        self.visualizer.remove_geometry(geometry)
+
+    def update_geometry(self, geometry):
+        """Indicate that geometry has been updated.
+
+        Parameters
+        ----------
+        geometry : Geometry
+            Open3D geometry.
+        """
+        self.visualizer.update_geometry(geometry)
+
+    def remove_artist(self, artist):
+        """Remove artist from visualizer.
+
+        Parameters
+        ----------
+        artist : Artist
+            Artist that should be removed from this figure.
+        """
+        for g in artist.geometries:
+            self._remove_geometry(g)
+
+    def set_line_width(self, line_width):
+        """Set render option line width.
+
+        Note: this feature does not work in Open3D's visualizer at the
+        moment.
+
+        Parameters
+        ----------
+        line_width : float
+            Line width.
+        """
+        self.visualizer.get_render_option().line_width = line_width
+        self.visualizer.update_renderer()
+
+    def set_zoom(self, zoom):
+        """Set zoom.
+
+        Parameters
+        ----------
+        zoom : float
+            Zoom of the visualizer.
+        """
+        self.visualizer.get_view_control().set_zoom(zoom)
+
+    def animate(self, callback, n_frames, loop=False, fargs=()):
+        """Make animation with callback.
+
+        Parameters
+        ----------
+        callback : callable
+            Callback that will be called in a loop to update geometries.
+            The first input of the function will be the current frame
+            index from [0, `n_frames`). Further arguments can be given as
+            `fargs`. The function should return one artist object or a
+            list of artists that have been updated.
+
+        n_frames : int
+            Total number of frames.
+
+        loop : bool, optional (default: False)
+            Run callback in an infinite loop.
+
+        fargs : list, optional (default: [])
+            Arguments that will be passed to the callback.
+
+        Raises
+        ------
+        RuntimeError
+            When callback does not return any artists
+        """
+        initialized = False
+        window_open = True
+        while window_open and (loop or not initialized):
+            for i in range(n_frames):
+                drawn_artists = callback(i, *fargs)
+
+                if drawn_artists is None:
+                    raise RuntimeError(
+                        "The animation function must return a "
+                        "sequence of Artist objects.")
+                try:
+                    drawn_artists = [a for a in drawn_artists]
+                except TypeError:
+                    drawn_artists = [drawn_artists]
+
+                for a in drawn_artists:
+                    for geometry in a.geometries:
+                        self.update_geometry(geometry)
+
+                window_open = self.visualizer.poll_events()
+                if not window_open:
+                    break
+                self.visualizer.update_renderer()
+            initialized = True
+
+    def view_init(self, azim=-60, elev=30):
+        """Set the elevation and azimuth of the axes.
+
+        Parameters
+        ----------
+        azim : float, optional (default: -60)
+            Azimuth angle in the x,y plane in degrees.
+
+        elev : float, optional (default: 30)
+            Elevation angle in the z plane.
+        """
+        vc = self.visualizer.get_view_control()
+        pcp = vc.convert_to_pinhole_camera_parameters()
+        distance = np.linalg.norm(pcp.extrinsic[:3, 3])
+        R_azim_elev_0_world2camera = np.array([
+            [0, 1, 0],
+            [0, 0, -1],
+            [-1, 0, 0]])
+        R_azim_elev_0_camera2world = R_azim_elev_0_world2camera.T
+        # azimuth and elevation are defined in world frame
+        R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
+        R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
+        R_elev_azim_camera2world = R_azim.dot(R_elev).dot(
+            R_azim_elev_0_camera2world)
+        pcp.extrinsic = pt.transform_from(  # world2camera
+            R=R_elev_azim_camera2world.T,
+            p=[0, 0, distance])
+        vc.convert_from_pinhole_camera_parameters(pcp)
+
     def save_image(self, filename):
         """Save rendered image to file.
 
@@ -711,8 +750,146 @@ class Figure:
         self.visualizer.destroy_window()
 
 
+class RendererFigure(FigureBase):
+    """The top level container for all the plot elements.
+
+    This implementation uses the renderer interface of Open3D.
+
+    Parameters
+    ----------
+    renderer : Renderer
+        Open3D renderer.
+
+    scene : Scene
+        Open3D scene.
+    """
+    def __init__(self, renderer, scene):
+        super(RendererFigure, self).__init__()
+        self.renderer = renderer
+        self.scene = scene
+        self.zoom = 1.0
+        self.azim = -60.0
+        self.elev = 30.0
+        self._n_geometries = 0
+
+    def add_geometry(self, geometry):
+        """Add geometry to visualizer.
+
+        Parameters
+        ----------
+        geometry : Geometry
+            Open3D geometry.
+        """
+        try:  # Open3D 0.13
+            bright = o3d.visualization.rendering.Material()
+        except AttributeError:  # later Open3D versions
+            bright = o3d.visualization.rendering.MaterialRecord()
+        bright.base_color = [1.0, 1.0, 1.0, 1.0]
+        bright.shader = "defaultLit"
+        self.add_geometry_with_material(geometry, bright)
+
+    def add_geometry_with_material(self, geometry, material):
+        """Add geometry to visualizer with material.
+
+        Parameters
+        ----------
+        geometry : Geometry
+            Open3D geometry.
+
+        material : o3d.visualization.rendering.Material or MaterialRecord
+            Material specification for the geometry.
+        """
+        self.scene.add_geometry(
+            "%d" % self._n_geometries, geometry, material)
+        self._n_geometries += 1
+
+    def view_init(self, azim=-60, elev=30):
+        """Set the elevation and azimuth of the axes.
+
+        Parameters
+        ----------
+        azim : float, optional (default: -60)
+            Azimuth angle in the x,y plane in degrees.
+
+        elev : float, optional (default: 30)
+            Elevation angle in the z plane.
+        """
+        self.azim = azim
+        self.elev = elev
+        self._setup_camera()
+
+    def set_zoom(self, zoom):
+        """Set zoom.
+
+        Parameters
+        ----------
+        zoom : float
+            Zoom of the visualizer.
+        """
+        self.zoom = zoom
+        self._setup_camera()
+
+    def _setup_camera(self):
+        distance = max(self.renderer.scene.bounding_box.get_extent())
+        # azimuth and elevation are defined in world frame
+        R_azim = pr.active_matrix_from_angle(2, np.deg2rad(self.azim))
+        R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-self.elev))
+        eye = R_azim.dot(R_elev).dot(np.array(
+            [1.25 * self.zoom * distance, 0.0, 0.0]))
+        # field_of_view, center, eye, up
+        self.renderer.setup_camera(60.0, [0, 0, 0], eye, [0, 0, 1])
+
+    def show_axes(self):
+        """Show coordinate axes in rendered image."""
+        self.scene.show_axes(True)
+
+    def set_background_color(self, color):
+        """Set background color.
+
+        Parameters
+        ----------
+        color : array-like
+            Red, green, blue, alpha values between 0 and 1.
+        """
+        self.scene.set_background(color)
+
+    def save_image(self, filename):
+        """Save rendered image to file.
+
+        Parameters
+        ----------
+        filename : str
+            Path to file in which the rendered image should be stored
+        """
+        o3d.io.write_image(filename, self.renderer.render_to_image())
+
+    def show(self):
+        """Display the figure window."""
+        return np.asarray(self.renderer.render_to_image())
+
+
+class OffscreenRendererFigure(RendererFigure):
+    """The top level container for all the plot elements.
+
+    This implementation uses the offscreen renderer of Open3D.
+
+    Parameters
+    ----------
+    width : int, optional (default: 1920)
+        Width of the window.
+
+    height : int, optional (default: 1080)
+        Height of the window.
+    """
+    def __init__(self, width=1920, height=1080):
+        renderer = o3d.visualization.rendering.OffscreenRenderer(
+            width, height)
+        scene = renderer.scene
+        super(OffscreenRendererFigure, self).__init__(renderer, scene)
+
+
 def figure(window_name="Open3D", width=1920, height=1080,
-           with_key_callbacks=False):
+           with_key_callbacks=False, offscreen=False):
     """Create a new figure.
 
     Parameters
@@ -730,9 +907,14 @@ def figure(window_name="Open3D", width=1920, height=1080,
         Creates a visualizer that allows to register callbacks
         for keys.
 
+    offscreen : bool, optional (default: False)
+        Use Open3D's offscreen renderer to create an image.
+
     Returns
     -------
     figure : Figure
         New figure.
     """
+    if offscreen:
+        return OffscreenRendererFigure(width, height)
     return Figure(window_name, width, height, with_key_callbacks)
