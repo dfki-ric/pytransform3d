@@ -12,7 +12,7 @@ in different ways.
     :depth: 1
 
 For most representations of orientations we can find
-an analogous representation of transformations:
+an analogous representation of transformations [1]_:
 
 * A **transformation matrix** :math:`\boldsymbol T` is similar to a rotation
   matrix :math:`\boldsymbol R`.
@@ -138,9 +138,10 @@ Screw Parameters
 
 Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
-by a motion along a screw axis. The **screw parameters** that describe a screw
-axis include a point vector :math:`\boldsymbol{q}` through which the screw
-axis passes, a (unit) direction vector :math:`\hat{\boldsymbol{s}}` that
+by a motion along a screw axis [2]_ [3]_ [4]_. The **screw parameters** that
+describe a screw axis include a point vector :math:`\boldsymbol{q}` through
+which the screw axis passes, a (unit) direction vector
+:math:`\hat{\boldsymbol{s}}` that
 indicates the direction of the axis, and the pitch :math:`h`. The pitch
 represents the ratio of translation and rotation. A screw motion translates
 along the screw axis and rotates about it.
@@ -256,8 +257,8 @@ Dual Quaternions
 ----------------
 
 Similarly to unit quaternions for rotations, unit dual quaternions are
-an alternative to represent transformations. They support similar operations
-as transformation matrices.
+an alternative to represent transformations [5]_ [6]_ [7]_. They support
+similar operations as transformation matrices.
 
 A dual quaternion consists of a real quaternion and a dual quaternion:
 
@@ -292,21 +293,18 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.
 References
 ----------
 
-1. Lynch, Park: Modern Robotics (2017); available at
+.. [1] Lynch, K. M., Park, F. C. (2017). Modern Robotics.
    http://hades.mech.northwestern.edu/index.php/Modern_Robotics
-2. Bradley Evan Paden: Kinematics and Control of Robot Manipulators, PhD
-   thesis (1985); available at
-   https://digitalassets.lib.berkeley.edu/techreports/ucb/text/ERL-86-5.pdf
-3. Peter Corke: Robotics, Vision and Control, 2nd Edition (2017),
+.. [2] Corke, P. (2017). Robotics, Vision and Control, 2nd Edition,
    https://link.springer.com/book/10.1007/978-3-319-54413-7
-4. Ethan Eade: Lie Groups for 2D and 3D Transformations (2017); available at
+.. [3] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
    https://ethaneade.com/lie.pdf
-5. Sola, Deray, Atchuthan: A micro Lie theory for state estimation in robotics
-   (2018), technical report; available at:
+.. [4] Sola, J., Deray, J., Atchuthan, D. (2018).
+   A micro Lie theory for state estimation in robotics. Technical Report.
    http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf
-6. Wikipedia: Dual Quaternion; available at
+.. [5] Wikipedia: Dual Quaternion.
    https://en.wikipedia.org/wiki/Dual_quaternion
-7. Yan-Bin Jia: Dual Quaternions; available at
-   http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
-8. Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
+.. [6] Jia, Y.-B.: Dual Quaternions.
+   https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf
+.. [7] Kenwright, B. A Beginners Guide to Dual-Quaternions.
    http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
