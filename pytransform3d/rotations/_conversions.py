@@ -965,8 +965,10 @@ def _general_intrinsic_euler_from_active_matrix(
 
     References
     ----------
-    Shuster, Markley: General Formula for Extracting the Euler Angles,
-    https://arc.aiaa.org/doi/abs/10.2514/1.16622
+    .. [1] Shuster, M. D., Markley, F. L. (2006).
+       General Formula for Extracting the Euler Angles.
+       Journal of Guidance, Control, and Dynamics, 29(1), pp 2015-221,
+       doi: 10.2514/1.16622. https://arc.aiaa.org/doi/abs/10.2514/1.16622
     """
     D = check_matrix(R, strict_check=strict_check)
 
@@ -1572,8 +1574,10 @@ def euler_from_matrix(R, i, j, k, extrinsic, strict_check=True):
 
     References
     ----------
-    Shuster, Markley: General Formula for Extracting the Euler Angles,
-    https://arc.aiaa.org/doi/abs/10.2514/1.16622
+    .. [1] Shuster, M. D., Markley, F. L. (2006).
+       General Formula for Extracting the Euler Angles.
+       Journal of Guidance, Control, and Dynamics, 29(1), pp 2015-221,
+       doi: 10.2514/1.16622. https://arc.aiaa.org/doi/abs/10.2514/1.16622
     """
     check_axis_index("i", i)
     check_axis_index("j", j)
@@ -1628,9 +1632,9 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
 
     References
     ----------
-    Bernardes, Evandro; Viollet, Stephane: Quaternion to Euler angles
-    conversion: A direct, general and computationally efficient method,
-    https://doi.org/10.1371/journal.pone.0276302
+    .. [1] Bernardes, E., Viollet, S. (2022). Quaternion to Euler angles
+       conversion: A direct, general and computationally efficient method.
+       PLOS ONE, 17(11), doi: 10.1371/journal.pone.0276302.
     """
     q = check_quaternion(q)
 

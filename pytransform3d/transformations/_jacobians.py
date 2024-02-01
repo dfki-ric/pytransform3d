@@ -47,9 +47,10 @@ def left_jacobian_SE3(Stheta):
 
     References
     ----------
-    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
-    Use in Estimation Problems,
-    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+    .. [1] Barfoot, T. D., Furgale, P. T. (2014).
+       Associating Uncertainty With Three-Dimensional Poses for Use in
+       Estimation Problems. IEEE Transactions on Robotics, 30(3), pp. 679-693,
+       doi: 10.1109/TRO.2014.2298059.
     """
     Stheta = check_exponential_coordinates(Stheta)
 
