@@ -1,6 +1,7 @@
 import numpy as np
 
-from ._utils import norm_vector
+from ._utils import norm_vector, check_matrix
+from ._conversions import matrix_from_compact_axis_angle
 
 
 def random_vector(rng=np.random.default_rng(0), n=3):
@@ -84,3 +85,38 @@ def random_quaternion(rng=np.random.default_rng(0)):
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     return norm_vector(rng.standard_normal(size=4))
+
+
+def random_matrix(rng=np.random.default_rng(0), mean=np.eye(3), cov=np.eye(3)):
+    """Generate random rotation matrix.
+
+    Generate :math:`\Delta \boldsymbol{R}_{B_{i+1}{B_i}}
+    \boldsymbol{R}_{{B_i}A}`, with :math:`\Delta \boldsymbol{R}_{B_{i+1}{B_i}}
+    = Exp(\hat{\omega} \theta)` and :math:`\hat{\omega}\theta \sim
+    \mathcal{N}(\boldsymbol{0}_3, \boldsymbol{\Sigma}_{3 \times 3})`.
+    The mean :math:`\boldsymbol{R}_{{B_i}A}` and the covariance
+    :math:`\boldsymbol{\Sigma}_{3 \times 3}` are parameters of the function.
+
+    Note that uncertainty is defined in the global frame B, not in the
+    body frame A.
+
+    Parameters
+    ----------
+    rng : np.random.Generator, optional (default: random seed 0)
+        Random number generator.
+
+    mean : array-like, shape (3, 3), optional (default: I)
+        Mean rotation matrix.
+
+    cov : array-like, shape (3, 3), optional (default: I)
+        Covariance of noise in exponential coordinate space.
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Rotation matrix
+    """
+    mean = check_matrix(mean)
+    a = rng.multivariate_normal(mean=np.zeros(3), cov=cov)
+    delta = matrix_from_compact_axis_angle(a)
+    return np.dot(delta, mean)
