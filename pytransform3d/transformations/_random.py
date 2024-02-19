@@ -32,7 +32,7 @@ def random_transform(
 
     Returns
     -------
-    A2B : array-like, shape (4, 4)
+    A2B : array, shape (4, 4)
         Random transform from frame A to frame B
     """
     mean = check_transform(mean)
