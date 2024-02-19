@@ -9,11 +9,14 @@ from ._utils import (
     vector_projection, perpendicular_to_vectors,
     norm_axis_angle, norm_compact_axis_angle, norm_matrix,
     plane_basis_from_normal,
-    random_vector, random_axis_angle, random_compact_axis_angle,
-    random_quaternion,
     check_skew_symmetric_matrix, check_matrix, check_quaternion,
     check_quaternions, check_axis_angle, check_compact_axis_angle,
     check_rotor, check_mrp)
+from ._random import (
+    random_vector,
+    random_axis_angle,
+    random_compact_axis_angle,
+    random_quaternion)
 from ._conversions import (
     quaternion_from_axis_angle, quaternion_from_compact_axis_angle,
     quaternion_from_matrix, quaternion_wxyz_from_xyzw,
