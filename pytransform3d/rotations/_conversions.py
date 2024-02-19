@@ -1742,7 +1742,7 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
@@ -1805,7 +1805,7 @@ def axis_angle_from_quaternion(q):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi) so that the mapping is unique.
     """
@@ -1834,7 +1834,7 @@ def axis_angle_from_compact_axis_angle(a):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
@@ -1901,7 +1901,7 @@ def compact_axis_angle(a):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z) (compact
         representation).
     """
@@ -1927,7 +1927,7 @@ def compact_axis_angle_from_matrix(R, check=True):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z). The angle is
         constrained to [0, pi].
     """
@@ -1947,7 +1947,7 @@ def compact_axis_angle_from_quaternion(q):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z). The angle is
         constrained to [0, pi].
     """
@@ -1976,7 +1976,7 @@ def quaternion_from_matrix(R, strict_check=True):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     R = check_matrix(R, strict_check=strict_check)
