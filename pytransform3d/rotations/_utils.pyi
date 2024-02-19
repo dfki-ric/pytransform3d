@@ -34,19 +34,6 @@ def plane_basis_from_normal(
         plane_normal: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray]: ...
 
 
-
-def random_vector(rng: np.random.Generator = ..., n: int = ...) -> np.ndarray: ...
-
-
-def random_axis_angle(rng: np.random.Generator = ...) -> np.ndarray: ...
-
-
-def random_compact_axis_angle(rng: np.random.Generator = ...) -> np.ndarray: ...
-
-
-def random_quaternion(rng: np.random.Generator = ...) -> np.ndarray: ...
-
-
 def check_skew_symmetric_matrix(V: npt.ArrayLike, tolerance: float = ..., strict_check: bool = ...) -> np.ndarray: ...
 
 

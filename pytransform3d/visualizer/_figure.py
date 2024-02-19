@@ -187,7 +187,11 @@ class Figure:
         pcp.extrinsic = pt.transform_from(  # world2camera
             R=R_elev_azim_camera2world.T,
             p=[0, 0, distance])
-        vc.convert_from_pinhole_camera_parameters(pcp)
+        try:
+            vc.convert_from_pinhole_camera_parameters(
+                pcp, allow_arbitrary=True)
+        except TypeError:
+            vc.convert_from_pinhole_camera_parameters(pcp)
 
     def plot(self, P, c=(0, 0, 0)):
         """Plot line.

@@ -193,7 +193,7 @@ The library is distributed under the
 If you use pytransform3d for a scientific publication, I would appreciate
 citation of the following paper:
 
-Fabisch, (2019). pytransform3d: 3D Transformations for Python.
+Fabisch, A. (2019). pytransform3d: 3D Transformations for Python.
 Journal of Open Source Software, 4(33), 1159,
 [![Paper DOI](http://joss.theoj.org/papers/10.21105/joss.01159/status.svg)](https://doi.org/10.21105/joss.01159)
 

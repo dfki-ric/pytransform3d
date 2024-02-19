@@ -144,9 +144,10 @@ def dual_quaternion_sclerp(start, end, t):
 
     References
     ----------
-    Kavan, Collins, O'Sullivan, Zara: Dual Quaternions for Rigid Transformation
-    Blending (2006), Technical report, Trinity College Dublin,
-    https://users.cs.utah.edu/~ladislav/kavan06dual/kavan06dual.pdf
+    .. [1] Kavan, L., Collins, S., O'Sullivan, C., Zara, J. (2006).
+       Dual Quaternions for Rigid Transformation Blending, Technical report,
+       Trinity College Dublin,
+       https://users.cs.utah.edu/~ladislav/kavan06dual/kavan06dual.pdf
 
     See Also
     --------

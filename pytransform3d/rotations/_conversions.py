@@ -965,8 +965,10 @@ def _general_intrinsic_euler_from_active_matrix(
 
     References
     ----------
-    Shuster, Markley: General Formula for Extracting the Euler Angles,
-    https://arc.aiaa.org/doi/abs/10.2514/1.16622
+    .. [1] Shuster, M. D., Markley, F. L. (2006).
+       General Formula for Extracting the Euler Angles.
+       Journal of Guidance, Control, and Dynamics, 29(1), pp 2015-221,
+       doi: 10.2514/1.16622. https://arc.aiaa.org/doi/abs/10.2514/1.16622
     """
     D = check_matrix(R, strict_check=strict_check)
 
@@ -1572,8 +1574,10 @@ def euler_from_matrix(R, i, j, k, extrinsic, strict_check=True):
 
     References
     ----------
-    Shuster, Markley: General Formula for Extracting the Euler Angles,
-    https://arc.aiaa.org/doi/abs/10.2514/1.16622
+    .. [1] Shuster, M. D., Markley, F. L. (2006).
+       General Formula for Extracting the Euler Angles.
+       Journal of Guidance, Control, and Dynamics, 29(1), pp 2015-221,
+       doi: 10.2514/1.16622. https://arc.aiaa.org/doi/abs/10.2514/1.16622
     """
     check_axis_index("i", i)
     check_axis_index("j", j)
@@ -1628,9 +1632,9 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
 
     References
     ----------
-    Bernardes, Evandro; Viollet, Stephane: Quaternion to Euler angles
-    conversion: A direct, general and computationally efficient method,
-    https://doi.org/10.1371/journal.pone.0276302
+    .. [1] Bernardes, E., Viollet, S. (2022). Quaternion to Euler angles
+       conversion: A direct, general and computationally efficient method.
+       PLOS ONE, 17(11), doi: 10.1371/journal.pone.0276302.
     """
     q = check_quaternion(q)
 
@@ -1738,7 +1742,7 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
@@ -1801,7 +1805,7 @@ def axis_angle_from_quaternion(q):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi) so that the mapping is unique.
     """
@@ -1830,7 +1834,7 @@ def axis_angle_from_compact_axis_angle(a):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi].
     """
@@ -1897,7 +1901,7 @@ def compact_axis_angle(a):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z) (compact
         representation).
     """
@@ -1923,7 +1927,7 @@ def compact_axis_angle_from_matrix(R, check=True):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z). The angle is
         constrained to [0, pi].
     """
@@ -1943,7 +1947,7 @@ def compact_axis_angle_from_quaternion(q):
 
     Returns
     -------
-    a : array-like, shape (3,)
+    a : array, shape (3,)
         Axis of rotation and rotation angle: angle * (x, y, z). The angle is
         constrained to [0, pi].
     """
@@ -1972,7 +1976,7 @@ def quaternion_from_matrix(R, strict_check=True):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     R = check_matrix(R, strict_check=strict_check)

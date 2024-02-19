@@ -13,7 +13,7 @@ from ._geometry import unit_sphere_surface_grid
 def estimate_gaussian_transform_from_samples(samples):
     """Estimate Gaussian distribution over transformations from samples.
 
-    Uses iterative approximation of mean described by Eade (2017) and computes
+    Uses iterative approximation of mean described by Eade [1]_ and computes
     covariance in exponential coordinate space (using an unbiased estimator).
 
     Parameters
@@ -31,8 +31,8 @@ def estimate_gaussian_transform_from_samples(samples):
 
     References
     ----------
-    Eade: Lie Groups for 2D and 3D Transformations (2017),
-    https://ethaneade.com/lie.pdf
+    .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
+       https://ethaneade.com/lie.pdf
     """
     assert len(samples) > 0
     mean = samples[0]
@@ -90,9 +90,9 @@ def invert_uncertain_transform(mean, cov):
 
     References
     ----------
-    Mangelson, Ghaffari, Vasudevan, Eustice: Characterizing the Uncertainty of
-    Jointly Distributed Poses in the Lie Algebra,
-    https://arxiv.org/pdf/1906.07795.pdf
+    .. [1] Mangelson, G., Vasudevan, E. (2019). Characterizing the Uncertainty
+       of Jointly Distributed Poses in the Lie Algebra,
+       https://arxiv.org/pdf/1906.07795.pdf
     """
     mean_inv = invert_transform(mean)
     ad_inv = adjoint_from_transform(mean_inv)
@@ -140,7 +140,7 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     :math:`_C\boldsymbol{\xi'} \sim \mathcal{N}(\boldsymbol{0},
     \boldsymbol{\Sigma}_{CA})`.
 
-    This version of Barfoot and Furgale approximates the covariance up to
+    This version of Barfoot and Furgale [1]_ approximates the covariance up to
     4th-order terms. Note that it is still an approximation of the covariance
     after concatenation of the two transforms.
 
@@ -176,9 +176,10 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
 
     References
     ----------
-    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
-    Use in Estimation Problems,
-    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+    .. [1] Barfoot, T. D., Furgale, P. T. (2014).
+       Associating Uncertainty With Three-Dimensional Poses for Use in
+       Estimation Problems. IEEE Transactions on Robotics, 30(3), pp. 679-693,
+       doi: 10.1109/TRO.2014.2298059.
     """
     mean_A2C = concat(mean_A2B, mean_B2C)
 
@@ -283,8 +284,8 @@ def concat_locally_uncertain_transforms(mean_A2B, mean_B2C, cov_A, cov_B):
     :math:`_A\boldsymbol{\xi'} \sim \mathcal{N}(\boldsymbol{0},
     \boldsymbol{\Sigma}_{A,total})`.
 
-    This version of Meyer et al. approximates the covariance up to 2nd-order
-    terms.
+    This version of Meyer et al. [1]_ approximates the covariance up to
+    2nd-order terms.
 
     Parameters
     ----------
@@ -320,9 +321,12 @@ def concat_locally_uncertain_transforms(mean_A2B, mean_B2C, cov_A, cov_B):
 
     References
     ----------
-    Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its
-    Application to Sensor Fusion,
-    https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
+    .. [1] Meyer, L., Strobl, K. H., Triebel, R. (2022). The Probabilistic
+       Robot Kinematics Model and its Application to Sensor Fusion.
+       In IEEE/RSJ International Conference on Intelligent Robots and Systems
+       (IROS), Kyoto, Japan (pp. 3263-3270),
+       doi: 10.1109/IROS47612.2022.9981399.
+       https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
     """
     mean_A2C = concat(mean_A2B, mean_B2C)
 
@@ -357,9 +361,10 @@ def pose_fusion(means, covs):
 
     References
     ----------
-    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for
-    Use in Estimation Problems,
-    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+    .. [1] Barfoot, T. D., Furgale, P. T. (2014).
+       Associating Uncertainty With Three-Dimensional Poses for Use in
+       Estimation Problems. IEEE Transactions on Robotics, 30(3), pp. 679-693,
+       doi: 10.1109/TRO.2014.2298059.
     """
     n_poses = len(means)
     covs_inv = [np.linalg.inv(cov) for cov in covs]

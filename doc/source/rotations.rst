@@ -4,7 +4,7 @@ SO(3): 3D Rotations
 
 The group of all rotations in the 3D Cartesian space is called :math:`SO(3)`
 (SO: special orthogonal group). It is typically represented by 3D rotations
-matrices. The minimum number of components that are required to describe
+matrices [7]_. The minimum number of components that are required to describe
 any rotation from :math:`SO(3)` is 3. However, there is no representation that
 is non-redundant, continuous, and free of singularities. We will now take a
 closer look at competing representations of rotations and the orientations they
@@ -226,7 +226,7 @@ Note that the axis-angle representation has a singularity at
 represent the identity rotation in this case. However, we can modify the
 representation to avoid this singularity.
 
-It is possible to write this in a more compact way as a rotation vector:
+It is possible to write this in a more compact way as a rotation vector [2]_:
 
 .. math::
 
@@ -236,7 +236,7 @@ pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
 representation of a rotation and typically we use the variable name a.
 
 We can also refer to this representation as **exponential coordinates of
-rotation**. We can easily represent angular velocity as
+rotation** [5]_. We can easily represent angular velocity as
 :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`
 and angular acceleration as
 :math:`\hat{\boldsymbol{\omega}} \ddot{\theta}` so that we can easily do
@@ -299,7 +299,7 @@ and an vector / imaginary part
 
     There are two different quaternion conventions: Hamilton's convention
     defines :math:`ijk = -1` and the Shuster or JPL convention (from NASA's
-    Jet Propulsion Laboratory, JPL) defines :math:`ijk = 1`.
+    Jet Propulsion Laboratory, JPL) defines :math:`ijk = 1` [1]_.
     These two conventions result in different multiplication operations and
     conversions to other representations. We use Hamilton's convention.
 
@@ -403,7 +403,7 @@ Rotors
 .. plot:: ../../examples/plots/plot_bivector.py
 
 Rotors and quaternions are very similar concepts in 3D. However, rotors are
-more general as they can be extended to more dimensions.
+more general as they can be extended to more dimensions [3]_ [4]_.
 
 The concept of a quaternion builds on the axis-angle representation, in
 which we rotate by an angle about a rotation axis (see black arrow in the
@@ -450,7 +450,7 @@ Modified Rodrigues Parameters
 -----------------------------
 
 Another minimal representation of rotation are modified Rodrigues parameters
-(MRP)
+(MRP) [6]_
 
 .. math::
 
@@ -490,10 +490,24 @@ parameters.
 References
 ----------
 
-1. Why and How to Avoid the Flipped Quaternion Multiplication: https://arxiv.org/pdf/1801.07478.pdf
-2. Kindr cheat sheet: https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
-3. Let's remove Quaternions from every 3D Engine: https://marctenbosch.com/quaternions/
-4. Applications of Geometric Algebra: http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
-5. Euler–Rodrigues formula variations, quaternion conjugation and intrinsic connections: https://doi.org/10.1016/j.mechmachtheory.2015.03.004
-6. Terzakis, Lourakis, Alt-Boudaoud: Modified Rodrigues Parameters: An Efficient Representation of Orientation in 3D Vision and Graphics, https://link.springer.com/article/10.1007/s10851-017-0765-x
-7. Hauser, Kris: Robotic Systems (draft), http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html
+.. [1] Sommer, H., Gilitschenski, I., Bloesch, M., Weiss, S., Siegwart, R., Nieto,
+   J. (2018). Why and How to Avoid the Flipped Quaternion Multiplication.
+   Aerospace, 5(3), pp. 2226-4310, doi: 10.3390/aerospace5030072.
+   https://arxiv.org/pdf/1801.07478.pdf
+.. [2] Gehring, C., Bellicoso, C. D., Bloesch, M., Sommer, H., Fankhauser, P.,
+   Hutter, M., Siegwart, R. (2024). Kindr cheat sheet.
+   https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+.. [3] ten Bosch, M. (2020). Let's remove Quaternions from every 3D Engine.
+   https://marctenbosch.com/quaternions/
+.. [4] Doran, C. (2015). Applications of Geometric Algebra.
+   http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf
+.. [5] Dai, J. S. (2015). Euler–Rodrigues formula variations, quaternion
+   conjugation and intrinsic connections, Mechanism and Machine Theory, 92,
+   pp. 144-152, doi: 10.1016/j.mechmachtheory.2015.03.004.
+   https://doi.org/10.1016/j.mechmachtheory.2015.03.004
+.. [6] Terzakis, G., Lourakis, M., Ait-Boudaoud, D. (2017). Modified Rodrigues
+   Parameters: An Efficient Representation of Orientation in 3D Vision and
+   Graphics. J Math Imaging Vis, 60, pp. 422-442,
+   doi: 10.1007/s10851-017-0765-x.
+.. [7] Hauser, K.: Robotic Systems (draft),
+   http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html
