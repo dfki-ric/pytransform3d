@@ -3,16 +3,17 @@
 See :doc:`user_guide/uncertainty` for more information.
 """
 import numpy as np
-from .rotations import matrix_from_compact_axis_angle, norm_matrix
-from .batch_rotations import axis_angles_from_matrices
-from .transformations import (
-    invert_transform, transform_from, concat, adjoint_from_transform,
-    left_jacobian_SE3_inv, transform_from_exponential_coordinates,
-    exponential_coordinates_from_transform)
-from .trajectories import (exponential_coordinates_from_transforms,
-                           transforms_from_exponential_coordinates,
-                           concat_many_to_one)
+
 from ._geometry import unit_sphere_surface_grid
+from .batch_rotations import axis_angles_from_matrices
+from .rotations import matrix_from_compact_axis_angle, norm_matrix
+from .trajectories import (concat_many_to_one,
+                           exponential_coordinates_from_transforms,
+                           transforms_from_exponential_coordinates)
+from .transformations import (
+    adjoint_from_transform, concat, exponential_coordinates_from_transform,
+    invert_transform, left_jacobian_SE3_inv, transform_from,
+    transform_from_exponential_coordinates)
 
 
 def estimate_gaussian_rotation_matrix_from_samples(samples):
@@ -44,7 +45,8 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
     mean = samples[0]
     for _ in range(20):
         mean_inv = mean.T
-        mean_diffs = axis_angles_from_matrices(concat_many_to_one(samples, mean_inv))
+        mean_diffs = axis_angles_from_matrices(
+            concat_many_to_one(samples, mean_inv))
         mean_diffs = mean_diffs[:, :3] * mean_diffs[:, 3, np.newaxis]
         avg_mean_diff = np.mean(mean_diffs, axis=0)
         mean = np.dot(matrix_from_compact_axis_angle(avg_mean_diff), mean)
