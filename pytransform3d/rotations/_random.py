@@ -88,7 +88,7 @@ def random_quaternion(rng=np.random.default_rng(0)):
 
 
 def random_matrix(rng=np.random.default_rng(0), mean=np.eye(3), cov=np.eye(3)):
-    """Generate random rotation matrix.
+    r"""Generate random rotation matrix.
 
     Generate :math:`\Delta \boldsymbol{R}_{B_{i+1}{B_i}}
     \boldsymbol{R}_{{B_i}A}`, with :math:`\Delta \boldsymbol{R}_{B_{i+1}{B_i}}

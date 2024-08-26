@@ -18,7 +18,8 @@ from ._random import (
     random_vector,
     random_axis_angle,
     random_compact_axis_angle,
-    random_quaternion)
+    random_quaternion,
+    random_matrix)
 from ._conversions import (
     quaternion_from_axis_angle, quaternion_from_compact_axis_angle,
     quaternion_from_matrix, quaternion_wxyz_from_xyzw,
