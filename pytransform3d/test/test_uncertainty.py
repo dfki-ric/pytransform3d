@@ -6,6 +6,17 @@ from numpy.testing import assert_array_almost_equal
 import pytest
 
 
+def test_estimate_gaussian_rotation_matrix_from_samples():
+    mean = pr.matrix_from_axis_angle([0.3, 0.2, 0.5, 0.25 * np.pi])
+    cov = np.diag([1.3, 1.5, 2.9])
+    rng = np.random.default_rng(34)
+    samples = np.array([pr.random_matrix(rng, mean, cov) for _ in range(1000)])
+    mean_est, cov_est = pu.estimate_gaussian_rotation_matrix_from_samples(
+        samples)
+    assert_array_almost_equal(mean, mean_est, decimal=1)
+    assert_array_almost_equal(cov, cov_est, decimal=0)
+
+
 def test_same_fuse_poses():
     mean1 = np.array([
         [0.8573, -0.2854, 0.4285, 3.5368],

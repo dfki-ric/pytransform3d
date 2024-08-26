@@ -3,6 +3,8 @@
 See :doc:`user_guide/uncertainty` for more information.
 """
 import numpy as np
+from .batch_rotations import (matrices_from_compact_axis_angles,
+                              axis_angles_from_matrices)
 from .transformations import (
     invert_transform, transform_from, concat, adjoint_from_transform,
     left_jacobian_SE3_inv, transform_from_exponential_coordinates,
@@ -11,6 +13,51 @@ from .trajectories import (exponential_coordinates_from_transforms,
                            transforms_from_exponential_coordinates,
                            concat_many_to_one)
 from ._geometry import unit_sphere_surface_grid
+
+
+def estimate_gaussian_rotation_matrix_from_samples(samples):
+    """Estimate Gaussian distribution over rotations from samples.
+
+    Uses iterative approximation of mean described by Eade [1]_ and computes
+    covariance in exponential coordinate space (using an unbiased estimator).
+
+    Parameters
+    ----------
+    samples : array-like, shape (n_samples, 3, 3)
+        Sampled rotations represented by rotation matrices.
+
+    Returns
+    -------
+    mean : array, shape (3, 3)
+        Mean as rotation matrix.
+
+    cov : array, shape (3, 3)
+        Covariance of distribution in exponential coordinate space.
+
+    References
+    ----------
+    .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
+       https://ethaneade.com/lie.pdf
+    """
+    assert len(samples) > 0
+    samples = np.asarray(samples)
+    mean = samples[0]
+    for _ in range(20):
+        mean_inv = mean.T
+        mean_diffs_axis_angle = axis_angles_from_matrices(
+            # Uses implementation detail concat_many_to_one that is not part of
+            # the public interface. It is supposed to support only homgeneous
+            # transformation matrices, but it works for rotation matrices, too!
+            concat_many_to_one(samples, mean_inv)
+        )
+        mean_diffs = (mean_diffs_axis_angle[:, :3]
+                      * mean_diffs_axis_angle[:, 3, np.newaxis])
+        avg_mean_diff = np.mean(mean_diffs, axis=0)
+        print(f"{np.linalg.norm(avg_mean_diff)=}")
+        mean = np.dot(matrices_from_compact_axis_angles(avg_mean_diff), mean)
+
+    cov = np.cov(mean_diffs, rowvar=False, bias=True)
+    return mean, cov
 
 
 def estimate_gaussian_transform_from_samples(samples):
@@ -57,6 +104,7 @@ def estimate_gaussian_transform_from_samples(samples):
        https://doi.org/10.1007/s10851-006-6228-4
     """
     assert len(samples) > 0
+    samples = np.asarray(samples)
     mean = samples[0]
     for _ in range(20):
         mean_inv = invert_transform(mean)
