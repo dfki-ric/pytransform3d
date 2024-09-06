@@ -117,14 +117,10 @@ class _Trimesh(MeshBase):
             except:  # most likely release candidate (rc) version
                 patch_version = 0
             if minor_version >= 4 and patch_version >= 9:
-                obj = obj.to_mesh()
+                return obj.to_mesh()
             elif minor_version >= 2:
-                obj = obj.dump(concatenate=True)
-            else:
-                obj = obj.dump().sum()
-        else:
-            obj = obj.dump().sum()
-        return obj
+                return obj.dump(concatenate=True)
+        return obj.dump().sum()
 
     def convex_hull(self):
         self.mesh = self.mesh.convex_hull
