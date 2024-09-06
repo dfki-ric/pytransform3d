@@ -96,12 +96,35 @@ class _Trimesh(MeshBase):
             return False
         obj = trimesh.load(self.filename)
         if isinstance(obj, trimesh.Scene):  # pragma: no cover
-            # Special case in which we load a collada file that contains
-            # multiple meshes. We might lose textures. This is excluded
-            # from testing as it would add another dependency.
-            obj = obj.dump().sum()
+            obj = self._convert_scene_to_mesh(obj)
         self.mesh = obj
         return True
+
+    def _convert_scene_to_mesh(self, obj):  # pragma: no cover
+        # Special case in which we load a collada file that contains
+        # multiple meshes. We might lose textures. This is excluded
+        # from testing as it would add another dependency.
+        import trimesh
+        trimesh_version_parts = trimesh.__version__.split(".")
+        major_version = int(trimesh_version_parts[0])
+        if major_version >= 4:
+            try:
+                minor_version = int(trimesh_version_parts[1])
+            except:
+                minor_version = 0
+            try:
+                patch_version = int(trimesh_version_parts[2])
+            except:  # most likely release candidate (rc) version
+                patch_version = 0
+            if minor_version >= 4 and patch_version >= 9:
+                obj = obj.to_mesh()
+            elif minor_version >= 2:
+                obj = obj.dump(concatenate=True)
+            else:
+                obj = obj.dump().sum()
+        else:
+            obj = obj.dump().sum()
+        return obj
 
     def convex_hull(self):
         self.mesh = self.mesh.convex_hull
