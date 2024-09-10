@@ -6,7 +6,7 @@ With many transformations it is not easy to keep track of the right sequence.
 Here are some simple tricks that you can use to keep track of transformations
 and make to always concatenate them in the correct way.
 
-.. image:: _static/transformation_modeling.png
+.. image:: ../_static/transformation_modeling.png
    :alt: Three frames
    :align: center
 

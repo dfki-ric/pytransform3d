@@ -27,16 +27,16 @@ pytransform3d
    :maxdepth: 1
 
    install
-   introduction
-   rotations
-   transformations
-   transformation_ambiguities
-   euler_angles
-   transformation_modeling
-   transform_manager
-   transformation_over_time
-   camera
-   animations
+   user_guide/introduction
+   user_guide/rotations
+   user_guide/transformations
+   user_guide/transformation_ambiguities
+   user_guide/euler_angles
+   user_guide/transformation_modeling
+   user_guide/transform_manager
+   user_guide/transformation_over_time
+   user_guide/camera
+   user_guide/animations
    api
    _auto_examples/index
 
