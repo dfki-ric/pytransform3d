@@ -88,10 +88,10 @@ intersphinx_mapping = {
 intersphinx_timeout = 10
 
 
-# experimental API, works with sphinx-gallery 0.8.2
-class Open3DScraper(object):
+# experimental API, works with sphinx-gallery 0.8.2 - 0.15
+class Open3DScraper:
     def __repr__(self):
-        return "Open3DScraper"
+        return f"<{type(self).__name__} object>"
 
     def __call__(self, block, block_vars, gallery_conf, **kwargs):
         """Scrape Open3D images.
