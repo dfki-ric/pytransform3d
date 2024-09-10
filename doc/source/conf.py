@@ -60,7 +60,6 @@ html_theme_options = {
     "logo": {
         "text": f"pytransform3d {release}"
     },
-    "sidebarwidth": 100,
     "collapse_navigation": True
 }
 html_sidebars = {
