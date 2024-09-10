@@ -18,8 +18,8 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.todo",
     "sphinx.ext.coverage",
-    #"sphinx.ext.mathjax",
-    "sphinx.ext.imgmath",
+    "sphinx.ext.mathjax",
+    #"sphinx.ext.imgmath",
     "sphinx.ext.ifconfig",
     "sphinx.ext.viewcode",
     "matplotlib.sphinxext.plot_directive",
@@ -65,6 +65,9 @@ html_theme_options = {
         ("Examples", "_auto_examples/index"),
         ("API", "api"),
     ],
+}
+html_sidebars = {
+  "**": [],
 }
 html_static_path = ['_static']
 html_last_updated_fmt = '%b %d, %Y'

@@ -123,7 +123,7 @@ right-handed system and with the left hand in a left-handed system.
 Active (Alibi) vs. Passive (Alias) Transformation
 -------------------------------------------------
 
-.. image:: _static/active_passive.png
+.. image:: ../_static/active_passive.png
    :alt: Passive vs. active transformation
    :align: center
 
@@ -365,7 +365,7 @@ Naming and Frame Conventions
 In addition to transformation and rotation conventions, there are a lot of
 different naming and frame conventions. Here are some examples.
 
-.. figure:: _static/conventions_ship.png
+.. figure:: ../_static/conventions_ship.png
    :alt: Ship conventions
    :align: center
    :width: 50%
@@ -376,7 +376,7 @@ different naming and frame conventions. Here are some examples.
    and roll are used. Sometimes the body frame is rotated by 180 degrees around
    the x-axis, so that the y-axis points to the right side and the z-axis down.
 
-.. figure:: _static/conventions_plane.png
+.. figure:: ../_static/conventions_plane.png
    :alt: Aircraft conventions
    :align: center
    :width: 50%
@@ -387,7 +387,7 @@ different naming and frame conventions. Here are some examples.
    rotation about the x''-axis is called bank.
 
 
-.. figure:: _static/conventions_camera.png
+.. figure:: ../_static/conventions_camera.png
    :alt: Camera conventions
    :align: center
 

@@ -13,7 +13,7 @@ We can visualize the lifetime of two dynamic transformations (i.e. 3 coordinate
 systems) in the figure below. Each circle represents a sample (measurement)
 holding the transformation from the parent to the child frame.
 
-.. figure:: _static/tf-trafo-over-time.png
+.. figure:: ../_static/tf-trafo-over-time.png
     :width: 60%
     :align: center
 
@@ -29,7 +29,7 @@ Preparing the transformation sequences
 First, you need to prepare the transfomation sequences using the 
 :class:`~pytransform3d.transform_manager.NumpyTimeseriesTransform` class:
 
-.. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
+.. literalinclude:: ../../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
    :lines: 43-56
 
@@ -43,7 +43,7 @@ abstract class :class:`~pytransform3d.transform_manager.TimeVaryingTransform`.
 Next, you need to pass the transformations to an instance of
 :class:`~pytransform3d.transform_manager.TemporalTransformManager`:
 
-.. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
+.. literalinclude:: ../../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
    :lines: 58-61
 
@@ -54,7 +54,7 @@ Transform between coordinate systems
 Finally, you can transform between coordinate systems at a particular time
 :math:`t_q`:
 
-.. literalinclude:: ../../examples/plots/plot_interpolation_for_transform_manager.py
+.. literalinclude:: ../../../examples/plots/plot_interpolation_for_transform_manager.py
    :language: python
    :lines: 63-68
 

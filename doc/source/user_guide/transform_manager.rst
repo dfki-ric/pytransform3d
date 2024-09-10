@@ -17,7 +17,7 @@ transformations, that is, we compute the shortest path through the undirected
 graph, concatenate transformations along the path, and invert transformations
 if required as indicated by the solid red arrow.
 
-.. figure:: _static/transform_graph.png
+.. figure:: ../_static/transform_graph.png
     :width: 35%
     :align: center
 
@@ -27,7 +27,7 @@ The :class:`~pytransform3d.transform_manager.TransformManager` does this for
 you. For the given example, this would be the corresponding code
 (see also: :ref:`sphx_glr__auto_examples_plots_plot_transform_manager.py`).
 
-.. literalinclude:: ../../examples/plots/plot_transform_manager.py
+.. literalinclude:: ../../../examples/plots/plot_transform_manager.py
    :language: python
    :lines: 27-32
 
@@ -37,7 +37,7 @@ We can also export the underlying graph structure as a PNG with
 
     tm.write_png(filename)
 
-.. image:: _static/graph.png
+.. image:: ../_static/graph.png
     :width: 50%
     :align: center
 
