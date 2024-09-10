@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pytransform3d.trajectories &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=3b405b93" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../_static/documentation_options.js?v=c1362a89"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -133,7 +131,9 @@
     <span class="n">screw_axis_from_screw_parameters</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="invert_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.invert_transforms.html#pytransform3d.trajectories.invert_transforms">[docs]</a><span class="k">def</span> <span class="nf">invert_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
+<div class="viewcode-block" id="invert_transforms">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.invert_transforms.html#pytransform3d.trajectories.invert_transforms">[docs]</a>
+<span class="k">def</span> <span class="nf">invert_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Invert transforms.</span>
 
 <span class="sd">    Parameters</span>
@@ -168,7 +168,10 @@
     <span class="k">return</span> <span class="n">B2As</span></div>
 
 
-<div class="viewcode-block" id="concat_one_to_many"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.concat_one_to_many.html#pytransform3d.trajectories.concat_one_to_many">[docs]</a><span class="k">def</span> <span class="nf">concat_one_to_many</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">B2Cs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="concat_one_to_many">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.concat_one_to_many.html#pytransform3d.trajectories.concat_one_to_many">[docs]</a>
+<span class="k">def</span> <span class="nf">concat_one_to_many</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">B2Cs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate transformation A2B with multiple transformations B2C.</span>
 
 <span class="sd">    We use the extrinsic convention, which means that B2Cs are left-multiplied</span>
@@ -198,7 +201,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;nij,jk-&gt;nik&quot;</span><span class="p">,</span> <span class="n">B2Cs</span><span class="p">,</span> <span class="n">A2B</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="concat_many_to_one"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.concat_many_to_one.html#pytransform3d.trajectories.concat_many_to_one">[docs]</a><span class="k">def</span> <span class="nf">concat_many_to_one</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">,</span> <span class="n">B2C</span><span class="p">):</span>
+
+<div class="viewcode-block" id="concat_many_to_one">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.concat_many_to_one.html#pytransform3d.trajectories.concat_many_to_one">[docs]</a>
+<span class="k">def</span> <span class="nf">concat_many_to_one</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">,</span> <span class="n">B2C</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate multiple transformations A2B with transformation B2C.</span>
 
 <span class="sd">    We use the extrinsic convention, which means that B2C is left-multiplied</span>
@@ -228,7 +234,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,njk-&gt;nik&quot;</span><span class="p">,</span> <span class="n">B2C</span><span class="p">,</span> <span class="n">A2Bs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="transforms_from_pqs"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs">[docs]</a><span class="k">def</span> <span class="nf">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transforms_from_pqs">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs">[docs]</a>
+<span class="k">def</span> <span class="nf">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get sequence of homogeneous matrices from positions and quaternions.</span>
 
 <span class="sd">    Parameters</span>
@@ -258,11 +267,14 @@
     <span class="k">return</span> <span class="n">A2Bs</span></div>
 
 
+
 <span class="c1"># DEPRECATED: for backwards compatibility only!</span>
 <span class="n">matrices_from_pos_quat</span> <span class="o">=</span> <span class="n">transforms_from_pqs</span>
 
 
-<div class="viewcode-block" id="pqs_from_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.pqs_from_transforms.html#pytransform3d.trajectories.pqs_from_transforms">[docs]</a><span class="k">def</span> <span class="nf">pqs_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
+<div class="viewcode-block" id="pqs_from_transforms">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.pqs_from_transforms.html#pytransform3d.trajectories.pqs_from_transforms">[docs]</a>
+<span class="k">def</span> <span class="nf">pqs_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get sequence of positions and quaternions from homogeneous matrices.</span>
 
 <span class="sd">    Parameters</span>
@@ -284,7 +296,10 @@
     <span class="k">return</span> <span class="n">P</span></div>
 
 
-<div class="viewcode-block" id="exponential_coordinates_from_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.exponential_coordinates_from_transforms.html#pytransform3d.trajectories.exponential_coordinates_from_transforms">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="exponential_coordinates_from_transforms">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.exponential_coordinates_from_transforms.html#pytransform3d.trajectories.exponential_coordinates_from_transforms">[docs]</a>
+<span class="k">def</span> <span class="nf">exponential_coordinates_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute exponential coordinates from transformations.</span>
 
 <span class="sd">    Parameters</span>
@@ -380,7 +395,10 @@
     <span class="k">return</span> <span class="n">Sthetas</span></div>
 
 
-<div class="viewcode-block" id="transforms_from_exponential_coordinates"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">transforms_from_exponential_coordinates</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transforms_from_exponential_coordinates">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates">[docs]</a>
+<span class="k">def</span> <span class="nf">transforms_from_exponential_coordinates</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute transformations from exponential coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -470,7 +488,10 @@
     <span class="k">return</span> <span class="n">A2Bs</span></div>
 
 
-<div class="viewcode-block" id="dual_quaternions_from_pqs"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.dual_quaternions_from_pqs.html#pytransform3d.trajectories.dual_quaternions_from_pqs">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternions_from_pqs</span><span class="p">(</span><span class="n">pqs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dual_quaternions_from_pqs">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.dual_quaternions_from_pqs.html#pytransform3d.trajectories.dual_quaternions_from_pqs">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternions_from_pqs</span><span class="p">(</span><span class="n">pqs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get dual quaternions from positions and quaternions.</span>
 
 <span class="sd">    Parameters</span>
@@ -499,6 +520,7 @@
     <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">batch_concatenate_quaternions</span><span class="p">(</span>
         <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:],</span> <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">out</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">dual_quaternions_from_transforms</span><span class="p">(</span><span class="n">A2Bs</span><span class="p">):</span>
@@ -531,7 +553,9 @@
     <span class="k">return</span> <span class="n">out</span>
 
 
-<div class="viewcode-block" id="pqs_from_dual_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.pqs_from_dual_quaternions.html#pytransform3d.trajectories.pqs_from_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">pqs_from_dual_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
+<div class="viewcode-block" id="pqs_from_dual_quaternions">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.pqs_from_dual_quaternions.html#pytransform3d.trajectories.pqs_from_dual_quaternions">[docs]</a>
+<span class="k">def</span> <span class="nf">pqs_from_dual_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get positions and quaternions from dual quaternions.</span>
 
 <span class="sd">    Parameters</span>
@@ -555,7 +579,10 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="transforms_from_dual_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_dual_quaternions.html#pytransform3d.trajectories.transforms_from_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">transforms_from_dual_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transforms_from_dual_quaternions">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.transforms_from_dual_quaternions.html#pytransform3d.trajectories.transforms_from_dual_quaternions">[docs]</a>
+<span class="k">def</span> <span class="nf">transforms_from_dual_quaternions</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get transformations from dual quaternions.</span>
 
 <span class="sd">    Parameters</span>
@@ -580,7 +607,10 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="batch_dq_conj"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_dq_conj.html#pytransform3d.trajectories.batch_dq_conj">[docs]</a><span class="k">def</span> <span class="nf">batch_dq_conj</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="batch_dq_conj">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_dq_conj.html#pytransform3d.trajectories.batch_dq_conj">[docs]</a>
+<span class="k">def</span> <span class="nf">batch_dq_conj</span><span class="p">(</span><span class="n">dqs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Conjugate of dual quaternions.</span>
 
 <span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
@@ -606,7 +636,10 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="batch_concatenate_dual_quaternions"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_concatenate_dual_quaternions.html#pytransform3d.trajectories.batch_concatenate_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">batch_concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dqs1</span><span class="p">,</span> <span class="n">dqs2</span><span class="p">):</span>
+
+<div class="viewcode-block" id="batch_concatenate_dual_quaternions">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_concatenate_dual_quaternions.html#pytransform3d.trajectories.batch_concatenate_dual_quaternions">[docs]</a>
+<span class="k">def</span> <span class="nf">batch_concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dqs1</span><span class="p">,</span> <span class="n">dqs2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate dual quaternions.</span>
 
 <span class="sd">    Suppose we want to apply two extrinsic transforms given by dual</span>
@@ -642,7 +675,10 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="batch_dq_prod_vector"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_dq_prod_vector.html#pytransform3d.trajectories.batch_dq_prod_vector">[docs]</a><span class="k">def</span> <span class="nf">batch_dq_prod_vector</span><span class="p">(</span><span class="n">dqs</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+
+<div class="viewcode-block" id="batch_dq_prod_vector">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.batch_dq_prod_vector.html#pytransform3d.trajectories.batch_dq_prod_vector">[docs]</a>
+<span class="k">def</span> <span class="nf">batch_dq_prod_vector</span><span class="p">(</span><span class="n">dqs</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply transforms represented by a dual quaternions to vectors.</span>
 
 <span class="sd">    Parameters</span>
@@ -670,7 +706,10 @@
     <span class="k">return</span> <span class="n">v_dq_transformed</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span></div>
 
 
-<div class="viewcode-block" id="plot_trajectory"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">[docs]</a><span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span>
+
+<div class="viewcode-block" id="plot_trajectory">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.plot_trajectory.html#pytransform3d.trajectories.plot_trajectory">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span>
         <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_direction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot pose trajectory.</span>
@@ -727,7 +766,10 @@
     <span class="k">return</span> <span class="n">ax</span></div>
 
 
-<div class="viewcode-block" id="mirror_screw_axis_direction"><a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.mirror_screw_axis_direction.html#pytransform3d.trajectories.mirror_screw_axis_direction">[docs]</a><span class="k">def</span> <span class="nf">mirror_screw_axis_direction</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
+
+<div class="viewcode-block" id="mirror_screw_axis_direction">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.mirror_screw_axis_direction.html#pytransform3d.trajectories.mirror_screw_axis_direction">[docs]</a>
+<span class="k">def</span> <span class="nf">mirror_screw_axis_direction</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Switch to the other representation of the same transformation.</span>
 
 <span class="sd">    We take the negative of the screw axis, invert the rotation angle</span>
@@ -757,6 +799,7 @@
             <span class="n">q</span><span class="p">,</span> <span class="n">s_new</span><span class="p">,</span> <span class="n">h_new</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta_new</span>
         <span class="n">Sthetas_new</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Stheta_new</span>
     <span class="k">return</span> <span class="n">Sthetas_new</span></div>
+
 </pre></div>
 
     </div>
@@ -770,8 +813,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

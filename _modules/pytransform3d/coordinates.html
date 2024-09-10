@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pytransform3d.coordinates &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=3b405b93" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../_static/documentation_options.js?v=c1362a89"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -121,7 +119,9 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="cartesian_from_cylindrical"><a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cartesian_from_cylindrical.html#pytransform3d.coordinates.cartesian_from_cylindrical">[docs]</a><span class="k">def</span> <span class="nf">cartesian_from_cylindrical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+<div class="viewcode-block" id="cartesian_from_cylindrical">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cartesian_from_cylindrical.html#pytransform3d.coordinates.cartesian_from_cylindrical">[docs]</a>
+<span class="k">def</span> <span class="nf">cartesian_from_cylindrical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert cylindrical coordinates to Cartesian coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -143,7 +143,10 @@
     <span class="k">return</span> <span class="n">q</span></div>
 
 
-<div class="viewcode-block" id="cartesian_from_spherical"><a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cartesian_from_spherical.html#pytransform3d.coordinates.cartesian_from_spherical">[docs]</a><span class="k">def</span> <span class="nf">cartesian_from_spherical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="cartesian_from_spherical">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cartesian_from_spherical.html#pytransform3d.coordinates.cartesian_from_spherical">[docs]</a>
+<span class="k">def</span> <span class="nf">cartesian_from_spherical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert spherical coordinates to Cartesian coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -166,7 +169,10 @@
     <span class="k">return</span> <span class="n">q</span></div>
 
 
-<div class="viewcode-block" id="cylindrical_from_cartesian"><a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cylindrical_from_cartesian.html#pytransform3d.coordinates.cylindrical_from_cartesian">[docs]</a><span class="k">def</span> <span class="nf">cylindrical_from_cartesian</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="cylindrical_from_cartesian">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cylindrical_from_cartesian.html#pytransform3d.coordinates.cylindrical_from_cartesian">[docs]</a>
+<span class="k">def</span> <span class="nf">cylindrical_from_cartesian</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert Cartesian coordinates to cylindrical coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -188,7 +194,10 @@
     <span class="k">return</span> <span class="n">q</span></div>
 
 
-<div class="viewcode-block" id="cylindrical_from_spherical"><a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cylindrical_from_spherical.html#pytransform3d.coordinates.cylindrical_from_spherical">[docs]</a><span class="k">def</span> <span class="nf">cylindrical_from_spherical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="cylindrical_from_spherical">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.cylindrical_from_spherical.html#pytransform3d.coordinates.cylindrical_from_spherical">[docs]</a>
+<span class="k">def</span> <span class="nf">cylindrical_from_spherical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert spherical coordinates to cylindrical coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -211,7 +220,10 @@
     <span class="k">return</span> <span class="n">q</span></div>
 
 
-<div class="viewcode-block" id="spherical_from_cartesian"><a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.spherical_from_cartesian.html#pytransform3d.coordinates.spherical_from_cartesian">[docs]</a><span class="k">def</span> <span class="nf">spherical_from_cartesian</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="spherical_from_cartesian">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.spherical_from_cartesian.html#pytransform3d.coordinates.spherical_from_cartesian">[docs]</a>
+<span class="k">def</span> <span class="nf">spherical_from_cartesian</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert Cartesian coordinates to spherical coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -233,7 +245,10 @@
     <span class="k">return</span> <span class="n">q</span></div>
 
 
-<div class="viewcode-block" id="spherical_from_cylindrical"><a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.spherical_from_cylindrical.html#pytransform3d.coordinates.spherical_from_cylindrical">[docs]</a><span class="k">def</span> <span class="nf">spherical_from_cylindrical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="spherical_from_cylindrical">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.coordinates.spherical_from_cylindrical.html#pytransform3d.coordinates.spherical_from_cylindrical">[docs]</a>
+<span class="k">def</span> <span class="nf">spherical_from_cylindrical</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert cylindrical coordinates to spherical coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -254,6 +269,7 @@
     <span class="n">q</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
     <span class="n">q</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">q</span></div>
+
 </pre></div>
 
     </div>
@@ -267,8 +283,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

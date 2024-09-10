@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.plot_utils.make_3d_axis &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <title>pytransform3d.plot_utils.make_3d_axis &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytransform3d.plot_utils.remove_frame" href="pytransform3d.plot_utils.remove_frame.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -91,6 +89,7 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.make_3d_axis</a><ul>
+<li><a class="reference internal" href="#pytransform3d.plot_utils.make_3d_axis"><code class="docutils literal notranslate"><span class="pre">make_3d_axis()</span></code></a></li>
 <li><a class="reference internal" href="#examples-using-pytransform3d-plot-utils-make-3d-axis">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.plot_utils.make_3d_axis</span></code></a></li>
 </ul>
 </li>
@@ -126,10 +125,10 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="pytransform3d-plot-utils-make-3d-axis">
-<h1><a class="reference internal" href="../api.html#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a>.make_3d_axis<a class="headerlink" href="#pytransform3d-plot-utils-make-3d-axis" title="Permalink to this heading">¶</a></h1>
+<h1><a class="reference internal" href="../api.html#module-pytransform3d.plot_utils" title="pytransform3d.plot_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code></a>.make_3d_axis<a class="headerlink" href="#pytransform3d-plot-utils-make-3d-axis" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.plot_utils.make_3d_axis">
-<span class="sig-prename descclassname"><span class="pre">pytransform3d.plot_utils.</span></span><span class="sig-name descname"><span class="pre">make_3d_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax_s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">111</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils/_layout.html#make_3d_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.make_3d_axis" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.plot_utils.</span></span><span class="sig-name descname"><span class="pre">make_3d_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax_s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">111</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/plot_utils/_layout.html#make_3d_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.plot_utils.make_3d_axis" title="Link to this definition">¶</a></dt>
 <dd><p>Generate new 3D axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -156,29 +155,29 @@ as ‘X [m]’.</p>
 </dd></dl>
 
 <section id="examples-using-pytransform3d-plot-utils-make-3d-axis">
-<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.plot_utils.make_3d_axis</span></code><a class="headerlink" href="#examples-using-pytransform3d-plot-utils-make-3d-axis" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate fr..."><img alt="Plot Transformation" src="../_images/sphx_glr_plot_transform_thumb.png" />
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.plot_utils.make_3d_axis</span></code><a class="headerlink" href="#examples-using-pytransform3d-plot-utils-make-3d-axis" title="Link to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate frame."><img alt="" src="../_images/sphx_glr_plot_transform_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_transform.html#sphx-glr-auto-examples-plots-plot-transform-py"><span class="std std-ref">Plot Transformation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Transformation</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><img alt="Axis-Angle Representation from Two Direction Vectors" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transforms a direction given by a vector &#x27;a&#x27; to a direction given by a vector &#x27;b&#x27;. We show both vectors, the rotation about the rotation axis and the initial and resulting coordinate frame, where the vector &#x27;b&#x27; and its corresponding frame after the rotation are represented by shorter lines."><img alt="" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></p>
   <div class="sphx-glr-thumbnail-title">Axis-Angle Representation from Two Direction Vectors</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Plot a grid in spherical coordinates with rho = 1 as Cartesian points. We can see that the Cart..."><img alt="Spherical Grid" src="../_images/sphx_glr_plot_spherical_grid_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plot a grid in spherical coordinates with rho = 1 as Cartesian points. We can see that the Cartesian distances between points are not regular and there are many points that were converted to the same Cartesian point at the poles of the sphere."><img alt="" src="../_images/sphx_glr_plot_spherical_grid_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_spherical_grid.html#sphx-glr-auto-examples-plots-plot-spherical-grid-py"><span class="std std-ref">Spherical Grid</span></a></p>
   <div class="sphx-glr-thumbnail-title">Spherical Grid</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><img alt="Plot with Respect to Different Reference Frames" src="../_images/sphx_glr_plot_frames_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several transforms to the manager and plot all frames in two reference frames (&#x27;world&#x27; and &#x27;A&#x27;)."><img alt="" src="../_images/sphx_glr_plot_frames_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot with Respect to Different Reference Frames</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know t..."><img alt="Camera Transform" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know the world coordinates. If we know the location and orientation of the camera in the world, we can easily compute the location of the points on the image."><img alt="" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_camera_with_image.html#sphx-glr-auto-examples-plots-plot-camera-with-image-py"><span class="std std-ref">Camera Transform</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camera Transform</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i..."><img alt="Plot Straight Line Paths" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This is a demonstration of batch conversion from exponential coordinates to transformation matrices."><img alt="" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_straight_line_path.html#sphx-glr-auto-examples-plots-plot-straight-line-path-py"><span class="std std-ref">Plot Straight Line Paths</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Straight Line Paths</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting of several geometric shapes is directly supported by the library."><img alt="Plot Random Geometries" src="../_images/sphx_glr_plot_random_geometries_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting of several geometric shapes is directly supported by the library."><img alt="" src="../_images/sphx_glr_plot_random_geometries_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_random_geometries.html#sphx-glr-auto-examples-plots-plot-random-geometries-py"><span class="std std-ref">Plot Random Geometries</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Random Geometries</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Each of the poses has an associated covariance that is considered. In this example, we assume t..."><img alt="Concatenate Uncertain Transforms" src="../_images/sphx_glr_plot_concatenate_uncertain_transforms_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Each of the poses has an associated covariance that is considered. In this example, we assume that a robot is moving with constant velocity along the x-axis, however, there is noise in the orientation of the robot that accumulates and leads to different paths when sampling. Uncertainty accumulation leads to the so-called banana distribution, which does not seem Gaussian in Cartesian space, but it is Gaussian in exponential coordinate space of SO(3)."><img alt="" src="../_images/sphx_glr_plot_concatenate_uncertain_transforms_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_concatenate_uncertain_transforms.html#sphx-glr-auto-examples-plots-plot-concatenate-uncertain-transforms-py"><span class="std std-ref">Concatenate Uncertain Transforms</span></a></p>
   <div class="sphx-glr-thumbnail-title">Concatenate Uncertain Transforms</div>
 </div></div></section>
@@ -196,8 +195,8 @@ as ‘X [m]’.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

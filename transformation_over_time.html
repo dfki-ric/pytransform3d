@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Managing Transformations over Time &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
+    <title>Managing Transformations over Time &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Camera" href="camera.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -127,7 +125,7 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="managing-transformations-over-time">
-<h1>Managing Transformations over Time<a class="headerlink" href="#managing-transformations-over-time" title="Permalink to this heading">¶</a></h1>
+<h1>Managing Transformations over Time<a class="headerlink" href="#managing-transformations-over-time" title="Link to this heading">¶</a></h1>
 <p>In applications, where the transformations between coordinate frames are
 dynamic (i.e. changing over time), consider using
 <a class="reference internal" href="_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager" title="pytransform3d.transform_manager.TemporalTransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">TemporalTransformManager</span></code></a>. In contrast
@@ -138,14 +136,15 @@ needed to interpolate between transformation samples available over time.</p>
 systems) in the figure below. Each circle represents a sample (measurement)
 holding the transformation from the parent to the child frame.</p>
 <figure class="align-center">
-<a class="reference internal image-reference" href="_images/tf-trafo-over-time.png"><img alt="_images/tf-trafo-over-time.png" src="_images/tf-trafo-over-time.png" style="width: 60%;" /></a>
+<a class="reference internal image-reference" href="_images/tf-trafo-over-time.png"><img alt="_images/tf-trafo-over-time.png" src="_images/tf-trafo-over-time.png" style="width: 60%;" />
+</a>
 </figure>
 <p>A common use-case is to transform points originating from system A to system B
 at a specific point in time (i.e. <img class="math" src="_images/math/13937cbf016bea779a8e497b009f6d61c5b488be.png" alt="t_q"/>, where <img class="math" src="_images/math/a5fa84b363f309ebc8fe7db38304541732c7de9a.png" alt="q"/> refers to query)
 Imagine two moving robots A &amp; B reporting their observations between each
 other.</p>
 <section id="preparing-the-transformation-sequences">
-<h2>Preparing the transformation sequences<a class="headerlink" href="#preparing-the-transformation-sequences" title="Permalink to this heading">¶</a></h2>
+<h2>Preparing the transformation sequences<a class="headerlink" href="#preparing-the-transformation-sequences" title="Link to this heading">¶</a></h2>
 <p>First, you need to prepare the transfomation sequences using the
 <a class="reference internal" href="_apidoc/pytransform3d.transform_manager.NumpyTimeseriesTransform.html#pytransform3d.transform_manager.NumpyTimeseriesTransform" title="pytransform3d.transform_manager.NumpyTimeseriesTransform"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumpyTimeseriesTransform</span></code></a> class:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create entities A and B together with their transformations from world</span>
@@ -179,7 +178,7 @@ abstract class <a class="reference internal" href="_apidoc/pytransform3d.transfo
 </div>
 </section>
 <section id="transform-between-coordinate-systems">
-<h2>Transform between coordinate systems<a class="headerlink" href="#transform-between-coordinate-systems" title="Permalink to this heading">¶</a></h2>
+<h2>Transform between coordinate systems<a class="headerlink" href="#transform-between-coordinate-systems" title="Link to this heading">¶</a></h2>
 <p>Finally, you can transform between coordinate systems at a particular time
 <img class="math" src="_images/math/13937cbf016bea779a8e497b009f6d61c5b488be.png" alt="t_q"/>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_time</span> <span class="o">=</span> <span class="mf">4.9</span>  <span class="c1"># [s]</span>
@@ -210,8 +209,8 @@ in the plot below:</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

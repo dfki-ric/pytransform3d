@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pytransform3d.transformations._random &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css?v=3b405b93" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../../_static/documentation_options.js?v=c1362a89"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
@@ -124,7 +122,9 @@
 <span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="n">transform_from_exponential_coordinates</span>
 
 
-<div class="viewcode-block" id="random_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_transform.html#pytransform3d.transformations.random_transform">[docs]</a><span class="k">def</span> <span class="nf">random_transform</span><span class="p">(</span>
+<div class="viewcode-block" id="random_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_transform.html#pytransform3d.transformations.random_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">random_transform</span><span class="p">(</span>
         <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random transform.</span>
 
@@ -160,7 +160,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="random_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_screw_axis.html#pytransform3d.transformations.random_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">random_screw_axis</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+
+<div class="viewcode-block" id="random_screw_axis">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_screw_axis.html#pytransform3d.transformations.random_screw_axis">[docs]</a>
+<span class="k">def</span> <span class="nf">random_screw_axis</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random screw axis.</span>
 
 <span class="sd">    Each component of v will be sampled from a standard normal distribution</span>
@@ -185,7 +188,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">omega</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="random_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_exponential_coordinates.html#pytransform3d.transformations.random_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">random_exponential_coordinates</span><span class="p">(</span>
+
+<div class="viewcode-block" id="random_exponential_coordinates">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.random_exponential_coordinates.html#pytransform3d.transformations.random_exponential_coordinates">[docs]</a>
+<span class="k">def</span> <span class="nf">random_exponential_coordinates</span><span class="p">(</span>
         <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random exponential coordinates.</span>
 
@@ -213,6 +219,7 @@
 <span class="sd">        if you want to recover theta from exponential coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">)</span></div>
+
 </pre></div>
 
     </div>
@@ -226,8 +233,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>SE(3): 3D Transformations &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
+    <title>SE(3): 3D Transformations &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Transformation Ambiguities and Conventions" href="transformation_ambiguities.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -134,7 +132,7 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="se-3-3d-transformations">
-<h1>SE(3): 3D Transformations<a class="headerlink" href="#se-3-3d-transformations" title="Permalink to this heading">¶</a></h1>
+<h1>SE(3): 3D Transformations<a class="headerlink" href="#se-3-3d-transformations" title="Link to this heading">¶</a></h1>
 <p>The group of all proper rigid transformations (rototranslations) in the
 3D Cartesian space is <img class="math" src="_images/math/5a44cb9fa5269d4e3bc13d64693d9f8dc9c6562c.png" alt="SE(3)"/> (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
@@ -142,19 +140,19 @@ represented in different ways just like rotations can be expressed
 in different ways.</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#transformation-matrix" id="id1">Transformation Matrix</a></p></li>
-<li><p><a class="reference internal" href="#position-and-quaternion" id="id2">Position and Quaternion</a></p></li>
-<li><p><a class="reference internal" href="#screw-parameters" id="id3">Screw Parameters</a></p></li>
-<li><p><a class="reference internal" href="#screw-axis" id="id4">Screw Axis</a></p></li>
-<li><p><a class="reference internal" href="#exponential-coordinates" id="id5">Exponential Coordinates</a></p></li>
-<li><p><a class="reference internal" href="#logarithm-of-transformation" id="id6">Logarithm of Transformation</a></p></li>
-<li><p><a class="reference internal" href="#twist" id="id7">Twist</a></p></li>
-<li><p><a class="reference internal" href="#dual-quaternions" id="id8">Dual Quaternions</a></p></li>
-<li><p><a class="reference internal" href="#references" id="id9">References</a></p></li>
+<li><p><a class="reference internal" href="#transformation-matrix" id="id15">Transformation Matrix</a></p></li>
+<li><p><a class="reference internal" href="#position-and-quaternion" id="id16">Position and Quaternion</a></p></li>
+<li><p><a class="reference internal" href="#screw-parameters" id="id17">Screw Parameters</a></p></li>
+<li><p><a class="reference internal" href="#screw-axis" id="id18">Screw Axis</a></p></li>
+<li><p><a class="reference internal" href="#exponential-coordinates" id="id19">Exponential Coordinates</a></p></li>
+<li><p><a class="reference internal" href="#logarithm-of-transformation" id="id20">Logarithm of Transformation</a></p></li>
+<li><p><a class="reference internal" href="#twist" id="id21">Twist</a></p></li>
+<li><p><a class="reference internal" href="#dual-quaternions" id="id22">Dual Quaternions</a></p></li>
+<li><p><a class="reference internal" href="#references" id="id23">References</a></p></li>
 </ul>
 </nav>
 <p>For most representations of orientations we can find
-an analogous representation of transformations:</p>
+an analogous representation of transformations <a class="footnote-reference brackets" href="#id8" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>:</p>
 <ul class="simple">
 <li><p>A <strong>transformation matrix</strong> <img class="math" src="_images/math/65d78a49d93488a5fe84f65679785b9847ad8ea0.png" alt="\boldsymbol T"/> is similar to a rotation
 matrix <img class="math" src="_images/math/9b0478c944ec81bbf98d8cb2e9e8ff49466e1f9a.png" alt="\boldsymbol R"/>.</p></li>
@@ -178,9 +176,10 @@ is similar to a (unit) quaternion <img class="math" src="_images/math/b5277b002c
 </ul>
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
-<a class="reference internal image-reference" href="_images/transformations.png"><img alt="Transformations" class="align-center" src="_images/transformations.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="_images/transformations.png"><img alt="Transformations" class="align-center" src="_images/transformations.png" style="width: 50%;" />
+</a>
 <section id="transformation-matrix">
-<h2><a class="toc-backref" href="#id1" role="doc-backlink">Transformation Matrix</a><a class="headerlink" href="#transformation-matrix" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">Transformation Matrix</a><a class="headerlink" href="#transformation-matrix" title="Link to this heading">¶</a></h2>
 <p>One of the most convenient ways to represent transformations are
 transformation matrices. A transformation matrix is a 4x4 matrix of
 the form</p>
@@ -236,7 +235,7 @@ result:</p>
 \end{array} \right)"/></p>
 </div></section>
 <section id="position-and-quaternion">
-<h2><a class="toc-backref" href="#id2" role="doc-backlink">Position and Quaternion</a><a class="headerlink" href="#position-and-quaternion" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Position and Quaternion</a><a class="headerlink" href="#position-and-quaternion" title="Link to this heading">¶</a></h2>
 <p>An alternative to transformation matrices is the representation in a
 7-dimensional vector that consists of the translation and a rotation
 quaternion:</p>
@@ -249,24 +248,26 @@ a 2D array.</p>
 quaternion and typically we use the variable name pq.</p>
 </section>
 <section id="screw-parameters">
-<h2><a class="toc-backref" href="#id3" role="doc-backlink">Screw Parameters</a><a class="headerlink" href="#screw-parameters" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Screw Parameters</a><a class="headerlink" href="#screw-parameters" title="Link to this heading">¶</a></h2>
 <figure class="align-default">
 <img alt="_images/plot_screw.png" class="plot-directive" src="_images/plot_screw.png" />
 </figure>
 <p>Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
-by a motion along a screw axis. The <strong>screw parameters</strong> that describe a screw
-axis include a point vector <img class="math" src="_images/math/bc8225c514e0787daa8c20c1807d905e20f77451.png" alt="\boldsymbol{q}"/> through which the screw
-axis passes, a (unit) direction vector <img class="math" src="_images/math/729326d785879516bb2fb7c0a30b617282aa612e.png" alt="\hat{\boldsymbol{s}}"/> that
+by a motion along a screw axis <a class="footnote-reference brackets" href="#id9" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id10" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id11" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. The <strong>screw parameters</strong> that
+describe a screw axis include a point vector <img class="math" src="_images/math/bc8225c514e0787daa8c20c1807d905e20f77451.png" alt="\boldsymbol{q}"/> through
+which the screw axis passes, a (unit) direction vector
+<img class="math" src="_images/math/729326d785879516bb2fb7c0a30b617282aa612e.png" alt="\hat{\boldsymbol{s}}"/> that
 indicates the direction of the axis, and the pitch <img class="math" src="_images/math/4c120f773ab4e1c59ad2bd44aae969ce24dd190a.png" alt="h"/>. The pitch
 represents the ratio of translation and rotation. A screw motion translates
 along the screw axis and rotates about it.</p>
 <p>pytransform3d uses two vectors q and <cite>s_axis</cite> of shape (3,) and a scalar
 h to represent the parameters of a screw.</p>
-<a class="reference internal image-reference" href="_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="_images/screw_axis.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="_images/screw_axis.png" style="width: 50%;" />
+</a>
 </section>
 <section id="screw-axis">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">Screw Axis</a><a class="headerlink" href="#screw-axis" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Screw Axis</a><a class="headerlink" href="#screw-axis" title="Link to this heading">¶</a></h2>
 <p>A <strong>screw axis</strong> is typically represented by
 <img class="math" src="_images/math/58c32940b342ea5d8f0a0c032e9d632d47281bec.png" alt="\mathcal{S} = \left[\begin{array}{c}\boldsymbol{\omega}\\\boldsymbol{v}\end{array}\right] \in \mathbb{R}^6"/>,
 where either</p>
@@ -284,7 +285,7 @@ and typically we use the variable name S or <cite>screw_axis</cite>.</p>
 </div><p>In case 2, <img class="math" src="_images/math/4c120f773ab4e1c59ad2bd44aae969ce24dd190a.png" alt="h"/> is infinite and we directly translate along <img class="math" src="_images/math/729326d785879516bb2fb7c0a30b617282aa612e.png" alt="\hat{\boldsymbol{s}}"/>.</p>
 </section>
 <section id="exponential-coordinates">
-<h2><a class="toc-backref" href="#id5" role="doc-backlink">Exponential Coordinates</a><a class="headerlink" href="#exponential-coordinates" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Exponential Coordinates</a><a class="headerlink" href="#exponential-coordinates" title="Link to this heading">¶</a></h2>
 <p>By multiplication with an additional parameter <img class="math" src="_images/math/8a87f04e7d7cca18343c084cceca5237fae62491.png" alt="\theta"/> we can then
 define a complete transformation through its exponential coordinates
 <img class="math" src="_images/math/5c21a661b581b18e18cbb41ae5ff8850d72b4e08.png" alt="\mathcal{S} \theta = \left[\begin{array}{c}\boldsymbol{\omega}\theta\\\boldsymbol{v}\theta\end{array}\right] \in \mathbb{R}^6"/>.
@@ -304,7 +305,7 @@ a different order of the 3D vector components and they do not separate
 </div>
 </section>
 <section id="logarithm-of-transformation">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">Logarithm of Transformation</a><a class="headerlink" href="#logarithm-of-transformation" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Logarithm of Transformation</a><a class="headerlink" href="#logarithm-of-transformation" title="Link to this heading">¶</a></h2>
 <p>Alternatively, we can represent a screw axis <img class="math" src="_images/math/a963cd5439e5cc46202152a776b3120cde7c21a8.png" alt="\mathcal S"/> in a matrix</p>
 <div class="math">
 <p><img src="_images/math/408ed51ae2ce158baba3f5a79b53e7652b7fdbde.png" alt="\left[\mathcal S\right]
@@ -337,7 +338,7 @@ algebra of Lie group <img class="math" src="_images/math/5a44cb9fa5269d4e3bc13d6
 of a transformation and typically we use the variable name <cite>transform_log</cite>.</p>
 </section>
 <section id="twist">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Twist</a><a class="headerlink" href="#twist" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id21" role="doc-backlink">Twist</a><a class="headerlink" href="#twist" title="Link to this heading">¶</a></h2>
 <p>We call spatial velocity (translation and rotation) <strong>twist</strong>. Similarly
 to the matrix logarithm, a twist <img class="math" src="_images/math/4816c2d12935420656a91d4af4b7064bab3a7d57.png" alt="\mathcal{V} = \mathcal{S} \dot{\theta}"/>
 is described by a screw axis <img class="math" src="_images/math/b988975be41fd13b4d091c10202ba19374643586.png" alt="S"/> and a scalar <img class="math" src="_images/math/156be057a637fe3140b40c304b4c9a44631b057b.png" alt="\dot{\theta}"/>
@@ -345,10 +346,10 @@ and <img class="math" src="_images/math/006cd4ec9ba3da01f362c720bf80d4c15076e99f
 is the matrix representation of a twist.</p>
 </section>
 <section id="dual-quaternions">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">Dual Quaternions</a><a class="headerlink" href="#dual-quaternions" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Dual Quaternions</a><a class="headerlink" href="#dual-quaternions" title="Link to this heading">¶</a></h2>
 <p>Similarly to unit quaternions for rotations, unit dual quaternions are
-an alternative to represent transformations. They support similar operations
-as transformation matrices.</p>
+an alternative to represent transformations <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id14" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. They support
+similar operations as transformation matrices.</p>
 <p>A dual quaternion consists of a real quaternion and a dual quaternion:</p>
 <div class="math">
 <p><img src="_images/math/faf9c70f68012720e6f87876bba404a3d36a0b4b.png" alt="\boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),"/></p>
@@ -374,27 +375,45 @@ quaternion encodes the translation component as
 component and the scalar 0, and rotation quaternions have the same ambiguity.</p>
 </section>
 <section id="references">
-<h2><a class="toc-backref" href="#id9" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
-<ol class="arabic simple">
-<li><p>Lynch, Park: Modern Robotics (2017); available at
-<a class="reference external" href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">http://hades.mech.northwestern.edu/index.php/Modern_Robotics</a></p></li>
-<li><p>Bradley Evan Paden: Kinematics and Control of Robot Manipulators, PhD
-thesis (1985); available at
-<a class="reference external" href="https://digitalassets.lib.berkeley.edu/techreports/ucb/text/ERL-86-5.pdf">https://digitalassets.lib.berkeley.edu/techreports/ucb/text/ERL-86-5.pdf</a></p></li>
-<li><p>Peter Corke: Robotics, Vision and Control, 2nd Edition (2017),
-<a class="reference external" href="https://link.springer.com/book/10.1007/978-3-319-54413-7">https://link.springer.com/book/10.1007/978-3-319-54413-7</a></p></li>
-<li><p>Ethan Eade: Lie Groups for 2D and 3D Transformations (2017); available at
-<a class="reference external" href="https://ethaneade.com/lie.pdf">https://ethaneade.com/lie.pdf</a></p></li>
-<li><p>Sola, Deray, Atchuthan: A micro Lie theory for state estimation in robotics
-(2018), technical report; available at:
-<a class="reference external" href="http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf">http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf</a></p></li>
-<li><p>Wikipedia: Dual Quaternion; available at
-<a class="reference external" href="https://en.wikipedia.org/wiki/Dual_quaternion">https://en.wikipedia.org/wiki/Dual_quaternion</a></p></li>
-<li><p>Yan-Bin Jia: Dual Quaternions; available at
-<a class="reference external" href="http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf">http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf</a></p></li>
-<li><p>Ben Kenwright: A Beginners Guide to Dual-Quaternions; available at
-<a class="reference external" href="http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf">http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf</a></p></li>
-</ol>
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">References</a><a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Lynch, K. M., Park, F. C. (2017). Modern Robotics.
+<a class="reference external" href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">http://hades.mech.northwestern.edu/index.php/Modern_Robotics</a></p>
+</aside>
+<aside class="footnote brackets" id="id9" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Corke, P. (2017). Robotics, Vision and Control, 2nd Edition,
+<a class="reference external" href="https://link.springer.com/book/10.1007/978-3-319-54413-7">https://link.springer.com/book/10.1007/978-3-319-54413-7</a></p>
+</aside>
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
+<a class="reference external" href="https://ethaneade.com/lie.pdf">https://ethaneade.com/lie.pdf</a></p>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Sola, J., Deray, J., Atchuthan, D. (2018).
+A micro Lie theory for state estimation in robotics. Technical Report.
+<a class="reference external" href="http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf">http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf</a></p>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Wikipedia: Dual Quaternion.
+<a class="reference external" href="https://en.wikipedia.org/wiki/Dual_quaternion">https://en.wikipedia.org/wiki/Dual_quaternion</a></p>
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<p>Jia, Y.-B.: Dual Quaternions.
+<a class="reference external" href="https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf">https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf</a></p>
+</aside>
+<aside class="footnote brackets" id="id14" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
+<p>Kenwright, B. A Beginners Guide to Dual-Quaternions.
+<a class="reference external" href="http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf">http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf</a></p>
+</aside>
+</aside>
 </section>
 </section>
 
@@ -410,8 +429,8 @@ thesis (1985); available at
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

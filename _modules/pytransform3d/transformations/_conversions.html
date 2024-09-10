@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pytransform3d.transformations._conversions &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css?v=3b405b93" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../../_static/documentation_options.js?v=c1362a89"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
@@ -131,7 +129,9 @@
 <span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">left_jacobian_SO3</span><span class="p">,</span> <span class="n">left_jacobian_SO3_inv</span>
 
 
-<div class="viewcode-block" id="transform_from"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from">[docs]</a><span class="k">def</span> <span class="nf">transform_from</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="transform_from">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_from</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Make transformation from rotation matrix and translation.</span>
 
 <span class="sd">    .. math::</span>
@@ -168,7 +168,10 @@
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
-<div class="viewcode-block" id="translate_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.translate_transform.html#pytransform3d.transformations.translate_transform">[docs]</a><span class="k">def</span> <span class="nf">translate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="translate_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.translate_transform.html#pytransform3d.transformations.translate_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">translate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the translation of a transform.</span>
 
 <span class="sd">    Parameters</span>
@@ -199,7 +202,10 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="rotate_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.rotate_transform.html#pytransform3d.transformations.rotate_transform">[docs]</a><span class="k">def</span> <span class="nf">rotate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="rotate_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.rotate_transform.html#pytransform3d.transformations.rotate_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">rotate_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets the rotation of a transform.</span>
 
 <span class="sd">    Parameters</span>
@@ -230,7 +236,10 @@
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="pq_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.pq_from_transform.html#pytransform3d.transformations.pq_from_transform">[docs]</a><span class="k">def</span> <span class="nf">pq_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="pq_from_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.pq_from_transform.html#pytransform3d.transformations.pq_from_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">pq_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute position and quaternion from transformation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -252,7 +261,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">quaternion_from_matrix</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])))</span></div>
 
 
-<div class="viewcode-block" id="transform_from_pq"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq">[docs]</a><span class="k">def</span> <span class="nf">transform_from_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transform_from_pq">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_from_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute transformation matrix from position and quaternion.</span>
 
 <span class="sd">    Parameters</span>
@@ -269,7 +281,10 @@
     <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">matrix_from_quaternion</span><span class="p">(</span><span class="n">pq</span><span class="p">[</span><span class="mi">3</span><span class="p">:]),</span> <span class="n">pq</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="screw_parameters_from_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_parameters_from_screw_axis.html#pytransform3d.transformations.screw_parameters_from_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">screw_parameters_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">):</span>
+
+<div class="viewcode-block" id="screw_parameters_from_screw_axis">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_parameters_from_screw_axis.html#pytransform3d.transformations.screw_parameters_from_screw_axis">[docs]</a>
+<span class="k">def</span> <span class="nf">screw_parameters_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw parameters from screw axis.</span>
 
 <span class="sd">    Note that there is not just one solution since q can be any point on the</span>
@@ -313,7 +328,10 @@
     <span class="k">return</span> <span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span></div>
 
 
-<div class="viewcode-block" id="screw_axis_from_screw_parameters"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_screw_parameters.html#pytransform3d.transformations.screw_axis_from_screw_parameters">[docs]</a><span class="k">def</span> <span class="nf">screw_axis_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+
+<div class="viewcode-block" id="screw_axis_from_screw_parameters">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_screw_parameters.html#pytransform3d.transformations.screw_axis_from_screw_parameters">[docs]</a>
+<span class="k">def</span> <span class="nf">screw_axis_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw axis representation from screw parameters.</span>
 
 <span class="sd">    Parameters</span>
@@ -343,7 +361,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">s_axis</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">)</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">s_axis</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="screw_axis_from_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_exponential_coordinates.html#pytransform3d.transformations.screw_axis_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">screw_axis_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
+
+<div class="viewcode-block" id="screw_axis_from_exponential_coordinates">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_exponential_coordinates.html#pytransform3d.transformations.screw_axis_from_exponential_coordinates">[docs]</a>
+<span class="k">def</span> <span class="nf">screw_axis_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw axis and theta from exponential coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -381,7 +402,10 @@
     <span class="k">return</span> <span class="n">Stheta</span> <span class="o">/</span> <span class="n">theta</span><span class="p">,</span> <span class="n">theta</span></div>
 
 
-<div class="viewcode-block" id="screw_axis_from_screw_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_screw_matrix.html#pytransform3d.transformations.screw_axis_from_screw_matrix">[docs]</a><span class="k">def</span> <span class="nf">screw_axis_from_screw_matrix</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">):</span>
+
+<div class="viewcode-block" id="screw_axis_from_screw_matrix">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_axis_from_screw_matrix.html#pytransform3d.transformations.screw_axis_from_screw_matrix">[docs]</a>
+<span class="k">def</span> <span class="nf">screw_axis_from_screw_matrix</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw axis from screw matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -408,7 +432,10 @@
     <span class="k">return</span> <span class="n">screw_axis</span></div>
 
 
-<div class="viewcode-block" id="exponential_coordinates_from_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_screw_axis.html#pytransform3d.transformations.exponential_coordinates_from_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+
+<div class="viewcode-block" id="exponential_coordinates_from_screw_axis">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_screw_axis.html#pytransform3d.transformations.exponential_coordinates_from_screw_axis">[docs]</a>
+<span class="k">def</span> <span class="nf">exponential_coordinates_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute exponential coordinates from screw axis and theta.</span>
 
 <span class="sd">    Parameters</span>
@@ -438,7 +465,10 @@
     <span class="k">return</span> <span class="n">screw_axis</span> <span class="o">*</span> <span class="n">theta</span></div>
 
 
-<div class="viewcode-block" id="exponential_coordinates_from_transform_log"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform_log.html#pytransform3d.transformations.exponential_coordinates_from_transform_log">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="exponential_coordinates_from_transform_log">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform_log.html#pytransform3d.transformations.exponential_coordinates_from_transform_log">[docs]</a>
+<span class="k">def</span> <span class="nf">exponential_coordinates_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute exponential coordinates from logarithm of transformation.</span>
 
 <span class="sd">    Extracts the vector :math:`\mathcal{S} \theta =</span>
@@ -485,7 +515,10 @@
     <span class="k">return</span> <span class="n">Stheta</span></div>
 
 
-<div class="viewcode-block" id="exponential_coordinates_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform.html#pytransform3d.transformations.exponential_coordinates_from_transform">[docs]</a><span class="k">def</span> <span class="nf">exponential_coordinates_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="exponential_coordinates_from_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform.html#pytransform3d.transformations.exponential_coordinates_from_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">exponential_coordinates_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute exponential coordinates from transformation matrix.</span>
 
 <span class="sd">    Logarithmic map.</span>
@@ -567,7 +600,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">omega_theta</span><span class="p">,</span> <span class="n">v_theta</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="screw_matrix_from_screw_axis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_matrix_from_screw_axis.html#pytransform3d.transformations.screw_matrix_from_screw_axis">[docs]</a><span class="k">def</span> <span class="nf">screw_matrix_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">):</span>
+
+<div class="viewcode-block" id="screw_matrix_from_screw_axis">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_matrix_from_screw_axis.html#pytransform3d.transformations.screw_matrix_from_screw_axis">[docs]</a>
+<span class="k">def</span> <span class="nf">screw_matrix_from_screw_axis</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw matrix from screw axis.</span>
 
 <span class="sd">    Parameters</span>
@@ -594,7 +630,10 @@
     <span class="k">return</span> <span class="n">screw_matrix</span></div>
 
 
-<div class="viewcode-block" id="screw_matrix_from_transform_log"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_matrix_from_transform_log.html#pytransform3d.transformations.screw_matrix_from_transform_log">[docs]</a><span class="k">def</span> <span class="nf">screw_matrix_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">):</span>
+
+<div class="viewcode-block" id="screw_matrix_from_transform_log">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_matrix_from_transform_log.html#pytransform3d.transformations.screw_matrix_from_transform_log">[docs]</a>
+<span class="k">def</span> <span class="nf">screw_matrix_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw matrix from logarithm of transformation.</span>
 
 <span class="sd">    Parameters</span>
@@ -620,7 +659,10 @@
     <span class="k">return</span> <span class="n">transform_log</span> <span class="o">/</span> <span class="n">theta</span><span class="p">,</span> <span class="n">theta</span></div>
 
 
-<div class="viewcode-block" id="transform_log_from_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_exponential_coordinates.html#pytransform3d.transformations.transform_log_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">transform_log_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transform_log_from_exponential_coordinates">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_exponential_coordinates.html#pytransform3d.transformations.transform_log_from_exponential_coordinates">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_log_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from exponential coordinates.</span>
 
 <span class="sd">    Builds the matrix</span>
@@ -664,7 +706,10 @@
     <span class="k">return</span> <span class="n">transform_log</span></div>
 
 
-<div class="viewcode-block" id="transform_log_from_screw_matrix"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_screw_matrix.html#pytransform3d.transformations.transform_log_from_screw_matrix">[docs]</a><span class="k">def</span> <span class="nf">transform_log_from_screw_matrix</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transform_log_from_screw_matrix">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_screw_matrix.html#pytransform3d.transformations.transform_log_from_screw_matrix">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_log_from_screw_matrix</span><span class="p">(</span><span class="n">screw_matrix</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from screw matrix and theta.</span>
 
 <span class="sd">    Parameters</span>
@@ -686,7 +731,10 @@
     <span class="k">return</span> <span class="n">screw_matrix</span> <span class="o">*</span> <span class="n">theta</span></div>
 
 
-<div class="viewcode-block" id="transform_log_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_transform.html#pytransform3d.transformations.transform_log_from_transform">[docs]</a><span class="k">def</span> <span class="nf">transform_log_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transform_log_from_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_log_from_transform.html#pytransform3d.transformations.transform_log_from_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_log_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute matrix logarithm of transformation from transformation.</span>
 
 <span class="sd">    Logarithmic map.</span>
@@ -767,7 +815,10 @@
     <span class="k">return</span> <span class="n">transform_log</span></div>
 
 
-<div class="viewcode-block" id="transform_from_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transform_from_exponential_coordinates">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute transformation matrix from exponential coordinates.</span>
 
 <span class="sd">    Exponential map.</span>
@@ -832,7 +883,10 @@
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
-<div class="viewcode-block" id="transform_from_transform_log"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_transform_log.html#pytransform3d.transformations.transform_from_transform_log">[docs]</a><span class="k">def</span> <span class="nf">transform_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transform_from_transform_log">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_transform_log.html#pytransform3d.transformations.transform_from_transform_log">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_from_transform_log</span><span class="p">(</span><span class="n">transform_log</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute transformation from matrix logarithm of transformation.</span>
 
 <span class="sd">    Exponential map.</span>
@@ -885,7 +939,10 @@
     <span class="k">return</span> <span class="n">A2B</span></div>
 
 
-<div class="viewcode-block" id="dual_quaternion_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_transform.html#pytransform3d.transformations.dual_quaternion_from_transform">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dual_quaternion_from_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_transform.html#pytransform3d.transformations.dual_quaternion_from_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternion_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute dual quaternion from transformation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -906,7 +963,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="dual_quaternion_from_pq"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_pq.html#pytransform3d.transformations.dual_quaternion_from_pq">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dual_quaternion_from_pq">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_pq.html#pytransform3d.transformations.dual_quaternion_from_pq">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternion_from_pq</span><span class="p">(</span><span class="n">pq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute dual quaternion from position and quaternion.</span>
 
 <span class="sd">    Parameters</span>
@@ -927,7 +987,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="dual_quaternion_from_screw_parameters"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_screw_parameters.html#pytransform3d.transformations.dual_quaternion_from_screw_parameters">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dual_quaternion_from_screw_parameters">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_from_screw_parameters.html#pytransform3d.transformations.dual_quaternion_from_screw_parameters">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternion_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute dual quaternion from screw parameters.</span>
 
 <span class="sd">    Parameters</span>
@@ -974,7 +1037,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">real_w</span><span class="p">,</span> <span class="n">real_vec</span><span class="p">,</span> <span class="n">dual_w</span><span class="p">,</span> <span class="n">dual_vec</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="transform_from_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_dual_quaternion.html#pytransform3d.transformations.transform_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">transform_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+
+<div class="viewcode-block" id="transform_from_dual_quaternion">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_from_dual_quaternion.html#pytransform3d.transformations.transform_from_dual_quaternion">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute transformation matrix from dual quaternion.</span>
 
 <span class="sd">    Parameters</span>
@@ -996,7 +1062,10 @@
     <span class="k">return</span> <span class="n">transform_from</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="pq_from_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.pq_from_dual_quaternion.html#pytransform3d.transformations.pq_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">pq_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+
+<div class="viewcode-block" id="pq_from_dual_quaternion">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.pq_from_dual_quaternion.html#pytransform3d.transformations.pq_from_dual_quaternion">[docs]</a>
+<span class="k">def</span> <span class="nf">pq_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute position and quaternion from dual quaternion.</span>
 
 <span class="sd">    Parameters</span>
@@ -1017,7 +1086,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">real</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="screw_parameters_from_dual_quaternion"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_parameters_from_dual_quaternion.html#pytransform3d.transformations.screw_parameters_from_dual_quaternion">[docs]</a><span class="k">def</span> <span class="nf">screw_parameters_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+
+<div class="viewcode-block" id="screw_parameters_from_dual_quaternion">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.screw_parameters_from_dual_quaternion.html#pytransform3d.transformations.screw_parameters_from_dual_quaternion">[docs]</a>
+<span class="k">def</span> <span class="nf">screw_parameters_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute screw parameters from dual quaternion.</span>
 
 <span class="sd">    Parameters</span>
@@ -1073,7 +1145,10 @@
     <span class="k">return</span> <span class="n">dual</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span></div>
 
 
-<div class="viewcode-block" id="adjoint_from_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.adjoint_from_transform.html#pytransform3d.transformations.adjoint_from_transform">[docs]</a><span class="k">def</span> <span class="nf">adjoint_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="adjoint_from_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.adjoint_from_transform.html#pytransform3d.transformations.adjoint_from_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">adjoint_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute adjoint representation of a transformation matrix.</span>
 
 <span class="sd">    The adjoint representation of a transformation</span>
@@ -1174,7 +1249,10 @@
     <span class="k">return</span> <span class="n">adj_A2B</span></div>
 
 
-<div class="viewcode-block" id="norm_exponential_coordinates"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.norm_exponential_coordinates.html#pytransform3d.transformations.norm_exponential_coordinates">[docs]</a><span class="k">def</span> <span class="nf">norm_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
+
+<div class="viewcode-block" id="norm_exponential_coordinates">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.norm_exponential_coordinates.html#pytransform3d.transformations.norm_exponential_coordinates">[docs]</a>
+<span class="k">def</span> <span class="nf">norm_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize exponential coordinates of transformation.</span>
 
 <span class="sd">    Parameters</span>
@@ -1211,6 +1289,7 @@
     <span class="n">screw_axis</span> <span class="o">=</span> <span class="n">screw_axis_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h_normalized</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">screw_axis</span> <span class="o">*</span> <span class="n">theta_normed</span></div>
+
 </pre></div>
 
     </div>
@@ -1224,8 +1303,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

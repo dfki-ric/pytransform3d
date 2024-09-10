@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <title>pytransform3d.urdf.UrdfTransformManager &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytransform3d.urdf.Link" href="pytransform3d.urdf.Link.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -91,6 +89,29 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">pytransform3d.urdf.UrdfTransformManager</a><ul>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager</span></code></a><ul>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.__init__"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.add_joint"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.add_joint()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.set_joint"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.set_joint()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.get_joint_limits"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.get_joint_limits()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.load_urdf"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.load_urdf()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_visuals"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.plot_visuals()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.plot_collision_objects()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.add_transform"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.add_transform()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.check_consistency"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.check_consistency()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.connected_components"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.connected_components()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.from_dict"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.get_transform"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.get_transform()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.has_frame"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.has_frame()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_connections_in"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.plot_connections_in()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.plot_frames_in"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.plot_frames_in()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.remove_transform"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.remove_transform()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.set_transform_manager_state"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.set_transform_manager_state()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.to_dict"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.transforms"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.transforms</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.urdf.UrdfTransformManager.write_png"><code class="docutils literal notranslate"><span class="pre">UrdfTransformManager.write_png()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#examples-using-pytransform3d-urdf-urdftransformmanager">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.urdf.UrdfTransformManager</span></code></a></li>
 </ul>
 </li>
@@ -126,10 +147,10 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="pytransform3d-urdf-urdftransformmanager">
-<h1>pytransform3d.urdf.UrdfTransformManager<a class="headerlink" href="#pytransform3d-urdf-urdftransformmanager" title="Permalink to this heading">¶</a></h1>
+<h1>pytransform3d.urdf.UrdfTransformManager<a class="headerlink" href="#pytransform3d-urdf-urdftransformmanager" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.urdf.</span></span><span class="sig-name descname"><span class="pre">UrdfTransformManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.urdf.</span></span><span class="sig-name descname"><span class="pre">UrdfTransformManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager._transform_manager.TransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformManager</span></code></a></p>
 <p>Transformation manager that can load URDF files.</p>
 <p>URDF is the <a class="reference external" href="http://wiki.ros.org/urdf">Unified Robot Description Format</a>.
@@ -159,7 +180,7 @@ which might significantly slow down some operations.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.__init__" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -234,7 +255,7 @@ which might significantly slow down some operations.</p>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.add_joint">
-<span class="sig-name descname"><span class="pre">add_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child2parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-</span> <span class="pre">inf,</span> <span class="pre">inf)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'revolute'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.add_joint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.add_joint" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child2parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(-inf,</span> <span class="pre">inf)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'revolute'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.add_joint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.add_joint" title="Link to this definition">¶</a></dt>
 <dd><p>Add joint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -261,7 +282,7 @@ as revolute)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.set_joint">
-<span class="sig-name descname"><span class="pre">set_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.set_joint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.set_joint" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.set_joint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.set_joint" title="Link to this definition">¶</a></dt>
 <dd><p>Set joint position.</p>
 <p>Note that joint values are clipped to their limits.</p>
 <dl class="field-list simple">
@@ -285,7 +306,7 @@ in case of prismatic joint.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.get_joint_limits">
-<span class="sig-name descname"><span class="pre">get_joint_limits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.get_joint_limits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.get_joint_limits" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_joint_limits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.get_joint_limits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.get_joint_limits" title="Link to this definition">¶</a></dt>
 <dd><p>Get limits of a joint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -311,7 +332,7 @@ in case of prismatic joint.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.load_urdf">
-<span class="sig-name descname"><span class="pre">load_urdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urdf_xml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.load_urdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_urdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urdf_xml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.load_urdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="Link to this definition">¶</a></dt>
 <dd><p>Load URDF file into transformation manager.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -333,7 +354,7 @@ variable defines to which path this prefix will be resolved.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.plot_visuals">
-<span class="sig-name descname"><span class="pre">plot_visuals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wireframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convex_hull_of_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.plot_visuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_visuals" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot_visuals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wireframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convex_hull_of_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.plot_visuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_visuals" title="Link to this definition">¶</a></dt>
 <dd><p>Plot all visuals in a given reference frame.</p>
 <p>Visuals can be boxes, spheres, cylinders, or meshes. Note that visuals
 that cannot be connected to the reference frame are omitted.</p>
@@ -366,7 +387,7 @@ makes plotting a lot faster with complex meshes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.plot_collision_objects">
-<span class="sig-name descname"><span class="pre">plot_collision_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wireframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convex_hull_of_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.plot_collision_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot_collision_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wireframe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convex_hull_of_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/urdf.html#UrdfTransformManager.plot_collision_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects" title="Link to this definition">¶</a></dt>
 <dd><p>Plot all collision objects in a given reference frame.</p>
 <p>Collision objects can be boxes, spheres, cylinders, or meshes. Note
 that collision objects that cannot be connected to the reference frame
@@ -400,7 +421,7 @@ makes plotting a lot faster with complex meshes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.add_transform">
-<span class="sig-name descname"><span class="pre">add_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2B</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.add_transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2B</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.add_transform" title="Link to this definition">¶</a></dt>
 <dd><p>Register a transformation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -425,7 +446,7 @@ to_frame coordinate system</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.check_consistency">
-<span class="sig-name descname"><span class="pre">check_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.check_consistency" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">check_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.check_consistency" title="Link to this definition">¶</a></dt>
 <dd><p>Check consistency of the known transformations.</p>
 <p>The complexity of this is between <img class="math" src="../_images/math/cb487c73415b93656e35ddcbb45a04f8f8ee33fa.png" alt="O(n^2)"/> and <img class="math" src="../_images/math/174aef04544e022a085aab16ddeae821c5667e2b.png" alt="O(n^3)"/>,
 where <img class="math" src="../_images/math/5a939c5280da7202ca4531f175a7780ad5e1f80a.png" alt="n"/> is the number of nodes. In graphs where each pair of
@@ -444,7 +465,7 @@ of B2A?</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.connected_components">
-<span class="sig-name descname"><span class="pre">connected_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.connected_components" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connected_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.connected_components" title="Link to this definition">¶</a></dt>
 <dd><p>Get number of connected components.</p>
 <p>If the number is larger than 1 there will be frames without
 connections.</p>
@@ -460,7 +481,7 @@ connections.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.from_dict">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.from_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.from_dict" title="Link to this definition">¶</a></dt>
 <dd><p>Create transform manager from dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -480,7 +501,7 @@ connections.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.get_transform">
-<span class="sig-name descname"><span class="pre">get_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.get_transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.get_transform" title="Link to this definition">¶</a></dt>
 <dd><p>Request a transformation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -510,7 +531,7 @@ them</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.has_frame">
-<span class="sig-name descname"><span class="pre">has_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.has_frame" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.has_frame" title="Link to this definition">¶</a></dt>
 <dd><p>Check if frame has been registered.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -530,7 +551,7 @@ them</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.plot_connections_in">
-<span class="sig-name descname"><span class="pre">plot_connections_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_connections_in" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot_connections_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_connections_in" title="Link to this definition">¶</a></dt>
 <dd><p>Plot direct frame connections in a given reference frame.</p>
 <p>A line between each pair of frames for which a direct transformation
 is known will be plotted. Direct means that either A2B or B2A has been
@@ -570,7 +591,7 @@ connection</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.plot_frames_in">
-<span class="sig-name descname"><span class="pre">plot_frames_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot_frames_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whitelist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.plot_frames_in" title="Link to this definition">¶</a></dt>
 <dd><p>Plot all frames in a given reference frame.</p>
 <p>Note that frames that cannot be connected to the reference frame are
 omitted.</p>
@@ -610,7 +631,7 @@ omitted.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.remove_transform">
-<span class="sig-name descname"><span class="pre">remove_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.remove_transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.remove_transform" title="Link to this definition">¶</a></dt>
 <dd><p>Remove a transformation.</p>
 <p>Nothing happens if there is no such transformation.</p>
 <dl class="field-list simple">
@@ -634,7 +655,7 @@ to_frame coordinate system</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.set_transform_manager_state">
-<span class="sig-name descname"><span class="pre">set_transform_manager_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.set_transform_manager_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_transform_manager_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tm_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.set_transform_manager_state" title="Link to this definition">¶</a></dt>
 <dd><p>Set state of transform manager from dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -648,7 +669,7 @@ to_frame coordinate system</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.to_dict" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.to_dict" title="Link to this definition">¶</a></dt>
 <dd><p>Convert the transform manager to a dict that is serializable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -662,13 +683,13 @@ to_frame coordinate system</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.transforms">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transforms</span></span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.transforms" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transforms</span></span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.transforms" title="Link to this definition">¶</a></dt>
 <dd><p>Rigid transformations between nodes.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.urdf.UrdfTransformManager.write_png">
-<span class="sig-name descname"><span class="pre">write_png</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.write_png" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_png</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.urdf.UrdfTransformManager.write_png" title="Link to this definition">¶</a></dt>
 <dd><p>Create PNG from dot graph of the transformations.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -698,41 +719,38 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
 </dd></dl>
 
 <section id="examples-using-pytransform3d-urdf-urdftransformmanager">
-<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.urdf.UrdfTransformManager</span></code><a class="headerlink" href="#examples-using-pytransform3d-urdf-urdftransformmanager" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><img alt="Robot" src="../_images/sphx_glr_plot_robot_thumb.png" />
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.urdf.UrdfTransformManager</span></code><a class="headerlink" href="#examples-using-pytransform3d-urdf-urdftransformmanager" title="Link to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><img alt="" src="../_images/sphx_glr_plot_robot_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_robot.html#sphx-glr-auto-examples-plots-plot-robot-py"><span class="std std-ref">Robot</span></a></p>
   <div class="sphx-glr-thumbnail-title">Robot</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><img alt="URDF with Meshes" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_urdf_with_meshes.html#sphx-glr-auto-examples-plots-plot-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><img alt="URDF with Collision Objects" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><img alt="" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_collision_objects.html#sphx-glr-auto-examples-plots-plot-collision-objects-py"><span class="std std-ref">URDF with Collision Objects</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF with Collision Objects</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><img alt="URDF Joints" src="../_images/sphx_glr_plot_urdf_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_plot_urdf_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_urdf.html#sphx-glr-auto-examples-plots-plot-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF Joints</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><img alt="URDF with Meshes" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ..."><img alt="Animated URDF with Meshes" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animated URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="Add and Remove Artist" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></p>
   <div class="sphx-glr-thumbnail-title">Add and Remove Artist</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="Animated Robot" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animated Robot</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><img alt="URDF Joints" src="../_images/sphx_glr_vis_urdf_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_vis_urdf_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF Joints</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the fo..."><img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
   <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Use pyrender to show URDF file. You can get pyrender from"><img alt="Render URDF" src="../_images/sphx_glr_render_urdf_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/render_urdf.html#sphx-glr-auto-examples-visualizations-render-urdf-py"><span class="std std-ref">Render URDF</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Render URDF</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and vi..."><img alt="Probabilistic Product of Exponentials" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and visualize the projected equiprobably ellipsoid of the end-effector&#x27;s pose distribution."><img alt="" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_probabilistic_robot_kinematics.html#sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">Probabilistic Product of Exponentials</span></a></p>
   <div class="sphx-glr-thumbnail-title">Probabilistic Product of Exponentials</div>
 </div></div></section>
@@ -750,8 +768,8 @@ example, ‘dot’, ‘twopi’, ‘neato’, ‘circo’, ‘fdp’, ‘sfdp’
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

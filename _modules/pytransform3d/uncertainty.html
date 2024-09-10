@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.uncertainty &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
+    <title>pytransform3d.uncertainty &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -41,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -129,10 +127,12 @@
 <span class="kn">from</span> <span class="nn">._geometry</span> <span class="kn">import</span> <span class="n">unit_sphere_surface_grid</span>
 
 
-<div class="viewcode-block" id="estimate_gaussian_transform_from_samples"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples">[docs]</a><span class="k">def</span> <span class="nf">estimate_gaussian_transform_from_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+<div class="viewcode-block" id="estimate_gaussian_transform_from_samples">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples">[docs]</a>
+<span class="k">def</span> <span class="nf">estimate_gaussian_transform_from_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over transformations from samples.</span>
 
-<span class="sd">    Uses iterative approximation of mean described by Eade (2017) and computes</span>
+<span class="sd">    Uses iterative approximation of mean described by Eade [1]_ and computes</span>
 <span class="sd">    covariance in exponential coordinate space (using an unbiased estimator).</span>
 
 <span class="sd">    Parameters</span>
@@ -150,8 +150,8 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Eade: Lie Groups for 2D and 3D Transformations (2017),</span>
-<span class="sd">    https://ethaneade.com/lie.pdf</span>
+<span class="sd">    .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.</span>
+<span class="sd">       https://ethaneade.com/lie.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -167,7 +167,10 @@
     <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span></div>
 
 
-<div class="viewcode-block" id="invert_uncertain_transform"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.invert_uncertain_transform.html#pytransform3d.uncertainty.invert_uncertain_transform">[docs]</a><span class="k">def</span> <span class="nf">invert_uncertain_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">):</span>
+
+<div class="viewcode-block" id="invert_uncertain_transform">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.invert_uncertain_transform.html#pytransform3d.uncertainty.invert_uncertain_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">invert_uncertain_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Invert uncertain transform.</span>
 
 <span class="sd">    For the mean :math:`\boldsymbol{T}_{BA}`, the inverse is simply</span>
@@ -209,9 +212,9 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Mangelson, Ghaffari, Vasudevan, Eustice: Characterizing the Uncertainty of</span>
-<span class="sd">    Jointly Distributed Poses in the Lie Algebra,</span>
-<span class="sd">    https://arxiv.org/pdf/1906.07795.pdf</span>
+<span class="sd">    .. [1] Mangelson, G., Vasudevan, E. (2019). Characterizing the Uncertainty</span>
+<span class="sd">       of Jointly Distributed Poses in the Lie Algebra,</span>
+<span class="sd">       https://arxiv.org/pdf/1906.07795.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mean_inv</span> <span class="o">=</span> <span class="n">invert_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
     <span class="n">ad_inv</span> <span class="o">=</span> <span class="n">adjoint_from_transform</span><span class="p">(</span><span class="n">mean_inv</span><span class="p">)</span>
@@ -219,7 +222,10 @@
     <span class="k">return</span> <span class="n">mean_inv</span><span class="p">,</span> <span class="n">cov_inv</span></div>
 
 
-<div class="viewcode-block" id="concat_globally_uncertain_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.concat_globally_uncertain_transforms.html#pytransform3d.uncertainty.concat_globally_uncertain_transforms">[docs]</a><span class="k">def</span> <span class="nf">concat_globally_uncertain_transforms</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">cov_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">,</span> <span class="n">cov_B2C</span><span class="p">):</span>
+
+<div class="viewcode-block" id="concat_globally_uncertain_transforms">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.concat_globally_uncertain_transforms.html#pytransform3d.uncertainty.concat_globally_uncertain_transforms">[docs]</a>
+<span class="k">def</span> <span class="nf">concat_globally_uncertain_transforms</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">cov_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">,</span> <span class="n">cov_B2C</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Concatenate two independent globally uncertain transformations.</span>
 
 <span class="sd">    We assume that the two distributions are independent.</span>
@@ -259,7 +265,7 @@
 <span class="sd">    :math:`_C\boldsymbol{\xi&#39;} \sim \mathcal{N}(\boldsymbol{0},</span>
 <span class="sd">    \boldsymbol{\Sigma}_{CA})`.</span>
 
-<span class="sd">    This version of Barfoot and Furgale approximates the covariance up to</span>
+<span class="sd">    This version of Barfoot and Furgale [1]_ approximates the covariance up to</span>
 <span class="sd">    4th-order terms. Note that it is still an approximation of the covariance</span>
 <span class="sd">    after concatenation of the two transforms.</span>
 
@@ -295,9 +301,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for</span>
-<span class="sd">    Use in Estimation Problems,</span>
-<span class="sd">    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf</span>
+<span class="sd">    .. [1] Barfoot, T. D., Furgale, P. T. (2014).</span>
+<span class="sd">       Associating Uncertainty With Three-Dimensional Poses for Use in</span>
+<span class="sd">       Estimation Problems. IEEE Transactions on Robotics, 30(3), pp. 679-693,</span>
+<span class="sd">       doi: 10.1109/TRO.2014.2298059.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mean_A2C</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">)</span>
 
@@ -309,6 +316,7 @@
         <span class="n">cov_B2C</span><span class="p">,</span> <span class="n">cov_A2B_in_C</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">mean_A2C</span><span class="p">,</span> <span class="n">cov_A2C</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_compound_cov_fourth_order_terms</span><span class="p">(</span><span class="n">cov1</span><span class="p">,</span> <span class="n">cov2_prime</span><span class="p">):</span>
@@ -362,7 +370,9 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">_covop1</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">B</span><span class="p">))</span> <span class="o">+</span> <span class="n">_covop1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="concat_locally_uncertain_transforms"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.concat_locally_uncertain_transforms.html#pytransform3d.uncertainty.concat_locally_uncertain_transforms">[docs]</a><span class="k">def</span> <span class="nf">concat_locally_uncertain_transforms</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">,</span> <span class="n">cov_A</span><span class="p">,</span> <span class="n">cov_B</span><span class="p">):</span>
+<div class="viewcode-block" id="concat_locally_uncertain_transforms">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.concat_locally_uncertain_transforms.html#pytransform3d.uncertainty.concat_locally_uncertain_transforms">[docs]</a>
+<span class="k">def</span> <span class="nf">concat_locally_uncertain_transforms</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">,</span> <span class="n">cov_A</span><span class="p">,</span> <span class="n">cov_B</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Concatenate two independent locally uncertain transformations.</span>
 
 <span class="sd">    We assume that the two distributions are independent.</span>
@@ -402,8 +412,8 @@
 <span class="sd">    :math:`_A\boldsymbol{\xi&#39;} \sim \mathcal{N}(\boldsymbol{0},</span>
 <span class="sd">    \boldsymbol{\Sigma}_{A,total})`.</span>
 
-<span class="sd">    This version of Meyer et al. approximates the covariance up to 2nd-order</span>
-<span class="sd">    terms.</span>
+<span class="sd">    This version of Meyer et al. [1]_ approximates the covariance up to</span>
+<span class="sd">    2nd-order terms.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -439,9 +449,12 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its</span>
-<span class="sd">    Application to Sensor Fusion,</span>
-<span class="sd">    https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf</span>
+<span class="sd">    .. [1] Meyer, L., Strobl, K. H., Triebel, R. (2022). The Probabilistic</span>
+<span class="sd">       Robot Kinematics Model and its Application to Sensor Fusion.</span>
+<span class="sd">       In IEEE/RSJ International Conference on Intelligent Robots and Systems</span>
+<span class="sd">       (IROS), Kyoto, Japan (pp. 3263-3270),</span>
+<span class="sd">       doi: 10.1109/IROS47612.2022.9981399.</span>
+<span class="sd">       https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mean_A2C</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">mean_A2B</span><span class="p">,</span> <span class="n">mean_B2C</span><span class="p">)</span>
 
@@ -452,7 +465,10 @@
     <span class="k">return</span> <span class="n">mean_A2C</span><span class="p">,</span> <span class="n">cov_A_total</span></div>
 
 
-<div class="viewcode-block" id="pose_fusion"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.pose_fusion.html#pytransform3d.uncertainty.pose_fusion">[docs]</a><span class="k">def</span> <span class="nf">pose_fusion</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">covs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="pose_fusion">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.pose_fusion.html#pytransform3d.uncertainty.pose_fusion">[docs]</a>
+<span class="k">def</span> <span class="nf">pose_fusion</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">covs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fuse Gaussian distributions of multiple poses.</span>
 
 <span class="sd">    Parameters</span>
@@ -476,9 +492,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for</span>
-<span class="sd">    Use in Estimation Problems,</span>
-<span class="sd">    http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf</span>
+<span class="sd">    .. [1] Barfoot, T. D., Furgale, P. T. (2014).</span>
+<span class="sd">       Associating Uncertainty With Three-Dimensional Poses for Use in</span>
+<span class="sd">       Estimation Problems. IEEE Transactions on Robotics, 30(3), pp. 679-693,</span>
+<span class="sd">       doi: 10.1109/TRO.2014.2298059.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n_poses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">means</span><span class="p">)</span>
     <span class="n">covs_inv</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span> <span class="k">for</span> <span class="n">cov</span> <span class="ow">in</span> <span class="n">covs</span><span class="p">]</span>
@@ -509,7 +526,10 @@
     <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">V</span></div>
 
 
-<div class="viewcode-block" id="to_ellipsoid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.to_ellipsoid.html#pytransform3d.uncertainty.to_ellipsoid">[docs]</a><span class="k">def</span> <span class="nf">to_ellipsoid</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">):</span>
+
+<div class="viewcode-block" id="to_ellipsoid">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.to_ellipsoid.html#pytransform3d.uncertainty.to_ellipsoid">[docs]</a>
+<span class="k">def</span> <span class="nf">to_ellipsoid</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute error ellipsoid.</span>
 
 <span class="sd">    An error ellipsoid indicates the equiprobable surface. The resulting</span>
@@ -553,7 +573,10 @@
     <span class="k">return</span> <span class="n">ellipsoid2origin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">radii</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="to_projected_ellipsoid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.to_projected_ellipsoid.html#pytransform3d.uncertainty.to_projected_ellipsoid">[docs]</a><span class="k">def</span> <span class="nf">to_projected_ellipsoid</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.96</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+
+<div class="viewcode-block" id="to_projected_ellipsoid">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.to_projected_ellipsoid.html#pytransform3d.uncertainty.to_projected_ellipsoid">[docs]</a>
+<span class="k">def</span> <span class="nf">to_projected_ellipsoid</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.96</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute projected error ellipsoid.</span>
 
 <span class="sd">    An error ellipsoid shows equiprobable points. This is a projection of a</span>
@@ -614,7 +637,10 @@
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span></div>
 
 
-<div class="viewcode-block" id="plot_projected_ellipsoid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.plot_projected_ellipsoid.html#pytransform3d.uncertainty.plot_projected_ellipsoid">[docs]</a><span class="k">def</span> <span class="nf">plot_projected_ellipsoid</span><span class="p">(</span>
+
+<div class="viewcode-block" id="plot_projected_ellipsoid">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.plot_projected_ellipsoid.html#pytransform3d.uncertainty.plot_projected_ellipsoid">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_projected_ellipsoid</span><span class="p">(</span>
         <span class="n">ax</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.96</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots projected equiprobable ellipsoid in 3D.</span>
@@ -662,6 +688,7 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ax</span></div>
+
 </pre></div>
 
     </div>
@@ -675,8 +702,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

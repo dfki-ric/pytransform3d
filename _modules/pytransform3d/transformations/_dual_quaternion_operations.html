@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._dual_quaternion_operations &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
+    <title>pytransform3d.transformations._dual_quaternion_operations &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
@@ -41,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -125,7 +123,9 @@
 <span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">concatenate_quaternions</span>
 
 
-<div class="viewcode-block" id="dq_conj"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_conj.html#pytransform3d.transformations.dq_conj">[docs]</a><span class="k">def</span> <span class="nf">dq_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+<div class="viewcode-block" id="dq_conj">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_conj.html#pytransform3d.transformations.dq_conj">[docs]</a>
+<span class="k">def</span> <span class="nf">dq_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Conjugate of dual quaternion.</span>
 
 <span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
@@ -148,7 +148,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">dq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">dq</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">dq</span><span class="p">[</span><span class="mi">5</span><span class="p">:]]</span></div>
 
 
-<div class="viewcode-block" id="dq_q_conj"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_q_conj.html#pytransform3d.transformations.dq_q_conj">[docs]</a><span class="k">def</span> <span class="nf">dq_q_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dq_q_conj">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_q_conj.html#pytransform3d.transformations.dq_q_conj">[docs]</a>
+<span class="k">def</span> <span class="nf">dq_q_conj</span><span class="p">(</span><span class="n">dq</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Quaternion conjugate of dual quaternion.</span>
 
 <span class="sd">    There are three different conjugates for dual quaternions. The one that we</span>
@@ -174,7 +177,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">dq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">dq</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="o">-</span><span class="n">dq</span><span class="p">[</span><span class="mi">5</span><span class="p">:]]</span></div>
 
 
-<div class="viewcode-block" id="concatenate_dual_quaternions"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.concatenate_dual_quaternions.html#pytransform3d.transformations.concatenate_dual_quaternions">[docs]</a><span class="k">def</span> <span class="nf">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">):</span>
+
+<div class="viewcode-block" id="concatenate_dual_quaternions">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.concatenate_dual_quaternions.html#pytransform3d.transformations.concatenate_dual_quaternions">[docs]</a>
+<span class="k">def</span> <span class="nf">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">dq1</span><span class="p">,</span> <span class="n">dq2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate dual quaternions.</span>
 
 <span class="sd">    Suppose we want to apply two extrinsic transforms given by dual</span>
@@ -211,7 +217,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">real</span><span class="p">,</span> <span class="n">dual</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="dq_prod_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector">[docs]</a><span class="k">def</span> <span class="nf">dq_prod_vector</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dq_prod_vector">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector">[docs]</a>
+<span class="k">def</span> <span class="nf">dq_prod_vector</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply transform represented by a dual quaternion to a vector.</span>
 
 <span class="sd">    Parameters</span>
@@ -236,7 +245,10 @@
     <span class="k">return</span> <span class="n">v_dq_transformed</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span></div>
 
 
-<div class="viewcode-block" id="dual_quaternion_sclerp"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_sclerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dual_quaternion_sclerp">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternion_sclerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Screw linear interpolation (ScLERP) for dual quaternions.</span>
 
 <span class="sd">    Although linear interpolation of dual quaternions is possible, this does</span>
@@ -263,9 +275,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Kavan, Collins, O&#39;Sullivan, Zara: Dual Quaternions for Rigid Transformation</span>
-<span class="sd">    Blending (2006), Technical report, Trinity College Dublin,</span>
-<span class="sd">    https://users.cs.utah.edu/~ladislav/kavan06dual/kavan06dual.pdf</span>
+<span class="sd">    .. [1] Kavan, L., Collins, S., O&#39;Sullivan, C., Zara, J. (2006).</span>
+<span class="sd">       Dual Quaternions for Rigid Transformation Blending, Technical report,</span>
+<span class="sd">       Trinity College Dublin,</span>
+<span class="sd">       https://users.cs.utah.edu/~ladislav/kavan06dual/kavan06dual.pdf</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -279,7 +292,10 @@
     <span class="k">return</span> <span class="n">concatenate_dual_quaternions</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">dual_quaternion_power</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="dual_quaternion_power"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_power.html#pytransform3d.transformations.dual_quaternion_power">[docs]</a><span class="k">def</span> <span class="nf">dual_quaternion_power</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dual_quaternion_power">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_power.html#pytransform3d.transformations.dual_quaternion_power">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternion_power</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute power of unit dual quaternion with respect to scalar.</span>
 
 <span class="sd">    .. math::</span>
@@ -304,6 +320,7 @@
     <span class="n">dq</span> <span class="o">=</span> <span class="n">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
     <span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">screw_parameters_from_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dual_quaternion_from_screw_parameters</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">s_axis</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span></div>
+
 </pre></div>
 
     </div>
@@ -317,8 +334,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

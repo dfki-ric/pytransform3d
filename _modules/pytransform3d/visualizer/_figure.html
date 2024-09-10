@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../_static/doctools.js"></script>
+    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
 <meta charset='utf-8'>
@@ -41,7 +39,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -128,7 +126,9 @@
                        <span class="n">Cone</span><span class="p">,</span> <span class="n">Plane</span><span class="p">,</span> <span class="n">Graph</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Figure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure">[docs]</a><span class="k">class</span> <span class="nc">Figure</span><span class="p">:</span>
+<div class="viewcode-block" id="Figure">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure">[docs]</a>
+<span class="k">class</span> <span class="nc">Figure</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The top level container for all the plot elements.</span>
 
 <span class="sd">    You can close the visualizer with the keys `escape` or `q`.</span>
@@ -148,7 +148,9 @@
 <span class="sd">        Creates a visualizer that allows to register callbacks</span>
 <span class="sd">        for keys.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Figure.__init__"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
+<div class="viewcode-block" id="Figure.__init__">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
                  <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">with_key_callbacks</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">VisualizerWithKeyCallback</span><span class="p">()</span>
@@ -157,7 +159,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span>
             <span class="n">window_name</span><span class="o">=</span><span class="n">window_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Figure.add_geometry"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.add_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">add_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.add_geometry">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.add_geometry">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add geometry to visualizer.</span>
 
 <span class="sd">        Parameters</span>
@@ -166,6 +171,7 @@
 <span class="sd">            Open3D geometry.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">add_geometry</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_remove_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove geometry to visualizer.</span>
@@ -183,7 +189,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">remove_geometry</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Figure.update_geometry"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.update_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">update_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">):</span>
+<div class="viewcode-block" id="Figure.update_geometry">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.update_geometry">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Indicate that geometry has been updated.</span>
 
 <span class="sd">        Parameters</span>
@@ -193,7 +201,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">update_geometry</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Figure.remove_artist"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.remove_artist">[docs]</a>    <span class="k">def</span> <span class="nf">remove_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">artist</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.remove_artist">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.remove_artist">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">artist</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove artist from visualizer.</span>
 
 <span class="sd">        Parameters</span>
@@ -204,7 +215,10 @@
         <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">artist</span><span class="o">.</span><span class="n">geometries</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_remove_geometry</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Figure.set_line_width"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.set_line_width">[docs]</a>    <span class="k">def</span> <span class="nf">set_line_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_width</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.set_line_width">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.set_line_width">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_line_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_width</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set render option line width.</span>
 
 <span class="sd">        Note: this feature does not work in Open3D&#39;s visualizer at the</span>
@@ -218,7 +232,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">get_render_option</span><span class="p">()</span><span class="o">.</span><span class="n">line_width</span> <span class="o">=</span> <span class="n">line_width</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">update_renderer</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Figure.set_zoom"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.set_zoom">[docs]</a>    <span class="k">def</span> <span class="nf">set_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoom</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.set_zoom">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.set_zoom">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoom</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set zoom.</span>
 
 <span class="sd">        Parameters</span>
@@ -228,7 +245,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">get_view_control</span><span class="p">()</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="n">zoom</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Figure.animate"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.animate">[docs]</a>    <span class="k">def</span> <span class="nf">animate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fargs</span><span class="o">=</span><span class="p">()):</span>
+
+<div class="viewcode-block" id="Figure.animate">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.animate">[docs]</a>
+    <span class="k">def</span> <span class="nf">animate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fargs</span><span class="o">=</span><span class="p">()):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make animation with callback.</span>
 
 <span class="sd">        Parameters</span>
@@ -279,7 +299,10 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">update_renderer</span><span class="p">()</span>
             <span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Figure.view_init"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.view_init">[docs]</a>    <span class="k">def</span> <span class="nf">view_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span> <span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.view_init">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.view_init">[docs]</a>
+    <span class="k">def</span> <span class="nf">view_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">azim</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span> <span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the elevation and azimuth of the axes.</span>
 
 <span class="sd">        Parameters</span>
@@ -306,9 +329,16 @@
         <span class="n">pcp</span><span class="o">.</span><span class="n">extrinsic</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform_from</span><span class="p">(</span>  <span class="c1"># world2camera</span>
             <span class="n">R</span><span class="o">=</span><span class="n">R_elev_azim_camera2world</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
             <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="p">])</span>
-        <span class="n">vc</span><span class="o">.</span><span class="n">convert_from_pinhole_camera_parameters</span><span class="p">(</span><span class="n">pcp</span><span class="p">)</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">vc</span><span class="o">.</span><span class="n">convert_from_pinhole_camera_parameters</span><span class="p">(</span>
+                <span class="n">pcp</span><span class="p">,</span> <span class="n">allow_arbitrary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">vc</span><span class="o">.</span><span class="n">convert_from_pinhole_camera_parameters</span><span class="p">(</span><span class="n">pcp</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Figure.plot"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+
+<div class="viewcode-block" id="Figure.plot">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot line.</span>
 
 <span class="sd">        Parameters</span>
@@ -331,7 +361,10 @@
         <span class="n">line3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">line3d</span></div>
 
-<div class="viewcode-block" id="Figure.scatter"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.scatter">[docs]</a>    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.scatter">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.scatter">[docs]</a>
+    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot collection of points.</span>
 
 <span class="sd">        Parameters</span>
@@ -355,7 +388,10 @@
         <span class="n">point_collection</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">point_collection</span></div>
 
-<div class="viewcode-block" id="Figure.plot_vector"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_vector">[docs]</a>    <span class="k">def</span> <span class="nf">plot_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+
+<div class="viewcode-block" id="Figure.plot_vector">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_vector">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
                     <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot vector.</span>
 
@@ -380,7 +416,10 @@
         <span class="n">vector3d</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">vector3d</span></div>
 
-<div class="viewcode-block" id="Figure.plot_basis"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_basis">[docs]</a>    <span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.plot_basis">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_basis">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot basis.</span>
 
 <span class="sd">        Parameters</span>
@@ -413,7 +452,10 @@
 
         <span class="k">return</span> <span class="n">frame</span></div>
 
-<div class="viewcode-block" id="Figure.plot_transform"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_transform">[docs]</a>    <span class="k">def</span> <span class="nf">plot_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.plot_transform">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_transform">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot coordinate frame.</span>
 
 <span class="sd">        Parameters</span>
@@ -446,7 +488,10 @@
 
         <span class="k">return</span> <span class="n">frame</span></div>
 
-<div class="viewcode-block" id="Figure.plot_trajectory"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_trajectory">[docs]</a>    <span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+
+<div class="viewcode-block" id="Figure.plot_trajectory">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_trajectory">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Trajectory of poses.</span>
 
 <span class="sd">        Parameters</span>
@@ -476,7 +521,10 @@
         <span class="n">trajectory</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">trajectory</span></div>
 
-<div class="viewcode-block" id="Figure.plot_sphere"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_sphere">[docs]</a>    <span class="k">def</span> <span class="nf">plot_sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.plot_sphere">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_sphere">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot sphere.</span>
 
 <span class="sd">        Parameters</span>
@@ -506,7 +554,10 @@
         <span class="n">sphere</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sphere</span></div>
 
-<div class="viewcode-block" id="Figure.plot_box"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_box">[docs]</a>    <span class="k">def</span> <span class="nf">plot_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.plot_box">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_box">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot box.</span>
 
 <span class="sd">        Parameters</span>
@@ -529,7 +580,10 @@
         <span class="n">box</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">box</span></div>
 
-<div class="viewcode-block" id="Figure.plot_cylinder"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cylinder">[docs]</a>    <span class="k">def</span> <span class="nf">plot_cylinder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+
+<div class="viewcode-block" id="Figure.plot_cylinder">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cylinder">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_cylinder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
                       <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot cylinder.</span>
 
@@ -563,7 +617,10 @@
         <span class="n">cylinder</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cylinder</span></div>
 
-<div class="viewcode-block" id="Figure.plot_mesh"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">plot_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.plot_mesh">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_mesh">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot mesh.</span>
 
 <span class="sd">        Parameters</span>
@@ -589,7 +646,10 @@
         <span class="n">mesh</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mesh</span></div>
 
-<div class="viewcode-block" id="Figure.plot_ellipsoid"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_ellipsoid">[docs]</a>    <span class="k">def</span> <span class="nf">plot_ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Figure.plot_ellipsoid">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_ellipsoid">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
                        <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot ellipsoid.</span>
 
@@ -620,7 +680,10 @@
         <span class="n">ellipsoid</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ellipsoid</span></div>
 
-<div class="viewcode-block" id="Figure.plot_capsule"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_capsule">[docs]</a>    <span class="k">def</span> <span class="nf">plot_capsule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Figure.plot_capsule">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_capsule">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_capsule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
                      <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot capsule.</span>
 
@@ -658,7 +721,10 @@
         <span class="n">capsule</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">capsule</span></div>
 
-<div class="viewcode-block" id="Figure.plot_cone"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cone">[docs]</a>    <span class="k">def</span> <span class="nf">plot_cone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Figure.plot_cone">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cone">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_cone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
                   <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot cone.</span>
 
@@ -688,7 +754,10 @@
         <span class="n">cone</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cone</span></div>
 
-<div class="viewcode-block" id="Figure.plot_plane"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_plane">[docs]</a>    <span class="k">def</span> <span class="nf">plot_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Figure.plot_plane">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_plane">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot plane.</span>
 
@@ -718,7 +787,10 @@
         <span class="n">plane</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">plane</span></div>
 
-<div class="viewcode-block" id="Figure.plot_graph"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph">[docs]</a>    <span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Figure.plot_graph">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -768,7 +840,10 @@
         <span class="n">graph</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span></div>
 
-<div class="viewcode-block" id="Figure.plot_camera"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_camera">[docs]</a>    <span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Figure.plot_camera">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_camera">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot camera in world coordinates.</span>
 
@@ -814,7 +889,10 @@
         <span class="n">camera</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">camera</span></div>
 
-<div class="viewcode-block" id="Figure.save_image"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image">[docs]</a>    <span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.save_image">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save rendered image to file.</span>
 
 <span class="sd">        Parameters</span>
@@ -824,13 +902,20 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">capture_screen_image</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Figure.show"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Figure.show">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.show">[docs]</a>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the figure window.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">destroy_window</span><span class="p">()</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">destroy_window</span><span class="p">()</span></div>
+</div>
 
 
-<div class="viewcode-block" id="figure"><a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.figure.html#pytransform3d.visualizer.figure">[docs]</a><span class="k">def</span> <span class="nf">figure</span><span class="p">(</span><span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
+
+<div class="viewcode-block" id="figure">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.figure.html#pytransform3d.visualizer.figure">[docs]</a>
+<span class="k">def</span> <span class="nf">figure</span><span class="p">(</span><span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
            <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new figure.</span>
 
@@ -855,6 +940,7 @@
 <span class="sd">        New figure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Figure</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">with_key_callbacks</span><span class="p">)</span></div>
+
 </pre></div>
 
     </div>
@@ -868,8 +954,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

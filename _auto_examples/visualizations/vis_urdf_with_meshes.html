@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>URDF with Meshes &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
+    <title>URDF with Meshes &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Animated URDF with Meshes" href="vis_moving_urdf_with_meshes.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -124,51 +122,54 @@
       
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">here</span></a>
-to download the full example code</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="urdf-with-meshes">
-<span id="sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"></span><h1>URDF with Meshes<a class="headerlink" href="#urdf-with-meshes" title="Permalink to this heading">¶</a></h1>
+<span id="sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"></span><h1>URDF with Meshes<a class="headerlink" href="#urdf-with-meshes" title="Link to this heading">¶</a></h1>
 <p>This example shows how to load a URDF with STL meshes. This example must be
 run from within the examples folder or the main folder because it uses a
 hard-coded path to the URDF file and the meshes.</p>
-<img src="../../_images/sphx_glr_vis_urdf_with_meshes_001.png" srcset="../../_images/sphx_glr_vis_urdf_with_meshes_001.png" alt="vis urdf with meshes" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pytransform3d.urdf</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a>
+<img src="../../_images/sphx_glr_vis_urdf_with_meshes_001.png" srcset="../../_images/sphx_glr_vis_urdf_with_meshes_001.png" alt="vis urdf with meshes" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.urdf</span> <span class="kn">import</span> <span class="n">UrdfTransformManager</span>
 <span class="kn">import</span> <span class="nn">pytransform3d.visualizer</span> <span class="k">as</span> <span class="nn">pv</span>
 
 
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a> <span class="o">=</span> <span class="s2">&quot;test/test_data/&quot;</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a>
-<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
-<span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.exists" title="os.path.exists" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">)</span> <span class="ow">and</span>
-       <a href="https://docs.python.org/3/library/os.path.html#os.path.dirname" title="os.path.dirname" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;pytransform3d&quot;</span><span class="p">):</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/os.path.html#os.path.join" title="os.path.join" class="sphx-glr-backref-module-os-path sphx-glr-backref-type-py-function"><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">search_path</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">BASE_DIR</span></a><span class="p">)</span>
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="s2">&quot;test/test_data/&quot;</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="n">BASE_DIR</span>
+<span class="n">search_path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+<span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="ow">and</span>
+       <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">search_path</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;pytransform3d&quot;</span><span class="p">):</span>
+    <span class="n">search_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">search_path</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">search_path</span><span class="p">,</span> <span class="n">BASE_DIR</span><span class="p">)</span>
 
-<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class"><span class="n">UrdfTransformManager</span></a><span class="p">()</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a> <span class="o">+</span> <span class="s2">&quot;simple_mechanism.urdf&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <a href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper" class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">f</span></a><span class="p">:</span>
-    <a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf" title="pytransform3d.urdf.UrdfTransformManager.load_urdf" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">load_urdf</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper" class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">f</span></a><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">mesh_path</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_dir</span></a><span class="p">)</span>
-<a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint" title="pytransform3d.urdf.UrdfTransformManager.set_joint" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span></a><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">tm</span> <span class="o">=</span> <span class="n">UrdfTransformManager</span><span class="p">()</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span> <span class="s2">&quot;simple_mechanism.urdf&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">tm</span><span class="o">.</span><span class="n">load_urdf</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">mesh_path</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">set_joint</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1</span><span class="p">)</span>
 
-<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure" title="pytransform3d.visualizer.Figure" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.visualizer.figure.html#pytransform3d.visualizer.figure" title="pytransform3d.visualizer.figure" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-function"><span class="n">pv</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="s2">&quot;URDF with meshes&quot;</span><span class="p">)</span>
-<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph" title="pytransform3d.visualizer.Figure.plot_graph" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">plot_graph</span></a><span class="p">(</span><a href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager" class="sphx-glr-backref-module-pytransform3d-urdf sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a><span class="p">,</span> <span class="s2">&quot;lower_cone&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="s2">&quot;URDF with meshes&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">plot_graph</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="s2">&quot;lower_cone&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;upper_cone&quot;</span><span class="p">,</span> <span class="s2">&quot;lower_cone&quot;</span><span class="p">],</span>
                <span class="n">show_connections</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_visuals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.view_init" title="pytransform3d.visualizer.Figure.view_init" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">view_init</span></a><span class="p">()</span>
-<a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.set_zoom" title="pytransform3d.visualizer.Figure.set_zoom" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">set_zoom</span></a><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">view_init</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
 <span class="k">if</span> <span class="s2">&quot;__file__&quot;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
-    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.show" title="pytransform3d.visualizer.Figure.show" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="k">else</span><span class="p">:</span>
-    <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">save_image</span></a><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">save_image</span><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.107 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.320 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-urdf-with-meshes-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/db437100c422a28db48e284eb1cc5411/vis_urdf_with_meshes.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vis_urdf_with_meshes.ipynb</span></code></a></p>
+</div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/4aaf3dc2d8065ca8b708e9911bc1f797/vis_urdf_with_meshes.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_urdf_with_meshes.py</span></code></a></p>
 </div>
-<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/db437100c422a28db48e284eb1cc5411/vis_urdf_with_meshes.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vis_urdf_with_meshes.ipynb</span></code></a></p>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/be4f03d65e9b86c487dd3b67ff8512be/vis_urdf_with_meshes.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">vis_urdf_with_meshes.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -186,8 +187,8 @@ hard-coded path to the URDF file and the meshes.</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

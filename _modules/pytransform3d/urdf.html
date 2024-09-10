@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pytransform3d.urdf &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=3b405b93" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../_static/documentation_options.js?v=c1362a89"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -132,7 +130,9 @@
     <span class="n">norm_vector</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="UrdfTransformManager"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager">[docs]</a><span class="k">class</span> <span class="nc">UrdfTransformManager</span><span class="p">(</span><span class="n">TransformManager</span><span class="p">):</span>
+<div class="viewcode-block" id="UrdfTransformManager">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager">[docs]</a>
+<span class="k">class</span> <span class="nc">UrdfTransformManager</span><span class="p">(</span><span class="n">TransformManager</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Transformation manager that can load URDF files.</span>
 
 <span class="sd">    URDF is the `Unified Robot Description Format &lt;http://wiki.ros.org/urdf&gt;`_.</span>
@@ -159,13 +159,18 @@
 <span class="sd">        Check if transformation matrices are valid and requested nodes exist,</span>
 <span class="sd">        which might significantly slow down some operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="UrdfTransformManager.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="UrdfTransformManager.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">UrdfTransformManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">strict_check</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="UrdfTransformManager.add_joint"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.add_joint">[docs]</a>    <span class="k">def</span> <span class="nf">add_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span>
+
+<div class="viewcode-block" id="UrdfTransformManager.add_joint">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.add_joint">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span>
                   <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)),</span> <span class="n">joint_type</span><span class="o">=</span><span class="s2">&quot;revolute&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add joint.</span>
 
@@ -198,7 +203,10 @@
             <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">axis</span><span class="p">),</span> <span class="n">limits</span><span class="p">,</span>
             <span class="n">joint_type</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="UrdfTransformManager.set_joint"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint">[docs]</a>    <span class="k">def</span> <span class="nf">set_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+<div class="viewcode-block" id="UrdfTransformManager.set_joint">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.set_joint">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_joint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set joint position.</span>
 
 <span class="sd">        Note that joint values are clipped to their limits.</span>
@@ -240,7 +248,10 @@
             <span class="n">joint2A</span><span class="p">,</span> <span class="n">child2parent</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
             <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="UrdfTransformManager.get_joint_limits"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.get_joint_limits">[docs]</a>    <span class="k">def</span> <span class="nf">get_joint_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="UrdfTransformManager.get_joint_limits">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.get_joint_limits">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_joint_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get limits of a joint.</span>
 
 <span class="sd">        Parameters</span>
@@ -262,7 +273,10 @@
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Joint &#39;</span><span class="si">%s</span><span class="s2">&#39; is not known&quot;</span> <span class="o">%</span> <span class="n">joint_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joints</span><span class="p">[</span><span class="n">joint_name</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="UrdfTransformManager.load_urdf"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf">[docs]</a>    <span class="k">def</span> <span class="nf">load_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urdf_xml</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="UrdfTransformManager.load_urdf">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.load_urdf">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urdf_xml</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load URDF file into transformation manager.</span>
 
 <span class="sd">        Parameters</span>
@@ -284,7 +298,10 @@
             <span class="n">urdf_xml</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">)</span>
         <span class="n">initialize_urdf_transform_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">joints</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="UrdfTransformManager.plot_visuals"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_visuals">[docs]</a>    <span class="k">def</span> <span class="nf">plot_visuals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+<div class="viewcode-block" id="UrdfTransformManager.plot_visuals">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_visuals">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_visuals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                      <span class="n">convex_hull_of_mesh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot all visuals in a given reference frame.</span>
 
@@ -321,7 +338,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">,</span> <span class="n">wireframe</span><span class="p">,</span> <span class="n">convex_hull_of_mesh</span><span class="p">,</span>
             <span class="n">alpha</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="UrdfTransformManager.plot_collision_objects"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects">[docs]</a>    <span class="k">def</span> <span class="nf">plot_collision_objects</span><span class="p">(</span>
+
+<div class="viewcode-block" id="UrdfTransformManager.plot_collision_objects">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager.plot_collision_objects">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_collision_objects</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">convex_hull_of_mesh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot all collision objects in a given reference frame.</span>
@@ -359,6 +379,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_objects</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">,</span> <span class="n">wireframe</span><span class="p">,</span>
             <span class="n">convex_hull_of_mesh</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_plot_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                       <span class="n">convex_hull_of_mesh</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
@@ -406,7 +427,10 @@
         <span class="k">return</span> <span class="n">ax</span></div>
 
 
-<div class="viewcode-block" id="parse_urdf"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.parse_urdf.html#pytransform3d.urdf.parse_urdf">[docs]</a><span class="k">def</span> <span class="nf">parse_urdf</span><span class="p">(</span><span class="n">urdf_xml</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="parse_urdf">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.parse_urdf.html#pytransform3d.urdf.parse_urdf">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_urdf</span><span class="p">(</span><span class="n">urdf_xml</span><span class="p">,</span> <span class="n">mesh_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse information from URDF file.</span>
 
 <span class="sd">    Parameters</span>
@@ -481,7 +505,10 @@
     <span class="k">return</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">joints</span></div>
 
 
-<div class="viewcode-block" id="initialize_urdf_transform_manager"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.initialize_urdf_transform_manager.html#pytransform3d.urdf.initialize_urdf_transform_manager">[docs]</a><span class="k">def</span> <span class="nf">initialize_urdf_transform_manager</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">joints</span><span class="p">):</span>
+
+<div class="viewcode-block" id="initialize_urdf_transform_manager">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.initialize_urdf_transform_manager.html#pytransform3d.urdf.initialize_urdf_transform_manager">[docs]</a>
+<span class="k">def</span> <span class="nf">initialize_urdf_transform_manager</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">joints</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Initializes transform manager from previously parsed URDF data.</span>
 
 <span class="sd">    Parameters</span>
@@ -501,6 +528,7 @@
     <span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">robot_name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
     <span class="n">_add_links</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
     <span class="n">_add_joints</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">joints</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_parse_material</span><span class="p">(</span><span class="n">material</span><span class="p">):</span>
@@ -779,7 +807,9 @@
                 <span class="s2">&quot;fixed&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Link"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Link.html#pytransform3d.urdf.Link">[docs]</a><span class="k">class</span> <span class="nc">Link</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Link">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Link.html#pytransform3d.urdf.Link">[docs]</a>
+<span class="k">class</span> <span class="nc">Link</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Link from URDF file.</span>
 
 <span class="sd">    This class is only required temporarily while we parse the URDF.</span>
@@ -808,17 +838,23 @@
 <span class="sd">    inertia : array, shape (3, 3)</span>
 <span class="sd">        Inertia matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Link.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Link.html#pytransform3d.urdf.Link.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Link.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Link.html#pytransform3d.urdf.Link.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visuals</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_objects</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inertial_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inertia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inertia</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Joint"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Joint.html#pytransform3d.urdf.Joint">[docs]</a><span class="k">class</span> <span class="nc">Joint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Joint">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Joint.html#pytransform3d.urdf.Joint">[docs]</a>
+<span class="k">class</span> <span class="nc">Joint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Joint from URDF file.</span>
 
 <span class="sd">    This class is only required temporarily while we parse the URDF.</span>
@@ -846,66 +882,104 @@
 <span class="sd">    limits : pair of float</span>
 <span class="sd">        Lower and upper joint angle limit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Joint.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Joint.html#pytransform3d.urdf.Joint.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Joint.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Joint.html#pytransform3d.urdf.Joint.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">child2parent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">joint_name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">joint_axis</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">joint_type</span> <span class="o">=</span> <span class="s2">&quot;fixed&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limits</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Geometry"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry">[docs]</a><span class="k">class</span> <span class="nc">Geometry</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Geometry">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry">[docs]</a>
+<span class="k">class</span> <span class="nc">Geometry</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Geometrical object.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Geometry.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="viewcode-block" id="Geometry.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span> <span class="o">=</span> <span class="n">mesh_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">package_dir</span> <span class="o">=</span> <span class="n">package_dir</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span></div>
 
-<div class="viewcode-block" id="Geometry.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Geometry.parse">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse parameters of geometry.&quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="Geometry.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Geometry.plot">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Geometry.html#pytransform3d.urdf.Geometry.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot geometry.&quot;&quot;&quot;</span></div></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot geometry.&quot;&quot;&quot;</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Box"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box">[docs]</a><span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Box">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box">[docs]</a>
+<span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Geometrical object: box.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Box.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="viewcode-block" id="Box.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Box</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Box.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Box.parse">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse box size.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;size&quot;</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Box.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Box.plot">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Box.html#pytransform3d.urdf.Box.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot box.&quot;&quot;&quot;</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
         <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
         <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">plot_box</span>
         <span class="k">return</span> <span class="n">plot_box</span><span class="p">(</span>
-            <span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="n">wireframe</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div></div>
+            <span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="n">wireframe</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Sphere"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere">[docs]</a><span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Sphere">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere">[docs]</a>
+<span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Geometrical object: sphere.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Sphere.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="viewcode-block" id="Sphere.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Sphere</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">0.0</span></div>
 
-<div class="viewcode-block" id="Sphere.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Sphere.parse">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse sphere radius.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;radius&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Sphere has no radius.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Sphere.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Sphere.plot">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Sphere.html#pytransform3d.urdf.Sphere.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot sphere.&quot;&quot;&quot;</span>
         <span class="n">center</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">)[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
@@ -913,17 +987,26 @@
         <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">plot_sphere</span>
         <span class="k">return</span> <span class="n">plot_sphere</span><span class="p">(</span>
             <span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="n">wireframe</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div></div>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Cylinder"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder">[docs]</a><span class="k">class</span> <span class="nc">Cylinder</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Cylinder">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder">[docs]</a>
+<span class="k">class</span> <span class="nc">Cylinder</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Geometrical object: cylinder.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Cylinder.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="viewcode-block" id="Cylinder.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Cylinder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mf">0.0</span></div>
 
-<div class="viewcode-block" id="Cylinder.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Cylinder.parse">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse cylinder radius and length.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;radius&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Cylinder has no radius.&quot;</span><span class="p">)</span>
@@ -932,7 +1015,10 @@
             <span class="k">raise</span> <span class="n">UrdfException</span><span class="p">(</span><span class="s2">&quot;Cylinder has no length.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Cylinder.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Cylinder.plot">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Cylinder.html#pytransform3d.urdf.Cylinder.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot cylinder.&quot;&quot;&quot;</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
@@ -940,17 +1026,26 @@
         <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">plot_cylinder</span>
         <span class="k">return</span> <span class="n">plot_cylinder</span><span class="p">(</span>
             <span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="n">wireframe</span><span class="p">,</span>
-            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div></div>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Mesh"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh">[docs]</a><span class="k">class</span> <span class="nc">Mesh</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Mesh">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh">[docs]</a>
+<span class="k">class</span> <span class="nc">Mesh</span><span class="p">(</span><span class="n">Geometry</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Geometrical object: mesh.&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Mesh.__init__"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="viewcode-block" id="Mesh.__init__">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Mesh</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">mesh_path</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Mesh.parse"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Mesh.parse">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse mesh filename and scale.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">package_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
@@ -967,7 +1062,10 @@
             <span class="k">if</span> <span class="s2">&quot;scale&quot;</span> <span class="ow">in</span> <span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">xml</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Mesh.plot"><a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Mesh.plot">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.urdf.Mesh.html#pytransform3d.urdf.Mesh.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
              <span class="n">convex_hull</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot mesh.&quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.plot_utils</span> <span class="kn">import</span> <span class="n">plot_mesh</span>
@@ -975,7 +1073,9 @@
         <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
         <span class="k">return</span> <span class="n">plot_mesh</span><span class="p">(</span>
             <span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">wireframe</span><span class="o">=</span><span class="n">wireframe</span><span class="p">,</span>
-            <span class="n">convex_hull</span><span class="o">=</span><span class="n">convex_hull</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div></div>
+            <span class="n">convex_hull</span><span class="o">=</span><span class="n">convex_hull</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="n">shape_classes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">Box</span><span class="p">,</span>
@@ -999,8 +1099,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

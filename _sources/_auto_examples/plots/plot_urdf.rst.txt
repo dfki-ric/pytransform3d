@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download__auto_examples_plots_plot_urdf.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download__auto_examples_plots_plot_urdf.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -27,7 +27,7 @@ angles and display relevant frames.
 
 .. GENERATED FROM PYTHON SOURCE LINES 9-13
 
-.. code-block:: default
+.. code-block:: Python
 
     import matplotlib.pyplot as plt
     from pytransform3d.urdf import UrdfTransformManager
@@ -48,7 +48,7 @@ URDFs have to be provided as strings. These can be loaded from files.
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-82
 
-.. code-block:: default
+.. code-block:: Python
 
     COMPI_URDF = """
     <?xml version="1.0"?>
@@ -131,7 +131,7 @@ their string names extracted from the URDF.
 
 .. GENERATED FROM PYTHON SOURCE LINES 87-92
 
-.. code-block:: default
+.. code-block:: Python
 
     joint_names = ["joint%d" % i for i in range(1, 7)]
     joint_angles = [0, 0.5, 0.5, 0, 0.5, 0]
@@ -154,7 +154,7 @@ between these.
 
 .. GENERATED FROM PYTHON SOURCE LINES 97-104
 
-.. code-block:: default
+.. code-block:: Python
 
     ax = tm.plot_frames_in("compi", whitelist=["link%d" % d for d in range(1, 7)],
                            s=0.05, show_name=True)
@@ -178,7 +178,7 @@ between these.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.121 seconds)
+   **Total running time of the script:** (0 minutes 0.090 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_urdf.py:
@@ -187,14 +187,17 @@ between these.
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download Jupyter notebook: plot_urdf.ipynb <plot_urdf.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: plot_urdf.py <plot_urdf.py>`
 
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-      :download:`Download Jupyter notebook: plot_urdf.ipynb <plot_urdf.ipynb>`
+      :download:`Download zipped: plot_urdf.zip <plot_urdf.zip>`
 
 
 .. only:: html

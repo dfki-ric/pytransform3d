@@ -50,3 +50,10 @@ The same class can be used to display collision objects or visuals from URDF
 files. The library `trimesh <https://trimsh.org/>`_ will be used to load
 meshes. Here is a simple example with one visual that is used for two links:
 :ref:`sphx_glr__auto_examples_plots_plot_urdf_with_meshes.py`.
+
+Note that we can use Matplotlib or Open3D to visualize URDFs or any graph of
+transformations. In previous versions of this library, an example using
+pyrender was also included. This has been removed, as there is now another
+software package that does this:
+`urdf_viz <https://github.com/IRP-TU-BS/urdf_viz>`_. urdf_viz uses
+pytransform3d to load URDFs and displays them in pyrender.

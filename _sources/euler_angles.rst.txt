@@ -4,7 +4,7 @@
 Euler Angles
 ============
 
-Since Euler angles are an intuitive way to specify a rotation in 3D, they
+Since Euler angles [1]_ are an intuitive way to specify a rotation in 3D, they
 are often exposed at user interfaces. However, there are 24 different
 conventions that could be used. Furthermore, you have to find out whether
 degrees or radians are used to express the angles (we will only use
@@ -180,6 +180,6 @@ API: Euler Angles from Rotation Matrix / Quaternion
 References
 ----------
 
-1. Malcolm D. Shuster: A Survery of Attitude Representations.
-   In: The Journal of Astronautical Sciences, Vol. 41, No.4, 1993,
-   pp. 475-476, http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf
+.. [1] Shuster, M. D. (1993). A Survery of Attitude Representations.
+   The Journal of Astronautical Sciences, 41(4), pp. 475-476.
+   http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf

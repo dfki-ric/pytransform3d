@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to 3D Rigid Transformations &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
+    <title>Introduction to 3D Rigid Transformations &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="SO(3): 3D Rotations" href="rotations.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -131,15 +129,15 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="introduction-to-3d-rigid-transformations">
-<h1>Introduction to 3D Rigid Transformations<a class="headerlink" href="#introduction-to-3d-rigid-transformations" title="Permalink to this heading">¶</a></h1>
+<h1>Introduction to 3D Rigid Transformations<a class="headerlink" href="#introduction-to-3d-rigid-transformations" title="Link to this heading">¶</a></h1>
 <section id="basics">
-<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">¶</a></h2>
+<h2>Basics<a class="headerlink" href="#basics" title="Link to this heading">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 15%" />
-<col style="width: 35%" />
-<col style="width: 15%" />
-<col style="width: 35%" />
+<col style="width: 15.0%" />
+<col style="width: 35.0%" />
+<col style="width: 15.0%" />
+<col style="width: 35.0%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><img alt="_images/position.png" src="_images/position.png" />
@@ -161,12 +159,16 @@ set of 3 orthogonal basis vectors.</p></td>
 axis through the origin of the reference frame (fixed point) along a
 circle by the same angle.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal image-reference" href="_images/position.png"><img alt="_images/position.png" class="align-center" src="_images/position.png" style="width: 30%;" /></a>
-<a class="reference internal image-reference" href="_images/frame.png"><img alt="_images/frame.png" class="align-center" src="_images/frame.png" style="width: 30%;" /></a>
+<tr class="row-odd"><td><a class="reference internal image-reference" href="_images/position.png"><img alt="_images/position.png" class="align-center" src="_images/position.png" style="width: 30%;" />
+</a>
+<a class="reference internal image-reference" href="_images/frame.png"><img alt="_images/frame.png" class="align-center" src="_images/frame.png" style="width: 30%;" />
+</a>
 </td>
 <td><p><strong>Pose</strong> is a combination of position and orientation.</p></td>
-<td><a class="reference internal image-reference" href="_images/translation.png"><img alt="_images/translation.png" class="align-center" src="_images/translation.png" style="width: 30%;" /></a>
-<a class="reference internal image-reference" href="_images/rotation.png"><img alt="_images/rotation.png" class="align-center" src="_images/rotation.png" style="width: 30%;" /></a>
+<td><a class="reference internal image-reference" href="_images/translation.png"><img alt="_images/translation.png" class="align-center" src="_images/translation.png" style="width: 30%;" />
+</a>
+<a class="reference internal image-reference" href="_images/rotation.png"><img alt="_images/rotation.png" class="align-center" src="_images/rotation.png" style="width: 30%;" />
+</a>
 </td>
 <td><p>A (proper) <strong>rigid transformation</strong> is a combination of translation and
 rotation.</p></td>
@@ -175,14 +177,14 @@ rotation.</p></td>
 </table>
 </section>
 <section id="frames">
-<h2>Frames<a class="headerlink" href="#frames" title="Permalink to this heading">¶</a></h2>
+<h2>Frames<a class="headerlink" href="#frames" title="Link to this heading">¶</a></h2>
 <p>A (coordinate reference) frame in 3D Euclidean space is defined by an origin
 (position) and 3 orthogonal basis vectors (orientation) and it is attached to
 a rigid body. The pose (position and orientation) of a rigid body (i.e., of
 its frame) is always expressed with respect to another frame.</p>
 </section>
 <section id="frame-notation">
-<h2>Frame Notation<a class="headerlink" href="#frame-notation" title="Permalink to this heading">¶</a></h2>
+<h2>Frame Notation<a class="headerlink" href="#frame-notation" title="Link to this heading">¶</a></h2>
 <p>For physical quantities we use the notation <img class="math" src="_images/math/3e8d0fa9b4776124ada722970f386a22eeaab292.png" alt="_{A}\boldsymbol{x}_{BC}"/>,
 where <img class="math" src="_images/math/fa44d7cdd2d3f90f81820cfe85818a142149d124.png" alt="\boldsymbol{x}"/> is a physical quantity of frame C with
 respect to frame B expressed in frame A. For example,
@@ -202,7 +204,7 @@ multiplication, for example, when we want to transform a point by</p>
 <p><img src="_images/math/3c019428871f5d9c48960643635cb2b7de4e303d.png" alt="_B\boldsymbol{p} = \boldsymbol{M}_{BA} {_A\boldsymbol{p}}"/></p>
 </div></section>
 <section id="duality-of-transformations-and-poses">
-<h2>Duality of Transformations and Poses<a class="headerlink" href="#duality-of-transformations-and-poses" title="Permalink to this heading">¶</a></h2>
+<h2>Duality of Transformations and Poses<a class="headerlink" href="#duality-of-transformations-and-poses" title="Link to this heading">¶</a></h2>
 <p>We can use a transformation matrix <img class="math" src="_images/math/cd7cb76e2991b36b6cabdc58ee51ad4acd629d07.png" alt="\boldsymbol{T}_{BA}"/> that represents
 a transformation from frame A to frame B to represent the pose (position and
 orientation) of frame A in frame B (if we use the active transformation
@@ -212,7 +214,7 @@ of a vector from A to P <img class="math" src="_images/math/86506bb7665c2b0d7e59
 <img class="math" src="_images/math/29e9c2923fc1360492231a654bb1005efd62f3e6.png" alt="_A\boldsymbol{p}"/>.</p>
 </section>
 <section id="representations">
-<h2>Representations<a class="headerlink" href="#representations" title="Permalink to this heading">¶</a></h2>
+<h2>Representations<a class="headerlink" href="#representations" title="Link to this heading">¶</a></h2>
 <p>At least six numbers are required to express the pose of a rigid body or a
 transformation between two frames, but there are also redundant
 representations.
@@ -314,7 +316,7 @@ representations on the following pages.</p>
 </table>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Waldron, K., Schmiedeler, J. (2008). Kinematics. In: Siciliano, B., Khatib,
 O. (eds) Springer Handbook of Robotics. Springer, Berlin, Heidelberg.
@@ -337,8 +339,8 @@ O. (eds) Springer Handbook of Robotics. Springer, Berlin, Heidelberg.
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

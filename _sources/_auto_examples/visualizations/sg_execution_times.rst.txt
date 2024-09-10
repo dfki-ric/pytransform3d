@@ -3,56 +3,101 @@
 
 .. _sphx_glr__auto_examples_visualizations_sg_execution_times:
 
+
 Computation times
 =================
-**00:03.517** total execution time for **_auto_examples_visualizations** files:
+**00:05.035** total execution time for 23 files **from _auto_examples/visualizations**:
 
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_sphere.py` (``vis_sphere.py``)                                                 | 00:01.160 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_moving_robot.py` (``vis_moving_robot.py``)                                     | 00:00.195 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_scatter.py` (``vis_scatter.py``)                                               | 00:00.194 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_probabilistic_robot_kinematics.py` (``vis_probabilistic_robot_kinematics.py``) | 00:00.155 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_ee_wrench.py` (``vis_ee_wrench.py``)                                           | 00:00.152 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_mesh.py` (``vis_mesh.py``)                                                     | 00:00.146 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_urdf.py` (``vis_urdf.py``)                                                     | 00:00.136 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_moving_trajectory.py` (``vis_moving_trajectory.py``)                           | 00:00.116 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_box.py` (``vis_box.py``)                                                       | 00:00.110 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_urdf_with_meshes.py` (``vis_urdf_with_meshes.py``)                             | 00:00.107 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_add_remove_artist.py` (``vis_add_remove_artist.py``)                           | 00:00.101 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_basis.py` (``vis_basis.py``)                                                   | 00:00.091 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_moving_urdf_with_meshes.py` (``vis_moving_urdf_with_meshes.py``)               | 00:00.091 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_cylinder.py` (``vis_cylinder.py``)                                             | 00:00.086 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_cone.py` (``vis_cone.py``)                                                     | 00:00.085 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_capsule.py` (``vis_capsule.py``)                                               | 00:00.085 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_ellipsoid.py` (``vis_ellipsoid.py``)                                           | 00:00.081 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_moving_cylinder_with_wrench.py` (``vis_moving_cylinder_with_wrench.py``)       | 00:00.078 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_vector.py` (``vis_vector.py``)                                                 | 00:00.077 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_plane.py` (``vis_plane.py``)                                                   | 00:00.073 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_moving_line.py` (``vis_moving_line.py``)                                       | 00:00.073 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_camera_3d.py` (``vis_camera_3d.py``)                                           | 00:00.071 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_vis_moving_basis.py` (``vis_moving_basis.py``)                                     | 00:00.054 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr__auto_examples_visualizations_render_urdf.py` (``render_urdf.py``)                                               | 00:00.000 | 0.0 MB |
-+---------------------------------------------------------------------------------------------------------------------------------+-----------+--------+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_scatter.py` (``vis_scatter.py``)
+     - 00:00.327
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_urdf.py` (``vis_urdf.py``)
+     - 00:00.326
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_moving_robot.py` (``vis_moving_robot.py``)
+     - 00:00.321
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_urdf_with_meshes.py` (``vis_urdf_with_meshes.py``)
+     - 00:00.320
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_ee_wrench.py` (``vis_ee_wrench.py``)
+     - 00:00.300
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_probabilistic_robot_kinematics.py` (``vis_probabilistic_robot_kinematics.py``)
+     - 00:00.276
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_mesh.py` (``vis_mesh.py``)
+     - 00:00.256
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_add_remove_artist.py` (``vis_add_remove_artist.py``)
+     - 00:00.232
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_vector.py` (``vis_vector.py``)
+     - 00:00.208
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_box.py` (``vis_box.py``)
+     - 00:00.206
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_plane.py` (``vis_plane.py``)
+     - 00:00.198
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_moving_trajectory.py` (``vis_moving_trajectory.py``)
+     - 00:00.195
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_moving_urdf_with_meshes.py` (``vis_moving_urdf_with_meshes.py``)
+     - 00:00.192
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_basis.py` (``vis_basis.py``)
+     - 00:00.192
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_camera_3d.py` (``vis_camera_3d.py``)
+     - 00:00.191
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_sphere.py` (``vis_sphere.py``)
+     - 00:00.183
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_cylinder.py` (``vis_cylinder.py``)
+     - 00:00.182
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_cone.py` (``vis_cone.py``)
+     - 00:00.176
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_ellipsoid.py` (``vis_ellipsoid.py``)
+     - 00:00.176
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_capsule.py` (``vis_capsule.py``)
+     - 00:00.176
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_moving_line.py` (``vis_moving_line.py``)
+     - 00:00.164
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_moving_basis.py` (``vis_moving_basis.py``)
+     - 00:00.132
+     - 0.0
+   * - :ref:`sphx_glr__auto_examples_visualizations_vis_moving_cylinder_with_wrench.py` (``vis_moving_cylinder_with_wrench.py``)
+     - 00:00.107
+     - 0.0

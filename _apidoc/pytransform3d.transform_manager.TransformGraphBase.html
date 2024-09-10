@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transform_manager.TransformGraphBase &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <title>pytransform3d.transform_manager.TransformGraphBase &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytransform3d.transform_manager.TransformManager" href="pytransform3d.transform_manager.TransformManager.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -91,6 +89,17 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">pytransform3d.transform_manager.TransformGraphBase</a><ul>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase</span></code></a><ul>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.__init__"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.transforms"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.transforms</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.has_frame"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.has_frame()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.add_transform"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.add_transform()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.remove_transform"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.remove_transform()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.get_transform"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.get_transform()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.connected_components"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.connected_components()</span></code></a></li>
+<li><a class="reference internal" href="#pytransform3d.transform_manager.TransformGraphBase.check_consistency"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.check_consistency()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#examples-using-pytransform3d-transform-manager-transformgraphbase">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transform_manager.TransformGraphBase</span></code></a></li>
 </ul>
 </li>
@@ -126,10 +135,10 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="pytransform3d-transform-manager-transformgraphbase">
-<h1>pytransform3d.transform_manager.TransformGraphBase<a class="headerlink" href="#pytransform3d-transform-manager-transformgraphbase" title="Permalink to this heading">¶</a></h1>
+<h1>pytransform3d.transform_manager.TransformGraphBase<a class="headerlink" href="#pytransform3d-transform-manager-transformgraphbase" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.transform_manager.</span></span><span class="sig-name descname"><span class="pre">TransformGraphBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.transform_manager.</span></span><span class="sig-name descname"><span class="pre">TransformGraphBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>Base class for all graphs of rigid transformations.</p>
 <dl class="field-list simple">
@@ -147,7 +156,7 @@ which might significantly slow down some operations.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.__init__" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -186,13 +195,13 @@ which might significantly slow down some operations.</p>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.transforms">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transforms</span></span><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.transforms" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transforms</span></span><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.transforms" title="Link to this definition">¶</a></dt>
 <dd><p>Rigid transformations between nodes.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.has_frame">
-<span class="sig-name descname"><span class="pre">has_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.has_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.has_frame" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.has_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.has_frame" title="Link to this definition">¶</a></dt>
 <dd><p>Check if frame has been registered.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -212,7 +221,7 @@ which might significantly slow down some operations.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.add_transform">
-<span class="sig-name descname"><span class="pre">add_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.add_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.add_transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.add_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.add_transform" title="Link to this definition">¶</a></dt>
 <dd><p>Register a transformation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -237,7 +246,7 @@ to_frame coordinate system</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.remove_transform">
-<span class="sig-name descname"><span class="pre">remove_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.remove_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.remove_transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.remove_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.remove_transform" title="Link to this definition">¶</a></dt>
 <dd><p>Remove a transformation.</p>
 <p>Nothing happens if there is no such transformation.</p>
 <dl class="field-list simple">
@@ -261,7 +270,7 @@ to_frame coordinate system</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.get_transform">
-<span class="sig-name descname"><span class="pre">get_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.get_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.get_transform" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.get_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.get_transform" title="Link to this definition">¶</a></dt>
 <dd><p>Request a transformation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -291,7 +300,7 @@ them</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.connected_components">
-<span class="sig-name descname"><span class="pre">connected_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.connected_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.connected_components" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">connected_components</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.connected_components"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.connected_components" title="Link to this definition">¶</a></dt>
 <dd><p>Get number of connected components.</p>
 <p>If the number is larger than 1 there will be frames without
 connections.</p>
@@ -307,7 +316,7 @@ connections.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase.check_consistency">
-<span class="sig-name descname"><span class="pre">check_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.check_consistency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.check_consistency" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">check_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase.check_consistency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase.check_consistency" title="Link to this definition">¶</a></dt>
 <dd><p>Check consistency of the known transformations.</p>
 <p>The complexity of this is between <img class="math" src="../_images/math/cb487c73415b93656e35ddcbb45a04f8f8ee33fa.png" alt="O(n^2)"/> and <img class="math" src="../_images/math/174aef04544e022a085aab16ddeae821c5667e2b.png" alt="O(n^3)"/>,
 where <img class="math" src="../_images/math/5a939c5280da7202ca4531f175a7780ad5e1f80a.png" alt="n"/> is the number of nodes. In graphs where each pair of
@@ -327,47 +336,47 @@ of B2A?</p>
 </dd></dl>
 
 <section id="examples-using-pytransform3d-transform-manager-transformgraphbase">
-<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transform_manager.TransformGraphBase</span></code><a class="headerlink" href="#examples-using-pytransform3d-transform-manager-transformgraphbase" title="Permalink to this heading">¶</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><img alt="Plot with Respect to Different Reference Frames" src="../_images/sphx_glr_plot_frames_thumb.png" />
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transform_manager.TransformGraphBase</span></code><a class="headerlink" href="#examples-using-pytransform3d-transform-manager-transformgraphbase" title="Link to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several transforms to the manager and plot all frames in two reference frames (&#x27;world&#x27; and &#x27;A&#x27;)."><img alt="" src="../_images/sphx_glr_plot_frames_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot with Respect to Different Reference Frames</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><img alt="Robot" src="../_images/sphx_glr_plot_robot_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><img alt="" src="../_images/sphx_glr_plot_robot_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_robot.html#sphx-glr-auto-examples-plots-plot-robot-py"><span class="std std-ref">Robot</span></a></p>
   <div class="sphx-glr-thumbnail-title">Robot</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><img alt="URDF with Meshes" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_urdf_with_meshes.html#sphx-glr-auto-examples-plots-plot-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><img alt="URDF with Collision Objects" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><img alt="" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_collision_objects.html#sphx-glr-auto-examples-plots-plot-collision-objects-py"><span class="std std-ref">URDF with Collision Objects</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF with Collision Objects</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will use the TransformManager to infer a transformation automatically."><img alt="Transformation Manager" src="../_images/sphx_glr_plot_transform_manager_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will use the TransformManager to infer a transformation automatically."><img alt="" src="../_images/sphx_glr_plot_transform_manager_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_transform_manager.html#sphx-glr-auto-examples-plots-plot-transform-manager-py"><span class="std std-ref">Transformation Manager</span></a></p>
   <div class="sphx-glr-thumbnail-title">Transformation Manager</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><img alt="URDF Joints" src="../_images/sphx_glr_plot_urdf_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_plot_urdf_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_urdf.html#sphx-glr-auto-examples-plots-plot-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF Joints</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, given two trajectories of 3D rigid transformations, we will interpolate both a..."><img alt="Managing Transformations over Time" src="../_images/sphx_glr_plot_interpolation_for_transform_manager_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, given two trajectories of 3D rigid transformations, we will interpolate both and use the transform manager for the target timestep."><img alt="" src="../_images/sphx_glr_plot_interpolation_for_transform_manager_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_interpolation_for_transform_manager.html#sphx-glr-auto-examples-plots-plot-interpolation-for-transform-manager-py"><span class="std std-ref">Managing Transformations over Time</span></a></p>
   <div class="sphx-glr-thumbnail-title">Managing Transformations over Time</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the..."><img alt="URDF with Meshes" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ..."><img alt="Animated URDF with Meshes" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animated URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="Add and Remove Artist" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></p>
   <div class="sphx-glr-thumbnail-title">Add and Remove Artist</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="Animated Robot" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animated Robot</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display..."><img alt="URDF Joints" src="../_images/sphx_glr_vis_urdf_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_vis_urdf_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF Joints</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the fo..."><img alt="Visualize Wrench" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
   <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and vi..."><img alt="Probabilistic Product of Exponentials" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and visualize the projected equiprobably ellipsoid of the end-effector&#x27;s pose distribution."><img alt="" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_probabilistic_robot_kinematics.html#sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">Probabilistic Product of Exponentials</span></a></p>
   <div class="sphx-glr-thumbnail-title">Probabilistic Product of Exponentials</div>
 </div></div></section>
@@ -385,8 +394,8 @@ of B2A?</p>
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

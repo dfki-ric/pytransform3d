@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Managing Transformations &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
-    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
+    <title>Managing Transformations &#8212; pytransform3d 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=3b405b93" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Managing Transformations over Time" href="transformation_over_time.html" />
@@ -44,7 +42,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.5.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -123,7 +121,7 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="managing-transformations">
-<h1>Managing Transformations<a class="headerlink" href="#managing-transformations" title="Permalink to this heading">¶</a></h1>
+<h1>Managing Transformations<a class="headerlink" href="#managing-transformations" title="Link to this heading">¶</a></h1>
 <p>It is sometimes very difficult to have an overview of all the transformations
 that are required to calculate another transformation. Suppose you have
 a robot with a camera that can observe the robot’s end-effector and an object
@@ -138,9 +136,10 @@ transformations, that is, we compute the shortest path through the undirected
 graph, concatenate transformations along the path, and invert transformations
 if required as indicated by the solid red arrow.</p>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="_images/transform_graph.png"><img alt="_images/transform_graph.png" src="_images/transform_graph.png" style="width: 35%;" /></a>
+<a class="reference internal image-reference" href="_images/transform_graph.png"><img alt="_images/transform_graph.png" src="_images/transform_graph.png" style="width: 35%;" />
+</a>
 <figcaption>
-<p><span class="caption-text">Example of a graph representing transformations that connect frames.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Example of a graph representing transformations that connect frames.</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>The <a class="reference internal" href="_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformManager</span></code></a> does this for
@@ -158,7 +157,8 @@ you. For the given example, this would be the corresponding code
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tm</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/graph.png"><img alt="_images/graph.png" class="align-center" src="_images/graph.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="_images/graph.png"><img alt="_images/graph.png" class="align-center" src="_images/graph.png" style="width: 50%;" />
+</a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -169,6 +169,12 @@ The same class can be used to display collision objects or visuals from URDF
 files. The library <a class="reference external" href="https://trimsh.org/">trimesh</a> will be used to load
 meshes. Here is a simple example with one visual that is used for two links:
 <a class="reference internal" href="_auto_examples/plots/plot_urdf_with_meshes.html#sphx-glr-auto-examples-plots-plot-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a>.</p>
+<p>Note that we can use Matplotlib or Open3D to visualize URDFs or any graph of
+transformations. In previous versions of this library, an example using
+pyrender was also included. This has been removed, as there is now another
+software package that does this:
+<a class="reference external" href="https://github.com/IRP-TU-BS/urdf_viz">urdf_viz</a>. urdf_viz uses
+pytransform3d to load URDFs and displays them in pyrender.</p>
 </section>
 
 
@@ -183,8 +189,8 @@ meshes. Here is a simple example with one visual that is used for two links:
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>

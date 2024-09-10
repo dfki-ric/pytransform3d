@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pytransform3d.camera &#8212; pytransform3d 3.5.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=3b405b93" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../../_static/documentation_options.js?v=c1362a89"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -126,7 +124,9 @@
                               <span class="n">vectors_to_points</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="make_world_grid"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.make_world_grid.html#pytransform3d.camera.make_world_grid">[docs]</a><span class="k">def</span> <span class="nf">make_world_grid</span><span class="p">(</span><span class="n">n_lines</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">n_points_per_line</span><span class="o">=</span><span class="mi">51</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+<div class="viewcode-block" id="make_world_grid">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.make_world_grid.html#pytransform3d.camera.make_world_grid">[docs]</a>
+<span class="k">def</span> <span class="nf">make_world_grid</span><span class="p">(</span><span class="n">n_lines</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">n_points_per_line</span><span class="o">=</span><span class="mi">51</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
                     <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate grid in world coordinate frame.</span>
 
@@ -176,7 +176,10 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">world_grid_x</span><span class="p">,</span> <span class="n">world_grid_y</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="make_world_line"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.make_world_line.html#pytransform3d.camera.make_world_line">[docs]</a><span class="k">def</span> <span class="nf">make_world_line</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
+
+<div class="viewcode-block" id="make_world_line">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.make_world_line.html#pytransform3d.camera.make_world_line">[docs]</a>
+<span class="k">def</span> <span class="nf">make_world_line</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">n_points</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate line in world coordinate frame.</span>
 
 <span class="sd">    Parameters</span>
@@ -205,7 +208,10 @@
                      <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_points</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span></div>
 
 
-<div class="viewcode-block" id="cam2sensor"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.cam2sensor.html#pytransform3d.camera.cam2sensor">[docs]</a><span class="k">def</span> <span class="nf">cam2sensor</span><span class="p">(</span><span class="n">P_cam</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+
+<div class="viewcode-block" id="cam2sensor">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.cam2sensor.html#pytransform3d.camera.cam2sensor">[docs]</a>
+<span class="k">def</span> <span class="nf">cam2sensor</span><span class="p">(</span><span class="n">P_cam</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Project points from 3D camera coordinate system to sensor plane.</span>
 
 <span class="sd">    Parameters</span>
@@ -249,7 +255,10 @@
     <span class="k">return</span> <span class="n">P_sensor</span></div>
 
 
-<div class="viewcode-block" id="sensor2img"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.sensor2img.html#pytransform3d.camera.sensor2img">[docs]</a><span class="k">def</span> <span class="nf">sensor2img</span><span class="p">(</span><span class="n">P_sensor</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span> <span class="n">image_size</span><span class="p">,</span> <span class="n">image_center</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="sensor2img">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.sensor2img.html#pytransform3d.camera.sensor2img">[docs]</a>
+<span class="k">def</span> <span class="nf">sensor2img</span><span class="p">(</span><span class="n">P_sensor</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span> <span class="n">image_size</span><span class="p">,</span> <span class="n">image_center</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Project points from 2D sensor plane to image coordinate system.</span>
 
 <span class="sd">    Parameters</span>
@@ -278,7 +287,10 @@
     <span class="k">return</span> <span class="n">P_img</span></div>
 
 
-<div class="viewcode-block" id="world2image"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.world2image.html#pytransform3d.camera.world2image">[docs]</a><span class="k">def</span> <span class="nf">world2image</span><span class="p">(</span><span class="n">P_world</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span> <span class="n">image_size</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">,</span>
+
+<div class="viewcode-block" id="world2image">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.world2image.html#pytransform3d.camera.world2image">[docs]</a>
+<span class="k">def</span> <span class="nf">world2image</span><span class="p">(</span><span class="n">P_world</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span> <span class="n">image_size</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">,</span>
                 <span class="n">image_center</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Project points from 3D world coordinate system to 2D image.</span>
 
@@ -317,7 +329,10 @@
     <span class="k">return</span> <span class="n">P_img</span></div>
 
 
-<div class="viewcode-block" id="plot_camera"><a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.plot_camera.html#pytransform3d.camera.plot_camera">[docs]</a><span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+
+<div class="viewcode-block" id="plot_camera">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.camera.plot_camera.html#pytransform3d.camera.plot_camera">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                 <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot camera in world coordinates.</span>
@@ -417,6 +432,7 @@
     <span class="k">return</span> <span class="n">ax</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_make_camera_frame</span><span class="p">(</span>
         <span class="n">ax</span><span class="p">,</span> <span class="n">virtual_image_corners</span><span class="p">,</span> <span class="n">camera_center_in_world</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
@@ -498,8 +514,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2014-2023, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Nov 04, 2023.<br/>
+        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
+      Last updated on Sep 10, 2024.<br/>
     </p>
   </div>
 </footer>
