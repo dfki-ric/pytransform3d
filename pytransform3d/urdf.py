@@ -1,6 +1,6 @@
 """Load transformations from URDF files.
 
-See :doc:`transform_manager` for more information.
+See :doc:`user_guide/transform_manager` for more information.
 """
 import os
 import numpy as np

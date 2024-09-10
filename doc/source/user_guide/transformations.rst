@@ -8,9 +8,6 @@ Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
 in different ways.
 
-.. contents:: :local:
-    :depth: 1
-
 For most representations of orientations we can find
 an analogous representation of transformations [1]_:
 
@@ -37,7 +34,7 @@ an analogous representation of transformations [1]_:
 Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.
 
-.. image:: _static/transformations.png
+.. image:: ../_static/transformations.png
    :alt: Transformations
    :width: 50%
    :align: center
@@ -149,7 +146,7 @@ along the screw axis and rotates about it.
 pytransform3d uses two vectors q and `s_axis` of shape (3,) and a scalar
 h to represent the parameters of a screw.
 
-.. image:: _static/screw_axis.png
+.. image:: ../_static/screw_axis.png
    :alt: Screw axis
    :width: 50%
    :align: center

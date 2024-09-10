@@ -60,14 +60,11 @@ html_theme_options = {
     "logo": {
         "text": f"pytransform3d {release}"
     },
-    "navbar_links": [
-        ("Contents", "index"),
-        ("Examples", "_auto_examples/index"),
-        ("API", "api"),
-    ],
+    "sidebarwidth": 100,
+    "collapse_navigation": True
 }
 html_sidebars = {
-  "**": [],
+    "install": []
 }
 html_static_path = ['_static']
 html_last_updated_fmt = '%b %d, %Y'

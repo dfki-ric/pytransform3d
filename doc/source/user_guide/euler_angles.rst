@@ -10,9 +10,6 @@ conventions that could be used. Furthermore, you have to find out whether
 degrees or radians are used to express the angles (we will only use
 radians in pytransform3d).
 
-.. contents:: :local:
-    :depth: 1
-
 -------
 Example
 -------
