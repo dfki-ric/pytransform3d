@@ -28,7 +28,7 @@ if __name__ == "__main__":
           extras_require={
               "all": ["pydot", "trimesh", "pycollada", "open3d"],
               "doc": ["numpydoc", "sphinx", "sphinx-gallery",
-                      "sphinx-bootstrap-theme"],
+                      "pydata-sphinx-theme"],
               "test": ["pytest", "pytest-cov"]
           }
           )

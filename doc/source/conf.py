@@ -11,8 +11,6 @@ from sphinx_gallery.sorting import ExplicitOrder
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../..'))
 
-import sphinx_bootstrap_theme
-
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
@@ -57,14 +55,11 @@ today_fmt = '%B %d, %Y'
 add_function_parentheses = True
 show_authors = True
 pygments_style = 'sphinx'
-html_theme = 'bootstrap'
-html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+html_theme = "pydata_sphinx_theme"
 html_theme_options = {
-    "bootswatch_theme": "readable",
-    "navbar_sidebarrel": False,
-    "bootstrap_version": "3",
-    "nosidebar": True,
-    "body_max_width": '100%',
+    "logo": {
+        "text": f"pytransform3d {release}"
+    },
     "navbar_links": [
         ("Contents", "index"),
         ("Examples", "_auto_examples/index"),
