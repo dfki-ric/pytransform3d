@@ -4,6 +4,10 @@ from typing import Tuple, Union
 from mpl_toolkits.mplot3d import Axes3D
 
 
+def estimate_gaussian_rotation_matrix_from_samples(
+        samples: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray]: ...
+
+
 def estimate_gaussian_transform_from_samples(
         samples: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray]: ...
 

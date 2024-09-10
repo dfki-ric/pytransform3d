@@ -1,13 +1,55 @@
 """Operations related to uncertain transformations."""
 import numpy as np
-from .transformations import (
-    invert_transform, transform_from, concat, adjoint_from_transform,
-    left_jacobian_SE3_inv, transform_from_exponential_coordinates,
-    exponential_coordinates_from_transform)
-from .trajectories import (exponential_coordinates_from_transforms,
-                           transforms_from_exponential_coordinates,
-                           concat_many_to_one)
+
 from ._geometry import unit_sphere_surface_grid
+from .batch_rotations import axis_angles_from_matrices
+from .rotations import matrix_from_compact_axis_angle, norm_matrix
+from .trajectories import (concat_many_to_one,
+                           exponential_coordinates_from_transforms,
+                           transforms_from_exponential_coordinates)
+from .transformations import (
+    adjoint_from_transform, concat, exponential_coordinates_from_transform,
+    invert_transform, left_jacobian_SE3_inv, transform_from,
+    transform_from_exponential_coordinates)
+
+
+def estimate_gaussian_rotation_matrix_from_samples(samples):
+    """Estimate Gaussian distribution over rotations from samples.
+
+    Uses iterative approximation of mean described by Eade [1]_ and computes
+    covariance in exponential coordinate space (using an unbiased estimator).
+
+    Parameters
+    ----------
+    samples : array-like, shape (n_samples, 3, 3)
+        Sampled rotations represented by rotation matrices.
+
+    Returns
+    -------
+    mean : array, shape (3, 3)
+        Mean as rotation matrix.
+
+    cov : array, shape (3, 3)
+        Covariance of distribution in exponential coordinate space.
+
+    References
+    ----------
+    .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
+       https://ethaneade.com/lie.pdf
+    """
+    assert len(samples) > 0
+    samples = np.asarray([norm_matrix(R) for R in samples])
+    mean = samples[0]
+    for _ in range(20):
+        mean_inv = mean.T
+        mean_diffs = axis_angles_from_matrices(
+            concat_many_to_one(samples, mean_inv))
+        mean_diffs = mean_diffs[:, :3] * mean_diffs[:, 3, np.newaxis]
+        avg_mean_diff = np.mean(mean_diffs, axis=0)
+        mean = np.dot(matrix_from_compact_axis_angle(avg_mean_diff), mean)
+
+    cov = np.cov(mean_diffs, rowvar=False, bias=True)
+    return mean, cov
 
 
 def estimate_gaussian_transform_from_samples(samples):
@@ -35,6 +77,7 @@ def estimate_gaussian_transform_from_samples(samples):
        https://ethaneade.com/lie.pdf
     """
     assert len(samples) > 0
+    samples = np.asarray(samples)
     mean = samples[0]
     for _ in range(20):
         mean_inv = invert_transform(mean)
@@ -478,11 +521,10 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=20):
     radii = factor * np.sqrt(vals[:3])
 
     # Grid on ellipsoid in exponential coordinate space
-    radius_x, radius_y, radius_z = radii
     x, y, z = unit_sphere_surface_grid(n_steps)
-    x *= radius_x
-    y *= radius_y
-    z *= radius_z
+    x *= radii[0]
+    y *= radii[1]
+    z *= radii[2]
     P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
     P = np.dot(P, vecs[:, :3].T)
 
