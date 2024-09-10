@@ -42,8 +42,8 @@ Conversions
 Conversions to Rotation Matrix
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-See also :doc:`euler_angles` for conversions from and to Euler angles
-that have been omitted here for the sake of brevity.
+See also :doc:`user_guide/euler_angles` for conversions from and to Euler
+angles that have been omitted here for the sake of brevity.
 
 .. autosummary::
    :toctree: _apidoc/

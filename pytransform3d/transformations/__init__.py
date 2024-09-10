@@ -1,6 +1,6 @@
 """Transformations in three dimensions - SE(3).
 
-See :doc:`transformations` for more information.
+See :doc:`user_guide/transformations` for more information.
 """
 from ._utils import (
     check_transform, check_pq, check_screw_parameters, check_screw_axis,

@@ -1,6 +1,6 @@
 """Rotations in three dimensions - SO(3).
 
-See :doc:`rotations` for more information.
+See :doc:`user_guide/rotations` for more information.
 """
 from ._constants import (
     eps, unitx, unity, unitz, q_i, q_j, q_k, q_id, a_id, R_id, p0)

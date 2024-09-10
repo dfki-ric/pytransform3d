@@ -10,13 +10,10 @@ is non-redundant, continuous, and free of singularities. We will now take a
 closer look at competing representations of rotations and the orientations they
 can describe.
 
-.. contents:: :local:
-    :depth: 1
-
 Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.
 
-.. image:: _static/rotations.png
+.. image:: ../_static/rotations.png
    :alt: Rotations
    :width: 50%
    :align: center
