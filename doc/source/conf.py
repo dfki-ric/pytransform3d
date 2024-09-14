@@ -82,7 +82,6 @@ intersphinx_mapping = {
 intersphinx_timeout = 10
 
 
-# experimental API, works with sphinx-gallery 0.8.2 - 0.15
 class Open3DScraper:
     def __repr__(self):
         return f"<{type(self).__name__} object>"
@@ -124,6 +123,27 @@ class Open3DScraper:
         return figure_rst(image_names, gallery_conf["src_dir"])
 
 
+def _get_sg_image_scraper():
+    """Return the callable scraper to be used by Sphinx-Gallery.
+
+    It allows us to just use strings as they already can be for 'matplotlib'
+    and 'mayavi'. Details on this implementation can be found in
+    `sphinx-gallery/sphinx-gallery/494`_
+
+    This is required to make the config pickable.
+
+    This function must be imported into the top level namespace of
+    pytransform3d.
+
+    .. _sphinx-gallery/sphinx-gallery/494: https://github.com/sphinx-gallery/sphinx-gallery/pull/494
+    """
+    return Open3DScraper()
+
+
+# monkeypatching pytransform3d to make the config pickable
+__import__("pytransform3d")._get_sg_image_scraper = _get_sg_image_scraper
+
+
 sphinx_gallery_conf = {
     "examples_dirs": "../../examples",
     "gallery_dirs": "_auto_examples",
@@ -132,7 +152,7 @@ sphinx_gallery_conf = {
         "../../examples/visualizations", "../../examples/apps"]),
     "reference_url": {"pytransform3d": None},
     "filename_pattern": "/(?:plot|animate|vis)_",
-    "image_scrapers": ("matplotlib", Open3DScraper()),
+    "image_scrapers": ("matplotlib", "pytransform3d"),
     "matplotlib_animations": (True, "gif"),
     "backreferences_dir": "_auto_examples/backreferences",
     "doc_module": "pytransform3d",
