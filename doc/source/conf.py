@@ -133,6 +133,7 @@ sphinx_gallery_conf = {
     "reference_url": {"pytransform3d": None},
     "filename_pattern": "/(?:plot|animate|vis)_",
     "image_scrapers": ("matplotlib", Open3DScraper()),
+    "matplotlib_animations": (True, "gif"),
     "backreferences_dir": "_auto_examples/backreferences",
     "doc_module": "pytransform3d",
 }
