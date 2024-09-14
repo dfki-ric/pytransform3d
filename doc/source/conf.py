@@ -55,12 +55,13 @@ today_fmt = '%B %d, %Y'
 add_function_parentheses = True
 show_authors = True
 pygments_style = 'sphinx'
+html_logo = "_static/logo.png"
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
     "logo": {
-        "text": f"pytransform3d {release}"
+        "alt_text": f"pytransform3d {release}",
     },
-    "collapse_navigation": True
+    "collapse_navigation": True,
 }
 html_sidebars = {
     "install": []
