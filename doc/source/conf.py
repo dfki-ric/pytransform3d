@@ -64,7 +64,8 @@ html_theme_options = {
     "collapse_navigation": True,
 }
 html_sidebars = {
-    "install": []
+    "install": [],
+    "api": [],
 }
 html_static_path = ['_static']
 html_last_updated_fmt = '%b %d, %Y'
