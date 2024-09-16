@@ -1,133 +1,717 @@
+
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="../">
+
+<html lang="en" data-content_root="../" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transformations.transform_log_from_screw_matrix &#8212; pytransform3d 3.6.0 documentation</title>
+    <title>pytransform3d.transformations.transform_log_from_screw_matrix &#8212; pytransform3d 3.6.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=3b405b93" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-    <script src="../_static/documentation_options.js?v=5349f462"></script>
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f731707b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.transformations.transform_log_from_screw_matrix';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytransform3d.transformations.transform_log_from_transform" href="pytransform3d.transformations.transform_log_from_transform.html" />
     <link rel="prev" title="pytransform3d.transformations.transform_log_from_exponential_coordinates" href="pytransform3d.transformations.transform_log_from_exponential_coordinates.html" />
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-  </head><body>
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="../index.html">
-          pytransform3d</a>
-        <span class="navbar-text navbar-version pull-left"><b>3.6.0</b></span>
-      </div>
-
-        <div class="collapse navbar-collapse nav-collapse">
-          <ul class="nav navbar-nav">
-            
-                <li><a href="../index.html">Contents</a></li>
-                <li><a href="../_auto_examples/index.html">Examples</a></li>
-                <li><a href="../api.html">API</a></li>
-            
-            
-              <li class="dropdown globaltoc-container">
-  <a role="button"
-     id="dLabelGlobalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="../index.html">Site <b class="caret"></b></a>
-  <ul class="dropdown-menu globaltoc"
-      role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to 3D Rigid Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rotations.html">SO(3): 3D Rotations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformations.html">SE(3): 3D Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformation_ambiguities.html">Transformation Ambiguities and Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../euler_angles.html">Euler Angles</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformation_modeling.html">Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transform_manager.html">Managing Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../transformation_over_time.html">Managing Transformations over Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../animations.html">Animations</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../_auto_examples/index.html">Examples</a></li>
-</ul>
-</ul>
-</li>
-              
-                <li class="dropdown">
-  <a role="button"
-     id="dLabelLocalToc"
-     data-toggle="dropdown"
-     data-target="#"
-     href="#">Page <b class="caret"></b></a>
-  <ul class="dropdown-menu localtoc"
-      role="menu"
-      aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_screw_matrix</a><ul>
-<li><a class="reference internal" href="#pytransform3d.transformations.transform_log_from_screw_matrix"><code class="docutils literal notranslate"><span class="pre">transform_log_from_screw_matrix()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</ul>
-</li>
-              
-            
-            
-            
-            
-            
-              <li class="hidden-sm"></li>
-            
-          </ul>
-
-          
-            
-<form class="navbar-form navbar-right" action="../search.html" method="get">
- <div class="form-group">
-  <input type="text" name="q" class="form-control" placeholder="Search" />
- </div>
-  <input type="hidden" name="check_keywords" value="yes" />
-  <input type="hidden" name="area" value="default" />
-</form>
-          
-        </div>
-    </div>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
   </div>
 
-<div class="container">
-  <div class="row">
-    <div class="body col-md-12 content" role="main">
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
       
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../_auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../_auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_skew_symmetric_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_skew_symmetric_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_rotor.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_rotor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_mrp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.passive_matrix_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.passive_matrix_from_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_euler.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_euler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_two_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_two_vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_rotor.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_rotor</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.compact_axis_angle_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.compact_axis_angle_from_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.compact_axis_angle_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.compact_axis_angle_from_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_euler.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_euler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_mrp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_xyzw_from_wxyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_xyzw_from_wxyz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_wxyz_from_xyzw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_wxyz_from_xyzw</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_from_two_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_from_two_directions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_from_plane_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_from_plane_angle</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.mrp_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.mrp_from_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_two_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_two_directions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_slerp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.q_prod_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.q_prod_vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.q_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.q_conj</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.pick_closest_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.pick_closest_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_slerp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_dist.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_dist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_diff.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_gradient.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_gradient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_integrate.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_integrate</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.wedge.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.wedge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plane_normal_from_bivector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plane_normal_from_bivector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.geometric_product.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.geometric_product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_rotors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_rotors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_reverse.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_reverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_apply.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_apply</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_slerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_bivector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_bivector</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_axis_angle_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_axis_angle_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_compact_axis_angle_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_compact_axis_angle_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_quaternion_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_rotation_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_rotation_matrix</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_compact_axis_angle</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.left_jacobian_SO3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3_series.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.left_jacobian_SO3_series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3_inv.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.left_jacobian_SO3_inv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3_inv_series.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.left_jacobian_SO3_inv_series</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.perpendicular_to_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.perpendicular_to_vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.angle_between_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.angle_between_vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.vector_projection.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.vector_projection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plane_basis_from_normal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plane_basis_from_normal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.cross_product_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.cross_product_matrix</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_extrinsic_euler_xyz</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_pq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_transform_log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_dual_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.translate_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.translate_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.rotate_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.rotate_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_pq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_transform_log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_dual_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_from_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_from_dual_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_parameters_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_parameters_from_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_parameters_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_parameters_from_dual_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_screw_parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_screw_matrix</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_transform_log</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_matrix_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_matrix_from_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_matrix_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_matrix_from_transform_log</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_exponential_coordinates</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_screw_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_transform</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_pq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_screw_parameters</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.concat.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.concat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.invert_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.invert_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.vector_to_point.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.vector_to_point</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.vectors_to_points.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.vectors_to_points</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.vector_to_direction.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.vector_to_direction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.vectors_to_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.vectors_to_directions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.scale_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.scale_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.adjoint_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.adjoint_from_transform</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_slerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dq_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dq_conj</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dq_q_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dq_q_conj</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.concatenate_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.concatenate_dual_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dq_prod_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dq_prod_vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_power.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_power</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_sclerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_sclerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.plot_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.plot_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.plot_screw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.plot_screw</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_screw_parameters_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_screw_parameters_equal</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_exponential_coordinates</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.norm_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.norm_exponential_coordinates</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.left_jacobian_SE3.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.left_jacobian_SE3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.left_jacobian_SE3_series.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.left_jacobian_SE3_series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.left_jacobian_SE3_inv.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.left_jacobian_SE3_inv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.left_jacobian_SE3_inv_series.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.left_jacobian_SE3_inv_series</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.active_matrices_from_angles.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.active_matrices_from_angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.active_matrices_from_intrinsic_euler_angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.active_matrices_from_extrinsic_euler_angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.matrices_from_compact_axis_angles.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.matrices_from_compact_axis_angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.axis_angles_from_matrices.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.axis_angles_from_matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.cross_product_matrices.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.cross_product_matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.matrices_from_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.matrices_from_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.quaternions_from_matrices.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.quaternions_from_matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_quaternion_wxyz_from_xyzw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_quaternion_xyzw_from_wxyz</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_q_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_q_conj</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_concatenate_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_concatenate_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.quaternion_slerp_batch.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.quaternion_slerp_batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.smooth_quaternion_trajectory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.smooth_quaternion_trajectory</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.norm_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.norm_vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.angles_between_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.angles_between_vectors</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_pqs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_pqs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_dual_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.pqs_from_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.pqs_from_transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.pqs_from_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.pqs_from_dual_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.exponential_coordinates_from_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.exponential_coordinates_from_transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.dual_quaternions_from_pqs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.dual_quaternions_from_pqs</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.invert_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.invert_transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.concat_one_to_many.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.concat_one_to_many</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.concat_many_to_one.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.concat_many_to_one</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.batch_dq_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.batch_dq_conj</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.batch_concatenate_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.batch_concatenate_dual_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.batch_dq_prod_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.batch_dq_prod_vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.plot_trajectory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.plot_trajectory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.mirror_screw_axis_direction.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.mirror_screw_axis_direction</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.estimate_gaussian_transform_from_samples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.invert_uncertain_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.invert_uncertain_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.concat_globally_uncertain_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.concat_globally_uncertain_transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.concat_locally_uncertain_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.concat_locally_uncertain_transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.pose_fusion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.pose_fusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.to_ellipsoid.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.to_ellipsoid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.to_projected_ellipsoid.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.to_projected_ellipsoid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.plot_projected_ellipsoid.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.plot_projected_ellipsoid</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.coordinates.cartesian_from_cylindrical.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.coordinates</span></code>.cartesian_from_cylindrical</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.coordinates.cartesian_from_spherical.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.coordinates</span></code>.cartesian_from_spherical</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.coordinates.cylindrical_from_cartesian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.coordinates</span></code>.cylindrical_from_cartesian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.coordinates.cylindrical_from_spherical.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.coordinates</span></code>.cylindrical_from_spherical</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.coordinates.spherical_from_cartesian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.coordinates</span></code>.spherical_from_cartesian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.coordinates.spherical_from_cylindrical.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.coordinates</span></code>.spherical_from_cylindrical</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transform_manager.TransformGraphBase.html">pytransform3d.transform_manager.TransformGraphBase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transform_manager.TransformManager.html">pytransform3d.transform_manager.TransformManager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transform_manager.TemporalTransformManager.html">pytransform3d.transform_manager.TemporalTransformManager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transform_manager.TimeVaryingTransform.html">pytransform3d.transform_manager.TimeVaryingTransform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transform_manager.StaticTransform.html">pytransform3d.transform_manager.StaticTransform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transform_manager.NumpyTimeseriesTransform.html">pytransform3d.transform_manager.NumpyTimeseriesTransform</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.editor.TransformEditor.html">pytransform3d.editor.TransformEditor</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.UrdfTransformManager.html">pytransform3d.urdf.UrdfTransformManager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.Link.html">pytransform3d.urdf.Link</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.Joint.html">pytransform3d.urdf.Joint</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.Geometry.html">pytransform3d.urdf.Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.Box.html">pytransform3d.urdf.Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.Sphere.html">pytransform3d.urdf.Sphere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.Cylinder.html">pytransform3d.urdf.Cylinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.Mesh.html">pytransform3d.urdf.Mesh</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.parse_urdf.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code>.parse_urdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.urdf.initialize_urdf_transform_manager.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code>.initialize_urdf_transform_manager</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.camera.make_world_grid.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code>.make_world_grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.camera.make_world_line.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code>.make_world_line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.camera.cam2sensor.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code>.cam2sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.camera.sensor2img.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code>.sensor2img</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.camera.world2image.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code>.world2image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.camera.plot_camera.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.camera</span></code>.plot_camera</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.make_3d_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.make_3d_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.remove_frame.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.remove_frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_length_variable.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_length_variable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_box.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_sphere.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_sphere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_spheres.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_spheres</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_cylinder.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_cylinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_mesh.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_ellipsoid.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_ellipsoid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_capsule.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_capsule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.plot_cone.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.plot_utils</span></code>.plot_cone</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Arrow3D.html">pytransform3d.plot_utils.Arrow3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Frame.html">pytransform3d.plot_utils.Frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.LabeledFrame.html">pytransform3d.plot_utils.LabeledFrame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Trajectory.html">pytransform3d.plot_utils.Trajectory</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.figure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code>.figure</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Figure.html">pytransform3d.visualizer.Figure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Artist.html">pytransform3d.visualizer.Artist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Line3D.html">pytransform3d.visualizer.Line3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.PointCollection3D.html">pytransform3d.visualizer.PointCollection3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Vector3D.html">pytransform3d.visualizer.Vector3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Frame.html">pytransform3d.visualizer.Frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Trajectory.html">pytransform3d.visualizer.Trajectory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Sphere.html">pytransform3d.visualizer.Sphere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Box.html">pytransform3d.visualizer.Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Cylinder.html">pytransform3d.visualizer.Cylinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Mesh.html">pytransform3d.visualizer.Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Ellipsoid.html">pytransform3d.visualizer.Ellipsoid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Capsule.html">pytransform3d.visualizer.Capsule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Cone.html">pytransform3d.visualizer.Cone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Plane.html">pytransform3d.visualizer.Plane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Graph.html">pytransform3d.visualizer.Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.Camera.html">pytransform3d.visualizer.Camera</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Documentation</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="pytransform3d-transformations-transform-log-from-screw-matrix">
-<h1><a class="reference internal" href="../api.html#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a>.transform_log_from_screw_matrix<a class="headerlink" href="#pytransform3d-transformations-transform-log-from-screw-matrix" title="Link to this heading">¶</a></h1>
+<h1><a class="reference internal" href="../api.html#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a>.transform_log_from_screw_matrix<a class="headerlink" href="#pytransform3d-transformations-transform-log-from-screw-matrix" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.transformations.transform_log_from_screw_matrix">
-<span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">transform_log_from_screw_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screw_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_conversions.html#transform_log_from_screw_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.transform_log_from_screw_matrix" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">transform_log_from_screw_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screw_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_conversions.html#transform_log_from_screw_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.transform_log_from_screw_matrix" title="Link to this definition">#</a></dt>
 <dd><p>Compute matrix logarithm of transformation from screw matrix and theta.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -152,21 +736,101 @@ and h * theta the translation.</p>
 </section>
 
 
-    </div>
-      
-  </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pytransform3d.transformations.transform_log_from_exponential_coordinates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_exponential_coordinates</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pytransform3d.transformations.transform_log_from_transform.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_transform</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
-<footer class="footer">
-  <div class="container">
-    <p class="pull-right">
-      <a href="#">Back to top</a>
-      
-    </p>
-    <p>
-        &copy; Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.<br/>
-      Last updated on Sep 10, 2024.<br/>
-    </p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
   </div>
-</footer>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transformations.transform_log_from_screw_matrix"><code class="docutils literal notranslate"><span class="pre">transform_log_from_screw_matrix()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
   </body>
 </html>

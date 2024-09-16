@@ -1,0 +1,762 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.6.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/transformations';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Transformation Ambiguities and Conventions" href="transformation_ambiguities.html" />
+    <link rel="prev" title="2. SO(3): 3D Rotations" href="rotations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../_auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../_auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction to 3D Rigid Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">2. SO(3): 3D Rotations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. SE(3): 3D Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">4. Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler_angles.html">5. Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Managing Transformations over Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">9. Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animations.html">10. Animations</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="se-3-3d-transformations">
+<h1><span class="section-number">3. </span>SE(3): 3D Transformations<a class="headerlink" href="#se-3-3d-transformations" title="Link to this heading">#</a></h1>
+<p>The group of all proper rigid transformations (rototranslations) in the
+3D Cartesian space is <span class="math notranslate nohighlight">\(SE(3)\)</span> (SE: special Euclidean group).
+Transformations consist of a rotation and a translation. Those can be
+represented in different ways just like rotations can be expressed
+in different ways.</p>
+<p>For most representations of orientations we can find
+an analogous representation of transformations <a class="footnote-reference brackets" href="#id8" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>:</p>
+<ul class="simple">
+<li><p>A <strong>transformation matrix</strong> <span class="math notranslate nohighlight">\(\boldsymbol T\)</span> is similar to a rotation
+matrix <span class="math notranslate nohighlight">\(\boldsymbol R\)</span>.</p></li>
+<li><p>A <strong>screw axis</strong> <span class="math notranslate nohighlight">\(\mathcal S\)</span> is similar to a rotation axis
+<span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}}\)</span>.</p></li>
+<li><p>A <strong>screw matrix</strong> <span class="math notranslate nohighlight">\(\left[\mathcal{S}\right]\)</span> is similar to
+a cross-product matrix of a unit rotation axis
+<span class="math notranslate nohighlight">\(\left[\hat{\boldsymbol{\omega}}\right]\)</span>.</p></li>
+<li><p>The <strong>logarithm of a transformation</strong> <span class="math notranslate nohighlight">\(\left[\mathcal{S}\right] \theta\)</span>
+is similar to a cross-product matrix of the angle-axis representation
+<span class="math notranslate nohighlight">\(\left[\hat{\boldsymbol{\omega}}\right] \theta\)</span>.</p></li>
+<li><p>The <strong>exponential coordinates</strong> <span class="math notranslate nohighlight">\(\mathcal{S} \theta\)</span> for rigid body
+motions are similar to exponential coordinates
+<span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \theta\)</span> for rotations (axis-angle
+representation).</p></li>
+<li><p>A <strong>twist</strong> <span class="math notranslate nohighlight">\(\mathcal V = \mathcal{S} \dot{\theta}\)</span> is similar to
+angular velocity <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \dot{\theta}\)</span>.</p></li>
+<li><p>A (unit) <strong>dual quaternion</strong>
+<span class="math notranslate nohighlight">\(p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k)\)</span>
+is similar to a (unit) quaternion <span class="math notranslate nohighlight">\(w + x i + y j + z k\)</span>.</p></li>
+</ul>
+<p>Here is an overview of the representations and the conversions between them
+that are available in pytransform3d.</p>
+<a class="reference internal image-reference" href="../_images/transformations.png"><img alt="Transformations" class="align-center" src="../_images/transformations.png" style="width: 50%;" /></a>
+<section id="transformation-matrix">
+<h2><span class="section-number">3.1. </span>Transformation Matrix<a class="headerlink" href="#transformation-matrix" title="Link to this heading">#</a></h2>
+<p>One of the most convenient ways to represent transformations are
+transformation matrices. A transformation matrix is a 4x4 matrix of
+the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol T =
+\left( \begin{array}{cc}
+    \boldsymbol R &amp; \boldsymbol t\\
+    \boldsymbol 0 &amp; 1\\
+\end{array} \right)
+=
+\left(
+\begin{matrix}
+r_{11} &amp; r_{12} &amp; r_{13} &amp; t_1\\
+r_{21} &amp; r_{22} &amp; r_{23} &amp; t_2\\
+r_{31} &amp; r_{32} &amp; r_{33} &amp; t_3\\
+0 &amp; 0 &amp; 0 &amp; 1\\
+\end{matrix}
+\right)
+\in SE(3).\end{split}\]</div>
+<p>It is a partitioned matrix with a 3x3 rotation matrix <span class="math notranslate nohighlight">\(\boldsymbol R\)</span>
+and a column vector <span class="math notranslate nohighlight">\(\boldsymbol t\)</span> that represents the translation.
+It is also sometimes called the homogeneous representation of a transformation.
+All transformation matrices of this form generate the special Euclidean group
+<span class="math notranslate nohighlight">\(SE(3)\)</span>, that is,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}SE(3) = \{ \boldsymbol{T} = \left(
+\begin{array}{cc}
+\boldsymbol{R} &amp; \boldsymbol{t}\\
+\boldsymbol{0} &amp; 1
+\end{array}
+\right) \in \mathbb{R}^{4 \times 4}
+| \boldsymbol{R} \in SO(3), \boldsymbol{t} \in \mathbb{R}^3 \}.\end{split}\]</div>
+<p>pytransform3d uses a numpy array of shape (4, 4) to represent transformation
+matrices and typically we use the variable name A2B for a transformation
+matrix, where A corrsponds to the frame from which it transforms and B to
+the frame to which it transforms.</p>
+<p>It is possible to transform position vectors or direction vectors with it.
+Position vectors are represented as a column vector
+<span class="math notranslate nohighlight">\(\left( x,y,z,1 \right)^T\)</span>.
+This will activate the translation part of the transformation in a matrix
+multiplication. When we transform a direction vector, we want to deactivate
+the translation by setting the last component to zero:
+<span class="math notranslate nohighlight">\(\left( x,y,z,0 \right)^T\)</span>.</p>
+<p>We can use a transformation matrix <span class="math notranslate nohighlight">\(\boldsymbol T_{AB}\)</span> to transform a
+point <span class="math notranslate nohighlight">\({_B}\boldsymbol{p}\)</span> from frame <span class="math notranslate nohighlight">\(B\)</span> to frame <span class="math notranslate nohighlight">\(A\)</span>.
+For example, transforming a position vector <span class="math notranslate nohighlight">\(p\)</span> will give the following
+result:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{T}_{AB}  {_B}\boldsymbol{p} =
+\left( \begin{array}{c}
+    \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
+    1\\
+\end{array} \right)\end{split}\]</div>
+</section>
+<section id="position-and-quaternion">
+<h2><span class="section-number">3.2. </span>Position and Quaternion<a class="headerlink" href="#position-and-quaternion" title="Link to this heading">#</a></h2>
+<p>An alternative to transformation matrices is the representation in a
+7-dimensional vector that consists of the translation and a rotation
+quaternion:</p>
+<div class="math notranslate nohighlight">
+\[\left( x, y, z, q_w, q_x, q_y, q_z \right)^T\]</div>
+<p>This representation is more compact than a transformation matrix and is
+particularly useful if you want to represent a sequence of poses in
+a 2D array.</p>
+<p>pytransform3d uses a numpy array of shape (7,) to represent position and
+quaternion and typically we use the variable name pq.</p>
+</section>
+<section id="screw-parameters">
+<h2><span class="section-number">3.3. </span>Screw Parameters<a class="headerlink" href="#screw-parameters" title="Link to this heading">#</a></h2>
+<figure class="align-default">
+<img alt="../_images/plot_screw.png" class="plot-directive" src="../_images/plot_screw.png" />
+</figure>
+<p>Just like any rotation can be expressed as a rotation by an angle about a
+3D unit vector, any transformation (rotation and translation) can be expressed
+by a motion along a screw axis <a class="footnote-reference brackets" href="#id9" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id10" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id11" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. The <strong>screw parameters</strong> that
+describe a screw axis include a point vector <span class="math notranslate nohighlight">\(\boldsymbol{q}\)</span> through
+which the screw axis passes, a (unit) direction vector
+<span class="math notranslate nohighlight">\(\hat{\boldsymbol{s}}\)</span> that
+indicates the direction of the axis, and the pitch <span class="math notranslate nohighlight">\(h\)</span>. The pitch
+represents the ratio of translation and rotation. A screw motion translates
+along the screw axis and rotates about it.</p>
+<p>pytransform3d uses two vectors q and <cite>s_axis</cite> of shape (3,) and a scalar
+h to represent the parameters of a screw.</p>
+<a class="reference internal image-reference" href="../_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="../_images/screw_axis.png" style="width: 50%;" /></a>
+</section>
+<section id="screw-axis">
+<h2><span class="section-number">3.4. </span>Screw Axis<a class="headerlink" href="#screw-axis" title="Link to this heading">#</a></h2>
+<p>A <strong>screw axis</strong> is typically represented by
+<span class="math notranslate nohighlight">\(\mathcal{S} = \left[\begin{array}{c}\boldsymbol{\omega}\\\boldsymbol{v}\end{array}\right] \in \mathbb{R}^6\)</span>,
+where either</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(||\boldsymbol{\omega}|| = 1\)</span> or</p></li>
+<li><p><span class="math notranslate nohighlight">\(||\boldsymbol{\omega}|| = 0\)</span> and <span class="math notranslate nohighlight">\(||\boldsymbol{v}|| = 1\)</span>
+(only translation).</p></li>
+</ol>
+<p>pytransform3d uses a numpy array of shape (6,) to represent a screw axis
+and typically we use the variable name S or <cite>screw_axis</cite>.</p>
+<p>In case 1, we can compute the screw axis from screw parameters
+<span class="math notranslate nohighlight">\((\boldsymbol{q}, \hat{\boldsymbol{s}}, h)\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathcal{S} = \left[ \begin{array}{c}\hat{\boldsymbol{s}} \\ \boldsymbol{q} \times \hat{\boldsymbol{s}} + h \hat{\boldsymbol{s}}\end{array} \right]\end{split}\]</div>
+<p>In case 2, <span class="math notranslate nohighlight">\(h\)</span> is infinite and we directly translate along <span class="math notranslate nohighlight">\(\hat{\boldsymbol{s}}\)</span>.</p>
+</section>
+<section id="exponential-coordinates">
+<h2><span class="section-number">3.5. </span>Exponential Coordinates<a class="headerlink" href="#exponential-coordinates" title="Link to this heading">#</a></h2>
+<p>By multiplication with an additional parameter <span class="math notranslate nohighlight">\(\theta\)</span> we can then
+define a complete transformation through its exponential coordinates
+<span class="math notranslate nohighlight">\(\mathcal{S} \theta = \left[\begin{array}{c}\boldsymbol{\omega}\theta\\\boldsymbol{v}\theta\end{array}\right] \in \mathbb{R}^6\)</span>.
+This is a minimal representation as it only needs 6 values.</p>
+<p>pytransform3d uses a numpy array of shape (6,) to represent a exponential
+coordinates of transformation and typically we use the variable name Stheta.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Note that we use the screw theory definition of exponential coordinates
+and <span class="math notranslate nohighlight">\(so(3)\)</span> (see next section) used by Paden (1985), Lynch and Park
+(2017), and Corke (2017). They separate the parameter <span class="math notranslate nohighlight">\(\theta\)</span> from
+the screw axis. Additionally, they use the first three components to encode
+rotation and the last three components to encode translation. There is an
+alternative definition used by Eade (2017) and Sola et al. (2018). They use
+a different order of the 3D vector components and they do not separate
+<span class="math notranslate nohighlight">\(\theta\)</span> from the screw axis in their notation.</p>
+</div>
+</section>
+<section id="logarithm-of-transformation">
+<h2><span class="section-number">3.6. </span>Logarithm of Transformation<a class="headerlink" href="#logarithm-of-transformation" title="Link to this heading">#</a></h2>
+<p>Alternatively, we can represent a screw axis <span class="math notranslate nohighlight">\(\mathcal S\)</span> in a matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[\mathcal S\right]
+=
+\left( \begin{array}{cc}
+    \left[\boldsymbol{\omega}\right] &amp; \boldsymbol v\\
+    \boldsymbol 0 &amp; 0\\
+\end{array} \right)
+=
+\left(
+\begin{matrix}
+0 &amp; -\omega_3 &amp; \omega_2 &amp; v_1\\
+\omega_3 &amp; 0 &amp; -\omega_1 &amp; v_2\\
+-\omega_2 &amp; \omega_1 &amp; 0 &amp; v_3\\
+0 &amp; 0 &amp; 0 &amp; 0\\
+\end{matrix}
+\right)
+\in se(3) \subset \mathbb{R}^{4 \times 4}\end{split}\]</div>
+<p>that contains the cross-product matrix of its orientation part and its
+translation part. This is the <strong>matrix representation of a screw axis</strong> and
+we will also refer to it as <strong>screw matrix</strong> in the API.</p>
+<p>pytransform3d uses a numpy array of shape (4, 4) to represent a screw matrix
+and typically we use the variable name <cite>screw_matrix</cite>.</p>
+<p>By multiplication with <span class="math notranslate nohighlight">\(\theta\)</span> we can again generate a full
+description of a transformation
+<span class="math notranslate nohighlight">\(\left[\mathcal{S}\right] \theta \in se(3)\)</span>, which is the <strong>matrix
+logarithm of a transformation matrix</strong> and <span class="math notranslate nohighlight">\(se(3)\)</span> is the Lie
+algebra of Lie group <span class="math notranslate nohighlight">\(SE(3)\)</span>.</p>
+<p>pytransform3d uses a numpy array of shape (4, 4) to represent the logarithm
+of a transformation and typically we use the variable name <cite>transform_log</cite>.</p>
+</section>
+<section id="twist">
+<h2><span class="section-number">3.7. </span>Twist<a class="headerlink" href="#twist" title="Link to this heading">#</a></h2>
+<p>We call spatial velocity (translation and rotation) <strong>twist</strong>. Similarly
+to the matrix logarithm, a twist <span class="math notranslate nohighlight">\(\mathcal{V} = \mathcal{S} \dot{\theta}\)</span>
+is described by a screw axis <span class="math notranslate nohighlight">\(S\)</span> and a scalar <span class="math notranslate nohighlight">\(\dot{\theta}\)</span>
+and <span class="math notranslate nohighlight">\(\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)\)</span>
+is the matrix representation of a twist.</p>
+</section>
+<section id="dual-quaternions">
+<h2><span class="section-number">3.8. </span>Dual Quaternions<a class="headerlink" href="#dual-quaternions" title="Link to this heading">#</a></h2>
+<p>Similarly to unit quaternions for rotations, unit dual quaternions are
+an alternative to represent transformations <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id14" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. They support
+similar operations as transformation matrices.</p>
+<p>A dual quaternion consists of a real quaternion and a dual quaternion:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon^2 = 0\)</span>. We use unit dual quaternions to represent
+transformations. In this case, the real quaternion is a unit quaternion
+and the dual quaternion is orthogonal to the real quaternion.
+The real quaternion is used to represent the rotation and the dual
+quaternion contains information about the rotation and translation.</p>
+<p>Dual quaternions support similar operations as transformation matrices,
+they can be renormalized efficiently, and interpolation between two
+dual quaternions is possible.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The unit dual quaternions <span class="math notranslate nohighlight">\(\boldsymbol{p} + \epsilon \boldsymbol{q}\)</span>
+and <span class="math notranslate nohighlight">\(-\boldsymbol{p} - \epsilon \boldsymbol{q}\)</span> represent exactly
+the same transformation.</p>
+</div>
+<p>The reason for this ambiguity is that the real quaternion
+<span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> represents the orientation component, the dual
+quaternion encodes the translation component as
+<span class="math notranslate nohighlight">\(\boldsymbol{q} = 0.5 \boldsymbol{t} \boldsymbol{p}\)</span>, where
+<span class="math notranslate nohighlight">\(\boldsymbol{t}\)</span> is a quaternion with the translation in the vector
+component and the scalar 0, and rotation quaternions have the same ambiguity.</p>
+</section>
+<section id="references">
+<h2><span class="section-number">3.9. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Lynch, K. M., Park, F. C. (2017). Modern Robotics.
+<a class="reference external" href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">http://hades.mech.northwestern.edu/index.php/Modern_Robotics</a></p>
+</aside>
+<aside class="footnote brackets" id="id9" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Corke, P. (2017). Robotics, Vision and Control, 2nd Edition,
+<a class="reference external" href="https://link.springer.com/book/10.1007/978-3-319-54413-7">https://link.springer.com/book/10.1007/978-3-319-54413-7</a></p>
+</aside>
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
+<a class="reference external" href="https://ethaneade.com/lie.pdf">https://ethaneade.com/lie.pdf</a></p>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Sola, J., Deray, J., Atchuthan, D. (2018).
+A micro Lie theory for state estimation in robotics. Technical Report.
+<a class="reference external" href="http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf">http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf</a></p>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Wikipedia: Dual Quaternion.
+<a class="reference external" href="https://en.wikipedia.org/wiki/Dual_quaternion">https://en.wikipedia.org/wiki/Dual_quaternion</a></p>
+</aside>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<p>Jia, Y.-B.: Dual Quaternions.
+<a class="reference external" href="https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf">https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf</a></p>
+</aside>
+<aside class="footnote brackets" id="id14" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
+<p>Kenwright, B. A Beginners Guide to Dual-Quaternions.
+<a class="reference external" href="http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf">http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="rotations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>SO(3): 3D Rotations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="transformation_ambiguities.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Transformation Ambiguities and Conventions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformation-matrix">3.1. Transformation Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#position-and-quaternion">3.2. Position and Quaternion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#screw-parameters">3.3. Screw Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#screw-axis">3.4. Screw Axis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-coordinates">3.5. Exponential Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logarithm-of-transformation">3.6. Logarithm of Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#twist">3.7. Twist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dual-quaternions">3.8. Dual Quaternions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">3.9. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

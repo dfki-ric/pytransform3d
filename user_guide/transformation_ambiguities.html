@@ -1,0 +1,827 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Transformation Ambiguities and Conventions &#8212; pytransform3d 3.6.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/transformation_ambiguities';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Euler Angles" href="euler_angles.html" />
+    <link rel="prev" title="3. SE(3): 3D Transformations" href="transformations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../_auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    API Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../_auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction to 3D Rigid Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rotations.html">2. SO(3): 3D Rotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformations.html">3. SE(3): 3D Transformations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Transformation Ambiguities and Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="euler_angles.html">5. Euler Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Managing Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Managing Transformations over Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">9. Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animations.html">10. Animations</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="transformation-ambiguities-and-conventions">
+<span id="transformation-ambiguities"></span><h1><span class="section-number">4. </span>Transformation Ambiguities and Conventions<a class="headerlink" href="#transformation-ambiguities-and-conventions" title="Link to this heading">#</a></h1>
+<p>Heterogenous software systems that consist of proprietary and open source
+software are often combined when we work with transformations.
+For example, suppose you want to transfer a trajectory demonstrated by a human
+to a robot. The human trajectory could be measured from an RGB-D camera, fused
+with IMU sensors that are attached to the human, and then translated to
+joint angles by inverse kinematics. That involves at least three different
+software systems that might all use different conventions for transformations.
+Sometimes even one software uses more than one convention.
+The following aspects are of crucial importance to glue and debug
+transformations in systems with heterogenous and often incompatible
+software:</p>
+<ul class="simple">
+<li><p>Compatibility: Compatibility between heterogenous softwares is a difficult
+topic. It might involve, for example, communicating between proprietary and
+open source software or different languages.</p></li>
+<li><p>Conventions: Lots of different conventions are used for transformations
+in three dimensions. These have to be determined or specified.</p></li>
+<li><p>Conversions: We need conversions between these conventions to
+communicate transformations between different systems.</p></li>
+<li><p>Visualization: Finally, transformations should be visually verified
+and that should be as easy as possible.</p></li>
+</ul>
+<p>pytransform3d assists in solving these issues. This documentation clearly
+states all of the used conventions, it aims at making conversions between
+rotation and transformation conventions as easy as possible, it is tightly
+coupled with Matplotlib to quickly visualize (or animate) transformations and
+it is written in Python with few dependencies. Python is a widely adopted
+language. It is used in many domains and supports a wide spectrum of
+communication to other software.</p>
+<p>There are lots of ambiguities in the world of transformations. We try to
+explain them all here.</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#right-handed-vs-left-handed-coordinate-system" id="id4">Right-handed vs. Left-handed Coordinate System</a></p></li>
+<li><p><a class="reference internal" href="#active-alibi-vs-passive-alias-transformation" id="id5">Active (Alibi) vs. Passive (Alias) Transformation</a></p></li>
+<li><p><a class="reference internal" href="#pre-multiply-vs-post-multiply-rotations" id="id6">Pre-multiply vs. Post-multiply Rotations</a></p></li>
+<li><p><a class="reference internal" href="#intrinsic-vs-extrinsic-transformations" id="id7">Intrinsic vs. Extrinsic Transformations</a></p></li>
+<li><p><a class="reference internal" href="#naming-and-frame-conventions" id="id8">Naming and Frame Conventions</a></p></li>
+<li><p><a class="reference internal" href="#conventions-of-other-software" id="id9">Conventions of Other Software</a></p></li>
+</ul>
+</nav>
+<section id="right-handed-vs-left-handed-coordinate-system">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink"><span class="section-number">4.1. </span>Right-handed vs. Left-handed Coordinate System</a><a class="headerlink" href="#right-handed-vs-left-handed-coordinate-system" title="Link to this heading">#</a></h2>
+<p>We typically use a right-handed coordinate system, that is, the x-, y- and
+z-axis are aligned in a specific way. The name comes from the way how the
+fingers are attached to the human hand. Try to align your thumb with the
+imaginary x-axis, your index finger with the y-axis, and your middle finger
+with the z-axis. It is possible to do this with a right hand in a
+right-handed system and with the left hand in a left-handed system.</p>
+<table>
+<tr>
+    <th style="text-align:center">Right-handed</th>
+    <th style="text-align:center">Left-handed</th>
+</tr>
+<tr>
+<td><figure class="align-default">
+<a class="plot-directive reference internal image-reference" href="../_images/transformation_ambiguities-1.png"><img alt="../_images/transformation_ambiguities-1.png" class="plot-directive" src="../_images/transformation_ambiguities-1.png" style="width: 400px;" /></a>
+</figure>
+</td>
+<td><figure class="align-default">
+<a class="plot-directive reference internal image-reference" href="../_images/transformation_ambiguities-2.png"><img alt="../_images/transformation_ambiguities-2.png" class="plot-directive" src="../_images/transformation_ambiguities-2.png" style="width: 400px;" /></a>
+</figure>
+</td>
+</tr>
+<table><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The default in pytransform3d is a right-handed coordinate system.</p>
+</div>
+</section>
+<section id="active-alibi-vs-passive-alias-transformation">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink"><span class="section-number">4.2. </span>Active (Alibi) vs. Passive (Alias) Transformation</a><a class="headerlink" href="#active-alibi-vs-passive-alias-transformation" title="Link to this heading">#</a></h2>
+<img alt="Passive vs. active transformation" class="align-center" src="../_images/active_passive.png" />
+<p>An active transformation</p>
+<ul class="simple">
+<li><p>changes the physical position of an object</p></li>
+<li><p>can be defined in the absence of a coordinate system or does not change the
+current coordinate system</p></li>
+<li><p>is the only convention used by mathematicians</p></li>
+</ul>
+<p>Another name for active transformation is alibi transformation.</p>
+<p>A passive transformation</p>
+<ul class="simple">
+<li><p>changes the coordinate system in which the object is described</p></li>
+<li><p>does not change the object</p></li>
+<li><p>could be used by physicists and engineers (e.g. roboticists)</p></li>
+</ul>
+<p>Another name for passive transformation is alias transformation.</p>
+<p>The following illustration compares the active view with the passive view.
+The position of the data is interpreted in the frame indicated by solid
+axes.
+We use exactly the same transformation matrix in both plots.
+In the active view, we see that the transformation is applied to the data.
+The data is physically moved. The dashed basis represents a frame that is
+moved from the base frame with the same transformation. The data is
+now interpreted in the old frame.
+In a passive transformation, we move the frame with the transformation.
+The data stays at its original position but it is interpreted in the new
+frame.</p>
+<table>
+<tr>
+    <th style="text-align:center">Active</th>
+    <th style="text-align:center">Passive</th>
+</tr>
+<tr>
+<td><figure class="align-default">
+<a class="plot-directive reference internal image-reference" href="../_images/transformation_ambiguities-3.png"><img alt="../_images/transformation_ambiguities-3.png" class="plot-directive" src="../_images/transformation_ambiguities-3.png" style="width: 400px;" /></a>
+</figure>
+</td>
+<td><figure class="align-default">
+<a class="plot-directive reference internal image-reference" href="../_images/transformation_ambiguities-4.png"><img alt="../_images/transformation_ambiguities-4.png" class="plot-directive" src="../_images/transformation_ambiguities-4.png" style="width: 400px;" /></a>
+</figure>
+</td>
+</tr>
+<table><p>Using the inverse transformation in the active view gives us exactly the same
+solution as the original transformation in the passive view and vice versa.</p>
+<p>It is usually easy to determine whether the active or the passive convention
+is used by taking a look at the rotation matrix: when we rotate
+counter-clockwise by an angle <span class="math notranslate nohighlight">\(\theta\)</span> about the z-axis, the following
+rotation matrix is usually used in an active transformation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left( \begin{array}{ccc}
+    \cos \theta &amp; -\sin \theta &amp; 0 \\
+    \sin \theta &amp; \cos \theta &amp; 0 \\
+    0 &amp; 0 &amp; 1\\
+\end{array} \right)\end{split}\]</div>
+<p>Its transformed version is usually used for a passive transformation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left( \begin{array}{ccc}
+    \cos \theta &amp; \sin \theta &amp; 0 \\
+    -\sin \theta &amp; \cos \theta &amp; 0 \\
+    0 &amp; 0 &amp; 1\\
+\end{array} \right)\end{split}\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The standard in pytransform3d is an active rotation.</p>
+</div>
+<p>Reference:</p>
+<p>Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
+IEEE Robotics and Automation Magazine.
+PDF: <a class="reference external" href="https://openresearch.lsbu.ac.uk/download/641fa36d365e0244b27dd2fc8b881a12061afe1eb5c3952bae15614d3d831710/185181/01598057.pdf">https://openresearch.lsbu.ac.uk/download/641fa36d365e0244b27dd2fc8b881a12061afe1eb5c3952bae15614d3d831710/185181/01598057.pdf</a>.</p>
+</section>
+<section id="pre-multiply-vs-post-multiply-rotations">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink"><span class="section-number">4.3. </span>Pre-multiply vs. Post-multiply Rotations</a><a class="headerlink" href="#pre-multiply-vs-post-multiply-rotations" title="Link to this heading">#</a></h2>
+<p>The same point can be represented by a column vector <span class="math notranslate nohighlight">\(\boldsymbol v\)</span> or
+a row vector <span class="math notranslate nohighlight">\(\boldsymbol w\)</span>. A rotation matrix <span class="math notranslate nohighlight">\(\boldsymbol R\)</span>
+can be used to rotate the point by pre-multiplying it to the column vector
+<span class="math notranslate nohighlight">\(\boldsymbol R \boldsymbol v\)</span> or by post-multiplying it to the row
+vector <span class="math notranslate nohighlight">\(\boldsymbol w \boldsymbol R\)</span>. However, for the same rotation
+matrix, both approaches are inverse:
+<span class="math notranslate nohighlight">\(\boldsymbol R^T \boldsymbol v = \boldsymbol w \boldsymbol R\)</span>.
+Hence, to achieve the same effect we have to use two different rotation
+matrices depending on how we multiply them to points.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The default in pytransform3d are pre-multiplied rotation matrices.</p>
+</div>
+</section>
+<section id="intrinsic-vs-extrinsic-transformations">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink"><span class="section-number">4.4. </span>Intrinsic vs. Extrinsic Transformations</a><a class="headerlink" href="#intrinsic-vs-extrinsic-transformations" title="Link to this heading">#</a></h2>
+<p>A similar problem occurs when we want to concatenate rotations
+or transformations:
+suppose we have a rotation matrix <span class="math notranslate nohighlight">\(R_1\)</span> and another matrix
+<span class="math notranslate nohighlight">\(R_2\)</span> and we want to first rotate by <span class="math notranslate nohighlight">\(R_1\)</span> and then by
+<span class="math notranslate nohighlight">\(R_2\)</span>. If we want to apply both rotations in global coordinates
+(global, space-fixed / extrinsic rotation), we have to concatenate them with
+<span class="math notranslate nohighlight">\(R_2 \cdot R_1\)</span>. We can also express the second rotation in terms
+of a local, body-fixed coordinates (local, body-fixed / intrinsic rotation)
+by <span class="math notranslate nohighlight">\(R_1 \cdot R_2\)</span>, which means <span class="math notranslate nohighlight">\(R_1\)</span> defines new coordinates
+in which <span class="math notranslate nohighlight">\(R_2\)</span> is applied. Note that this applies to both
+passive and active rotation matrices. Specifying this convention is
+particularly relevant when we deal with Euler angles.</p>
+<p>Here is a comparison between various conventions of concatenation.</p>
+<figure class="align-default">
+<img alt="../_images/plot_convention_rotation_global_local_00.png" class="plot-directive" src="../_images/plot_convention_rotation_global_local_00.png" />
+</figure>
+<figure class="align-default">
+<img alt="../_images/plot_convention_rotation_global_local_01.png" class="plot-directive" src="../_images/plot_convention_rotation_global_local_01.png" />
+</figure>
+<figure class="align-default">
+<img alt="../_images/plot_convention_rotation_global_local_02.png" class="plot-directive" src="../_images/plot_convention_rotation_global_local_02.png" />
+</figure>
+<figure class="align-default">
+<img alt="../_images/plot_convention_rotation_global_local_03.png" class="plot-directive" src="../_images/plot_convention_rotation_global_local_03.png" />
+</figure>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There are two conventions on how to concatenate rotations and
+transformations: intrinsic and extrinsic transformation.
+There is no default in pytransform3d but usually the function name
+should tell you which convention the function uses.</p>
+</div>
+</section>
+<section id="naming-and-frame-conventions">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink"><span class="section-number">4.5. </span>Naming and Frame Conventions</a><a class="headerlink" href="#naming-and-frame-conventions" title="Link to this heading">#</a></h2>
+<p>In addition to transformation and rotation conventions, there are a lot of
+different naming and frame conventions. Here are some examples.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/conventions_ship.png"><img alt="Ship conventions" src="../_images/conventions_ship.png" style="width: 50%;" /></a>
+<figcaption>
+<p><span class="caption-text">For ships we can use the following convention for the body frame: the x-axis
+is called surge, the y-axis sway, and the z-axis heave. The origin of the
+frame is the center of gravity. For the orientation, the names yaw, pitch,
+and roll are used. Sometimes the body frame is rotated by 180 degrees around
+the x-axis, so that the y-axis points to the right side and the z-axis down.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/conventions_plane.png"><img alt="Aircraft conventions" src="../_images/conventions_plane.png" style="width: 50%;" /></a>
+<figcaption>
+<p><span class="caption-text">Aircrafts sometimes use the following naming conventions for intrinsic
+rotations around the z-, y’-, and x’’-axis. The rotation about the z-axis
+is called heading, rotation about the y’-axis is called elevation, and the
+rotation about the x’’-axis is called bank.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id3">
+<img alt="Camera conventions" src="../_images/conventions_camera.png" />
+<figcaption>
+<p><span class="caption-text">Cameras or similar sensors are sometimes mounted on pan/tilt units.
+Typically, first the pan joint rotates the camera about an axis parallel to
+the y-axis of the camera and the tilt joint rotates the camera about an
+axis parallel to the x-axis of the camera. When the axes of rotation
+and of the camera are not perfectly aligned, the camera will also be
+translated by the rotations.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="conventions-of-other-software">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink"><span class="section-number">4.6. </span>Conventions of Other Software</a><a class="headerlink" href="#conventions-of-other-software" title="Link to this heading">#</a></h2>
+<p>The following is an incomplete list of conventions for representations of
+rotations, orientations, transformations, or poses and coordinate frames
+other software packages use. It illustrates the diversity that you will
+find when you combine different software systems.</p>
+<p><a class="reference external" href="https://www.blender.org/">Blender user interface (computer graphics)</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><p>Euler angles (are actually Tait-Bryan angles): external rotations, angles in degree</p></li>
+<li><p>Quaternion: scalar first</p></li>
+</ul>
+<p><a class="reference external" href="https://base.xsens.com/hc/en-us/articles/360012672099-MVNX-Version-4-File-Structure">XSens MVNX format (motion capture)</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><dl class="simple">
+<dt>Conventions for coordinate frames</dt><dd><ul>
+<li><p>Axis orientation in the world (global): x north, y west, z up (NWU)</p></li>
+<li><p>Axis orientation on body parts: axes are aligned with world axes when
+subject stands in T pose</p></li>
+<li><p>Quaternion and rotation matrix rotate from sensor frame to world frame,
+that is, they represent the orientation of the sensor with respect to
+the world</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Quaternion: scalar first</p></li>
+<li><p>Euler angles: extrinsic roll-pitch-yaw (xyz) convention</p></li>
+</ul>
+<p><a class="reference external" href="https://github.com/bulletphysics/bullet3">Bullet (physics engine)</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><p>Euler angles: extrinsic roll-pitch-yaw (xyz) convention
+(getQuaternionFromEuler from pybullet’s API)</p></li>
+<li><p>Quaternion: scalar last and Hamilton multiplication</p></li>
+</ul>
+<p><a class="reference external" href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen (linear algebra library)</a></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Quaternion</dt><dd><ul>
+<li><p>Scalar first (constructor) and scalar last (internal)</p></li>
+<li><p>Hamilton multiplication</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><a class="reference external" href="https://petercorke.com/toolboxes/robotics-toolbox/">Peter Corke’s robotics toolbox</a></p>
+<ul class="simple">
+<li><p>Active rotations</p></li>
+<li><dl class="simple">
+<dt>Euler angles</dt><dd><ul>
+<li><p>Intrinsic zyz convention</p></li>
+<li><p>Roll-pitch-yaw angles correspond either to intrinsic zyx convention
+(default) or intrinsic xyz convention, which can be selected by a
+parameter</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Quaternion: scalar first and Hamilton multiplication</p></li>
+</ul>
+<p><a class="reference external" href="https://www.ros.org/">Robot Operating System (ROS)</a> <a class="reference external" href="https://www.ros.org/reps/rep-0103.html">(REP103)</a></p>
+<ul class="simple">
+<li><p>Active transformations</p></li>
+<li><dl class="simple">
+<dt>Conventions for coordinate frames</dt><dd><ul>
+<li><p>Axis orientation on body: x forward, y left, z up</p></li>
+<li><p>Axis orientation in the world: x east, y north, z up (ENU)</p></li>
+<li><p>Axis orientation of optical camera frame (indicated by suffix
+in topic name): z forward, x right, y down</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Euler angles</dt><dd><ul>
+<li><p>Active, extrinsic roll-pitch-yaw (xyz) convention (as used, e.g.,
+in origin tag of URDF) can be used</p></li>
+<li><p>In addition, the yaw-pitch-roll (zyx) convention can be used, but
+is discouraged</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>A <a class="reference external" href="http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/PoseStamped.html">PoseStamped</a>
+is represented with respect to a <cite>frame_id</cite></p></li>
+<li><p>When interpreted as active transformation,
+<a class="reference external" href="http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/TransformStamped.html">TransformStamped</a>
+represents a transformation from <em>child frame</em> to its (parent) <em>frame</em></p></li>
+<li><p><a class="reference external" href="http://docs.ros.org/en/jade/api/geometry_msgs/html/msg/Quaternion.html">Quaternion</a>:
+scalar last</p></li>
+</ul>
+<p><a class="reference external" href="https://www.universal-robots.com/">Universal Robot user interface</a></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Conventions for coordinate frames</dt><dd><ul>
+<li><p>Default axis orientation of tool center point: z forward
+(approach direction), x and y axes define the orientation
+with which we approach the target</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Euler angles: extrinsic roll-pitch-yaw (xyz) convention</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="transformations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>SE(3): 3D Transformations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="euler_angles.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Euler Angles</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#right-handed-vs-left-handed-coordinate-system">4.1. Right-handed vs. Left-handed Coordinate System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#active-alibi-vs-passive-alias-transformation">4.2. Active (Alibi) vs. Passive (Alias) Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-multiply-vs-post-multiply-rotations">4.3. Pre-multiply vs. Post-multiply Rotations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intrinsic-vs-extrinsic-transformations">4.4. Intrinsic vs. Extrinsic Transformations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-and-frame-conventions">4.5. Naming and Frame Conventions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions-of-other-software">4.6. Conventions of Other Software</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
