@@ -6,7 +6,6 @@ import glob
 import shutil
 import time
 from sphinx_gallery.scrapers import figure_rst
-from sphinx_gallery.sorting import ExplicitOrder
 
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../..'))
@@ -149,9 +148,6 @@ __import__("pytransform3d")._get_sg_image_scraper = _get_sg_image_scraper
 sphinx_gallery_conf = {
     "examples_dirs": "../../examples",
     "gallery_dirs": "_auto_examples",
-    "subsection_order": ExplicitOrder([
-        "../../examples/plots", "../../examples/animations",
-        "../../examples/visualizations", "../../examples/apps"]),
     "reference_url": {"pytransform3d": None},
     "filename_pattern": "/(?:plot|animate|vis)_",
     "image_scrapers": ("matplotlib", "pytransform3d"),
