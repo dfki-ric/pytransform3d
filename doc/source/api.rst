@@ -23,14 +23,14 @@ Input Validation Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.check_matrix
-   ~pytransform3d.rotations.check_skew_symmetric_matrix
-   ~pytransform3d.rotations.check_axis_angle
-   ~pytransform3d.rotations.check_compact_axis_angle
-   ~pytransform3d.rotations.check_quaternion
-   ~pytransform3d.rotations.check_quaternions
-   ~pytransform3d.rotations.check_rotor
-   ~pytransform3d.rotations.check_mrp
+   ~check_matrix
+   ~check_skew_symmetric_matrix
+   ~check_axis_angle
+   ~check_compact_axis_angle
+   ~check_quaternion
+   ~check_quaternions
+   ~check_rotor
+   ~check_mrp
 
 Conversions
 -----------
@@ -45,14 +45,14 @@ angles that have been omitted here for the sake of brevity.
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.passive_matrix_from_angle
-   ~pytransform3d.rotations.active_matrix_from_angle
-   ~pytransform3d.rotations.matrix_from_euler
-   ~pytransform3d.rotations.matrix_from_two_vectors
-   ~pytransform3d.rotations.matrix_from_axis_angle
-   ~pytransform3d.rotations.matrix_from_compact_axis_angle
-   ~pytransform3d.rotations.matrix_from_quaternion
-   ~pytransform3d.rotations.matrix_from_rotor
+   ~passive_matrix_from_angle
+   ~active_matrix_from_angle
+   ~matrix_from_euler
+   ~matrix_from_two_vectors
+   ~matrix_from_axis_angle
+   ~matrix_from_compact_axis_angle
+   ~matrix_from_quaternion
+   ~matrix_from_rotor
 
 Conversions to Axis-Angle
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -61,12 +61,12 @@ Conversions to Axis-Angle
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.axis_angle_from_matrix
-   ~pytransform3d.rotations.axis_angle_from_quaternion
-   ~pytransform3d.rotations.axis_angle_from_compact_axis_angle
-   ~pytransform3d.rotations.compact_axis_angle
-   ~pytransform3d.rotations.compact_axis_angle_from_matrix
-   ~pytransform3d.rotations.compact_axis_angle_from_quaternion
+   ~axis_angle_from_matrix
+   ~axis_angle_from_quaternion
+   ~axis_angle_from_compact_axis_angle
+   ~compact_axis_angle
+   ~compact_axis_angle_from_matrix
+   ~compact_axis_angle_from_quaternion
 
 Conversions to Quaternion
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -75,14 +75,14 @@ Conversions to Quaternion
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.quaternion_from_angle
-   ~pytransform3d.rotations.quaternion_from_matrix
-   ~pytransform3d.rotations.quaternion_from_axis_angle
-   ~pytransform3d.rotations.quaternion_from_compact_axis_angle
-   ~pytransform3d.rotations.quaternion_from_euler
-   ~pytransform3d.rotations.quaternion_from_mrp
-   ~pytransform3d.rotations.quaternion_xyzw_from_wxyz
-   ~pytransform3d.rotations.quaternion_wxyz_from_xyzw
+   ~quaternion_from_angle
+   ~quaternion_from_matrix
+   ~quaternion_from_axis_angle
+   ~quaternion_from_compact_axis_angle
+   ~quaternion_from_euler
+   ~quaternion_from_mrp
+   ~quaternion_xyzw_from_wxyz
+   ~quaternion_wxyz_from_xyzw
 
 Conversions to Rotor
 ^^^^^^^^^^^^^^^^^^^^
@@ -91,8 +91,8 @@ Conversions to Rotor
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.rotor_from_two_directions
-   ~pytransform3d.rotations.rotor_from_plane_angle
+   ~rotor_from_two_directions
+   ~rotor_from_plane_angle
 
 Conversions to Modified Rodrigues Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -101,7 +101,7 @@ Conversions to Modified Rodrigues Parameters
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.mrp_from_quaternion
+   ~mrp_from_quaternion
 
 Quaternion and Axis-Angle Operations
 ------------------------------------
@@ -110,17 +110,17 @@ Quaternion and Axis-Angle Operations
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.axis_angle_from_two_directions
-   ~pytransform3d.rotations.axis_angle_slerp
-   ~pytransform3d.rotations.concatenate_quaternions
-   ~pytransform3d.rotations.q_prod_vector
-   ~pytransform3d.rotations.q_conj
-   ~pytransform3d.rotations.pick_closest_quaternion
-   ~pytransform3d.rotations.quaternion_slerp
-   ~pytransform3d.rotations.quaternion_dist
-   ~pytransform3d.rotations.quaternion_diff
-   ~pytransform3d.rotations.quaternion_gradient
-   ~pytransform3d.rotations.quaternion_integrate
+   ~axis_angle_from_two_directions
+   ~axis_angle_slerp
+   ~concatenate_quaternions
+   ~q_prod_vector
+   ~q_conj
+   ~pick_closest_quaternion
+   ~quaternion_slerp
+   ~quaternion_dist
+   ~quaternion_diff
+   ~quaternion_gradient
+   ~quaternion_integrate
 
 Rotors
 ------
@@ -129,13 +129,13 @@ Rotors
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.wedge
-   ~pytransform3d.rotations.plane_normal_from_bivector
-   ~pytransform3d.rotations.geometric_product
-   ~pytransform3d.rotations.concatenate_rotors
-   ~pytransform3d.rotations.rotor_reverse
-   ~pytransform3d.rotations.rotor_apply
-   ~pytransform3d.rotations.rotor_slerp
+   ~wedge
+   ~plane_normal_from_bivector
+   ~geometric_product
+   ~concatenate_rotors
+   ~rotor_reverse
+   ~rotor_apply
+   ~rotor_slerp
 
 Plotting
 --------
@@ -144,9 +144,9 @@ Plotting
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.plot_basis
-   ~pytransform3d.rotations.plot_axis_angle
-   ~pytransform3d.rotations.plot_bivector
+   ~plot_basis
+   ~plot_axis_angle
+   ~plot_bivector
 
 Testing
 -------
@@ -155,10 +155,10 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.assert_axis_angle_equal
-   ~pytransform3d.rotations.assert_compact_axis_angle_equal
-   ~pytransform3d.rotations.assert_quaternion_equal
-   ~pytransform3d.rotations.assert_rotation_matrix
+   ~assert_axis_angle_equal
+   ~assert_compact_axis_angle_equal
+   ~assert_quaternion_equal
+   ~assert_rotation_matrix
 
 Normalization
 -------------
@@ -167,11 +167,11 @@ Normalization
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.norm_vector
-   ~pytransform3d.rotations.norm_matrix
-   ~pytransform3d.rotations.norm_angle
-   ~pytransform3d.rotations.norm_axis_angle
-   ~pytransform3d.rotations.norm_compact_axis_angle
+   ~norm_vector
+   ~norm_matrix
+   ~norm_angle
+   ~norm_axis_angle
+   ~norm_compact_axis_angle
 
 Random Sampling
 ---------------
@@ -180,10 +180,10 @@ Random Sampling
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.random_vector
-   ~pytransform3d.rotations.random_axis_angle
-   ~pytransform3d.rotations.random_compact_axis_angle
-   ~pytransform3d.rotations.random_quaternion
+   ~random_vector
+   ~random_axis_angle
+   ~random_compact_axis_angle
+   ~random_quaternion
 
 Jacobians
 ---------
@@ -192,10 +192,10 @@ Jacobians
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.left_jacobian_SO3
-   ~pytransform3d.rotations.left_jacobian_SO3_series
-   ~pytransform3d.rotations.left_jacobian_SO3_inv
-   ~pytransform3d.rotations.left_jacobian_SO3_inv_series
+   ~left_jacobian_SO3
+   ~left_jacobian_SO3_series
+   ~left_jacobian_SO3_inv
+   ~left_jacobian_SO3_inv_series
 
 Utility Functions
 -----------------
@@ -204,11 +204,11 @@ Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.perpendicular_to_vectors
-   ~pytransform3d.rotations.angle_between_vectors
-   ~pytransform3d.rotations.vector_projection
-   ~pytransform3d.rotations.plane_basis_from_normal
-   ~pytransform3d.rotations.cross_product_matrix
+   ~perpendicular_to_vectors
+   ~angle_between_vectors
+   ~vector_projection
+   ~plane_basis_from_normal
+   ~cross_product_matrix
 
 Deprecated Functions
 --------------------
@@ -217,7 +217,7 @@ Deprecated Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz
+   ~quaternion_from_extrinsic_euler_xyz
 
 
 :mod:`pytransform3d.transformations`
@@ -234,14 +234,14 @@ Input Validation Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.check_transform
-   ~pytransform3d.transformations.check_pq
-   ~pytransform3d.transformations.check_screw_parameters
-   ~pytransform3d.transformations.check_screw_axis
-   ~pytransform3d.transformations.check_exponential_coordinates
-   ~pytransform3d.transformations.check_screw_matrix
-   ~pytransform3d.transformations.check_transform_log
-   ~pytransform3d.transformations.check_dual_quaternion
+   ~check_transform
+   ~check_pq
+   ~check_screw_parameters
+   ~check_screw_axis
+   ~check_exponential_coordinates
+   ~check_screw_matrix
+   ~check_transform_log
+   ~check_dual_quaternion
 
 Conversions
 -----------
@@ -254,13 +254,13 @@ Conversions to Transformation Matrix
    :template: function.rst
 
 
-   ~pytransform3d.transformations.transform_from
-   ~pytransform3d.transformations.translate_transform
-   ~pytransform3d.transformations.rotate_transform
-   ~pytransform3d.transformations.transform_from_pq
-   ~pytransform3d.transformations.transform_from_exponential_coordinates
-   ~pytransform3d.transformations.transform_from_transform_log
-   ~pytransform3d.transformations.transform_from_dual_quaternion
+   ~transform_from
+   ~translate_transform
+   ~rotate_transform
+   ~transform_from_pq
+   ~transform_from_exponential_coordinates
+   ~transform_from_transform_log
+   ~transform_from_dual_quaternion
 
 Conversions to Position and Quaternion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -269,8 +269,8 @@ Conversions to Position and Quaternion
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.pq_from_transform
-   ~pytransform3d.transformations.pq_from_dual_quaternion
+   ~pq_from_transform
+   ~pq_from_dual_quaternion
 
 Conversions to Screw Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -279,8 +279,8 @@ Conversions to Screw Parameters
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.screw_parameters_from_screw_axis
-   ~pytransform3d.transformations.screw_parameters_from_dual_quaternion
+   ~screw_parameters_from_screw_axis
+   ~screw_parameters_from_dual_quaternion
 
 Conversions to Screw Axis
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -289,9 +289,9 @@ Conversions to Screw Axis
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.screw_axis_from_screw_parameters
-   ~pytransform3d.transformations.screw_axis_from_exponential_coordinates
-   ~pytransform3d.transformations.screw_axis_from_screw_matrix
+   ~screw_axis_from_screw_parameters
+   ~screw_axis_from_exponential_coordinates
+   ~screw_axis_from_screw_matrix
 
 Conversions to Exponential Coordinates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -300,9 +300,9 @@ Conversions to Exponential Coordinates
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.exponential_coordinates_from_transform
-   ~pytransform3d.transformations.exponential_coordinates_from_screw_axis
-   ~pytransform3d.transformations.exponential_coordinates_from_transform_log
+   ~exponential_coordinates_from_transform
+   ~exponential_coordinates_from_screw_axis
+   ~exponential_coordinates_from_transform_log
 
 Conversions to Screw Matrix
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -311,8 +311,8 @@ Conversions to Screw Matrix
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.screw_matrix_from_screw_axis
-   ~pytransform3d.transformations.screw_matrix_from_transform_log
+   ~screw_matrix_from_screw_axis
+   ~screw_matrix_from_transform_log
 
 Conversions to Matrix Logarithm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -321,9 +321,9 @@ Conversions to Matrix Logarithm
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.transform_log_from_exponential_coordinates
-   ~pytransform3d.transformations.transform_log_from_screw_matrix
-   ~pytransform3d.transformations.transform_log_from_transform
+   ~transform_log_from_exponential_coordinates
+   ~transform_log_from_screw_matrix
+   ~transform_log_from_transform
 
 Conversions to Dual Quaternions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -332,9 +332,9 @@ Conversions to Dual Quaternions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.dual_quaternion_from_transform
-   ~pytransform3d.transformations.dual_quaternion_from_pq
-   ~pytransform3d.transformations.dual_quaternion_from_screw_parameters
+   ~dual_quaternion_from_transform
+   ~dual_quaternion_from_pq
+   ~dual_quaternion_from_screw_parameters
 
 Apply Transformations
 ---------------------
@@ -343,15 +343,15 @@ Apply Transformations
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.concat
-   ~pytransform3d.transformations.invert_transform
-   ~pytransform3d.transformations.transform
-   ~pytransform3d.transformations.vector_to_point
-   ~pytransform3d.transformations.vectors_to_points
-   ~pytransform3d.transformations.vector_to_direction
-   ~pytransform3d.transformations.vectors_to_directions
-   ~pytransform3d.transformations.scale_transform
-   ~pytransform3d.transformations.adjoint_from_transform
+   ~concat
+   ~invert_transform
+   ~transform
+   ~vector_to_point
+   ~vectors_to_points
+   ~vector_to_direction
+   ~vectors_to_directions
+   ~scale_transform
+   ~adjoint_from_transform
 
 Position+Quaternion Operations
 ------------------------------
@@ -360,7 +360,7 @@ Position+Quaternion Operations
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.pq_slerp
+   ~pq_slerp
 
 Dual Quaternion Operations
 --------------------------
@@ -369,12 +369,12 @@ Dual Quaternion Operations
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.dq_conj
-   ~pytransform3d.transformations.dq_q_conj
-   ~pytransform3d.transformations.concatenate_dual_quaternions
-   ~pytransform3d.transformations.dq_prod_vector
-   ~pytransform3d.transformations.dual_quaternion_power
-   ~pytransform3d.transformations.dual_quaternion_sclerp
+   ~dq_conj
+   ~dq_q_conj
+   ~concatenate_dual_quaternions
+   ~dq_prod_vector
+   ~dual_quaternion_power
+   ~dual_quaternion_sclerp
 
 Plotting
 --------
@@ -383,8 +383,8 @@ Plotting
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.plot_transform
-   ~pytransform3d.transformations.plot_screw
+   ~plot_transform
+   ~plot_screw
 
 Testing
 -------
@@ -393,10 +393,10 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.assert_transform
-   ~pytransform3d.transformations.assert_unit_dual_quaternion
-   ~pytransform3d.transformations.assert_unit_dual_quaternion_equal
-   ~pytransform3d.transformations.assert_screw_parameters_equal
+   ~assert_transform
+   ~assert_unit_dual_quaternion
+   ~assert_unit_dual_quaternion_equal
+   ~assert_screw_parameters_equal
 
 Random Sampling
 ---------------
@@ -405,9 +405,9 @@ Random Sampling
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.random_transform
-   ~pytransform3d.transformations.random_screw_axis
-   ~pytransform3d.transformations.random_exponential_coordinates
+   ~random_transform
+   ~random_screw_axis
+   ~random_exponential_coordinates
 
 Normalization
 -------------
@@ -416,7 +416,7 @@ Normalization
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.norm_exponential_coordinates
+   ~norm_exponential_coordinates
 
 Jacobians
 ---------
@@ -425,10 +425,10 @@ Jacobians
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.transformations.left_jacobian_SE3
-   ~pytransform3d.transformations.left_jacobian_SE3_series
-   ~pytransform3d.transformations.left_jacobian_SE3_inv
-   ~pytransform3d.transformations.left_jacobian_SE3_inv_series
+   ~left_jacobian_SE3
+   ~left_jacobian_SE3_series
+   ~left_jacobian_SE3_inv
+   ~left_jacobian_SE3_inv_series
 
 
 :mod:`pytransform3d.batch_rotations`
@@ -445,16 +445,16 @@ Conversions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.batch_rotations.active_matrices_from_angles
-   ~pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles
-   ~pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles
-   ~pytransform3d.batch_rotations.matrices_from_compact_axis_angles
-   ~pytransform3d.batch_rotations.axis_angles_from_matrices
-   ~pytransform3d.batch_rotations.cross_product_matrices
-   ~pytransform3d.batch_rotations.matrices_from_quaternions
-   ~pytransform3d.batch_rotations.quaternions_from_matrices
-   ~pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw
-   ~pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz
+   ~active_matrices_from_angles
+   ~active_matrices_from_intrinsic_euler_angles
+   ~active_matrices_from_extrinsic_euler_angles
+   ~matrices_from_compact_axis_angles
+   ~axis_angles_from_matrices
+   ~cross_product_matrices
+   ~matrices_from_quaternions
+   ~quaternions_from_matrices
+   ~batch_quaternion_wxyz_from_xyzw
+   ~batch_quaternion_xyzw_from_wxyz
 
 Operations
 ----------
@@ -463,10 +463,10 @@ Operations
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.batch_rotations.batch_q_conj
-   ~pytransform3d.batch_rotations.batch_concatenate_quaternions
-   ~pytransform3d.batch_rotations.quaternion_slerp_batch
-   ~pytransform3d.batch_rotations.smooth_quaternion_trajectory
+   ~batch_q_conj
+   ~batch_concatenate_quaternions
+   ~quaternion_slerp_batch
+   ~smooth_quaternion_trajectory
 
 Utility Functions
 -----------------
@@ -475,8 +475,8 @@ Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.batch_rotations.norm_vectors
-   ~pytransform3d.batch_rotations.angles_between_vectors
+   ~norm_vectors
+   ~angles_between_vectors
 
 
 :mod:`pytransform3d.trajectories`
@@ -493,13 +493,13 @@ Conversions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.trajectories.transforms_from_pqs
-   ~pytransform3d.trajectories.transforms_from_exponential_coordinates
-   ~pytransform3d.trajectories.transforms_from_dual_quaternions
-   ~pytransform3d.trajectories.pqs_from_transforms
-   ~pytransform3d.trajectories.pqs_from_dual_quaternions
-   ~pytransform3d.trajectories.exponential_coordinates_from_transforms
-   ~pytransform3d.trajectories.dual_quaternions_from_pqs
+   ~transforms_from_pqs
+   ~transforms_from_exponential_coordinates
+   ~transforms_from_dual_quaternions
+   ~pqs_from_transforms
+   ~pqs_from_dual_quaternions
+   ~exponential_coordinates_from_transforms
+   ~dual_quaternions_from_pqs
 
 Operations and Utility Functions
 --------------------------------
@@ -508,14 +508,14 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.trajectories.invert_transforms
-   ~pytransform3d.trajectories.concat_one_to_many
-   ~pytransform3d.trajectories.concat_many_to_one
-   ~pytransform3d.trajectories.batch_dq_conj
-   ~pytransform3d.trajectories.batch_concatenate_dual_quaternions
-   ~pytransform3d.trajectories.batch_dq_prod_vector
-   ~pytransform3d.trajectories.plot_trajectory
-   ~pytransform3d.trajectories.mirror_screw_axis_direction
+   ~invert_transforms
+   ~concat_one_to_many
+   ~concat_many_to_one
+   ~batch_dq_conj
+   ~batch_concatenate_dual_quaternions
+   ~batch_dq_prod_vector
+   ~plot_trajectory
+   ~mirror_screw_axis_direction
 
 
 :mod:`pytransform3d.uncertainty`
@@ -529,14 +529,14 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.uncertainty.estimate_gaussian_transform_from_samples
-   ~pytransform3d.uncertainty.invert_uncertain_transform
-   ~pytransform3d.uncertainty.concat_globally_uncertain_transforms
-   ~pytransform3d.uncertainty.concat_locally_uncertain_transforms
-   ~pytransform3d.uncertainty.pose_fusion
-   ~pytransform3d.uncertainty.to_ellipsoid
-   ~pytransform3d.uncertainty.to_projected_ellipsoid
-   ~pytransform3d.uncertainty.plot_projected_ellipsoid
+   ~estimate_gaussian_transform_from_samples
+   ~invert_uncertain_transform
+   ~concat_globally_uncertain_transforms
+   ~concat_locally_uncertain_transforms
+   ~pose_fusion
+   ~to_ellipsoid
+   ~to_projected_ellipsoid
+   ~plot_projected_ellipsoid
 
 
 :mod:`pytransform3d.coordinates`
@@ -550,12 +550,12 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.coordinates.cartesian_from_cylindrical
-   ~pytransform3d.coordinates.cartesian_from_spherical
-   ~pytransform3d.coordinates.cylindrical_from_cartesian
-   ~pytransform3d.coordinates.cylindrical_from_spherical
-   ~pytransform3d.coordinates.spherical_from_cartesian
-   ~pytransform3d.coordinates.spherical_from_cylindrical
+   ~cartesian_from_cylindrical
+   ~cartesian_from_spherical
+   ~cylindrical_from_cartesian
+   ~cylindrical_from_spherical
+   ~spherical_from_cartesian
+   ~spherical_from_cylindrical
 
 
 :mod:`pytransform3d.transform_manager`
@@ -569,12 +569,12 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: class.rst
 
-   ~pytransform3d.transform_manager.TransformGraphBase
-   ~pytransform3d.transform_manager.TransformManager
-   ~pytransform3d.transform_manager.TemporalTransformManager
-   ~pytransform3d.transform_manager.TimeVaryingTransform
-   ~pytransform3d.transform_manager.StaticTransform
-   ~pytransform3d.transform_manager.NumpyTimeseriesTransform
+   ~TransformGraphBase
+   ~TransformManager
+   ~TemporalTransformManager
+   ~TimeVaryingTransform
+   ~StaticTransform
+   ~NumpyTimeseriesTransform
 
 
 :mod:`pytransform3d.editor`
@@ -588,7 +588,7 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: class_without_inherited.rst
 
-   ~pytransform3d.editor.TransformEditor
+   ~TransformEditor
 
 
 :mod:`pytransform3d.urdf`
@@ -602,21 +602,21 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: class.rst
 
-   ~pytransform3d.urdf.UrdfTransformManager
-   ~pytransform3d.urdf.Link
-   ~pytransform3d.urdf.Joint
-   ~pytransform3d.urdf.Geometry
-   ~pytransform3d.urdf.Box
-   ~pytransform3d.urdf.Sphere
-   ~pytransform3d.urdf.Cylinder
-   ~pytransform3d.urdf.Mesh
+   ~UrdfTransformManager
+   ~Link
+   ~Joint
+   ~Geometry
+   ~Box
+   ~Sphere
+   ~Cylinder
+   ~Mesh
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.urdf.parse_urdf
-   ~pytransform3d.urdf.initialize_urdf_transform_manager
+   ~parse_urdf
+   ~initialize_urdf_transform_manager
 
 
 :mod:`pytransform3d.camera`
@@ -630,12 +630,12 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.camera.make_world_grid
-   ~pytransform3d.camera.make_world_line
-   ~pytransform3d.camera.cam2sensor
-   ~pytransform3d.camera.sensor2img
-   ~pytransform3d.camera.world2image
-   ~pytransform3d.camera.plot_camera
+   ~make_world_grid
+   ~make_world_line
+   ~cam2sensor
+   ~sensor2img
+   ~world2image
+   ~plot_camera
 
 
 :mod:`pytransform3d.plot_utils`
@@ -649,27 +649,27 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.plot_utils.make_3d_axis
-   ~pytransform3d.plot_utils.remove_frame
-   ~pytransform3d.plot_utils.plot_vector
-   ~pytransform3d.plot_utils.plot_length_variable
-   ~pytransform3d.plot_utils.plot_box
-   ~pytransform3d.plot_utils.plot_sphere
-   ~pytransform3d.plot_utils.plot_spheres
-   ~pytransform3d.plot_utils.plot_cylinder
-   ~pytransform3d.plot_utils.plot_mesh
-   ~pytransform3d.plot_utils.plot_ellipsoid
-   ~pytransform3d.plot_utils.plot_capsule
-   ~pytransform3d.plot_utils.plot_cone
+   ~make_3d_axis
+   ~remove_frame
+   ~plot_vector
+   ~plot_length_variable
+   ~plot_box
+   ~plot_sphere
+   ~plot_spheres
+   ~plot_cylinder
+   ~plot_mesh
+   ~plot_ellipsoid
+   ~plot_capsule
+   ~plot_cone
 
 .. autosummary::
    :toctree: _apidoc/
    :template: class_without_inherited.rst
 
-   ~pytransform3d.plot_utils.Arrow3D
-   ~pytransform3d.plot_utils.Frame
-   ~pytransform3d.plot_utils.LabeledFrame
-   ~pytransform3d.plot_utils.Trajectory
+   ~Arrow3D
+   ~Frame
+   ~LabeledFrame
+   ~Trajectory
 
 
 :mod:`pytransform3d.visualizer`
@@ -683,26 +683,26 @@ Operations and Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.visualizer.figure
+   ~figure
 
 .. autosummary::
    :toctree: _apidoc/
    :template: class.rst
 
-   ~pytransform3d.visualizer.Figure
-   ~pytransform3d.visualizer.Artist
-   ~pytransform3d.visualizer.Line3D
-   ~pytransform3d.visualizer.PointCollection3D
-   ~pytransform3d.visualizer.Vector3D
-   ~pytransform3d.visualizer.Frame
-   ~pytransform3d.visualizer.Trajectory
-   ~pytransform3d.visualizer.Sphere
-   ~pytransform3d.visualizer.Box
-   ~pytransform3d.visualizer.Cylinder
-   ~pytransform3d.visualizer.Mesh
-   ~pytransform3d.visualizer.Ellipsoid
-   ~pytransform3d.visualizer.Capsule
-   ~pytransform3d.visualizer.Cone
-   ~pytransform3d.visualizer.Plane
-   ~pytransform3d.visualizer.Graph
-   ~pytransform3d.visualizer.Camera
+   ~Figure
+   ~Artist
+   ~Line3D
+   ~PointCollection3D
+   ~Vector3D
+   ~Frame
+   ~Trajectory
+   ~Sphere
+   ~Box
+   ~Cylinder
+   ~Mesh
+   ~Ellipsoid
+   ~Capsule
+   ~Cone
+   ~Plane
+   ~Graph
+   ~Camera
