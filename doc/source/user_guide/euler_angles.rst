@@ -106,37 +106,39 @@ x, pitch is a rotation about y and yaw is a rotation about z.
 API: Rotation Matrix / Quaternion from Euler Angles
 ---------------------------------------------------
 
+.. currentmodule:: pytransform3d.rotations
+
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.quaternion_from_euler
-   ~pytransform3d.rotations.matrix_from_euler
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx
-   ~pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy
-   ~pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw
+   ~quaternion_from_euler
+   ~matrix_from_euler
+   ~active_matrix_from_intrinsic_euler_xzx
+   ~active_matrix_from_extrinsic_euler_xzx
+   ~active_matrix_from_intrinsic_euler_xyx
+   ~active_matrix_from_extrinsic_euler_xyx
+   ~active_matrix_from_intrinsic_euler_yxy
+   ~active_matrix_from_extrinsic_euler_yxy
+   ~active_matrix_from_intrinsic_euler_yzy
+   ~active_matrix_from_extrinsic_euler_yzy
+   ~active_matrix_from_intrinsic_euler_zyz
+   ~active_matrix_from_extrinsic_euler_zyz
+   ~active_matrix_from_intrinsic_euler_zxz
+   ~active_matrix_from_extrinsic_euler_zxz
+   ~active_matrix_from_intrinsic_euler_xzy
+   ~active_matrix_from_extrinsic_euler_xzy
+   ~active_matrix_from_intrinsic_euler_xyz
+   ~active_matrix_from_extrinsic_euler_xyz
+   ~active_matrix_from_intrinsic_euler_yxz
+   ~active_matrix_from_extrinsic_euler_yxz
+   ~active_matrix_from_intrinsic_euler_yzx
+   ~active_matrix_from_extrinsic_euler_yzx
+   ~active_matrix_from_intrinsic_euler_zyx
+   ~active_matrix_from_extrinsic_euler_zyx
+   ~active_matrix_from_intrinsic_euler_zxy
+   ~active_matrix_from_extrinsic_euler_zxy
+   ~active_matrix_from_extrinsic_roll_pitch_yaw
 
 ---------------------------------------------------
 API: Euler Angles from Rotation Matrix / Quaternion
@@ -146,32 +148,32 @@ API: Euler Angles from Rotation Matrix / Quaternion
    :toctree: _apidoc/
    :template: function.rst
 
-   ~pytransform3d.rotations.euler_from_quaternion
-   ~pytransform3d.rotations.euler_from_matrix
-   ~pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix
-   ~pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix
-   ~pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix
+   ~euler_from_quaternion
+   ~euler_from_matrix
+   ~intrinsic_euler_xzx_from_active_matrix
+   ~extrinsic_euler_xzx_from_active_matrix
+   ~intrinsic_euler_xyx_from_active_matrix
+   ~extrinsic_euler_xyx_from_active_matrix
+   ~intrinsic_euler_yxy_from_active_matrix
+   ~extrinsic_euler_yxy_from_active_matrix
+   ~intrinsic_euler_yzy_from_active_matrix
+   ~extrinsic_euler_yzy_from_active_matrix
+   ~intrinsic_euler_zyz_from_active_matrix
+   ~extrinsic_euler_zyz_from_active_matrix
+   ~intrinsic_euler_zxz_from_active_matrix
+   ~extrinsic_euler_zxz_from_active_matrix
+   ~intrinsic_euler_xzy_from_active_matrix
+   ~extrinsic_euler_xzy_from_active_matrix
+   ~intrinsic_euler_xyz_from_active_matrix
+   ~extrinsic_euler_xyz_from_active_matrix
+   ~intrinsic_euler_yxz_from_active_matrix
+   ~extrinsic_euler_yxz_from_active_matrix
+   ~intrinsic_euler_yzx_from_active_matrix
+   ~extrinsic_euler_yzx_from_active_matrix
+   ~intrinsic_euler_zyx_from_active_matrix
+   ~extrinsic_euler_zyx_from_active_matrix
+   ~intrinsic_euler_zxy_from_active_matrix
+   ~extrinsic_euler_zxy_from_active_matrix
 
 ----------
 References
