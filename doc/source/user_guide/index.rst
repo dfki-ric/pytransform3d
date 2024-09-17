@@ -15,4 +15,3 @@ User Guide
    transform_manager
    transformation_over_time
    camera
-   animations
