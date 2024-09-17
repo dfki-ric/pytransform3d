@@ -1,6 +1,6 @@
-========================
-Managing Transformations
-========================
+=====================================
+Organizing Transformations in a Graph
+=====================================
 
 It is sometimes very difficult to have an overview of all the transformations
 that are required to calculate another transformation. Suppose you have
