@@ -49,7 +49,8 @@ def geometric_product(a, b):
     r"""Geometric product of two vectors.
 
     The geometric product consists of the symmetric inner / dot product and the
-    antisymmetric outer product of two vectors.
+    antisymmetric outer product (see :func:`~pytransform3d.rotations.wedge`) of
+    two vectors.
 
     .. math::
 

@@ -405,12 +405,12 @@ more general as they can be extended to more dimensions [3]_ [4]_.
 The concept of a quaternion builds on the axis-angle representation, in
 which we rotate by an angle about a rotation axis (see black arrow in the
 illustration above). The axis can be computed from the cross product of two
-vectors (gray arrow). A rotor builds on a plane-angle representation, in which
+vectors (gray arrows). A rotor builds on a plane-angle representation, in which
 we rotate with a given direction by an angle in a plane (indicated by gray
-area). The plane can be computed from the wedge product :math:`a \wedge b` of
-two vectors :math:`a` and :math:`b`, which is a so-called bivector. Although
-both approaches might seem different, in 3D they operate with exactly the same
-numbers in exactly the same way.
+area). The plane can be computed from the wedge product :math:`a \wedge b` (see
+:func:`~pytransform3d.rotations.wedge`) of two vectors :math:`a` and :math:`b`,
+which is a so-called bivector. Although both approaches might seem different,
+in 3D they operate with exactly the same numbers in exactly the same way.
 
 .. warning::
 
