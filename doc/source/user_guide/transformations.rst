@@ -98,9 +98,7 @@ setting the last component to zero (see
 :math:`\left( x,y,z,0 \right)^T`.
 
 We can use a transformation matrix :math:`\boldsymbol T_{AB}` to transform a
-point :math:`{_B}\boldsymbol{p}` from frame :math:`B` to frame :math:`A`.
-For example, transforming a position vector :math:`p` will give the following
-result:
+point :math:`{_B}\boldsymbol{p}` from frame :math:`B` to frame :math:`A`:
 
 .. math::
 
@@ -108,7 +106,7 @@ result:
     \left( \begin{array}{c}
         \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
         1\\
-    \end{array} \right)
+    \end{array} \right).
 
 You can use :func:`~pytransform3d.transformations.transform` to apply a
 transformation matrix to a homogeneous vector.
