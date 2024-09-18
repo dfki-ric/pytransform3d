@@ -123,14 +123,15 @@ This means that we rotate a point :math:`_B\boldsymbol{p}` by
 
 This is called **linear map**.
 
-Note that using our index notation and conventions the second index of the
-rotation matrix and the left index of the point have to be the same. The
-rotation is applied incorrectly if this is not the case.
+Note that with our index notation (as explained in :ref:`Frame Notation`) and
+these conventions, the second index of the rotation matrix and the left index
+of the point have to be the same (:math:`B` in this example). The rotation is
+applied incorrectly if this is not the case.
 
-We can see that *each column* of such a rotation matrix is a basis vector
-of frame :math:`A` with respect to frame :math:`B`.
-We can plot the basis vectors of an orientation to visualize it.
-Here, we can see orientation represented by the rotation matrix
+*Each column* of a rotation matrix :math:`\boldsymbol{R}_{AB}` is a basis
+vector of frame :math:`A` with respect to frame :math:`B`. We can plot the
+basis vectors of an orientation to visualize it. Here, we can see orientation
+represented by the rotation matrix
 
 .. math::
 
@@ -139,7 +140,7 @@ Here, we can see orientation represented by the rotation matrix
         1 & 0 & 0\\
         0 & 1 & 0\\
         0 & 0 & 1\\
-    \end{array} \right)
+    \end{array} \right).
 
 .. plot::
     :include-source:
@@ -149,7 +150,7 @@ Here, we can see orientation represented by the rotation matrix
 
 .. note::
 
-    When plotting basis vectors it is a convention to use red for the x-axis,
+    When plotting basis vectors, it is a convention to use red for the x-axis,
     green for the y-axis and blue for the z-axis (RGB for xyz).
 
 We can easily chain multiple rotations: we can apply the rotation defined
@@ -160,7 +161,7 @@ by applying the rotation
 
     \boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.
 
-Note that again the indices have to align. Otherwise rotations are not applied
+Note that the indices have to align again. Otherwise rotations are not applied
 in the correct order.
 
 .. warning::
@@ -203,7 +204,7 @@ Axis-Angle
 
 .. plot:: ../../examples/plots/plot_axis_angle.py
 
-Each rotation can be represented by a single rotation around one axis.
+Each rotation can be represented by a single rotation about one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
 by a scalar:
 
@@ -333,10 +334,16 @@ typically we use the variable name q.
     element and sometimes the last element of the versor. We will use
     the first element to store the scalar component.
 
+Since the other convention is also used often, pytransform3d provides the
+functions :func:`~pytransform3d.rotations.quaternion_wxyz_from_xyzw` and
+:func:`~pytransform3d.rotations.quaternion_xyzw_from_wxyz` for conversion.
+
 .. warning::
 
     The *antipodal* unit quaternions :math:`\boldsymbol{\hat{q}}` and
     :math:`-\boldsymbol{\hat{q}}` represent the same rotation (double cover).
+    This must be considered during operations like interpolation, distance
+    calculation, or (approximate) equality checks.
 
 **Pros**
 
