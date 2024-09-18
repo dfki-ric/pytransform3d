@@ -47,6 +47,8 @@ A (coordinate reference) frame in 3D Euclidean space is defined by an origin
 a rigid body. The pose (position and orientation) of a rigid body (i.e., of
 its frame) is always expressed with respect to another frame.
 
+.. _Frame Notation:
+
 --------------
 Frame Notation
 --------------
