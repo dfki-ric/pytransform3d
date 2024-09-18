@@ -2,7 +2,7 @@
 SE(3): 3D Transformations
 =========================
 
-The group of all proper rigid transformations (rototranslations) in the
+The group of all proper rigid transformations (rototranslations) in
 3D Cartesian space is :math:`SE(3)` (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
@@ -23,8 +23,8 @@ an analogous representation of transformations [1]_:
   :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta`.
 * The **exponential coordinates** :math:`\mathcal{S} \theta` for rigid body
   motions are similar to exponential coordinates
-  :math:`\hat{\boldsymbol{\omega}} \theta` for rotations (axis-angle
-  representation).
+  :math:`\hat{\boldsymbol{\omega}} \theta` for rotations (compact axis-angle
+  representation / rotation vector).
 * A **twist** :math:`\mathcal V = \mathcal{S} \dot{\theta}` is similar to
   angular velocity :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`.
 * A (unit) **dual quaternion**
@@ -91,8 +91,10 @@ It is possible to transform position vectors or direction vectors with it.
 Position vectors are represented as a column vector
 :math:`\left( x,y,z,1 \right)^T`.
 This will activate the translation part of the transformation in a matrix
-multiplication. When we transform a direction vector, we want to deactivate
-the translation by setting the last component to zero:
+multiplication (see :func:`~pytransform3d.transformations.vector_to_point`).
+When we transform a direction vector, we want to deactivate the translation by
+setting the last component to zero (see
+:func:`~pytransform3d.transformations.vector_to_direction`):
 :math:`\left( x,y,z,0 \right)^T`.
 
 We can use a transformation matrix :math:`\boldsymbol T_{AB}` to transform a
@@ -107,6 +109,9 @@ result:
         \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
         1\\
     \end{array} \right)
+
+You can use :func:`~pytransform3d.transformations.transform` to apply a
+transformation matrix to a homogeneous vector.
 
 -----------------------
 Position and Quaternion
