@@ -274,7 +274,7 @@ frame.
 
     </td>
     </tr>
-    <table>
+    </table>
 
 Using the inverse transformation in the active view gives us exactly the same
 solution as the original transformation in the passive view and vice versa.
