@@ -59,6 +59,17 @@ def vector_to_point(v):
     -------
     p : array-like, shape (4,)
         Point vector with 1 as last element
+
+    See Also
+    --------
+    pytransform3d.transformations.vectors_to_points
+        Convert 3D vectors to points in homogeneous coordinates.
+
+    pytransform3d.transformations.vector_to_direction
+        Convert one 3D vector to a direction in homogeneous coordinates.
+
+    pytransform3d.transformations.vectors_to_directions
+        Convert 3D vectors to directions in homogeneous coordinates.
     """
     return np.hstack((v, 1))
 
@@ -79,6 +90,17 @@ def vectors_to_points(V):
     -------
     P : array-like, shape (n_points, 4)
         Each row is a point vector with 1 as last element
+
+    See Also
+    --------
+    pytransform3d.transformations.vector_to_point
+        Convert one 3D vector to a point in homogeneous coordinates.
+
+    pytransform3d.transformations.vector_to_direction
+        Convert one 3D vector to a direction in homogeneous coordinates.
+
+    pytransform3d.transformations.vectors_to_directions
+        Convert 3D vectors to directions in homogeneous coordinates.
     """
     return np.hstack((V, np.ones((len(V), 1))))
 
@@ -99,6 +121,17 @@ def vector_to_direction(v):
     -------
     p : array-like, shape (4,)
         Direction vector with 0 as last element
+
+    See Also
+    --------
+    pytransform3d.transformations.vector_to_point
+        Convert one 3D vector to a point in homogeneous coordinates.
+
+    pytransform3d.transformations.vectors_to_points
+        Convert 3D vectors to points in homogeneous coordinates.
+
+    pytransform3d.transformations.vectors_to_directions
+        Convert 3D vectors to directions in homogeneous coordinates.
     """
     return np.hstack((v, 0))
 
@@ -119,6 +152,17 @@ def vectors_to_directions(V):
     -------
     P : array-like, shape (n_directions, 4)
         Each row is a direction vector with 0 as last element
+
+    See Also
+    --------
+    pytransform3d.transformations.vector_to_point
+        Convert one 3D vector to a point in homogeneous coordinates.
+
+    pytransform3d.transformations.vectors_to_points
+        Convert 3D vectors to points in homogeneous coordinates.
+
+    pytransform3d.transformations.vector_to_direction
+        Convert one 3D vector to a direction in homogeneous coordinates.
     """
     return np.hstack((V, np.zeros((len(V), 1))))
 
@@ -177,21 +221,14 @@ def concat(A2B, B2C, strict_check=True, check=True):
 def transform(A2B, PA, strict_check=True):
     """Transform point or list of points or directions.
 
-    Points or directions have to given in homogeneous coordinates. You
-    can use any of the following functions for the conversion:
-
-    * :func:`~pytransform3d.transformations.vector_to_point`
-    * :func:`~pytransform3d.transformations.vectors_to_points`
-    * :func:`~pytransform3d.transformations.vector_to_direction`
-    * :func:`~pytransform3d.transformations.vectors_to_directions`
-
     Parameters
     ----------
     A2B : array-like, shape (4, 4)
         Transform from frame A to frame B
 
     PA : array-like, shape (4,) or (n_points, 4)
-        Point or points in frame A
+        One of multiple points or directions in frame A that are represented
+        by homogeneous coordinates.
 
     strict_check : bool, optional (default: True)
         Raise a ValueError if the transformation matrix is not numerically
@@ -201,12 +238,27 @@ def transform(A2B, PA, strict_check=True):
     Returns
     -------
     PB : array-like, shape (4,) or (n_points, 4)
-        Point or points in frame B
+        One of multiple points or directions in frame B that are represented
+        by homogeneous coordinates.
 
     Raises
     ------
     ValueError
         If dimensions are incorrect
+
+    See Also
+    --------
+    pytransform3d.transformations.vector_to_point
+        Convert one 3D vector to a point in homogeneous coordinates.
+
+    pytransform3d.transformations.vectors_to_points
+        Convert 3D vectors to points in homogeneous coordinates.
+
+    pytransform3d.transformations.vector_to_direction
+        Convert one 3D vector to a direction in homogeneous coordinates.
+
+    pytransform3d.transformations.vectors_to_directions
+        Convert 3D vectors to directions in homogeneous coordinates.
     """
     A2B = check_transform(A2B, strict_check=strict_check)
     PA = np.asarray(PA)
