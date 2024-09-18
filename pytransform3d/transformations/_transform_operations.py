@@ -177,6 +177,14 @@ def concat(A2B, B2C, strict_check=True, check=True):
 def transform(A2B, PA, strict_check=True):
     """Transform point or list of points or directions.
 
+    Points or directions have to given in homogeneous coordinates. You
+    can use any of the following functions for the conversion:
+
+    * :func:`~pytransform3d.transformations.vector_to_point`
+    * :func:`~pytransform3d.transformations.vectors_to_points`
+    * :func:`~pytransform3d.transformations.vector_to_direction`
+    * :func:`~pytransform3d.transformations.vectors_to_directions`
+
     Parameters
     ----------
     A2B : array-like, shape (4, 4)
