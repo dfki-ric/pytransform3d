@@ -195,7 +195,7 @@ coordinates of transformation and typically we use the variable name Stheta.
 .. warning::
 
     Note that we use the screw theory definition of exponential coordinates
-    and :math:`so(3)` (see next section) used by Paden (1985), Lynch and Park
+    and :math:`se(3)` (see next section) used by Paden (1985), Lynch and Park
     (2017), and Corke (2017). They separate the parameter :math:`\theta` from
     the screw axis. Additionally, they use the first three components to encode
     rotation and the last three components to encode translation. There is an
@@ -268,15 +268,23 @@ A dual quaternion consists of a real quaternion and a dual quaternion:
 
     \boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),
 
-where :math:`\epsilon^2 = 0`. We use unit dual quaternions to represent
+where :math:`\epsilon^2 = 0` and :math:`\epsilon \neq 0`.
+We use unit dual quaternions to represent
 transformations. In this case, the real quaternion is a unit quaternion
 and the dual quaternion is orthogonal to the real quaternion.
 The real quaternion is used to represent the rotation and the dual
 quaternion contains information about the rotation and translation.
 
-Dual quaternions support similar operations as transformation matrices,
-they can be renormalized efficiently, and interpolation between two
-dual quaternions is possible.
+Dual quaternions support similar operations as transformation matrices
+(inversion through the conjugate of the two individual quaternions
+:func:`~pytransform3d.transformations.dq_q_conj`, concatenation
+through :func:`~pytransform3d.transformations.concatenate_dual_quaternions`,
+and transformation of a point by
+:func:`~pytransform3d.transformations.dq_prod_vector`),
+they can be renormalized efficiently (with
+:func:`~pytransform3d.transformations.check_dual_quaternion`, and
+interpolation between two dual quaternions is possible (with
+:func:`~pytransform3d.transformations.dual_quaternion_sclerp`).
 
 .. warning::
 
