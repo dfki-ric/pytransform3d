@@ -23,12 +23,13 @@ will be measured from the sensor so that pixels will be mirrored in the x-y
 plane. The sensor that we show here actually corresponds to the virtual
 image plane.
 
-The following example shows how a grid is projected on an image.
+The Example :ref:`sphx_glr__auto_examples_plots_plot_camera_with_image.py`
+shows how a grid is projected on an image with the function
+:func:`~pytransform3d.camera.world2image`.
 
-.. plot:: ../../examples/plots/plot_camera_with_image.py
-    :include-source:
-
-|
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_camera_with_image_001.png
+   :target: ../_auto_examples/plots/plot_camera_with_image.html
+   :align: center
 
 Extrinsic and intrinsic camera parameters can be visualized in the following
 way. The extrinsic camera parameters are fully determined by a transform
@@ -53,12 +54,17 @@ are given by a matrix
 where :math:`f_x, f_y` are focal lengths and :math:`c_x, c_y` is the position
 of the camera center. Together with the image size we can determine the field
 of view. Values of the intrinsic camera matrix and the image size can be given
-in pixels or meters to generate the following visualization.
+in pixels or meters to generate the following visualization with
+:func:`~pytransform3d.camera.plot_camera` (see Example
+:ref:`sphx_glr__auto_examples_plots_plot_camera_3d.py`).
 
-.. plot:: ../../examples/plots/plot_camera_3d.py
-    :include-source:
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_camera_3d_001.png
+   :target: ../_auto_examples/plots/plot_camera_3d.html
+   :align: center
 
-You can use this to display a trajectory of camera poses.
+You can use this to display a trajectory of camera poses (see Example
+:ref:`sphx_glr__auto_examples_plots_plot_camera_trajectory.py`).
 
-.. plot:: ../../examples/plots/plot_camera_trajectory.py
-    :include-source:
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_camera_trajectory_001.png
+   :target: ../_auto_examples/plots/plot_camera_trajectory.html
+   :align: center
