@@ -116,4 +116,5 @@ illustrates this process.
 
 .. figure:: ../_auto_examples/plots/images/sphx_glr_plot_pose_fusion_001.png
    :target: ../_auto_examples/plots/plot_pose_fusion.html
+   :width: 50%
    :align: center
