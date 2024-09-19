@@ -14,4 +14,5 @@ User Guide
    transformation_modeling
    transform_manager
    transformation_over_time
+   uncertainty
    camera

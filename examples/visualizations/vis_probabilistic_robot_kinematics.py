@@ -215,7 +215,7 @@ class Surface(pv.Artist):
 
 def animation_callback(
         step, n_frames, tm, graph, joint_names, thetas, covs, surface):
-    angle = 0.5 * np.cos(2.0 * np.pi * (step / n_frames))
+    angle = 0.5 * np.cos(2.0 * np.pi * (0.5 + step / n_frames))
     thetas_t = angle * thetas
     for joint_name, value in zip(joint_names, thetas_t):
         tm.set_joint(joint_name, value)
@@ -262,7 +262,7 @@ graph = fig.plot_graph(tm, "robot_arm", show_visuals=True)
 fig.plot_transform(np.eye(4), s=0.3)
 surface = Surface(x, y, z, c=(0, 0.5, 0.5))
 surface.add_artist(fig)
-fig.view_init(elev=20)
+fig.view_init(elev=-20)
 n_frames = 200
 if "__file__" in globals():
     fig.animate(animation_callback, n_frames, loop=True,

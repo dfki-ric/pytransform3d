@@ -1,4 +1,7 @@
-"""Operations related to uncertain transformations."""
+"""Operations related to uncertain transformations.
+
+See :doc:`user_guide/uncertainty` for more information.
+"""
 import numpy as np
 from .transformations import (
     invert_transform, transform_from, concat, adjoint_from_transform,
