@@ -17,6 +17,20 @@ where the mean of the distribution is represented by a transformation matrix
 through exponential coordinates
 :math:`\boldsymbol{\Sigma} \in \mathbb{R}^{6 \times 6}`.
 
+.. warning::
+
+    It makes a difference whether the uncertainty is defined in the global
+    frame of reference (i.e., left-multiplied) or local frame of reference
+    (i.e., right-multiplied). Unless otherwise stated, we define uncertainty
+    in a global frame, that is, to sample from a Gaussian distribution of
+    transformations
+    :math:`\boldsymbol{T}_{xA} \sim \mathcal{N}(\boldsymbol{T}|\boldsymbol{T}_{BA}, \boldsymbol{\Sigma}_{6 \times 6}))`,
+    we compute :math:`\Delta \boldsymbol{T}_{xB} \boldsymbol{T}_{BA}`,
+    with :math:`\Delta \boldsymbol{T}_{xB} = Exp(\boldsymbol{\xi})` and
+    :math:`\boldsymbol{\xi} \sim \mathcal{N}(\boldsymbol{0}_6, \boldsymbol{\Sigma}_{6 \times 6})`.
+    Hence, the uncertainty is defined in the global frame B, not in the local
+    body frame A.
+
 We can use
 :func:`~pytransform3d.uncertainty.estimate_gaussian_transform_from_samples`
 to estimate a Gaussian distribution of transformations. We can sample from
@@ -94,4 +108,12 @@ which illustrates probabilistic robot kinematics.
 Fusion of Uncertain Poses
 -------------------------
 
-TODO
+Fusing of multiple uncertain poses with
+:func:`~pytransform3d.uncertainty.pose_fusion` is required, for instance,
+in state estimation and sensor fusion.
+The Example :ref:`sphx_glr__auto_examples_plots_plot_pose_fusion.py`
+illustrates this process.
+
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_pose_fusion_001.png
+   :target: ../_auto_examples/plots/plot_pose_fusion.html
+   :align: center
