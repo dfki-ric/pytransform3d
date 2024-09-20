@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>User Guide &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>User Guide &#8212; pytransform3d 3.6.2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="Installation" href="../install.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
   
   
 </a></div>
@@ -317,10 +317,10 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">4. Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euler_angles.html">5. Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Managing Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Managing Transformations over Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">9. Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animations.html">10. Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Organizing Transformations in a Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Graphs of Time-Dependent Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uncertainty.html">9. Uncertainty in Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">10. Camera</a></li>
 </ul>
 </div>
 </nav></div>
@@ -417,6 +417,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#intrinsic-vs-extrinsic-transformations">4.4. Intrinsic vs. Extrinsic Transformations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#naming-and-frame-conventions">4.5. Naming and Frame Conventions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#conventions-of-other-software">4.6. Conventions of Other Software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformation_ambiguities.html#references">4.7. References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="euler_angles.html">5. Euler Angles</a><ul>
@@ -431,14 +432,20 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Managing Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Managing Transformations over Time</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Organizing Transformations in a Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Graphs of Time-Dependent Transformations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="transformation_over_time.html#preparing-the-transformation-sequences">8.1. Preparing the transformation sequences</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transformation_over_time.html#transform-between-coordinate-systems">8.2. Transform between coordinate systems</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">9. Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animations.html">10. Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uncertainty.html">9. Uncertainty in Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="uncertainty.html#gaussian-distribution-of-transformations">9.1. Gaussian Distribution of Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uncertainty.html#visualization-of-uncertainty">9.2. Visualization of Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uncertainty.html#concatenation-of-uncertain-transformations">9.3. Concatenation of Uncertain Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uncertainty.html#fusion-of-uncertain-poses">9.4. Fusion of Uncertain Poses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">10. Camera</a></li>
 </ul>
 </div>
 </section>

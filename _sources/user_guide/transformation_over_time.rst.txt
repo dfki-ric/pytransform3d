@@ -1,6 +1,6 @@
-==================================
-Managing Transformations over Time
-==================================
+========================================
+Graphs of Time-Dependent Transformations
+========================================
 
 In applications, where the transformations between coordinate frames are
 dynamic (i.e. changing over time), consider using

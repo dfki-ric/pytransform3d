@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._transform_operations &#8212; pytransform3d 3.6.0 documentation</title>
+    <title>pytransform3d.transformations._transform_operations &#8212; pytransform3d 3.6.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../../_static/documentation_options.js?v=f731707b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transformations/_transform_operations';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
   
   
 </a></div>
@@ -422,6 +422,17 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    p : array-like, shape (4,)</span>
 <span class="sd">        Point vector with 1 as last element</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pytransform3d.transformations.vectors_to_points</span>
+<span class="sd">        Convert 3D vectors to points in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vector_to_direction</span>
+<span class="sd">        Convert one 3D vector to a direction in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vectors_to_directions</span>
+<span class="sd">        Convert 3D vectors to directions in homogeneous coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></div>
 
@@ -445,6 +456,17 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    P : array-like, shape (n_points, 4)</span>
 <span class="sd">        Each row is a point vector with 1 as last element</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pytransform3d.transformations.vector_to_point</span>
+<span class="sd">        Convert one 3D vector to a point in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vector_to_direction</span>
+<span class="sd">        Convert one 3D vector to a direction in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vectors_to_directions</span>
+<span class="sd">        Convert 3D vectors to directions in homogeneous coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">V</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="mi">1</span><span class="p">))))</span></div>
 
@@ -468,6 +490,17 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    p : array-like, shape (4,)</span>
 <span class="sd">        Direction vector with 0 as last element</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pytransform3d.transformations.vector_to_point</span>
+<span class="sd">        Convert one 3D vector to a point in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vectors_to_points</span>
+<span class="sd">        Convert 3D vectors to points in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vectors_to_directions</span>
+<span class="sd">        Convert 3D vectors to directions in homogeneous coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
 
@@ -491,6 +524,17 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    P : array-like, shape (n_directions, 4)</span>
 <span class="sd">        Each row is a direction vector with 0 as last element</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pytransform3d.transformations.vector_to_point</span>
+<span class="sd">        Convert one 3D vector to a point in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vectors_to_points</span>
+<span class="sd">        Convert 3D vectors to points in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vector_to_direction</span>
+<span class="sd">        Convert one 3D vector to a direction in homogeneous coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">V</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="mi">1</span><span class="p">))))</span></div>
 
@@ -561,7 +605,8 @@ document.write(`
 <span class="sd">        Transform from frame A to frame B</span>
 
 <span class="sd">    PA : array-like, shape (4,) or (n_points, 4)</span>
-<span class="sd">        Point or points in frame A</span>
+<span class="sd">        One of multiple points or directions in frame A that are represented</span>
+<span class="sd">        by homogeneous coordinates.</span>
 
 <span class="sd">    strict_check : bool, optional (default: True)</span>
 <span class="sd">        Raise a ValueError if the transformation matrix is not numerically</span>
@@ -571,12 +616,27 @@ document.write(`
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    PB : array-like, shape (4,) or (n_points, 4)</span>
-<span class="sd">        Point or points in frame B</span>
+<span class="sd">        One of multiple points or directions in frame B that are represented</span>
+<span class="sd">        by homogeneous coordinates.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If dimensions are incorrect</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pytransform3d.transformations.vector_to_point</span>
+<span class="sd">        Convert one 3D vector to a point in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vectors_to_points</span>
+<span class="sd">        Convert 3D vectors to points in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vector_to_direction</span>
+<span class="sd">        Convert one 3D vector to a direction in homogeneous coordinates.</span>
+
+<span class="sd">    pytransform3d.transformations.vectors_to_directions</span>
+<span class="sd">        Convert 3D vectors to directions in homogeneous coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">A2B</span> <span class="o">=</span> <span class="n">check_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="n">strict_check</span><span class="p">)</span>
     <span class="n">PA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">PA</span><span class="p">)</span>

@@ -3,7 +3,9 @@
 Animate Rotation
 ================
 
-Animates a rotation about the x-axis.
+Simple animations of frames and trajectories are easy to implement with
+Matplotlib's FuncAnimation. The following example will generate a frame
+that will be rotated about the x-axis.
 """
 import numpy as np
 import matplotlib.pyplot as plt

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.rotations.geometric_product &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>pytransform3d.rotations.geometric_product &#8212; pytransform3d 3.6.2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="pytransform3d.rotations.plane_normal_from_bivector" href="pytransform3d.rotations.plane_normal_from_bivector.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
   
   
 </a></div>
@@ -715,7 +715,8 @@ document.write(`
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">geometric_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_rotors.html#geometric_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.geometric_product" title="Link to this definition">#</a></dt>
 <dd><p>Geometric product of two vectors.</p>
 <p>The geometric product consists of the symmetric inner / dot product and the
-antisymmetric outer product of two vectors.</p>
+antisymmetric outer product (see <a class="reference internal" href="pytransform3d.rotations.wedge.html#pytransform3d.rotations.wedge" title="pytransform3d.rotations.wedge"><code class="xref py py-func docutils literal notranslate"><span class="pre">wedge()</span></code></a>) of
+two vectors.</p>
 <div class="math notranslate nohighlight">
 \[ab = a \cdot b + a \wedge b\]</div>
 <p>The inner product contains the cosine and the outer product contains the

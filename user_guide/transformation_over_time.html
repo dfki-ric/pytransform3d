@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>8. Managing Transformations over Time &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>8. Graphs of Time-Dependent Transformations &#8212; pytransform3d 3.6.2 documentation</title>
   
   
   
@@ -40,18 +40,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/transformation_over_time';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9. Camera" href="camera.html" />
-    <link rel="prev" title="7. Managing Transformations" href="transform_manager.html" />
+    <link rel="next" title="9. Uncertainty in Transformations" href="uncertainty.html" />
+    <link rel="prev" title="7. Organizing Transformations in a Graph" href="transform_manager.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
   
   
 </a></div>
@@ -321,10 +321,10 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">4. Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euler_angles.html">5. Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Managing Transformations</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Managing Transformations over Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">9. Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animations.html">10. Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Organizing Transformations in a Graph</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Graphs of Time-Dependent Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uncertainty.html">9. Uncertainty in Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">10. Camera</a></li>
 </ul>
 </div>
 </nav></div>
@@ -382,8 +382,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="managing-transformations-over-time">
-<h1><span class="section-number">8. </span>Managing Transformations over Time<a class="headerlink" href="#managing-transformations-over-time" title="Link to this heading">#</a></h1>
+  <section id="graphs-of-time-dependent-transformations">
+<h1><span class="section-number">8. </span>Graphs of Time-Dependent Transformations<a class="headerlink" href="#graphs-of-time-dependent-transformations" title="Link to this heading">#</a></h1>
 <p>In applications, where the transformations between coordinate frames are
 dynamic (i.e. changing over time), consider using
 <a class="reference internal" href="../_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager" title="pytransform3d.transform_manager.TemporalTransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">TemporalTransformManager</span></code></a>. In contrast
@@ -470,15 +470,15 @@ in the plot below:</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Managing Transformations</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Organizing Transformations in a Graph</p>
       </div>
     </a>
     <a class="right-next"
-       href="camera.html"
+       href="uncertainty.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">9. </span>Camera</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>Uncertainty in Transformations</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

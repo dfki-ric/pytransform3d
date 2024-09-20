@@ -37,9 +37,6 @@ communication to other software.
 There are lots of ambiguities in the world of transformations. We try to
 explain them all here.
 
-.. contents:: :local:
-    :depth: 1
-
 ----------------------------------------------
 Right-handed vs. Left-handed Coordinate System
 ----------------------------------------------
@@ -123,6 +120,9 @@ right-handed system and with the left hand in a left-handed system.
 Active (Alibi) vs. Passive (Alias) Transformation
 -------------------------------------------------
 
+There are two different views of transformations: the active and the passive
+view [1]_ [2]_.
+
 .. image:: ../_static/active_passive.png
    :alt: Passive vs. active transformation
    :align: center
@@ -140,7 +140,7 @@ A passive transformation
 
 * changes the coordinate system in which the object is described
 * does not change the object
-* could be used by physicists and engineers (e.g. roboticists)
+* could be used by physicists and engineers (e.g., roboticists)
 
 Another name for passive transformation is alias transformation.
 
@@ -274,7 +274,7 @@ frame.
 
     </td>
     </tr>
-    <table>
+    </table>
 
 Using the inverse transformation in the active view gives us exactly the same
 solution as the original transformation in the passive view and vice versa.
@@ -305,12 +305,6 @@ Its transformed version is usually used for a passive transformation:
 .. warning::
 
     The standard in pytransform3d is an active rotation.
-
-Reference:
-
-Selig, J.M.: Active Versus Passive Transformations in Robotics, 2006,
-IEEE Robotics and Automation Magazine.
-PDF: https://openresearch.lsbu.ac.uk/download/641fa36d365e0244b27dd2fc8b881a12061afe1eb5c3952bae15614d3d831710/185181/01598057.pdf.
 
 ----------------------------------------
 Pre-multiply vs. Post-multiply Rotations
@@ -477,3 +471,14 @@ find when you combine different software systems.
       (approach direction), x and y axes define the orientation
       with which we approach the target
 * Euler angles: extrinsic roll-pitch-yaw (xyz) convention
+
+----------
+References
+----------
+
+.. [1] Selig, J.M. (2006): Active Versus Passive Transformations in Robotics.
+   IEEE Robotics and Automation Magazine, 13(1), pp. 79-84, doi:
+   10.1109/MRA.2006.1598057. https://ieeexplore.ieee.org/document/1598057
+
+.. [2] Wikipedia: Active and passive transformation.
+   https://en.wikipedia.org/wiki/Active_and_passive_transformation

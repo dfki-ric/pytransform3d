@@ -249,7 +249,7 @@ https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
 
     def animation_callback(
             step, n_frames, tm, graph, joint_names, thetas, covs, surface):
-        angle = 0.5 * np.cos(2.0 * np.pi * (step / n_frames))
+        angle = 0.5 * np.cos(2.0 * np.pi * (0.5 + step / n_frames))
         thetas_t = angle * thetas
         for joint_name, value in zip(joint_names, thetas_t):
             tm.set_joint(joint_name, value)
@@ -296,7 +296,7 @@ https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
     fig.plot_transform(np.eye(4), s=0.3)
     surface = Surface(x, y, z, c=(0, 0.5, 0.5))
     surface.add_artist(fig)
-    fig.view_init(elev=20)
+    fig.view_init(elev=-20)
     n_frames = 200
     if "__file__" in globals():
         fig.animate(animation_callback, n_frames, loop=True,
@@ -309,7 +309,7 @@ https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.280 seconds)
+   **Total running time of the script:** (0 minutes 0.306 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_probabilistic_robot_kinematics.py:

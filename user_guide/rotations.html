@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.6.2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="1. Introduction to 3D Rigid Transformations" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
   
   
 </a></div>
@@ -321,10 +321,10 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">4. Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euler_angles.html">5. Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Managing Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Managing Transformations over Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">9. Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animations.html">10. Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Organizing Transformations in a Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Graphs of Time-Dependent Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uncertainty.html">9. Uncertainty in Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">10. Camera</a></li>
 </ul>
 </div>
 </nav></div>
@@ -385,12 +385,10 @@ document.write(`
   <section id="so-3-3d-rotations">
 <h1><span class="section-number">2. </span>SO(3): 3D Rotations<a class="headerlink" href="#so-3-3d-rotations" title="Link to this heading">#</a></h1>
 <p>The group of all rotations in the 3D Cartesian space is called <span class="math notranslate nohighlight">\(SO(3)\)</span>
-(SO: special orthogonal group). It is typically represented by 3D rotations
+(SO: special orthogonal group). It is typically represented by 3D rotation
 matrices <a class="footnote-reference brackets" href="#id14" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. The minimum number of components that are required to describe
 any rotation from <span class="math notranslate nohighlight">\(SO(3)\)</span> is 3. However, there is no representation that
-is non-redundant, continuous, and free of singularities. We will now take a
-closer look at competing representations of rotations and the orientations they
-can describe.</p>
+is non-redundant, continuous, and free of singularities.</p>
 <p>Here is an overview of the representations and the conversions between them
 that are available in pytransform3d.</p>
 <a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" class="align-center" src="../_images/rotations.png" style="width: 50%;" /></a>
@@ -522,20 +520,21 @@ We will use the <strong>pre-multiplication</strong> convention.</p>
 <div class="math notranslate nohighlight">
 \[_A\boldsymbol{p} = \boldsymbol{R}_{ABB} \boldsymbol{p}\]</div>
 <p>This is called <strong>linear map</strong>.</p>
-<p>Note that using our index notation and conventions the second index of the
-rotation matrix and the left index of the point have to be the same. The
-rotation is applied incorrectly if this is not the case.</p>
-<p>We can see that <em>each column</em> of such a rotation matrix is a basis vector
-of frame <span class="math notranslate nohighlight">\(A\)</span> with respect to frame <span class="math notranslate nohighlight">\(B\)</span>.
-We can plot the basis vectors of an orientation to visualize it.
-Here, we can see orientation represented by the rotation matrix</p>
+<p>Note that with our index notation (as explained in <a class="reference internal" href="introduction.html#frame-notation"><span class="std std-ref">Frame Notation</span></a>) and
+these conventions, the second index of the rotation matrix and the left index
+of the point have to be the same (<span class="math notranslate nohighlight">\(B\)</span> in this example). The rotation is
+applied incorrectly if this is not the case.</p>
+<p><em>Each column</em> of a rotation matrix <span class="math notranslate nohighlight">\(\boldsymbol{R}_{AB}\)</span> is a basis
+vector of frame <span class="math notranslate nohighlight">\(A\)</span> with respect to frame <span class="math notranslate nohighlight">\(B\)</span>. We can plot the
+basis vectors of an orientation to visualize it. Here, we can see orientation
+represented by the rotation matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\boldsymbol R =
 \left( \begin{array}{ccc}
     1 &amp; 0 &amp; 0\\
     0 &amp; 1 &amp; 0\\
     0 &amp; 0 &amp; 1\\
-\end{array} \right)\end{split}\]</div>
+\end{array} \right).\end{split}\]</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">plot_basis</span>
 <span class="n">plot_basis</span><span class="p">()</span>
 </pre></div>
@@ -545,7 +544,7 @@ Here, we can see orientation represented by the rotation matrix</p>
 </figure>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When plotting basis vectors it is a convention to use red for the x-axis,
+<p>When plotting basis vectors, it is a convention to use red for the x-axis,
 green for the y-axis and blue for the z-axis (RGB for xyz).</p>
 </div>
 <p>We can easily chain multiple rotations: we can apply the rotation defined
@@ -553,7 +552,7 @@ by <span class="math notranslate nohighlight">\(\boldsymbol R_{AB}\)</span> afte
 by applying the rotation</p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.\]</div>
-<p>Note that again the indices have to align. Otherwise rotations are not applied
+<p>Note that the indices have to align again. Otherwise rotations are not applied
 in the correct order.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -594,7 +593,7 @@ computationally expensive in comparison to quaternions.</p></li>
 <figure class="align-default">
 <img alt="../_images/plot_axis_angle.png" class="plot-directive" src="../_images/plot_axis_angle.png" />
 </figure>
-<p>Each rotation can be represented by a single rotation around one axis.
+<p>Each rotation can be represented by a single rotation about one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
 by a scalar:</p>
 <div class="math notranslate nohighlight">
@@ -702,10 +701,15 @@ typically we use the variable name q.</p>
 element and sometimes the last element of the versor. We will use
 the first element to store the scalar component.</p>
 </div>
+<p>Since the other convention is also used often, pytransform3d provides the
+functions <a class="reference internal" href="../_apidoc/pytransform3d.rotations.quaternion_wxyz_from_xyzw.html#pytransform3d.rotations.quaternion_wxyz_from_xyzw" title="pytransform3d.rotations.quaternion_wxyz_from_xyzw"><code class="xref py py-func docutils literal notranslate"><span class="pre">quaternion_wxyz_from_xyzw()</span></code></a> and
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.quaternion_xyzw_from_wxyz.html#pytransform3d.rotations.quaternion_xyzw_from_wxyz" title="pytransform3d.rotations.quaternion_xyzw_from_wxyz"><code class="xref py py-func docutils literal notranslate"><span class="pre">quaternion_xyzw_from_wxyz()</span></code></a> for conversion.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <em>antipodal</em> unit quaternions <span class="math notranslate nohighlight">\(\boldsymbol{\hat{q}}\)</span> and
-<span class="math notranslate nohighlight">\(-\boldsymbol{\hat{q}}\)</span> represent the same rotation (double cover).</p>
+<span class="math notranslate nohighlight">\(-\boldsymbol{\hat{q}}\)</span> represent the same rotation (double cover).
+This must be considered during operations like interpolation, distance
+calculation, or (approximate) equality checks.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
@@ -768,12 +772,12 @@ more general as they can be extended to more dimensions <a class="footnote-refer
 <p>The concept of a quaternion builds on the axis-angle representation, in
 which we rotate by an angle about a rotation axis (see black arrow in the
 illustration above). The axis can be computed from the cross product of two
-vectors (gray arrow). A rotor builds on a plane-angle representation, in which
+vectors (gray arrows). A rotor builds on a plane-angle representation, in which
 we rotate with a given direction by an angle in a plane (indicated by gray
-area). The plane can be computed from the wedge product <span class="math notranslate nohighlight">\(a \wedge b\)</span> of
-two vectors <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, which is a so-called bivector. Although
-both approaches might seem different, in 3D they operate with exactly the same
-numbers in exactly the same way.</p>
+area). The plane can be computed from the wedge product <span class="math notranslate nohighlight">\(a \wedge b\)</span> (see
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.wedge.html#pytransform3d.rotations.wedge" title="pytransform3d.rotations.wedge"><code class="xref py py-func docutils literal notranslate"><span class="pre">wedge()</span></code></a>) of two vectors <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>,
+which is a so-called bivector. Although both approaches might seem different,
+in 3D they operate with exactly the same numbers in exactly the same way.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The rotors <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(-R\)</span> represent exactly the same rotation.</p>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.6.2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="2. SO(3): 3D Rotations" href="rotations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
   
   
 </a></div>
@@ -321,10 +321,10 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">4. Transformation Ambiguities and Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="euler_angles.html">5. Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Managing Transformations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Managing Transformations over Time</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">9. Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animations.html">10. Animations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Organizing Transformations in a Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Graphs of Time-Dependent Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uncertainty.html">9. Uncertainty in Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">10. Camera</a></li>
 </ul>
 </div>
 </nav></div>
@@ -384,7 +384,7 @@ document.write(`
                   
   <section id="se-3-3d-transformations">
 <h1><span class="section-number">3. </span>SE(3): 3D Transformations<a class="headerlink" href="#se-3-3d-transformations" title="Link to this heading">#</a></h1>
-<p>The group of all proper rigid transformations (rototranslations) in the
+<p>The group of all proper rigid transformations (rototranslations) in
 3D Cartesian space is <span class="math notranslate nohighlight">\(SE(3)\)</span> (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
@@ -404,8 +404,8 @@ is similar to a cross-product matrix of the angle-axis representation
 <span class="math notranslate nohighlight">\(\left[\hat{\boldsymbol{\omega}}\right] \theta\)</span>.</p></li>
 <li><p>The <strong>exponential coordinates</strong> <span class="math notranslate nohighlight">\(\mathcal{S} \theta\)</span> for rigid body
 motions are similar to exponential coordinates
-<span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \theta\)</span> for rotations (axis-angle
-representation).</p></li>
+<span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \theta\)</span> for rotations (compact axis-angle
+representation / rotation vector).</p></li>
 <li><p>A <strong>twist</strong> <span class="math notranslate nohighlight">\(\mathcal V = \mathcal{S} \dot{\theta}\)</span> is similar to
 angular velocity <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \dot{\theta}\)</span>.</p></li>
 <li><p>A (unit) <strong>dual quaternion</strong>
@@ -457,19 +457,21 @@ the frame to which it transforms.</p>
 Position vectors are represented as a column vector
 <span class="math notranslate nohighlight">\(\left( x,y,z,1 \right)^T\)</span>.
 This will activate the translation part of the transformation in a matrix
-multiplication. When we transform a direction vector, we want to deactivate
-the translation by setting the last component to zero:
+multiplication (see <a class="reference internal" href="../_apidoc/pytransform3d.transformations.vector_to_point.html#pytransform3d.transformations.vector_to_point" title="pytransform3d.transformations.vector_to_point"><code class="xref py py-func docutils literal notranslate"><span class="pre">vector_to_point()</span></code></a>).
+When we transform a direction vector, we want to deactivate the translation by
+setting the last component to zero (see
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.vector_to_direction.html#pytransform3d.transformations.vector_to_direction" title="pytransform3d.transformations.vector_to_direction"><code class="xref py py-func docutils literal notranslate"><span class="pre">vector_to_direction()</span></code></a>):
 <span class="math notranslate nohighlight">\(\left( x,y,z,0 \right)^T\)</span>.</p>
 <p>We can use a transformation matrix <span class="math notranslate nohighlight">\(\boldsymbol T_{AB}\)</span> to transform a
-point <span class="math notranslate nohighlight">\({_B}\boldsymbol{p}\)</span> from frame <span class="math notranslate nohighlight">\(B\)</span> to frame <span class="math notranslate nohighlight">\(A\)</span>.
-For example, transforming a position vector <span class="math notranslate nohighlight">\(p\)</span> will give the following
-result:</p>
+point <span class="math notranslate nohighlight">\({_B}\boldsymbol{p}\)</span> from frame <span class="math notranslate nohighlight">\(B\)</span> to frame <span class="math notranslate nohighlight">\(A\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\boldsymbol{T}_{AB}  {_B}\boldsymbol{p} =
 \left( \begin{array}{c}
     \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
     1\\
-\end{array} \right)\end{split}\]</div>
+\end{array} \right).\end{split}\]</div>
+<p>You can use <a class="reference internal" href="../_apidoc/pytransform3d.transformations.transform.html#pytransform3d.transformations.transform" title="pytransform3d.transformations.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform()</span></code></a> to apply a
+transformation matrix to a homogeneous vector.</p>
 </section>
 <section id="position-and-quaternion">
 <h2><span class="section-number">3.2. </span>Position and Quaternion<a class="headerlink" href="#position-and-quaternion" title="Link to this heading">#</a></h2>
@@ -531,7 +533,7 @@ coordinates of transformation and typically we use the variable name Stheta.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Note that we use the screw theory definition of exponential coordinates
-and <span class="math notranslate nohighlight">\(so(3)\)</span> (see next section) used by Paden (1985), Lynch and Park
+and <span class="math notranslate nohighlight">\(se(3)\)</span> (see next section) used by Paden (1985), Lynch and Park
 (2017), and Corke (2017). They separate the parameter <span class="math notranslate nohighlight">\(\theta\)</span> from
 the screw axis. Additionally, they use the first three components to encode
 rotation and the last three components to encode translation. There is an
@@ -589,14 +591,22 @@ similar operations as transformation matrices.</p>
 <p>A dual quaternion consists of a real quaternion and a dual quaternion:</p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),\]</div>
-<p>where <span class="math notranslate nohighlight">\(\epsilon^2 = 0\)</span>. We use unit dual quaternions to represent
+<p>where <span class="math notranslate nohighlight">\(\epsilon^2 = 0\)</span> and <span class="math notranslate nohighlight">\(\epsilon \neq 0\)</span>.
+We use unit dual quaternions to represent
 transformations. In this case, the real quaternion is a unit quaternion
 and the dual quaternion is orthogonal to the real quaternion.
 The real quaternion is used to represent the rotation and the dual
 quaternion contains information about the rotation and translation.</p>
-<p>Dual quaternions support similar operations as transformation matrices,
-they can be renormalized efficiently, and interpolation between two
-dual quaternions is possible.</p>
+<p>Dual quaternions support similar operations as transformation matrices
+(inversion through the conjugate of the two individual quaternions
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.dq_q_conj.html#pytransform3d.transformations.dq_q_conj" title="pytransform3d.transformations.dq_q_conj"><code class="xref py py-func docutils literal notranslate"><span class="pre">dq_q_conj()</span></code></a>, concatenation
+through <a class="reference internal" href="../_apidoc/pytransform3d.transformations.concatenate_dual_quaternions.html#pytransform3d.transformations.concatenate_dual_quaternions" title="pytransform3d.transformations.concatenate_dual_quaternions"><code class="xref py py-func docutils literal notranslate"><span class="pre">concatenate_dual_quaternions()</span></code></a>,
+and transformation of a point by
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector" title="pytransform3d.transformations.dq_prod_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">dq_prod_vector()</span></code></a>),
+they can be renormalized efficiently (with
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion" title="pytransform3d.transformations.check_dual_quaternion"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_dual_quaternion()</span></code></a>, and
+interpolation between two dual quaternions is possible (with
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp" title="pytransform3d.transformations.dual_quaternion_sclerp"><code class="xref py py-func docutils literal notranslate"><span class="pre">dual_quaternion_sclerp()</span></code></a>).</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The unit dual quaternions <span class="math notranslate nohighlight">\(\boldsymbol{p} + \epsilon \boldsymbol{q}\)</span>

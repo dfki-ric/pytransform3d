@@ -56,17 +56,17 @@ normalizing the vector.
 
     ax = pr.plot_basis()
     pr.plot_bivector(ax=ax, a=a, b=b)
-    ax.view_init(azim=20, elev=20)
-    ax.set_xlim((0, 1))
-    ax.set_ylim((0, 1))
-    ax.set_zlim((0, 1))
+    ax.view_init(azim=75, elev=40)
+    ax.set_xlim((-0.5, 1))
+    ax.set_ylim((-0.5, 1))
+    ax.set_zlim((-0.5, 1))
     plt.tight_layout()
     plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.089 seconds)
+   **Total running time of the script:** (0 minutes 0.075 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_bivector.py:

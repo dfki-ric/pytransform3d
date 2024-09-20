@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Documentation &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 3.6.2 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=f731707b"></script>
+    <script src="_static/documentation_options.js?v=c0c9fa11"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,10 +48,10 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytransform3d.rotations.check_matrix" href="_apidoc/pytransform3d.rotations.check_matrix.html" />
-    <link rel="prev" title="10. Animations" href="user_guide/animations.html" />
+    <link rel="prev" title="10. Camera" href="user_guide/camera.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 16, 2024"/>
+    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
   
   
 </a></div>
@@ -1207,6 +1207,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <section id="module-pytransform3d.uncertainty">
 <span id="pytransform3d-uncertainty"></span><h2><a class="reference internal" href="#module-pytransform3d.uncertainty" title="pytransform3d.uncertainty"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code></a><a class="headerlink" href="#module-pytransform3d.uncertainty" title="Link to this heading">#</a></h2>
 <p>Operations related to uncertain transformations.</p>
+<p>See <a class="reference internal" href="user_guide/uncertainty.html"><span class="doc">Uncertainty in Transformations</span></a> for more information.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples" title="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_gaussian_transform_from_samples</span></code></a>(samples)</p></td>
@@ -1267,7 +1268,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <section id="module-pytransform3d.transform_manager">
 <span id="pytransform3d-transform-manager"></span><h2><a class="reference internal" href="#module-pytransform3d.transform_manager" title="pytransform3d.transform_manager"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transform_manager</span></code></a><a class="headerlink" href="#module-pytransform3d.transform_manager" title="Link to this heading">#</a></h2>
 <p>Manage complex chains of transformations.</p>
-<p>See <a class="reference internal" href="user_guide/transform_manager.html"><span class="doc">Managing Transformations</span></a> for more information.</p>
+<p>See <a class="reference internal" href="user_guide/transform_manager.html"><span class="doc">Organizing Transformations in a Graph</span></a> for more information.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase" title="pytransform3d.transform_manager.TransformGraphBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformGraphBase</span></code></a>([strict_check, check])</p></td>
@@ -1307,7 +1308,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <section id="module-pytransform3d.urdf">
 <span id="pytransform3d-urdf"></span><h2><a class="reference internal" href="#module-pytransform3d.urdf" title="pytransform3d.urdf"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.urdf</span></code></a><a class="headerlink" href="#module-pytransform3d.urdf" title="Link to this heading">#</a></h2>
 <p>Load transformations from URDF files.</p>
-<p>See <a class="reference internal" href="user_guide/transform_manager.html"><span class="doc">Managing Transformations</span></a> for more information.</p>
+<p>See <a class="reference internal" href="user_guide/transform_manager.html"><span class="doc">Organizing Transformations in a Graph</span></a> for more information.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.urdf.UrdfTransformManager.html#pytransform3d.urdf.UrdfTransformManager" title="pytransform3d.urdf.UrdfTransformManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UrdfTransformManager</span></code></a>([strict_check, check])</p></td>
@@ -1520,12 +1521,12 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="user_guide/animations.html"
+       href="user_guide/camera.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">10. </span>Animations</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Camera</p>
       </div>
     </a>
     <a class="right-next"
