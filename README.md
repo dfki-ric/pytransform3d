@@ -147,7 +147,9 @@ pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
 
 You can use pytest to run the tests of this project in the root directory:
 
-    pytest
+```bash
+pytest
+```
 
 A coverage report will be located at `htmlcov/index.html`.
 Note that you have to install `pytest` to run the tests and `pytest-cov` to
