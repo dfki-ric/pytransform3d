@@ -137,10 +137,11 @@ make html
 ```
 
 The HTML documentation is now located at `doc/build/html/index.html`.
-You need the following packages to build the documentation:
+Execute the following command in the main folder of the repository
+to install the dependencies:
 
 ```bash
-pip install numpydoc sphinx sphinx-gallery sphinx-bootstrap-theme
+pip install -e .[doc]
 ```
 
 ## Tests
