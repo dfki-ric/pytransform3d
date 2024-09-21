@@ -10,14 +10,12 @@ conventions that could be used. Furthermore, you have to find out whether
 degrees or radians are used to express the angles (we will only use
 radians in pytransform3d).
 
--------
-Example
--------
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_euler_angles_001.png
+   :target: ../_auto_examples/plots/plot_euler_angles.html
+   :align: center
 
-Here we rotate about the extrinsic (fixed) x-axis, y-axis, and z-axis by
-90 degrees.
-
-.. plot:: ../../examples/plots/plot_euler_angles.py
+   Here we rotate about the extrinsic (fixed) x-axis, y-axis, and z-axis by
+   90 degrees.
 
 --------------
 24 Conventions
@@ -44,7 +42,7 @@ rotation matrices).
 Range of Angles
 ---------------
 
-Euler angles rotate about three basis vectors with by the angles
+Euler angles rotate about three basis vectors by the angles
 :math:`\alpha`, :math:`\beta`, and :math:`\gamma`. If we want to find the
 Euler angles that correspond to one rotation matrix :math:`R`, there is an
 infinite number of solutions because we can always add or subtract
