@@ -202,7 +202,10 @@ This will be done, for instance, to obtain rotation matrices from Euler angles
 Axis-Angle
 ----------
 
-.. plot:: ../../examples/plots/plot_axis_angle.py
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_axis_angle_001.png
+   :target: ../_auto_examples/plots/plot_axis_angle.html
+   :width: 50%
+   :align: center
 
 Each rotation can be represented by a single rotation about one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
@@ -402,7 +405,10 @@ information.
 Rotors
 ------
 
-.. plot:: ../../examples/plots/plot_bivector.py
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_bivector_001.png
+   :target: ../_auto_examples/plots/plot_bivector.html
+   :width: 70%
+   :align: center
 
 Rotors and quaternions are very similar concepts in 3D. However, rotors are
 more general as they can be extended to more dimensions [3]_ [4]_.
