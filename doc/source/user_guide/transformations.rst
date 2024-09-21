@@ -134,7 +134,10 @@ quaternion and typically we use the variable name pq.
 Screw Parameters
 ----------------
 
-.. plot:: ../../examples/plots/plot_screw.py
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_screw_001.png
+   :target: ../_auto_examples/plots/plot_screw.html
+   :width: 70%
+   :align: center
 
 Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
