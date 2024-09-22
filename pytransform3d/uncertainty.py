@@ -14,10 +14,25 @@ from ._geometry import unit_sphere_surface_grid
 
 
 def estimate_gaussian_transform_from_samples(samples):
-    """Estimate Gaussian distribution over transformations from samples.
+    r"""Estimate Gaussian distribution over transformations from samples.
 
-    Uses iterative approximation of mean described by Eade [1]_ and computes
+    Uses iterative computation of mean described by Eade [1]_ and computes
     covariance in exponential coordinate space (using an unbiased estimator).
+    The derivation of the procedure is presented by Pennec [2]_.
+
+    1. For a set of transformations :math:`\{T_1, \ldots, T_N\}`, we initialize
+       the estimated mean :math:`\overline{T}_0 \leftarrow T_1`.
+    2. For a fixed number of steps, in each iteration :math:`k` we improve the
+       estimation of the mean by
+
+       a. Computing the distance of each sample to the current estimate of the
+          mean in exponential coordinates
+          :math:`V_{i,k} \leftarrow T_i \cdot \overline{T}_k^{-1}`.
+       b. Updating the estimate of the mean
+          :math:`\overline{T}_{k+1} \leftarrow Exp(\frac{1}{N}\sum_i V_{i,k}) \cdot \overline{T}_k`.
+
+    3. Estimate the covariance in the space of exponential coordinates with
+       :math:`\Sigma \leftarrow \frac{1}{N - 1} \sum_i \left[ V_{i,k} \cdot V_{i,k}^T \right]`
 
     Parameters
     ----------
@@ -36,6 +51,10 @@ def estimate_gaussian_transform_from_samples(samples):
     ----------
     .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
        https://ethaneade.com/lie.pdf
+
+    .. [2] Pennec, X. (2006). Intrinsic Statistics on Riemannian Manifolds:
+       Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
+       https://doi.org/10.1007/s10851-006-6228-4
     """
     assert len(samples) > 0
     mean = samples[0]
