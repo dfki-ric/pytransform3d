@@ -504,7 +504,7 @@ References
    https://arxiv.org/pdf/1801.07478.pdf
 .. [2] Gehring, C., Bellicoso, C. D., Bloesch, M., Sommer, H., Fankhauser, P.,
    Hutter, M., Siegwart, R. (2024). Kindr cheat sheet.
-   https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf
+   https://github.com/ANYbotics/kindr/blob/master/doc/cheatsheet/cheatsheet_latest.pdf
 .. [3] ten Bosch, M. (2020). Let's remove Quaternions from every 3D Engine.
    https://marctenbosch.com/quaternions/
 .. [4] Doran, C. (2015). Applications of Geometric Algebra.
