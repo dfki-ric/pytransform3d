@@ -132,6 +132,8 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 class TemporalTransformManager(TransformGraphBase):
     """Manage time-varying transformations.
 
+    See :ref:`transformations_over_time` for more information.
+
     Parameters
     ----------
     strict_check : bool, optional (default: True)
