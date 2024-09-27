@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/dfki-ric/pytransform3d/main/doc/source/_static/logo.png" />
+![pytransform3d logo](/doc/source/_static/logo.png)
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/dfki-ric/pytransform3d/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/dfki-ric/pytransform3d/tree/main)
 [![codecov](https://codecov.io/gh/dfki-ric/pytransform3d/branch/main/graph/badge.svg?token=jB10RM3Ujj)](https://codecov.io/gh/dfki-ric/pytransform3d)
