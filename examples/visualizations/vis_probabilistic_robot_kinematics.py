@@ -6,13 +6,6 @@ Probabilistic Product of Exponentials
 We compute the probabilistic forward kinematics of a robot with flexible
 links or joints and visualize the projected equiprobably ellipsoid of the
 end-effector's pose distribution.
-
-The end-effector's pose distribution is computed based on the probabilistic
-product of exponentials (PPOE):
-
-Meyer, Strobl, Triebel: The Probabilistic Robot Kinematics Model and its
-Application to Sensor Fusion,
-https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
 """
 import os
 import numpy as np
@@ -25,6 +18,32 @@ import pytransform3d.uncertainty as pu
 import pytransform3d.visualizer as pv
 
 
+# %%
+# Probabilistic Robot Kinematics
+# ------------------------------
+#
+# The end-effector's pose distribution is computed based on the Probabilistic
+# Product of Exponentials PPOE [1]_.
+#
+# Our ProbabilisticRobotKinematics class is a subclass of
+# :class:`~pytransform3d.urdf.UrdfTransformManager`, which loads a description
+# of a robot from the URDF format.
+#
+# The complicated part of this example is the conversion of kinematics
+# parameters from URDF data to screw axes that are needed for the product
+# of exponentials formulation of forward kinematics.
+#
+# Once we have this information, the implementation of the probabilistic
+# product of exponentials is straightforward:
+#
+# 1. We multiply the screw axis of each joint with the corresponding joint
+#    angle to obtain the exponential coordinates of each relative joint
+#    displacement.
+# 2. We concatenate the relative joint displacements and the base pose to
+#    obtain the end-effector's pose. This is the original product of
+#    exponentials.
+# 3. The PPOE modifies the original product of exponentials by transforming
+#    and concatenating the covariances of each transformation.
 class ProbabilisticRobotKinematics(UrdfTransformManager):
     """Probabilistic robot kinematics.
 
@@ -150,8 +169,14 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         return T, cov
 
 
+# %%
+# Mesh Visualization
+# ------------------
+# To visualize the 6D covariance in the tangent space of SO(3), we project its
+# equiprobable hyper-ellipsoid to 3D and represent it as a mesh. We can then
+# visualize the mesh with this class.
 class Surface(pv.Artist):
-    """Surface.
+    """Surface to be visualized with Open3D.
 
     Parameters
     ----------
@@ -213,6 +238,8 @@ class Surface(pv.Artist):
         return [self.mesh]
 
 
+# %%
+# Then we define a callback to animate the visualization.
 def animation_callback(
         step, n_frames, tm, graph, joint_names, thetas, covs, surface):
     angle = 0.5 * np.cos(2.0 * np.pi * (0.5 + step / n_frames))
@@ -228,6 +255,10 @@ def animation_callback(
     return graph, surface
 
 
+# %%
+# Setup
+# -----
+# We load the URDF file,
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
@@ -239,24 +270,41 @@ filename = os.path.join(data_dir, "robot_with_visuals.urdf")
 with open(filename, "r") as f:
     robot_urdf = f.read()
 
+# %%
+# define the kinematic chain that we are interested in,
 joint_names = ["joint%d" % i for i in range(1, 7)]
 tm = ProbabilisticRobotKinematics(
     robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
 
+# %%
+# define the joint angles,
 thetas = np.array([1, 1, 1, 0, 1, 0])
 for joint_name, theta in zip(joint_names, thetas):
     tm.set_joint(joint_name, theta)
 
+# %%
+# and define the covariances of the joints.
 covs = np.zeros((len(thetas), 6, 6))
 covs[0] = np.diag([0, 0, 1, 0, 0, 0])
 covs[1] = np.diag([0, 1, 0, 0, 0, 0])
 covs[2] = np.diag([0, 1, 0, 0, 0, 0])
 covs[4] = np.diag([0, 1, 0, 0, 0, 0])
 covs *= 0.05
+
+# %%
+# PPOE and Visualization
+# ----------------------
+#
+# Then we can finally use PPOE to compute the end-effector pose and its
+# covariance.
 T, cov = tm.probabilistic_forward_kinematics(thetas, covs)
 
+# %%
+# We compute the 3D projection of the 6D covariance matrix.
 x, y, z = pu.to_projected_ellipsoid(T, cov, factor=1, n_steps=50)
 
+# %%
+# The following code visualizes the result.
 fig = pv.figure()
 graph = fig.plot_graph(tm, "robot_arm", show_visuals=True)
 fig.plot_transform(np.eye(4), s=0.3)
@@ -271,3 +319,13 @@ if "__file__" in globals():
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")
+
+# %%
+# References
+# ----------
+#
+# .. [1] Meyer, Strobl, Triebel (2022): The Probabilistic Robot Kinematics
+#    Model and its Application to Sensor Fusion. In IEEE/RSJ International
+#    Conference on Intelligent Robots and Systems (IROS), Kyoto, Japan, 2022,
+#    pp. 3263-3270, doi: 10.1109/IROS47612.2022.9981399.
+#    https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf
