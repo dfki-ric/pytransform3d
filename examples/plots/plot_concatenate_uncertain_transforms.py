@@ -11,16 +11,19 @@ accumulation leads to the so-called banana distribution, which does not seem
 Gaussian in Cartesian space, but it is Gaussian in exponential coordinate
 space of SO(3).
 
-This example adapted and modified to 3D from
+This example adapted and modified to 3D from Barfoot and Furgale [1]_.
+The banana distribution was analyzed in detail by Long et al. [2]_.
 
-Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for Use
-in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
+References
+----------
+.. [1] Barfoot, T. D., Furgale, P. T. (2014). Associating Uncertainty With
+   Three-Dimensional Poses for Use in Estimation Problems. IEEE Transactions on
+   Robotics 30(3), pp. 679-693, doi: 10.1109/TRO.2014.2298059.
 
-The banana distribution was analyzed in detail by
-
-Long, Wolfe, Mashner, Chirikjian: The Banana Distribution is Gaussian:
-A Localization Study with Exponential Coordinates,
-http://www.roboticsproceedings.org/rss08/p34.pdf
+.. [2] Long, A. W., Wolfe, K. C., Mashner, M. J., Chirikjian, G. S. (2013).
+   The Banana Distribution is Gaussian: A Localization Study with Exponential
+   Coordinates. In Robotics: Science and Systems VIII, pp. 265-272.
+   http://www.roboticsproceedings.org/rss08/p34.pdf
 """
 import numpy as np
 import matplotlib.pyplot as plt
