@@ -279,7 +279,8 @@ tm = ProbabilisticRobotKinematics(
 # %%
 # define the joint angles,
 thetas = np.array([1, 1, 1, 0, 1, 0])
-for joint_name, theta in zip(joint_names, thetas):
+current_thetas = -0.5 * thetas
+for joint_name, theta in zip(joint_names, current_thetas):
     tm.set_joint(joint_name, theta)
 
 # %%
@@ -297,7 +298,7 @@ covs *= 0.05
 #
 # Then we can finally use PPOE to compute the end-effector pose and its
 # covariance.
-T, cov = tm.probabilistic_forward_kinematics(thetas, covs)
+T, cov = tm.probabilistic_forward_kinematics(current_thetas, covs)
 
 # %%
 # We compute the 3D projection of the 6D covariance matrix.
@@ -310,7 +311,7 @@ graph = fig.plot_graph(tm, "robot_arm", show_visuals=True)
 fig.plot_transform(np.eye(4), s=0.3)
 surface = Surface(x, y, z, c=(0, 0.5, 0.5))
 surface.add_artist(fig)
-fig.view_init(elev=-20)
+fig.view_init(elev=5, azim=50)
 n_frames = 200
 if "__file__" in globals():
     fig.animate(animation_callback, n_frames, loop=True,
