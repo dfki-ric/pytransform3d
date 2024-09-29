@@ -196,13 +196,13 @@ coordinates of transformation and typically we use the variable name Stheta.
 .. warning::
 
     Note that we use the screw theory definition of exponential coordinates
-    and :math:`se(3)` (see next section) used by Paden (1985), Lynch and Park
-    (2017), and Corke (2017). They separate the parameter :math:`\theta` from
+    and :math:`se(3)` (see next section) used by Lynch and Park (2017) [1]_,
+    and Corke (2017) [2]_. They separate the parameter :math:`\theta` from
     the screw axis. Additionally, they use the first three components to encode
     rotation and the last three components to encode translation. There is an
-    alternative definition used by Eade (2017) and Sola et al. (2018). They use
-    a different order of the 3D vector components and they do not separate
-    :math:`\theta` from the screw axis in their notation.
+    alternative definition used by Eade (2017) [3]_ and Sola et al. (2018)
+    [4]_. They use a different order of the 3D vector components and they do
+    not separate :math:`\theta` from the screw axis in their notation.
 
 ---------------------------
 Logarithm of Transformation
@@ -251,8 +251,9 @@ Twist
 
 We call spatial velocity (translation and rotation) **twist**. Similarly
 to the matrix logarithm, a twist :math:`\mathcal{V} = \mathcal{S} \dot{\theta}`
-is described by a screw axis :math:`S` and a scalar :math:`\dot{\theta}`
-and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)`
+is described by a screw axis :math:`\mathcal S` and a scalar
+:math:`\dot{\theta}` and
+:math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)`
 is the matrix representation of a twist.
 
 ----------------
