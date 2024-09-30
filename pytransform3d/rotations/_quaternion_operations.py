@@ -116,9 +116,30 @@ def concatenate_quaternions(q1, q2):
 
 
 def q_prod_vector(q, v):
-    """Apply rotation represented by a quaternion to a vector.
+    r"""Apply rotation represented by a quaternion to a vector.
 
     We use Hamilton's quaternion multiplication.
+
+    To apply the rotation defined by a unit quaternion :math:`\boldsymbol{q}
+    \in \mathbb{S}^3` to a vector :math:`\boldsymbol{v} \in \mathbb{R}^3`, we
+    first represent the vector as a quaternion: we set the scalar part to 0 and
+    the vector part is exactly the original vector
+    :math:`\left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right) \in
+    \mathbb{R}^4`. Then we left-multiply the quaternion and right-multiply
+    its conjugate
+
+    .. math::
+
+        \left(\begin{array}{c}0\\\boldsymbol{w}\end{array}\right)
+        =
+        \boldsymbol{q}
+        \cdot
+        \left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right)
+        \cdot
+        \boldsymbol{q}^*
+
+    The vector part :math:`\boldsymbol{w}` of the resulting quaternion is
+    the rotated vector.
 
     Parameters
     ----------
@@ -130,12 +151,16 @@ def q_prod_vector(q, v):
 
     Returns
     -------
-    w : array-like, shape (3,)
+    w : array, shape (3,)
         3d vector
 
     See Also
     --------
-    rotor_apply : The same operation with a different name.
+    rotor_apply
+        The same operation with a different name.
+
+    concatenate_quaternions
+        Hamilton's quaternion multiplication.
     """
     q = check_quaternion(q)
     t = 2 * np.cross(q[1:], v)
