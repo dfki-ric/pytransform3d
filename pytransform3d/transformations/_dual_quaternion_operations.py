@@ -24,6 +24,11 @@ def dq_conj(dq):
     -------
     dq_conjugate : array, shape (8,)
         Conjugate of dual quaternion: (pw, -px, -py, -pz, -qw, qx, qy, qz)
+
+    See Also
+    --------
+    dq_q_conj
+        Quaternion conjugate of dual quaternion.
     """
     dq = check_dual_quaternion(dq)
     return np.r_[dq[0], -dq[1:5], dq[5:]]
@@ -32,13 +37,13 @@ def dq_conj(dq):
 def dq_q_conj(dq):
     """Quaternion conjugate of dual quaternion.
 
+    For unit dual quaternions that represent transformations, this function
+    is equivalent to the inverse of the corresponding transformation matrix.
+
     There are three different conjugates for dual quaternions. The one that we
     use here converts (pw, px, py, pz, qw, qx, qy, qz) to
     (pw, -px, -py, -pz, qw, -qx, -qy, -qz). It is the quaternion conjugate
     applied to each of the two quaternions.
-
-    For unit dual quaternions that represent transformations, this function
-    is equivalent to the inverse of the corresponding transformation matrix.
 
     Parameters
     ----------
@@ -50,6 +55,11 @@ def dq_q_conj(dq):
     -------
     dq_q_conjugate : array, shape (8,)
         Conjugate of dual quaternion: (pw, -px, -py, -pz, qw, -qx, -qy, -qz)
+
+    See Also
+    --------
+    dq_conj
+        Conjugate of a dual quaternion.
     """
     dq = check_dual_quaternion(dq)
     return np.r_[dq[0], -dq[1:4], dq[4], -dq[5:]]
