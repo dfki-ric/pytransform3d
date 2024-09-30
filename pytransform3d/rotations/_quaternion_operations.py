@@ -143,11 +143,19 @@ def q_prod_vector(q, v):
 
 
 def q_conj(q):
-    """Conjugate of quaternion.
+    r"""Conjugate of quaternion.
 
     The conjugate of a unit quaternion inverts the rotation represented by
-    this unit quaternion. The conjugate of a quaternion q is often denoted
-    as q*.
+    this unit quaternion.
+
+    The conjugate of a quaternion :math:`\boldsymbol{q}` is often denoted as
+    :math:`\boldsymbol{q}^*`. For a quaternion :math:`\boldsymbol{q} = w
+    + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}` it is defined as
+
+    .. math::
+
+        \boldsymbol{q}^* = w - x \boldsymbol{i} - y \boldsymbol{j}
+        - z \boldsymbol{k}.
 
     Parameters
     ----------
