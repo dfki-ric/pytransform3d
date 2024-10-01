@@ -310,7 +310,7 @@ The unit quaternion space :math:`\mathbb{S}^3` can be used to represent
 orientations with an encoding based on the rotation axis and angle.
 A rotation quaternion is a four-dimensional unit vector (versor)
 :math:`\boldsymbol{\hat{q}}`.
-The following equation describes its relation to axis-axis notation.
+The following equation describes its relation to axis-angle notation.
 
 .. math::
 
