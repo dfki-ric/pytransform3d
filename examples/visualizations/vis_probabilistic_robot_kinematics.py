@@ -172,7 +172,7 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
 # %%
 # Mesh Visualization
 # ------------------
-# To visualize the 6D covariance in the tangent space of SO(3), we project its
+# To visualize the 6D covariance in the tangent space of SE(3), we project its
 # equiprobable hyper-ellipsoid to 3D and represent it as a mesh. We can then
 # visualize the mesh with this class.
 class Surface(pv.Artist):
