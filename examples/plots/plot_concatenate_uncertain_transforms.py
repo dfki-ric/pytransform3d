@@ -26,7 +26,7 @@ import pytransform3d.plot_utils as ppu
 # We assume :math:`\Delta t = 1 s` and constant velocity, so that in each step
 # we concatenate the transformation :math:`\boldsymbol{T}_{vel}` defined
 # via its exponential coordinates here. The covariance associated with
-# :math:`\boldsymbol{T}_{vel}` is constructed from it's Cholesky decomposition
+# :math:`\boldsymbol{T}_{vel}` is constructed from its Cholesky decomposition
 # through :math:`\boldsymbol{LL}^T`. Since it is a diagonal matrix at
 # the moment, we just define the standard deviation of each velocity component.
 # In the default configuration we have some uncertainty in the rotational
