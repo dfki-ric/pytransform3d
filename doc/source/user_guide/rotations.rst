@@ -483,6 +483,12 @@ parameters.
     MRPs have a singuarity at :math:`2 \pi` which we can avoid by ensuring the
     angle of rotation does not exceed :math:`\pi`.
 
+.. warning::
+
+    MRPs have two representations for the same rotation:
+    :math:`\psi` and :math:`-\frac{1}{||\psi||^2} \psi` represent the same
+    rotation and correspond to two antipodal unit quaternions [8]_.
+
 **Pros**
 
 * Minimal representation.
@@ -491,8 +497,9 @@ parameters.
 
 * The representation is not straightforward to interpret.
 * Normalization of angle required to avoid singularity.
-* Concatenation and transformation of vectors requires conversion to rotation
-  matrix or quaternion.
+* Each rotation has two representations as modified Rodrigues parameters.
+* Transformation of vectors requires conversion to rotation matrix or
+  quaternion.
 
 ----------
 References
