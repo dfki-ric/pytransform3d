@@ -458,7 +458,7 @@ Modified Rodrigues Parameters
 -----------------------------
 
 Another minimal representation of rotation are modified Rodrigues parameters
-(MRP) [6]_
+(MRP) [6]_ [8]_
 
 .. math::
 
@@ -519,3 +519,6 @@ References
    doi: 10.1007/s10851-017-0765-x.
 .. [7] Hauser, K.: Robotic Systems (draft),
    http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html
+.. [8] Shuster, M. D. (1993). A Survey of Attitude Representations.
+   Journal of the Astronautical Sciences, 41, 439-517.
+   http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf
