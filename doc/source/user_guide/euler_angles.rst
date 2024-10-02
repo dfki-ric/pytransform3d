@@ -44,20 +44,20 @@ Range of Angles
 
 Euler angles rotate about three basis vectors by the angles
 :math:`\alpha`, :math:`\beta`, and :math:`\gamma`. If we want to find the
-Euler angles that correspond to one rotation matrix :math:`R`, there is an
-infinite number of solutions because we can always add or subtract
+Euler angles that correspond to one rotation matrix :math:`\boldsymbol{R}`,
+there is an infinite number of solutions because we can always add or subtract
 :math:`2\pi` to one of the angles and get the same result. In addition,
 for proper Euler angles
 
 .. math::
 
-    R(\alpha, \beta, \gamma) = R(\alpha + \pi, -\beta, \gamma - \pi).
+    \boldsymbol{R}(\alpha, \beta, \gamma) = \boldsymbol{R}(\alpha + \pi, -\beta, \gamma - \pi).
 
 For Cardan angles
 
 .. math::
 
-    R(\alpha, \beta, \gamma) = R(\alpha + \pi, \pi - \beta, \gamma - \pi).
+    \boldsymbol{R}(\alpha, \beta, \gamma) = \boldsymbol{R}(\alpha + \pi, \pi - \beta, \gamma - \pi).
 
 For this reason the proper Euler angles are typically restricted to
 
