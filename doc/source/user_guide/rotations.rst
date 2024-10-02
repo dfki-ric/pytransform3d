@@ -104,8 +104,8 @@ matrices and typically we use the variable name R for a rotation matrix.
     There are two conventions on how to interpret rotations: active
     or passive rotation. The standard in pytransform3d is an active rotation.
 
-We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
-:math:`_B\boldsymbol{p}` from frame :math:`B` to frame :math:`A`.
+We can use a rotation matrix :math:`\boldsymbol R_{BA}` to transform a point
+:math:`_A\boldsymbol{p}` from frame :math:`A` to frame :math:`B`.
 
 .. warning::
 
@@ -115,21 +115,21 @@ We can use a rotation matrix :math:`\boldsymbol R_{AB}` to transform a point
     to a row vector from the right side.
     We will use the **pre-multiplication** convention.
 
-This means that we rotate a point :math:`_B\boldsymbol{p}` by
+This means that we rotate a point :math:`_A\boldsymbol{p}` by
 
 .. math::
 
-    _A\boldsymbol{p} = \boldsymbol{R}_{ABB} \boldsymbol{p}
+    _B\boldsymbol{p} = \boldsymbol{R}_{BAA} \boldsymbol{p}
 
 This is called **linear map**.
 
 Note that with our index notation (as explained in :ref:`Frame Notation`) and
 these conventions, the second index of the rotation matrix and the left index
-of the point have to be the same (:math:`B` in this example). The rotation is
+of the point have to be the same (:math:`A` in this example). The rotation is
 applied incorrectly if this is not the case.
 
-*Each column* of a rotation matrix :math:`\boldsymbol{R}_{AB}` is a basis
-vector of frame :math:`A` with respect to frame :math:`B`. We can plot the
+*Each column* of a rotation matrix :math:`\boldsymbol{R}_{BA}` is a basis
+vector of frame :math:`B` with respect to frame :math:`A`. We can plot the
 basis vectors of an orientation to visualize it. Here, we can see orientation
 represented by the rotation matrix
 
@@ -154,12 +154,12 @@ represented by the rotation matrix
     green for the y-axis and blue for the z-axis (RGB for xyz).
 
 We can easily chain multiple rotations: we can apply the rotation defined
-by :math:`\boldsymbol R_{AB}` after the rotation :math:`\boldsymbol R_{BC}`
+by :math:`\boldsymbol R_{CB}` after the rotation :math:`\boldsymbol R_{BA}`
 by applying the rotation
 
 .. math::
 
-    \boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.
+    \boldsymbol R_{CA} = \boldsymbol R_{CB} \boldsymbol R_{BA}.
 
 Note that the indices have to align again. Otherwise rotations are not applied
 in the correct order.

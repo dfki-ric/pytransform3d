@@ -97,16 +97,17 @@ setting the last component to zero (see
 :func:`~pytransform3d.transformations.vector_to_direction`):
 :math:`\left( x,y,z,0 \right)^T`.
 
-We can use a transformation matrix :math:`\boldsymbol T_{AB}` to transform a
-point :math:`{_B}\boldsymbol{p}` from frame :math:`B` to frame :math:`A`:
+We can use a transformation matrix :math:`\boldsymbol T_{BA}` to transform a
+point :math:`{_A}\boldsymbol{p}` from frame :math:`A` to frame :math:`B`:
 
 .. math::
 
-    \boldsymbol{T}_{AB}  {_B}\boldsymbol{p} =
+    \boldsymbol{T}_{BA} {_A}\boldsymbol{p} =
     \left( \begin{array}{c}
-        \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
+        \boldsymbol{R}_{BA} {_A}\boldsymbol{p} + {_B}\boldsymbol{t}_{BA}\\
         1\\
-    \end{array} \right).
+    \end{array} \right) =
+    {_B}\boldsymbol{p}.
 
 You can use :func:`~pytransform3d.transformations.transform` to apply a
 transformation matrix to a homogeneous vector.
