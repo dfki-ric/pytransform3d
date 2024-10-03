@@ -20,33 +20,33 @@ Not all representations support all operations directly without conversion to
 another representation. The following table is an overview. If the operation
 is not implemented in pytransform3d then it is shown in brackets.
 
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Representation                         | Inverse       | Rotation of vector | Concatenation | Interpolation |
-+========================================+===============+====================+===============+===============+
-| Rotation matrix                        | Transpose     | Yes                | Yes           | No            |
-| :math:`\pmb{R}`                        |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Compact axis-angle                     | Negative      | No                 | No            | (Yes) `(2)`   |
-| :math:`\pmb{\omega}`                   |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Axis-angle                             | Negative axis | No                 | No            | SLERP         |
-| :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Logarithm of rotation                  | Negative      | No                 | No            | (Yes) `(2)`   |
-| :math:`\left[\pmb{\omega}\right]`      |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Quaternion                             | Conjugate     | Yes                | Yes           | SLERP         |
-| :math:`\pmb{q}`                        |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Rotor                                  | Reverse       | Yes                | Yes           | SLERP         |
-| :math:`R`                              |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Euler angles                           | `(1)`         | No                 | No            | No            |
-| :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
-| Modified Rodrigues parameters          | Negative      | No                 | Yes           | No            |
-| :math:`\psi`                           |               |                    |               |               |
-+----------------------------------------+---------------+--------------------+---------------+---------------+
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Representation                         | Inverse       | Rotation of vector | Concatenation | Interpolation | Renormalization |
++========================================+===============+====================+===============+===============+=================+
+| Rotation matrix                        | Transpose     | Yes                | Yes           | No            | Required        |
+| :math:`\pmb{R}`                        |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Axis-angle                             | Negative axis | No                 | No            | SLERP         | Not necessary   |
+| :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Rotation vector                        | Negative      | No                 | No            | (Yes) `(2)`   | Not required    |
+| :math:`\pmb{\omega}`                   |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Logarithm of rotation                  | Negative      | No                 | No            | (Yes) `(2)`   | Not required    |
+| :math:`\left[\pmb{\omega}\right]`      |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Quaternion                             | Conjugate     | Yes                | Yes           | SLERP         | Required        |
+| :math:`\pmb{q}`                        |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Rotor                                  | Reverse       | Yes                | Yes           | SLERP         | Required        |
+| :math:`R`                              |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Euler angles                           | `(1)`         | No                 | No            | No            | Not necessary   |
+| :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
+| Modified Rodrigues parameters          | Negative      | No                 | Yes           | No            | Not required    |
+| :math:`\psi`                           |               |                    |               |               |                 |
++----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
 
 Footnotes:
 
@@ -54,7 +54,7 @@ Footnotes:
 another convention CBA (e.g., zyx), reversing the order of angles, and taking
 the negative of these.
 
-`(2)` Linear interpolation is approximately correct.
+`(2)` Linear interpolation is approximately correct for small differences.
 
 ---------------
 Rotation Matrix
@@ -225,23 +225,52 @@ Note that the axis-angle representation has a singularity at
 represent the identity rotation in this case. However, we can modify the
 representation to avoid this singularity.
 
-It is possible to write this in a more compact way as a rotation vector [2]_:
+---------------
+Rotation Vector
+---------------
+
+Since :math:`||\hat{\boldsymbol{\omega}}|| = 1`, it is possible to write this
+in a more compact way as a rotation vector [2]_
 
 .. math::
 
-    \boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3
+    \boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3.
 
+In code, we call this the compact axis-angle representation.
 pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
-representation of a rotation and typically we use the variable name a.
+representation of a rotation and typically it uses the variable name a.
 
 We can also refer to this representation as **exponential coordinates of
-rotation** [5]_. We can easily represent angular velocity as
+rotation** [5]_. We can represent angular velocity as
 :math:`\hat{\boldsymbol{\omega}} \dot{\theta}`
 and angular acceleration as
 :math:`\hat{\boldsymbol{\omega}} \ddot{\theta}` so that we can easily do
 component-wise integration and differentiation with this representation.
+
+**Pros**
+
+* Minimal representation.
+* Can also represent angular velocity and acceleration when we replace
+  :math:`\theta` by :math:`\dot{\theta}` or :math:`\ddot{\theta}` respectively,
+  which makes numerical integration and differentiation easy.
+
+**Cons**
+
+* There might be discontinuities during interpolation as an angle of 0 and
+  any multiple of :math:`2\pi` represent the same orientation. This has to
+  be considered. Normalization is recommended.
+* When :math:`\theta = \pi`, the axes :math:`\hat{\boldsymbol{\omega}}` and
+  :math:`-\hat{\boldsymbol{\omega}}` represent the same rotation, which is
+  a problem for interpolation.
+* Concatenation and transformation of vectors requires conversion to rotation
+  matrix or quaternion.
+
+---------------------
+Logarithm of Rotation
+---------------------
+
 In addition, we can represent :math:`\hat{\boldsymbol{\omega}} \theta` by
-the cross-product matrix
+the cross-product matrix (:func:`~pytransform3d.rotations.cross_product_matrix`)
 
 .. math::
 
@@ -261,25 +290,6 @@ the cross-product matrix
 where :math:`\left[\hat{\boldsymbol{\omega}}\right] \theta` is the matrix
 logarithm of a rotation matrix and :math:`so(3)` is the Lie algebra of
 the Lie group :math:`SO(3)`.
-
-**Pros**
-
-* Minimal representation (as rotation vector, also referred to as compact
-  axis-angle in the code).
-* Can also represent angular velocity and acceleration when we replace
-  :math:`\theta` by :math:`\dot{\theta}` or :math:`\ddot{\theta}` respectively,
-  which makes numerical integration and differentiation easy.
-
-**Cons**
-
-* There might be discontinuities during interpolation as an angle of 0 and
-  any multiple of :math:`2\pi` represent the same orientation. This has to
-  be considered. Normalization is recommended.
-* When :math:`\theta = \pi`, the axes :math:`\hat{\boldsymbol{\omega}}` and
-  :math:`-\hat{\boldsymbol{\omega}}` represent the same rotation, which is
-  a problem for interpolation.
-* Concatenation and transformation of vectors requires conversion to rotation
-  matrix or quaternion.
 
 -----------
 Quaternions
