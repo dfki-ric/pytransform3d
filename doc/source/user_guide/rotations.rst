@@ -44,7 +44,7 @@ is not implemented in pytransform3d then it is shown in brackets.
 | Euler angles                           | `(1)`         | No                 | No            | No            |
 | :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
-| Modified Rodrigues parameters          | Negative      | No                 | No            | No            |
+| Modified Rodrigues parameters          | Negative      | No                 | Yes           | No            |
 | :math:`\psi`                           |               |                    |               |               |
 +----------------------------------------+---------------+--------------------+---------------+---------------+
 
