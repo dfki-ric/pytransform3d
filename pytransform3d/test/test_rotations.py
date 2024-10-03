@@ -2251,3 +2251,15 @@ def test_norm_angle_precision():
 
     assert_array_equal(pr.norm_angle(a_eps), a_eps)
     assert_array_equal(pr.norm_angle(a_epsneg), a_epsneg)
+
+
+def test_concatenate_mrp():
+    rng = np.random.default_rng(283)
+    for _ in range(5):
+        q1 = pr.random_quaternion(rng)
+        q2 = pr.random_quaternion(rng)
+        q12 = pr.concatenate_quaternions(q1, q2)
+        mrp1 = pr.mrp_from_quaternion(q1)
+        mrp2 = pr.mrp_from_quaternion(q2)
+        mrp12 = pr.concatenate_mrp(mrp1, mrp2)
+        pr.assert_quaternion_equal(q12, pr.quaternion_from_mrp(mrp12))
