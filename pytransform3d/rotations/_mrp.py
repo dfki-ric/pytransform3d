@@ -51,5 +51,5 @@ def concatenate_mrp(mrp1, mrp2):
     cross_product = np.cross(mrp2, mrp1)
     scalar_product = np.dot(mrp2, mrp1)
     return (
-        (1 - norm1_sq) * mrp2 + (1 - norm2_sq) * mrp1 - 2 * cross_product
-    ) / (1 + norm2_sq * norm1_sq - 2 * scalar_product)
+        (1.0 - norm1_sq) * mrp2 + (1.0 - norm2_sq) * mrp1 - 2.0 * cross_product
+    ) / (1.0 + norm2_sq * norm1_sq - 2.0 * scalar_product)
