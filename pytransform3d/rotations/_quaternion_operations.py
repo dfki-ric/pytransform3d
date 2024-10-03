@@ -100,7 +100,7 @@ def concatenate_quaternions(q1, q2):
 
     Returns
     -------
-    q12 : array-like, shape (4,)
+    q12 : array, shape (4,)
         Quaternion that represents the concatenated rotation q1 * q2
 
     See Also
