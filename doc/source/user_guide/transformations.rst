@@ -39,6 +39,28 @@ that are available in pytransform3d.
    :width: 50%
    :align: center
 
+Not all representations support all operations directly without conversion to
+another representation. The following table is an overview.
+
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Representation                         | Inverse    | Transformation of vector | Concatenation | Interpolation | Renormalization |
++========================================+============+==========================+===============+===============+=================+
+| Transformation matrix                  | Inverse    | Yes                      | Yes           | No            | Required        |
+| :math:`\pmb{R}`                        |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Exponential coordinates                | Negative   | No                       | No            | ScLERP        | Not necessary   |
+| :math:`\mathcal{S}\theta`              |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Logarithm of transformation            | Negative   | No                       | No            | No            | Not necessary   |
+| :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Position and quaternion                | No         | No                       | No            | No            | Required        |
+| :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP        | Required        |
+| :math:`\pmb{p} + \epsilon \pmb{q}`     | Conjugate  |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+
 
 ---------------------
 Transformation Matrix
