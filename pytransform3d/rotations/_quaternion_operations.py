@@ -82,13 +82,26 @@ def quaternion_gradient(Q, dt=1.0):
 
 
 def concatenate_quaternions(q1, q2):
-    """Concatenate two quaternions.
+    r"""Concatenate two quaternions.
+
+    We concatenate two quaternions by quaternion multiplication
+    :math:`\boldsymbol{q}_1\boldsymbol{q}_2`.
 
     We use Hamilton's quaternion multiplication.
 
-    Suppose we want to apply two extrinsic rotations given by quaternions
-    q1 and q2 to a vector v. We can either apply q2 to v and then q1 to
-    the result or we can concatenate q1 and q2 and apply the result to v.
+    If the two quaternions are divided up into scalar part and vector part
+    each, i.e.,
+    :math:`\boldsymbol{q} = (w, \boldsymbol{v}), w \in \mathbb{R},
+    \boldsymbol{v} \in \mathbb{R}^3`, then the quaternion product is
+
+    .. math::
+
+        \boldsymbol{q}_{12} =
+        (w_1 w_2 - \boldsymbol{v}_1 \cdot \boldsymbol{v}_2,
+        w_1 \boldsymbol{v}_2 + w_2 \boldsymbol{v}_1
+        + \boldsymbol{v}_1 \times \boldsymbol{v}_2)
+
+    with the scalar product :math:`\cdot` and the cross product :math:`\times`.
 
     Parameters
     ----------
