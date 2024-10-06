@@ -369,8 +369,8 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.
 
 * Normalization is a simple operation: scaling the dual quaternion to unit
   norm. Note that only the orientation part defines the norm of the quaternion,
-  since :math:`\epsilon^2 = 0` (see
-  :func:`~pytransform3d.transformations.check_dual_quaternion`).
+  since :math:`\epsilon^2 = 0` and the scalar product of the real and dual
+  part is 0 (see :func:`~pytransform3d.transformations.check_dual_quaternion`).
 * Easy interpolation with
   :func:`~pytransform3d.transformations.dual_quaternion_sclerp`.
 * Efficient and compact form for representing transformations [7]_.
