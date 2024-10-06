@@ -149,7 +149,7 @@ def q_prod_vector(q, v):
         \cdot
         \left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right)
         \cdot
-        \boldsymbol{q}^*
+        \boldsymbol{q}^*.
 
     The vector part :math:`\boldsymbol{w}` of the resulting quaternion is
     the rotated vector.
