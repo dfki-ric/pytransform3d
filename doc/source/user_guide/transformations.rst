@@ -341,14 +341,14 @@ and the dual quaternion is orthogonal to the real quaternion.
 The real quaternion is used to represent the rotation and the dual
 quaternion contains information about the rotation and translation.
 
-Dual quaternions support similar operations as transformation matrices
-(inversion through the conjugate of the two individual quaternions
+Dual quaternions support similar operations as transformation matrices:
+inversion through the conjugate of the two individual quaternions
 :func:`~pytransform3d.transformations.dq_q_conj`, concatenation
 through :func:`~pytransform3d.transformations.concatenate_dual_quaternions`,
 and transformation of a point by
-:func:`~pytransform3d.transformations.dq_prod_vector`),
-they can be renormalized efficiently (with
-:func:`~pytransform3d.transformations.check_dual_quaternion`, and
+:func:`~pytransform3d.transformations.dq_prod_vector`.
+They can be renormalized efficiently (with
+:func:`~pytransform3d.transformations.check_dual_quaternion`), and
 interpolation between two dual quaternions is possible (with
 :func:`~pytransform3d.transformations.dual_quaternion_sclerp`).
 
