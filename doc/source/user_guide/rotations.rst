@@ -358,6 +358,21 @@ functions :func:`~pytransform3d.rotations.quaternion_wxyz_from_xyzw` and
     This must be considered during operations like interpolation, distance
     calculation, or (approximate) equality checks.
 
+The quaternion product
+(:func:`~pytransform3d.rotations.concatenate_quaternions`) can be used to
+concatenate rotations like the matrix product can be used to concatenate
+rotations represented by rotation matrices.
+
+The inverse of the rotation represented by the unit quaternion
+:math:`\boldsymbol{q}` is represented by the conjugate
+:math:`\boldsymbol{q}^*` (:func:`~pytransform3d.rotations.q_conj`).
+
+We can rotate a vector by representing it as a pure quaternion (i.e., with
+a scalar part of 0) and then left-multiplying the quaternion and
+right-multiplying its conjugate
+:math:`\boldsymbol{q}\boldsymbol{v}\boldsymbol{q}^*`
+with the quaternion product (:func:`~pytransform3d.rotations.q_prod_vector`).
+
 **Pros**
 
 * More compact than the matrix representation and less susceptible to
