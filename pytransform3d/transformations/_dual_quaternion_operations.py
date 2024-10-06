@@ -114,7 +114,29 @@ def concatenate_dual_quaternions(dq1, dq2):
 
 
 def dq_prod_vector(dq, v):
-    """Apply transform represented by a dual quaternion to a vector.
+    r"""Apply transform represented by a dual quaternion to a vector.
+
+    To apply the transformation defined by a unit dual quaternion
+    :math:`\boldsymbol{q}` to a point :math:`\boldsymbol{v} \in \mathbb{R}^3`,
+    we first represent the vector as a dual quaternion: we set the real part to
+    (1, 0, 0, 0) and the dual part is a pure quaternion with the scalar part
+    0 and the vector as its vector part
+    :math:`\left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right) \in
+    \mathbb{R}^4`. Then we left-multiply the dual quaternion and right-multiply
+    its dual quaternion conjugate
+
+    .. math::
+
+        \left(\begin{array}{c}1\\0\\0\\0\\0\\\boldsymbol{w}\end{array}\right)
+        =
+        \boldsymbol{q}
+        \cdot
+        \left(\begin{array}{c}1\\0\\0\\0\\0\\\boldsymbol{v}\end{array}\right)
+        \cdot
+        \boldsymbol{q}^*.
+
+    The vector part of the dual part :math:`\boldsymbol{w}` of the resulting
+    quaternion is the rotated point.
 
     Parameters
     ----------
