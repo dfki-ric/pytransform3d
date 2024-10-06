@@ -399,5 +399,8 @@ References
    https://en.wikipedia.org/wiki/Dual_quaternion
 .. [6] Jia, Y.-B.: Dual Quaternions.
    https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf
-.. [7] Kenwright, B. A Beginners Guide to Dual-Quaternions.
+.. [7] Kenwright, B. (2012). A Beginners Guide to Dual-Quaternions: What They
+   Are, How They Work, and How to Use Them for 3D Character Hierarchies. In
+   20th International Conference in Central Europe on Computer Graphics,
+   Visualization and Computer Vision.
    http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf
