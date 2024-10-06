@@ -66,12 +66,18 @@ def dq_q_conj(dq):
 
 
 def concatenate_dual_quaternions(dq1, dq2):
-    """Concatenate dual quaternions.
+    r"""Concatenate dual quaternions.
 
-    Suppose we want to apply two extrinsic transforms given by dual
-    quaternions dq1 and dq2 to a vector v. We can either apply dq2 to v and
-    then dq1 to the result or we can concatenate dq1 and dq2 and apply the
-    result to v.
+    We concatenate two dual quaternions by dual quaternion multiplication
+
+    .. math::
+
+        (\boldsymbol{p}_1 + \epsilon \boldsymbol{q}_1)
+        (\boldsymbol{p}_2 + \epsilon \boldsymbol{q}_2)
+        = \boldsymbol{p}_1 \boldsymbol{p}_2 + \epsilon (
+        \boldsymbol{p}_1 \boldsymbol{q}_2 + \boldsymbol{q}_1 \boldsymbol{p}_2)
+
+    using Hamilton multiplication of quaternions.
 
     .. warning::
 
@@ -93,6 +99,11 @@ def concatenate_dual_quaternions(dq1, dq2):
     dq3 : array, shape (8,)
         Product of the two dual quaternions:
         (pw, px, py, pz, qw, qx, qy, qz)
+
+    See Also
+    --------
+    pytransform3d.rotations.concatenate_quaternions
+        Quaternion multiplication.
     """
     dq1 = check_dual_quaternion(dq1)
     dq2 = check_dual_quaternion(dq2)
