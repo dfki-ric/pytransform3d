@@ -6,10 +6,19 @@ The group of all proper rigid transformations (rototranslations) in
 3D Cartesian space is :math:`SE(3)` (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
-in different ways.
+in different ways. The minimum number of components that are required to
+describe any transformation from :math:`SE(3)` is 6.
+
+.. figure:: ../_static/transformations.png
+   :alt: Conversions between representations of transformations
+   :width: 50%
+   :align: center
+
+   Overview of the representations and the conversions between them that are
+   available in pytransform3d.
 
 For most representations of orientations we can find
-an analogous representation of transformations [1]_:
+an analogous representation of transformations:
 
 * A **transformation matrix** :math:`\boldsymbol T` is similar to a rotation
   matrix :math:`\boldsymbol R`.
@@ -30,14 +39,6 @@ an analogous representation of transformations [1]_:
 * A (unit) **dual quaternion**
   :math:`p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k)`
   is similar to a (unit) quaternion :math:`w + x i + y j + z k`.
-
-Here is an overview of the representations and the conversions between them
-that are available in pytransform3d.
-
-.. image:: ../_static/transformations.png
-   :alt: Transformations
-   :width: 50%
-   :align: center
 
 Not all representations support all operations directly without conversion to
 another representation. The following table is an overview.
@@ -60,7 +61,6 @@ another representation. The following table is an overview.
 | Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP        | Required        |
 | :math:`\pmb{p} + \epsilon \pmb{q}`     | Conjugate  |                          |               |               |                 |
 +----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-
 
 ---------------------
 Transformation Matrix

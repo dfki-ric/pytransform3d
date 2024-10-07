@@ -8,13 +8,13 @@ matrices [7]_. The minimum number of components that are required to describe
 any rotation from :math:`SO(3)` is 3. However, there is no representation that
 is non-redundant, continuous, and free of singularities.
 
-Here is an overview of the representations and the conversions between them
-that are available in pytransform3d.
-
-.. image:: ../_static/rotations.png
+.. figure:: ../_static/rotations.png
    :alt: Rotations
    :width: 50%
    :align: center
+
+   Overview of the representations and the conversions between them that are
+   available in pytransform3d.
 
 Not all representations support all operations directly without conversion to
 another representation. The following table is an overview. If the operation
