@@ -177,6 +177,48 @@ class TransformGraphBase(abc.ABC):
             del self.j[ij_index]
             self._recompute_shortest_path()
         return self
+        
+    def remove_frame(self, frame):
+        """Remove a frame (node) from the graph.
+    
+        Parameters
+        ----------
+        frame : Hashable
+            The frame to remove.
+    
+        Returns
+        -------
+        self : TransformManager
+            This object for chaining.
+        """
+        if frame not in self.nodes:
+            raise KeyError(f"Frame '{frame}' is not in the graph.")
+    
+        # Find the index of the frame to remove
+        frame_index = self.nodes.index(frame)
+    
+        # Remove all transformations (edges) associated with the frame
+        transforms_to_remove = []
+        for (from_frame, to_frame) in self.transform_to_ij_index.keys():
+            if from_frame == frame or to_frame == frame:
+                transforms_to_remove.append((from_frame, to_frame))
+        
+        for (from_frame, to_frame) in transforms_to_remove:
+            self.remove_transform(from_frame, to_frame)
+    
+        # Remove the frame from the node list
+        self.nodes.pop(frame_index)
+    
+        # Update the transform_to_ij_index dictionary
+        self.transform_to_ij_index = {
+            k: v if v < frame_index else v - 1
+            for k, v in self.transform_to_ij_index.items()
+        }
+    
+        # Recompute the shortest path since we've removed a node
+        self._recompute_shortest_path()
+    
+        return self
 
     def get_transform(self, from_frame, to_frame):
         """Request a transformation.
