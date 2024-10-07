@@ -180,12 +180,12 @@ class TransformGraphBase(abc.ABC):
         
     def remove_frame(self, frame):
         """Remove a frame (node) from the graph.
-    
+
         Parameters
         ----------
         frame : Hashable
             The frame to remove.
-    
+
         Returns
         -------
         self : TransformManager
@@ -193,10 +193,10 @@ class TransformGraphBase(abc.ABC):
         """
         if frame not in self.nodes:
             raise KeyError(f"Frame '{frame}' is not in the graph.")
-    
+
         # Find the index of the frame to remove
         frame_index = self.nodes.index(frame)
-    
+
         # Remove all transformations (edges) associated with the frame
         transforms_to_remove = []
         for (from_frame, to_frame) in self.transform_to_ij_index.keys():
@@ -205,19 +205,24 @@ class TransformGraphBase(abc.ABC):
         
         for (from_frame, to_frame) in transforms_to_remove:
             self.remove_transform(from_frame, to_frame)
-    
+
         # Remove the frame from the node list
         self.nodes.pop(frame_index)
-    
+
+        # Adjust the connection indices in self.i and self.j
+        self.i = [index if index < frame_index else index - 1 for index in self.i]
+        self.j = [index if index < frame_index else index - 1 for index in self.j]
+
         # Update the transform_to_ij_index dictionary
         self.transform_to_ij_index = {
-            k: v if v < frame_index else v - 1
-            for k, v in self.transform_to_ij_index.items()
+            (from_frame, to_frame): ij_index
+            for (from_frame, to_frame), ij_index in self.transform_to_ij_index.items()
+            if from_frame != frame and to_frame != frame
         }
-    
+
         # Recompute the shortest path since we've removed a node
         self._recompute_shortest_path()
-    
+
         return self
 
     def get_transform(self, from_frame, to_frame):
