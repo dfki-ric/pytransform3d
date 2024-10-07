@@ -25,6 +25,38 @@ def test_request_added_transform():
     A2B_2 = tm.get_transform("A", "B")
     assert_array_almost_equal(A2B, A2B_2)
 
+def test_remove_frame():
+    """Test removing a frame from the transform manager."""
+    tm = TransformManager()
+    tm.add_transform("A", "B", np.eye(4))
+    tm.add_transform("A", "D", np.eye(4))
+    tm.add_transform("B", "C", np.eye(4))
+    
+    assert tm.has_frame("A")
+    assert tm.has_frame("B")
+    assert tm.has_frame("C")
+    assert tm.has_frame("D")
+
+    tm.remove_frame("B")
+    assert not tm.has_frame("B")
+
+    # Ensure connections involving "B" are removed
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("A", "B")
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("B", "C")
+
+    assert tm.has_frame("A")
+    assert tm.has_frame("C")
+    assert tm.has_frame("D")
+
+    # Ensure we cannot retrieve paths involving the removed frame
+    with pytest.raises(KeyError, match="Cannot compute path"):
+        tm.get_transform("A", "C")
+
+    A2D = TM.get_transform("A", "D")
+    assert_array_almost_equal(A2D, np.eye(4))
+
 
 def test_request_inverse_transform():
     """Request an inverse transform from the transform manager."""
