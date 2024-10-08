@@ -136,19 +136,15 @@ transformation matrix to a homogeneous vector.
 
 **Pros**
 
-* It is easy to apply transformations on vectors in homogeneous coordinates by
-  matrix-vector multiplication.
-* Concatenation of transformations is trivial through matrix multiplication.
-* You can directly read the basis vectors and translation from the columns.
-* No singularities.
+* Supported operations: all except interpolation.
+* Interpretation: each column represents either a basis vector or the
+  translation.
+* Singularities: none.
 
 **Cons**
 
-* We use 16 values for 6 degrees of freedom.
-* Not every 4x4 matrix is a valid transformation matrix, which means for
-  example that we cannot simply apply an optimization algorithm to
-  transformation matrices or interpolate between them. Renormalization is
-  computationally expensive.
+* Rrepresentation: 16 values for 6 degrees of freedom.
+* Renormalization: inherited from rotation matrix.
 
 -----------------------
 Position and Quaternion
@@ -171,14 +167,12 @@ quaternion and typically we use the variable name pq.
 
 **Pros**
 
-* More compact than the matrix representation and less susceptible to
-  round-off errors.
-* Compact representation.
+* Representation: compact.
 
 **Cons**
 
-* Separation of translation and rotation component. Both have to be handled
-  individually.
+* Supported operation: translation and rotation component are separated and
+  have to be handled individually.
 
 ----------------
 Screw Parameters
@@ -256,17 +250,14 @@ coordinates of transformation and typically we use the variable name Stheta.
 
 **Pros**
 
-* Minimal representation.
-* Can also represent velocity and acceleration when we replace
-  :math:`\theta` by :math:`\dot{\theta}` or :math:`\ddot{\theta}` respectively,
-  which makes numerical integration and differentiation easy.
+* Representation: minimal.
+* Supported operations: interpolation; can also represent spatial velocity and
+  acceleration.
 
 **Cons**
 
-* There might be discontinuities and ambiguities. This has to
-  be considered. Normalization is recommended.
-* Concatenation and transformation of vectors requires conversion to
-  transformation matrix or dual quaternion.
+* Supported operations: concatenation and transformation of vectors requires
+  conversion to another representation.
 
 ---------------------------
 Logarithm of Transformation
@@ -367,20 +358,17 @@ component and the scalar 0, and rotation quaternions have the same ambiguity.
 
 **Pros**
 
-* Normalization is a simple operation: scaling the dual quaternion to unit
-  norm. Note that only the orientation part defines the norm of the quaternion,
-  since :math:`\epsilon^2 = 0` and the scalar product of the real and dual
-  part is 0 (see :func:`~pytransform3d.transformations.check_dual_quaternion`).
-* Easy interpolation with
-  :func:`~pytransform3d.transformations.dual_quaternion_sclerp`.
-* Efficient and compact form for representing transformations [7]_.
-* No singularities.
+* Representation: compact.
+* Renormalization: cheap in comparison to transformation matrix.
+* Supported operations: all, including interpolation with ScLERP.
+* Computational efficiency: the dual quaternion product is slightly
+  cheaper than the matrix product.
+* Singularities: none.
 
 **Cons**
 
-* The representation is not straightforward to interpret.
-* There are always two unit dual quaternions that represent exactly the same
-  transformation.
+* Interpretation: not straightforward.
+* Ambiguities: double cover.
 
 ----------
 References

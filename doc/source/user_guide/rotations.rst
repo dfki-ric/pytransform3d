@@ -184,19 +184,15 @@ This will be done, for instance, to obtain rotation matrices from Euler angles
 
 **Pros**
 
-* It is easy to apply rotations on point vectors by matrix-vector
-  multiplication.
-* Concatenation of rotations is trivial through matrix multiplication.
-* You can directly read the basis vectors from the columns.
-* No singularities.
+* Supported operations: all except interpolation.
+* Interpretation: each column is a basis vector.
+* Singularities: none.
+* Ambiguities: none that are specific for rotation matrices.
 
 **Cons**
 
-* We use 9 values for 3 degrees of freedom.
-* Not every 3x3 matrix is a valid rotation matrix, which means for example
-  that we cannot simply apply an optimization algorithm to rotation matrices
-  or interpolate between rotation matrices. Renormalization is
-  computationally expensive in comparison to quaternions.
+* Representation: 9 values for 3 degrees of freedom.
+* Renormalization: expensive in comparison to quaternions.
 
 ----------
 Axis-Angle
@@ -249,21 +245,18 @@ component-wise integration and differentiation with this representation.
 
 **Pros**
 
-* Minimal representation.
-* Can also represent angular velocity and acceleration when we replace
-  :math:`\theta` by :math:`\dot{\theta}` or :math:`\ddot{\theta}` respectively,
-  which makes numerical integration and differentiation easy.
+* Representation: minimal.
+* Supported operations: interpolation; can also represent angular velocity and
+  acceleration.
 
 **Cons**
 
-* There might be discontinuities during interpolation as an angle of 0 and
-  any multiple of :math:`2\pi` represent the same orientation. This has to
-  be considered. Normalization is recommended.
-* When :math:`\theta = \pi`, the axes :math:`\hat{\boldsymbol{\omega}}` and
-  :math:`-\hat{\boldsymbol{\omega}}` represent the same rotation, which is
-  a problem for interpolation.
-* Concatenation and transformation of vectors requires conversion to rotation
-  matrix or quaternion.
+* Ambiguities: an angle of 0 and any multiple of :math:`2\pi` represent
+  the same orientation; when :math:`\theta = \pi`, the axes
+  :math:`\hat{\boldsymbol{\omega}}` and :math:`-\hat{\boldsymbol{\omega}}`
+  represent the same rotation.
+* Supported operations: concatenation and transformation of vectors requires
+  conversion to another representation.
 
 ---------------------
 Logarithm of Rotation
@@ -375,24 +368,18 @@ with the quaternion product (:func:`~pytransform3d.rotations.q_prod_vector`).
 
 **Pros**
 
-* More compact than the matrix representation and less susceptible to
-  round-off errors.
-* The quaternion elements vary continuously over the unit sphere in
-  :math:`\mathbb{R}^4` as the orientation changes, avoiding discontinuous
-  jumps (inherent to three-dimensional parameterizations).
-* Expression of the rotation matrix in terms of quaternion parameters
-  involves no trigonometric functions.
-* Concatenation is simple and computationally cheaper with the quaternion
-  product than with rotation matrices.
-* No singularities.
-* Renormalization is cheap in comparison to rotation matrices: we only
-  have to divide by the norm of the quaternion.
+* Representation: compact.
+* Renormalization: cheap in comparison to rotation matrices;
+  less susceptible to round-off errors than matrix representation.
+* Discontinuities: none.
+* Computational efficiency: the quaternion product is cheaper than the matrix
+  product.
+* Singularities: none.
 
 **Cons**
 
-* The representation is not straightforward to interpret.
-* There are always two unit quaternions that represent exactly the same
-  rotation.
+* Interpretation: not straightforward.
+* Ambiguities: double cover.
 
 ------------
 Euler Angles
@@ -414,16 +401,17 @@ information.
 
 **Pros**
 
-* Minimal representation.
-* Euler angles are easy to interpret for users (when the convention is clearly
+* Representation: minimal.
+* Interpretation: easy to interpret for users (when the convention is clearly
   defined) in comparison to axis-angle or quaternions.
 
 **Cons**
 
-* 24 different conventions.
-* Singularities (gimbal lock).
-* Concatenation and transformation of vectors requires conversion to rotation
-  matrix or quaternion.
+* Ambiguities: 24 different conventions, infinitely many Euler angles
+  represent the same rotation without proper limits for the angles.
+* Singularity: gimbal lock.
+* Supported operations: all operations require conversion to another
+  representation.
 
 
 ------
@@ -516,15 +504,15 @@ parameters.
 
 **Pros**
 
-* Minimal representation.
+* Representation: minimal.
 
 **Cons**
 
-* The representation is not straightforward to interpret.
-* Normalization of angle required to avoid singularity.
-* Each rotation has two representations as modified Rodrigues parameters.
-* Transformation of vectors requires conversion to rotation matrix or
-  quaternion.
+* Interpretation: not straightforward.
+* Singularity: at :math:`\theta = 2 \pi`.
+* Ambiguity: double cover.
+* Supported operations: transformation of vectors requires conversion to
+  another representation.
 
 ----------
 References
