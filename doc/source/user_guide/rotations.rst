@@ -495,7 +495,7 @@ Hence, there is an easy conversion from unit quaternions to MRP:
 
 .. math::
 
-    \psi = \frac{\left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}.
+    \psi = \frac{\left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}
 
 given some quaternion with a scalar :math:`w` and a vector
 :math:`\left(x, y, z \right)^T`.
