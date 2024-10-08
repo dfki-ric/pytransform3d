@@ -14,8 +14,8 @@ except ImportError:
 class TransformManager(TransformGraphBase):
     """Manage transformations between frames.
 
-    This is a simplified version of `ROS tf <http://wiki.ros.org/tf>`_ that
-    ignores the temporal aspect. A user can register transformations. The
+    This is a simplified version of `ROS tf <http://wiki.ros.org/tf>`_ [1]_
+    that ignores the temporal aspect. A user can register transformations. The
     shortest path between all frames will be computed internally which enables
     us to provide transforms for any connected frames.
 
@@ -52,6 +52,12 @@ class TransformManager(TransformGraphBase):
     check : bool, optional (default: True)
         Check if transformation matrices are valid and requested nodes exist,
         which might significantly slow down some operations.
+
+    References
+    ----------
+    .. [1] Foote, T. (2013). tf: The transform library. In IEEE Conference on
+       Technologies for Practical Robot Applications (TePRA), Woburn, MA, USA,
+       pp. 1-6, doi: 10.1109/TePRA.2013.6556373.
     """
     def __init__(self, strict_check=True, check=True):
         super(TransformManager, self).__init__(strict_check, check)

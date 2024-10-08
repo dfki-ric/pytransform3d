@@ -82,13 +82,26 @@ def quaternion_gradient(Q, dt=1.0):
 
 
 def concatenate_quaternions(q1, q2):
-    """Concatenate two quaternions.
+    r"""Concatenate two quaternions.
+
+    We concatenate two quaternions by quaternion multiplication
+    :math:`\boldsymbol{q}_1\boldsymbol{q}_2`.
 
     We use Hamilton's quaternion multiplication.
 
-    Suppose we want to apply two extrinsic rotations given by quaternions
-    q1 and q2 to a vector v. We can either apply q2 to v and then q1 to
-    the result or we can concatenate q1 and q2 and apply the result to v.
+    If the two quaternions are divided up into scalar part and vector part
+    each, i.e.,
+    :math:`\boldsymbol{q} = (w, \boldsymbol{v}), w \in \mathbb{R},
+    \boldsymbol{v} \in \mathbb{R}^3`, then the quaternion product is
+
+    .. math::
+
+        \boldsymbol{q}_{12} =
+        (w_1 w_2 - \boldsymbol{v}_1 \cdot \boldsymbol{v}_2,
+        w_1 \boldsymbol{v}_2 + w_2 \boldsymbol{v}_1
+        + \boldsymbol{v}_1 \times \boldsymbol{v}_2)
+
+    with the scalar product :math:`\cdot` and the cross product :math:`\times`.
 
     Parameters
     ----------
@@ -100,7 +113,7 @@ def concatenate_quaternions(q1, q2):
 
     Returns
     -------
-    q12 : array-like, shape (4,)
+    q12 : array, shape (4,)
         Quaternion that represents the concatenated rotation q1 * q2
 
     See Also
@@ -116,9 +129,30 @@ def concatenate_quaternions(q1, q2):
 
 
 def q_prod_vector(q, v):
-    """Apply rotation represented by a quaternion to a vector.
+    r"""Apply rotation represented by a quaternion to a vector.
 
     We use Hamilton's quaternion multiplication.
+
+    To apply the rotation defined by a unit quaternion :math:`\boldsymbol{q}
+    \in \mathbb{S}^3` to a vector :math:`\boldsymbol{v} \in \mathbb{R}^3`, we
+    first represent the vector as a quaternion: we set the scalar part to 0 and
+    the vector part is exactly the original vector
+    :math:`\left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right) \in
+    \mathbb{R}^4`. Then we left-multiply the quaternion and right-multiply
+    its conjugate
+
+    .. math::
+
+        \left(\begin{array}{c}0\\\boldsymbol{w}\end{array}\right)
+        =
+        \boldsymbol{q}
+        \cdot
+        \left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right)
+        \cdot
+        \boldsymbol{q}^*.
+
+    The vector part :math:`\boldsymbol{w}` of the resulting quaternion is
+    the rotated vector.
 
     Parameters
     ----------
@@ -130,12 +164,16 @@ def q_prod_vector(q, v):
 
     Returns
     -------
-    w : array-like, shape (3,)
+    w : array, shape (3,)
         3d vector
 
     See Also
     --------
-    rotor_apply : The same operation with a different name.
+    rotor_apply
+        The same operation with a different name.
+
+    concatenate_quaternions
+        Hamilton's quaternion multiplication.
     """
     q = check_quaternion(q)
     t = 2 * np.cross(q[1:], v)
@@ -143,11 +181,19 @@ def q_prod_vector(q, v):
 
 
 def q_conj(q):
-    """Conjugate of quaternion.
+    r"""Conjugate of quaternion.
 
     The conjugate of a unit quaternion inverts the rotation represented by
-    this unit quaternion. The conjugate of a quaternion q is often denoted
-    as q*.
+    this unit quaternion.
+
+    The conjugate of a quaternion :math:`\boldsymbol{q}` is often denoted as
+    :math:`\boldsymbol{q}^*`. For a quaternion :math:`\boldsymbol{q} = w
+    + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}` it is defined as
+
+    .. math::
+
+        \boldsymbol{q}^* = w - x \boldsymbol{i} - y \boldsymbol{j}
+        - z \boldsymbol{k}.
 
     Parameters
     ----------

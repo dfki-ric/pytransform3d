@@ -87,6 +87,7 @@ from ._conversions import (
 from ._quaternion_operations import (
     quaternion_integrate, quaternion_gradient, concatenate_quaternions, q_conj,
     q_prod_vector, quaternion_diff, quaternion_dist, quaternion_from_euler)
+from ._mrp import concatenate_mrp
 from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
                      axis_angle_slerp, rotor_slerp)
 from ._testing import (
@@ -207,6 +208,7 @@ __all__ = [
     "euler_from_quaternion",
     "quaternion_from_angle",
     "quaternion_from_euler",
+    "concatenate_mrp",
     "cross_product_matrix",
     "mrp_from_quaternion",
     "quaternion_from_mrp",

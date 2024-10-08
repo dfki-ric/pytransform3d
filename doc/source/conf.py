@@ -52,6 +52,7 @@ release = __import__("pytransform3d").__version__
 language = 'en'
 today_fmt = '%B %d, %Y'
 add_function_parentheses = True
+author = "Alexander Fabisch"
 show_authors = True
 pygments_style = 'sphinx'
 html_logo = "_static/logo.png"

@@ -16,10 +16,11 @@ from .rotations import (
 class UrdfTransformManager(TransformManager):
     """Transformation manager that can load URDF files.
 
-    URDF is the `Unified Robot Description Format <http://wiki.ros.org/urdf>`_.
-    URDF allows to define joints between links that can be rotated about one
-    axis. This transformation manager allows to set the joint angles after
-    joints have been added or loaded from an URDF.
+    The Unified Robot Description Format (URDF) [1]_ is the most common format
+    to describe kinematic and dynamic properties of robots [2]_. This
+    transformation manager allows to set the joint configurations of a robot
+    loaded from a URDF file and provides an interface to its geometric and
+    visual representation.
 
     .. warning::
 
@@ -39,6 +40,14 @@ class UrdfTransformManager(TransformManager):
     check : bool, optional (default: True)
         Check if transformation matrices are valid and requested nodes exist,
         which might significantly slow down some operations.
+
+    References
+    ----------
+    .. [1] ROS Wiki: urdf, http://wiki.ros.org/urdf
+
+    .. [2] Tola, D., Corke, P. (2023). Understanding URDF: A Dataset and
+       Analysis. In IEEE Robotics and Automation Letters 9(5), pp. 4479-4486,
+       doi: 10.1109/LRA.2024.3381482. https://arxiv.org/abs/2308.00514
     """
     def __init__(self, strict_check=True, check=True):
         super(UrdfTransformManager, self).__init__(strict_check, check)

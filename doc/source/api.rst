@@ -137,6 +137,15 @@ Rotors
    ~rotor_apply
    ~rotor_slerp
 
+Modified Rodrigues Parameters
+-----------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~concatenate_mrp
+
 Plotting
 --------
 

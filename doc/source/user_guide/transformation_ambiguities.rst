@@ -4,7 +4,7 @@
 Transformation Ambiguities and Conventions
 ==========================================
 
-Heterogenous software systems that consist of proprietary and open source
+Heterogeneous software systems that consist of proprietary and open source
 software are often combined when we work with transformations.
 For example, suppose you want to transfer a trajectory demonstrated by a human
 to a robot. The human trajectory could be measured from an RGB-D camera, fused

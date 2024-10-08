@@ -6,10 +6,19 @@ The group of all proper rigid transformations (rototranslations) in
 3D Cartesian space is :math:`SE(3)` (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
-in different ways.
+in different ways. The minimum number of components that are required to
+describe any transformation from :math:`SE(3)` is 6.
+
+.. figure:: ../_static/transformations.png
+   :alt: Conversions between representations of transformations
+   :width: 50%
+   :align: center
+
+   Overview of the representations and the conversions between them that are
+   available in pytransform3d.
 
 For most representations of orientations we can find
-an analogous representation of transformations [1]_:
+an analogous representation of transformations:
 
 * A **transformation matrix** :math:`\boldsymbol T` is similar to a rotation
   matrix :math:`\boldsymbol R`.
@@ -31,14 +40,27 @@ an analogous representation of transformations [1]_:
   :math:`p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k)`
   is similar to a (unit) quaternion :math:`w + x i + y j + z k`.
 
-Here is an overview of the representations and the conversions between them
-that are available in pytransform3d.
+Not all representations support all operations directly without conversion to
+another representation. The following table is an overview.
 
-.. image:: ../_static/transformations.png
-   :alt: Transformations
-   :width: 50%
-   :align: center
-
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Representation                         | Inverse    | Transformation of vector | Concatenation | Interpolation | Renormalization |
++========================================+============+==========================+===============+===============+=================+
+| Transformation matrix                  | Inverse    | Yes                      | Yes           | No            | Required        |
+| :math:`\pmb{R}`                        |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Exponential coordinates                | Negative   | No                       | No            | ScLERP        | Not necessary   |
+| :math:`\mathcal{S}\theta`              |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Logarithm of transformation            | Negative   | No                       | No            | No            | Not necessary   |
+| :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Position and quaternion                | No         | No                       | No            | No            | Required        |
+| :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
+| Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP        | Required        |
+| :math:`\pmb{p} + \epsilon \pmb{q}`     | Conjugate  |                          |               |               |                 |
++----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
 
 ---------------------
 Transformation Matrix
@@ -97,19 +119,32 @@ setting the last component to zero (see
 :func:`~pytransform3d.transformations.vector_to_direction`):
 :math:`\left( x,y,z,0 \right)^T`.
 
-We can use a transformation matrix :math:`\boldsymbol T_{AB}` to transform a
-point :math:`{_B}\boldsymbol{p}` from frame :math:`B` to frame :math:`A`:
+We can use a transformation matrix :math:`\boldsymbol T_{BA}` to transform a
+point :math:`{_A}\boldsymbol{p}` from frame :math:`A` to frame :math:`B`:
 
 .. math::
 
-    \boldsymbol{T}_{AB}  {_B}\boldsymbol{p} =
+    \boldsymbol{T}_{BA} {_A}\boldsymbol{p} =
     \left( \begin{array}{c}
-        \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
+        \boldsymbol{R}_{BA} {_A}\boldsymbol{p} + {_B}\boldsymbol{t}_{BA}\\
         1\\
-    \end{array} \right).
+    \end{array} \right) =
+    {_B}\boldsymbol{p}.
 
 You can use :func:`~pytransform3d.transformations.transform` to apply a
 transformation matrix to a homogeneous vector.
+
+**Pros**
+
+* Supported operations: all except interpolation.
+* Interpretation: each column represents either a basis vector or the
+  translation.
+* Singularities: none.
+
+**Cons**
+
+* Rrepresentation: 16 values for 6 degrees of freedom.
+* Renormalization: inherited from rotation matrix.
 
 -----------------------
 Position and Quaternion
@@ -130,11 +165,23 @@ a 2D array.
 pytransform3d uses a numpy array of shape (7,) to represent position and
 quaternion and typically we use the variable name pq.
 
+**Pros**
+
+* Representation: compact.
+
+**Cons**
+
+* Supported operation: translation and rotation component are separated and
+  have to be handled individually.
+
 ----------------
 Screw Parameters
 ----------------
 
-.. plot:: ../../examples/plots/plot_screw.py
+.. figure:: ../_auto_examples/plots/images/sphx_glr_plot_screw_001.png
+   :target: ../_auto_examples/plots/plot_screw.html
+   :width: 70%
+   :align: center
 
 Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
@@ -193,13 +240,24 @@ coordinates of transformation and typically we use the variable name Stheta.
 .. warning::
 
     Note that we use the screw theory definition of exponential coordinates
-    and :math:`se(3)` (see next section) used by Paden (1985), Lynch and Park
-    (2017), and Corke (2017). They separate the parameter :math:`\theta` from
+    and :math:`se(3)` (see next section) used by Lynch and Park (2017) [1]_,
+    and Corke (2017) [2]_. They separate the parameter :math:`\theta` from
     the screw axis. Additionally, they use the first three components to encode
     rotation and the last three components to encode translation. There is an
-    alternative definition used by Eade (2017) and Sola et al. (2018). They use
-    a different order of the 3D vector components and they do not separate
-    :math:`\theta` from the screw axis in their notation.
+    alternative definition used by Eade (2017) [3]_ and Sola et al. (2018)
+    [4]_. They use a different order of the 3D vector components and they do
+    not separate :math:`\theta` from the screw axis in their notation.
+
+**Pros**
+
+* Representation: minimal.
+* Supported operations: interpolation; can also represent spatial velocity and
+  acceleration.
+
+**Cons**
+
+* Supported operations: concatenation and transformation of vectors requires
+  conversion to another representation.
 
 ---------------------------
 Logarithm of Transformation
@@ -248,8 +306,9 @@ Twist
 
 We call spatial velocity (translation and rotation) **twist**. Similarly
 to the matrix logarithm, a twist :math:`\mathcal{V} = \mathcal{S} \dot{\theta}`
-is described by a screw axis :math:`S` and a scalar :math:`\dot{\theta}`
-and :math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)`
+is described by a screw axis :math:`\mathcal S` and a scalar
+:math:`\dot{\theta}` and
+:math:`\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)`
 is the matrix representation of a twist.
 
 ----------------
@@ -273,14 +332,14 @@ and the dual quaternion is orthogonal to the real quaternion.
 The real quaternion is used to represent the rotation and the dual
 quaternion contains information about the rotation and translation.
 
-Dual quaternions support similar operations as transformation matrices
-(inversion through the conjugate of the two individual quaternions
+Dual quaternions support similar operations as transformation matrices:
+inversion through the conjugate of the two individual quaternions
 :func:`~pytransform3d.transformations.dq_q_conj`, concatenation
 through :func:`~pytransform3d.transformations.concatenate_dual_quaternions`,
 and transformation of a point by
-:func:`~pytransform3d.transformations.dq_prod_vector`),
-they can be renormalized efficiently (with
-:func:`~pytransform3d.transformations.check_dual_quaternion`, and
+:func:`~pytransform3d.transformations.dq_prod_vector`.
+They can be renormalized efficiently (with
+:func:`~pytransform3d.transformations.check_dual_quaternion`), and
 interpolation between two dual quaternions is possible (with
 :func:`~pytransform3d.transformations.dual_quaternion_sclerp`).
 
@@ -296,6 +355,20 @@ quaternion encodes the translation component as
 :math:`\boldsymbol{q} = 0.5 \boldsymbol{t} \boldsymbol{p}`, where
 :math:`\boldsymbol{t}` is a quaternion with the translation in the vector
 component and the scalar 0, and rotation quaternions have the same ambiguity.
+
+**Pros**
+
+* Representation: compact.
+* Renormalization: cheap in comparison to transformation matrix.
+* Supported operations: all, including interpolation with ScLERP.
+* Computational efficiency: the dual quaternion product is slightly
+  cheaper than the matrix product.
+* Singularities: none.
+
+**Cons**
+
+* Interpretation: not straightforward.
+* Ambiguities: double cover.
 
 ----------
 References
@@ -314,5 +387,8 @@ References
    https://en.wikipedia.org/wiki/Dual_quaternion
 .. [6] Jia, Y.-B.: Dual Quaternions.
    https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf
-.. [7] Kenwright, B. A Beginners Guide to Dual-Quaternions.
+.. [7] Kenwright, B. (2012). A Beginners Guide to Dual-Quaternions: What They
+   Are, How They Work, and How to Use Them for 3D Character Hierarchies. In
+   20th International Conference in Central Europe on Computer Graphics,
+   Visualization and Computer Vision.
    http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf

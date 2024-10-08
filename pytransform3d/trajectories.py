@@ -623,7 +623,7 @@ def mirror_screw_axis_direction(Sthetas):
 
     Returns
     -------
-    Sthetas : array-like, shape (n_steps, 6)
+    Sthetas : array, shape (n_steps, 6)
         Exponential coordinates of transformation:
         (omega_x, omega_y, omega_z, v_x, v_y, v_z)
     """
