@@ -45,7 +45,7 @@ is not implemented in pytransform3d then it is shown in brackets.
 | :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |                 |
 +----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
 | Modified Rodrigues parameters          | Negative      | No                 | Yes           | No            | Not required    |
-| :math:`\psi`                           |               |                    |               |               |                 |
+| :math:`\pmb{\psi}`                     |               |                    |               |               |                 |
 +----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
 
 Footnotes:
@@ -475,7 +475,8 @@ Another minimal representation of rotation are modified Rodrigues parameters
 
 .. math::
 
-    \psi = \tan \left(\frac{\theta}{4}\right) \hat{\boldsymbol{\omega}}
+    \boldsymbol{\psi} = \tan \left(\frac{\theta}{4}\right)
+    \hat{\boldsymbol{\omega}}
 
 This representation is similar to the compact axis-angle representation.
 However, the angle of rotation is converted to :math:`\tan(\frac{\theta}{4})`.
@@ -483,7 +484,8 @@ Hence, there is an easy conversion from unit quaternions to MRP:
 
 .. math::
 
-    \psi = \frac{\left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}
+    \boldsymbol{\psi} = \frac{
+    \left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}
 
 given some quaternion with a scalar :math:`w` and a vector
 :math:`\left(x, y, z \right)^T`.
@@ -499,8 +501,9 @@ parameters.
 .. warning::
 
     MRPs have two representations for the same rotation:
-    :math:`\psi` and :math:`-\frac{1}{||\psi||^2} \psi` represent the same
-    rotation and correspond to two antipodal unit quaternions [8]_.
+    :math:`\boldsymbol{\psi}` and :math:`-\frac{1}{||\boldsymbol{\psi}||^2}
+    \boldsymbol{\psi}` represent the same rotation and correspond to two
+    antipodal unit quaternions [8]_.
 
 **Pros**
 

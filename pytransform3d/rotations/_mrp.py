@@ -12,17 +12,17 @@ def concatenate_mrp(mrp1, mrp2):
     apply the result to v.
 
     The solution for concatenation of two rotations
-    :math:`\boldsymbol{p}_1,\boldsymbol{p}_2` is given by Shuster [1]_:
+    :math:`\boldsymbol{\psi}_1,\boldsymbol{\psi}_2` is given by Shuster [1]_:
 
     .. math::
 
-        \boldsymbol{p} =
+        \boldsymbol{\psi} =
         \frac{
-        (1 - ||\boldsymbol{p}_1||^2) \boldsymbol{p}_2
-        + (1 - ||\boldsymbol{p}_2||^2) \boldsymbol{p}_1
-        - 2 \boldsymbol{p}_2 \times \boldsymbol{p}_1}
-        {1 + ||\boldsymbol{p}_2||^2 ||\boldsymbol{p}_1||^2
-        - 2 \boldsymbol{p}_2 \cdot \boldsymbol{p}_1}.
+        (1 - ||\boldsymbol{\psi}_1||^2) \boldsymbol{\psi}_2
+        + (1 - ||\boldsymbol{\psi}_2||^2) \boldsymbol{\psi}_1
+        - 2 \boldsymbol{\psi}_2 \times \boldsymbol{\psi}_1}
+        {1 + ||\boldsymbol{\psi}_2||^2 ||\boldsymbol{\psi}_1||^2
+        - 2 \boldsymbol{\psi}_2 \cdot \boldsymbol{\psi}_1}.
 
     Parameters
     ----------
