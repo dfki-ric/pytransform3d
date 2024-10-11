@@ -134,7 +134,7 @@ representations on the following pages.
 | :math:`(\alpha, \beta, \gamma)`        |                     |                  |               |
 +----------------------------------------+---------------------+------------------+---------------+
 | Modified Rodrigues parameters          | (3,)                | X                |               |
-| :math:`\psi`                           |                     |                  |               |
+| :math:`\pmb{\psi}`                     |                     |                  |               |
 +----------------------------------------+---------------------+------------------+---------------+
 | Transformation matrix                  | (4, 4)              | X                | X             |
 | :math:`\pmb{T}`                        |                     |                  |               |
