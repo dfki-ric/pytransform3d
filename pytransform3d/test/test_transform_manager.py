@@ -28,19 +28,32 @@ def test_request_added_transform():
 def test_remove_frame():
     """Test removing a frame from the transform manager."""
     tm = TransformManager()
-    tm.add_transform("A", "B", np.eye(4))
-    tm.add_transform("A", "D", np.eye(4))
-    tm.add_transform("B", "C", np.eye(4))
+
+    rng = np.random.default_rng(0)
+
+    A2B = pt.random_transform(rng)
+    A2D = pt.random_transform(rng)
+    B2C = pt.random_transform(rng)
+    D2E = pt.random_transform(rng)
     
-    assert tm.has_frame("A")
+    tm.add_transform("A", "B", A2B)
+    tm.add_transform("A", "D", A2D)
+    tm.add_transform("B", "C", B2C)
+    tm.add_transform("D", "E", D2E)
+
     assert tm.has_frame("B")
-    assert tm.has_frame("C")
-    assert tm.has_frame("D")
+
+    # Check that connections are correctly represented in self.i and self.j
+    assert tm.i == [tm.nodes.index("A"), tm.nodes.index("A"), tm.nodes.index("B"), tm.nodes.index("D")]
+    assert tm.j == [tm.nodes.index("B"), tm.nodes.index("D"), tm.nodes.index("C"), tm.nodes.index("E")]
 
     tm.remove_frame("B")
     assert not tm.has_frame("B")
 
-    # Ensure connections involving "B" are removed
+    # Ensure connections involving "B" are removed and the remaining connections are correctly represented
+    assert tm.i == [tm.nodes.index("A"), tm.nodes.index("D")]
+    assert tm.j == [tm.nodes.index("D"), tm.nodes.index("E")]
+
     with pytest.raises(KeyError, match="Unknown frame"):
         tm.get_transform("A", "B")
     with pytest.raises(KeyError, match="Unknown frame"):
@@ -49,14 +62,17 @@ def test_remove_frame():
     assert tm.has_frame("A")
     assert tm.has_frame("C")
     assert tm.has_frame("D")
+    assert tm.has_frame("E")
 
     # Ensure we cannot retrieve paths involving the removed frame
     with pytest.raises(KeyError, match="Cannot compute path"):
         tm.get_transform("A", "C")
 
-    A2D = TM.get_transform("A", "D")
-    assert_array_almost_equal(A2D, np.eye(4))
+    A2D = tm.get_transform("A", "D")
+    assert_array_almost_equal(A2D, A2D)
 
+    D2E = tm.get_transform("D", "E")
+    assert_array_almost_equal(D2E, D2E)
 
 def test_request_inverse_transform():
     """Request an inverse transform from the transform manager."""
