@@ -146,6 +146,14 @@ class TransformGraphBase(abc.ABC):
             return_predecessors=True)
         self._cached_shortest_paths.clear()
 
+    def _find_connected_transforms(self, frame):
+        """Find all transformations connected to a frame."""
+        connected_transforms = []
+        for (from_frame, to_frame) in self.transform_to_ij_index.keys():
+            if from_frame == frame or to_frame == frame:
+                connected_transforms.append((from_frame, to_frame))
+        return connected_transforms
+
     def remove_transform(self, from_frame, to_frame):
         """Remove a transformation.
 
@@ -177,7 +185,7 @@ class TransformGraphBase(abc.ABC):
             del self.j[ij_index]
             self._recompute_shortest_path()
         return self
-        
+
     def remove_frame(self, frame):
         """Remove a frame (node) from the graph.
 
@@ -194,19 +202,12 @@ class TransformGraphBase(abc.ABC):
         if frame not in self.nodes:
             raise KeyError(f"Frame '{frame}' is not in the graph.")
 
-        # Find the index of the frame to remove
-        frame_index = self.nodes.index(frame)
 
         # Remove all transformations (edges) associated with the frame
-        transforms_to_remove = []
-        for (from_frame, to_frame) in self.transform_to_ij_index.keys():
-            if from_frame == frame or to_frame == frame:
-                transforms_to_remove.append((from_frame, to_frame))
-        
-        for (from_frame, to_frame) in transforms_to_remove:
+        for (from_frame, to_frame) in self._find_connected_transforms(frame):
             self.remove_transform(from_frame, to_frame)
 
-        # Remove the frame from the node list
+        frame_index = self.nodes.index(frame)
         self.nodes.pop(frame_index)
 
         # Adjust the connection indices in self.i and self.j
@@ -220,7 +221,6 @@ class TransformGraphBase(abc.ABC):
             if from_frame != frame and to_frame != frame
         }
 
-        # Recompute the shortest path since we've removed a node
         self._recompute_shortest_path()
 
         return self
