@@ -1751,7 +1751,7 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     cos_angle = (np.trace(R) - 1.0) / 2.0
     angle = np.arccos(min(max(-1.0, cos_angle), 1.0))
 
-    if angle == 0.0:  # R == np.eye(3)
+    if np.isclose(angle, 0, atol=1e-6):  # R == np.eye(3)
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     a = np.empty(4)
