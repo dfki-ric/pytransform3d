@@ -211,13 +211,16 @@ class TransformGraphBase(abc.ABC):
         self.nodes.pop(frame_index)
 
         # Adjust the connection indices in self.i and self.j
-        self.i = [index if index < frame_index else index - 1 for index in self.i]
-        self.j = [index if index < frame_index else index - 1 for index in self.j]
+        self.i = [index if index < frame_index else index - 1
+                  for index in self.i]
+        self.j = [index if index < frame_index else index - 1
+                  for index in self.j]
 
         # Update the transform_to_ij_index dictionary
         self.transform_to_ij_index = {
             (from_frame, to_frame): ij_index
-            for (from_frame, to_frame), ij_index in self.transform_to_ij_index.items()
+            for (from_frame, to_frame), ij_index
+            in self.transform_to_ij_index.items()
             if from_frame != frame and to_frame != frame
         }
 
