@@ -79,6 +79,12 @@ def test_remove_frame():
     assert_array_almost_equal(D2E, tm.get_transform("D", "E"))
 
 
+def test_remove_frame_does_not_exist():
+    tm = TransformManager()
+    with pytest.raises(KeyError, match="not in the graph"):
+        tm.remove_frame("Any")
+
+
 def test_request_inverse_transform():
     """Request an inverse transform from the transform manager."""
     rng = np.random.default_rng(0)
