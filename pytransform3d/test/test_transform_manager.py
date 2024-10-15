@@ -44,8 +44,7 @@ def test_remove_frame():
 
     assert tm.has_frame("B")
 
-    A2D = tm.get_transform("A", "D")
-    D2E = tm.get_transform("D", "E")
+    A2E = tm.get_transform("A", "E")
 
     # Check that connections are correctly represented in self.i and self.j
     assert tm.i == [tm.nodes.index("A"), tm.nodes.index("A"),
@@ -75,8 +74,10 @@ def test_remove_frame():
     with pytest.raises(KeyError, match="Cannot compute path"):
         tm.get_transform("A", "C")
 
-    assert_array_almost_equal(A2D, tm.get_transform("A", "D"))
-    assert_array_almost_equal(D2E, tm.get_transform("D", "E"))
+    tm.get_transform("A", "D")
+    tm.get_transform("D", "E")
+
+    assert_array_almost_equal(A2E, tm.get_transform("A", "E"))
 
 
 def test_remove_frame_does_not_exist():
