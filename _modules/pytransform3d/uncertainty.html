@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.uncertainty &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>pytransform3d.uncertainty &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/uncertainty';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -374,10 +374,25 @@ document.write(`
 <div class="viewcode-block" id="estimate_gaussian_transform_from_samples">
 <a class="viewcode-back" href="../../_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples">[docs]</a>
 <span class="k">def</span> <span class="nf">estimate_gaussian_transform_from_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over transformations from samples.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over transformations from samples.</span>
 
-<span class="sd">    Uses iterative approximation of mean described by Eade [1]_ and computes</span>
+<span class="sd">    Uses iterative computation of mean described by Eade [1]_ and computes</span>
 <span class="sd">    covariance in exponential coordinate space (using an unbiased estimator).</span>
+<span class="sd">    The derivation of the procedure is presented by Pennec [2]_.</span>
+
+<span class="sd">    1. For a set of transformations :math:`\{T_1, \ldots, T_N\}`, we initialize</span>
+<span class="sd">       the estimated mean :math:`\overline{T}_0 \leftarrow T_1`.</span>
+<span class="sd">    2. For a fixed number of steps, in each iteration :math:`k` we improve the</span>
+<span class="sd">       estimation of the mean by</span>
+
+<span class="sd">       a. Computing the distance of each sample to the current estimate of the</span>
+<span class="sd">          mean in exponential coordinates</span>
+<span class="sd">          :math:`V_{i,k} \leftarrow T_i \cdot \overline{T}_k^{-1}`.</span>
+<span class="sd">       b. Updating the estimate of the mean</span>
+<span class="sd">          :math:`\overline{T}_{k+1} \leftarrow Exp(\frac{1}{N}\sum_i V_{i,k}) \cdot \overline{T}_k`.</span>
+
+<span class="sd">    3. Estimate the covariance in the space of exponential coordinates with</span>
+<span class="sd">       :math:`\Sigma \leftarrow \frac{1}{N - 1} \sum_i \left[ V_{i,k} \cdot V_{i,k}^T \right]`</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -396,6 +411,10 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.</span>
 <span class="sd">       https://ethaneade.com/lie.pdf</span>
+
+<span class="sd">    .. [2] Pennec, X. (2006). Intrinsic Statistics on Riemannian Manifolds:</span>
+<span class="sd">       Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.</span>
+<span class="sd">       https://doi.org/10.1007/s10851-006-6228-4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>

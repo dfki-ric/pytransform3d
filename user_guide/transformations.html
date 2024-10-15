@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="2. SO(3): 3D Rotations" href="rotations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -388,9 +388,18 @@ document.write(`
 3D Cartesian space is <span class="math notranslate nohighlight">\(SE(3)\)</span> (SE: special Euclidean group).
 Transformations consist of a rotation and a translation. Those can be
 represented in different ways just like rotations can be expressed
-in different ways.</p>
+in different ways. The minimum number of components that are required to
+describe any transformation from <span class="math notranslate nohighlight">\(SE(3)\)</span> is 6.</p>
+<figure class="align-center" id="id18">
+<a class="reference internal image-reference" href="../_images/transformations.png"><img alt="Conversions between representations of transformations" src="../_images/transformations.png" style="width: 50%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Overview of the representations and the conversions between them that are
+available in pytransform3d.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <p>For most representations of orientations we can find
-an analogous representation of transformations <a class="footnote-reference brackets" href="#id8" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>:</p>
+an analogous representation of transformations:</p>
 <ul class="simple">
 <li><p>A <strong>transformation matrix</strong> <span class="math notranslate nohighlight">\(\boldsymbol T\)</span> is similar to a rotation
 matrix <span class="math notranslate nohighlight">\(\boldsymbol R\)</span>.</p></li>
@@ -412,9 +421,63 @@ angular velocity <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\
 <span class="math notranslate nohighlight">\(p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k)\)</span>
 is similar to a (unit) quaternion <span class="math notranslate nohighlight">\(w + x i + y j + z k\)</span>.</p></li>
 </ul>
-<p>Here is an overview of the representations and the conversions between them
-that are available in pytransform3d.</p>
-<a class="reference internal image-reference" href="../_images/transformations.png"><img alt="Transformations" class="align-center" src="../_images/transformations.png" style="width: 50%;" /></a>
+<p>Not all representations support all operations directly without conversion to
+another representation. The following table is an overview.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Representation</p></th>
+<th class="head"><p>Inverse</p></th>
+<th class="head"><p>Transformation of vector</p></th>
+<th class="head"><p>Concatenation</p></th>
+<th class="head"><p>Interpolation</p></th>
+<th class="head"><p>Renormalization</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Transformation matrix
+<span class="math notranslate nohighlight">\(\pmb{R}\)</span></p></td>
+<td><p>Inverse</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>Required</p></td>
+</tr>
+<tr class="row-odd"><td><p>Exponential coordinates
+<span class="math notranslate nohighlight">\(\mathcal{S}\theta\)</span></p></td>
+<td><p>Negative</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>ScLERP</p></td>
+<td><p>Not necessary</p></td>
+</tr>
+<tr class="row-even"><td><p>Logarithm of transformation
+<span class="math notranslate nohighlight">\(\left[\mathcal{S}\theta\right]\)</span></p></td>
+<td><p>Negative</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Not necessary</p></td>
+</tr>
+<tr class="row-odd"><td><p>Position and quaternion
+<span class="math notranslate nohighlight">\((\pmb{p}, \pmb{q})\)</span></p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Required</p></td>
+</tr>
+<tr class="row-even"><td><p>Dual quaternion
+<span class="math notranslate nohighlight">\(\pmb{p} + \epsilon \pmb{q}\)</span></p></td>
+<td><p>Quaternion
+Conjugate</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>ScLERP</p></td>
+<td><p>Required</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <section id="transformation-matrix">
 <h2><span class="section-number">3.1. </span>Transformation Matrix<a class="headerlink" href="#transformation-matrix" title="Link to this heading">#</a></h2>
 <p>One of the most convenient ways to represent transformations are
@@ -462,16 +525,29 @@ When we transform a direction vector, we want to deactivate the translation by
 setting the last component to zero (see
 <a class="reference internal" href="../_apidoc/pytransform3d.transformations.vector_to_direction.html#pytransform3d.transformations.vector_to_direction" title="pytransform3d.transformations.vector_to_direction"><code class="xref py py-func docutils literal notranslate"><span class="pre">vector_to_direction()</span></code></a>):
 <span class="math notranslate nohighlight">\(\left( x,y,z,0 \right)^T\)</span>.</p>
-<p>We can use a transformation matrix <span class="math notranslate nohighlight">\(\boldsymbol T_{AB}\)</span> to transform a
-point <span class="math notranslate nohighlight">\({_B}\boldsymbol{p}\)</span> from frame <span class="math notranslate nohighlight">\(B\)</span> to frame <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<p>We can use a transformation matrix <span class="math notranslate nohighlight">\(\boldsymbol T_{BA}\)</span> to transform a
+point <span class="math notranslate nohighlight">\({_A}\boldsymbol{p}\)</span> from frame <span class="math notranslate nohighlight">\(A\)</span> to frame <span class="math notranslate nohighlight">\(B\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\boldsymbol{T}_{AB}  {_B}\boldsymbol{p} =
+\[\begin{split}\boldsymbol{T}_{BA} {_A}\boldsymbol{p} =
 \left( \begin{array}{c}
-    \boldsymbol{R} {_B}\boldsymbol{p} + \boldsymbol t\\
+    \boldsymbol{R}_{BA} {_A}\boldsymbol{p} + {_B}\boldsymbol{t}_{BA}\\
     1\\
-\end{array} \right).\end{split}\]</div>
+\end{array} \right) =
+{_B}\boldsymbol{p}.\end{split}\]</div>
 <p>You can use <a class="reference internal" href="../_apidoc/pytransform3d.transformations.transform.html#pytransform3d.transformations.transform" title="pytransform3d.transformations.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform()</span></code></a> to apply a
 transformation matrix to a homogeneous vector.</p>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>Supported operations: all except interpolation.</p></li>
+<li><p>Interpretation: each column represents either a basis vector or the
+translation.</p></li>
+<li><p>Singularities: none.</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>Rrepresentation: 16 values for 6 degrees of freedom.</p></li>
+<li><p>Renormalization: inherited from rotation matrix.</p></li>
+</ul>
 </section>
 <section id="position-and-quaternion">
 <h2><span class="section-number">3.2. </span>Position and Quaternion<a class="headerlink" href="#position-and-quaternion" title="Link to this heading">#</a></h2>
@@ -485,15 +561,25 @@ particularly useful if you want to represent a sequence of poses in
 a 2D array.</p>
 <p>pytransform3d uses a numpy array of shape (7,) to represent position and
 quaternion and typically we use the variable name pq.</p>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>Representation: compact.</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>Supported operation: translation and rotation component are separated and
+have to be handled individually.</p></li>
+</ul>
 </section>
 <section id="screw-parameters">
 <h2><span class="section-number">3.3. </span>Screw Parameters<a class="headerlink" href="#screw-parameters" title="Link to this heading">#</a></h2>
-<figure class="align-default">
-<img alt="../_images/plot_screw.png" class="plot-directive" src="../_images/plot_screw.png" />
+<figure class="align-center">
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_screw.html"><img alt="../_images/sphx_glr_plot_screw_001.png" src="../_images/sphx_glr_plot_screw_001.png" style="width: 70%;" />
+</a>
 </figure>
 <p>Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
-by a motion along a screw axis <a class="footnote-reference brackets" href="#id9" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id10" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id11" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. The <strong>screw parameters</strong> that
+by a motion along a screw axis <a class="footnote-reference brackets" href="#id12" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id13" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id14" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. The <strong>screw parameters</strong> that
 describe a screw axis include a point vector <span class="math notranslate nohighlight">\(\boldsymbol{q}\)</span> through
 which the screw axis passes, a (unit) direction vector
 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{s}}\)</span> that
@@ -502,7 +588,8 @@ represents the ratio of translation and rotation. A screw motion translates
 along the screw axis and rotates about it.</p>
 <p>pytransform3d uses two vectors q and <cite>s_axis</cite> of shape (3,) and a scalar
 h to represent the parameters of a screw.</p>
-<a class="reference internal image-reference" href="../_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="../_images/screw_axis.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="../_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="../_images/screw_axis.png" style="width: 50%;" />
+</a>
 </section>
 <section id="screw-axis">
 <h2><span class="section-number">3.4. </span>Screw Axis<a class="headerlink" href="#screw-axis" title="Link to this heading">#</a></h2>
@@ -533,14 +620,25 @@ coordinates of transformation and typically we use the variable name Stheta.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Note that we use the screw theory definition of exponential coordinates
-and <span class="math notranslate nohighlight">\(se(3)\)</span> (see next section) used by Paden (1985), Lynch and Park
-(2017), and Corke (2017). They separate the parameter <span class="math notranslate nohighlight">\(\theta\)</span> from
+and <span class="math notranslate nohighlight">\(se(3)\)</span> (see next section) used by Lynch and Park (2017) <a class="footnote-reference brackets" href="#id11" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>,
+and Corke (2017) <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. They separate the parameter <span class="math notranslate nohighlight">\(\theta\)</span> from
 the screw axis. Additionally, they use the first three components to encode
 rotation and the last three components to encode translation. There is an
-alternative definition used by Eade (2017) and Sola et al. (2018). They use
-a different order of the 3D vector components and they do not separate
-<span class="math notranslate nohighlight">\(\theta\)</span> from the screw axis in their notation.</p>
+alternative definition used by Eade (2017) <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> and Sola et al. (2018)
+<a class="footnote-reference brackets" href="#id14" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. They use a different order of the 3D vector components and they do
+not separate <span class="math notranslate nohighlight">\(\theta\)</span> from the screw axis in their notation.</p>
 </div>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>Representation: minimal.</p></li>
+<li><p>Supported operations: interpolation; can also represent spatial velocity and
+acceleration.</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>Supported operations: concatenation and transformation of vectors requires
+conversion to another representation.</p></li>
+</ul>
 </section>
 <section id="logarithm-of-transformation">
 <h2><span class="section-number">3.6. </span>Logarithm of Transformation<a class="headerlink" href="#logarithm-of-transformation" title="Link to this heading">#</a></h2>
@@ -579,14 +677,15 @@ of a transformation and typically we use the variable name <cite>transform_log</
 <h2><span class="section-number">3.7. </span>Twist<a class="headerlink" href="#twist" title="Link to this heading">#</a></h2>
 <p>We call spatial velocity (translation and rotation) <strong>twist</strong>. Similarly
 to the matrix logarithm, a twist <span class="math notranslate nohighlight">\(\mathcal{V} = \mathcal{S} \dot{\theta}\)</span>
-is described by a screw axis <span class="math notranslate nohighlight">\(S\)</span> and a scalar <span class="math notranslate nohighlight">\(\dot{\theta}\)</span>
-and <span class="math notranslate nohighlight">\(\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)\)</span>
+is described by a screw axis <span class="math notranslate nohighlight">\(\mathcal S\)</span> and a scalar
+<span class="math notranslate nohighlight">\(\dot{\theta}\)</span> and
+<span class="math notranslate nohighlight">\(\left[\mathcal{V}\right] = \left[\mathcal{S}\right] \dot{\theta} \in se(3)\)</span>
 is the matrix representation of a twist.</p>
 </section>
 <section id="dual-quaternions">
 <h2><span class="section-number">3.8. </span>Dual Quaternions<a class="headerlink" href="#dual-quaternions" title="Link to this heading">#</a></h2>
 <p>Similarly to unit quaternions for rotations, unit dual quaternions are
-an alternative to represent transformations <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id14" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. They support
+an alternative to represent transformations <a class="footnote-reference brackets" href="#id15" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id16" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id17" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. They support
 similar operations as transformation matrices.</p>
 <p>A dual quaternion consists of a real quaternion and a dual quaternion:</p>
 <div class="math notranslate nohighlight">
@@ -597,14 +696,14 @@ transformations. In this case, the real quaternion is a unit quaternion
 and the dual quaternion is orthogonal to the real quaternion.
 The real quaternion is used to represent the rotation and the dual
 quaternion contains information about the rotation and translation.</p>
-<p>Dual quaternions support similar operations as transformation matrices
-(inversion through the conjugate of the two individual quaternions
+<p>Dual quaternions support similar operations as transformation matrices:
+inversion through the conjugate of the two individual quaternions
 <a class="reference internal" href="../_apidoc/pytransform3d.transformations.dq_q_conj.html#pytransform3d.transformations.dq_q_conj" title="pytransform3d.transformations.dq_q_conj"><code class="xref py py-func docutils literal notranslate"><span class="pre">dq_q_conj()</span></code></a>, concatenation
 through <a class="reference internal" href="../_apidoc/pytransform3d.transformations.concatenate_dual_quaternions.html#pytransform3d.transformations.concatenate_dual_quaternions" title="pytransform3d.transformations.concatenate_dual_quaternions"><code class="xref py py-func docutils literal notranslate"><span class="pre">concatenate_dual_quaternions()</span></code></a>,
 and transformation of a point by
-<a class="reference internal" href="../_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector" title="pytransform3d.transformations.dq_prod_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">dq_prod_vector()</span></code></a>),
-they can be renormalized efficiently (with
-<a class="reference internal" href="../_apidoc/pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion" title="pytransform3d.transformations.check_dual_quaternion"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_dual_quaternion()</span></code></a>, and
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.dq_prod_vector.html#pytransform3d.transformations.dq_prod_vector" title="pytransform3d.transformations.dq_prod_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">dq_prod_vector()</span></code></a>.
+They can be renormalized efficiently (with
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion" title="pytransform3d.transformations.check_dual_quaternion"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_dual_quaternion()</span></code></a>), and
 interpolation between two dual quaternions is possible (with
 <a class="reference internal" href="../_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp" title="pytransform3d.transformations.dual_quaternion_sclerp"><code class="xref py py-func docutils literal notranslate"><span class="pre">dual_quaternion_sclerp()</span></code></a>).</p>
 <div class="admonition warning">
@@ -619,44 +718,64 @@ quaternion encodes the translation component as
 <span class="math notranslate nohighlight">\(\boldsymbol{q} = 0.5 \boldsymbol{t} \boldsymbol{p}\)</span>, where
 <span class="math notranslate nohighlight">\(\boldsymbol{t}\)</span> is a quaternion with the translation in the vector
 component and the scalar 0, and rotation quaternions have the same ambiguity.</p>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>Representation: compact.</p></li>
+<li><p>Renormalization: cheap in comparison to transformation matrix.</p></li>
+<li><p>Supported operations: all, including interpolation with ScLERP.</p></li>
+<li><p>Computational efficiency: the dual quaternion product is slightly
+cheaper than the matrix product.</p></li>
+<li><p>Singularities: none.</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>Interpretation: not straightforward.</p></li>
+<li><p>Ambiguities: double cover.</p></li>
+</ul>
 </section>
 <section id="references">
 <h2><span class="section-number">3.9. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id8" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">1</a><span class="fn-bracket">]</span></span>
 <p>Lynch, K. M., Park, F. C. (2017). Modern Robotics.
 <a class="reference external" href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">http://hades.mech.northwestern.edu/index.php/Modern_Robotics</a></p>
 </aside>
-<aside class="footnote brackets" id="id9" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
 <p>Corke, P. (2017). Robotics, Vision and Control, 2nd Edition,
 <a class="reference external" href="https://link.springer.com/book/10.1007/978-3-319-54413-7">https://link.springer.com/book/10.1007/978-3-319-54413-7</a></p>
 </aside>
-<aside class="footnote brackets" id="id10" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<aside class="footnote brackets" id="id13" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
 <p>Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
 <a class="reference external" href="https://ethaneade.com/lie.pdf">https://ethaneade.com/lie.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id11" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<aside class="footnote brackets" id="id14" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id7">2</a>)</span>
 <p>Sola, J., Deray, J., Atchuthan, D. (2018).
 A micro Lie theory for state estimation in robotics. Technical Report.
 <a class="reference external" href="http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf">http://www.iri.upc.edu/files/scidoc/2089-A-micro-Lie-theory-for-state-estimation-in-robotics.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id12" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<aside class="footnote brackets" id="id15" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">5</a><span class="fn-bracket">]</span></span>
 <p>Wikipedia: Dual Quaternion.
 <a class="reference external" href="https://en.wikipedia.org/wiki/Dual_quaternion">https://en.wikipedia.org/wiki/Dual_quaternion</a></p>
 </aside>
-<aside class="footnote brackets" id="id13" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<aside class="footnote brackets" id="id16" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">6</a><span class="fn-bracket">]</span></span>
 <p>Jia, Y.-B.: Dual Quaternions.
 <a class="reference external" href="https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf">https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id14" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">7</a><span class="fn-bracket">]</span></span>
-<p>Kenwright, B. A Beginners Guide to Dual-Quaternions.
+<aside class="footnote brackets" id="id17" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id10">7</a><span class="fn-bracket">]</span></span>
+<p>Kenwright, B. (2012). A Beginners Guide to Dual-Quaternions: What They
+Are, How They Work, and How to Use Them for 3D Character Hierarchies. In
+20th International Conference in Central Europe on Computer Graphics,
+Visualization and Computer Vision.
 <a class="reference external" href="http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf">http://wscg.zcu.cz/WSCG2012/!_WSCG2012-Communications-1.pdf</a></p>
 </aside>
 </aside>

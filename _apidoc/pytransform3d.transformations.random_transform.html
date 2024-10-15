@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transformations.random_transform &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>pytransform3d.transformations.random_transform &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="pytransform3d.transformations.assert_screw_parameters_equal" href="pytransform3d.transformations.assert_screw_parameters_equal.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -380,6 +380,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_reverse.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_reverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_apply.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_apply</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_slerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_mrp</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
@@ -712,7 +715,7 @@ document.write(`
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.transformations" title="pytransform3d.transformations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code></a>.random_transform<a class="headerlink" href="#pytransform3d-transformations-random-transform" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.transformations.random_transform">
-<span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">random_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">rng=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x7FE2255FB2E0,</span> <span class="pre">mean=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.]]),</span> <span class="pre">cov=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.]])</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_random.html#random_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.random_transform" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">random_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">rng=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x7F768C1D0200,</span> <span class="pre">mean=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.]]),</span> <span class="pre">cov=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">0.,</span> <span class="pre">1.]])</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_random.html#random_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.random_transform" title="Link to this definition">#</a></dt>
 <dd><p>Generate random transform.</p>
 <p>Generate <span class="math notranslate nohighlight">\(\Delta \boldsymbol{T}_{B_{i+1}{B_i}}
 \boldsymbol{T}_{{B_i}A}\)</span>, with <span class="math notranslate nohighlight">\(\Delta \boldsymbol{T}_{B_{i+1}{B_i}}
@@ -747,16 +750,16 @@ body frame A.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Sample Transforms"><img alt="" src="../_images/sphx_glr_plot_sample_transforms_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_sample_transforms.html#sphx-glr-auto-examples-plots-plot-sample-transforms-py"><span class="std std-ref">Sample Transforms</span></a></p>
   <div class="sphx-glr-thumbnail-title">Sample Transforms</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans..."><img alt="" src="../_images/sphx_glr_plot_frames_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several transforms to the manager and plot all frames in two reference frames (&#x27;world&#x27; and &#x27;A&#x27;)."><img alt="" src="../_images/sphx_glr_plot_frames_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot with Respect to Different Reference Frames</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We sample from the original transform distribution and from the inverse distribution. Samples a..."><img alt="" src="../_images/sphx_glr_plot_invert_uncertain_transform_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We sample from the original transform distribution and from the inverse distribution. Samples are then projected to all 2D planes and plotted. The color indicates the pose distribution. Green is the original distribution and red is the inverse."><img alt="" src="../_images/sphx_glr_plot_invert_uncertain_transform_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_invert_uncertain_transform.html#sphx-glr-auto-examples-plots-plot-invert-uncertain-transform-py"><span class="std std-ref">Invert Uncertain Transform</span></a></p>
   <div class="sphx-glr-thumbnail-title">Invert Uncertain Transform</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plotting of several geometric shapes is directly supported by the library."><img alt="" src="../_images/sphx_glr_plot_random_geometries_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_random_geometries.html#sphx-glr-auto-examples-plots-plot-random-geometries-py"><span class="std std-ref">Plot Random Geometries</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Random Geometries</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds..."><img alt="" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds to linear interpolation with exponential coordinates, the green line corresponds to linear interpolation with dual quaternions, and the blue line corresponds to screw linear interpolation (ScLERP) with dual quaternions. The true screw motion from pose 1 to pose 2 is shown by a thick, transparent black line in the background of the ScLERP interpolation."><img alt="" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_dual_quaternion_interpolation.html#sphx-glr-auto-examples-plots-plot-dual-quaternion-interpolation-py"><span class="std std-ref">Dual Quaternion Interpolation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Dual Quaternion Interpolation</div>
 </div></div></section>

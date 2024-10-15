@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>pytransform3d.plot_utils.Arrow3D &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.plot_utils.Arrow3D';</script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="pytransform3d.plot_utils.plot_cone" href="pytransform3d.plot_utils.plot_cone.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -379,6 +379,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_reverse.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_reverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_apply.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_apply</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_slerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_mrp</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
@@ -853,9 +856,9 @@ connection styles are available:</p>
 </table>
 </div>
 </dd>
-<dt><strong>patchA, patchB</strong><span class="classifier"><cite>.Patch</cite>, default: None</span></dt><dd><p>Head and tail patches, respectively.</p>
+<dt><strong>patchA, patchB</strong><span class="classifier"><cite>~matplotlib.patches.Patch</cite>, default: None</span></dt><dd><p>Head and tail patches, respectively.</p>
 </dd>
-<dt><strong>shrinkA, shrinkB</strong><span class="classifier">float, default: 2</span></dt><dd><p>Shrinking factor of the tail and head of the arrow respectively.</p>
+<dt><strong>shrinkA, shrinkB</strong><span class="classifier">float, default: 2</span></dt><dd><p>Shrink amount, in points, of the tail and head of the arrow respectively.</p>
 </dd>
 <dt><strong>mutation_scale</strong><span class="classifier">float, default: 1</span></dt><dd><p>Value with which attributes of <em>arrowstyle</em> (e.g., <em>head_length</em>)
 will be scaled.</p>
@@ -864,27 +867,24 @@ will be scaled.</p>
 the mutation and the mutated box will be stretched by the inverse
 of it.</p>
 </dd>
-<dt><strong>dpi_cor</strong><span class="classifier">float, default: 1</span></dt><dd><p>dpi_cor is currently used for linewidth-related things and shrink
-factor. Mutation scale is affected by this.  Deprecated.</p>
-</dd>
 </dl>
 </dd>
 <dt class="field-even">Other Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>**kwargs</strong><span class="classifier"><cite>.Patch</cite> properties, optional</span></dt><dd><p>Here is a list of available <cite>.Patch</cite> properties:</p>
+<dt><strong>**kwargs</strong><span class="classifier"><cite>~matplotlib.patches.Patch</cite> properties, optional</span></dt><dd><p>Here is a list of available <cite>.Patch</cite> properties:</p>
 </dd>
-<dt><strong>Properties:</strong></dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array
+<dt><strong>Properties:</strong></dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array and two offsets from the bottom left corner of the image
 alpha: unknown
 animated: bool
 antialiased or aa: bool or None
 capstyle: <cite>.CapStyle</cite> or {‘butt’, ‘projecting’, ‘round’}
-clip_box: <cite>.Bbox</cite>
+clip_box: <cite>~matplotlib.transforms.BboxBase</cite> or None
 clip_on: bool
 clip_path: Patch or (Path, Transform) or None
-color: color
-edgecolor or ec: color or None
-facecolor or fc: color or None
-figure: <cite>.Figure</cite>
+color: <a href="#id1"><span class="problematic" id="id2">:mpltype:`color`</span></a>
+edgecolor or ec: <a href="#id3"><span class="problematic" id="id4">:mpltype:`color`</span></a> or None
+facecolor or fc: <a href="#id5"><span class="problematic" id="id6">:mpltype:`color`</span></a> or None
+figure: <cite>~matplotlib.figure.Figure</cite>
 fill: bool
 gid: str
 hatch: {‘/’, ‘\’, ‘|’, ‘-’, ‘+’, ‘x’, ‘o’, ‘O’, ‘.’, ‘*’}
@@ -893,12 +893,13 @@ joinstyle: <cite>.JoinStyle</cite> or {‘miter’, ‘round’, ‘bevel’}
 label: object
 linestyle or ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘’, (offset, on-off-seq), …}
 linewidth or lw: float or None
-path_effects: <cite>.AbstractPathEffect</cite>
+mouseover: bool
+path_effects: list of <cite>.AbstractPathEffect</cite>
 picker: None or bool or float or callable
 rasterized: bool
 sketch_params: (scale: float, length: float, randomness: float)
 snap: bool or None
-transform: <cite>.Transform</cite>
+transform: <cite>~matplotlib.transforms.Transform</cite>
 url: str
 visible: bool
 zorder: float</p>
@@ -963,26 +964,25 @@ zorder: float</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.plot_utils.Arrow3D.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agg_filter=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">antialiased=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrowstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_box=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_on=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_path=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connectionstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi_cor=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edgecolor=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facecolor=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gid=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hatch=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_layout=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joinstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_aspect=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_scale=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patchA=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patchB=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_effects=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picker=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rasterized=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_params=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snap=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder=&lt;UNSET&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agg_filter=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animated=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">antialiased=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrowstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_box=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_on=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_path=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connectionstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edgecolor=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facecolor=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gid=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hatch=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_layout=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joinstyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mouseover=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_aspect=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_scale=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patchA=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patchB=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_effects=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picker=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rasterized=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_params=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snap=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible=&lt;UNSET&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder=&lt;UNSET&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.plot_utils.Arrow3D.set" title="Link to this definition">#</a></dt>
 <dd><p>Set multiple properties at once.</p>
 <p>Supported properties are</p>
 <dl class="simple">
-<dt>Properties:</dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array
+<dt>Properties:</dt><dd><p>agg_filter: a filter function, which takes a (m, n, 3) float array and a dpi value, and returns a (m, n, 3) array and two offsets from the bottom left corner of the image
 alpha: scalar or None
 animated: bool
 antialiased or aa: bool or None
-arrowstyle: None or ArrowStyle or str, default: None
+arrowstyle: str or <cite>~matplotlib.patches.ArrowStyle</cite>
 capstyle: <cite>.CapStyle</cite> or {‘butt’, ‘projecting’, ‘round’}
-clip_box: <cite>.Bbox</cite>
+clip_box: <cite>~matplotlib.transforms.BboxBase</cite> or None
 clip_on: bool
 clip_path: Patch or (Path, Transform) or None
-color: color
-connectionstyle: str or <cite>.ConnectionStyle</cite> or None, optional
+color: <a href="#id7"><span class="problematic" id="id8">:mpltype:`color`</span></a>
+connectionstyle: [ ‘arc3’ | ‘angle3’ | ‘angle’ | ‘arc’ | ‘bar’ ]
 data: iterable
-dpi_cor: unknown
-edgecolor or ec: color or None
-facecolor or fc: color or None
-figure: <cite>.Figure</cite>
+edgecolor or ec: <a href="#id9"><span class="problematic" id="id10">:mpltype:`color`</span></a> or None
+facecolor or fc: <a href="#id11"><span class="problematic" id="id12">:mpltype:`color`</span></a> or None
+figure: <cite>~matplotlib.figure.Figure</cite>
 fill: bool
 gid: str
 hatch: {‘/’, ‘\’, ‘|’, ‘-’, ‘+’, ‘x’, ‘o’, ‘O’, ‘.’, ‘*’}
@@ -991,17 +991,18 @@ joinstyle: <cite>.JoinStyle</cite> or {‘miter’, ‘round’, ‘bevel’}
 label: object
 linestyle or ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘’, (offset, on-off-seq), …}
 linewidth or lw: float or None
+mouseover: bool
 mutation_aspect: float
 mutation_scale: float
 patchA: <cite>.patches.Patch</cite>
 patchB: <cite>.patches.Patch</cite>
-path_effects: <cite>.AbstractPathEffect</cite>
+path_effects: list of <cite>.AbstractPathEffect</cite>
 picker: None or bool or float or callable
 positions: unknown
 rasterized: bool
 sketch_params: (scale: float, length: float, randomness: float)
 snap: bool or None
-transform: <cite>.Transform</cite>
+transform: <cite>~matplotlib.transforms.Transform</cite>
 url: str
 visible: bool
 zorder: float</p>

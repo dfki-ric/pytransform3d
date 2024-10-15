@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transformations.concat &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>pytransform3d.transformations.concat &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="pytransform3d.transformations.dual_quaternion_from_screw_parameters" href="pytransform3d.transformations.dual_quaternion_from_screw_parameters.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -380,6 +380,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_reverse.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_reverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_apply.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_apply</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_slerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_mrp</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
@@ -760,13 +763,13 @@ warning.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="" src="../_images/sphx_glr_animate_trajectory_thumb.gif" />
 <p><a class="reference internal" href="../_auto_examples/animations/animate_trajectory.html#sphx-glr-auto-examples-animations-animate-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animate Trajectory</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ..."><img alt="" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and B2A. We can construct a transform C2A to extract the position of p in frame A."><img alt="" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_transform_concatenation.html#sphx-glr-auto-examples-plots-plot-transform-concatenation-py"><span class="std std-ref">Transform Concatenation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Transform Concatenation</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformati..."><img alt="" src="../_images/sphx_glr_plot_screw_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformation with a screw axis and an additional parameter theta that encodes the rotation angle and through h * theta the translation. Here we visualize a screw axis and the transformation generated from a specific theta."><img alt="" src="../_images/sphx_glr_plot_screw_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_screw.html#sphx-glr-auto-examples-plots-plot-screw-py"><span class="std std-ref">Plot Transformation through Screw Motion</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Transformation through Screw Motion</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds..."><img alt="" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds to linear interpolation with exponential coordinates, the green line corresponds to linear interpolation with dual quaternions, and the blue line corresponds to screw linear interpolation (ScLERP) with dual quaternions. The true screw motion from pose 1 to pose 2 is shown by a thick, transparent black line in the background of the ScLERP interpolation."><img alt="" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_dual_quaternion_interpolation.html#sphx-glr-auto-examples-plots-plot-dual-quaternion-interpolation-py"><span class="std std-ref">Dual Quaternion Interpolation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Dual Quaternion Interpolation</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="" src="../_images/sphx_glr_vis_moving_trajectory_thumb.png" />

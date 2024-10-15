@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transform_manager.TransformManager &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>pytransform3d.transform_manager.TransformManager &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="pytransform3d.transform_manager.TransformGraphBase" href="pytransform3d.transform_manager.TransformGraphBase.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -380,6 +380,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_reverse.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_reverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_apply.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_apply</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_slerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_mrp</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
@@ -715,8 +718,8 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.transform_manager.</span></span><span class="sig-name descname"><span class="pre">TransformManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase" title="pytransform3d.transform_manager._transform_graph_base.TransformGraphBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformGraphBase</span></code></a></p>
 <p>Manage transformations between frames.</p>
-<p>This is a simplified version of <a class="reference external" href="http://wiki.ros.org/tf">ROS tf</a> that
-ignores the temporal aspect. A user can register transformations. The
+<p>This is a simplified version of <a class="reference external" href="http://wiki.ros.org/tf">ROS tf</a> <a class="reference internal" href="#r9d3d81838d7c-1" id="id1">[1]</a>
+that ignores the temporal aspect. A user can register transformations. The
 shortest path between all frames will be computed internally which enables
 us to provide transforms for any connected frames.</p>
 <p>Suppose we know the transformations A2B, D2C, and B2C. The transform
@@ -753,6 +756,15 @@ which might significantly slow down some operations.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r9d3d81838d7c-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Foote, T. (2013). tf: The transform library. In IEEE Conference on
+Technologies for Practical Robot Applications (TePRA), Woburn, MA, USA,
+pp. 1-6, doi: 10.1109/TePRA.2013.6556373.</p>
+</div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_manager.html#TransformManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.__init__" title="Link to this definition">#</a></dt>
@@ -788,16 +800,19 @@ which might significantly slow down some operations.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.plot_frames_in" title="pytransform3d.transform_manager.TransformManager.plot_frames_in"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_frames_in</span></code></a>(frame[, ax, s, ax_s, ...])</p></td>
 <td><p>Plot all frames in a given reference frame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.remove_transform" title="pytransform3d.transform_manager.TransformManager.remove_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_transform</span></code></a>(from_frame, to_frame)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.remove_frame" title="pytransform3d.transform_manager.TransformManager.remove_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_frame</span></code></a>(frame)</p></td>
+<td><p>Remove a frame (node) from the graph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.remove_transform" title="pytransform3d.transform_manager.TransformManager.remove_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_transform</span></code></a>(from_frame, to_frame)</p></td>
 <td><p>Remove a transformation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.set_transform_manager_state" title="pytransform3d.transform_manager.TransformManager.set_transform_manager_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_transform_manager_state</span></code></a>(tm_dict)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.set_transform_manager_state" title="pytransform3d.transform_manager.TransformManager.set_transform_manager_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_transform_manager_state</span></code></a>(tm_dict)</p></td>
 <td><p>Set state of transform manager from dict.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.to_dict" title="pytransform3d.transform_manager.TransformManager.to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dict</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.to_dict" title="pytransform3d.transform_manager.TransformManager.to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dict</span></code></a>()</p></td>
 <td><p>Convert the transform manager to a dict that is serializable.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.write_png" title="pytransform3d.transform_manager.TransformManager.write_png"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_png</span></code></a>(filename[, prog])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pytransform3d.transform_manager.TransformManager.write_png" title="pytransform3d.transform_manager.TransformManager.write_png"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_png</span></code></a>(filename[, prog])</p></td>
 <td><p>Create PNG from dot graph of the transformations.</p></td>
 </tr>
 </tbody>
@@ -1086,6 +1101,26 @@ them</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.remove_frame">
+<span class="sig-name descname"><span class="pre">remove_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.remove_frame" title="Link to this definition">#</a></dt>
+<dd><p>Remove a frame (node) from the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>frame</strong><span class="classifier">Hashable</span></dt><dd><p>The frame to remove.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>self</strong><span class="classifier">TransformManager</span></dt><dd><p>This object for chaining.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformManager.remove_transform">
 <span class="sig-name descname"><span class="pre">remove_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_frame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytransform3d.transform_manager.TransformManager.remove_transform" title="Link to this definition">#</a></dt>
 <dd><p>Remove a transformation.</p>
@@ -1116,6 +1151,45 @@ to_frame coordinate system</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="The transformation editor can be used to manipulate transformations."><img alt="" src="../_images/sphx_glr_app_transformation_editor_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/apps/app_transformation_editor.html#sphx-glr-auto-examples-apps-app-transformation-editor-py"><span class="std std-ref">Transformation Editor</span></a></p>
   <div class="sphx-glr-thumbnail-title">Transformation Editor</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several transforms to the manager and plot all frames in two reference frames (&#x27;world&#x27; and &#x27;A&#x27;)."><img alt="" src="../_images/sphx_glr_plot_frames_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot with Respect to Different Reference Frames</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><img alt="" src="../_images/sphx_glr_plot_robot_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_robot.html#sphx-glr-auto-examples-plots-plot-robot-py"><span class="std std-ref">Robot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Robot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_urdf_with_meshes.html#sphx-glr-auto-examples-plots-plot-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><img alt="" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_collision_objects.html#sphx-glr-auto-examples-plots-plot-collision-objects-py"><span class="std std-ref">URDF with Collision Objects</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Collision Objects</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will use the TransformManager to infer a transformation automatically."><img alt="" src="../_images/sphx_glr_plot_transform_manager_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_transform_manager.html#sphx-glr-auto-examples-plots-plot-transform-manager-py"><span class="std std-ref">Transformation Manager</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Transformation Manager</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_plot_urdf_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_urdf.html#sphx-glr-auto-examples-plots-plot-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Add and Remove Artist</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated Robot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_vis_urdf_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and visualize the projected equiprobably ellipsoid of the end-effector&#x27;s pose distribution."><img alt="" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_probabilistic_robot_kinematics.html#sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">Probabilistic Product of Exponentials</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Probabilistic Product of Exponentials</div>
 </div></div></section>
 </section>
 
@@ -1179,6 +1253,7 @@ to_frame coordinate system</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transform_manager.TransformManager.connected_components"><code class="docutils literal notranslate"><span class="pre">TransformManager.connected_components()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transform_manager.TransformManager.get_transform"><code class="docutils literal notranslate"><span class="pre">TransformManager.get_transform()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transform_manager.TransformManager.has_frame"><code class="docutils literal notranslate"><span class="pre">TransformManager.has_frame()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transform_manager.TransformManager.remove_frame"><code class="docutils literal notranslate"><span class="pre">TransformManager.remove_frame()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transform_manager.TransformManager.remove_transform"><code class="docutils literal notranslate"><span class="pre">TransformManager.remove_transform()</span></code></a></li>
 </ul>
 </li>

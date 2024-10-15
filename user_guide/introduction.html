@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1. Introduction to 3D Rigid Transformations &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>1. Introduction to 3D Rigid Transformations &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="User Guide" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -386,6 +386,8 @@ document.write(`
 <h1><span class="section-number">1. </span>Introduction to 3D Rigid Transformations<a class="headerlink" href="#introduction-to-3d-rigid-transformations" title="Link to this heading">#</a></h1>
 <section id="basics">
 <h2><span class="section-number">1.1. </span>Basics<a class="headerlink" href="#basics" title="Link to this heading">#</a></h2>
+<p>Following Waldron and Schmiedeler <a class="footnote-reference brackets" href="#id5" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, we define the basic terms that we use
+throughout this user guide.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 15.0%" />
@@ -413,12 +415,16 @@ set of 3 orthogonal basis vectors.</p></td>
 axis through the origin of the reference frame (fixed point) along a
 circle by the same angle.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal image-reference" href="../_images/position.png"><img alt="../_images/position.png" class="align-center" src="../_images/position.png" style="width: 30%;" /></a>
-<a class="reference internal image-reference" href="../_images/frame.png"><img alt="../_images/frame.png" class="align-center" src="../_images/frame.png" style="width: 30%;" /></a>
+<tr class="row-odd"><td><a class="reference internal image-reference" href="../_images/position.png"><img alt="../_images/position.png" class="align-center" src="../_images/position.png" style="width: 30%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/frame.png"><img alt="../_images/frame.png" class="align-center" src="../_images/frame.png" style="width: 30%;" />
+</a>
 </td>
 <td><p><strong>Pose</strong> is a combination of position and orientation.</p></td>
-<td><a class="reference internal image-reference" href="../_images/translation.png"><img alt="../_images/translation.png" class="align-center" src="../_images/translation.png" style="width: 30%;" /></a>
-<a class="reference internal image-reference" href="../_images/rotation.png"><img alt="../_images/rotation.png" class="align-center" src="../_images/rotation.png" style="width: 30%;" /></a>
+<td><a class="reference internal image-reference" href="../_images/translation.png"><img alt="../_images/translation.png" class="align-center" src="../_images/translation.png" style="width: 30%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/rotation.png"><img alt="../_images/rotation.png" class="align-center" src="../_images/rotation.png" style="width: 30%;" />
+</a>
 </td>
 <td><p>A (proper) <strong>rigid transformation</strong> is a combination of translation and
 rotation.</p></td>
@@ -435,7 +441,10 @@ a rigid body. The pose (position and orientation) of a rigid body (i.e., of
 its frame) is always expressed with respect to another frame.</p>
 </section>
 <section id="frame-notation">
-<span id="id1"></span><h2><span class="section-number">1.3. </span>Frame Notation<a class="headerlink" href="#frame-notation" title="Link to this heading">#</a></h2>
+<span id="id2"></span><h2><span class="section-number">1.3. </span>Frame Notation<a class="headerlink" href="#frame-notation" title="Link to this heading">#</a></h2>
+<p>Notation is important for describing and understanding of physical quantities
+in 3D. Furgale <a class="footnote-reference brackets" href="#id6" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id7" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> presents one of the most consistent and clear
+approaches and we use it here.</p>
 <p>For physical quantities we use the notation <span class="math notranslate nohighlight">\(_{A}\boldsymbol{x}_{BC}\)</span>,
 where <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> is a physical quantity of frame C with
 respect to frame B expressed in frame A. For example,
@@ -491,15 +500,15 @@ representations on the following pages.</p>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>Compact axis-angle
-<span class="math notranslate nohighlight">\(\pmb{\omega}\)</span></p></td>
-<td><p>(3,)</p></td>
+<tr class="row-even"><td><p>Axis-angle
+<span class="math notranslate nohighlight">\((\hat{\pmb{\omega}}, \theta)\)</span></p></td>
+<td><p>(4,)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>Axis-angle
-<span class="math notranslate nohighlight">\((\hat{\pmb{\omega}}, \theta)\)</span></p></td>
-<td><p>(4,)</p></td>
+<tr class="row-odd"><td><p>Rotation vector
+<span class="math notranslate nohighlight">\(\pmb{\omega}\)</span></p></td>
+<td><p>(3,)</p></td>
 <td><p>X</p></td>
 <td></td>
 </tr>
@@ -528,7 +537,7 @@ representations on the following pages.</p>
 <td></td>
 </tr>
 <tr class="row-even"><td><p>Modified Rodrigues parameters
-<span class="math notranslate nohighlight">\(\psi\)</span></p></td>
+<span class="math notranslate nohighlight">\(\pmb{\psi}\)</span></p></td>
 <td><p>(3,)</p></td>
 <td><p>X</p></td>
 <td></td>
@@ -569,13 +578,28 @@ representations on the following pages.</p>
 </section>
 <section id="references">
 <h2><span class="section-number">1.6. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Waldron, K., Schmiedeler, J. (2008). Kinematics. In: Siciliano, B., Khatib,
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Waldron, K., Schmiedeler, J. (2008). Kinematics. In: Siciliano, B., Khatib,
 O. (eds) Springer Handbook of Robotics. Springer, Berlin, Heidelberg.
-<a class="reference external" href="https://doi.org/10.1007/978-3-540-30301-5_2">https://doi.org/10.1007/978-3-540-30301-5_2</a></p></li>
-<li><p>Representing Robot Pose: The good, the bad, and the ugly (slides): <a class="reference external" href="http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf">http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf</a></p></li>
-<li><p>Representing Robot Pose: The good, the bad, and the ugly (blog): <a class="reference external" href="http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly">http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly</a></p></li>
-</ol>
+<a class="reference external" href="https://doi.org/10.1007/978-3-540-30301-5_2">https://doi.org/10.1007/978-3-540-30301-5_2</a></p>
+</aside>
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">2</a><span class="fn-bracket">]</span></span>
+<p>Furgale, P. (2014). Representing Robot Pose: The good, the bad, and the
+ugly (slides). In What Sucks in Robotics and How to Fix It: Lessons Learned
+from Building Complex Systems (ICRA workshop). Note: these slides seem to be
+lost, but the blog below conveys the same message.
+<a class="reference external" href="http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf">http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf</a></p>
+</aside>
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Furgale, P. (2014). Representing Robot Pose: The good, the bad, and the
+ugly (blog).
+<a class="reference external" href="https://web.archive.org/web/20220420162355/http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly">https://web.archive.org/web/20220420162355/http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly</a></p>
+</aside>
+</aside>
 </section>
 </section>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="1. Introduction to 3D Rigid Transformations" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -386,12 +386,17 @@ document.write(`
 <h1><span class="section-number">2. </span>SO(3): 3D Rotations<a class="headerlink" href="#so-3-3d-rotations" title="Link to this heading">#</a></h1>
 <p>The group of all rotations in the 3D Cartesian space is called <span class="math notranslate nohighlight">\(SO(3)\)</span>
 (SO: special orthogonal group). It is typically represented by 3D rotation
-matrices <a class="footnote-reference brackets" href="#id14" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. The minimum number of components that are required to describe
+matrices <a class="footnote-reference brackets" href="#id16" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. The minimum number of components that are required to describe
 any rotation from <span class="math notranslate nohighlight">\(SO(3)\)</span> is 3. However, there is no representation that
 is non-redundant, continuous, and free of singularities.</p>
-<p>Here is an overview of the representations and the conversions between them
-that are available in pytransform3d.</p>
-<a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" class="align-center" src="../_images/rotations.png" style="width: 50%;" /></a>
+<figure class="align-center" id="id18">
+<a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" src="../_images/rotations.png" style="width: 50%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Overview of the representations and the conversions between them that are
+available in pytransform3d.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <p>Not all representations support all operations directly without conversion to
 another representation. The following table is an overview. If the operation
 is not implemented in pytransform3d then it is shown in brackets.</p>
@@ -402,6 +407,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <th class="head"><p>Rotation of vector</p></th>
 <th class="head"><p>Concatenation</p></th>
 <th class="head"><p>Interpolation</p></th>
+<th class="head"><p>Renormalization</p></th>
 </tr>
 </thead>
 <tbody>
@@ -411,20 +417,23 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
+<td><p>Required</p></td>
 </tr>
-<tr class="row-odd"><td><p>Compact axis-angle
-<span class="math notranslate nohighlight">\(\pmb{\omega}\)</span></p></td>
-<td><p>Negative</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-<td><p>(Yes) <cite>(2)</cite></p></td>
-</tr>
-<tr class="row-even"><td><p>Axis-angle
+<tr class="row-odd"><td><p>Axis-angle
 <span class="math notranslate nohighlight">\((\hat{\pmb{\omega}}, \theta)\)</span></p></td>
 <td><p>Negative axis</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
 <td><p>SLERP</p></td>
+<td><p>Not necessary</p></td>
+</tr>
+<tr class="row-even"><td><p>Rotation vector
+<span class="math notranslate nohighlight">\(\pmb{\omega}\)</span></p></td>
+<td><p>Negative</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>(Yes) <cite>(2)</cite></p></td>
+<td><p>Not required</p></td>
 </tr>
 <tr class="row-odd"><td><p>Logarithm of rotation
 <span class="math notranslate nohighlight">\(\left[\pmb{\omega}\right]\)</span></p></td>
@@ -432,6 +441,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>No</p></td>
 <td><p>No</p></td>
 <td><p>(Yes) <cite>(2)</cite></p></td>
+<td><p>Not required</p></td>
 </tr>
 <tr class="row-even"><td><p>Quaternion
 <span class="math notranslate nohighlight">\(\pmb{q}\)</span></p></td>
@@ -439,6 +449,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 <td><p>SLERP</p></td>
+<td><p>Required</p></td>
 </tr>
 <tr class="row-odd"><td><p>Rotor
 <span class="math notranslate nohighlight">\(R\)</span></p></td>
@@ -446,6 +457,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 <td><p>SLERP</p></td>
+<td><p>Required</p></td>
 </tr>
 <tr class="row-even"><td><p>Euler angles
 <span class="math notranslate nohighlight">\((\alpha, \beta, \gamma)\)</span></p></td>
@@ -453,13 +465,15 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>No</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
+<td><p>Not necessary</p></td>
 </tr>
 <tr class="row-odd"><td><p>Modified Rodrigues parameters
-<span class="math notranslate nohighlight">\(\psi\)</span></p></td>
+<span class="math notranslate nohighlight">\(\pmb{\psi}\)</span></p></td>
 <td><p>Negative</p></td>
 <td><p>No</p></td>
+<td><p>Yes</p></td>
 <td><p>No</p></td>
-<td><p>No</p></td>
+<td><p>Not required</p></td>
 </tr>
 </tbody>
 </table>
@@ -468,7 +482,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <p><cite>(1)</cite> Inversion of Euler angles in convention ABC (e.g., xyz) requires using
 another convention CBA (e.g., zyx), reversing the order of angles, and taking
 the negative of these.</p>
-<p><cite>(2)</cite> Linear interpolation is approximately correct.</p>
+<p><cite>(2)</cite> Linear interpolation is approximately correct for small differences.</p>
 <section id="rotation-matrix">
 <h2><span class="section-number">2.1. </span>Rotation Matrix<a class="headerlink" href="#rotation-matrix" title="Link to this heading">#</a></h2>
 <p>One of the most practical representations of orientation is a rotation matrix</p>
@@ -506,8 +520,8 @@ matrices and typically we use the variable name R for a rotation matrix.</p>
 <p>There are two conventions on how to interpret rotations: active
 or passive rotation. The standard in pytransform3d is an active rotation.</p>
 </div>
-<p>We can use a rotation matrix <span class="math notranslate nohighlight">\(\boldsymbol R_{AB}\)</span> to transform a point
-<span class="math notranslate nohighlight">\(_B\boldsymbol{p}\)</span> from frame <span class="math notranslate nohighlight">\(B\)</span> to frame <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>We can use a rotation matrix <span class="math notranslate nohighlight">\(\boldsymbol R_{BA}\)</span> to transform a point
+<span class="math notranslate nohighlight">\(_A\boldsymbol{p}\)</span> from frame <span class="math notranslate nohighlight">\(A\)</span> to frame <span class="math notranslate nohighlight">\(B\)</span>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>There are two different conventions on how to use rotation matrices to
@@ -516,16 +530,16 @@ matrix to a column vector from the left side or we can (post-)multiply it
 to a row vector from the right side.
 We will use the <strong>pre-multiplication</strong> convention.</p>
 </div>
-<p>This means that we rotate a point <span class="math notranslate nohighlight">\(_B\boldsymbol{p}\)</span> by</p>
+<p>This means that we rotate a point <span class="math notranslate nohighlight">\(_A\boldsymbol{p}\)</span> by</p>
 <div class="math notranslate nohighlight">
-\[_A\boldsymbol{p} = \boldsymbol{R}_{ABB} \boldsymbol{p}\]</div>
+\[_B\boldsymbol{p} = \boldsymbol{R}_{BAA} \boldsymbol{p}\]</div>
 <p>This is called <strong>linear map</strong>.</p>
 <p>Note that with our index notation (as explained in <a class="reference internal" href="introduction.html#frame-notation"><span class="std std-ref">Frame Notation</span></a>) and
 these conventions, the second index of the rotation matrix and the left index
-of the point have to be the same (<span class="math notranslate nohighlight">\(B\)</span> in this example). The rotation is
+of the point have to be the same (<span class="math notranslate nohighlight">\(A\)</span> in this example). The rotation is
 applied incorrectly if this is not the case.</p>
-<p><em>Each column</em> of a rotation matrix <span class="math notranslate nohighlight">\(\boldsymbol{R}_{AB}\)</span> is a basis
-vector of frame <span class="math notranslate nohighlight">\(A\)</span> with respect to frame <span class="math notranslate nohighlight">\(B\)</span>. We can plot the
+<p><em>Each column</em> of a rotation matrix <span class="math notranslate nohighlight">\(\boldsymbol{R}_{BA}\)</span> is a basis
+vector of frame <span class="math notranslate nohighlight">\(B\)</span> with respect to frame <span class="math notranslate nohighlight">\(A\)</span>. We can plot the
 basis vectors of an orientation to visualize it. Here, we can see orientation
 represented by the rotation matrix</p>
 <div class="math notranslate nohighlight">
@@ -548,10 +562,10 @@ represented by the rotation matrix</p>
 green for the y-axis and blue for the z-axis (RGB for xyz).</p>
 </div>
 <p>We can easily chain multiple rotations: we can apply the rotation defined
-by <span class="math notranslate nohighlight">\(\boldsymbol R_{AB}\)</span> after the rotation <span class="math notranslate nohighlight">\(\boldsymbol R_{BC}\)</span>
+by <span class="math notranslate nohighlight">\(\boldsymbol R_{CB}\)</span> after the rotation <span class="math notranslate nohighlight">\(\boldsymbol R_{BA}\)</span>
 by applying the rotation</p>
 <div class="math notranslate nohighlight">
-\[\boldsymbol R_{AC} = \boldsymbol R_{AB} \boldsymbol R_{BC}.\]</div>
+\[\boldsymbol R_{CA} = \boldsymbol R_{CB} \boldsymbol R_{BA}.\]</div>
 <p>Note that the indices have to align again. Otherwise rotations are not applied
 in the correct order.</p>
 <div class="admonition warning">
@@ -573,25 +587,22 @@ This will be done, for instance, to obtain rotation matrices from Euler angles
 (see <a class="reference internal" href="euler_angles.html"><span class="doc">Euler Angles</span></a>).</p>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>It is easy to apply rotations on point vectors by matrix-vector
-multiplication.</p></li>
-<li><p>Concatenation of rotations is trivial through matrix multiplication.</p></li>
-<li><p>You can directly read the basis vectors from the columns.</p></li>
-<li><p>No singularities.</p></li>
+<li><p>Supported operations: all except interpolation.</p></li>
+<li><p>Interpretation: each column is a basis vector.</p></li>
+<li><p>Singularities: none.</p></li>
+<li><p>Ambiguities: none that are specific for rotation matrices.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li><p>We use 9 values for 3 degrees of freedom.</p></li>
-<li><p>Not every 3x3 matrix is a valid rotation matrix, which means for example
-that we cannot simply apply an optimization algorithm to rotation matrices
-or interpolate between rotation matrices. Renormalization is
-computationally expensive in comparison to quaternions.</p></li>
+<li><p>Representation: 9 values for 3 degrees of freedom.</p></li>
+<li><p>Renormalization: expensive in comparison to quaternions.</p></li>
 </ul>
 </section>
 <section id="axis-angle">
 <h2><span class="section-number">2.2. </span>Axis-Angle<a class="headerlink" href="#axis-angle" title="Link to this heading">#</a></h2>
-<figure class="align-default">
-<img alt="../_images/plot_axis_angle.png" class="plot-directive" src="../_images/plot_axis_angle.png" />
+<figure class="align-center">
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_axis_angle.html"><img alt="../_images/sphx_glr_plot_axis_angle_001.png" src="../_images/sphx_glr_plot_axis_angle_001.png" style="width: 50%;" />
+</a>
 </figure>
 <p>Each rotation can be represented by a single rotation about one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
@@ -606,19 +617,42 @@ radians, and typically we use the variable name a.</p>
 <span class="math notranslate nohighlight">\(\theta = 0\)</span> as there is an infinite number of rotation axes that
 represent the identity rotation in this case. However, we can modify the
 representation to avoid this singularity.</p>
-<p>It is possible to write this in a more compact way as a rotation vector <a class="footnote-reference brackets" href="#id9" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>:</p>
+</section>
+<section id="rotation-vector">
+<h2><span class="section-number">2.3. </span>Rotation Vector<a class="headerlink" href="#rotation-vector" title="Link to this heading">#</a></h2>
+<p>Since <span class="math notranslate nohighlight">\(||\hat{\boldsymbol{\omega}}|| = 1\)</span>, it is possible to write this
+in a more compact way as a rotation vector <a class="footnote-reference brackets" href="#id11" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
 <div class="math notranslate nohighlight">
-\[\boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3\]</div>
-<p>pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
-representation of a rotation and typically we use the variable name a.</p>
+\[\boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3.\]</div>
+<p>In code, we call this the compact axis-angle representation.
+pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
+representation of a rotation and typically it uses the variable name a.</p>
 <p>We can also refer to this representation as <strong>exponential coordinates of
-rotation</strong> <a class="footnote-reference brackets" href="#id12" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>. We can easily represent angular velocity as
+rotation</strong> <a class="footnote-reference brackets" href="#id14" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>. We can represent angular velocity as
 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \dot{\theta}\)</span>
 and angular acceleration as
 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \ddot{\theta}\)</span> so that we can easily do
-component-wise integration and differentiation with this representation.
-In addition, we can represent <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \theta\)</span> by
-the cross-product matrix</p>
+component-wise integration and differentiation with this representation.</p>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>Representation: minimal.</p></li>
+<li><p>Supported operations: interpolation; can also represent angular velocity and
+acceleration.</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>Ambiguities: an angle of 0 and any multiple of <span class="math notranslate nohighlight">\(2\pi\)</span> represent
+the same orientation; when <span class="math notranslate nohighlight">\(\theta = \pi\)</span>, the axes
+<span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}}\)</span> and <span class="math notranslate nohighlight">\(-\hat{\boldsymbol{\omega}}\)</span>
+represent the same rotation.</p></li>
+<li><p>Supported operations: concatenation and transformation of vectors requires
+conversion to another representation.</p></li>
+</ul>
+</section>
+<section id="logarithm-of-rotation">
+<h2><span class="section-number">2.4. </span>Logarithm of Rotation<a class="headerlink" href="#logarithm-of-rotation" title="Link to this heading">#</a></h2>
+<p>In addition, we can represent <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \theta\)</span> by
+the cross-product matrix (<a class="reference internal" href="../_apidoc/pytransform3d.rotations.cross_product_matrix.html#pytransform3d.rotations.cross_product_matrix" title="pytransform3d.rotations.cross_product_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">cross_product_matrix()</span></code></a>)</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\left[\hat{\boldsymbol{\omega}}\right] \theta
 =
@@ -635,28 +669,9 @@ the cross-product matrix</p>
 <p>where <span class="math notranslate nohighlight">\(\left[\hat{\boldsymbol{\omega}}\right] \theta\)</span> is the matrix
 logarithm of a rotation matrix and <span class="math notranslate nohighlight">\(so(3)\)</span> is the Lie algebra of
 the Lie group <span class="math notranslate nohighlight">\(SO(3)\)</span>.</p>
-<p><strong>Pros</strong></p>
-<ul class="simple">
-<li><p>Minimal representation (as rotation vector, also referred to as compact
-axis-angle in the code).</p></li>
-<li><p>Can also represent angular velocity and acceleration when we replace
-<span class="math notranslate nohighlight">\(\theta\)</span> by <span class="math notranslate nohighlight">\(\dot{\theta}\)</span> or <span class="math notranslate nohighlight">\(\ddot{\theta}\)</span> respectively,
-which makes numerical integration and differentiation easy.</p></li>
-</ul>
-<p><strong>Cons</strong></p>
-<ul class="simple">
-<li><p>There might be discontinuities during interpolation as an angle of 0 and
-any multiple of <span class="math notranslate nohighlight">\(2\pi\)</span> represent the same orientation. This has to
-be considered. Normalization is recommended.</p></li>
-<li><p>When <span class="math notranslate nohighlight">\(\theta = \pi\)</span>, the axes <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}}\)</span> and
-<span class="math notranslate nohighlight">\(-\hat{\boldsymbol{\omega}}\)</span> represent the same rotation, which is
-a problem for interpolation.</p></li>
-<li><p>Concatenation and transformation of vectors requires conversion to rotation
-matrix or quaternion.</p></li>
-</ul>
 </section>
 <section id="quaternions">
-<h2><span class="section-number">2.3. </span>Quaternions<a class="headerlink" href="#quaternions" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.5. </span>Quaternions<a class="headerlink" href="#quaternions" title="Link to this heading">#</a></h2>
 <p>Quaternions are represented by a scalar / real part <span class="math notranslate nohighlight">\(w\)</span>
 and an vector / imaginary part
 <span class="math notranslate nohighlight">\(x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}\)</span>.</p>
@@ -667,7 +682,7 @@ and an vector / imaginary part
 <p class="admonition-title">Warning</p>
 <p>There are two different quaternion conventions: Hamilton’s convention
 defines <span class="math notranslate nohighlight">\(ijk = -1\)</span> and the Shuster or JPL convention (from NASA’s
-Jet Propulsion Laboratory, JPL) defines <span class="math notranslate nohighlight">\(ijk = 1\)</span> <a class="footnote-reference brackets" href="#id8" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
+Jet Propulsion Laboratory, JPL) defines <span class="math notranslate nohighlight">\(ijk = 1\)</span> <a class="footnote-reference brackets" href="#id10" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
 These two conventions result in different multiplication operations and
 conversions to other representations. We use Hamilton’s convention.</p>
 </div>
@@ -678,7 +693,7 @@ gives further useful hints to identify which convention is used.</p>
 orientations with an encoding based on the rotation axis and angle.
 A rotation quaternion is a four-dimensional unit vector (versor)
 <span class="math notranslate nohighlight">\(\boldsymbol{\hat{q}}\)</span>.
-The following equation describes its relation to axis-axis notation.</p>
+The following equation describes its relation to axis-angle notation.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\boldsymbol{\hat{q}} =
 \left( \begin{array}{c} w\\ x\\ y\\ z\\ \end{array} \right) =
@@ -711,30 +726,36 @@ functions <a class="reference internal" href="../_apidoc/pytransform3d.rotations
 This must be considered during operations like interpolation, distance
 calculation, or (approximate) equality checks.</p>
 </div>
+<p>The quaternion product
+(<a class="reference internal" href="../_apidoc/pytransform3d.rotations.concatenate_quaternions.html#pytransform3d.rotations.concatenate_quaternions" title="pytransform3d.rotations.concatenate_quaternions"><code class="xref py py-func docutils literal notranslate"><span class="pre">concatenate_quaternions()</span></code></a>) can be used to
+concatenate rotations like the matrix product can be used to concatenate
+rotations represented by rotation matrices.</p>
+<p>The inverse of the rotation represented by the unit quaternion
+<span class="math notranslate nohighlight">\(\boldsymbol{q}\)</span> is represented by the conjugate
+<span class="math notranslate nohighlight">\(\boldsymbol{q}^*\)</span> (<a class="reference internal" href="../_apidoc/pytransform3d.rotations.q_conj.html#pytransform3d.rotations.q_conj" title="pytransform3d.rotations.q_conj"><code class="xref py py-func docutils literal notranslate"><span class="pre">q_conj()</span></code></a>).</p>
+<p>We can rotate a vector by representing it as a pure quaternion (i.e., with
+a scalar part of 0) and then left-multiplying the quaternion and
+right-multiplying its conjugate
+<span class="math notranslate nohighlight">\(\boldsymbol{q}\boldsymbol{v}\boldsymbol{q}^*\)</span>
+with the quaternion product (<a class="reference internal" href="../_apidoc/pytransform3d.rotations.q_prod_vector.html#pytransform3d.rotations.q_prod_vector" title="pytransform3d.rotations.q_prod_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">q_prod_vector()</span></code></a>).</p>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>More compact than the matrix representation and less susceptible to
-round-off errors.</p></li>
-<li><p>The quaternion elements vary continuously over the unit sphere in
-<span class="math notranslate nohighlight">\(\mathbb{R}^4\)</span> as the orientation changes, avoiding discontinuous
-jumps (inherent to three-dimensional parameterizations).</p></li>
-<li><p>Expression of the rotation matrix in terms of quaternion parameters
-involves no trigonometric functions.</p></li>
-<li><p>Concatenation is simple and computationally cheaper with the quaternion
-product than with rotation matrices.</p></li>
-<li><p>No singularities.</p></li>
-<li><p>Renormalization is cheap in comparison to rotation matrices: we only
-have to divide by the norm of the quaternion.</p></li>
+<li><p>Representation: compact.</p></li>
+<li><p>Renormalization: cheap in comparison to rotation matrices;
+less susceptible to round-off errors than matrix representation.</p></li>
+<li><p>Discontinuities: none.</p></li>
+<li><p>Computational efficiency: the quaternion product is cheaper than the matrix
+product.</p></li>
+<li><p>Singularities: none.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li><p>The representation is not straightforward to interpret.</p></li>
-<li><p>There are always two unit quaternions that represent exactly the same
-rotation.</p></li>
+<li><p>Interpretation: not straightforward.</p></li>
+<li><p>Ambiguities: double cover.</p></li>
 </ul>
 </section>
 <section id="euler-angles">
-<h2><span class="section-number">2.4. </span>Euler Angles<a class="headerlink" href="#euler-angles" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.6. </span>Euler Angles<a class="headerlink" href="#euler-angles" title="Link to this heading">#</a></h2>
 <p>A complete rotation can be split into three rotations around basis vectors.
 pytransform3d uses a numpy array of shape (3,) for Euler angles, where
 each entry corresponds to a rotation angle in radians around one basis
@@ -750,25 +771,27 @@ XYZ, YXZ, YZX, ZYX, and ZXY.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>Minimal representation.</p></li>
-<li><p>Euler angles are easy to interpret for users (when the convention is clearly
+<li><p>Representation: minimal.</p></li>
+<li><p>Interpretation: easy to interpret for users (when the convention is clearly
 defined) in comparison to axis-angle or quaternions.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li><p>24 different conventions.</p></li>
-<li><p>Singularities (gimbal lock).</p></li>
-<li><p>Concatenation and transformation of vectors requires conversion to rotation
-matrix or quaternion.</p></li>
+<li><p>Ambiguities: 24 different conventions, infinitely many Euler angles
+represent the same rotation without proper limits for the angles.</p></li>
+<li><p>Singularity: gimbal lock.</p></li>
+<li><p>Supported operations: all operations require conversion to another
+representation.</p></li>
 </ul>
 </section>
 <section id="rotors">
-<h2><span class="section-number">2.5. </span>Rotors<a class="headerlink" href="#rotors" title="Link to this heading">#</a></h2>
-<figure class="align-default">
-<img alt="../_images/plot_bivector.png" class="plot-directive" src="../_images/plot_bivector.png" />
+<h2><span class="section-number">2.7. </span>Rotors<a class="headerlink" href="#rotors" title="Link to this heading">#</a></h2>
+<figure class="align-center">
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_bivector.html"><img alt="../_images/sphx_glr_plot_bivector_001.png" src="../_images/sphx_glr_plot_bivector_001.png" style="width: 70%;" />
+</a>
 </figure>
 <p>Rotors and quaternions are very similar concepts in 3D. However, rotors are
-more general as they can be extended to more dimensions <a class="footnote-reference brackets" href="#id10" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id11" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>.</p>
+more general as they can be extended to more dimensions <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>.</p>
 <p>The concept of a quaternion builds on the axis-angle representation, in
 which we rotate by an angle about a rotation axis (see black arrow in the
 illustration above). The axis can be computed from the cross product of two
@@ -805,16 +828,18 @@ quaterion), but also to change the order of bivector components.</p>
 same representation in 3D.</p>
 </section>
 <section id="modified-rodrigues-parameters">
-<h2><span class="section-number">2.6. </span>Modified Rodrigues Parameters<a class="headerlink" href="#modified-rodrigues-parameters" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.8. </span>Modified Rodrigues Parameters<a class="headerlink" href="#modified-rodrigues-parameters" title="Link to this heading">#</a></h2>
 <p>Another minimal representation of rotation are modified Rodrigues parameters
-(MRP) <a class="footnote-reference brackets" href="#id13" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a></p>
+(MRP) <a class="footnote-reference brackets" href="#id15" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id17" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p>
 <div class="math notranslate nohighlight">
-\[\psi = \tan \left(\frac{\theta}{4}\right) \hat{\boldsymbol{\omega}}\]</div>
+\[\boldsymbol{\psi} = \tan \left(\frac{\theta}{4}\right)
+\hat{\boldsymbol{\omega}}\]</div>
 <p>This representation is similar to the compact axis-angle representation.
 However, the angle of rotation is converted to <span class="math notranslate nohighlight">\(\tan(\frac{\theta}{4})\)</span>.
 Hence, there is an easy conversion from unit quaternions to MRP:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\psi = \frac{\left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}.\end{split}\]</div>
+\[\begin{split}\boldsymbol{\psi} = \frac{
+\left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}\end{split}\]</div>
 <p>given some quaternion with a scalar <span class="math notranslate nohighlight">\(w\)</span> and a vector
 <span class="math notranslate nohighlight">\(\left(x, y, z \right)^T\)</span>.</p>
 <p>pytransform3d uses a numpy array of shape (3,) for modified Rodrigues
@@ -824,62 +849,77 @@ parameters.</p>
 <p>MRPs have a singuarity at <span class="math notranslate nohighlight">\(2 \pi\)</span> which we can avoid by ensuring the
 angle of rotation does not exceed <span class="math notranslate nohighlight">\(\pi\)</span>.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>MRPs have two representations for the same rotation:
+<span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> and <span class="math notranslate nohighlight">\(-\frac{1}{||\boldsymbol{\psi}||^2}
+\boldsymbol{\psi}\)</span> represent the same rotation and correspond to two
+antipodal unit quaternions <a class="footnote-reference brackets" href="#id17" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>.</p>
+</div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
-<li><p>Minimal representation.</p></li>
+<li><p>Representation: minimal.</p></li>
 </ul>
 <p><strong>Cons</strong></p>
 <ul class="simple">
-<li><p>The representation is not straightforward to interpret.</p></li>
-<li><p>Normalization of angle required to avoid singularity.</p></li>
-<li><p>Concatenation and transformation of vectors requires conversion to rotation
-matrix or quaternion.</p></li>
+<li><p>Interpretation: not straightforward.</p></li>
+<li><p>Singularity: at <span class="math notranslate nohighlight">\(\theta = 2 \pi\)</span>.</p></li>
+<li><p>Ambiguity: double cover.</p></li>
+<li><p>Supported operations: transformation of vectors requires conversion to
+another representation.</p></li>
 </ul>
 </section>
 <section id="references">
-<h2><span class="section-number">2.7. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.9. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id8" role="doc-footnote">
+<aside class="footnote brackets" id="id10" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">1</a><span class="fn-bracket">]</span></span>
 <p>Sommer, H., Gilitschenski, I., Bloesch, M., Weiss, S., Siegwart, R., Nieto,
 J. (2018). Why and How to Avoid the Flipped Quaternion Multiplication.
 Aerospace, 5(3), pp. 2226-4310, doi: 10.3390/aerospace5030072.
 <a class="reference external" href="https://arxiv.org/pdf/1801.07478.pdf">https://arxiv.org/pdf/1801.07478.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id9" role="doc-footnote">
+<aside class="footnote brackets" id="id11" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>Gehring, C., Bellicoso, C. D., Bloesch, M., Sommer, H., Fankhauser, P.,
 Hutter, M., Siegwart, R. (2024). Kindr cheat sheet.
-<a class="reference external" href="https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf">https://docs.leggedrobotics.com/kindr/cheatsheet_latest.pdf</a></p>
+<a class="github reference external" href="https://github.com/ANYbotics/kindr/blob/master/doc/cheatsheet/cheatsheet_latest.pdf">ANYbotics/kindr</a></p>
 </aside>
-<aside class="footnote brackets" id="id10" role="doc-footnote">
+<aside class="footnote brackets" id="id12" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">3</a><span class="fn-bracket">]</span></span>
 <p>ten Bosch, M. (2020). Let’s remove Quaternions from every 3D Engine.
 <a class="reference external" href="https://marctenbosch.com/quaternions/">https://marctenbosch.com/quaternions/</a></p>
 </aside>
-<aside class="footnote brackets" id="id11" role="doc-footnote">
+<aside class="footnote brackets" id="id13" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">4</a><span class="fn-bracket">]</span></span>
 <p>Doran, C. (2015). Applications of Geometric Algebra.
 <a class="reference external" href="http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf">http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id12" role="doc-footnote">
+<aside class="footnote brackets" id="id14" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">5</a><span class="fn-bracket">]</span></span>
 <p>Dai, J. S. (2015). Euler–Rodrigues formula variations, quaternion
 conjugation and intrinsic connections, Mechanism and Machine Theory, 92,
 pp. 144-152, doi: 10.1016/j.mechmachtheory.2015.03.004.
 <a class="reference external" href="https://doi.org/10.1016/j.mechmachtheory.2015.03.004">https://doi.org/10.1016/j.mechmachtheory.2015.03.004</a></p>
 </aside>
-<aside class="footnote brackets" id="id13" role="doc-footnote">
+<aside class="footnote brackets" id="id15" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">6</a><span class="fn-bracket">]</span></span>
 <p>Terzakis, G., Lourakis, M., Ait-Boudaoud, D. (2017). Modified Rodrigues
 Parameters: An Efficient Representation of Orientation in 3D Vision and
 Graphics. J Math Imaging Vis, 60, pp. 422-442,
 doi: 10.1007/s10851-017-0765-x.</p>
 </aside>
-<aside class="footnote brackets" id="id14" role="doc-footnote">
+<aside class="footnote brackets" id="id16" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">7</a><span class="fn-bracket">]</span></span>
 <p>Hauser, K.: Robotic Systems (draft),
 <a class="reference external" href="http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html">http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html</a></p>
+</aside>
+<aside class="footnote brackets" id="id17" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id8">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Shuster, M. D. (1993). A Survey of Attitude Representations.
+Journal of the Astronautical Sciences, 41, 439-517.
+<a class="reference external" href="http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf">http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf</a></p>
 </aside>
 </aside>
 </section>
@@ -933,11 +973,13 @@ doi: 10.1007/s10851-017-0765-x.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-matrix">2.1. Rotation Matrix</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#axis-angle">2.2. Axis-Angle</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">2.3. Quaternions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles">2.4. Euler Angles</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotors">2.5. Rotors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-rodrigues-parameters">2.6. Modified Rodrigues Parameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.7. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-vector">2.3. Rotation Vector</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logarithm-of-rotation">2.4. Logarithm of Rotation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quaternions">2.5. Quaternions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles">2.6. Euler Angles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotors">2.7. Rotors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-rodrigues-parameters">2.8. Modified Rodrigues Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.9. References</a></li>
 </ul>
   </nav></div>
 

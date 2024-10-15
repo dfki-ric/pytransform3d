@@ -6,6 +6,9 @@ Introduction to 3D Rigid Transformations
 Basics
 ------
 
+Following Waldron and Schmiedeler [1]_, we define the basic terms that we use
+throughout this user guide.
+
 .. list-table::
    :widths: 15 35 15 35
 
@@ -52,6 +55,10 @@ its frame) is always expressed with respect to another frame.
 --------------
 Frame Notation
 --------------
+
+Notation is important for describing and understanding of physical quantities
+in 3D. Furgale [2]_ [3]_ presents one of the most consistent and clear
+approaches and we use it here.
 
 For physical quantities we use the notation :math:`_{A}\boldsymbol{x}_{BC}`,
 where :math:`\boldsymbol{x}` is a physical quantity of frame C with
@@ -108,11 +115,11 @@ representations on the following pages.
 | Rotation matrix                        | (3, 3)              | X                |               |
 | :math:`\pmb{R}`                        |                     |                  |               |
 +----------------------------------------+---------------------+------------------+---------------+
-| Compact axis-angle                     | (3,)                | X                |               |
-| :math:`\pmb{\omega}`                   |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
 | Axis-angle                             | (4,)                | X                |               |
 | :math:`(\hat{\pmb{\omega}}, \theta)`   |                     |                  |               |
++----------------------------------------+---------------------+------------------+---------------+
+| Rotation vector                        | (3,)                | X                |               |
+| :math:`\pmb{\omega}`                   |                     |                  |               |
 +----------------------------------------+---------------------+------------------+---------------+
 | Logarithm of rotation                  | (3, 3)              | X                |               |
 | :math:`\left[\pmb{\omega}\right]`      |                     |                  |               |
@@ -127,7 +134,7 @@ representations on the following pages.
 | :math:`(\alpha, \beta, \gamma)`        |                     |                  |               |
 +----------------------------------------+---------------------+------------------+---------------+
 | Modified Rodrigues parameters          | (3,)                | X                |               |
-| :math:`\psi`                           |                     |                  |               |
+| :math:`\pmb{\psi}`                     |                     |                  |               |
 +----------------------------------------+---------------------+------------------+---------------+
 | Transformation matrix                  | (4, 4)              | X                | X             |
 | :math:`\pmb{T}`                        |                     |                  |               |
@@ -149,8 +156,16 @@ representations on the following pages.
 References
 ----------
 
-1. Waldron, K., Schmiedeler, J. (2008). Kinematics. In: Siciliano, B., Khatib,
+.. [1] Waldron, K., Schmiedeler, J. (2008). Kinematics. In: Siciliano, B., Khatib,
    O. (eds) Springer Handbook of Robotics. Springer, Berlin, Heidelberg.
    https://doi.org/10.1007/978-3-540-30301-5_2
-2. Representing Robot Pose: The good, the bad, and the ugly (slides): http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
-3. Representing Robot Pose: The good, the bad, and the ugly (blog): http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly
+
+.. [2] Furgale, P. (2014). Representing Robot Pose: The good, the bad, and the
+   ugly (slides). In What Sucks in Robotics and How to Fix It: Lessons Learned
+   from Building Complex Systems (ICRA workshop). Note: these slides seem to be
+   lost, but the blog below conveys the same message.
+   http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
+
+.. [3] Furgale, P. (2014). Representing Robot Pose: The good, the bad, and the
+   ugly (blog).
+   https://web.archive.org/web/20220420162355/http://paulfurgale.info/news/2014/6/9/representing-robot-pose-the-good-the-bad-and-the-ugly

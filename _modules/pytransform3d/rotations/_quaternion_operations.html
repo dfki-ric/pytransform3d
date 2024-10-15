@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._quaternion_operations &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>pytransform3d.rotations._quaternion_operations &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_quaternion_operations';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -448,13 +448,26 @@ document.write(`
 <div class="viewcode-block" id="concatenate_quaternions">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.concatenate_quaternions.html#pytransform3d.rotations.concatenate_quaternions">[docs]</a>
 <span class="k">def</span> <span class="nf">concatenate_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concatenate two quaternions.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Concatenate two quaternions.</span>
+
+<span class="sd">    We concatenate two quaternions by quaternion multiplication</span>
+<span class="sd">    :math:`\boldsymbol{q}_1\boldsymbol{q}_2`.</span>
 
 <span class="sd">    We use Hamilton&#39;s quaternion multiplication.</span>
 
-<span class="sd">    Suppose we want to apply two extrinsic rotations given by quaternions</span>
-<span class="sd">    q1 and q2 to a vector v. We can either apply q2 to v and then q1 to</span>
-<span class="sd">    the result or we can concatenate q1 and q2 and apply the result to v.</span>
+<span class="sd">    If the two quaternions are divided up into scalar part and vector part</span>
+<span class="sd">    each, i.e.,</span>
+<span class="sd">    :math:`\boldsymbol{q} = (w, \boldsymbol{v}), w \in \mathbb{R},</span>
+<span class="sd">    \boldsymbol{v} \in \mathbb{R}^3`, then the quaternion product is</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{q}_{12} =</span>
+<span class="sd">        (w_1 w_2 - \boldsymbol{v}_1 \cdot \boldsymbol{v}_2,</span>
+<span class="sd">        w_1 \boldsymbol{v}_2 + w_2 \boldsymbol{v}_1</span>
+<span class="sd">        + \boldsymbol{v}_1 \times \boldsymbol{v}_2)</span>
+
+<span class="sd">    with the scalar product :math:`\cdot` and the cross product :math:`\times`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -466,7 +479,7 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q12 : array-like, shape (4,)</span>
+<span class="sd">    q12 : array, shape (4,)</span>
 <span class="sd">        Quaternion that represents the concatenated rotation q1 * q2</span>
 
 <span class="sd">    See Also</span>
@@ -485,9 +498,30 @@ document.write(`
 <div class="viewcode-block" id="q_prod_vector">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.q_prod_vector.html#pytransform3d.rotations.q_prod_vector">[docs]</a>
 <span class="k">def</span> <span class="nf">q_prod_vector</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply rotation represented by a quaternion to a vector.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply rotation represented by a quaternion to a vector.</span>
 
 <span class="sd">    We use Hamilton&#39;s quaternion multiplication.</span>
+
+<span class="sd">    To apply the rotation defined by a unit quaternion :math:`\boldsymbol{q}</span>
+<span class="sd">    \in \mathbb{S}^3` to a vector :math:`\boldsymbol{v} \in \mathbb{R}^3`, we</span>
+<span class="sd">    first represent the vector as a quaternion: we set the scalar part to 0 and</span>
+<span class="sd">    the vector part is exactly the original vector</span>
+<span class="sd">    :math:`\left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right) \in</span>
+<span class="sd">    \mathbb{R}^4`. Then we left-multiply the quaternion and right-multiply</span>
+<span class="sd">    its conjugate</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \left(\begin{array}{c}0\\\boldsymbol{w}\end{array}\right)</span>
+<span class="sd">        =</span>
+<span class="sd">        \boldsymbol{q}</span>
+<span class="sd">        \cdot</span>
+<span class="sd">        \left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right)</span>
+<span class="sd">        \cdot</span>
+<span class="sd">        \boldsymbol{q}^*.</span>
+
+<span class="sd">    The vector part :math:`\boldsymbol{w}` of the resulting quaternion is</span>
+<span class="sd">    the rotated vector.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -499,12 +533,16 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    w : array-like, shape (3,)</span>
+<span class="sd">    w : array, shape (3,)</span>
 <span class="sd">        3d vector</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    rotor_apply : The same operation with a different name.</span>
+<span class="sd">    rotor_apply</span>
+<span class="sd">        The same operation with a different name.</span>
+
+<span class="sd">    concatenate_quaternions</span>
+<span class="sd">        Hamilton&#39;s quaternion multiplication.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">check_quaternion</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
     <span class="n">t</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">v</span><span class="p">)</span>
@@ -515,11 +553,19 @@ document.write(`
 <div class="viewcode-block" id="q_conj">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.q_conj.html#pytransform3d.rotations.q_conj">[docs]</a>
 <span class="k">def</span> <span class="nf">q_conj</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Conjugate of quaternion.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Conjugate of quaternion.</span>
 
 <span class="sd">    The conjugate of a unit quaternion inverts the rotation represented by</span>
-<span class="sd">    this unit quaternion. The conjugate of a quaternion q is often denoted</span>
-<span class="sd">    as q*.</span>
+<span class="sd">    this unit quaternion.</span>
+
+<span class="sd">    The conjugate of a quaternion :math:`\boldsymbol{q}` is often denoted as</span>
+<span class="sd">    :math:`\boldsymbol{q}^*`. For a quaternion :math:`\boldsymbol{q} = w</span>
+<span class="sd">    + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}` it is defined as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{q}^* = w - x \boldsymbol{i} - y \boldsymbol{j}</span>
+<span class="sd">        - z \boldsymbol{k}.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

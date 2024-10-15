@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.rotations.matrix_from_axis_angle &#8212; pytransform3d 3.6.2 documentation</title>
+    <title>pytransform3d.rotations.matrix_from_axis_angle &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,8 +29,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="pytransform3d.rotations.matrix_from_two_vectors" href="pytransform3d.rotations.matrix_from_two_vectors.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.2"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.2"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -380,6 +380,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_reverse.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_reverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_apply.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_apply</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_slerp</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_mrp</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
@@ -747,16 +750,16 @@ Exp(\hat{\boldsymbol{\omega}} \theta)
 
 <section id="examples-using-pytransform3d-rotations-matrix-from-axis-angle">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.rotations.matrix_from_axis_angle</span></code><a class="headerlink" href="#examples-using-pytransform3d-rotations-matrix-from-axis-angle" title="Link to this heading">#</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either..."><img alt="" src="../_images/sphx_glr_animate_angle_axis_interpolation_thumb.gif" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either linearly or with slerp (spherical linear interpolation). Here we compare both methods and measure the angular velocity between two successive steps. We can see that linear interpolation results in a non-constant angular velocity. Usually it is a better idea to interpolate with slerp."><img alt="" src="../_images/sphx_glr_animate_angle_axis_interpolation_thumb.gif" />
 <p><a class="reference internal" href="../_auto_examples/animations/animate_angle_axis_interpolation.html#sphx-glr-auto-examples-animations-animate-angle-axis-interpolation-py"><span class="std std-ref">Interpolate Between Axis-Angle Representations</span></a></p>
   <div class="sphx-glr-thumbnail-title">Interpolate Between Axis-Angle Representations</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented with a single rotation about some axis. Here we see a frame tha..."><img alt="" src="../_images/sphx_glr_plot_axis_angle_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented with a single rotation about some axis. Here we see a frame that is rotated in multiple steps around a rotation axis."><img alt="" src="../_images/sphx_glr_plot_axis_angle_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_axis_angle.html#sphx-glr-auto-examples-plots-plot-axis-angle-py"><span class="std std-ref">Axis-Angle Representation of Rotation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Axis-Angle Representation of Rotation</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ..."><img alt="" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and B2A. We can construct a transform C2A to extract the position of p in frame A."><img alt="" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_transform_concatenation.html#sphx-glr-auto-examples-plots-plot-transform-concatenation-py"><span class="std std-ref">Transform Concatenation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Transform Concatenation</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor..."><img alt="" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transforms a direction given by a vector &#x27;a&#x27; to a direction given by a vector &#x27;b&#x27;. We show both vectors, the rotation about the rotation axis and the initial and resulting coordinate frame, where the vector &#x27;b&#x27; and its corresponding frame after the rotation are represented by shorter lines."><img alt="" src="../_images/sphx_glr_plot_axis_angle_from_two_vectors_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_axis_angle_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-axis-angle-from-two-vectors-py"><span class="std std-ref">Axis-Angle Representation from Two Direction Vectors</span></a></p>
   <div class="sphx-glr-thumbnail-title">Axis-Angle Representation from Two Direction Vectors</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots surfaces of transformed cylindrical shells."><img alt="" src="../_images/sphx_glr_plot_cylinder_thumb.png" />
@@ -765,7 +768,7 @@ Exp(\hat{\boldsymbol{\omega}} \theta)
 </div><div class="sphx-glr-thumbcontainer" tooltip="Compare Various Definitions of Rotations"><img alt="" src="../_images/sphx_glr_plot_compare_rotations_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_compare_rotations.html#sphx-glr-auto-examples-plots-plot-compare-rotations-py"><span class="std std-ref">Compare Various Definitions of Rotations</span></a></p>
   <div class="sphx-glr-thumbnail-title">Compare Various Definitions of Rotations</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spher..."><img alt="" src="../_images/sphx_glr_plot_quaternion_slerp_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spherical linear interpolation (SLERP). For larger angles there are significant differences as you can see in this example. The outer circle uses linear interpolation and the inner circle uses SLERP. You can play around with the value of &#x27;end_angle&#x27; in this example."><img alt="" src="../_images/sphx_glr_plot_quaternion_slerp_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_quaternion_slerp.html#sphx-glr-auto-examples-plots-plot-quaternion-slerp-py"><span class="std std-ref">Quaternion SLERP</span></a></p>
   <div class="sphx-glr-thumbnail-title">Quaternion SLERP</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><img alt="" src="../_images/sphx_glr_vis_box_thumb.png" />

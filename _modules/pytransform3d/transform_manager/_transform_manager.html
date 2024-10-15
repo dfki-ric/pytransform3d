@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transform_manager._transform_manager &#8212; pytransform3d 3.6.1 documentation</title>
+    <title>pytransform3d.transform_manager._transform_manager &#8212; pytransform3d 3.7.0 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../../_static/documentation_options.js?v=229cbe3b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transform_manager/_transform_manager';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Sep 20, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.6.1"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.6.1"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
   
   
 </a></div>
@@ -374,8 +374,8 @@ document.write(`
 <span class="k">class</span> <span class="nc">TransformManager</span><span class="p">(</span><span class="n">TransformGraphBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Manage transformations between frames.</span>
 
-<span class="sd">    This is a simplified version of `ROS tf &lt;http://wiki.ros.org/tf&gt;`_ that</span>
-<span class="sd">    ignores the temporal aspect. A user can register transformations. The</span>
+<span class="sd">    This is a simplified version of `ROS tf &lt;http://wiki.ros.org/tf&gt;`_ [1]_</span>
+<span class="sd">    that ignores the temporal aspect. A user can register transformations. The</span>
 <span class="sd">    shortest path between all frames will be computed internally which enables</span>
 <span class="sd">    us to provide transforms for any connected frames.</span>
 
@@ -412,6 +412,12 @@ document.write(`
 <span class="sd">    check : bool, optional (default: True)</span>
 <span class="sd">        Check if transformation matrices are valid and requested nodes exist,</span>
 <span class="sd">        which might significantly slow down some operations.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Foote, T. (2013). tf: The transform library. In IEEE Conference on</span>
+<span class="sd">       Technologies for Practical Robot Applications (TePRA), Woburn, MA, USA,</span>
+<span class="sd">       pp. 1-6, doi: 10.1109/TePRA.2013.6556373.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="TransformManager.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.__init__">[docs]</a>
