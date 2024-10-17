@@ -6,7 +6,7 @@ from ..batch_rotations import norm_vectors
 
 from ._transform_graph_base import TransformGraphBase
 from ..transformations import check_transform, transform_from_pq, \
-    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp
+    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp, matrices_from_quaternions
 
 
 class TimeVaryingTransform(abc.ABC):
@@ -127,6 +127,75 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         dq_interpolated = dual_quaternion_sclerp(dq_prev, dq_next, rel_delta_t)
 
         return pq_from_dual_quaternion(dq_interpolated)
+
+
+class NumpyTimeseriesTransformTrajectory(TimeVaryingTransform):
+    """Transformation sequence, represented in a numpy array.
+
+    The interpolation is computed using screw linear interpolation (LERP)
+    method. other then NumpyTimeseriesTransform, this class also supports
+    batch interpolation for multiple query times.
+
+    Parameters
+    ----------
+    time: array, shape (n_steps,)
+        Numeric timesteps corresponding to the transformation samples.
+        You can use, for example, unix timestamps, relative time (starting
+        with 0).
+
+    pqs : array, shape (n_steps, 7)
+        Time-sequence of transformations, with each row representing a single
+        sample as position-quarternion (PQ) structure.
+    """
+    def __init__(self, time, pqs):
+        self.time = np.asarray(time)
+
+        self._pqs = np.asarray(pqs)
+        self._quat_arr = self._pqs[:, 3:]
+        self._xyz_arr = pqs[:, :3]
+    
+    def check_transforms(self):
+        self._quat_arr = norm_vectors(self._quat_arr)
+        return self
+    
+    def as_matrix(self, query_time):
+        return self._interpolate_using_lerp(query_time)
+    
+    def _interpolate_using_lerp(self, query_time):
+        if type(query_time) != np.ndarray:
+            query_time = np.array([query_time])
+
+        idxs = np.searchsorted(self.time_arr, query_time, side="left")
+        
+        t_prev = self.time_arr[idxs - 1]
+        t_next = self.time_arr[idxs]
+
+        pq_prev = self.quat_arr[idxs - 1]
+        pq_next = self.quat_arr[idxs]
+
+        xyz_prev = self.xyz_arr[idxs - 1]
+        xyz_next = self.xyz_arr[idxs]
+
+        denominator = t_next - t_prev
+        # Check for zero division and compute scale factor
+        with np.errstate(divide="ignore", invalid="ignore"):  # Suppress warnings
+            scale_factor = (query_time - t_prev) / denominator
+        scale_factor[denominator == 0] = 0
+        scale_factor = scale_factor[:, np.newaxis]
+
+        res_xyz = (1 - scale_factor) * xyz_prev + scale_factor * xyz_next
+
+        # after linear interpolation, we need to normalize the quaternions
+        pq_arr = (1 - scale_factor) * pq_prev + scale_factor * pq_next
+        pq_arr = norm_vectors(pq_arr)
+        res_mat_rot = matrices_from_quaternions(pq_arr)
+        
+        res_mat = np.zeros((res_mat_rot.shape[0], 4, 4))
+        res_mat[:, :3, :3] = res_mat_rot
+        res_mat[:, :3, 3] = res_xyz
+        
+        return res_mat
+
 
 
 class TemporalTransformManager(TransformGraphBase):
