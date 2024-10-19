@@ -25,6 +25,29 @@ def norm_vector(v):
     return np.asarray(v) / norm
 
 
+def matrix_requires_renormalization(R, tolerance=1e-6):
+    r"""Check if a rotation matrix needs renormalization.
+
+    This function will check if :math:`R R^T \approx I`.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix that should be orthonormal.
+
+    tolerance : float, optional (default: 1e-16)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Indicates if renormalization is required.
+    """
+    R = np.asarray(R, dtype=float)
+    RRT = np.dot(R, R.T)
+    return np.allclose(RRT, np.eye(3), atol=tolerance)
+
+
 def norm_matrix(R):
     r"""Orthonormalize rotation matrix.
 
