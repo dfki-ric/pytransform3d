@@ -923,6 +923,40 @@ def norm_euler(e, i, j, k):
     return norm_angle([alpha, beta, gamma])
 
 
+def euler_near_gimbal_lock(e, i, j, k, tolerance=1e-6):
+    """Check if Euler angles are close to gimbal lock.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    tolerance : float
+        Tolerance for the comparison.
+
+    Returns
+    -------
+    near_gimbal_lock : bool
+        Indicates if the Euler angles are near the gimbal lock singularity.
+    """
+    e = norm_euler(e, i, j, k)
+    beta = e[1]
+    proper_euler = i == k
+    if proper_euler:
+        return abs(beta) < tolerance or abs(beta - np.pi) < tolerance
+    else:
+        return abs(abs(beta) - half_pi) < tolerance
+
+
 def matrix_from_euler(e, i, j, k, extrinsic):
     """General method to compute active rotation matrix from any Euler angles.
 

@@ -184,6 +184,15 @@ Normalization
    ~norm_axis_angle
    ~norm_compact_axis_angle
 
+Singularities and Ambiguities
+-----------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~euler_near_gimbal_lock
+
 Random Sampling
 ---------------
 
