@@ -920,7 +920,7 @@ def norm_euler(e, i, j, k):
         beta = np.pi - beta
         gamma -= np.pi
 
-    return np.array([alpha, beta, gamma])
+    return norm_angle([alpha, beta, gamma])
 
 
 def matrix_from_euler(e, i, j, k, extrinsic):

@@ -2172,6 +2172,12 @@ def test_norm_euler():
             R2 = pr.matrix_from_euler(e_norm, ea[0], ea[1], ea[2], True)
             assert_array_almost_equal(R1, R2)
             assert not np.allclose(e, e_norm)
+            assert -np.pi <= e_norm[0] <= np.pi
+            if ea[0] == ea[2]:
+                assert 0.0 <= e_norm[1] <= np.pi
+            else:
+                assert -0.5 * np.pi <= e_norm[1] <= 0.5 * np.pi
+            assert -np.pi <= e_norm[2] <= np.pi
 
 
 def test_general_matrix_euler_conversions():
