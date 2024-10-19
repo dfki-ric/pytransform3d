@@ -35,13 +35,17 @@ def matrix_requires_renormalization(R, tolerance=1e-6):
     R : array-like, shape (3, 3)
         Rotation matrix that should be orthonormal.
 
-    tolerance : float, optional (default: 1e-16)
+    tolerance : float, optional (default: 1e-6)
         Tolerance for check.
 
     Returns
     -------
     required : bool
         Indicates if renormalization is required.
+
+    See Also
+    --------
+    norm_matrix : Orthonormalize rotation matrix.
     """
     R = np.asarray(R, dtype=float)
     RRT = np.dot(R, R.T)
@@ -87,6 +91,8 @@ def norm_matrix(R):
     See Also
     --------
     check_matrix : Checks orthonormality of a rotation matrix.
+    matrix_requires_renormalization
+        Checks if a rotation matrix needs renormalization.
     """
     R = np.asarray(R)
     c2 = R[:, 1]

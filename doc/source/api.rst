@@ -177,6 +177,7 @@ Normalization
    :template: function.rst
 
    ~norm_vector
+   ~matrix_requires_renormalization
    ~norm_matrix
    ~norm_angle
    ~norm_axis_angle
