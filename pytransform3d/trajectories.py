@@ -109,6 +109,79 @@ def concat_many_to_one(A2Bs, B2C):
     return np.einsum("ij,njk->nik", B2C, A2Bs)
 
 
+def concat_many_to_many(A2B, B2C):
+    """Concatenate multiple transformations A2B with transformation B2C.
+
+    We use the extrinsic convention, which means that B2C is left-multiplied
+    to A2Bs.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (n_transforms, 4, 4)
+        Transforms from frame A to frame B
+
+    B2C : array-like, shape (n_transforms, 4, 4)
+        Transform from frame B to frame C
+
+    Returns
+    -------
+    A2Cs : array, shape (n_transforms, 4, 4)
+        Transforms from frame A to frame C
+
+    See Also
+    --------
+    concat_many_to_one :
+        Concatenate one transformation with multiple transformations.
+
+    pytransform3d.transformations.concat :
+        Concatenate two transformations.
+    """
+    return np.einsum("ijk,ikl->ijl", B2C, A2B)
+
+
+def concat_dynamic(A2B, B2C):
+    """Concatenate multiple transformations A2B with transformation B2C.
+
+    We use the extrinsic convention, which means that B2C is left-multiplied
+    to A2Bs. it can handle different shapes of A2B and B2C dynamically.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (n_transforms, 4, 4) or (4, 4)
+        Transforms from frame A to frame B
+
+    B2C : array-like, shape (n_transforms, 4, 4) or (4, 4)
+        Transform from frame B to frame C
+
+    Returns
+    -------
+    A2Cs : array, shape (n_transforms, 4, 4) or (4, 4)
+        Transforms from frame A to frame C
+
+    See Also
+    --------
+    concat_many_to_one :
+        Concatenate multiple transformations with one transformation.
+        
+    concat_one_to_many :
+        Concatenate one transformation with multiple transformations.
+        
+    concat_many_to_many :
+        Concatenate multiple transformations with multiple transformations.
+
+    pytransform3d.transformations.concat :
+        Concatenate two transformations.
+    """
+    if B2C.ndim == 2 and A2B.ndim == 2:
+        return B2C.dot(A2B)
+    if B2C.ndim == 2 and A2B.ndim == 3:
+        return concat_many_to_one(A2B, B2C)
+    if B2C.ndim == 3 and A2B.ndim == 2:
+        return concat_one_to_many(A2B, B2C)
+    if B2C.ndim == 3 and A2B.ndim == 3:
+        return concat_many_to_many(A2B, B2C)
+
+
 def transforms_from_pqs(P, normalize_quaternions=True):
     """Get sequence of homogeneous matrices from positions and quaternions.
 
