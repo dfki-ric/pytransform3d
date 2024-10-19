@@ -71,7 +71,8 @@ and Cardan angles are usually restricted to
 
     -\pi \leq \alpha < \pi, \qquad -\frac{\pi}{2} \leq \beta \leq \frac{\pi}{2}, \qquad -\pi \leq \gamma < \pi
 
-to make these representations unique.
+to make these representations unique (using
+:func:`~pytransform3d.rotations.norm_euler`).
 
 An alternative convention limits the range of :math:`\alpha` and :math:`\gamma`
 to :math:`\left[0, 2 \pi\right)`.
