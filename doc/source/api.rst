@@ -180,6 +180,7 @@ Normalization
    ~norm_vector
    ~matrix_requires_renormalization
    ~norm_matrix
+   ~norm_euler
    ~norm_axis_angle
    ~norm_compact_axis_angle
 

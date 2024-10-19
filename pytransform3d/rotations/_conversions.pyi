@@ -101,6 +101,9 @@ def active_matrix_from_extrinsic_roll_pitch_yaw(rpy: npt.ArrayLike) -> np.ndarra
 def check_axis_index(name: str, i: int): ...
 
 
+def norm_euler(e: npt.ArrayLike, i: int, j: int, k: int) -> np.ndarray: ...
+
+
 def matrix_from_euler(
         e: npt.ArrayLike, i: int, j: int, k: int, extrinsic: bool) -> np.ndarray: ...
 

@@ -1752,7 +1752,7 @@ def test_matrix_requires_renormalization():
 
     rng = np.random.default_rng(39232)
     R_total = np.eye(3)
-    for i in range(10):
+    for _ in range(10):
         e = pr.random_vector(rng, 3)
         R = pr.active_matrix_from_extrinsic_roll_pitch_yaw(e)
         assert not pr.matrix_requires_renormalization(R, tolerance=1e-16)
@@ -2143,6 +2143,35 @@ def test_quaternion_from_euler():
                     e2, ea[0], ea[1], ea[2], extrinsic)
 
                 pr.assert_quaternion_equal(q, q2)
+
+
+def test_norm_euler():
+    rng = np.random.default_rng(94322)
+
+    euler_axes = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [1, 0, 1],
+        [1, 2, 1],
+        [2, 1, 2],
+        [2, 0, 2],
+        [0, 2, 1],
+        [0, 1, 2],
+        [1, 0, 2],
+        [1, 2, 0],
+        [2, 1, 0],
+        [2, 0, 1]
+    ]
+    for ea in euler_axes:
+        for _ in range(10):
+            e = np.pi + rng.random(3) * np.pi * 2.0
+            e *= np.sign(rng.standard_normal(3))
+
+            e_norm = pr.norm_euler(e, *ea)
+            R1 = pr.matrix_from_euler(e, ea[0], ea[1], ea[2], True)
+            R2 = pr.matrix_from_euler(e_norm, ea[0], ea[1], ea[2], True)
+            assert_array_almost_equal(R1, R2)
+            assert not np.allclose(e, e_norm)
 
 
 def test_general_matrix_euler_conversions():
