@@ -73,8 +73,8 @@ and Cardan angles are usually restricted to
 
 to make these representations unique.
 
-An alternative convention limits the range of :math:`\alpha` and :math:`\beta` to
-:math:`\left[0, 2 \pi\right)`.
+An alternative convention limits the range of :math:`\alpha` and :math:`\gamma`
+to :math:`\left[0, 2 \pi\right)`.
 
 -----------
 Gimbal Lock
