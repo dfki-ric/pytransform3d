@@ -2180,6 +2180,23 @@ def test_norm_euler():
             assert -np.pi <= e_norm[2] <= np.pi
 
 
+def test_euler_near_gimbal_lock():
+    assert pr.euler_near_gimbal_lock([0, 0, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, -1e-7, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, 1e-7, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, np.pi, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, np.pi - 1e-7, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, np.pi + 1e-7, 0], 1, 2, 1)
+    assert not pr.euler_near_gimbal_lock([0, 0.5, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, 0.5 * np.pi, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, 0.5 * np.pi - 1e-7, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, 0.5 * np.pi + 1e-7, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, -0.5 * np.pi, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, -0.5 * np.pi - 1e-7, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, -0.5 * np.pi + 1e-7, 0], 0, 1, 2)
+    assert not pr.euler_near_gimbal_lock([0, 0, 0], 0, 1, 2)
+
+
 def test_general_matrix_euler_conversions():
     """General conversion algorithms between matrix and Euler angles."""
     rng = np.random.default_rng(22)
