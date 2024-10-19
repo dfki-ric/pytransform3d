@@ -6,7 +6,7 @@ from ._utils import (
     check_matrix, check_quaternion, check_axis_angle, check_compact_axis_angle,
     check_mrp, norm_angle, norm_vector, norm_axis_angle,
     perpendicular_to_vector, perpendicular_to_vectors, vector_projection)
-from ._constants import unitx, unity, unitz, eps
+from ._constants import unitx, unity, unitz, eps, half_pi
 
 
 def cross_product_matrix(v):
@@ -877,16 +877,59 @@ def check_axis_index(name, i):
         raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
 
 
+def norm_euler(e, i, j, k):
+    """Normalize Euler angle range.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    Returns
+    -------
+    e : array, shape (3,)
+        Extracted rotation angles in radians about the axes i, j, k in this
+        order. The first and last angle are normalized to [-pi, pi]. The middle
+        angle is normalized to either [0, pi] (proper Euler angles) or
+        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).
+    """
+    check_axis_index("i", i)
+    check_axis_index("j", j)
+    check_axis_index("k", k)
+
+    e_norm = norm_angle(e)
+    alpha, beta, gamma = e_norm
+
+    proper_euler = i == k
+    if proper_euler:
+        if beta < 0.0:
+            alpha += np.pi
+            beta *= -1.0
+            gamma -= np.pi
+    elif abs(beta) > half_pi:
+        alpha += np.pi
+        beta = np.pi - beta
+        gamma -= np.pi
+
+    return np.array([alpha, beta, gamma])
+
+
 def matrix_from_euler(e, i, j, k, extrinsic):
     """General method to compute active rotation matrix from any Euler angles.
 
     Parameters
     ----------
     e : array-like, shape (3,)
-        Extracted rotation angles in radians about the axes i, j, k in this
-        order. The first and last angle are normalized to [-pi, pi]. The middle
-        angle is normalized to either [0, pi] (proper Euler angles) or
-        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).
+        Rotation angles in radians about the axes i, j, k in this order.
 
     i : int from [0, 1, 2]
         The first rotation axis (0: x, 1: y, 2: z)
