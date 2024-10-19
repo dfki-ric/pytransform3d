@@ -45,7 +45,7 @@ def matrix_requires_renormalization(R, tolerance=1e-6):
     """
     R = np.asarray(R, dtype=float)
     RRT = np.dot(R, R.T)
-    return np.allclose(RRT, np.eye(3), atol=tolerance)
+    return not np.allclose(RRT, np.eye(3), atol=tolerance)
 
 
 def norm_matrix(R):

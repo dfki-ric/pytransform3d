@@ -1743,6 +1743,23 @@ def test_norm_rotation_matrix():
     assert_array_almost_equal(np.eye(3), R_norm)
 
 
+def test_matrix_requires_renormalization():
+    R = np.eye(3)
+    assert not pr.matrix_requires_renormalization(R)
+
+    R[1, 0] += 1e-3
+    assert pr.matrix_requires_renormalization(R)
+
+    rng = np.random.default_rng(39232)
+    R_total = np.eye(3)
+    for i in range(10):
+        e = pr.random_vector(rng, 3)
+        R = pr.active_matrix_from_extrinsic_roll_pitch_yaw(e)
+        assert not pr.matrix_requires_renormalization(R, tolerance=1e-16)
+        R_total = np.dot(R, R_total)
+    assert pr.matrix_requires_renormalization(R_total, tolerance=1e-16)
+
+
 def test_matrix_from_two_vectors():
     with pytest.raises(ValueError, match="a must not be the zero vector"):
         pr.matrix_from_two_vectors(np.zeros(3), np.zeros(3))
