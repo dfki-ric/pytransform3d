@@ -6,6 +6,9 @@ from typing import Tuple
 def norm_vector(v: npt.ArrayLike) -> np.ndarray: ...
 
 
+def matrix_requires_renormalization(R: npt.ArrayLike, tolerance: float = ...) -> bool: ...
+
+
 def norm_matrix(R: npt.ArrayLike) -> np.ndarray: ...
 
 
