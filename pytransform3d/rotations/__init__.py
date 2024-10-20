@@ -93,7 +93,7 @@ from ._mrp import concatenate_mrp
 from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
                      axis_angle_slerp, rotor_slerp)
 from ._testing import (
-    assert_quaternion_equal, assert_axis_angle_equal,
+    assert_euler_equal, assert_quaternion_equal, assert_axis_angle_equal,
     assert_compact_axis_angle_equal, assert_rotation_matrix)
 from ._plot import plot_basis, plot_axis_angle, plot_bivector
 from ._rotors import (
@@ -228,6 +228,7 @@ __all__ = [
     "pick_closest_quaternion",
     "quaternion_slerp",
     "axis_angle_slerp",
+    "assert_euler_equal",
     "assert_quaternion_equal",
     "assert_axis_angle_equal",
     "assert_compact_axis_angle_equal",

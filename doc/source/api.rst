@@ -164,6 +164,7 @@ Testing
    :toctree: _apidoc/
    :template: function.rst
 
+   ~assert_euler_equal
    ~assert_axis_angle_equal
    ~assert_compact_axis_angle_equal
    ~assert_quaternion_equal

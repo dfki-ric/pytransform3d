@@ -2,6 +2,40 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 from ._utils import norm_axis_angle, norm_compact_axis_angle
+from ._conversions import norm_euler
+
+
+def assert_euler_equal(e1, e2, i, j, k, *args, **kwargs):
+    """Raise an assertion if two Euler angles are not approximately equal.
+
+    Parameters
+    ----------
+    e1 : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    e2 : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    e1 = norm_euler(e1, i, j, k)
+    e2 = norm_euler(e2, i, j, k)
+    assert_array_almost_equal(e1, e2, *args, **kwargs)
 
 
 def assert_axis_angle_equal(a1, a2, *args, **kwargs):
