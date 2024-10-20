@@ -160,6 +160,30 @@ def norm_axis_angle(a):
     return res
 
 
+def compact_axis_angle_near_pi(a, tolerance=1e-6):
+    r"""Check if angle of compact axis-angle representation is near pi.
+
+    When the angle :math:`\theta = \pi`, both :math:`\hat{\boldsymbol{\omega}}`
+    and :math:`-\hat{\boldsymbol{\omega}}` result in the same rotation. This
+    ambiguity could lead to problems when averaging or interpolating.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z).
+
+    tolerance : float
+        Tolerance of this check.
+
+    Returns
+    -------
+    near_pi : bool
+        Angle is near pi.
+    """
+    theta = np.linalg.norm(a)
+    return abs(theta - np.pi) < tolerance
+
+
 def norm_compact_axis_angle(a):
     """Normalize compact axis-angle representation.
 

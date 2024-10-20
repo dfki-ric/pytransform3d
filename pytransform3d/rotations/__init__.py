@@ -7,8 +7,8 @@ from ._constants import (
 from ._utils import (
     norm_angle, norm_vector, angle_between_vectors, perpendicular_to_vector,
     vector_projection, perpendicular_to_vectors,
-    norm_axis_angle, norm_compact_axis_angle, matrix_requires_renormalization,
-    norm_matrix,
+    norm_axis_angle, compact_axis_angle_near_pi, norm_compact_axis_angle,
+    matrix_requires_renormalization, norm_matrix,
     plane_basis_from_normal,
     check_skew_symmetric_matrix, check_matrix, check_quaternion,
     check_quaternions, check_axis_angle, check_compact_axis_angle,
@@ -123,6 +123,7 @@ __all__ = [
     "vector_projection",
     "perpendicular_to_vectors",
     "norm_axis_angle",
+    "compact_axis_angle_near_pi",
     "norm_compact_axis_angle",
     "matrix_requires_renormalization",
     "norm_matrix",
