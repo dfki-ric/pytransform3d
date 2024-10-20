@@ -2178,6 +2178,7 @@ def test_norm_euler():
             else:
                 assert -0.5 * np.pi <= e_norm[1] <= 0.5 * np.pi
             assert -np.pi <= e_norm[2] <= np.pi
+            pr.assert_euler_equal(e, e_norm, *ea)
 
 
 def test_euler_near_gimbal_lock():
@@ -2237,6 +2238,7 @@ def test_general_matrix_euler_conversions():
                 e_R = pr.euler_from_matrix(R, ea[0], ea[1], ea[2], extrinsic)
                 e_q = pr.euler_from_quaternion(
                     q, ea[0], ea[1], ea[2], extrinsic)
+                pr.assert_euler_equal(e_R, e_q, *ea)
 
                 R_R = pr.matrix_from_euler(
                     e_R, ea[0], ea[1], ea[2], extrinsic)
