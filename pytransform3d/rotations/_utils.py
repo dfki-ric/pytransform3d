@@ -102,6 +102,32 @@ def norm_matrix(R):
     return np.column_stack((c1, c2, c3))
 
 
+def quaternion_requires_renormalization(q, tolerance=1e-6):
+    r"""Check if a unit quaternion requires renormalization.
+
+    Quaternions that represent rotations should have unit norm, so we check
+    :math:`||\boldsymbol{q}|| \approx 1`.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Quaternion to represent rotation: (w, x, y, z)
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Renormalization is required.
+
+    See Also
+    --------
+    check_quaternion : Normalizes quaternion.
+    """
+    return abs(np.linalg.norm(q) - 1.0) > tolerance
+
+
 def norm_angle(a):
     """Normalize angle to (-pi, pi].
 

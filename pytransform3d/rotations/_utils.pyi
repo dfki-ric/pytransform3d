@@ -12,6 +12,9 @@ def matrix_requires_renormalization(R: npt.ArrayLike, tolerance: float = ...) ->
 def norm_matrix(R: npt.ArrayLike) -> np.ndarray: ...
 
 
+def quaternion_requires_renormalization(q: npt.ArrayLike, tolerance: float = ...) -> bool: ...
+
+
 def norm_angle(a: npt.ArrayLike) -> np.ndarray: ...
 
 
