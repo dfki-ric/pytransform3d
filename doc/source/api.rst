@@ -185,6 +185,7 @@ Normalization
    ~norm_euler
    ~norm_axis_angle
    ~norm_compact_axis_angle
+   ~quaternion_requires_renormalization
 
 Singularities and Ambiguities
 -----------------------------

@@ -1779,6 +1779,13 @@ def test_matrix_requires_renormalization():
     assert pr.matrix_requires_renormalization(R_total, tolerance=1e-16)
 
 
+def test_quaternion_requires_renormalization():
+    assert not pr.quaternion_requires_renormalization(pr.q_id)
+
+    q = pr.q_id + np.array([1e-3, 0.0, 0.0, 0.0])
+    assert pr.quaternion_requires_renormalization(q)
+
+
 def test_matrix_from_two_vectors():
     with pytest.raises(ValueError, match="a must not be the zero vector"):
         pr.matrix_from_two_vectors(np.zeros(3), np.zeros(3))
