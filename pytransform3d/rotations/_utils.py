@@ -520,7 +520,7 @@ def check_quaternion(q, unit=True):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Validated quaternion to represent rotation: (w, x, y, z)
 
     Raises
@@ -550,7 +550,7 @@ def check_quaternions(Q, unit=True):
 
     Returns
     -------
-    Q : array-like, shape (n_steps, 4)
+    Q : array, shape (n_steps, 4)
         Validated quaternions to represent rotations: (w, x, y, z)
 
     Raises
