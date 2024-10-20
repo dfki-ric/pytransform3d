@@ -1611,6 +1611,14 @@ def test_quaternion_invert():
     assert_array_almost_equal(pr.q_id, q_q_inv)
 
 
+def test_quaternion_double():
+    rng = np.random.default_rng(2235)
+    for _ in range(5):
+        q1 = pr.random_quaternion(rng)
+        q2 = pr.quaternion_double(q1)
+        pr.assert_quaternion_equal(q1, q2)
+
+
 def test_quaternion_gradient_integration():
     """Test integration of quaternion gradients."""
     n_steps = 21
