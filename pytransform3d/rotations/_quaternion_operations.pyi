@@ -2,6 +2,9 @@ import numpy as np
 import numpy.typing as npt
 
 
+def quaternion_double(q: npt.ArrayLike) -> np.ndarray: ...
+
+
 def quaternion_integrate(Qd: npt.ArrayLike, q0: npt.ArrayLike = ..., dt: float = ...) -> np.ndarray: ...
 
 

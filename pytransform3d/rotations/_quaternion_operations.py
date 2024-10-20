@@ -6,6 +6,25 @@ from ._conversions import (
     axis_angle_from_quaternion, quaternion_from_angle, check_axis_index)
 
 
+def quaternion_double(q):
+    """Create another quaternion that represents the same orientation.
+
+    The unit quaternions q and -q represent the same orientation (double
+    cover).
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion.
+
+    Returns
+    -------
+    q_double : array, shape (4,)
+        -q
+    """
+    return -check_quaternion(q, unit=True)
+
+
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     """Integrate angular velocities to quaternions.
 

@@ -112,6 +112,7 @@ Quaternion and Axis-Angle Operations
 
    ~axis_angle_from_two_directions
    ~axis_angle_slerp
+   ~quaternion_double
    ~concatenate_quaternions
    ~q_prod_vector
    ~q_conj
