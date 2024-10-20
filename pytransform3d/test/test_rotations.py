@@ -2334,3 +2334,10 @@ def test_concatenate_mrp():
         mrp2 = pr.mrp_from_quaternion(q2)
         mrp12 = pr.concatenate_mrp(mrp1, mrp2)
         pr.assert_quaternion_equal(q12, pr.quaternion_from_mrp(mrp12))
+
+
+def test_assert_euler_almost_equal():
+    pr.assert_euler_equal(
+        [0.2, 0.3, -0.5], [0.2 + np.pi, -0.3, -0.5 - np.pi], 0, 1, 0)
+    pr.assert_euler_equal(
+        [0.2, 0.3, -0.5], [0.2 + np.pi, np.pi - 0.3, -0.5 - np.pi], 0, 1, 2)
