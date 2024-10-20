@@ -193,6 +193,7 @@ Singularities and Ambiguities
    :template: function.rst
 
    ~euler_near_gimbal_lock
+   ~compact_axis_angle_near_pi
 
 Random Sampling
 ---------------

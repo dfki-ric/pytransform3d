@@ -58,6 +58,17 @@ def test_norm_axis_angle():
             assert_array_almost_equal(n, n2)
 
 
+def test_compact_axis_angle_near_pi():
+    assert pr.compact_axis_angle_near_pi(
+        np.pi * pr.norm_vector([0.2, 0.1, -0.3]))
+    assert pr.compact_axis_angle_near_pi(
+        (1e-7 + np.pi) * pr.norm_vector([0.2, 0.1, -0.3]))
+    assert pr.compact_axis_angle_near_pi(
+        (-1e-7 + np.pi) * pr.norm_vector([0.2, 0.1, -0.3]))
+    assert not pr.compact_axis_angle_near_pi(
+        (-1e-5 + np.pi) * pr.norm_vector([0.2, 0.1, -0.3]))
+
+
 def test_norm_compact_axis_angle():
     """Test normalization of compact angle-axis representation."""
     a = np.array([np.pi, 0.0, 0.0])
