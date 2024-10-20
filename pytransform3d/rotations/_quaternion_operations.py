@@ -260,7 +260,7 @@ def quaternion_diff(q1, q2):
 
     Returns
     -------
-    a : array-like, shape (4,)
+    a : array, shape (4,)
         The rotation in angle-axis format that rotates q2 into q1
     """
     q1 = check_quaternion(q1)
