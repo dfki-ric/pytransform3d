@@ -2264,3 +2264,49 @@ def mrp_from_quaternion(q):
     if q[0] < 0.0:
         q = -q
     return q[1:] / (1.0 + q[0])
+
+
+def mrp_from_axis_angle(a):
+    r"""Compute modified Rodrigues parameters from axis-angle representation.
+
+    .. math::
+
+        \boldsymbol{\psi} = \tan \left(\frac{\theta}{4}\right)
+        \hat{\boldsymbol{\omega}}
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Modified Rodrigues parameters.
+    """
+    a = check_axis_angle(a)
+    return np.tan(0.25 * a[3]) * a[:3]
+
+
+def axis_angle_from_mrp(mrp):
+    """Compute axis-angle representation from modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+    """
+    mrp = check_mrp(mrp)
+
+    mrp_norm = np.linalg.norm(mrp)
+    angle = np.arctan(mrp_norm) * 4.0
+    if abs(angle) < eps:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    axis = mrp / mrp_norm
+    return np.hstack((axis, (angle,)))

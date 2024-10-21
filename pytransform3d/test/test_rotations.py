@@ -2371,6 +2371,35 @@ def test_concatenate_mrp():
         pr.assert_quaternion_equal(q12, pr.quaternion_from_mrp(mrp12))
 
 
+def test_mrp_from_axis_angle():
+    rng = np.random.default_rng(98343)
+    for _ in range(5):
+        a = pr.random_axis_angle(rng)
+        mrp = pr.mrp_from_axis_angle(a)
+        q = pr.quaternion_from_axis_angle(a)
+        assert_array_almost_equal(mrp, pr.mrp_from_quaternion(q))
+
+    assert_array_almost_equal(
+        [0.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 0.0]))
+    assert_array_almost_equal(
+        [0.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 2.0 * np.pi]))
+    assert_array_almost_equal(
+        [1.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, np.pi]))
+
+
+def test_axis_angle_from_mrp():
+    rng = np.random.default_rng(98343)
+    for _ in range(5):
+        mrp = pr.random_vector(rng, 3)
+        a = pr.axis_angle_from_mrp(mrp)
+        q = pr.quaternion_from_mrp(mrp)
+        pr.assert_axis_angle_equal(a, pr.axis_angle_from_quaternion(q))
+
+    pr.assert_axis_angle_equal(
+        pr.axis_angle_from_mrp([np.tan(0.5 * np.pi), 0.0, 0.0]),
+        [1.0, 0.0, 0.0, 0.0])
+
+
 def test_assert_euler_almost_equal():
     pr.assert_euler_equal(
         [0.2, 0.3, -0.5], [0.2 + np.pi, -0.3, -0.5 - np.pi], 0, 1, 0)

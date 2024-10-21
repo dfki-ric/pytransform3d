@@ -86,7 +86,9 @@ from ._conversions import (
     quaternion_from_angle,
     cross_product_matrix,
     mrp_from_quaternion,
-    quaternion_from_mrp)
+    quaternion_from_mrp,
+    mrp_from_axis_angle,
+    axis_angle_from_mrp)
 from ._quaternion_operations import (
     quaternion_double, quaternion_integrate, quaternion_gradient,
     concatenate_quaternions, q_conj, q_prod_vector, quaternion_diff,
@@ -222,6 +224,8 @@ __all__ = [
     "cross_product_matrix",
     "mrp_from_quaternion",
     "quaternion_from_mrp",
+    "mrp_from_axis_angle",
+    "axis_angle_from_mrp",
     "quaternion_double",
     "quaternion_integrate",
     "quaternion_gradient",

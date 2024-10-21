@@ -64,6 +64,7 @@ Conversions to Axis-Angle
    ~axis_angle_from_matrix
    ~axis_angle_from_quaternion
    ~axis_angle_from_compact_axis_angle
+   ~axis_angle_from_mrp
    ~compact_axis_angle
    ~compact_axis_angle_from_matrix
    ~compact_axis_angle_from_quaternion
@@ -101,6 +102,7 @@ Conversions to Modified Rodrigues Parameters
    :toctree: _apidoc/
    :template: function.rst
 
+   ~mrp_from_axis_angle
    ~mrp_from_quaternion
 
 Quaternion and Axis-Angle Operations
