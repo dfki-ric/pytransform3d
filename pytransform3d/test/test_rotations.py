@@ -2350,6 +2350,15 @@ def test_norm_angle_precision():
     assert_array_equal(pr.norm_angle(a_epsneg), a_epsneg)
 
 
+def test_mrp_near_singularity():
+    axis = np.array([1.0, 0.0, 0.0])
+    assert pr.mrp_near_singularity(np.tan(2.0 * np.pi / 4.0) * axis)
+    assert pr.mrp_near_singularity(np.tan(2.0 * np.pi / 4.0 - 1e-7) * axis)
+    assert pr.mrp_near_singularity(np.tan(2.0 * np.pi / 4.0 + 1e-7) * axis)
+    assert not pr.mrp_near_singularity(np.tan(np.pi / 4.0) * axis)
+    assert not pr.mrp_near_singularity(np.tan(0.0 / 4.0) * axis)
+
+
 def test_concatenate_mrp():
     rng = np.random.default_rng(283)
     for _ in range(5):
