@@ -25,6 +25,33 @@ def norm_vector(v):
     return np.asarray(v) / norm
 
 
+def matrix_requires_renormalization(R, tolerance=1e-6):
+    r"""Check if a rotation matrix needs renormalization.
+
+    This function will check if :math:`R R^T \approx I`.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix that should be orthonormal.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Indicates if renormalization is required.
+
+    See Also
+    --------
+    norm_matrix : Orthonormalize rotation matrix.
+    """
+    R = np.asarray(R, dtype=float)
+    RRT = np.dot(R, R.T)
+    return not np.allclose(RRT, np.eye(3), atol=tolerance)
+
+
 def norm_matrix(R):
     r"""Orthonormalize rotation matrix.
 
@@ -64,6 +91,8 @@ def norm_matrix(R):
     See Also
     --------
     check_matrix : Checks orthonormality of a rotation matrix.
+    matrix_requires_renormalization
+        Checks if a rotation matrix needs renormalization.
     """
     R = np.asarray(R)
     c2 = R[:, 1]
@@ -71,6 +100,32 @@ def norm_matrix(R):
     c1 = norm_vector(np.cross(c2, c3))
     c2 = norm_vector(np.cross(c3, c1))
     return np.column_stack((c1, c2, c3))
+
+
+def quaternion_requires_renormalization(q, tolerance=1e-6):
+    r"""Check if a unit quaternion requires renormalization.
+
+    Quaternions that represent rotations should have unit norm, so we check
+    :math:`||\boldsymbol{q}|| \approx 1`.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Quaternion to represent rotation: (w, x, y, z)
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Renormalization is required.
+
+    See Also
+    --------
+    check_quaternion : Normalizes quaternion.
+    """
+    return abs(np.linalg.norm(q) - 1.0) > tolerance
 
 
 def norm_angle(a):
@@ -129,6 +184,30 @@ def norm_axis_angle(a):
     res[3] = angle
 
     return res
+
+
+def compact_axis_angle_near_pi(a, tolerance=1e-6):
+    r"""Check if angle of compact axis-angle representation is near pi.
+
+    When the angle :math:`\theta = \pi`, both :math:`\hat{\boldsymbol{\omega}}`
+    and :math:`-\hat{\boldsymbol{\omega}}` result in the same rotation. This
+    ambiguity could lead to problems when averaging or interpolating.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z).
+
+    tolerance : float
+        Tolerance of this check.
+
+    Returns
+    -------
+    near_pi : bool
+        Angle is near pi.
+    """
+    theta = np.linalg.norm(a)
+    return abs(theta - np.pi) < tolerance
 
 
 def norm_compact_axis_angle(a):
@@ -467,7 +546,7 @@ def check_quaternion(q, unit=True):
 
     Returns
     -------
-    q : array-like, shape (4,)
+    q : array, shape (4,)
         Validated quaternion to represent rotation: (w, x, y, z)
 
     Raises
@@ -497,7 +576,7 @@ def check_quaternions(Q, unit=True):
 
     Returns
     -------
-    Q : array-like, shape (n_steps, 4)
+    Q : array, shape (n_steps, 4)
         Validated quaternions to represent rotations: (w, x, y, z)
 
     Raises

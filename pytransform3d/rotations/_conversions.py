@@ -6,7 +6,7 @@ from ._utils import (
     check_matrix, check_quaternion, check_axis_angle, check_compact_axis_angle,
     check_mrp, norm_angle, norm_vector, norm_axis_angle,
     perpendicular_to_vector, perpendicular_to_vectors, vector_projection)
-from ._constants import unitx, unity, unitz, eps
+from ._constants import unitx, unity, unitz, eps, half_pi
 
 
 def cross_product_matrix(v):
@@ -877,16 +877,93 @@ def check_axis_index(name, i):
         raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
 
 
+def norm_euler(e, i, j, k):
+    """Normalize Euler angle range.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    Returns
+    -------
+    e : array, shape (3,)
+        Extracted rotation angles in radians about the axes i, j, k in this
+        order. The first and last angle are normalized to [-pi, pi]. The middle
+        angle is normalized to either [0, pi] (proper Euler angles) or
+        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).
+    """
+    check_axis_index("i", i)
+    check_axis_index("j", j)
+    check_axis_index("k", k)
+
+    e_norm = norm_angle(e)
+    alpha, beta, gamma = e_norm
+
+    proper_euler = i == k
+    if proper_euler:
+        if beta < 0.0:
+            alpha += np.pi
+            beta *= -1.0
+            gamma -= np.pi
+    elif abs(beta) > half_pi:
+        alpha += np.pi
+        beta = np.pi - beta
+        gamma -= np.pi
+
+    return norm_angle([alpha, beta, gamma])
+
+
+def euler_near_gimbal_lock(e, i, j, k, tolerance=1e-6):
+    """Check if Euler angles are close to gimbal lock.
+
+    Parameters
+    ----------
+    e : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    tolerance : float
+        Tolerance for the comparison.
+
+    Returns
+    -------
+    near_gimbal_lock : bool
+        Indicates if the Euler angles are near the gimbal lock singularity.
+    """
+    e = norm_euler(e, i, j, k)
+    beta = e[1]
+    proper_euler = i == k
+    if proper_euler:
+        return abs(beta) < tolerance or abs(beta - np.pi) < tolerance
+    else:
+        return abs(abs(beta) - half_pi) < tolerance
+
+
 def matrix_from_euler(e, i, j, k, extrinsic):
     """General method to compute active rotation matrix from any Euler angles.
 
     Parameters
     ----------
     e : array-like, shape (3,)
-        Extracted rotation angles in radians about the axes i, j, k in this
-        order. The first and last angle are normalized to [-pi, pi]. The middle
-        angle is normalized to either [0, pi] (proper Euler angles) or
-        [-pi/2, pi/2] (Cardan / Tait-Bryan angles).
+        Rotation angles in radians about the axes i, j, k in this order.
 
     i : int from [0, 1, 2]
         The first rotation axis (0: x, 1: y, 2: z)
@@ -2187,3 +2264,49 @@ def mrp_from_quaternion(q):
     if q[0] < 0.0:
         q = -q
     return q[1:] / (1.0 + q[0])
+
+
+def mrp_from_axis_angle(a):
+    r"""Compute modified Rodrigues parameters from axis-angle representation.
+
+    .. math::
+
+        \boldsymbol{\psi} = \tan \left(\frac{\theta}{4}\right)
+        \hat{\boldsymbol{\omega}}
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Modified Rodrigues parameters.
+    """
+    a = check_axis_angle(a)
+    return np.tan(0.25 * a[3]) * a[:3]
+
+
+def axis_angle_from_mrp(mrp):
+    """Compute axis-angle representation from modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+    """
+    mrp = check_mrp(mrp)
+
+    mrp_norm = np.linalg.norm(mrp)
+    angle = np.arctan(mrp_norm) * 4.0
+    if abs(angle) < eps:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    axis = mrp / mrp_norm
+    return np.hstack((axis, (angle,)))
