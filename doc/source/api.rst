@@ -16,51 +16,57 @@ You can also search for specific modules, classes, or functions in the
     :no-members:
     :no-inherited-members:
 
-Input Validation Functions
---------------------------
+Rotation Matrix
+---------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
    ~check_matrix
-   ~check_skew_symmetric_matrix
-   ~check_axis_angle
-   ~check_compact_axis_angle
-   ~check_quaternion
-   ~check_quaternions
-   ~check_rotor
-   ~check_mrp
-
-Conversions
------------
-
-Conversions to Rotation Matrix
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-See also :doc:`user_guide/euler_angles` for conversions from and to Euler
-angles that have been omitted here for the sake of brevity.
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
+   ~matrix_requires_renormalization
+   ~norm_matrix
+   ~plot_basis
    ~passive_matrix_from_angle
    ~active_matrix_from_angle
-   ~matrix_from_euler
    ~matrix_from_two_vectors
+   ~matrix_from_euler
    ~matrix_from_axis_angle
    ~matrix_from_compact_axis_angle
    ~matrix_from_quaternion
    ~matrix_from_rotor
+   ~assert_rotation_matrix
 
-Conversions to Axis-Angle
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Euler Angles
+------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
+   ~euler_near_gimbal_lock
+   ~norm_euler
+   ~euler_from_quaternion
+   ~euler_from_matrix
+   ~assert_euler_equal
+
+Axis-Angle
+----------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~check_axis_angle
+   ~check_compact_axis_angle
+   ~compact_axis_angle_near_pi
+   ~norm_axis_angle
+   ~norm_compact_axis_angle
+   ~random_axis_angle
+   ~random_compact_axis_angle
+   ~plot_axis_angle
+   ~axis_angle_slerp
+   ~axis_angle_from_two_directions
    ~axis_angle_from_matrix
    ~axis_angle_from_quaternion
    ~axis_angle_from_compact_axis_angle
@@ -68,70 +74,61 @@ Conversions to Axis-Angle
    ~compact_axis_angle
    ~compact_axis_angle_from_matrix
    ~compact_axis_angle_from_quaternion
+   ~assert_axis_angle_equal
+   ~assert_compact_axis_angle_equal
 
-Conversions to Quaternion
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~quaternion_from_angle
-   ~quaternion_from_matrix
-   ~quaternion_from_axis_angle
-   ~quaternion_from_compact_axis_angle
-   ~quaternion_from_euler
-   ~quaternion_from_mrp
-   ~quaternion_xyzw_from_wxyz
-   ~quaternion_wxyz_from_xyzw
-
-Conversions to Rotor
-^^^^^^^^^^^^^^^^^^^^
+Logarithm of Rotation
+---------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~rotor_from_two_directions
-   ~rotor_from_plane_angle
+   ~check_skew_symmetric_matrix
+   ~cross_product_matrix
 
-Conversions to Modified Rodrigues Parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~mrp_from_axis_angle
-   ~mrp_from_quaternion
-
-Quaternion and Axis-Angle Operations
-------------------------------------
+Quaternion
+----------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~axis_angle_from_two_directions
-   ~axis_angle_slerp
+   ~check_quaternion
+   ~check_quaternions
+   ~quaternion_requires_renormalization
    ~quaternion_double
+   ~pick_closest_quaternion
+   ~random_quaternion
    ~concatenate_quaternions
    ~q_prod_vector
    ~q_conj
-   ~pick_closest_quaternion
    ~quaternion_slerp
    ~quaternion_dist
    ~quaternion_diff
    ~quaternion_gradient
    ~quaternion_integrate
+   ~quaternion_from_angle
+   ~quaternion_from_euler
+   ~quaternion_from_matrix
+   ~quaternion_from_axis_angle
+   ~quaternion_from_compact_axis_angle
+   ~quaternion_from_mrp
+   ~quaternion_xyzw_from_wxyz
+   ~quaternion_wxyz_from_xyzw
+   ~assert_quaternion_equal
 
-Rotors
-------
+Rotor
+-----
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
+
+   ~check_rotor
+   ~plot_bivector
    ~wedge
    ~plane_normal_from_bivector
    ~geometric_product
@@ -139,6 +136,8 @@ Rotors
    ~rotor_reverse
    ~rotor_apply
    ~rotor_slerp
+   ~rotor_from_two_directions
+   ~rotor_from_plane_angle
 
 Modified Rodrigues Parameters
 -----------------------------
@@ -147,70 +146,11 @@ Modified Rodrigues Parameters
    :toctree: _apidoc/
    :template: function.rst
 
-   ~concatenate_mrp
-
-Plotting
---------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~plot_basis
-   ~plot_axis_angle
-   ~plot_bivector
-
-Testing
--------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~assert_euler_equal
-   ~assert_axis_angle_equal
-   ~assert_compact_axis_angle_equal
-   ~assert_quaternion_equal
-   ~assert_rotation_matrix
-
-Normalization
--------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~norm_angle
-   ~norm_vector
-   ~matrix_requires_renormalization
-   ~norm_matrix
-   ~norm_euler
-   ~norm_axis_angle
-   ~norm_compact_axis_angle
-   ~quaternion_requires_renormalization
-
-Singularities and Ambiguities
------------------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~euler_near_gimbal_lock
-   ~compact_axis_angle_near_pi
+   ~check_mrp
    ~mrp_near_singularity
-
-Random Sampling
----------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~random_vector
-   ~random_axis_angle
-   ~random_compact_axis_angle
-   ~random_quaternion
+   ~concatenate_mrp
+   ~mrp_from_axis_angle
+   ~mrp_from_quaternion
 
 Jacobians
 ---------
@@ -235,7 +175,9 @@ Utility Functions
    ~angle_between_vectors
    ~vector_projection
    ~plane_basis_from_normal
-   ~cross_product_matrix
+   ~norm_angle
+   ~norm_vector
+   ~random_vector
 
 Deprecated Functions
 --------------------
@@ -245,6 +187,55 @@ Deprecated Functions
    :template: function.rst
 
    ~quaternion_from_extrinsic_euler_xyz
+   ~active_matrix_from_intrinsic_euler_xzx
+   ~active_matrix_from_extrinsic_euler_xzx
+   ~active_matrix_from_intrinsic_euler_xyx
+   ~active_matrix_from_extrinsic_euler_xyx
+   ~active_matrix_from_intrinsic_euler_yxy
+   ~active_matrix_from_extrinsic_euler_yxy
+   ~active_matrix_from_intrinsic_euler_yzy
+   ~active_matrix_from_extrinsic_euler_yzy
+   ~active_matrix_from_intrinsic_euler_zyz
+   ~active_matrix_from_extrinsic_euler_zyz
+   ~active_matrix_from_intrinsic_euler_zxz
+   ~active_matrix_from_extrinsic_euler_zxz
+   ~active_matrix_from_intrinsic_euler_xzy
+   ~active_matrix_from_extrinsic_euler_xzy
+   ~active_matrix_from_intrinsic_euler_xyz
+   ~active_matrix_from_extrinsic_euler_xyz
+   ~active_matrix_from_intrinsic_euler_yxz
+   ~active_matrix_from_extrinsic_euler_yxz
+   ~active_matrix_from_intrinsic_euler_yzx
+   ~active_matrix_from_extrinsic_euler_yzx
+   ~active_matrix_from_intrinsic_euler_zyx
+   ~active_matrix_from_extrinsic_euler_zyx
+   ~active_matrix_from_intrinsic_euler_zxy
+   ~active_matrix_from_extrinsic_euler_zxy
+   ~active_matrix_from_extrinsic_roll_pitch_yaw
+   ~intrinsic_euler_xzx_from_active_matrix
+   ~extrinsic_euler_xzx_from_active_matrix
+   ~intrinsic_euler_xyx_from_active_matrix
+   ~extrinsic_euler_xyx_from_active_matrix
+   ~intrinsic_euler_yxy_from_active_matrix
+   ~extrinsic_euler_yxy_from_active_matrix
+   ~intrinsic_euler_yzy_from_active_matrix
+   ~extrinsic_euler_yzy_from_active_matrix
+   ~intrinsic_euler_zyz_from_active_matrix
+   ~extrinsic_euler_zyz_from_active_matrix
+   ~intrinsic_euler_zxz_from_active_matrix
+   ~extrinsic_euler_zxz_from_active_matrix
+   ~intrinsic_euler_xzy_from_active_matrix
+   ~extrinsic_euler_xzy_from_active_matrix
+   ~intrinsic_euler_xyz_from_active_matrix
+   ~extrinsic_euler_xyz_from_active_matrix
+   ~intrinsic_euler_yxz_from_active_matrix
+   ~extrinsic_euler_yxz_from_active_matrix
+   ~intrinsic_euler_yzx_from_active_matrix
+   ~extrinsic_euler_yzx_from_active_matrix
+   ~intrinsic_euler_zyx_from_active_matrix
+   ~extrinsic_euler_zyx_from_active_matrix
+   ~intrinsic_euler_zxy_from_active_matrix
+   ~extrinsic_euler_zxy_from_active_matrix
 
 
 :mod:`pytransform3d.transformations`
