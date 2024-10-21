@@ -245,122 +245,15 @@ Deprecated Functions
     :no-members:
     :no-inherited-members:
 
-Input Validation Functions
---------------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~check_transform
-   ~check_pq
-   ~check_screw_parameters
-   ~check_screw_axis
-   ~check_exponential_coordinates
-   ~check_screw_matrix
-   ~check_transform_log
-   ~check_dual_quaternion
-
-Conversions
------------
-
-Conversions to Transformation Matrix
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-
-   ~transform_from
-   ~translate_transform
-   ~rotate_transform
-   ~transform_from_pq
-   ~transform_from_exponential_coordinates
-   ~transform_from_transform_log
-   ~transform_from_dual_quaternion
-
-Conversions to Position and Quaternion
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pq_from_transform
-   ~pq_from_dual_quaternion
-
-Conversions to Screw Parameters
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~screw_parameters_from_screw_axis
-   ~screw_parameters_from_dual_quaternion
-
-Conversions to Screw Axis
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~screw_axis_from_screw_parameters
-   ~screw_axis_from_exponential_coordinates
-   ~screw_axis_from_screw_matrix
-
-Conversions to Exponential Coordinates
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~exponential_coordinates_from_transform
-   ~exponential_coordinates_from_screw_axis
-   ~exponential_coordinates_from_transform_log
-
-Conversions to Screw Matrix
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~screw_matrix_from_screw_axis
-   ~screw_matrix_from_transform_log
-
-Conversions to Matrix Logarithm
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~transform_log_from_exponential_coordinates
-   ~transform_log_from_screw_matrix
-   ~transform_log_from_transform
-
-Conversions to Dual Quaternions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~dual_quaternion_from_transform
-   ~dual_quaternion_from_pq
-   ~dual_quaternion_from_screw_parameters
-
-Apply Transformations
+Transformation Matrix
 ---------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
+   ~check_transform
+   ~random_transform
    ~concat
    ~invert_transform
    ~transform
@@ -370,71 +263,110 @@ Apply Transformations
    ~vectors_to_directions
    ~scale_transform
    ~adjoint_from_transform
-
-Position+Quaternion Operations
-------------------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~pq_slerp
-
-Dual Quaternion Operations
---------------------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~dq_conj
-   ~dq_q_conj
-   ~concatenate_dual_quaternions
-   ~dq_prod_vector
-   ~dual_quaternion_power
-   ~dual_quaternion_sclerp
-
-Plotting
---------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
    ~plot_transform
-   ~plot_screw
+   ~transform_from
+   ~translate_transform
+   ~rotate_transform
+   ~transform_from_pq
+   ~transform_from_exponential_coordinates
+   ~transform_from_transform_log
+   ~transform_from_dual_quaternion
+   ~assert_transform
 
-Testing
--------
+Position and Quaternion
+-----------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~assert_transform
-   ~assert_unit_dual_quaternion
-   ~assert_unit_dual_quaternion_equal
+   ~check_pq
+   ~pq_slerp
+   ~pq_from_transform
+   ~pq_from_dual_quaternion
+
+Screw Parameters
+----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~check_screw_parameters
+   ~plot_screw
+   ~screw_parameters_from_screw_axis
+   ~screw_parameters_from_dual_quaternion
    ~assert_screw_parameters_equal
 
-Random Sampling
+Screw Axis
+----------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~check_screw_axis
+   ~random_screw_axis
+   ~screw_axis_from_screw_parameters
+   ~screw_axis_from_exponential_coordinates
+   ~screw_axis_from_screw_matrix
+
+Exponential Coordinates
+-----------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~check_exponential_coordinates
+   ~norm_exponential_coordinates
+   ~random_exponential_coordinates
+   ~exponential_coordinates_from_transform
+   ~exponential_coordinates_from_screw_axis
+   ~exponential_coordinates_from_transform_log
+
+Screw Matrix
+------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~check_screw_matrix
+   ~screw_matrix_from_screw_axis
+   ~screw_matrix_from_transform_log
+
+Logarithm of Transformation
+---------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~check_transform_log
+   ~transform_log_from_exponential_coordinates
+   ~transform_log_from_screw_matrix
+   ~transform_log_from_transform
+
+Dual Quaternion
 ---------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~random_transform
-   ~random_screw_axis
-   ~random_exponential_coordinates
-
-Normalization
--------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~norm_exponential_coordinates
+   ~check_dual_quaternion
+   ~dq_conj
+   ~dq_q_conj
+   ~concatenate_dual_quaternions
+   ~dq_prod_vector
+   ~dual_quaternion_power
+   ~dual_quaternion_sclerp
+   ~dual_quaternion_from_transform
+   ~dual_quaternion_from_pq
+   ~dual_quaternion_from_screw_parameters
+   ~assert_unit_dual_quaternion
+   ~assert_unit_dual_quaternion_equal
 
 Jacobians
 ---------
