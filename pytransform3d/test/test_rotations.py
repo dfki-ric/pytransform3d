@@ -2399,6 +2399,10 @@ def test_axis_angle_from_mrp():
         pr.axis_angle_from_mrp([np.tan(0.5 * np.pi), 0.0, 0.0]),
         [1.0, 0.0, 0.0, 0.0])
 
+    pr.assert_axis_angle_equal(
+        pr.axis_angle_from_mrp([0.0, 0.0, 0.0]),
+        [1.0, 0.0, 0.0, 0.0])
+
 
 def test_assert_euler_almost_equal():
     pr.assert_euler_equal(
