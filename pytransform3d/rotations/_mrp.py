@@ -1,6 +1,32 @@
 """Modified Rodrigues parameters."""
 import numpy as np
 from ._utils import check_mrp
+from ._constants import two_pi
+
+
+def mrp_near_singularity(mrp, tolerance=1e-6):
+    """Check if modified Rodrigues parameters are close to singularity.
+
+    MRPs have a singularity at 2 * pi, i.e., the norm approaches infinity as
+    the angle approaches 2 * pi.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    near_singularity : bool
+        MRPs are near singularity.
+    """
+    check_mrp(mrp)
+    mrp_norm = np.linalg.norm(mrp)
+    angle = np.arctan(mrp_norm) * 4.0
+    return abs(angle - two_pi) < tolerance
 
 
 def concatenate_mrp(mrp1, mrp2):
