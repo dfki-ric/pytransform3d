@@ -12,7 +12,7 @@ from .transformations import (
     transform_from_exponential_coordinates,
     screw_axis_from_exponential_coordinates, screw_parameters_from_screw_axis,
     screw_axis_from_screw_parameters)
-
+from .rotations import norm_angle
 
 def invert_transforms(A2Bs):
     """Invert transforms.
@@ -508,6 +508,201 @@ def pqs_from_dual_quaternions(dqs):
         dqs[..., 4:], batch_q_conj(out[..., 3:]))[..., 1:]
     return out
 
+
+
+def norm_axis_angles(a):
+    """Normalize axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (...,4)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    a : array, shape (...,4)
+        Axis of rotation and rotation angle: (x, y, z, angle). The length
+        of the axis vector is 1 and the angle is in [0, pi). No rotation
+        is represented by [1, 0, 0, 0].
+    """
+    angle = a[:, 3]  # Extract the angle component (N,)
+    norm = np.linalg.norm(a[:, :3], axis=1)  # Compute the norm of the first three elements (axis)
+
+
+    res = np.ones_like(a)
+
+    # Create masks for elements where angle or norm is zero
+    zero_mask = (angle == 0.0) | (norm == 0.0)
+
+
+    non_zero_mask = ~zero_mask
+    res[non_zero_mask, :3] = a[non_zero_mask, :3] / norm[non_zero_mask, None]  
+
+
+    angle_normalized = norm_angle(angle)  
+
+    negative_angle_mask = angle_normalized < 0.0
+    res[negative_angle_mask, :3] *= -1.0  
+    angle_normalized[negative_angle_mask] *= -1.0  
+
+    res[non_zero_mask, 3] = angle_normalized[non_zero_mask]
+    return res
+
+
+def axis_angles_from_quaternions(qs):
+    """Compute axis-angle from quaternion.
+
+    This operation is called logarithmic map.
+
+    We usually assume active rotations.
+
+    Parameters
+    ----------
+    q : array-like, shape (...,4)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    a : array, shape (...,4)
+        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
+        constrained to [0, pi) so that the mapping is unique.
+    """
+    ps = qs[:, 1:]  # Extract the vector part of the quaternion
+    p_norm = np.linalg.norm(ps, axis=1)  # Compute the norm of the vector part
+
+    # Create a mask for quaternions where p_norm is small
+    small_p_norm_mask = p_norm < np.finfo(float).eps
+
+    # Initialize the output with default values for small p_norm cases
+    result = np.zeros_like(qs)
+    result[small_p_norm_mask] = np.array([1.0, 0.0, 0.0, 0.0])
+
+    # For non-zero norms, calculate axis, clamped w, and angle
+    non_zero_mask = ~small_p_norm_mask
+    axis = np.zeros_like(ps)
+    axis[non_zero_mask] = ps[non_zero_mask] / p_norm[non_zero_mask, None]
+
+    w_clamped = np.clip(qs[:, 0], -1.0, 1.0)  # Clamp the scalar part of the quaternion
+    angle = 2.0 * np.arccos(w_clamped)
+
+    # Stack the axis and the angle together and normalize the axis-angle representation
+    result[non_zero_mask] = norm_axis_angles(np.hstack((axis[non_zero_mask], angle[non_zero_mask, None])))
+
+    return result
+
+
+def screw_parameters_from_dual_quaternions(dqs):
+    """Compute screw parameters from dual quaternion.s
+
+    Parameters
+    ----------
+    dq : array-like, shape (…,8)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    qs : array, shape (…,3)
+        Vector to a point on the screw axis
+
+    s_axiss : array, shape (…,3)
+        Direction vector of the screw axis
+
+    hs : array, shape (…,)
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    thetas : array, shape (…,)
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+    """
+    reals = dqs[:, :4]
+    duals = dqs[:, 4:]
+
+    # Vectorized axis angle from quaternion
+    a = axis_angles_from_quaternions(reals)  # Should handle vectorized input
+    s_axis = a[:, :3]
+    thetas = a[:, 3]
+
+    # Vectorized quaternion concatenation and translation computation
+    translation = 2 * batch_concatenate_quaternions(duals, batch_q_conj(reals))[:, 1:]
+
+
+    outer_if_mask = np.abs(thetas) < np.finfo(float).eps
+    outer_else_mask = np.logical_not(outer_if_mask)
+
+
+    ds = np.linalg.norm(translation, axis=1)
+    inner_if_mask = ds < np.finfo(float).eps
+
+    outer_if_inner_if_mask = np.logical_and(outer_if_mask,inner_if_mask)
+    outer_if_inner_else_mask = np.logical_and(outer_if_mask,np.logical_not(inner_if_mask))
+    
+    # Initialize the outputs
+    qs = np.zeros((dqs.shape[0], 3))  
+    thetas[outer_if_mask] = ds[outer_if_mask]
+    hs = np.full(dqs.shape[0], np.inf)  
+    
+    if np.any(outer_if_inner_if_mask):
+        s_axis[outer_if_inner_if_mask] = np.array([1, 0, 0])
+
+    if np.any(outer_if_inner_else_mask):
+        s_axis[outer_if_inner_else_mask] = translation[outer_if_inner_else_mask] / ds[outer_if_inner_else_mask]
+
+    qs = np.zeros((dqs.shape[0], 3))  
+    thetas[outer_if_mask] = ds[outer_if_mask]
+    hs = np.full(dqs.shape[0], np.inf)  
+    
+    if np.any(outer_else_mask):
+        distance = np.einsum('ij,ij->i', translation[outer_else_mask], s_axis[outer_else_mask])
+
+        moment = 0.5 * (
+            np.cross(translation[outer_else_mask], s_axis[outer_else_mask]) +
+            (translation[outer_else_mask] - distance[:, None] * s_axis[outer_else_mask])
+            / np.tan(0.5 * thetas[outer_else_mask])[:, None]
+        )
+
+        qs[outer_else_mask] = np.cross(s_axis[outer_else_mask], moment)
+        hs[outer_else_mask] = distance / thetas[outer_else_mask]
+
+    return qs, s_axis, hs, thetas
+
+def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
+    ds = np.zeros_like(hs)
+    
+    h_is_inf_mask = np.isinf(hs)
+    h_is_not_inf_mask = np.logical_not(h_is_inf_mask)
+
+    mod_thetas = thetas.copy()
+    if np.any(h_is_inf_mask):
+        ds[h_is_inf_mask] = thetas[h_is_inf_mask]
+        mod_thetas[h_is_inf_mask] = 0
+    
+    if np.any(h_is_not_inf_mask):
+        ds[h_is_not_inf_mask] = hs[h_is_not_inf_mask] * thetas[h_is_not_inf_mask]
+
+    moments = np.cross(qs, s_axis)
+    half_distances = 0.5 * ds
+    sin_half_angles = np.sin(0.5 * mod_thetas)
+    cos_half_angles = np.cos(0.5 * mod_thetas)
+
+    real_w = cos_half_angles
+    real_vec = sin_half_angles[..., None] * s_axis
+    dual_w = -half_distances * sin_half_angles
+    dual_vec = (sin_half_angles[..., None] * moments +
+                half_distances[..., None] * cos_half_angles[..., None] * s_axis)
+    
+    result = np.concatenate([real_w[..., None], real_vec, dual_w[..., None], dual_vec], axis=-1)
+    return result
+
+def dual_quaternions_power(dqs,ts):
+    q, s_axis, h, theta = screw_parameters_from_dual_quaternions(dqs)
+    return dual_quaternions_from_screw_parameters(q, s_axis, h, theta * ts)
+
+def dual_quaternions_sclerp(starts,ends,ts):
+    diff = batch_concatenate_dual_quaternions(batch_dq_conj(starts), ends)
+    return batch_concatenate_dual_quaternions(starts, dual_quaternions_power(diff, ts))
+    
 
 def transforms_from_dual_quaternions(dqs):
     """Get transformations from dual quaternions.
