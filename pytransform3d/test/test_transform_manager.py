@@ -510,6 +510,47 @@ def test_numpy_timeseries_transform():
     assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)
 
 
+def test_numpy_timeseries_transform_multiple_timestamps_query():
+    # create entities A and B together with their transformations from world
+    duration = 10.0  # [s]
+    sample_period = 0.5  # [s]
+    velocity_x = 1  # [m/s]
+    time_A, pq_arr_A = create_sinusoidal_movement(
+        duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
+    )
+    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
+
+    time_B, pq_arr_B = create_sinusoidal_movement(
+        duration, sample_period, velocity_x, y_start_offset=2.0,
+        start_time=0.35
+    )
+    transform_WB = NumpyTimeseriesTransform(time_B, pq_arr_B)
+
+    tm = TemporalTransformManager()
+
+    tm.add_transform("A", "W", transform_WA)
+    tm.add_transform("B", "W", transform_WB)
+
+    query_time = time_A[0]  # start time
+    A2W_at_start = pt.transform_from_pq(pq_arr_A[0, :])
+    A2W_at_start_2 = tm.get_transform_at_time("A", "W", query_time)
+    assert_array_almost_equal(A2W_at_start, A2W_at_start_2, decimal=2)
+
+    query_times = [4.9,4.9]  # [s]
+    A2B_at_query_times = tm.get_transform_at_time("A", "B", query_times)
+
+    origin_of_A_pos = pt.vector_to_point([0, 0, 0])
+    origin_of_A_in_B_pos = pt.transform(A2B_at_query_times, origin_of_A_pos)
+    origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
+
+    origin_of_A_in_B_x, origin_of_A_in_B_y = \
+        origin_of_A_in_B_xyz[0], origin_of_A_in_B_xyz[1]
+
+    assert origin_of_A_in_B_x == pytest.approx(-1.11, abs=1e-2)
+    assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)
+
+
+
 def test_numpy_timeseries_transform_wrong_input_shapes():
     n_steps = 10
     with pytest.raises(
