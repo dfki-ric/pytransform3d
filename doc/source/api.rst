@@ -148,6 +148,7 @@ Modified Rodrigues Parameters
 
    ~check_mrp
    ~mrp_near_singularity
+   ~norm_mrp
    ~concatenate_mrp
    ~mrp_from_axis_angle
    ~mrp_from_quaternion

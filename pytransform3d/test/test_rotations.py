@@ -2404,6 +2404,28 @@ def test_axis_angle_from_mrp():
         [1.0, 0.0, 0.0, 0.0])
 
 
+def test_norm_mrp():
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 1.5 * np.pi]))
+    assert_array_almost_equal(
+        [-1.0, 0.0, 0.0, 0.5 * np.pi], pr.axis_angle_from_mrp(mrp_norm))
+
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, -0.5 * np.pi]))
+    assert_array_almost_equal(
+        [-1.0, 0.0, 0.0, 0.5 * np.pi], pr.axis_angle_from_mrp(mrp_norm))
+
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 2.0 * np.pi]))
+    assert_array_almost_equal(
+        [1.0, 0.0, 0.0, 0.0], pr.axis_angle_from_mrp(mrp_norm))
+
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, -2.0 * np.pi]))
+    assert_array_almost_equal(
+        [1.0, 0.0, 0.0, 0.0], pr.axis_angle_from_mrp(mrp_norm))
+
+
 def test_assert_euler_almost_equal():
     pr.assert_euler_equal(
         [0.2, 0.3, -0.5], [0.2 + np.pi, -0.3, -0.5 - np.pi], 0, 1, 0)
