@@ -2426,6 +2426,17 @@ def test_norm_mrp():
         [1.0, 0.0, 0.0, 0.0], pr.axis_angle_from_mrp(mrp_norm))
 
 
+def test_mrp_double():
+    rng = np.random.default_rng(23238)
+    mrp = pr.random_vector(rng, 3)
+    mrp_double = pr.mrp_double(mrp)
+    q = pr.quaternion_from_mrp(mrp)
+    q_double = pr.quaternion_from_mrp(mrp_double)
+    assert not np.allclose(mrp, mrp_double)
+    pr.assert_quaternion_equal(q, q_double)
+    assert not np.allclose(q, q_double)
+
+
 def test_assert_euler_almost_equal():
     pr.assert_euler_equal(
         [0.2, 0.3, -0.5], [0.2 + np.pi, -0.3, -0.5 - np.pi], 0, 1, 0)
