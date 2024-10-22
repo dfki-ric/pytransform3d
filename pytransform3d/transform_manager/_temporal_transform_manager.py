@@ -5,9 +5,8 @@ import numpy as np
 from ..batch_rotations import norm_vectors
 
 from ._transform_graph_base import TransformGraphBase
-from ..transformations import check_transform, transform_from_pq, \
-    dual_quaternion_from_pq, pq_from_dual_quaternion, dual_quaternion_sclerp
-
+from ..transformations import check_transform, transform_from_pq, dual_quaternion_sclerp
+from ..trajectories import dual_quaternions_from_pqs, pqs_from_dual_quaternions
 
 class TimeVaryingTransform(abc.ABC):
     """Time-varying rigid transformation.
@@ -104,9 +103,11 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         return self
 
     def _interpolate_pq_using_sclerp(self, query_time):
+        if isinstance(query_time,float) or isinstance(query_time,float):
+            query_time_arr = np.array([query_time])
+
         # identify the index of the preceding sample
-        idx_timestep_earlier_wrt_query_time = np.argmax(
-            self.time >= query_time) - 1
+        idx_timestep_earlier_wrt_query_time = np.searchsorted(self.time, query_time_arr, side='right') - 1
 
         # deal with first timestamp
         idx_timestep_earlier_wrt_query_time = max(
@@ -115,18 +116,20 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         # dual quaternion from preceding sample
         t_prev = self.time[idx_timestep_earlier_wrt_query_time]
         pq_prev = self._pqs[idx_timestep_earlier_wrt_query_time, :]
-        dq_prev = dual_quaternion_from_pq(pq_prev)
+        dq_prev = dual_quaternions_from_pqs(pq_prev)
 
         # dual quaternion from successive sample
         t_next = self.time[idx_timestep_earlier_wrt_query_time + 1]
         pq_next = self._pqs[idx_timestep_earlier_wrt_query_time + 1, :]
-        dq_next = dual_quaternion_from_pq(pq_next)
+        dq_next = dual_quaternions_from_pqs(pq_next)
 
         # since sclerp works with relative (0-1) positions
         rel_delta_t = (query_time - t_prev) / (t_next - t_prev)
-        dq_interpolated = dual_quaternion_sclerp(dq_prev, dq_next, rel_delta_t)
-
-        return pq_from_dual_quaternion(dq_interpolated)
+        dqs_interpolated = dual_quaternions_sclerp(dq_prev, dq_next, rel_delta_t)
+        res = pqs_from_dual_quaternions(dqs_interpolated)
+        if res.shape[0] == 1:
+            return res[0]
+        return res
 
 
 class TemporalTransformManager(TransformGraphBase):
