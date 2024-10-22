@@ -2432,6 +2432,7 @@ def test_mrp_double():
     mrp_double = pr.mrp_double(mrp)
     q = pr.quaternion_from_mrp(mrp)
     q_double = pr.quaternion_from_mrp(mrp_double)
+    pr.assert_mrp_equal(mrp, mrp_double)
     assert not np.allclose(mrp, mrp_double)
     pr.assert_quaternion_equal(q, q_double)
     assert not np.allclose(q, q_double)
