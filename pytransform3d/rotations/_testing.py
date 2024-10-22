@@ -3,6 +3,7 @@ import numpy as np
 from numpy.testing import assert_array_almost_equal
 from ._utils import norm_axis_angle, norm_compact_axis_angle
 from ._conversions import norm_euler
+from ._mrp import mrp_double
 
 
 def assert_euler_equal(e1, e2, i, j, k, *args, **kwargs):
@@ -159,3 +160,32 @@ def assert_rotation_matrix(R, *args, **kwargs):
     """
     assert_array_almost_equal(np.dot(R, R.T), np.eye(3), *args, **kwargs)
     assert_array_almost_equal(np.linalg.det(R), 1.0, *args, **kwargs)
+
+
+def assert_mrp_equal(mrp1, mrp2, *args, **kwargs):
+    """Raise an assertion if two MRPs are not approximately equal.
+
+    There are two MRPs that represent the same orientation (double cover). See
+    numpy.testing.assert_array_almost_equal for a more detailed documentation
+    of the other parameters.
+
+    Parameters
+    ----------
+    mrp1 : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    mrp1 : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    try:
+        assert_array_almost_equal(mrp1, mrp2, *args, **kwargs)
+    except AssertionError:
+        assert_array_almost_equal(mrp1, mrp_double(mrp2), *args, **kwargs)

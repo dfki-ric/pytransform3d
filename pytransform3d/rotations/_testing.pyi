@@ -15,3 +15,6 @@ def assert_quaternion_equal(q1: npt.ArrayLike, q2: npt.ArrayLike, *args, **kwarg
 
 
 def assert_rotation_matrix(R: npt.ArrayLike, *args, **kwargs): ...
+
+
+def assert_mrp_equal(mrp1: npt.ArrayLike, mrp2: npt.ArrayLike, *args, **kwargs): ...

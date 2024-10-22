@@ -153,6 +153,7 @@ Modified Rodrigues Parameters
    ~concatenate_mrp
    ~mrp_from_axis_angle
    ~mrp_from_quaternion
+   ~assert_mrp_equal
 
 Jacobians
 ---------

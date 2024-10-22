@@ -98,7 +98,7 @@ from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
                      axis_angle_slerp, rotor_slerp)
 from ._testing import (
     assert_euler_equal, assert_quaternion_equal, assert_axis_angle_equal,
-    assert_compact_axis_angle_equal, assert_rotation_matrix)
+    assert_compact_axis_angle_equal, assert_rotation_matrix, assert_mrp_equal)
 from ._plot import plot_basis, plot_axis_angle, plot_bivector
 from ._rotors import (
     wedge, geometric_product, rotor_apply, rotor_reverse, concatenate_rotors,
@@ -245,6 +245,7 @@ __all__ = [
     "assert_axis_angle_equal",
     "assert_compact_axis_angle_equal",
     "assert_rotation_matrix",
+    "assert_mrp_equal",
     "plot_basis",
     "plot_axis_angle",
     "wedge",
