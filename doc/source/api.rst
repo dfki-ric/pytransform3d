@@ -256,6 +256,7 @@ Transformation Matrix
    :template: function.rst
 
    ~check_transform
+   ~transform_requires_renormalization
    ~random_transform
    ~concat
    ~invert_transform

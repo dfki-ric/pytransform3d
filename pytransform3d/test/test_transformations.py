@@ -925,3 +925,8 @@ def test_pq_slerp():
     assert_array_almost_equal(pq_025, [0.4, 0.35, 0.5, 0.92388, 0.382683, 0, 0])
     pq_075 = pt.pq_slerp(start, end, 0.75)
     assert_array_almost_equal(pq_075, [0.8, 0.45, 0.7, 0.382683, 0.92388, 0, 0])
+
+
+def test_transform_requires_renormalization():
+    assert pt.transform_requires_renormalization(np.eye(4) + 1e-6)
+    assert not pt.transform_requires_renormalization(np.eye(4))
