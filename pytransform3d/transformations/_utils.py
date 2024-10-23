@@ -1,7 +1,37 @@
 """Utility functions for transforms."""
 import warnings
 import numpy as np
-from ..rotations import check_matrix, norm_vector, check_skew_symmetric_matrix
+from ..rotations import (
+    check_matrix, norm_vector, check_skew_symmetric_matrix,
+    matrix_requires_renormalization)
+
+
+def transform_requires_renormalization(A2B, tolerance=1e-6):
+    r"""Check if transformation matrix requires renormalization.
+
+    This function will check if :math:`R R^T \approx I`.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B with a rotation matrix that should
+        be orthonormal.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Indicates if renormalization is required.
+
+    See Also
+    --------
+    matrix_requires_renormalization
+        Check if a rotation matrix needs renormalization.
+    norm_matrix : Orthonormalize rotation matrix.
+    """
+    return matrix_requires_renormalization(np.asarray(A2B[:3, :3]), tolerance)
 
 
 def check_transform(A2B, strict_check=True):
