@@ -27,9 +27,9 @@ def transform_requires_renormalization(A2B, tolerance=1e-6):
 
     See Also
     --------
-    matrix_requires_renormalization
+    pytransform3d.rotations.matrix_requires_renormalization
         Check if a rotation matrix needs renormalization.
-    norm_matrix : Orthonormalize rotation matrix.
+    pytransform3d.rotations.norm_matrix : Orthonormalize rotation matrix.
     """
     return matrix_requires_renormalization(np.asarray(A2B[:3, :3]), tolerance)
 
