@@ -58,6 +58,17 @@ def test_norm_axis_angle():
             assert_array_almost_equal(n, n2)
 
 
+def test_compact_axis_angle_near_pi():
+    assert pr.compact_axis_angle_near_pi(
+        np.pi * pr.norm_vector([0.2, 0.1, -0.3]))
+    assert pr.compact_axis_angle_near_pi(
+        (1e-7 + np.pi) * pr.norm_vector([0.2, 0.1, -0.3]))
+    assert pr.compact_axis_angle_near_pi(
+        (-1e-7 + np.pi) * pr.norm_vector([0.2, 0.1, -0.3]))
+    assert not pr.compact_axis_angle_near_pi(
+        (-1e-5 + np.pi) * pr.norm_vector([0.2, 0.1, -0.3]))
+
+
 def test_norm_compact_axis_angle():
     """Test normalization of compact angle-axis representation."""
     a = np.array([np.pi, 0.0, 0.0])
@@ -1600,6 +1611,14 @@ def test_quaternion_invert():
     assert_array_almost_equal(pr.q_id, q_q_inv)
 
 
+def test_quaternion_double():
+    rng = np.random.default_rng(2235)
+    for _ in range(5):
+        q1 = pr.random_quaternion(rng)
+        q2 = pr.quaternion_double(q1)
+        pr.assert_quaternion_equal(q1, q2)
+
+
 def test_quaternion_gradient_integration():
     """Test integration of quaternion gradients."""
     n_steps = 21
@@ -1741,6 +1760,30 @@ def test_norm_rotation_matrix():
     R_norm = pr.norm_matrix(R)
     assert pytest.approx(np.linalg.det(R_norm)) == 1.0
     assert_array_almost_equal(np.eye(3), R_norm)
+
+
+def test_matrix_requires_renormalization():
+    R = np.eye(3)
+    assert not pr.matrix_requires_renormalization(R)
+
+    R[1, 0] += 1e-3
+    assert pr.matrix_requires_renormalization(R)
+
+    rng = np.random.default_rng(39232)
+    R_total = np.eye(3)
+    for _ in range(10):
+        e = pr.random_vector(rng, 3)
+        R = pr.active_matrix_from_extrinsic_roll_pitch_yaw(e)
+        assert not pr.matrix_requires_renormalization(R, tolerance=1e-16)
+        R_total = np.dot(R, R_total)
+    assert pr.matrix_requires_renormalization(R_total, tolerance=1e-16)
+
+
+def test_quaternion_requires_renormalization():
+    assert not pr.quaternion_requires_renormalization(pr.q_id)
+
+    q = pr.q_id + np.array([1e-3, 0.0, 0.0, 0.0])
+    assert pr.quaternion_requires_renormalization(q)
 
 
 def test_matrix_from_two_vectors():
@@ -2128,6 +2171,59 @@ def test_quaternion_from_euler():
                 pr.assert_quaternion_equal(q, q2)
 
 
+def test_norm_euler():
+    rng = np.random.default_rng(94322)
+
+    euler_axes = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [1, 0, 1],
+        [1, 2, 1],
+        [2, 1, 2],
+        [2, 0, 2],
+        [0, 2, 1],
+        [0, 1, 2],
+        [1, 0, 2],
+        [1, 2, 0],
+        [2, 1, 0],
+        [2, 0, 1]
+    ]
+    for ea in euler_axes:
+        for _ in range(10):
+            e = np.pi + rng.random(3) * np.pi * 2.0
+            e *= np.sign(rng.standard_normal(3))
+
+            e_norm = pr.norm_euler(e, *ea)
+            R1 = pr.matrix_from_euler(e, ea[0], ea[1], ea[2], True)
+            R2 = pr.matrix_from_euler(e_norm, ea[0], ea[1], ea[2], True)
+            assert_array_almost_equal(R1, R2)
+            assert not np.allclose(e, e_norm)
+            assert -np.pi <= e_norm[0] <= np.pi
+            if ea[0] == ea[2]:
+                assert 0.0 <= e_norm[1] <= np.pi
+            else:
+                assert -0.5 * np.pi <= e_norm[1] <= 0.5 * np.pi
+            assert -np.pi <= e_norm[2] <= np.pi
+            pr.assert_euler_equal(e, e_norm, *ea)
+
+
+def test_euler_near_gimbal_lock():
+    assert pr.euler_near_gimbal_lock([0, 0, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, -1e-7, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, 1e-7, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, np.pi, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, np.pi - 1e-7, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, np.pi + 1e-7, 0], 1, 2, 1)
+    assert not pr.euler_near_gimbal_lock([0, 0.5, 0], 1, 2, 1)
+    assert pr.euler_near_gimbal_lock([0, 0.5 * np.pi, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, 0.5 * np.pi - 1e-7, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, 0.5 * np.pi + 1e-7, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, -0.5 * np.pi, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, -0.5 * np.pi - 1e-7, 0], 0, 1, 2)
+    assert pr.euler_near_gimbal_lock([0, -0.5 * np.pi + 1e-7, 0], 0, 1, 2)
+    assert not pr.euler_near_gimbal_lock([0, 0, 0], 0, 1, 2)
+
+
 def test_general_matrix_euler_conversions():
     """General conversion algorithms between matrix and Euler angles."""
     rng = np.random.default_rng(22)
@@ -2168,6 +2264,7 @@ def test_general_matrix_euler_conversions():
                 e_R = pr.euler_from_matrix(R, ea[0], ea[1], ea[2], extrinsic)
                 e_q = pr.euler_from_quaternion(
                     q, ea[0], ea[1], ea[2], extrinsic)
+                pr.assert_euler_equal(e_R, e_q, *ea)
 
                 R_R = pr.matrix_from_euler(
                     e_R, ea[0], ea[1], ea[2], extrinsic)
@@ -2253,6 +2350,15 @@ def test_norm_angle_precision():
     assert_array_equal(pr.norm_angle(a_epsneg), a_epsneg)
 
 
+def test_mrp_near_singularity():
+    axis = np.array([1.0, 0.0, 0.0])
+    assert pr.mrp_near_singularity(np.tan(2.0 * np.pi / 4.0) * axis)
+    assert pr.mrp_near_singularity(np.tan(2.0 * np.pi / 4.0 - 1e-7) * axis)
+    assert pr.mrp_near_singularity(np.tan(2.0 * np.pi / 4.0 + 1e-7) * axis)
+    assert not pr.mrp_near_singularity(np.tan(np.pi / 4.0) * axis)
+    assert not pr.mrp_near_singularity(np.tan(0.0 / 4.0) * axis)
+
+
 def test_concatenate_mrp():
     rng = np.random.default_rng(283)
     for _ in range(5):
@@ -2263,3 +2369,77 @@ def test_concatenate_mrp():
         mrp2 = pr.mrp_from_quaternion(q2)
         mrp12 = pr.concatenate_mrp(mrp1, mrp2)
         pr.assert_quaternion_equal(q12, pr.quaternion_from_mrp(mrp12))
+
+
+def test_mrp_from_axis_angle():
+    rng = np.random.default_rng(98343)
+    for _ in range(5):
+        a = pr.random_axis_angle(rng)
+        mrp = pr.mrp_from_axis_angle(a)
+        q = pr.quaternion_from_axis_angle(a)
+        assert_array_almost_equal(mrp, pr.mrp_from_quaternion(q))
+
+    assert_array_almost_equal(
+        [0.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 0.0]))
+    assert_array_almost_equal(
+        [0.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 2.0 * np.pi]))
+    assert_array_almost_equal(
+        [1.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, np.pi]))
+
+
+def test_axis_angle_from_mrp():
+    rng = np.random.default_rng(98343)
+    for _ in range(5):
+        mrp = pr.random_vector(rng, 3)
+        a = pr.axis_angle_from_mrp(mrp)
+        q = pr.quaternion_from_mrp(mrp)
+        pr.assert_axis_angle_equal(a, pr.axis_angle_from_quaternion(q))
+
+    pr.assert_axis_angle_equal(
+        pr.axis_angle_from_mrp([np.tan(0.5 * np.pi), 0.0, 0.0]),
+        [1.0, 0.0, 0.0, 0.0])
+
+    pr.assert_axis_angle_equal(
+        pr.axis_angle_from_mrp([0.0, 0.0, 0.0]),
+        [1.0, 0.0, 0.0, 0.0])
+
+
+def test_norm_mrp():
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 1.5 * np.pi]))
+    assert_array_almost_equal(
+        [-1.0, 0.0, 0.0, 0.5 * np.pi], pr.axis_angle_from_mrp(mrp_norm))
+
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, -0.5 * np.pi]))
+    assert_array_almost_equal(
+        [-1.0, 0.0, 0.0, 0.5 * np.pi], pr.axis_angle_from_mrp(mrp_norm))
+
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, 2.0 * np.pi]))
+    assert_array_almost_equal(
+        [1.0, 0.0, 0.0, 0.0], pr.axis_angle_from_mrp(mrp_norm))
+
+    mrp_norm = pr.norm_mrp(
+        pr.mrp_from_axis_angle([1.0, 0.0, 0.0, -2.0 * np.pi]))
+    assert_array_almost_equal(
+        [1.0, 0.0, 0.0, 0.0], pr.axis_angle_from_mrp(mrp_norm))
+
+
+def test_mrp_double():
+    rng = np.random.default_rng(23238)
+    mrp = pr.random_vector(rng, 3)
+    mrp_double = pr.mrp_double(mrp)
+    q = pr.quaternion_from_mrp(mrp)
+    q_double = pr.quaternion_from_mrp(mrp_double)
+    pr.assert_mrp_equal(mrp, mrp_double)
+    assert not np.allclose(mrp, mrp_double)
+    pr.assert_quaternion_equal(q, q_double)
+    assert not np.allclose(q, q_double)
+
+
+def test_assert_euler_almost_equal():
+    pr.assert_euler_equal(
+        [0.2, 0.3, -0.5], [0.2 + np.pi, -0.3, -0.5 - np.pi], 0, 1, 0)
+    pr.assert_euler_equal(
+        [0.2, 0.3, -0.5], [0.2 + np.pi, np.pi - 0.3, -0.5 - np.pi], 0, 1, 2)

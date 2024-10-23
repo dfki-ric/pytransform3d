@@ -3,9 +3,9 @@
 See :doc:`user_guide/transformations` for more information.
 """
 from ._utils import (
-    check_transform, check_pq, check_screw_parameters, check_screw_axis,
-    check_exponential_coordinates, check_screw_matrix, check_transform_log,
-    check_dual_quaternion)
+    transform_requires_renormalization, check_transform, check_pq,
+    check_screw_parameters, check_screw_axis, check_exponential_coordinates,
+    check_screw_matrix, check_transform_log, check_dual_quaternion)
 from ._conversions import (
     transform_from, rotate_transform, translate_transform,
     pq_from_transform, transform_from_pq,
@@ -36,16 +36,18 @@ from ._random import (
     random_transform, random_screw_axis, random_exponential_coordinates)
 from ._plot import plot_transform, plot_screw
 from ._testing import (
-    assert_transform, assert_screw_parameters_equal,
-    assert_unit_dual_quaternion_equal, assert_unit_dual_quaternion)
+    assert_transform, assert_exponential_coordinates_equal,
+    assert_screw_parameters_equal, assert_unit_dual_quaternion_equal,
+    assert_unit_dual_quaternion)
 from ._jacobians import (
     left_jacobian_SE3, left_jacobian_SE3_series, left_jacobian_SE3_inv,
     left_jacobian_SE3_inv_series)
 
 
 __all__ = [
-    "check_transform", "check_pq", "check_screw_parameters",
-    "check_screw_axis", "check_exponential_coordinates", "check_screw_matrix",
+    "transform_requires_renormalization", "check_transform", "check_pq",
+    "check_screw_parameters", "check_screw_axis",
+    "check_exponential_coordinates", "check_screw_matrix",
     "check_transform_log", "check_dual_quaternion",
     "transform_from", "rotate_transform", "translate_transform",
     "pq_from_transform", "transform_from_pq",
@@ -73,8 +75,9 @@ __all__ = [
     "dq_q_conj", "dq_conj", "concatenate_dual_quaternions",
     "dual_quaternion_sclerp", "dual_quaternion_power", "dq_prod_vector",
     "plot_transform", "plot_screw",
-    "assert_transform", "assert_screw_parameters_equal",
-    "assert_unit_dual_quaternion_equal", "assert_unit_dual_quaternion",
+    "assert_transform", "assert_exponential_coordinates_equal",
+    "assert_screw_parameters_equal", "assert_unit_dual_quaternion_equal",
+    "assert_unit_dual_quaternion",
     "left_jacobian_SE3", "left_jacobian_SE3_series", "left_jacobian_SE3_inv",
     "left_jacobian_SE3_inv_series"
 ]

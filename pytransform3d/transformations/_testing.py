@@ -4,6 +4,7 @@ from numpy.testing import assert_array_almost_equal
 from ..rotations import assert_rotation_matrix, norm_angle, eps
 from ._dual_quaternion_operations import (
     dq_q_conj, concatenate_dual_quaternions)
+from ._conversions import norm_exponential_coordinates
 
 
 def assert_transform(A2B, *args, **kwargs):
@@ -28,6 +29,36 @@ def assert_transform(A2B, *args, **kwargs):
     assert_rotation_matrix(A2B[:3, :3], *args, **kwargs)
     assert_array_almost_equal(A2B[3], np.array([0.0, 0.0, 0.0, 1.0]),
                               *args, **kwargs)
+
+
+def assert_exponential_coordinates_equal(Stheta1, Stheta2):
+    """Raise an assertion if exp. coordinates are not approximately equal.
+
+    Parameters
+    ----------
+    Stheta1 : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    Stheta2 : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    Stheta1 = norm_exponential_coordinates(Stheta1)
+    Stheta2 = norm_exponential_coordinates(Stheta2)
+    assert_array_almost_equal(Stheta1, Stheta2)
 
 
 def assert_unit_dual_quaternion(dq, *args, **kwargs):

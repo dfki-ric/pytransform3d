@@ -17,4 +17,4 @@ p0 = np.array([0.0, 0.0, 0.0])
 eps = 1e-7
 
 two_pi = 2.0 * np.pi
-
+half_pi = 0.5 * np.pi

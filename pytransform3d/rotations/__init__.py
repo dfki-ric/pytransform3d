@@ -7,7 +7,9 @@ from ._constants import (
 from ._utils import (
     norm_angle, norm_vector, angle_between_vectors, perpendicular_to_vector,
     vector_projection, perpendicular_to_vectors,
-    norm_axis_angle, norm_compact_axis_angle, norm_matrix,
+    norm_axis_angle, compact_axis_angle_near_pi, norm_compact_axis_angle,
+    matrix_requires_renormalization, norm_matrix,
+    quaternion_requires_renormalization,
     plane_basis_from_normal,
     check_skew_symmetric_matrix, check_matrix, check_quaternion,
     check_quaternions, check_axis_angle, check_compact_axis_angle,
@@ -27,7 +29,8 @@ from ._conversions import (
     compact_axis_angle_from_matrix,
     matrix_from_quaternion, matrix_from_compact_axis_angle,
     matrix_from_axis_angle, matrix_from_two_vectors,
-    active_matrix_from_angle, matrix_from_euler,
+    active_matrix_from_angle, norm_euler, euler_near_gimbal_lock,
+    matrix_from_euler,
     active_matrix_from_extrinsic_euler_xyx,
     active_matrix_from_intrinsic_euler_xyx,
     active_matrix_from_extrinsic_euler_xyz,
@@ -83,16 +86,19 @@ from ._conversions import (
     quaternion_from_angle,
     cross_product_matrix,
     mrp_from_quaternion,
-    quaternion_from_mrp)
+    quaternion_from_mrp,
+    mrp_from_axis_angle,
+    axis_angle_from_mrp)
 from ._quaternion_operations import (
-    quaternion_integrate, quaternion_gradient, concatenate_quaternions, q_conj,
-    q_prod_vector, quaternion_diff, quaternion_dist, quaternion_from_euler)
-from ._mrp import concatenate_mrp
+    quaternion_double, quaternion_integrate, quaternion_gradient,
+    concatenate_quaternions, q_conj, q_prod_vector, quaternion_diff,
+    quaternion_dist, quaternion_from_euler)
+from ._mrp import mrp_near_singularity, norm_mrp, mrp_double, concatenate_mrp
 from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
                      axis_angle_slerp, rotor_slerp)
 from ._testing import (
-    assert_quaternion_equal, assert_axis_angle_equal,
-    assert_compact_axis_angle_equal, assert_rotation_matrix)
+    assert_euler_equal, assert_quaternion_equal, assert_axis_angle_equal,
+    assert_compact_axis_angle_equal, assert_rotation_matrix, assert_mrp_equal)
 from ._plot import plot_basis, plot_axis_angle, plot_bivector
 from ._rotors import (
     wedge, geometric_product, rotor_apply, rotor_reverse, concatenate_rotors,
@@ -121,8 +127,11 @@ __all__ = [
     "vector_projection",
     "perpendicular_to_vectors",
     "norm_axis_angle",
+    "compact_axis_angle_near_pi",
     "norm_compact_axis_angle",
+    "matrix_requires_renormalization",
     "norm_matrix",
+    "quaternion_requires_renormalization",
     "random_vector",
     "random_axis_angle",
     "random_compact_axis_angle",
@@ -153,6 +162,8 @@ __all__ = [
     "matrix_from_axis_angle",
     "matrix_from_two_vectors",
     "active_matrix_from_angle",
+    "norm_euler",
+    "euler_near_gimbal_lock",
     "matrix_from_euler",
     "active_matrix_from_extrinsic_euler_xyx",
     "active_matrix_from_intrinsic_euler_xyx",
@@ -208,10 +219,16 @@ __all__ = [
     "euler_from_quaternion",
     "quaternion_from_angle",
     "quaternion_from_euler",
+    "mrp_near_singularity",
+    "norm_mrp",
+    "mrp_double",
     "concatenate_mrp",
     "cross_product_matrix",
     "mrp_from_quaternion",
     "quaternion_from_mrp",
+    "mrp_from_axis_angle",
+    "axis_angle_from_mrp",
+    "quaternion_double",
     "quaternion_integrate",
     "quaternion_gradient",
     "concatenate_quaternions",
@@ -223,10 +240,12 @@ __all__ = [
     "pick_closest_quaternion",
     "quaternion_slerp",
     "axis_angle_slerp",
+    "assert_euler_equal",
     "assert_quaternion_equal",
     "assert_axis_angle_equal",
     "assert_compact_axis_angle_equal",
     "assert_rotation_matrix",
+    "assert_mrp_equal",
     "plot_basis",
     "plot_axis_angle",
     "wedge",
