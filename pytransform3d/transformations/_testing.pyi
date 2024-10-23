@@ -5,6 +5,9 @@ import numpy.typing as npt
 def assert_transform(A2B: npt.ArrayLike, *args, **kwargs): ...
 
 
+def assert_exponential_coordinates_equal(Stheta1: npt.ArrayLike, Stheta2: npt.ArrayLike): ...
+
+
 def assert_unit_dual_quaternion(dq: npt.ArrayLike, *args, **kwargs): ...
 
 

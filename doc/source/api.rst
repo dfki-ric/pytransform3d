@@ -328,6 +328,7 @@ Exponential Coordinates
    ~exponential_coordinates_from_transform
    ~exponential_coordinates_from_screw_axis
    ~exponential_coordinates_from_transform_log
+   ~assert_exponential_coordinates_equal
 
 Screw Matrix
 ------------

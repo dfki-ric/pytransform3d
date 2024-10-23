@@ -252,6 +252,8 @@ def test_norm_exponential_coordinates():
         Stheta_only_translation)
     assert_array_almost_equal(
         Stheta_only_translation, Stheta_only_translation2)
+    pt.assert_exponential_coordinates_equal(
+        Stheta_only_translation, Stheta_only_translation2)
 
     rng = np.random.default_rng(381)
 
@@ -265,8 +267,10 @@ def test_norm_exponential_coordinates():
         assert_array_almost_equal(
             pt.transform_from_exponential_coordinates(Stheta),
             pt.transform_from_exponential_coordinates(Stheta2))
-        assert_array_almost_equal(pt.norm_exponential_coordinates(Stheta),
-                                  pt.norm_exponential_coordinates(Stheta2))
+        assert_array_almost_equal(
+            pt.norm_exponential_coordinates(Stheta),
+            pt.norm_exponential_coordinates(Stheta2))
+        pt.assert_exponential_coordinates_equal(Stheta, Stheta2)
 
     for _ in range(10):
         Stheta = rng.standard_normal(size=6)
@@ -274,6 +278,7 @@ def test_norm_exponential_coordinates():
         Stheta[rng.integers(0, 3)] += np.pi + rng.random()
         Stheta_norm = pt.norm_exponential_coordinates(Stheta)
         assert not np.all(Stheta == Stheta_norm)
+        pt.assert_exponential_coordinates_equal(Stheta, Stheta_norm)
 
         A2B = pt.transform_from_exponential_coordinates(Stheta)
         Stheta2 = pt.exponential_coordinates_from_transform(A2B)
