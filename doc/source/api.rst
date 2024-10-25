@@ -447,35 +447,46 @@ Jacobians
     :no-members:
     :no-inherited-members:
 
-Conversions
------------
+Rotation Matrices
+-----------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
    ~active_matrices_from_angles
+
    ~active_matrices_from_intrinsic_euler_angles
    ~active_matrices_from_extrinsic_euler_angles
    ~matrices_from_compact_axis_angles
-   ~axis_angles_from_matrices
-   ~cross_product_matrices
    ~matrices_from_quaternions
-   ~quaternions_from_matrices
-   ~batch_quaternion_wxyz_from_xyzw
-   ~batch_quaternion_xyzw_from_wxyz
 
-Operations
-----------
+Axis-Angle Representation
+-------------------------
 
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
 
-   ~batch_q_conj
+   ~axis_angles_from_matrices
+
+   ~cross_product_matrices
+
+Quaternions
+-----------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~batch_concatenate_quaternions
+   ~batch_q_conj
    ~quaternion_slerp_batch
    ~smooth_quaternion_trajectory
+
+   ~quaternions_from_matrices
+   ~batch_quaternion_wxyz_from_xyzw
+   ~batch_quaternion_xyzw_from_wxyz
 
 Utility Functions
 -----------------
@@ -495,23 +506,8 @@ Utility Functions
     :no-members:
     :no-inherited-members:
 
-Conversions
------------
-
-.. autosummary::
-   :toctree: _apidoc/
-   :template: function.rst
-
-   ~transforms_from_pqs
-   ~transforms_from_exponential_coordinates
-   ~transforms_from_dual_quaternions
-   ~pqs_from_transforms
-   ~pqs_from_dual_quaternions
-   ~exponential_coordinates_from_transforms
-   ~dual_quaternions_from_pqs
-
-Operations and Utility Functions
---------------------------------
+Transformation Matrices
+-----------------------
 
 .. autosummary::
    :toctree: _apidoc/
@@ -520,11 +516,47 @@ Operations and Utility Functions
    ~invert_transforms
    ~concat_one_to_many
    ~concat_many_to_one
+
+   ~transforms_from_pqs
+   ~transforms_from_exponential_coordinates
+   ~transforms_from_dual_quaternions
+
+Positions and Quaternions
+-------------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~plot_trajectory
+
+   ~pqs_from_transforms
+   ~pqs_from_dual_quaternions
+
+
+Exponential Coordinates
+-----------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~mirror_screw_axis_direction
+
+   ~exponential_coordinates_from_transforms
+
+Dual Quaternions
+----------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
    ~batch_dq_conj
    ~batch_concatenate_dual_quaternions
    ~batch_dq_prod_vector
-   ~plot_trajectory
-   ~mirror_screw_axis_direction
+
+   ~dual_quaternions_from_pqs
 
 
 :mod:`pytransform3d.uncertainty`
