@@ -40,6 +40,8 @@ pytransform3d offers...
   translation / position
 * conversions between those representations
 * clear documentation of conventions
+* functions to check for common pitfalls (e.g., singularities, ambiguities,
+  discontinuities)
 * tight coupling with matplotlib to quickly visualize (or animate)
   transformations
 * the TransformManager which organizes complex chains of transformations
