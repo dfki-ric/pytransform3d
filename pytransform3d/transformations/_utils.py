@@ -373,6 +373,51 @@ def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     return transform_log
 
 
+def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
+    r"""Check if dual quaternion requires renormalization.
+
+    Dual quaternions that represent transformations in 3D should have unit
+    norm. Since the real and the dual quaternion are orthogonal, their
+    product is 0. In addition, :math:`\epsilon^2 = 0`. Hence,
+
+    .. math::
+
+        ||\boldsymbol{p} + \epsilon \boldsymbol{q}||
+        =
+        \sqrt{(\boldsymbol{p} + \epsilon \boldsymbol{q}) \cdot
+        (\boldsymbol{p} + \epsilon \boldsymbol{q})}
+        =
+        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}
+        + 2\epsilon \boldsymbol{p}\cdot\boldsymbol{q}
+        + \epsilon^2 \boldsymbol{q}\cdot\boldsymbol{q}}
+        =
+        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}},
+
+    i.e., the norm only depends on the real quaternion.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Indicates if renormalization is required.
+
+    See Also
+    --------
+    check_dual_quaternion
+        Input validation of dual quaternion representation. Has an option to
+        normalize the dual quaternion.
+    """
+    return abs(np.linalg.norm(dq[:4]) - 1.0) > tolerance
+
+
 def check_dual_quaternion(dq, unit=True):
     """Input validation of dual quaternion representation.
 
@@ -418,7 +463,8 @@ def check_dual_quaternion(dq, unit=True):
                          "array-like object with shape %s" % (dq.shape,))
     if unit:
         # Norm of a dual quaternion only depends on the real part because
-        # the dual part vanishes with epsilon ** 2 = 0.
+        # the dual part vanishes with (1) epsilon ** 2 = 0 and (2) the real
+        # and dual part being orthogonal, i.e., their product is 0.
         real_norm = np.linalg.norm(dq[:4])
         if real_norm == 0.0:
             return np.r_[1, 0, 0, 0, dq[4:]]

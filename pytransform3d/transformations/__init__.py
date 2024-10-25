@@ -5,7 +5,8 @@ See :doc:`user_guide/transformations` for more information.
 from ._utils import (
     transform_requires_renormalization, check_transform, check_pq,
     check_screw_parameters, check_screw_axis, check_exponential_coordinates,
-    check_screw_matrix, check_transform_log, check_dual_quaternion)
+    check_screw_matrix, check_transform_log,
+    dual_quaternion_requires_renormalization, check_dual_quaternion)
 from ._conversions import (
     transform_from, rotate_transform, translate_transform,
     pq_from_transform, transform_from_pq,
@@ -48,7 +49,8 @@ __all__ = [
     "transform_requires_renormalization", "check_transform", "check_pq",
     "check_screw_parameters", "check_screw_axis",
     "check_exponential_coordinates", "check_screw_matrix",
-    "check_transform_log", "check_dual_quaternion",
+    "check_transform_log", "dual_quaternion_requires_renormalization",
+    "check_dual_quaternion",
     "transform_from", "rotate_transform", "translate_transform",
     "pq_from_transform", "transform_from_pq",
     "transform_from_transform_log", "transform_log_from_transform",

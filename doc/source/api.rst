@@ -361,6 +361,7 @@ Dual Quaternion
    :template: function.rst
 
    ~check_dual_quaternion
+   ~dual_quaternion_requires_renormalization
    ~dq_conj
    ~dq_q_conj
    ~concatenate_dual_quaternions
