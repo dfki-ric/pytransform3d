@@ -7,10 +7,18 @@ from ..rotations import concatenate_quaternions
 
 
 def dual_quaternion_double(dq):
-    """Create another dual quaternion that represents the same transformation.
+    r"""Create another dual quaternion that represents the same transformation.
 
-    The unit dual quaternions sigma and -sigma represent the same
-    transformation (double cover).
+    The unit dual quaternions
+    :math:`\boldsymbol{\sigma} = \boldsymbol{p} + \epsilon \boldsymbol{q}` and
+    :math:`-\boldsymbol{\sigma}` represent exactly the same transformation.
+    The reason for this ambiguity is that the real quaternion
+    :math:`\boldsymbol{p}` represents the orientation component, the dual
+    quaternion encodes the translation component as
+    :math:`\boldsymbol{q} = 0.5 \boldsymbol{t} \boldsymbol{p}`, where
+    :math:`\boldsymbol{t}` is a quaternion with the translation in the vector
+    component and the scalar 0, and rotation quaternions have the same
+    ambiguity.
 
     Parameters
     ----------
