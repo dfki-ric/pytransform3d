@@ -24,18 +24,23 @@ Rotation Matrix
    :template: function.rst
 
    ~check_matrix
+
    ~matrix_requires_renormalization
    ~norm_matrix
+
    ~plot_basis
+
+   ~assert_rotation_matrix
+
    ~passive_matrix_from_angle
    ~active_matrix_from_angle
    ~matrix_from_two_vectors
+
    ~matrix_from_euler
    ~matrix_from_axis_angle
    ~matrix_from_compact_axis_angle
    ~matrix_from_quaternion
    ~matrix_from_rotor
-   ~assert_rotation_matrix
 
 Euler Angles
 ------------
@@ -46,9 +51,11 @@ Euler Angles
 
    ~euler_near_gimbal_lock
    ~norm_euler
+
+   ~assert_euler_equal
+
    ~euler_from_quaternion
    ~euler_from_matrix
-   ~assert_euler_equal
 
 Axis-Angle
 ----------
@@ -59,14 +66,23 @@ Axis-Angle
 
    ~check_axis_angle
    ~check_compact_axis_angle
+
    ~compact_axis_angle_near_pi
    ~norm_axis_angle
    ~norm_compact_axis_angle
+
    ~random_axis_angle
    ~random_compact_axis_angle
+
    ~plot_axis_angle
+
+   ~assert_axis_angle_equal
+   ~assert_compact_axis_angle_equal
+
    ~axis_angle_slerp
+
    ~axis_angle_from_two_directions
+
    ~axis_angle_from_matrix
    ~axis_angle_from_quaternion
    ~axis_angle_from_compact_axis_angle
@@ -74,8 +90,6 @@ Axis-Angle
    ~compact_axis_angle
    ~compact_axis_angle_from_matrix
    ~compact_axis_angle_from_quaternion
-   ~assert_axis_angle_equal
-   ~assert_compact_axis_angle_equal
 
 Logarithm of Rotation
 ---------------------
@@ -85,6 +99,7 @@ Logarithm of Rotation
    :template: function.rst
 
    ~check_skew_symmetric_matrix
+
    ~cross_product_matrix
 
 
@@ -97,10 +112,16 @@ Quaternion
 
    ~check_quaternion
    ~check_quaternions
+
    ~quaternion_requires_renormalization
+
    ~quaternion_double
    ~pick_closest_quaternion
+
    ~random_quaternion
+
+   ~assert_quaternion_equal
+
    ~concatenate_quaternions
    ~q_prod_vector
    ~q_conj
@@ -117,7 +138,6 @@ Quaternion
    ~quaternion_from_mrp
    ~quaternion_xyzw_from_wxyz
    ~quaternion_wxyz_from_xyzw
-   ~assert_quaternion_equal
 
 Rotor
 -----
@@ -126,9 +146,10 @@ Rotor
    :toctree: _apidoc/
    :template: function.rst
 
-
    ~check_rotor
+
    ~plot_bivector
+
    ~wedge
    ~plane_normal_from_bivector
    ~geometric_product
@@ -136,6 +157,7 @@ Rotor
    ~rotor_reverse
    ~rotor_apply
    ~rotor_slerp
+
    ~rotor_from_two_directions
    ~rotor_from_plane_angle
 
@@ -147,13 +169,18 @@ Modified Rodrigues Parameters
    :template: function.rst
 
    ~check_mrp
+
    ~mrp_near_singularity
    ~norm_mrp
+
+   ~assert_mrp_equal
+
    ~mrp_double
+
    ~concatenate_mrp
+
    ~mrp_from_axis_angle
    ~mrp_from_quaternion
-   ~assert_mrp_equal
 
 Jacobians
 ---------
@@ -174,12 +201,12 @@ Utility Functions
    :toctree: _apidoc/
    :template: function.rst
 
+   ~norm_angle
+   ~norm_vector
    ~perpendicular_to_vectors
    ~angle_between_vectors
    ~vector_projection
    ~plane_basis_from_normal
-   ~norm_angle
-   ~norm_vector
    ~random_vector
 
 Deprecated Functions
@@ -256,8 +283,11 @@ Transformation Matrix
    :template: function.rst
 
    ~check_transform
+
    ~transform_requires_renormalization
+
    ~random_transform
+
    ~concat
    ~invert_transform
    ~transform
@@ -267,15 +297,19 @@ Transformation Matrix
    ~vectors_to_directions
    ~scale_transform
    ~adjoint_from_transform
+
    ~plot_transform
+
+   ~assert_transform
+
    ~transform_from
    ~translate_transform
    ~rotate_transform
+
    ~transform_from_pq
    ~transform_from_exponential_coordinates
    ~transform_from_transform_log
    ~transform_from_dual_quaternion
-   ~assert_transform
 
 Position and Quaternion
 -----------------------
@@ -285,7 +319,9 @@ Position and Quaternion
    :template: function.rst
 
    ~check_pq
+
    ~pq_slerp
+
    ~pq_from_transform
    ~pq_from_dual_quaternion
 
@@ -297,10 +333,13 @@ Screw Parameters
    :template: function.rst
 
    ~check_screw_parameters
+
    ~plot_screw
+
+   ~assert_screw_parameters_equal
+
    ~screw_parameters_from_screw_axis
    ~screw_parameters_from_dual_quaternion
-   ~assert_screw_parameters_equal
 
 Screw Axis
 ----------
@@ -310,7 +349,9 @@ Screw Axis
    :template: function.rst
 
    ~check_screw_axis
+
    ~random_screw_axis
+
    ~screw_axis_from_screw_parameters
    ~screw_axis_from_exponential_coordinates
    ~screw_axis_from_screw_matrix
@@ -323,12 +364,16 @@ Exponential Coordinates
    :template: function.rst
 
    ~check_exponential_coordinates
+
    ~norm_exponential_coordinates
+
    ~random_exponential_coordinates
+
+   ~assert_exponential_coordinates_equal
+
    ~exponential_coordinates_from_transform
    ~exponential_coordinates_from_screw_axis
    ~exponential_coordinates_from_transform_log
-   ~assert_exponential_coordinates_equal
 
 Screw Matrix
 ------------
@@ -338,6 +383,7 @@ Screw Matrix
    :template: function.rst
 
    ~check_screw_matrix
+
    ~screw_matrix_from_screw_axis
    ~screw_matrix_from_transform_log
 
@@ -349,6 +395,7 @@ Logarithm of Transformation
    :template: function.rst
 
    ~check_transform_log
+
    ~transform_log_from_exponential_coordinates
    ~transform_log_from_screw_matrix
    ~transform_log_from_transform
@@ -361,19 +408,24 @@ Dual Quaternion
    :template: function.rst
 
    ~check_dual_quaternion
+
    ~dual_quaternion_requires_renormalization
+
+   ~assert_unit_dual_quaternion
+   ~assert_unit_dual_quaternion_equal
+
    ~dual_quaternion_double
+
    ~dq_conj
    ~dq_q_conj
    ~concatenate_dual_quaternions
    ~dq_prod_vector
    ~dual_quaternion_power
    ~dual_quaternion_sclerp
+
    ~dual_quaternion_from_transform
    ~dual_quaternion_from_pq
    ~dual_quaternion_from_screw_parameters
-   ~assert_unit_dual_quaternion
-   ~assert_unit_dual_quaternion_equal
 
 Jacobians
 ---------
