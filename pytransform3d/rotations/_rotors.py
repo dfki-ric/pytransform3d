@@ -2,7 +2,7 @@
 import numpy as np
 from ._utils import norm_vector, check_rotor, perpendicular_to_vector
 from ._constants import unitx, unity, unitz, eps
-from ._quaternion_operations import concatenate_quaternions, q_prod_vector
+from ._quaternions import concatenate_quaternions, q_prod_vector
 
 
 def wedge(a, b):

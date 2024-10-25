@@ -89,7 +89,7 @@ from ._conversions import (
     quaternion_from_mrp,
     mrp_from_axis_angle,
     axis_angle_from_mrp)
-from ._quaternion_operations import (
+from ._quaternions import (
     quaternion_double, quaternion_integrate, quaternion_gradient,
     concatenate_quaternions, q_conj, q_prod_vector, quaternion_diff,
     quaternion_dist, quaternion_from_euler)
