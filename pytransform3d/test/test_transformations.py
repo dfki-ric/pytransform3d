@@ -599,6 +599,9 @@ def test_check_dual_quaternion():
 
     dq3 = pt.check_dual_quaternion([0] * 8, unit=False)
     assert dq3.shape[0] == 8
+    assert pt.dual_quaternion_requires_renormalization(dq3)
+    dq4 = pt.check_dual_quaternion(dq3, unit=True)
+    assert not pt.dual_quaternion_requires_renormalization(dq4)
 
 
 def test_normalize_dual_quaternion():
