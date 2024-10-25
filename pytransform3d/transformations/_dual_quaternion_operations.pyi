@@ -2,6 +2,9 @@ import numpy as np
 import numpy.typing as npt
 
 
+def dual_quaternion_double(dq: npt.ArrayLike) -> np.ndarray: ...
+
+
 def dq_conj(dq: npt.ArrayLike) -> np.ndarray: ...
 
 

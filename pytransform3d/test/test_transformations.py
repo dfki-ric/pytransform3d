@@ -938,3 +938,13 @@ def test_pq_slerp():
 def test_transform_requires_renormalization():
     assert pt.transform_requires_renormalization(np.eye(4) + 1e-6)
     assert not pt.transform_requires_renormalization(np.eye(4))
+
+
+def test_dual_quaternion_double():
+    rng = np.random.default_rng(4183)
+    A2B = pt.random_transform(rng)
+    dq = pt.dual_quaternion_from_transform(A2B)
+    dq_double = pt.dual_quaternion_double(dq)
+    pt.assert_unit_dual_quaternion_equal(dq, dq_double)
+    assert_array_almost_equal(
+        A2B, pt.transform_from_dual_quaternion(dq_double))
