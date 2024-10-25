@@ -362,6 +362,7 @@ Dual Quaternion
 
    ~check_dual_quaternion
    ~dual_quaternion_requires_renormalization
+   ~dual_quaternion_double
    ~dq_conj
    ~dq_q_conj
    ~concatenate_dual_quaternions

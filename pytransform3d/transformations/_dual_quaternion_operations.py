@@ -6,6 +6,26 @@ from ._conversions import (screw_parameters_from_dual_quaternion,
 from ..rotations import concatenate_quaternions
 
 
+def dual_quaternion_double(dq):
+    """Create another dual quaternion that represents the same transformation.
+
+    The unit dual quaternions sigma and -sigma represent the same
+    transformation (double cover).
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dq_double : array, shape (8,)
+        -dq
+    """
+    return -check_dual_quaternion(dq, unit=True)
+
+
 def dq_conj(dq):
     """Conjugate of dual quaternion.
 
