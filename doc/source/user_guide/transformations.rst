@@ -346,9 +346,9 @@ interpolation between two dual quaternions is possible (with
 
 .. warning::
 
-    The unit dual quaternions :math:`\boldsymbol{p} + \epsilon \boldsymbol{q}`
-    and :math:`-\boldsymbol{p} - \epsilon \boldsymbol{q}` represent exactly
-    the same transformation.
+    The unit dual quaternions
+    :math:`\boldsymbol{\sigma} = \boldsymbol{p} + \epsilon \boldsymbol{q}` and
+    :math:`-\boldsymbol{\sigma}` represent exactly the same transformation.
 
 The reason for this ambiguity is that the real quaternion
 :math:`\boldsymbol{p}` represents the orientation component, the dual
