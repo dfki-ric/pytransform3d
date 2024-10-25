@@ -59,7 +59,7 @@ another representation. The following table is an overview.
 | :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |               |                 |
 +----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
 | Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP        | Required        |
-| :math:`\pmb{p} + \epsilon \pmb{q}`     | Conjugate  |                          |               |               |                 |
+| :math:`\boldsymbol{\sigma}`            | Conjugate  |                          |               |               |                 |
 +----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
 
 ---------------------
@@ -323,7 +323,8 @@ A dual quaternion consists of a real quaternion and a dual quaternion:
 
 .. math::
 
-    \boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),
+    \boldsymbol{\sigma} = \boldsymbol{p} + \epsilon \boldsymbol{q}
+    = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),
 
 where :math:`\epsilon^2 = 0` and :math:`\epsilon \neq 0`.
 We use unit dual quaternions to represent
