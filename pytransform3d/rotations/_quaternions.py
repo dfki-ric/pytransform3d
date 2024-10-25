@@ -21,6 +21,11 @@ def quaternion_double(q):
     -------
     q_double : array, shape (4,)
         -q
+
+    See Also
+    --------
+    pick_closest_quaternion
+        Picks the quaternion that is closest to another one in Euclidean space.
     """
     return -check_quaternion(q, unit=True)
 
