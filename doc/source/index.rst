@@ -51,6 +51,11 @@ pytransform3d offers...
 * a matplotlib-like interface to Open3D's visualizer to display
   geometries and transformations
 
+The design philosophy of pytransform3d is to not hide anything; there is no
+magic: no operator overloading, no classes to store data (rotations or
+transformations) other than NumPy arrays, and no layers of abstraction.
+It is as transparent to the user as possible and its interface is mainly
+functional.
 
 --------
 Citation
