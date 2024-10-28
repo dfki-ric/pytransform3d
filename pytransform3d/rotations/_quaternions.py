@@ -158,7 +158,7 @@ def q_prod_vector(q, v):
     We use Hamilton's quaternion multiplication.
 
     To apply the rotation defined by a unit quaternion :math:`\boldsymbol{q}
-    \in \mathbb{S}^3` to a vector :math:`\boldsymbol{v} \in \mathbb{R}^3`, we
+    \in S^3` to a vector :math:`\boldsymbol{v} \in \mathbb{R}^3`, we
     first represent the vector as a quaternion: we set the scalar part to 0 and
     the vector part is exactly the original vector
     :math:`\left(\begin{array}{c}0\\\boldsymbol{v}\end{array}\right) \in
