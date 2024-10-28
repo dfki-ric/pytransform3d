@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.rotations.random_vector &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>pytransform3d.rotations.random_vector &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,18 +40,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.rotations.random_vector';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.rotations.random_axis_angle" href="pytransform3d.rotations.random_axis_angle.html" />
-    <link rel="prev" title="pytransform3d.rotations.norm_compact_axis_angle" href="pytransform3d.rotations.norm_compact_axis_angle.html" />
+    <link rel="next" title="pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz" href="pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz.html" />
+    <link rel="prev" title="pytransform3d.rotations.plane_basis_from_normal" href="pytransform3d.rotations.plane_basis_from_normal.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -316,63 +316,79 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_skew_symmetric_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_skew_symmetric_matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_compact_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_quaternion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_quaternions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_rotor.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_rotor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_mrp</a></li>
-</ul>
-<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_requires_renormalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_rotation_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_rotation_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.passive_matrix_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.passive_matrix_from_angle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_euler.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_euler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_two_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_two_vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_euler.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_euler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_axis_angle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_compact_axis_angle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_from_rotor.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_rotor</a></li>
 </ul>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.euler_near_gimbal_lock.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.euler_near_gimbal_lock</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_euler.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_euler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_euler_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_euler_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.euler_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.euler_from_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.euler_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.euler_from_matrix</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.compact_axis_angle_near_pi.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.compact_axis_angle_near_pi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_axis_angle_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_axis_angle_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_compact_axis_angle_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_compact_axis_angle_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_slerp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_two_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_two_directions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_mrp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.compact_axis_angle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.compact_axis_angle_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.compact_axis_angle_from_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.compact_axis_angle_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.compact_axis_angle_from_quaternion</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_compact_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_euler.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_euler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_mrp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_xyzw_from_wxyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_xyzw_from_wxyz</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_wxyz_from_xyzw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_wxyz_from_xyzw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_skew_symmetric_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_skew_symmetric_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.cross_product_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.cross_product_matrix</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_from_two_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_from_two_directions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_from_plane_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_from_plane_angle</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.mrp_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.mrp_from_quaternion</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_from_two_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_from_two_directions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.axis_angle_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.axis_angle_slerp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_requires_renormalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_double.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_double</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.pick_closest_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.pick_closest_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_quaternion_equal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_quaternions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.q_prod_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.q_prod_vector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.q_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.q_conj</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.pick_closest_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.pick_closest_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_slerp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_dist.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_dist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_diff.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_gradient.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_gradient</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_integrate.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_integrate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_euler.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_euler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_compact_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_mrp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_xyzw_from_wxyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_xyzw_from_wxyz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_wxyz_from_xyzw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_wxyz_from_xyzw</a></li>
 </ul>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_rotor.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_rotor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_bivector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_bivector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.wedge.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.wedge</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plane_normal_from_bivector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plane_normal_from_bivector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.geometric_product.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.geometric_product</a></li>
@@ -380,33 +396,18 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_reverse.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_reverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_apply.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_apply</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_slerp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_from_two_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_from_two_directions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.rotor_from_plane_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.rotor_from_plane_angle</a></li>
 </ul>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_mrp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.mrp_near_singularity.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.mrp_near_singularity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_mrp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_mrp_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_mrp_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.mrp_double.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.mrp_double</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.concatenate_mrp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.concatenate_mrp</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_bivector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_bivector</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_axis_angle_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_axis_angle_equal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_compact_axis_angle_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_compact_axis_angle_equal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_quaternion_equal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_rotation_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_rotation_matrix</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_vector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_compact_axis_angle</a></li>
-</ul>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_vector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_compact_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_compact_axis_angle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.mrp_from_axis_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.mrp_from_axis_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.mrp_from_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.mrp_from_quaternion</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.left_jacobian_SO3</a></li>
@@ -414,68 +415,71 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3_inv.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.left_jacobian_SO3_inv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.left_jacobian_SO3_inv_series.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.left_jacobian_SO3_inv_series</a></li>
 </ul>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_vector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.perpendicular_to_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.perpendicular_to_vectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.angle_between_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.angle_between_vectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.vector_projection.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.vector_projection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plane_basis_from_normal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plane_basis_from_normal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.cross_product_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.cross_product_matrix</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_vector</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_extrinsic_euler_xyz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xyx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xyx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yxy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yxy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yzy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yzy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zyz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zyz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zxz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zxz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xzy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xzy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xyz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xyz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yxz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yxz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zyx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zyx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zxy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zxy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_roll_pitch_yaw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xzx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xzx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xyx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xyx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yxy_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yxy_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yzy_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yzy_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zyz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zyz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zxz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zxz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xzy_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xzy_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xyz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xyz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yxz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yxz_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yzx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yzx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zyx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zyx_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zxy_from_active_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zxy_from_active_matrix</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_pq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_exponential_coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_transform_log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_dual_quaternion</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.translate_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.translate_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.rotate_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.rotate_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_pq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_exponential_coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_transform_log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_dual_quaternion</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_from_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_from_dual_quaternion</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_parameters_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_parameters_from_screw_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_parameters_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_parameters_from_dual_quaternion</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_screw_parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_exponential_coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_screw_matrix</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_screw_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_transform_log</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_matrix_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_matrix_from_screw_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_matrix_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_matrix_from_transform_log</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_exponential_coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_screw_matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_transform</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_pq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_screw_parameters</a></li>
-</ul>
-<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_requires_renormalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.concat.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.concat</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.invert_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.invert_transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform</a></li>
@@ -485,35 +489,71 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.vectors_to_directions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.vectors_to_directions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.scale_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.scale_transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.adjoint_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.adjoint_from_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.plot_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.plot_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.translate_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.translate_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.rotate_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.rotate_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_pq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_transform_log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_from_dual_quaternion</a></li>
 </ul>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_pq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_slerp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_from_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.pq_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.pq_from_dual_quaternion</a></li>
 </ul>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.plot_screw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.plot_screw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_screw_parameters_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_screw_parameters_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_parameters_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_parameters_from_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_parameters_from_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_parameters_from_dual_quaternion</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_screw_parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_axis_from_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_axis_from_screw_matrix</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.norm_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.norm_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_exponential_coordinates_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_exponential_coordinates_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.exponential_coordinates_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.exponential_coordinates_from_transform_log</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_screw_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_matrix_from_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_matrix_from_screw_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.screw_matrix_from_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.screw_matrix_from_transform_log</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_transform_log.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_transform_log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_screw_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_screw_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.transform_log_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.transform_log_from_transform</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_dual_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_requires_renormalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion_equal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_double.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_double</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dq_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dq_conj</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dq_q_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dq_q_conj</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.concatenate_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.concatenate_dual_quaternions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dq_prod_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dq_prod_vector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_power.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_power</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_sclerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_sclerp</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.plot_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.plot_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.plot_screw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.plot_screw</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion_equal</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_screw_parameters_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_screw_parameters_equal</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_screw_axis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_screw_axis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.random_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.random_exponential_coordinates</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.norm_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.norm_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_pq.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_pq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_from_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_from_screw_parameters</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.left_jacobian_SE3.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.left_jacobian_SE3</a></li>
@@ -526,41 +566,47 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.active_matrices_from_intrinsic_euler_angles.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.active_matrices_from_intrinsic_euler_angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.active_matrices_from_extrinsic_euler_angles.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.active_matrices_from_extrinsic_euler_angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.matrices_from_compact_axis_angles.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.matrices_from_compact_axis_angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.matrices_from_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.matrices_from_quaternions</a></li>
+</ul>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.axis_angles_from_matrices.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.axis_angles_from_matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.cross_product_matrices.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.cross_product_matrices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.matrices_from_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.matrices_from_quaternions</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_concatenate_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_concatenate_quaternions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_q_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_q_conj</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.quaternion_slerp_batch.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.quaternion_slerp_batch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.smooth_quaternion_trajectory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.smooth_quaternion_trajectory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.quaternions_from_matrices.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.quaternions_from_matrices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_quaternion_wxyz_from_xyzw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_quaternion_wxyz_from_xyzw</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_quaternion_xyzw_from_wxyz.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_quaternion_xyzw_from_wxyz</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_q_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_q_conj</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.batch_concatenate_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.batch_concatenate_quaternions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.quaternion_slerp_batch.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.quaternion_slerp_batch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.smooth_quaternion_trajectory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.smooth_quaternion_trajectory</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.norm_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.norm_vectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.batch_rotations.angles_between_vectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.batch_rotations</span></code>.angles_between_vectors</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_pqs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_pqs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_exponential_coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_dual_quaternions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.pqs_from_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.pqs_from_transforms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.pqs_from_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.pqs_from_dual_quaternions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.exponential_coordinates_from_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.exponential_coordinates_from_transforms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.dual_quaternions_from_pqs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.dual_quaternions_from_pqs</a></li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.invert_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.invert_transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.concat_one_to_many.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.concat_one_to_many</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.concat_many_to_one.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.concat_many_to_one</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_pqs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_pqs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_exponential_coordinates.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_exponential_coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.transforms_from_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.transforms_from_dual_quaternions</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.plot_trajectory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.plot_trajectory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.pqs_from_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.pqs_from_transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.pqs_from_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.pqs_from_dual_quaternions</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.mirror_screw_axis_direction.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.mirror_screw_axis_direction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.exponential_coordinates_from_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.exponential_coordinates_from_transforms</a></li>
+</ul>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.batch_dq_conj.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.batch_dq_conj</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.batch_concatenate_dual_quaternions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.batch_concatenate_dual_quaternions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.batch_dq_prod_vector.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.batch_dq_prod_vector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.plot_trajectory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.plot_trajectory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.mirror_screw_axis_direction.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.mirror_screw_axis_direction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.dual_quaternions_from_pqs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.dual_quaternions_from_pqs</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.estimate_gaussian_transform_from_samples</a></li>
@@ -715,7 +761,7 @@ document.write(`
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.rotations" title="pytransform3d.rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code></a>.random_vector<a class="headerlink" href="#pytransform3d-rotations-random-vector" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.rotations.random_vector">
-<span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">random_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x7F768C30DEE0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n=3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_random.html#random_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.random_vector" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">random_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x7F2FD96D14A0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n=3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_random.html#random_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.random_vector" title="Link to this definition">#</a></dt>
 <dd><p>Generate an nd vector with normally distributed components.</p>
 <p>Each component will be sampled from <span class="math notranslate nohighlight">\(\mathcal{N}(\mu=0, \sigma=1)\)</span>.</p>
 <dl class="field-list simple">
@@ -738,7 +784,7 @@ document.write(`
 
 <section id="examples-using-pytransform3d-rotations-random-vector">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.rotations.random_vector</span></code><a class="headerlink" href="#examples-using-pytransform3d-rotations-random-vector" title="Link to this heading">#</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the same direction as the first vector, the y-axis corresponds to the normalized vector rejection of b on a, and the z-axis is the cross product of the other basis vectors."><img alt="" src="../_images/sphx_glr_plot_matrix_from_two_vectors_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the sam..."><img alt="" src="../_images/sphx_glr_plot_matrix_from_two_vectors_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_matrix_from_two_vectors.html#sphx-glr-auto-examples-plots-plot-matrix-from-two-vectors-py"><span class="std std-ref">Construct Rotation Matrix from Two Vectors</span></a></p>
   <div class="sphx-glr-thumbnail-title">Construct Rotation Matrix from Two Vectors</div>
 </div></div></section>
@@ -755,20 +801,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pytransform3d.rotations.norm_compact_axis_angle.html"
+       href="pytransform3d.rotations.plane_basis_from_normal.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_compact_axis_angle</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plane_basis_from_normal</p>
       </div>
     </a>
     <a class="right-next"
-       href="pytransform3d.rotations.random_axis_angle.html"
+       href="pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_axis_angle</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_extrinsic_euler_xyz</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>5. Euler Angles &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>5. Euler Angles &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,18 +40,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/euler_angles';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="5.5.1. pytransform3d.rotations.quaternion_from_euler" href="_apidoc/pytransform3d.rotations.quaternion_from_euler.html" />
+    <link rel="next" title="6. Modeling Transformations" href="transformation_modeling.html" />
     <link rel="prev" title="4. Transformation Ambiguities and Conventions" href="transformation_ambiguities.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -319,62 +319,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="rotations.html">2. SO(3): 3D Rotations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformations.html">3. SE(3): 3D Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_ambiguities.html">4. Transformation Ambiguities and Conventions</a></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">5. Euler Angles</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_from_euler.html">5.5.1. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_euler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler.html">5.5.2. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_from_euler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html">5.5.3. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xzx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx.html">5.5.4. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xzx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx.html">5.5.5. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xyx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html">5.5.6. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xyx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy.html">5.5.7. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yxy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy.html">5.5.8. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yxy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy.html">5.5.9. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yzy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy.html">5.5.10. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yzy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz.html">5.5.11. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zyz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz.html">5.5.12. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zyz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html">5.5.13. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zxz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html">5.5.14. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zxz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy.html">5.5.15. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xzy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy.html">5.5.16. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xzy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz.html">5.5.17. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_xyz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz.html">5.5.18. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_xyz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz.html">5.5.19. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yxz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz.html">5.5.20. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yxz</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx.html">5.5.21. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_yzx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx.html">5.5.22. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_yzx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx.html">5.5.23. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zyx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx.html">5.5.24. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zyx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy.html">5.5.25. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_intrinsic_euler_zxy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy.html">5.5.26. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_euler_zxy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html">5.5.27. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.active_matrix_from_extrinsic_roll_pitch_yaw</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_from_quaternion.html">5.6.1. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.euler_from_quaternion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_from_matrix.html">5.6.2. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.euler_from_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix.html">5.6.3. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xzx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html">5.6.4. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xzx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix.html">5.6.5. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xyx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix.html">5.6.6. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xyx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix.html">5.6.7. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yxy_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix.html">5.6.8. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yxy_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix.html">5.6.9. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yzy_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix.html">5.6.10. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yzy_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix.html">5.6.11. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zyz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix.html">5.6.12. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zyz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix.html">5.6.13. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zxz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix.html">5.6.14. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zxz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix.html">5.6.15. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xzy_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix.html">5.6.16. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xzy_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix.html">5.6.17. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_xyz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix.html">5.6.18. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_xyz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix.html">5.6.19. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yxz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix.html">5.6.20. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yxz_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix.html">5.6.21. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_yzx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix.html">5.6.22. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_yzx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix.html">5.6.23. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zyx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix.html">5.6.24. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zyx_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix.html">5.6.25. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.intrinsic_euler_zxy_from_active_matrix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix.html">5.6.26. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.extrinsic_euler_zxy_from_active_matrix</a></li>
-</ul>
-</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Euler Angles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_modeling.html">6. Modeling Transformations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform_manager.html">7. Organizing Transformations in a Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_over_time.html">8. Graphs of Time-Dependent Transformations</a></li>
@@ -445,8 +390,7 @@ conventions that could be used. Furthermore, you have to find out whether
 degrees or radians are used to express the angles (we will only use
 radians in pytransform3d).</p>
 <figure class="align-center" id="id4">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_euler_angles.html"><img alt="../_images/sphx_glr_plot_euler_angles_001.png" src="../_images/sphx_glr_plot_euler_angles_001.png" />
-</a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_euler_angles.html"><img alt="../_images/sphx_glr_plot_euler_angles_001.png" src="../_images/sphx_glr_plot_euler_angles_001.png" /></a>
 <figcaption>
 <p><span class="caption-text">Here we rotate about the extrinsic (fixed) x-axis, y-axis, and z-axis by
 90 degrees.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
@@ -489,9 +433,10 @@ for proper Euler angles</p>
 <p>and Cardan angles are usually restricted to</p>
 <div class="math notranslate nohighlight">
 \[-\pi \leq \alpha &lt; \pi, \qquad -\frac{\pi}{2} \leq \beta \leq \frac{\pi}{2}, \qquad -\pi \leq \gamma &lt; \pi\]</div>
-<p>to make these representations unique.</p>
-<p>An alternative convention limits the range of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> to
-<span class="math notranslate nohighlight">\(\left[0, 2 \pi\right)\)</span>.</p>
+<p>to make these representations unique (using
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.norm_euler.html#pytransform3d.rotations.norm_euler" title="pytransform3d.rotations.norm_euler"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_euler()</span></code></a>).</p>
+<p>An alternative convention limits the range of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span>
+to <span class="math notranslate nohighlight">\(\left[0, 2 \pi\right)\)</span>.</p>
 </section>
 <section id="gimbal-lock">
 <h2><span class="section-number">5.3. </span>Gimbal Lock<a class="headerlink" href="#gimbal-lock" title="Link to this heading">#</a></h2>
@@ -504,7 +449,8 @@ to an interval of length <span class="math notranslate nohighlight">\(2\pi\)</sp
 satisfy <span class="math notranslate nohighlight">\(\alpha + \gamma = constant\)</span> or all pairs of angles
 that satisfy <span class="math notranslate nohighlight">\(\alpha - \gamma = constant\)</span>. When we reconstruct
 Euler angles from a rotation matrix, we set one of these angles to 0 to
-determine the other.</p>
+determine the other. We can check if Euler angles are close to gimbal lock
+with <a class="reference internal" href="../_apidoc/pytransform3d.rotations.euler_near_gimbal_lock.html#pytransform3d.rotations.euler_near_gimbal_lock" title="pytransform3d.rotations.euler_near_gimbal_lock"><code class="xref py py-func docutils literal notranslate"><span class="pre">euler_near_gimbal_lock()</span></code></a>.</p>
 </section>
 <section id="other-names">
 <h2><span class="section-number">5.4. </span>Other Names<a class="headerlink" href="#other-names" title="Link to this heading">#</a></h2>
@@ -513,183 +459,8 @@ xyz Cardan angles can also be called roll, pitch, and yaw (or sometimes
 the intrinsic convention is used here as well). Roll is a rotation about
 x, pitch is a rotation about y and yaw is a rotation about z.</p>
 </section>
-<section id="api-rotation-matrix-quaternion-from-euler-angles">
-<h2><span class="section-number">5.5. </span>API: Rotation Matrix / Quaternion from Euler Angles<a class="headerlink" href="#api-rotation-matrix-quaternion-from-euler-angles" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_from_euler.html#pytransform3d.rotations.quaternion_from_euler" title="pytransform3d.rotations.quaternion_from_euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_from_euler</span></code></a>(e, i, j, k, extrinsic)</p></td>
-<td><p>General conversion to quaternion from any Euler angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_euler.html#pytransform3d.rotations.matrix_from_euler" title="pytransform3d.rotations.matrix_from_euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_euler</span></code></a>(e, i, j, k, extrinsic)</p></td>
-<td><p>General method to compute active rotation matrix from any Euler angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_xzx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic xzx Euler angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_xzx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic xzx Euler angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_xyx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic xyx Euler angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_xyx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic xyx Euler angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_yxy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic yxy Euler angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_yxy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic yxy Euler angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_yzy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic yzy Euler angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_yzy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic yzy Euler angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_zyz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic zyz Euler angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_zyz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic zyz Euler angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_zxz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic zxz Euler angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_zxz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic zxz Euler angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_xzy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic xzy Cardan angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_xzy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic xzy Cardan angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_xyz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic xyz Cardan angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_xyz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic xyz Cardan angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_yxz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic yxz Cardan angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_yxz</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic yxz Cardan angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_yzx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic yzx Cardan angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_yzx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic yzx Cardan angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_zyx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic zyx Cardan angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_zyx</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic zyx Cardan angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_intrinsic_euler_zxy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from intrinsic zxy Cardan angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_euler_zxy</span></code></a>(e)</p></td>
-<td><p>Compute active rotation matrix from extrinsic zxy Cardan angles.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html#pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw" title="pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_extrinsic_roll_pitch_yaw</span></code></a>(rpy)</p></td>
-<td><p>Compute active rotation matrix from extrinsic roll, pitch, and yaw.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="api-euler-angles-from-rotation-matrix-quaternion">
-<h2><span class="section-number">5.6. </span>API: Euler Angles from Rotation Matrix / Quaternion<a class="headerlink" href="#api-euler-angles-from-rotation-matrix-quaternion" title="Link to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_from_quaternion.html#pytransform3d.rotations.euler_from_quaternion" title="pytransform3d.rotations.euler_from_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euler_from_quaternion</span></code></a>(q, i, j, k, extrinsic)</p></td>
-<td><p>General method to extract any Euler angles from quaternions.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.euler_from_matrix.html#pytransform3d.rotations.euler_from_matrix" title="pytransform3d.rotations.euler_from_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">euler_from_matrix</span></code></a>(R, i, j, k, extrinsic[, ...])</p></td>
-<td><p>General method to extract any Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_xzx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic xzx Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_xzx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic xzx Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_xyx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic xyx Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_xyx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic xyx Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_yxy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic yxy Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_yxy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic yxy Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_yzy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic yzy Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_yzy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic yzy Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_zyz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic zyz Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_zyz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic zyz Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_zxz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic zxz Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_zxz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic zxz Euler angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_xzy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic xzy Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_xzy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic xzy Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_xyz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic xyz Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_xyz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic xyz Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_yxz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic yxz Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_yxz_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic yxz Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_yzx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic yzx Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_yzx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic yzx Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_zyx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic zyx Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_zyx_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic zyx Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix" title="pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intrinsic_euler_zxy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute intrinsic zxy Cardan angles from active rotation matrix.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix" title="pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extrinsic_euler_zxy_from_active_matrix</span></code></a>(R[, ...])</p></td>
-<td><p>Compute extrinsic zxy Cardan angles from active rotation matrix.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
 <section id="references">
-<h2><span class="section-number">5.7. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">5.5. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
@@ -721,11 +492,11 @@ The Journal of Astronautical Sciences, 41(4), pp. 475-476.
       </div>
     </a>
     <a class="right-next"
-       href="_apidoc/pytransform3d.rotations.quaternion_from_euler.html"
+       href="transformation_modeling.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">5.5.1. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_euler</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Modeling Transformations</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -751,9 +522,7 @@ The Journal of Astronautical Sciences, 41(4), pp. 475-476.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#range-of-angles">5.2. Range of Angles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gimbal-lock">5.3. Gimbal Lock</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-names">5.4. Other Names</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-rotation-matrix-quaternion-from-euler-angles">5.5. API: Rotation Matrix / Quaternion from Euler Angles</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-euler-angles-from-rotation-matrix-quaternion">5.6. API: Euler Angles from Rotation Matrix / Quaternion</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5.7. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5.5. References</a></li>
 </ul>
   </nav></div>
 

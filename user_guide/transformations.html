@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="2. SO(3): 3D Rotations" href="rotations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -391,8 +391,7 @@ represented in different ways just like rotations can be expressed
 in different ways. The minimum number of components that are required to
 describe any transformation from <span class="math notranslate nohighlight">\(SE(3)\)</span> is 6.</p>
 <figure class="align-center" id="id18">
-<a class="reference internal image-reference" href="../_images/transformations.png"><img alt="Conversions between representations of transformations" src="../_images/transformations.png" style="width: 50%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/transformations.png"><img alt="Conversions between representations of transformations" src="../_images/transformations.png" style="width: 50%;" /></a>
 <figcaption>
 <p><span class="caption-text">Overview of the representations and the conversions between them that are
 available in pytransform3d.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
@@ -467,7 +466,7 @@ another representation. The following table is an overview.</p>
 <td><p>Required</p></td>
 </tr>
 <tr class="row-even"><td><p>Dual quaternion
-<span class="math notranslate nohighlight">\(\pmb{p} + \epsilon \pmb{q}\)</span></p></td>
+<span class="math notranslate nohighlight">\(\boldsymbol{\sigma}\)</span></p></td>
 <td><p>Quaternion
 Conjugate</p></td>
 <td><p>Yes</p></td>
@@ -574,8 +573,7 @@ have to be handled individually.</p></li>
 <section id="screw-parameters">
 <h2><span class="section-number">3.3. </span>Screw Parameters<a class="headerlink" href="#screw-parameters" title="Link to this heading">#</a></h2>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_screw.html"><img alt="../_images/sphx_glr_plot_screw_001.png" src="../_images/sphx_glr_plot_screw_001.png" style="width: 70%;" />
-</a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_screw.html"><img alt="../_images/sphx_glr_plot_screw_001.png" src="../_images/sphx_glr_plot_screw_001.png" style="width: 70%;" /></a>
 </figure>
 <p>Just like any rotation can be expressed as a rotation by an angle about a
 3D unit vector, any transformation (rotation and translation) can be expressed
@@ -588,8 +586,7 @@ represents the ratio of translation and rotation. A screw motion translates
 along the screw axis and rotates about it.</p>
 <p>pytransform3d uses two vectors q and <cite>s_axis</cite> of shape (3,) and a scalar
 h to represent the parameters of a screw.</p>
-<a class="reference internal image-reference" href="../_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="../_images/screw_axis.png" style="width: 50%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/screw_axis.png"><img alt="Screw axis" class="align-center" src="../_images/screw_axis.png" style="width: 50%;" /></a>
 </section>
 <section id="screw-axis">
 <h2><span class="section-number">3.4. </span>Screw Axis<a class="headerlink" href="#screw-axis" title="Link to this heading">#</a></h2>
@@ -689,7 +686,8 @@ an alternative to represent transformations <a class="footnote-reference bracket
 similar operations as transformation matrices.</p>
 <p>A dual quaternion consists of a real quaternion and a dual quaternion:</p>
 <div class="math notranslate nohighlight">
-\[\boldsymbol{p} + \epsilon \boldsymbol{q} = p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),\]</div>
+\[\boldsymbol{\sigma} = \boldsymbol{p} + \epsilon \boldsymbol{q}
+= p_w + p_x i + p_y j + p_z k + \epsilon (q_w + q_x i + q_y j + q_z k),\]</div>
 <p>where <span class="math notranslate nohighlight">\(\epsilon^2 = 0\)</span> and <span class="math notranslate nohighlight">\(\epsilon \neq 0\)</span>.
 We use unit dual quaternions to represent
 transformations. In this case, the real quaternion is a unit quaternion
@@ -708,9 +706,9 @@ interpolation between two dual quaternions is possible (with
 <a class="reference internal" href="../_apidoc/pytransform3d.transformations.dual_quaternion_sclerp.html#pytransform3d.transformations.dual_quaternion_sclerp" title="pytransform3d.transformations.dual_quaternion_sclerp"><code class="xref py py-func docutils literal notranslate"><span class="pre">dual_quaternion_sclerp()</span></code></a>).</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The unit dual quaternions <span class="math notranslate nohighlight">\(\boldsymbol{p} + \epsilon \boldsymbol{q}\)</span>
-and <span class="math notranslate nohighlight">\(-\boldsymbol{p} - \epsilon \boldsymbol{q}\)</span> represent exactly
-the same transformation.</p>
+<p>The unit dual quaternions
+<span class="math notranslate nohighlight">\(\boldsymbol{\sigma} = \boldsymbol{p} + \epsilon \boldsymbol{q}\)</span> and
+<span class="math notranslate nohighlight">\(-\boldsymbol{\sigma}\)</span> represent exactly the same transformation.</p>
 </div>
 <p>The reason for this ambiguity is that the real quaternion
 <span class="math notranslate nohighlight">\(\boldsymbol{p}\)</span> represents the orientation component, the dual

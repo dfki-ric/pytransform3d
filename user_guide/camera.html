@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>10. Camera &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>10. Camera &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="9. Uncertainty in Transformations" href="uncertainty.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -389,8 +389,7 @@ However, we have to know some parameters of the camera:</p>
 <li><p>sensor width and height</p></li>
 <li><p>image width and height</p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/camera.png"><img alt="Camera" class="align-center" src="../_images/camera.png" style="width: 60%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/camera.png"><img alt="Camera" class="align-center" src="../_images/camera.png" style="width: 60%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -402,8 +401,7 @@ image plane.</p>
 shows how a grid is projected on an image with the function
 <a class="reference internal" href="../_apidoc/pytransform3d.camera.world2image.html#pytransform3d.camera.world2image" title="pytransform3d.camera.world2image"><code class="xref py py-func docutils literal notranslate"><span class="pre">world2image()</span></code></a>.</p>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_camera_with_image.html"><img alt="../_images/sphx_glr_plot_camera_with_image_001.png" src="../_images/sphx_glr_plot_camera_with_image_001.png" />
-</a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_camera_with_image.html"><img alt="../_images/sphx_glr_plot_camera_with_image_001.png" src="../_images/sphx_glr_plot_camera_with_image_001.png" /></a>
 </figure>
 <p>Extrinsic and intrinsic camera parameters can be visualized in the following
 way. The extrinsic camera parameters are fully determined by a transform
@@ -428,14 +426,12 @@ in pixels or meters to generate the following visualization with
 <a class="reference internal" href="../_apidoc/pytransform3d.camera.plot_camera.html#pytransform3d.camera.plot_camera" title="pytransform3d.camera.plot_camera"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_camera()</span></code></a> (see Example
 <a class="reference internal" href="../_auto_examples/plots/plot_camera_3d.html#sphx-glr-auto-examples-plots-plot-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a>).</p>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_camera_3d.html"><img alt="../_images/sphx_glr_plot_camera_3d_001.png" src="../_images/sphx_glr_plot_camera_3d_001.png" />
-</a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_camera_3d.html"><img alt="../_images/sphx_glr_plot_camera_3d_001.png" src="../_images/sphx_glr_plot_camera_3d_001.png" /></a>
 </figure>
 <p>You can use this to display a trajectory of camera poses (see Example
 <a class="reference internal" href="../_auto_examples/plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a>).</p>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_camera_trajectory.html"><img alt="../_images/sphx_glr_plot_camera_trajectory_001.png" src="../_images/sphx_glr_plot_camera_trajectory_001.png" />
-</a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_camera_trajectory.html"><img alt="../_images/sphx_glr_plot_camera_trajectory_001.png" src="../_images/sphx_glr_plot_camera_trajectory_001.png" /></a>
 </figure>
 </section>
 

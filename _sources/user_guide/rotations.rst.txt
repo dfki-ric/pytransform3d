@@ -75,7 +75,10 @@ One of the most practical representations of orientation is a rotation matrix
 Note that this is a non-minimal representation for orientations because we
 have 9 values but only 3 degrees of freedom. This is because
 :math:`\boldsymbol R` is orthonormal, which results in 6 constraints
-(enforced with :func:`~pytransform3d.rotations.norm_matrix`):
+(enforced with :func:`~pytransform3d.rotations.norm_matrix`
+and checked with
+:func:`~pytransform3d.rotations.matrix_requires_renormalization` or
+:func:`~pytransform3d.rotations.check_matrix`):
 
 * column vectors must have unit norm (3 constraints)
 * and must be orthogonal to each other (3 constraints)
@@ -252,7 +255,9 @@ component-wise integration and differentiation with this representation.
 **Cons**
 
 * Ambiguities: an angle of 0 and any multiple of :math:`2\pi` represent
-  the same orientation; when :math:`\theta = \pi`, the axes
+  the same orientation (can be avoided with
+  :func:`~pytransform3d.rotations.norm_compact_axis_angle`, which introduces
+  discontinuities); when :math:`\theta = \pi`, the axes
   :math:`\hat{\boldsymbol{\omega}}` and :math:`-\hat{\boldsymbol{\omega}}`
   represent the same rotation.
 * Supported operations: concatenation and transformation of vectors requires
@@ -309,7 +314,7 @@ Read `this paper <https://arxiv.org/pdf/1801.07478.pdf>`_ for details about
 the two conventions and why Hamilton's convention should be used. Section VI A
 gives further useful hints to identify which convention is used.
 
-The unit quaternion space :math:`\mathbb{S}^3` can be used to represent
+The unit quaternion space :math:`S^3` can be used to represent
 orientations with an encoding based on the rotation axis and angle.
 A rotation quaternion is a four-dimensional unit vector (versor)
 :math:`\boldsymbol{\hat{q}}`.
@@ -347,9 +352,10 @@ functions :func:`~pytransform3d.rotations.quaternion_wxyz_from_xyzw` and
 .. warning::
 
     The *antipodal* unit quaternions :math:`\boldsymbol{\hat{q}}` and
-    :math:`-\boldsymbol{\hat{q}}` represent the same rotation (double cover).
-    This must be considered during operations like interpolation, distance
-    calculation, or (approximate) equality checks.
+    :math:`-\boldsymbol{\hat{q}}`
+    (:func:`~pytransform3d.rotations.quaternion_double`) represent the same
+    rotation (double cover). This must be considered during operations like
+    interpolation, distance calculation, or (approximate) equality checks.
 
 The quaternion product
 (:func:`~pytransform3d.rotations.concatenate_quaternions`) can be used to
@@ -369,8 +375,10 @@ with the quaternion product (:func:`~pytransform3d.rotations.q_prod_vector`).
 **Pros**
 
 * Representation: compact.
-* Renormalization: cheap in comparison to rotation matrices;
-  less susceptible to round-off errors than matrix representation.
+* Renormalization: checked with
+  :func:`~pytransform3d.rotations.quaternion_requires_renormalization`;
+  cheap in comparison to rotation matrices (); less susceptible to round-off
+  errors than matrix representation.
 * Discontinuities: none.
 * Computational efficiency: the quaternion product is cheaper than the matrix
   product.
@@ -480,7 +488,8 @@ Another minimal representation of rotation are modified Rodrigues parameters
 
 This representation is similar to the compact axis-angle representation.
 However, the angle of rotation is converted to :math:`\tan(\frac{\theta}{4})`.
-Hence, there is an easy conversion from unit quaternions to MRP:
+Hence, there is an easy conversion from unit quaternions to MRP
+(:func:`~pytransform3d.rotations.mrp_from_quaternion`):
 
 .. math::
 
@@ -495,15 +504,17 @@ parameters.
 
 .. warning::
 
-    MRPs have a singuarity at :math:`2 \pi` which we can avoid by ensuring the
-    angle of rotation does not exceed :math:`\pi`.
+    MRPs have a singuarity at :math:`2 \pi` (see
+    :func:`~pytransform3d.rotations.mrp_near_singularity`) which we can avoid
+    by ensuring the angle of rotation does not exceed :math:`\pi` (with
+    :func:`~pytransform3d.rotations.norm_mrp`).
 
 .. warning::
 
     MRPs have two representations for the same rotation:
     :math:`\boldsymbol{\psi}` and :math:`-\frac{1}{||\boldsymbol{\psi}||^2}
-    \boldsymbol{\psi}` represent the same rotation and correspond to two
-    antipodal unit quaternions [8]_.
+    \boldsymbol{\psi}` (:func:`~pytransform3d.rotations.mrp_double`) represent
+    the same rotation and correspond to two antipodal unit quaternions [8]_.
 
 **Pros**
 

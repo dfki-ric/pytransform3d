@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._utils &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>pytransform3d.transformations._utils &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../../../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transformations/_utils';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -359,7 +359,40 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;Utility functions for transforms.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="n">check_matrix</span><span class="p">,</span> <span class="n">norm_vector</span><span class="p">,</span> <span class="n">check_skew_symmetric_matrix</span>
+<span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">check_matrix</span><span class="p">,</span> <span class="n">norm_vector</span><span class="p">,</span> <span class="n">check_skew_symmetric_matrix</span><span class="p">,</span>
+    <span class="n">matrix_requires_renormalization</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="transform_requires_renormalization">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_requires_renormalization.html#pytransform3d.transformations.transform_requires_renormalization">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_requires_renormalization</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Check if transformation matrix requires renormalization.</span>
+
+<span class="sd">    This function will check if :math:`R R^T \approx I`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Transform from frame A to frame B with a rotation matrix that should</span>
+<span class="sd">        be orthonormal.</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance for check.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    required : bool</span>
+<span class="sd">        Indicates if renormalization is required.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pytransform3d.rotations.matrix_requires_renormalization</span>
+<span class="sd">        Check if a rotation matrix needs renormalization.</span>
+<span class="sd">    pytransform3d.rotations.norm_matrix : Orthonormalize rotation matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">matrix_requires_renormalization</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A2B</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]),</span> <span class="n">tolerance</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="check_transform">
@@ -722,6 +755,54 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="dual_quaternion_requires_renormalization">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.dual_quaternion_requires_renormalization.html#pytransform3d.transformations.dual_quaternion_requires_renormalization">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternion_requires_renormalization</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Check if dual quaternion requires renormalization.</span>
+
+<span class="sd">    Dual quaternions that represent transformations in 3D should have unit</span>
+<span class="sd">    norm. Since the real and the dual quaternion are orthogonal, their</span>
+<span class="sd">    product is 0. In addition, :math:`\epsilon^2 = 0`. Hence,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        ||\boldsymbol{p} + \epsilon \boldsymbol{q}||</span>
+<span class="sd">        =</span>
+<span class="sd">        \sqrt{(\boldsymbol{p} + \epsilon \boldsymbol{q}) \cdot</span>
+<span class="sd">        (\boldsymbol{p} + \epsilon \boldsymbol{q})}</span>
+<span class="sd">        =</span>
+<span class="sd">        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}</span>
+<span class="sd">        + 2\epsilon \boldsymbol{p}\cdot\boldsymbol{q}</span>
+<span class="sd">        + \epsilon^2 \boldsymbol{q}\cdot\boldsymbol{q}}</span>
+<span class="sd">        =</span>
+<span class="sd">        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}},</span>
+
+<span class="sd">    i.e., the norm only depends on the real quaternion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dq : array-like, shape (8,)</span>
+<span class="sd">        Dual quaternion to represent transform:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance for check.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    required : bool</span>
+<span class="sd">        Indicates if renormalization is required.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    check_dual_quaternion</span>
+<span class="sd">        Input validation of dual quaternion representation. Has an option to</span>
+<span class="sd">        normalize the dual quaternion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span></div>
+
+
+
 <div class="viewcode-block" id="check_dual_quaternion">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion">[docs]</a>
 <span class="k">def</span> <span class="nf">check_dual_quaternion</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -769,7 +850,8 @@ document.write(`
                          <span class="s2">&quot;array-like object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">dq</span><span class="o">.</span><span class="n">shape</span><span class="p">,))</span>
     <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
         <span class="c1"># Norm of a dual quaternion only depends on the real part because</span>
-        <span class="c1"># the dual part vanishes with epsilon ** 2 = 0.</span>
+        <span class="c1"># the dual part vanishes with (1) epsilon ** 2 = 0 and (2) the real</span>
+        <span class="c1"># and dual part being orthogonal, i.e., their product is 0.</span>
         <span class="n">real_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">real_norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span>

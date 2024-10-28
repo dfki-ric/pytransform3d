@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._utils &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>pytransform3d.rotations._utils &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../../../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_utils';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -386,6 +386,36 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="matrix_requires_renormalization">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.matrix_requires_renormalization.html#pytransform3d.rotations.matrix_requires_renormalization">[docs]</a>
+<span class="k">def</span> <span class="nf">matrix_requires_renormalization</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Check if a rotation matrix needs renormalization.</span>
+
+<span class="sd">    This function will check if :math:`R R^T \approx I`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix that should be orthonormal.</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance for check.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    required : bool</span>
+<span class="sd">        Indicates if renormalization is required.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    norm_matrix : Orthonormalize rotation matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">RRT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">RRT</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="n">tolerance</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="norm_matrix">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix">[docs]</a>
 <span class="k">def</span> <span class="nf">norm_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">):</span>
@@ -427,6 +457,8 @@ document.write(`
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    check_matrix : Checks orthonormality of a rotation matrix.</span>
+<span class="sd">    matrix_requires_renormalization</span>
+<span class="sd">        Checks if a rotation matrix needs renormalization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
@@ -434,6 +466,35 @@ document.write(`
     <span class="n">c1</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">))</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">c3</span><span class="p">,</span> <span class="n">c1</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="quaternion_requires_renormalization">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_requires_renormalization.html#pytransform3d.rotations.quaternion_requires_renormalization">[docs]</a>
+<span class="k">def</span> <span class="nf">quaternion_requires_renormalization</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Check if a unit quaternion requires renormalization.</span>
+
+<span class="sd">    Quaternions that represent rotations should have unit norm, so we check</span>
+<span class="sd">    :math:`||\boldsymbol{q}|| \approx 1`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">        Quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance for check.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    required : bool</span>
+<span class="sd">        Renormalization is required.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    check_quaternion : Normalizes quaternion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tolerance</span></div>
 
 
 
@@ -498,6 +559,33 @@ document.write(`
     <span class="n">res</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
 
     <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="compact_axis_angle_near_pi">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.compact_axis_angle_near_pi.html#pytransform3d.rotations.compact_axis_angle_near_pi">[docs]</a>
+<span class="k">def</span> <span class="nf">compact_axis_angle_near_pi</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Check if angle of compact axis-angle representation is near pi.</span>
+
+<span class="sd">    When the angle :math:`\theta = \pi`, both :math:`\hat{\boldsymbol{\omega}}`</span>
+<span class="sd">    and :math:`-\hat{\boldsymbol{\omega}}` result in the same rotation. This</span>
+<span class="sd">    ambiguity could lead to problems when averaging or interpolating.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (3,)</span>
+<span class="sd">        Axis of rotation and rotation angle: angle * (x, y, z).</span>
+
+<span class="sd">    tolerance : float</span>
+<span class="sd">        Tolerance of this check.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    near_pi : bool</span>
+<span class="sd">        Angle is near pi.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span></div>
 
 
 
@@ -866,7 +954,7 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    q : array-like, shape (4,)</span>
+<span class="sd">    q : array, shape (4,)</span>
 <span class="sd">        Validated quaternion to represent rotation: (w, x, y, z)</span>
 
 <span class="sd">    Raises</span>
@@ -899,7 +987,7 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Q : array-like, shape (n_steps, 4)</span>
+<span class="sd">    Q : array, shape (n_steps, 4)</span>
 <span class="sd">        Validated quaternions to represent rotations: (w, x, y, z)</span>
 
 <span class="sd">    Raises</span>

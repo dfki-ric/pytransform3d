@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="1. Introduction to 3D Rigid Transformations" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -390,8 +390,7 @@ matrices <a class="footnote-reference brackets" href="#id16" id="id1" role="doc-
 any rotation from <span class="math notranslate nohighlight">\(SO(3)\)</span> is 3. However, there is no representation that
 is non-redundant, continuous, and free of singularities.</p>
 <figure class="align-center" id="id18">
-<a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" src="../_images/rotations.png" style="width: 50%;" />
-</a>
+<a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" src="../_images/rotations.png" style="width: 50%;" /></a>
 <figcaption>
 <p><span class="caption-text">Overview of the representations and the conversions between them that are
 available in pytransform3d.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
@@ -497,7 +496,10 @@ the negative of these.</p>
 <p>Note that this is a non-minimal representation for orientations because we
 have 9 values but only 3 degrees of freedom. This is because
 <span class="math notranslate nohighlight">\(\boldsymbol R\)</span> is orthonormal, which results in 6 constraints
-(enforced with <a class="reference internal" href="../_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix" title="pytransform3d.rotations.norm_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_matrix()</span></code></a>):</p>
+(enforced with <a class="reference internal" href="../_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix" title="pytransform3d.rotations.norm_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_matrix()</span></code></a>
+and checked with
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.matrix_requires_renormalization.html#pytransform3d.rotations.matrix_requires_renormalization" title="pytransform3d.rotations.matrix_requires_renormalization"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_requires_renormalization()</span></code></a> or
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.check_matrix.html#pytransform3d.rotations.check_matrix" title="pytransform3d.rotations.check_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_matrix()</span></code></a>):</p>
 <ul class="simple">
 <li><p>column vectors must have unit norm (3 constraints)</p></li>
 <li><p>and must be orthogonal to each other (3 constraints)</p></li>
@@ -601,8 +603,7 @@ This will be done, for instance, to obtain rotation matrices from Euler angles
 <section id="axis-angle">
 <h2><span class="section-number">2.2. </span>Axis-Angle<a class="headerlink" href="#axis-angle" title="Link to this heading">#</a></h2>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_axis_angle.html"><img alt="../_images/sphx_glr_plot_axis_angle_001.png" src="../_images/sphx_glr_plot_axis_angle_001.png" style="width: 50%;" />
-</a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_axis_angle.html"><img alt="../_images/sphx_glr_plot_axis_angle_001.png" src="../_images/sphx_glr_plot_axis_angle_001.png" style="width: 50%;" /></a>
 </figure>
 <p>Each rotation can be represented by a single rotation about one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
@@ -642,7 +643,9 @@ acceleration.</p></li>
 <p><strong>Cons</strong></p>
 <ul class="simple">
 <li><p>Ambiguities: an angle of 0 and any multiple of <span class="math notranslate nohighlight">\(2\pi\)</span> represent
-the same orientation; when <span class="math notranslate nohighlight">\(\theta = \pi\)</span>, the axes
+the same orientation (can be avoided with
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.norm_compact_axis_angle.html#pytransform3d.rotations.norm_compact_axis_angle" title="pytransform3d.rotations.norm_compact_axis_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_compact_axis_angle()</span></code></a>, which introduces
+discontinuities); when <span class="math notranslate nohighlight">\(\theta = \pi\)</span>, the axes
 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}}\)</span> and <span class="math notranslate nohighlight">\(-\hat{\boldsymbol{\omega}}\)</span>
 represent the same rotation.</p></li>
 <li><p>Supported operations: concatenation and transformation of vectors requires
@@ -689,7 +692,7 @@ conversions to other representations. We use Hamilton’s convention.</p>
 <p>Read <a class="reference external" href="https://arxiv.org/pdf/1801.07478.pdf">this paper</a> for details about
 the two conventions and why Hamilton’s convention should be used. Section VI A
 gives further useful hints to identify which convention is used.</p>
-<p>The unit quaternion space <span class="math notranslate nohighlight">\(\mathbb{S}^3\)</span> can be used to represent
+<p>The unit quaternion space <span class="math notranslate nohighlight">\(S^3\)</span> can be used to represent
 orientations with an encoding based on the rotation axis and angle.
 A rotation quaternion is a four-dimensional unit vector (versor)
 <span class="math notranslate nohighlight">\(\boldsymbol{\hat{q}}\)</span>.
@@ -722,9 +725,10 @@ functions <a class="reference internal" href="../_apidoc/pytransform3d.rotations
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <em>antipodal</em> unit quaternions <span class="math notranslate nohighlight">\(\boldsymbol{\hat{q}}\)</span> and
-<span class="math notranslate nohighlight">\(-\boldsymbol{\hat{q}}\)</span> represent the same rotation (double cover).
-This must be considered during operations like interpolation, distance
-calculation, or (approximate) equality checks.</p>
+<span class="math notranslate nohighlight">\(-\boldsymbol{\hat{q}}\)</span>
+(<a class="reference internal" href="../_apidoc/pytransform3d.rotations.quaternion_double.html#pytransform3d.rotations.quaternion_double" title="pytransform3d.rotations.quaternion_double"><code class="xref py py-func docutils literal notranslate"><span class="pre">quaternion_double()</span></code></a>) represent the same
+rotation (double cover). This must be considered during operations like
+interpolation, distance calculation, or (approximate) equality checks.</p>
 </div>
 <p>The quaternion product
 (<a class="reference internal" href="../_apidoc/pytransform3d.rotations.concatenate_quaternions.html#pytransform3d.rotations.concatenate_quaternions" title="pytransform3d.rotations.concatenate_quaternions"><code class="xref py py-func docutils literal notranslate"><span class="pre">concatenate_quaternions()</span></code></a>) can be used to
@@ -741,8 +745,10 @@ with the quaternion product (<a class="reference internal" href="../_apidoc/pytr
 <p><strong>Pros</strong></p>
 <ul class="simple">
 <li><p>Representation: compact.</p></li>
-<li><p>Renormalization: cheap in comparison to rotation matrices;
-less susceptible to round-off errors than matrix representation.</p></li>
+<li><p>Renormalization: checked with
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.quaternion_requires_renormalization.html#pytransform3d.rotations.quaternion_requires_renormalization" title="pytransform3d.rotations.quaternion_requires_renormalization"><code class="xref py py-func docutils literal notranslate"><span class="pre">quaternion_requires_renormalization()</span></code></a>;
+cheap in comparison to rotation matrices (); less susceptible to round-off
+errors than matrix representation.</p></li>
 <li><p>Discontinuities: none.</p></li>
 <li><p>Computational efficiency: the quaternion product is cheaper than the matrix
 product.</p></li>
@@ -787,8 +793,7 @@ representation.</p></li>
 <section id="rotors">
 <h2><span class="section-number">2.7. </span>Rotors<a class="headerlink" href="#rotors" title="Link to this heading">#</a></h2>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_bivector.html"><img alt="../_images/sphx_glr_plot_bivector_001.png" src="../_images/sphx_glr_plot_bivector_001.png" style="width: 70%;" />
-</a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_bivector.html"><img alt="../_images/sphx_glr_plot_bivector_001.png" src="../_images/sphx_glr_plot_bivector_001.png" style="width: 70%;" /></a>
 </figure>
 <p>Rotors and quaternions are very similar concepts in 3D. However, rotors are
 more general as they can be extended to more dimensions <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>.</p>
@@ -836,7 +841,8 @@ same representation in 3D.</p>
 \hat{\boldsymbol{\omega}}\]</div>
 <p>This representation is similar to the compact axis-angle representation.
 However, the angle of rotation is converted to <span class="math notranslate nohighlight">\(\tan(\frac{\theta}{4})\)</span>.
-Hence, there is an easy conversion from unit quaternions to MRP:</p>
+Hence, there is an easy conversion from unit quaternions to MRP
+(<a class="reference internal" href="../_apidoc/pytransform3d.rotations.mrp_from_quaternion.html#pytransform3d.rotations.mrp_from_quaternion" title="pytransform3d.rotations.mrp_from_quaternion"><code class="xref py py-func docutils literal notranslate"><span class="pre">mrp_from_quaternion()</span></code></a>):</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\boldsymbol{\psi} = \frac{
 \left( \begin{array}{c} x\\ y\\ z\\ \end{array} \right)}{1 + w}\end{split}\]</div>
@@ -846,15 +852,17 @@ Hence, there is an easy conversion from unit quaternions to MRP:</p>
 parameters.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>MRPs have a singuarity at <span class="math notranslate nohighlight">\(2 \pi\)</span> which we can avoid by ensuring the
-angle of rotation does not exceed <span class="math notranslate nohighlight">\(\pi\)</span>.</p>
+<p>MRPs have a singuarity at <span class="math notranslate nohighlight">\(2 \pi\)</span> (see
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.mrp_near_singularity.html#pytransform3d.rotations.mrp_near_singularity" title="pytransform3d.rotations.mrp_near_singularity"><code class="xref py py-func docutils literal notranslate"><span class="pre">mrp_near_singularity()</span></code></a>) which we can avoid
+by ensuring the angle of rotation does not exceed <span class="math notranslate nohighlight">\(\pi\)</span> (with
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.norm_mrp.html#pytransform3d.rotations.norm_mrp" title="pytransform3d.rotations.norm_mrp"><code class="xref py py-func docutils literal notranslate"><span class="pre">norm_mrp()</span></code></a>).</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>MRPs have two representations for the same rotation:
 <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> and <span class="math notranslate nohighlight">\(-\frac{1}{||\boldsymbol{\psi}||^2}
-\boldsymbol{\psi}\)</span> represent the same rotation and correspond to two
-antipodal unit quaternions <a class="footnote-reference brackets" href="#id17" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>.</p>
+\boldsymbol{\psi}\)</span> (<a class="reference internal" href="../_apidoc/pytransform3d.rotations.mrp_double.html#pytransform3d.rotations.mrp_double" title="pytransform3d.rotations.mrp_double"><code class="xref py py-func docutils literal notranslate"><span class="pre">mrp_double()</span></code></a>) represent
+the same rotation and correspond to two antipodal unit quaternions <a class="footnote-reference brackets" href="#id17" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">

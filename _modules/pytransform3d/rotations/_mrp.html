@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._mrp &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>pytransform3d.rotations._mrp &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../../../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_mrp';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -358,7 +358,94 @@ document.write(`
   <h1>Source code for pytransform3d.rotations._mrp</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Modified Rodrigues parameters.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">check_mrp</span>
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">check_mrp</span><span class="p">,</span> <span class="n">norm_angle</span>
+<span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="n">axis_angle_from_mrp</span><span class="p">,</span> <span class="n">mrp_from_axis_angle</span>
+<span class="kn">from</span> <span class="nn">._constants</span> <span class="kn">import</span> <span class="n">two_pi</span>
+
+
+<div class="viewcode-block" id="norm_mrp">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.norm_mrp.html#pytransform3d.rotations.norm_mrp">[docs]</a>
+<span class="k">def</span> <span class="nf">norm_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize angle of modified Rodrigues parameters to range [-pi, pi].</span>
+
+<span class="sd">    Normalization of modified Rodrigues parameters is required to avoid the</span>
+<span class="sd">    singularity at a rotation angle of 2 * pi.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mrp : array-like, shape (3,)</span>
+<span class="sd">        Modified Rodrigues parameters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mrp : array, shape (3,)</span>
+<span class="sd">        Modified Rodrigues parameters with angle normalized to [-pi, pi].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mrp</span> <span class="o">=</span> <span class="n">check_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">axis_angle_from_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">mrp_from_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="mrp_near_singularity">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.mrp_near_singularity.html#pytransform3d.rotations.mrp_near_singularity">[docs]</a>
+<span class="k">def</span> <span class="nf">mrp_near_singularity</span><span class="p">(</span><span class="n">mrp</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if modified Rodrigues parameters are close to singularity.</span>
+
+<span class="sd">    MRPs have a singularity at 2 * pi, i.e., the norm approaches infinity as</span>
+<span class="sd">    the angle approaches 2 * pi.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mrp : array-like, shape (3,)</span>
+<span class="sd">        Modified Rodrigues parameters.</span>
+
+<span class="sd">    tolerance : float, optional (default: 1e-6)</span>
+<span class="sd">        Tolerance for check.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    near_singularity : bool</span>
+<span class="sd">        MRPs are near singularity.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">)</span>
+    <span class="n">mrp_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">mrp</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">mrp_norm</span><span class="p">)</span> <span class="o">*</span> <span class="mf">4.0</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle</span> <span class="o">-</span> <span class="n">two_pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span></div>
+
+
+
+<div class="viewcode-block" id="mrp_double">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.mrp_double.html#pytransform3d.rotations.mrp_double">[docs]</a>
+<span class="k">def</span> <span class="nf">mrp_double</span><span class="p">(</span><span class="n">mrp</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Other modified Rodrigues parameters representing the same orientation.</span>
+
+<span class="sd">    MRPs have two representations for the same rotation:</span>
+<span class="sd">    :math:`\boldsymbol{\psi}` and :math:`-\frac{1}{||\boldsymbol{\psi}||^2}</span>
+<span class="sd">    \boldsymbol{\psi}` represent the same rotation and correspond to two</span>
+<span class="sd">    antipodal unit quaternions [1]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mrp : array-like, shape (3,)</span>
+<span class="sd">        Modified Rodrigues parameters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mrp_double : array, shape (3,)</span>
+<span class="sd">        Different modified Rodrigues parameters that represent the same</span>
+<span class="sd">        orientation.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Shuster, M. D. (1993). A Survey of Attitude Representations.</span>
+<span class="sd">       Journal of the Astronautical Sciences, 41, 439-517.</span>
+<span class="sd">       http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mrp</span> <span class="o">=</span> <span class="n">check_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mrp</span> <span class="o">/</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mrp</span><span class="p">,</span> <span class="n">mrp</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="concatenate_mrp">

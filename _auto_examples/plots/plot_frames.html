@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plot with Respect to Different Reference Frames &#8212; pytransform3d 3.7.0 documentation</title>
+    <title>Plot with Respect to Different Reference Frames &#8212; pytransform3d 3.8.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=229cbe3b"></script>
+    <script src="../../_static/documentation_options.js?v=948f11bf"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_auto_examples/plots/plot_frames';</script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="Pose Trajectory" href="plot_pose_trajectory.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 15, 2024"/>
+    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.7.0"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.7.0"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
   
   
 </a></div>
@@ -312,7 +312,7 @@ document.write(`
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../animations/index.html">Matplotlib Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/index.html">GUI Applications</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Matplotlib Figures</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Matplotlib Figures</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="plot_transform.html">Plot Transformation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_bivector.html">Plot Bivector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_vector.html">Plot Vector</a></li>
@@ -353,7 +353,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="plot_interpolation_for_transform_manager.html">Managing Transformations over Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_dual_quaternion_interpolation.html">Dual Quaternion Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_pose_fusion.html">Fuse 3 Poses</a></li>
-</ul>
+</ul><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../visualizations/index.html">3D Visualizations</a></li>
 </ul>
@@ -419,7 +419,7 @@ document.write(`
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#sphx-glr-download-auto-examples-plots-plot-frames-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code.</p>
+to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="plot-with-respect-to-different-reference-frames">
 <span id="sphx-glr-auto-examples-plots-plot-frames-py"></span><h1>Plot with Respect to Different Reference Frames<a class="headerlink" href="#plot-with-respect-to-different-reference-frames" title="Link to this heading">#</a></h1>
@@ -447,27 +447,24 @@ two reference frames (‘world’ and ‘A’).</p>
 
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
-<a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.plot_utils.make_3d_axis.html#pytransform3d.plot_utils.make_3d_axis" title="pytransform3d.plot_utils.make_3d_axis" class="sphx-glr-backref-module-pytransform3d-plot_utils sphx-glr-backref-type-py-function"><span class="n">make_3d_axis</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">121</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.plot_frames_in" title="pytransform3d.transform_manager.TransformManager.plot_frames_in" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span></a><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">,</span> <a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/mpl_toolkits.mplot3d.axes3d.Axes3D.view_init.html#mpl_toolkits.mplot3d.axes3d.Axes3D.view_init" title="mpl_toolkits.mplot3d.axes3d.Axes3D.view_init" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">view_init</span></a><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.plot_utils.make_3d_axis.html#pytransform3d.plot_utils.make_3d_axis" title="pytransform3d.plot_utils.make_3d_axis" class="sphx-glr-backref-module-pytransform3d-plot_utils sphx-glr-backref-type-py-function"><span class="n">make_3d_axis</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">121</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.plot_frames_in" title="pytransform3d.transform_manager.TransformManager.plot_frames_in" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span></a><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 
-<a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.plot_utils.make_3d_axis.html#pytransform3d.plot_utils.make_3d_axis" title="pytransform3d.plot_utils.make_3d_axis" class="sphx-glr-backref-module-pytransform3d-plot_utils sphx-glr-backref-type-py-function"><span class="n">make_3d_axis</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">122</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.plot_frames_in" title="pytransform3d.transform_manager.TransformManager.plot_frames_in" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span></a><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/toolkits/mplot3d/axes3d.html#mpl_toolkits.mplot3d.axes3d.Axes3D" title="mpl_toolkits.mplot3d.axes3d.Axes3D" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
-<a href="https://matplotlib.org/stable/api/_as_gen/mpl_toolkits.mplot3d.axes3d.Axes3D.view_init.html#mpl_toolkits.mplot3d.axes3d.Axes3D.view_init" title="mpl_toolkits.mplot3d.axes3d.Axes3D.view_init" class="sphx-glr-backref-module-mpl_toolkits-mplot3d-axes3d sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">view_init</span></a><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.plot_utils.make_3d_axis.html#pytransform3d.plot_utils.make_3d_axis" title="pytransform3d.plot_utils.make_3d_axis" class="sphx-glr-backref-module-pytransform3d-plot_utils sphx-glr-backref-type-py-function"><span class="n">make_3d_axis</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">122</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.plot_frames_in" title="pytransform3d.transform_manager.TransformManager.plot_frames_in" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">plot_frames_in</span></a><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.122 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.129 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-frames-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/859e798cf6ad1c48c32dfd90f4a7508a/plot_frames.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_frames.ipynb</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6c5d51c2c347a41afddfb64109d15f65/plot_frames.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_frames.py</span></code></a></p>
-</div>
-<div class="sphx-glr-download sphx-glr-download-zip docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/ec20c0d631e121e959269d87ce89d41e/plot_frames.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_frames.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
