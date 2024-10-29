@@ -2437,6 +2437,8 @@ def test_mrp_double():
     pr.assert_quaternion_equal(q, q_double)
     assert not np.allclose(q, q_double)
 
+    assert_array_almost_equal(np.zeros(3), pr.mrp_double(np.zeros(3)))
+
 
 def test_assert_euler_almost_equal():
     pr.assert_euler_equal(

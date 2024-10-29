@@ -60,6 +60,9 @@ def mrp_double(mrp):
     \boldsymbol{\psi}` represent the same rotation and correspond to two
     antipodal unit quaternions [1]_.
 
+    No rotation is a special case, in which no second representation exists.
+    Only the zero vector represents no rotation.
+
     Parameters
     ----------
     mrp : array-like, shape (3,)
@@ -78,7 +81,10 @@ def mrp_double(mrp):
        http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf
     """
     mrp = check_mrp(mrp)
-    return mrp / -np.dot(mrp, mrp)
+    norm = np.dot(mrp, mrp)
+    if norm == 0.0:
+        return mrp
+    return mrp / -norm
 
 
 def concatenate_mrp(mrp1, mrp2):
