@@ -50,7 +50,7 @@ A typical visual representation of Gaussian distributions in 3D coordinates
 are equiprobable ellipsoids (obtained with
 :func:`~pytransform3d.uncertainty.to_ellipsoid`). This is equivalent to showing
 the :math:`k\sigma, k \in \mathbb{R}` intervals of a 1D Gaussian distribution.
-However, for transformations are also interactions between rotation and
+However, for transformations there are also interactions between rotation and
 translation components so that an ellipsoid is not an appropriate
 representation to visualize the distribution of transformations in 3D. We have
 to project a 6D hyper-ellipsoid to 3D (for which we can use
