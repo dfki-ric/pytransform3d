@@ -178,6 +178,7 @@ Modified Rodrigues Parameters
    ~mrp_double
 
    ~concatenate_mrp
+   ~mrp_prod_vector
 
    ~mrp_from_axis_angle
    ~mrp_from_quaternion

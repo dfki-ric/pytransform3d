@@ -96,7 +96,8 @@ def concatenate_mrp(mrp1, mrp2):
     apply the result to v.
 
     The solution for concatenation of two rotations
-    :math:`\boldsymbol{\psi}_1,\boldsymbol{\psi}_2` is given by Shuster [1]_:
+    :math:`\boldsymbol{\psi}_1,\boldsymbol{\psi}_2` is given by Shuster [1]_
+    (Equation 257):
 
     .. math::
 
@@ -137,3 +138,33 @@ def concatenate_mrp(mrp1, mrp2):
     return (
         (1.0 - norm1_sq) * mrp2 + (1.0 - norm2_sq) * mrp1 - 2.0 * cross_product
     ) / (1.0 + norm2_sq * norm1_sq - 2.0 * scalar_product)
+
+
+def mrp_prod_vector(mrp, v):
+    r"""Apply rotation represented by MRPs to a vector.
+
+    To apply the rotation defined by modified Rodrigues parameters
+    :math:`\boldsymbol{\psi} \in \mathbb{R}^3` to a vector
+    :math:`\boldsymbol{v} \in \mathbb{R}^3`, we left-concatenate the original
+    MRPs and then right-concatenate its inverted (negative) version.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    v : array-like, shape (3,)
+        3d vector
+
+    Returns
+    -------
+    w : array, shape (3,)
+        3d vector
+
+    See Also
+    --------
+    concatenate_mrp : Concatenates MRPs.
+    q_prod_vector : The same operation with a quaternion.
+    """
+    mrp = check_mrp(mrp)
+    return concatenate_mrp(concatenate_mrp(mrp, v), -mrp)

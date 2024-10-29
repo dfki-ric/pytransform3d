@@ -2440,6 +2440,19 @@ def test_mrp_double():
     assert_array_almost_equal(np.zeros(3), pr.mrp_double(np.zeros(3)))
 
 
+def test_mrp_prod_vector():
+    rng = np.random.default_rng(2183)
+    v = pr.random_vector(rng, 3)
+    assert_array_almost_equal(v, pr.mrp_prod_vector([0, 0, 0], v))
+
+    for _ in range(5):
+        mrp = pr.random_vector(rng, 3)
+        q = pr.quaternion_from_mrp(mrp)
+        v_mrp = pr.mrp_prod_vector(mrp, v)
+        v_q = pr.q_prod_vector(q, v)
+        assert_array_almost_equal(v_mrp, v_q)
+
+
 def test_assert_euler_almost_equal():
     pr.assert_euler_equal(
         [0.2, 0.3, -0.5], [0.2 + np.pi, -0.3, -0.5 - np.pi], 0, 1, 0)
