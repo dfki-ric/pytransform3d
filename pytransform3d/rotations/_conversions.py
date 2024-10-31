@@ -48,7 +48,7 @@ def cross_product_matrix(v):
 
     Returns
     -------
-    V : array-like, shape (3, 3)
+    V : array, shape (3, 3)
         Cross-product matrix
     """
     return np.array([[0.0, -v[2], v[1]],
