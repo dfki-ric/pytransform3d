@@ -85,7 +85,7 @@ def quaternion_gradient(Q, dt=1.0):
 
     Returns
     -------
-    A : array-like, shape (n_steps, 3)
+    A : array, shape (n_steps, 3)
         Angular velocities in a compact axis-angle representation. Each angular
         velocity represents the rotational offset after one unit of time.
         Angular velocities are given in global frame and will be
