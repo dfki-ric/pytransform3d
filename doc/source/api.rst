@@ -297,7 +297,6 @@ Transformation Matrix
    ~vectors_to_points
    ~vector_to_direction
    ~vectors_to_directions
-   ~scale_transform
    ~adjoint_from_transform
 
    ~plot_transform
@@ -440,6 +439,15 @@ Jacobians
    ~left_jacobian_SE3_series
    ~left_jacobian_SE3_inv
    ~left_jacobian_SE3_inv_series
+
+Deprecated Functions
+--------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~scale_transform
 
 
 :mod:`pytransform3d.batch_rotations`
