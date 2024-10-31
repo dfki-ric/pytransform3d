@@ -38,6 +38,9 @@ def cross_product_matrix(v):
         -v_2 & v_1 & 0
         \end{array}\right).
 
+    The function can also be used to compute the logarithm of rotation from
+    a compact axis-angle representation.
+
     Parameters
     ----------
     v : array-like, shape (3,)
@@ -51,6 +54,9 @@ def cross_product_matrix(v):
     return np.array([[0.0, -v[2], v[1]],
                      [v[2], 0.0, -v[0]],
                      [-v[1], v[0], 0.0]])
+
+
+rot_log_from_compact_axis_angle = cross_product_matrix
 
 
 def matrix_from_two_vectors(a, b):
