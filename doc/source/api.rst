@@ -101,6 +101,7 @@ Logarithm of Rotation
    ~check_skew_symmetric_matrix
 
    ~cross_product_matrix
+   ~rot_log_from_compact_axis_angle
 
 
 Quaternion
