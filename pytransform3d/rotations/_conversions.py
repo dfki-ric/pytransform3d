@@ -1964,12 +1964,13 @@ def axis_angle_from_two_directions(a, b):
 def compact_axis_angle(a):
     r"""Compute 3-dimensional axis-angle from a 4-dimensional one.
 
-    In a 3-dimensional axis-angle, the 4th dimension (the rotation) is
-    represented by the norm of the rotation axis vector, which means we
-    transform :math:`\left( \boldsymbol{\hat{e}}, \theta \right)` to
-    :math:`\theta \boldsymbol{\hat{e}}`.
+    In the 3-dimensional axis-angle representation, the 4th dimension (the
+    rotation) is represented by the norm of the rotation axis vector, which
+    means we map :math:`\left( \hat{\boldsymbol{\omega}}, \theta \right)` to
+    :math:`\boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}`.
 
-    We usually assume active rotations.
+    This representation is also called rotation vector or exponential
+    coordinates of rotation.
 
     Parameters
     ----------
