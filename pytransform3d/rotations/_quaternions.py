@@ -272,7 +272,7 @@ def quaternion_diff(q1, q2):
 
     .. math::
 
-        \omega = 2 \log (q_1 * \overline{q_2})
+        \omega = \log (q_1 \overline{q_2})
 
     Parameters
     ----------
