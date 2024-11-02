@@ -416,6 +416,9 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
     return V
 
 
+check_rot_log = check_skew_symmetric_matrix
+
+
 def check_matrix(R, tolerance=1e-6, strict_check=True):
     r"""Input validation of a rotation matrix.
 

@@ -46,6 +46,9 @@ def plane_basis_from_normal(
 def check_skew_symmetric_matrix(V: npt.ArrayLike, tolerance: float = ..., strict_check: bool = ...) -> np.ndarray: ...
 
 
+def check_rot_log(V: npt.ArrayLike, tolerance: float = ..., strict_check: bool = ...) -> np.ndarray: ...
+
+
 def check_matrix(R: npt.ArrayLike, tolerance: float = ..., strict_check: bool = ...) -> np.ndarray: ...
 
 
