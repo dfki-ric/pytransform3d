@@ -11,7 +11,7 @@ from ._utils import (
     matrix_requires_renormalization, norm_matrix,
     quaternion_requires_renormalization,
     plane_basis_from_normal,
-    check_skew_symmetric_matrix, check_matrix, check_quaternion,
+    check_skew_symmetric_matrix, check_rot_log, check_matrix, check_quaternion,
     check_quaternions, check_axis_angle, check_compact_axis_angle,
     check_rotor, check_mrp)
 from ._random import (
@@ -140,6 +140,7 @@ __all__ = [
     "random_compact_axis_angle",
     "random_quaternion",
     "check_skew_symmetric_matrix",
+    "check_rot_log",
     "check_matrix",
     "check_quaternion",
     "check_quaternions",

@@ -98,10 +98,11 @@ Logarithm of Rotation
    :toctree: _apidoc/
    :template: function.rst
 
+   ~check_rot_log
    ~check_skew_symmetric_matrix
 
-   ~cross_product_matrix
    ~rot_log_from_compact_axis_angle
+   ~cross_product_matrix
 
 
 Quaternion
