@@ -5,8 +5,16 @@ import numpy as np
 from ..batch_rotations import norm_vectors
 
 from ._transform_graph_base import TransformGraphBase
-from ..transformations import check_transform, transform_from_pq, dual_quaternion_sclerp
-from ..trajectories import dual_quaternions_from_pqs, pqs_from_dual_quaternions
+from ..transformations import check_transform
+from ..trajectories import (
+    dual_quaternions_from_pqs,
+    pqs_from_dual_quaternions,
+    dual_quaternions_sclerp,
+    transforms_from_pqs,
+    concat_dynamic,
+    invert_transforms
+)
+
 
 class TimeVaryingTransform(abc.ABC):
     """Time-varying rigid transformation.
@@ -23,13 +31,13 @@ class TimeVaryingTransform(abc.ABC):
 
         Parameters
         ----------
-        query_time : float
+        query_time : Union[float,array-like shape (...)]
             Query time
 
         Returns
         -------
-        A2B_t : array, shape (4, 4)
-            Homogeneous transformation matrix at given time.
+        A2B_t : array, shape (4, 4) or (..., 4, 4)
+            Homogeneous transformation matrix at given time. or times
         """
 
     @abc.abstractmethod
@@ -43,6 +51,7 @@ class TimeVaryingTransform(abc.ABC):
         """
 
 
+
 class StaticTransform(TimeVaryingTransform):
     """Transformation, which does not change over time.
 
@@ -51,6 +60,7 @@ class StaticTransform(TimeVaryingTransform):
     A2B : array-like, shape (4, 4)
         Homogeneous transformation matrix.
     """
+
     def __init__(self, A2B):
         self._A2B = A2B
 
@@ -95,40 +105,60 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
             raise ValueError("`pqs` matrix shall have 7 columns.")
 
     def as_matrix(self, query_time):
+        """Get transformation matrix at given time.
+
+        Parameters
+        ----------
+        query_time : Union[float,array-like shape (...)]
+            Query time
+
+        Returns
+        -------
+        A2B_t : array, shape (4, 4) or (..., 4, 4)
+            Homogeneous transformation matrix at given time. . or times
+        """
         pq = self._interpolate_pq_using_sclerp(query_time)
-        return transform_from_pq(pq)
+        transforms = transforms_from_pqs(pq)
+        transforms = np.squeeze(transforms)  # to keep the external API
+        return transforms
 
     def check_transforms(self):
         self._pqs[:, 3:] = norm_vectors(self._pqs[:, 3:])
         return self
 
     def _interpolate_pq_using_sclerp(self, query_time):
-        if isinstance(query_time,float) or isinstance(query_time,float):
-            query_time_arr = np.array([query_time])
+        query_time_arr = np.atleast_1d(query_time)
 
         # identify the index of the preceding sample
-        idx_timestep_earlier_wrt_query_time = np.searchsorted(self.time, query_time_arr, side='right') - 1
+        idxs_timestep_earlier_wrt_query_time = np.searchsorted(
+            self.time, query_time_arr, side='right'
+        ) - 1
 
-        # deal with first timestamp
-        idx_timestep_earlier_wrt_query_time = max(
-            idx_timestep_earlier_wrt_query_time, 0)
+
+        # deal with first and last timestamp
+        min_index = 0
+        max_index = self.time.shape[0] - 2
+        idxs_timestep_earlier_wrt_query_time = np.clip(
+            idxs_timestep_earlier_wrt_query_time,
+            min_index,
+            max_index
+        )
 
         # dual quaternion from preceding sample
-        t_prev = self.time[idx_timestep_earlier_wrt_query_time]
-        pq_prev = self._pqs[idx_timestep_earlier_wrt_query_time, :]
+        t_prev = self.time[idxs_timestep_earlier_wrt_query_time]
+        pq_prev = self._pqs[idxs_timestep_earlier_wrt_query_time, :]
         dq_prev = dual_quaternions_from_pqs(pq_prev)
 
         # dual quaternion from successive sample
-        t_next = self.time[idx_timestep_earlier_wrt_query_time + 1]
-        pq_next = self._pqs[idx_timestep_earlier_wrt_query_time + 1, :]
+        t_next = self.time[idxs_timestep_earlier_wrt_query_time + 1]
+        pq_next = self._pqs[idxs_timestep_earlier_wrt_query_time + 1, :]
         dq_next = dual_quaternions_from_pqs(pq_next)
 
         # since sclerp works with relative (0-1) positions
         rel_delta_t = (query_time - t_prev) / (t_next - t_prev)
-        dqs_interpolated = dual_quaternions_sclerp(dq_prev, dq_next, rel_delta_t)
+        dqs_interpolated = dual_quaternions_sclerp(
+            dq_prev, dq_next, rel_delta_t)
         res = pqs_from_dual_quaternions(dqs_interpolated)
-        if res.shape[0] == 1:
-            return res[0]
         return res
 
 
@@ -148,10 +178,11 @@ class TemporalTransformManager(TransformGraphBase):
         Check if transformation matrices are valid and requested nodes exist,
         which might significantly slow down some operations.
     """
+
     def __init__(self, strict_check=True, check=True):
         super(TemporalTransformManager, self).__init__(strict_check, check)
         self._transforms = {}
-        self._current_time = 0.0
+        self._current_time = np.array([0.0])
 
     @property
     def current_time(self):
@@ -161,7 +192,7 @@ class TemporalTransformManager(TransformGraphBase):
     @current_time.setter
     def current_time(self, time):
         """Set current time at which we evaluate transformations."""
-        self._current_time = time
+        self._current_time = np.atleast_1d(time)
 
     @property
     def transforms(self):
@@ -181,8 +212,8 @@ class TemporalTransformManager(TransformGraphBase):
         to_frame : Hashable
             Name of the frame in which the transformation is defined
 
-        time : float
-            Time at which we request the transformation.
+        time : Union[float,array-like shape (...)]
+            Time or Times at which we request the transformation.
 
         Returns
         -------
@@ -204,6 +235,33 @@ class TemporalTransformManager(TransformGraphBase):
         self.current_time = previous_time
         return A2B
 
+    def get_transform(self, from_frame, to_frame):
+        # overwrite get_transform to be able to work with arrys trajectories
+        if self.check:
+            if from_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % from_frame)
+            if to_frame not in self.nodes:
+                raise KeyError("Unknown frame '%s'" % to_frame)
+
+        if self._transform_available((from_frame, to_frame)):
+            return self._get_transform((from_frame, to_frame))
+
+        if self._transform_available((to_frame, from_frame)):
+            return invert_transforms(
+                self._get_transform((to_frame, from_frame))
+            )
+
+        i = self.nodes.index(from_frame)
+        j = self.nodes.index(to_frame)
+        if not np.isfinite(self.dist[i, j]):
+            raise KeyError(
+                "Cannot compute path from frame '%s' to frame '%s'."
+                % (from_frame, to_frame)
+            )
+
+        path = self._shortest_path(i, j)
+        return self._path_transform(path)
+
     def _transform_available(self, key):
         return key in self._transforms
 
@@ -218,3 +276,13 @@ class TemporalTransformManager(TransformGraphBase):
 
     def _check_transform(self, A2B):
         return A2B.check_transforms()
+
+    def _path_transform(self, path):
+        """Convert sequence of node names to rigid transformation."""
+        A2B = np.eye(4)
+        for from_f, to_f in zip(path[:-1], path[1:]):
+            A2B = concat_dynamic(
+                A2B,
+                self.get_transform(from_f, to_f),
+            )
+        return A2B

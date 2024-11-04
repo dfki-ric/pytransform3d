@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from pytransform3d.trajectories import (
     invert_transforms, transforms_from_pqs, pqs_from_transforms,
     transforms_from_exponential_coordinates,
@@ -6,7 +7,9 @@ from pytransform3d.trajectories import (
     pqs_from_dual_quaternions, dual_quaternions_from_pqs,
     batch_concatenate_dual_quaternions, batch_dq_prod_vector,
     transforms_from_dual_quaternions, dual_quaternions_from_transforms,
-    concat_one_to_many, concat_many_to_one, mirror_screw_axis_direction)
+    concat_one_to_many, concat_many_to_one, mirror_screw_axis_direction,
+    screw_parameters_from_dual_quaternions,dual_quaternions_from_screw_parameters,
+    dual_quaternions_sclerp)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -15,7 +18,7 @@ from pytransform3d.transformations import (
     rotate_transform, random_transform, transform_from_pq,
     concatenate_dual_quaternions, dq_prod_vector,
     assert_unit_dual_quaternion_equal, invert_transform, concat,
-    transform_from_exponential_coordinates)
+    transform_from_exponential_coordinates,dual_quaternion_from_transform)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -296,3 +299,71 @@ def test_mirror_screw_axis():
     pose2 = transform_from_exponential_coordinates(
         mirror_exponential_coordinates)
     assert_array_almost_equal(pose, pose2)
+
+
+def test_screw_parameters_from_dual_quaternions():
+    case_idx0 = np.array([1, 0, 0, 0, 0, 0, 0, 0])
+    case_idx1 = np.array([[1.  , 0.  , 0.  , 0.  , 0.  , 0.6 , 0.65, 0.7 ]]) # same as pt.dual_quaternion_from_pq(np.array([1.2, 1.3, 1.4, 1, 0, 0, 0]))
+    
+    dqs = np.vstack([case_idx0,case_idx1])
+    q, s_axis, h, theta = screw_parameters_from_dual_quaternions(dqs)
+   
+    
+    assert_array_almost_equal(q[0], np.zeros(3))
+    assert_array_almost_equal(q[0], np.zeros(3))
+    assert_array_almost_equal(s_axis[0], np.array([1, 0, 0]))
+    assert np.isinf(h[0])
+    assert pytest.approx(theta[0]) == 0
+
+    assert_array_almost_equal(q[1], np.zeros(3))
+    assert_array_almost_equal(s_axis[1], norm_vectors(np.array([1.2, 1.3, 1.4])))
+    assert np.isinf(h[1])
+    assert pytest.approx(theta[1]) == np.linalg.norm(np.array([1.2, 1.3, 1.4]))
+
+
+def test_dual_quaternions_from_screw_parameters():
+    q_0 = np.zeros(3)
+    s_axis_0 = np.array([1, 0, 0])
+    h_0 = np.inf
+    theta_0 = 0.0
+
+    q_1 = np.zeros(3)
+    s_axis_1 = np.array([0.55297409, 0.57701644, 0.6010588 ])#pr.norm_vector(np.array([2.3, 2.4, 2.5]))
+    h_1 = np.inf
+    theta_1 = 3.6
+
+    q_2 = np.zeros(3)
+    s_axis_2 = np.array([0.55396089, 0.5770426 , 0.6001243 ]) #pr.norm_vector(np.array([2.4, 2.5, 2.6]))
+    h_2 = 0.0
+    theta_2 = 4.1
+
+    qs = np.vstack([q_0,q_1,q_2])
+    s_axis = np.vstack([s_axis_0,s_axis_1,s_axis_2])
+    hs = np.array([h_0,h_1,h_2])
+    thetas = np.array([theta_0,theta_1,theta_2])
+
+    dqs = dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas)
+    pqs = pqs_from_dual_quaternions(dqs)
+
+    assert_array_almost_equal(dqs[0], np.array([1, 0, 0, 0, 0, 0, 0, 0]))
+    assert_array_almost_equal(pqs[1], np.r_[s_axis[1] * thetas[1], 1, 0, 0, 0])
+    assert_array_almost_equal(pqs[2,:3], [0, 0, 0])
+
+
+def test_dual_quaternions_sclerp_same_dual_quaternions():
+    rng0 = np.random.default_rng(19)
+    pose0 = random_transform(rng0)
+    dq0 = dual_quaternion_from_transform(pose0)
+    t0 = 0.5
+
+    rng1 = np.random.default_rng(25)
+    pose1 = random_transform(rng1)
+    dq1 = dual_quaternion_from_transform(pose1)
+    t1 = 0.8
+    
+    dqs = np.vstack([dq0,dq1])
+    ts = np.array([t0,t1])
+
+    dqs_res = dual_quaternions_sclerp(dqs, dqs, ts)
+
+    assert_array_almost_equal(dqs, dqs_res)

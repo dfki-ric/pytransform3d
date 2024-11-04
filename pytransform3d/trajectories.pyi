@@ -44,10 +44,41 @@ def dual_quaternions_from_transforms(A2Bs: npt.ArrayLike) -> np.ndarray: ...
 def pqs_from_dual_quaternions(dqs: npt.ArrayLike) -> np.ndarray: ...
 
 
+def norm_axis_angles(a: npt.ArrayLike) -> np.ndarray: ...
+
+
+def axis_angles_from_quaternions(qs: npt.ArrayLike) -> np.ndarray: ...
+
+
+def screw_parameters_from_dual_quaternions(
+        dqs: npt.ArrayLike) -> np.ndarray: ...
+
+
+def dual_quaternions_from_screw_parameters(
+        qs: npt.ArrayLike,
+        s_axis: npt.ArrayLike,
+        hs: npt.ArrayLike,
+        thetas: npt.ArrayLike) -> np.ndarray: ...
+
+
+def dual_quaternions_power(
+        dqs: npt.ArrayLike,
+        ts: npt.ArrayLike) -> np.ndarray: ...
+
+
+def dual_quaternions_sclerp(
+        starts: npt.ArrayLike,
+        ends: npt.ArrayLike,
+        ts: npt.ArrayLike) -> np.ndarray: ...
+
+
 def transforms_from_dual_quaternions(dqs: npt.ArrayLike) -> np.ndarray: ...
 
 
 def batch_dq_conj(dqs: npt.ArrayLike) -> np.ndarray: ...
+
+
+def batch_dq_q_conj(dqs: npt.ArrayLike) -> np.ndarray: ...
 
 
 def batch_concatenate_dual_quaternions(

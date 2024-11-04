@@ -555,6 +555,10 @@ Exponential Coordinates
    ~mirror_screw_axis_direction
 
    ~exponential_coordinates_from_transforms
+   ~dual_quaternions_from_pqs
+   ~axis_angles_from_quaternions
+   ~screw_parameters_from_dual_quaternions
+   ~dual_quaternions_from_screw_parameters
 
 Dual Quaternions
 ----------------
@@ -563,11 +567,17 @@ Dual Quaternions
    :toctree: _apidoc/
    :template: function.rst
 
+   ~concat_many_to_many
+   ~concat_dynamic
    ~batch_dq_conj
+   ~batch_dq_q_conj
    ~batch_concatenate_dual_quaternions
    ~batch_dq_prod_vector
 
    ~dual_quaternions_from_pqs
+   ~norm_axis_angles
+   ~dual_quaternions_power
+   ~dual_quaternions_sclerp
 
 
 :mod:`pytransform3d.uncertainty`
