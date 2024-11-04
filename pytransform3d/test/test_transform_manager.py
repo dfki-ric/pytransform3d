@@ -495,6 +495,13 @@ def test_numpy_timeseries_transform():
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[0], decimal=2)
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[1], decimal=2)
     assert A2Ws_at_start_2.ndim == 3
+    assert A2W_at_start_2.ndim == 2
+
+    query_times = [time_A[0],time_A[0]] # start times
+    A2Ws_at_start_2 = tm.get_transform_at_time("A", "W", query_times)
+    assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[0], decimal=2)
+    assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[1], decimal=2)
+    assert A2Ws_at_start_2.ndim == 3
 
     query_time = 4.9  # [s]
     A2B_at_query_time = tm.get_transform_at_time("A", "B", query_time)
@@ -510,7 +517,25 @@ def test_numpy_timeseries_transform():
     assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)
 
 
-def test_numpy_timeseries_transform_multiple_timestamps_query():
+def test_numpy_timeseries_transform_wrong_input_shapes():
+    n_steps = 10
+    with pytest.raises(
+            ValueError, match="Number of timesteps"):
+        time = np.arange(n_steps)
+        pqs = np.random.randn(n_steps + 1, 7)
+        NumpyTimeseriesTransform(time, pqs)
+
+    with pytest.raises(ValueError, match="`pqs` matrix"):
+        time = np.arange(10)
+        pqs = np.random.randn(n_steps, 8)
+        NumpyTimeseriesTransform(time, pqs)
+
+    with pytest.raises(ValueError, match="Shape of PQ array"):
+        time = np.arange(10)
+        pqs = np.random.randn(n_steps, 8).flatten()
+        NumpyTimeseriesTransform(time, pqs)
+
+def test_numpy_timeseries_transform_multiple_query_times():
     # create entities A and B together with their transformations from world
     duration = 10.0  # [s]
     sample_period = 0.5  # [s]
@@ -531,20 +556,16 @@ def test_numpy_timeseries_transform_multiple_timestamps_query():
     tm.add_transform("A", "W", transform_WA)
     tm.add_transform("B", "W", transform_WB)
 
-    query_time = time_A[0]  # start time
-    A2W_at_start = pt.transform_from_pq(pq_arr_A[0, :])
-    A2W_at_start_2 = tm.get_transform_at_time("A", "W", query_time)
-    assert_array_almost_equal(A2W_at_start, A2W_at_start_2, decimal=2)
 
-    query_times = [4.9,4.9]  # [s]
-    A2B_at_query_times = tm.get_transform_at_time("A", "B", query_times)
+    query_times = np.array([4.9,5.2])  # [s]
+    A2B_at_query_time = tm.get_transform_at_time("A", "B", query_times)
 
     origin_of_A_pos = pt.vector_to_point([0, 0, 0])
-    origin_of_A_in_B_pos = pt.transform(A2B_at_query_times, origin_of_A_pos)
-    origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
+    origin_of_A_in_B_pos1 = pt.transform(A2B_at_query_time[0], origin_of_A_pos)
+    origin_of_A_in_B_xyz1 = origin_of_A_in_B_pos1[:-1]
 
-    origin_of_A_in_B_x, origin_of_A_in_B_y = \
-        origin_of_A_in_B_xyz[0], origin_of_A_in_B_xyz[1]
+    origin_of_A_in_B_x1, origin_of_A_in_B_y1 = \
+        origin_of_A_in_B_xyz1[0], origin_of_A_in_B_xyz1[1]
 
     assert origin_of_A_in_B_x == pytest.approx(-1.11, abs=1e-2)
     assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)
