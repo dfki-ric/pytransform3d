@@ -9,7 +9,7 @@ from pytransform3d.trajectories import (
     transforms_from_dual_quaternions, dual_quaternions_from_transforms,
     concat_one_to_many, concat_many_to_one, mirror_screw_axis_direction,
     screw_parameters_from_dual_quaternions,dual_quaternions_from_screw_parameters,
-    dual_quaternions_sclerp)
+    dual_quaternions_sclerp, concat_dynamic)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -73,6 +73,24 @@ def test_concat_many_to_one():
     A2Bs = [random_transform(rng) for _ in range(5)]
     A2Cs = [concat(A2B, B2C) for A2B in A2Bs]
     assert_array_almost_equal(A2Cs, concat_many_to_one(A2Bs, B2C))
+
+
+def test_concat_dynamic():
+    rng = np.random.default_rng(84320)
+    A2Bs = np.stack([random_transform(rng) for _ in range(5)])
+    B2Cs = np.stack([random_transform(rng) for _ in range(5)])
+    A2Cs = concat_dynamic(A2Bs, B2Cs)
+    for i in range(len(A2Cs)):
+        assert_array_almost_equal(A2Cs[i], concat(A2Bs[i], B2Cs[i]))
+        assert_array_almost_equal(A2Cs[i], concat_dynamic(A2Bs[i], B2Cs[i]))
+    assert_array_almost_equal(concat_dynamic(A2Bs[0], B2Cs),
+                              concat_one_to_many(A2Bs[0], B2Cs))
+    assert_array_almost_equal(concat_dynamic(A2Bs, B2Cs[0]),
+                              concat_many_to_one(A2Bs, B2Cs[0]))
+    with pytest.raises(ValueError, match="Expected ndim 2 or 3"):
+        concat_dynamic(A2Bs, B2Cs[np.newaxis])
+    with pytest.raises(ValueError, match="Expected ndim 2 or 3"):
+        concat_dynamic(A2Bs[np.newaxis], B2Cs)
 
 
 def test_transforms_from_pqs_0dims():
