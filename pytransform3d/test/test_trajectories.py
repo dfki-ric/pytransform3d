@@ -385,3 +385,9 @@ def test_dual_quaternions_sclerp_same_dual_quaternions():
     dqs_res = dual_quaternions_sclerp(dqs, dqs, ts)
 
     assert_array_almost_equal(dqs, dqs_res)
+
+    with pytest.raises(ValueError, match="must have the same shape"):
+        dual_quaternions_sclerp(dqs, dqs[:-1], ts)
+
+    with pytest.raises(ValueError, match="same number of elements"):
+        dual_quaternions_sclerp(dqs, dqs, ts[:-1])
