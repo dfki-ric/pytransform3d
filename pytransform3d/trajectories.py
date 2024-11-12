@@ -566,12 +566,12 @@ def axis_angles_from_quaternions(qs):
 
     Parameters
     ----------
-    q : array-like, shape (...,4)
+    q : array-like, shape (..., 4)
         Unit quaternion to represent rotation: (w, x, y, z)
 
     Returns
     -------
-    a : array, shape (...,4)
+    a : array, shape (..., 4)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi) so that the mapping is unique.
     """
@@ -706,10 +706,10 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
 
     Parameters
     ----------
-    qs : array-like, shape (...,3)
+    qs : array-like, shape (..., 3)
         Vector to a point on the screw axis
 
-    s_axis : array-like, shape (...,3)
+    s_axis : array-like, shape (..., 3)
         Direction vector of the screw axis
 
     hs : array-like, shape (...,)
@@ -722,7 +722,7 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
 
     Returns
     -------
-    dqs : array, shape (...,8)
+    dqs : array, shape (..., 8)
         Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
@@ -778,7 +778,7 @@ def dual_quaternions_power(dqs, ts):
 
     Returns
     -------
-    dq_ts : array, shape (...,8)
+    dq_ts : array, shape (..., 8)
         Unit dual quaternions to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz) ** t
 
@@ -796,11 +796,11 @@ def dual_quaternions_sclerp(starts, ends, ts):
 
     Parameters
     ----------
-    starts : array-like, shape (...,8)
+    starts : array-like, shape (..., 8)
         Unit dual quaternion to represent start poses:
         (pw, px, py, pz, qw, qx, qy, qz)
 
-    end : array-like, shape (...,8)
+    end : array-like, shape (..., 8)
         Unit dual quaternion to represent end poses:
         (pw, px, py, pz, qw, qx, qy, qz)
 
@@ -809,7 +809,7 @@ def dual_quaternions_sclerp(starts, ends, ts):
 
     Returns
     -------
-    dq_ts : array, shape (...,8)
+    dq_ts : array, shape (..., 8)
         Interpolated unit dual quaternion: (pw, px, py, pz, qw, qx, qy, qz)
 
 
