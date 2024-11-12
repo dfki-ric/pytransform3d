@@ -346,12 +346,12 @@ def test_dual_quaternions_from_screw_parameters():
     theta_0 = 0.0
 
     q_1 = np.zeros(3)
-    s_axis_1 = np.array([0.55297409, 0.57701644, 0.6010588 ])#pr.norm_vector(np.array([2.3, 2.4, 2.5]))
+    s_axis_1 = np.array([0.55297409, 0.57701644, 0.6010588 ])
     h_1 = np.inf
     theta_1 = 3.6
 
     q_2 = np.zeros(3)
-    s_axis_2 = np.array([0.55396089, 0.5770426 , 0.6001243 ]) #pr.norm_vector(np.array([2.4, 2.5, 2.6]))
+    s_axis_2 = np.array([0.55396089, 0.5770426 , 0.6001243 ])
     h_2 = 0.0
     theta_2 = 4.1
 

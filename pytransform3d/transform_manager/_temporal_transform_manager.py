@@ -31,13 +31,13 @@ class TimeVaryingTransform(abc.ABC):
 
         Parameters
         ----------
-        query_time : Union[float,array-like shape (...)]
+        query_time : Union[float, array-like shape (...)]
             Query time
 
         Returns
         -------
         A2B_t : array, shape (4, 4) or (..., 4, 4)
-            Homogeneous transformation matrix at given time. or times
+            Homogeneous transformation matrix at given time or times
         """
 
     @abc.abstractmethod
@@ -109,7 +109,7 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
         Parameters
         ----------
-        query_time : Union[float,array-like shape (...)]
+        query_time : Union[float, array-like shape (...)]
             Query time
 
         Returns
@@ -212,8 +212,8 @@ class TemporalTransformManager(TransformGraphBase):
         to_frame : Hashable
             Name of the frame in which the transformation is defined
 
-        time : Union[float,array-like shape (...)]
-            Time or Times at which we request the transformation.
+        time : Union[float, array-like shape (...)]
+            Time or times at which we request the transformation.
 
         Returns
         -------
@@ -236,7 +236,29 @@ class TemporalTransformManager(TransformGraphBase):
         return A2B
 
     def get_transform(self, from_frame, to_frame):
-        # overwrite get_transform to be able to work with arrys trajectories
+        """Request a transformation.
+
+        Parameters
+        ----------
+        from_frame : Hashable
+            Name of the frame for which the transformation is requested in the
+            to_frame coordinate system
+
+        to_frame : Hashable
+            Name of the frame in which the transformation is defined
+
+        Returns
+        -------
+        A2B : Any
+            Transformation from 'from_frame' to 'to_frame'
+
+        Raises
+        ------
+        KeyError
+            If one of the frames is unknown or there is no connection between
+            them
+        """
+        # overwrite get_transform to be able to work with arrays trajectories
         if self.check:
             if from_frame not in self.nodes:
                 raise KeyError("Unknown frame '%s'" % from_frame)
