@@ -792,7 +792,7 @@ def dual_quaternions_power(dqs, ts):
 
 
 def dual_quaternions_sclerp(starts, ends, ts):
-    """Screw linear interpolation (ScLERP) for arry of dual quaternions.
+    """Screw linear interpolation (ScLERP) for array of dual quaternions.
 
     Parameters
     ----------
