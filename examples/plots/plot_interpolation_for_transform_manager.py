@@ -60,7 +60,7 @@ tm = TemporalTransformManager()
 tm.add_transform("A", "world", transform_WA)
 tm.add_transform("B", "world", transform_WB)
 
-query_time = 4.9  # [s] or a array of times np.array([4.9, 5.2])
+query_time = 4.9  # [s] or an array of times np.array([4.9, 5.2])
 A2B_at_query_time = tm.get_transform_at_time("A", "B", query_time)
 
 # transform the origin of A in A (x=0, y=0, z=0) to B

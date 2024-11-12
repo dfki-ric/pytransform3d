@@ -532,7 +532,7 @@ def norm_axis_angles(a):
         is represented by [1, 0, 0, 0].
     """
     angles = a[..., 3]
-    norm = np.linalg.norm(a[..., :3], axis=1)
+    norm = np.linalg.norm(a[..., :3], axis=-1)
 
 
     res = np.ones_like(a)
@@ -614,16 +614,16 @@ def screw_parameters_from_dual_quaternions(dqs):
 
     Parameters
     ----------
-    dqs : array-like, shape (...,8)
+    dqs : array-like, shape (..., 8)
         Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
     Returns
     -------
-    qs : array, shape (...,3)
+    qs : array, shape (..., 3)
         Vector to a point on the screw axis
 
-    s_axiss : array, shape (...,3)
+    s_axiss : array, shape (..., 3)
         Direction vector of the screw axis
 
     hs : array, shape (...,)
@@ -646,12 +646,14 @@ def screw_parameters_from_dual_quaternions(dqs):
     s_axis = a[..., :3]
     thetas = a[..., 3]
 
-    # Vectorized quaternion concatenation and translation computation
     translation = 2 * batch_concatenate_quaternions(
         duals, batch_q_conj(reals))[..., 1:]
 
-    # for the if/else statements,
-    # have a look at screw_parameters_from_dual_quaternion function
+    # instead of the if/else stamenets in the 
+    # screw_parameters_from_dual_quaternion function
+    # we use mask array to enable vectorized operations
+    # the name of the mask represent the according block in
+    # the original function
     outer_if_mask = np.abs(thetas) < np.finfo(float).eps
     outer_else_mask = np.logical_not(outer_if_mask)
 
@@ -767,7 +769,7 @@ def dual_quaternions_power(dqs, ts):
 
     Parameters
     ----------
-    dqs : array-like, shape (...,8)
+    dqs : array-like, shape (..., 8)
         Unit dual quaternions to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
@@ -891,13 +893,13 @@ def batch_dq_q_conj(dqs):
 
     Parameters
     ----------
-    dqs : array-like, shape (8,)
+    dqs : array-like, shape (..., 8)
         Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
     Returns
     -------
-    dq_q_conjugates : array, shape (8,)
+    dq_q_conjugates : array, shape (..., 8)
         Conjugate of dual quaternion: (pw, -px, -py, -pz, qw, -qx, -qy, -qz)
 
     See Also
