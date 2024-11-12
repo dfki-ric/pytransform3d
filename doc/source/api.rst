@@ -480,6 +480,8 @@ Axis-Angle Representation
    :template: function.rst
 
    ~axis_angles_from_matrices
+   ~axis_angles_from_quaternions
+   ~norm_axis_angles
 
    ~cross_product_matrices
 
@@ -527,6 +529,7 @@ Transformation Matrices
    ~invert_transforms
    ~concat_one_to_many
    ~concat_many_to_one
+   ~concat_dynamic
 
    ~transforms_from_pqs
    ~transforms_from_exponential_coordinates
@@ -544,6 +547,13 @@ Positions and Quaternions
    ~pqs_from_transforms
    ~pqs_from_dual_quaternions
 
+Screw Parameters
+----------------
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~screw_parameters_from_dual_quaternions
 
 Exponential Coordinates
 -----------------------
@@ -573,7 +583,6 @@ Dual Quaternions
    ~batch_dq_q_conj
    ~batch_concatenate_dual_quaternions
    ~batch_dq_prod_vector
-
    ~dual_quaternions_from_pqs
    ~norm_axis_angles
    ~dual_quaternions_power
