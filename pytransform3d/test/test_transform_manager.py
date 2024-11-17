@@ -422,6 +422,60 @@ def test_temporal_transform():
     assert_array_almost_equal(B2C_2, B2C_3)
 
 
+def test_remove_frame_temporal_manager():
+    """Test removing a frame from the transform manager."""
+    tm = TemporalTransformManager()
+
+    rng = np.random.default_rng(0)
+
+    A2B = pt.random_transform(rng)
+    A2D = pt.random_transform(rng)
+    B2C = pt.random_transform(rng)
+    D2E = pt.random_transform(rng)
+
+    tm.add_transform("A", "B", StaticTransform(A2B))
+    tm.add_transform("A", "D", StaticTransform(A2D))
+    tm.add_transform("B", "C", StaticTransform(B2C))
+    tm.add_transform("D", "E", StaticTransform(D2E))
+
+    assert tm.has_frame("B")
+
+    A2E = tm.get_transform("A", "E")
+
+    # Check that connections are correctly represented in self.i and self.j
+    assert tm.i == [tm.nodes.index("A"), tm.nodes.index("A"),
+                    tm.nodes.index("B"), tm.nodes.index("D")]
+    assert tm.j == [tm.nodes.index("B"), tm.nodes.index("D"),
+                    tm.nodes.index("C"), tm.nodes.index("E")]
+
+    tm.remove_frame("B")
+    assert not tm.has_frame("B")
+
+    # Ensure connections involving "B" are removed and the remaining
+    # connections are correctly represented.
+    assert tm.i == [tm.nodes.index("A"), tm.nodes.index("D")]
+    assert tm.j == [tm.nodes.index("D"), tm.nodes.index("E")]
+
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("A", "B")
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("B", "C")
+
+    assert tm.has_frame("A")
+    assert tm.has_frame("C")
+    assert tm.has_frame("D")
+    assert tm.has_frame("E")
+
+    # Ensure we cannot retrieve paths involving the removed frame
+    with pytest.raises(KeyError, match="Cannot compute path"):
+        tm.get_transform("A", "C")
+
+    tm.get_transform("A", "D")
+    tm.get_transform("D", "E")
+
+    assert_array_almost_equal(A2E, tm.get_transform("A", "E"))
+
+
 def test_internals():
     rng = np.random.default_rng(0)
     A2B = pt.random_transform(rng)
