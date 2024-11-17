@@ -237,6 +237,8 @@ class TemporalTransformManager(TransformGraphBase):
 
     def get_transform(self, from_frame, to_frame):
         """Request a transformation.
+        
+        The internal current_time will get used for time based Transformations.
 
         Parameters
         ----------
