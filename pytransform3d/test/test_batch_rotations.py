@@ -42,6 +42,18 @@ def test_norm_vectors_zero():
     assert_array_almost_equal(V_unit, V)
 
 
+def test_norm_axis_angles():
+    rng = np.random.default_rng(843)
+    A = np.hstack((
+        pbr.norm_vectors(rng.standard_normal(size=(10, 3))),
+        np.pi + rng.uniform(size=(10, 1))
+    ))
+    A_norm = pbr.norm_axis_angles(A)
+    for a, a_norm in zip(A, A_norm):
+        assert pytest.approx(a[3]) != a_norm[3]
+        assert_array_almost_equal(a_norm, pr.norm_axis_angle(a))
+
+
 def test_angles_between_vectors_0dims():
     rng = np.random.default_rng(228)
     A = rng.standard_normal(size=3)
