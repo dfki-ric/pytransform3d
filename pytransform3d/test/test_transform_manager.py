@@ -564,11 +564,8 @@ def test_numpy_timeseries_transform():
     origin_of_A_in_B_pos = pt.transform(A2B_at_query_time, origin_of_A_pos)
     origin_of_A_in_B_xyz = origin_of_A_in_B_pos[:-1]
 
-    origin_of_A_in_B_x, origin_of_A_in_B_y = \
-        origin_of_A_in_B_xyz[0], origin_of_A_in_B_xyz[1]
-
-    assert origin_of_A_in_B_x == pytest.approx(-1.11, abs=1e-2)
-    assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)
+    assert origin_of_A_in_B_xyz[0] == pytest.approx(-1.11, abs=1e-2)
+    assert origin_of_A_in_B_xyz[1] == pytest.approx(-1.28, abs=1e-2)
 
 
 def test_numpy_timeseries_transform_wrong_input_shapes():
