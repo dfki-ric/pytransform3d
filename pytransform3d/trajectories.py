@@ -548,7 +548,7 @@ def screw_parameters_from_dual_quaternions(dqs):
     duals = dqs[..., 4:]
 
     a = axis_angles_from_quaternions(reals)
-    s_axis = a[..., :3]
+    s_axis = np.copy(a[..., :3])
     thetas = a[..., 3]
 
     translation = 2 * batch_concatenate_quaternions(
@@ -570,13 +570,8 @@ def screw_parameters_from_dual_quaternions(dqs):
     outer_if_inner_else_mask = np.logical_and(outer_if_mask,
                                               np.logical_not(inner_if_mask))
 
-    # Initialize the outputs
-    qs = np.zeros((dqs.shape[0], 3))
-    thetas[outer_if_mask] = ds[outer_if_mask]
-    hs = np.full(dqs.shape[0], np.inf)
-
     if np.any(outer_if_inner_if_mask):
-        s_axis[outer_if_inner_if_mask] = np.array([1, 0, 0])
+        s_axis[outer_if_inner_if_mask] = np.array([1.0, 0.0, 0.0])
 
     if np.any(outer_if_inner_else_mask):
         s_axis[outer_if_inner_else_mask] = (
