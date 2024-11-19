@@ -7,12 +7,11 @@ import numpy as np
 from .batch_rotations import (
     matrices_from_quaternions, quaternions_from_matrices,
     matrices_from_compact_axis_angles, axis_angles_from_matrices,
-    batch_concatenate_quaternions, batch_q_conj)
+    batch_concatenate_quaternions, batch_q_conj, axis_angles_from_quaternions)
 from .transformations import (
     transform_from_exponential_coordinates,
     screw_axis_from_exponential_coordinates, screw_parameters_from_screw_axis,
     screw_axis_from_screw_parameters)
-from .rotations import norm_angle
 
 
 def invert_transforms(A2Bs):
@@ -513,100 +512,6 @@ def pqs_from_dual_quaternions(dqs):
     out[..., :3] = 2 * batch_concatenate_quaternions(
         dqs[..., 4:], batch_q_conj(out[..., 3:]))[..., 1:]
     return out
-
-
-
-def norm_axis_angles(a):
-    """Normalize axis-angle representation.
-
-    Parameters
-    ----------
-    a : array-like, shape (..., 4)
-        Axis of rotation and rotation angle: (x, y, z, angle)
-
-    Returns
-    -------
-    a : array, shape (..., 4)
-        Axis of rotation and rotation angle: (x, y, z, angle). The length
-        of the axis vector is 1 and the angle is in [0, pi). No rotation
-        is represented by [1, 0, 0, 0].
-    """
-    angles = a[..., 3]
-    norm = np.linalg.norm(a[..., :3], axis=-1)
-
-
-    res = np.ones_like(a)
-
-    # Create masks for elements where angle or norm is zero
-    zero_mask = (angles == 0.0) | (norm == 0.0)
-
-
-    non_zero_mask = ~zero_mask
-    res[non_zero_mask, :3] = (
-        a[non_zero_mask, :3] / norm[non_zero_mask, np.newaxis]
-    )
-
-
-    angle_normalized = norm_angle(angles)
-
-    negative_angle_mask = angle_normalized < 0.0
-    res[negative_angle_mask, :3] *= -1.0
-    angle_normalized[negative_angle_mask] *= -1.0
-
-    res[non_zero_mask, 3] = angle_normalized[non_zero_mask]
-    return res
-
-
-def axis_angles_from_quaternions(qs):
-    """Compute axis-angle from quaternion.
-
-    This operation is called logarithmic map.
-
-    We usually assume active rotations.
-
-    Parameters
-    ----------
-    q : array-like, shape (..., 4)
-        Unit quaternion to represent rotation: (w, x, y, z)
-
-    Returns
-    -------
-    a : array, shape (..., 4)
-        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
-        constrained to [0, pi) so that the mapping is unique.
-    """
-    quaternion_vector_part = qs[..., 1:]
-    p_norm = np.linalg.norm(quaternion_vector_part, axis=-1)
-
-    # Create a mask for quaternions where p_norm is small
-    small_p_norm_mask = p_norm < np.finfo(float).eps
-
-    # Initialize the output with default values for small p_norm cases
-    result = np.zeros_like(qs)
-    result[small_p_norm_mask] = np.array([1.0, 0.0, 0.0, 0.0])
-
-    # For non-zero norms, calculate axis, clamped w, and angle
-    non_zero_mask = ~small_p_norm_mask
-    axis = np.zeros_like(quaternion_vector_part)
-    axis[non_zero_mask] = (
-        quaternion_vector_part[non_zero_mask] /
-        p_norm[non_zero_mask, np.newaxis]
-    )
-
-
-    w_clamped = np.clip(qs[..., 0], -1.0, 1.0)
-    angle = 2.0 * np.arccos(w_clamped)
-
-    # Stack the axis and the angle together a
-    # and normalize the axis-angle representation
-    result[non_zero_mask] = norm_axis_angles(
-        np.hstack((
-            axis[non_zero_mask],
-            angle[non_zero_mask, np.newaxis]
-        ))
-    )
-
-    return result
 
 
 def screw_parameters_from_dual_quaternions(dqs):
