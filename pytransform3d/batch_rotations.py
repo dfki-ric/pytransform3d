@@ -393,12 +393,12 @@ def axis_angles_from_quaternions(qs):
 
     Parameters
     ----------
-    q : array-like, shape (..., 4)
+    qs : array-like, shape (..., 4)
         Unit quaternion to represent rotation: (w, x, y, z)
 
     Returns
     -------
-    a : array, shape (..., 4)
+    as : array, shape (..., 4)
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi) so that the mapping is unique.
     """
