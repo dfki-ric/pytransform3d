@@ -21,7 +21,8 @@ from pytransform3d.transformations import (
     rotate_transform, random_transform, transform_from_pq,
     concatenate_dual_quaternions, dq_prod_vector,
     assert_unit_dual_quaternion_equal, invert_transform, concat,
-    transform_from_exponential_coordinates, dual_quaternion_from_transform)
+    transform_from_exponential_coordinates, dual_quaternion_from_transform,
+    screw_parameters_from_dual_quaternion)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -336,9 +337,33 @@ def test_screw_parameters_from_dual_quaternions():
     assert pytest.approx(theta[0]) == 0
 
     assert_array_almost_equal(q[1], np.zeros(3))
-    assert_array_almost_equal(s_axis[1], norm_vectors(np.array([1.2, 1.3, 1.4])))
+    assert_array_almost_equal(
+        s_axis[1], norm_vectors(np.array([1.2, 1.3, 1.4])))
     assert np.isinf(h[1])
     assert pytest.approx(theta[1]) == np.linalg.norm(np.array([1.2, 1.3, 1.4]))
+
+    rng = np.random.default_rng(83343)
+    dqs = dual_quaternions_from_transforms(
+        np.array([random_transform(rng) for _ in range(10)])).reshape(5, 2, -1)
+    qs, s_axes, hs, thetas = screw_parameters_from_dual_quaternions(dqs)
+    for q, s_axis, h, theta, dq in zip(
+            qs.reshape(10, -1),
+            s_axes.reshape(10, -1),
+            hs.reshape(10),
+            thetas.reshape(10),
+            dqs.reshape(10, -1)):
+        q2, s_axis2, h2, theta2 = screw_parameters_from_dual_quaternion(dq)
+        assert_array_almost_equal(q, q2)
+        assert_array_almost_equal(s_axis, s_axis2)
+        assert pytest.approx(h) == h2
+        assert pytest.approx(theta) == theta2
+
+    q, s_axis, h, theta = screw_parameters_from_dual_quaternions(case_idx0)
+    q2, s_axis2, h2, theta2 = screw_parameters_from_dual_quaternion(case_idx0)
+    assert_array_almost_equal(q, q2)
+    assert_array_almost_equal(s_axis, s_axis2)
+    assert pytest.approx(h) == h2
+    assert pytest.approx(theta) == theta2
 
 
 def test_dual_quaternions_from_screw_parameters():
