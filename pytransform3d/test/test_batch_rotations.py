@@ -1,4 +1,5 @@
 import numpy as np
+
 from pytransform3d import rotations as pr
 from pytransform3d import batch_rotations as pbr
 from numpy.testing import assert_array_almost_equal
@@ -340,6 +341,28 @@ def test_axis_angles_from_matrices_output_variable():
     pbr.axis_angles_from_matrices(Rs, out=A2)
     A2_compact = A2[..., :3] * A2[..., 3, np.newaxis]
     assert_array_almost_equal(A, A2_compact)
+
+
+def test_axis_angles_from_quaternions():
+    rng = np.random.default_rng(48322)
+    Q = pbr.norm_vectors(rng.standard_normal(size=(20, 4)))
+
+    # 1D
+    pr.assert_quaternion_equal(
+        pbr.axis_angles_from_quaternions(Q[0]),
+        pr.axis_angle_from_quaternion(Q[0])
+    )
+
+    # 2D
+    A = pbr.axis_angles_from_quaternions(Q)
+    for a, q in zip(A, Q):
+        pr.assert_quaternion_equal(a, pr.axis_angle_from_quaternion(q))
+
+    # 3D
+    Q3D = Q.reshape(5, 4, 4)
+    A3D = pbr.axis_angles_from_quaternions(Q3D)
+    for a, q in zip(A3D.reshape(20, 4), Q3D.reshape(20, 4)):
+        pr.assert_quaternion_equal(a, pr.axis_angle_from_quaternion(q))
 
 
 def test_quaternion_slerp_batch_zero_angle():
