@@ -8,8 +8,9 @@ from pytransform3d.trajectories import (
     batch_concatenate_dual_quaternions, batch_dq_prod_vector,
     transforms_from_dual_quaternions, dual_quaternions_from_transforms,
     concat_one_to_many, concat_many_to_one, mirror_screw_axis_direction,
-    screw_parameters_from_dual_quaternions,dual_quaternions_from_screw_parameters,
-    dual_quaternions_sclerp, concat_dynamic)
+    screw_parameters_from_dual_quaternions,
+    dual_quaternions_from_screw_parameters, dual_quaternions_sclerp,
+    concat_dynamic)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -18,7 +19,7 @@ from pytransform3d.transformations import (
     rotate_transform, random_transform, transform_from_pq,
     concatenate_dual_quaternions, dq_prod_vector,
     assert_unit_dual_quaternion_equal, invert_transform, concat,
-    transform_from_exponential_coordinates,dual_quaternion_from_transform)
+    transform_from_exponential_coordinates, dual_quaternion_from_transform)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
