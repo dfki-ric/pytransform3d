@@ -8,6 +8,9 @@ def norm_vectors(
         out: Union[npt.ArrayLike, None] = ...) -> np.ndarray: ...
 
 
+def norm_axis_angles(a: npt.ArrayLike) -> np.ndarray: ...
+
+
 def angles_between_vectors(A: npt.ArrayLike, B: npt.ArrayLike) -> np.ndarray: ...
 
 
@@ -36,6 +39,9 @@ def matrices_from_compact_axis_angles(
 def axis_angles_from_matrices(
         Rs: npt.ArrayLike, traces: Union[np.ndarray, None] = ...,
         out: Union[np.ndarray, None] = ...) -> np.ndarray: ...
+
+
+def axis_angles_from_quaternions(qs: npt.ArrayLike) -> np.ndarray: ...
 
 
 def cross_product_matrices(V: npt.ArrayLike) -> np.ndarray: ...
