@@ -322,12 +322,11 @@ def test_mirror_screw_axis():
 
 def test_screw_parameters_from_dual_quaternions():
     case_idx0 = np.array([1, 0, 0, 0, 0, 0, 0, 0])
-    case_idx1 = np.array([[1.  , 0.  , 0.  , 0.  , 0.  , 0.6 , 0.65, 0.7 ]]) # same as pt.dual_quaternion_from_pq(np.array([1.2, 1.3, 1.4, 1, 0, 0, 0]))
-    
-    dqs = np.vstack([case_idx0,case_idx1])
+    case_idx1 = np.array([[1., 0., 0., 0., 0., 0.6, 0.65, 0.7]])
+
+    dqs = np.vstack([case_idx0, case_idx1])
     q, s_axis, h, theta = screw_parameters_from_dual_quaternions(dqs)
-   
-    
+
     assert_array_almost_equal(q[0], np.zeros(3))
     assert_array_almost_equal(q[0], np.zeros(3))
     assert_array_almost_equal(s_axis[0], np.array([1, 0, 0]))
@@ -379,9 +378,9 @@ def test_dual_quaternions_sclerp_same_dual_quaternions():
     pose1 = random_transform(rng1)
     dq1 = dual_quaternion_from_transform(pose1)
     t1 = 0.8
-    
-    dqs = np.vstack([dq0,dq1])
-    ts = np.array([t0,t1])
+
+    dqs = np.vstack([dq0, dq1])
+    ts = np.array([t0, t1])
 
     dqs_res = dual_quaternions_sclerp(dqs, dqs, ts)
 
