@@ -48,9 +48,21 @@ def test_norm_axis_angles():
         pbr.norm_vectors(rng.standard_normal(size=(10, 3))),
         np.pi + rng.uniform(size=(10, 1))
     ))
+
+    # 1D
+    assert_array_almost_equal(
+        pbr.norm_axis_angles(A[0]), pr.norm_axis_angle(A[0]))
+
+    # 2D
     A_norm = pbr.norm_axis_angles(A)
     for a, a_norm in zip(A, A_norm):
         assert pytest.approx(a[3]) != a_norm[3]
+        assert_array_almost_equal(a_norm, pr.norm_axis_angle(a))
+
+    # 3D
+    A3D = A.reshape(5, 2, -1)
+    A3D_norm = pbr.norm_axis_angles(A3D)
+    for a, a_norm in zip(A3D.reshape(10, -1), A3D_norm.reshape(10, -1)):
         assert_array_almost_equal(a_norm, pr.norm_axis_angle(a))
 
 
