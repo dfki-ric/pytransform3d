@@ -479,9 +479,9 @@ Axis-Angle Representation
    :toctree: _apidoc/
    :template: function.rst
 
+   ~norm_axis_angles
    ~axis_angles_from_matrices
    ~axis_angles_from_quaternions
-   ~norm_axis_angles
 
    ~cross_product_matrices
 
