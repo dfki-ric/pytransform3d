@@ -54,20 +54,19 @@ def norm_axis_angles(a):
         is represented by [1, 0, 0, 0].
     """
     a = np.asarray(a)
-    only_one = a.ndim == 1
 
+    # Handle the case of only one axis-angle instance
+    only_one = a.ndim == 1
     a = np.atleast_2d(a)
 
     angles = a[..., 3]
     norm = np.linalg.norm(a[..., :3], axis=-1)
 
-    res = np.ones_like(a)
-
-    # Create masks for elements where angle or norm is zero
     zero_mask = (angles == 0.0) | (norm == 0.0)
-
-
     non_zero_mask = ~zero_mask
+
+    res = np.empty_like(a)
+    res[zero_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
     res[non_zero_mask, :3] = (
         a[non_zero_mask, :3] / norm[non_zero_mask, np.newaxis]
     )
@@ -79,6 +78,7 @@ def norm_axis_angles(a):
     angle_normalized[negative_angle_mask] *= -1.0
 
     res[non_zero_mask, 3] = angle_normalized[non_zero_mask]
+
     if only_one:
         res = res[0]
     return res

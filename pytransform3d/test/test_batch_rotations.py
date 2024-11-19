@@ -54,6 +54,10 @@ def test_norm_axis_angles():
     assert_array_almost_equal(
         pbr.norm_axis_angles(A[0]), pr.norm_axis_angle(A[0]))
 
+    assert_array_almost_equal(
+        pbr.norm_axis_angles(np.array([0.0, 0.0, 0.0, np.pi])),
+        pr.norm_axis_angle(np.array([0.0, 0.0, 0.0, np.pi])))
+
     # 2D
     A_norm = pbr.norm_axis_angles(A)
     for a, a_norm in zip(A, A_norm):
