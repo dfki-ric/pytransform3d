@@ -585,6 +585,7 @@ def test_numpy_timeseries_transform_wrong_input_shapes():
         pqs = np.random.randn(n_steps, 8).flatten()
         NumpyTimeseriesTransform(time, pqs)
 
+
 def test_numpy_timeseries_transform_multiple_query_times():
     # create entities A and B together with their transformations from world
     duration = 10.0  # [s]
