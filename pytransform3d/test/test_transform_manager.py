@@ -586,43 +586,6 @@ def test_numpy_timeseries_transform_wrong_input_shapes():
         NumpyTimeseriesTransform(time, pqs)
 
 
-def test_numpy_timeseries_transform_multiple_query_times():
-    # create entities A and B together with their transformations from world
-    duration = 10.0  # [s]
-    sample_period = 0.5  # [s]
-    velocity_x = 1  # [m/s]
-    time_A, pq_arr_A = create_sinusoidal_movement(
-        duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
-    )
-    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
-
-    time_B, pq_arr_B = create_sinusoidal_movement(
-        duration, sample_period, velocity_x, y_start_offset=2.0,
-        start_time=0.35
-    )
-    transform_WB = NumpyTimeseriesTransform(time_B, pq_arr_B)
-
-    tm = TemporalTransformManager()
-
-    tm.add_transform("A", "W", transform_WA)
-    tm.add_transform("B", "W", transform_WB)
-
-
-    query_times = np.array([4.9, 5.2])  # [s]
-    A2B_at_query_time = tm.get_transform_at_time("A", "B", query_times)
-
-    origin_of_A_pos = pt.vector_to_point([0, 0, 0])
-    origin_of_A_in_B_pos1 = pt.transform(A2B_at_query_time[0], origin_of_A_pos)
-    origin_of_A_in_B_xyz1 = origin_of_A_in_B_pos1[:-1]
-
-    origin_of_A_in_B_x1, origin_of_A_in_B_y1 = \
-        origin_of_A_in_B_xyz1[0], origin_of_A_in_B_xyz1[1]
-
-    assert origin_of_A_in_B_x == pytest.approx(-1.11, abs=1e-2)
-    assert origin_of_A_in_B_y == pytest.approx(-1.28, abs=1e-2)
-
-
-
 def test_numpy_timeseries_transform_wrong_input_shapes():
     n_steps = 10
     with pytest.raises(
@@ -641,6 +604,7 @@ def test_numpy_timeseries_transform_wrong_input_shapes():
         pqs = np.random.randn(n_steps, 8).flatten()
         NumpyTimeseriesTransform(time, pqs)
 
+
 def test_numpy_timeseries_transform_multiple_query_times():
     # create entities A and B together with their transformations from world
     duration = 10.0  # [s]
@@ -661,7 +625,6 @@ def test_numpy_timeseries_transform_multiple_query_times():
 
     tm.add_transform("A", "W", transform_WA)
     tm.add_transform("B", "W", transform_WB)
-
 
     query_times = np.array([4.9,5.2])  # [s]
     A2B_at_query_time = tm.get_transform_at_time("A", "B", query_times)
