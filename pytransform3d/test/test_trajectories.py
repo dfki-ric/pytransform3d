@@ -348,26 +348,26 @@ def test_dual_quaternions_from_screw_parameters():
     theta_0 = 0.0
 
     q_1 = np.zeros(3)
-    s_axis_1 = np.array([0.55297409, 0.57701644, 0.6010588 ])
+    s_axis_1 = np.array([0.55297409, 0.57701644, 0.6010588])
     h_1 = np.inf
     theta_1 = 3.6
 
     q_2 = np.zeros(3)
-    s_axis_2 = np.array([0.55396089, 0.5770426 , 0.6001243 ])
+    s_axis_2 = np.array([0.55396089, 0.5770426, 0.6001243])
     h_2 = 0.0
     theta_2 = 4.1
 
-    qs = np.vstack([q_0,q_1,q_2])
-    s_axis = np.vstack([s_axis_0,s_axis_1,s_axis_2])
-    hs = np.array([h_0,h_1,h_2])
-    thetas = np.array([theta_0,theta_1,theta_2])
+    qs = np.vstack([q_0, q_1, q_2])
+    s_axis = np.vstack([s_axis_0, s_axis_1, s_axis_2])
+    hs = np.array([h_0, h_1, h_2])
+    thetas = np.array([theta_0, theta_1, theta_2])
 
     dqs = dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas)
     pqs = pqs_from_dual_quaternions(dqs)
 
     assert_array_almost_equal(dqs[0], np.array([1, 0, 0, 0, 0, 0, 0, 0]))
     assert_array_almost_equal(pqs[1], np.r_[s_axis[1] * thetas[1], 1, 0, 0, 0])
-    assert_array_almost_equal(pqs[2,:3], [0, 0, 0])
+    assert_array_almost_equal(pqs[2, :3], [0, 0, 0])
 
 
 def test_dual_quaternions_sclerp_same_dual_quaternions():
