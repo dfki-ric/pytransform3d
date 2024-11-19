@@ -53,9 +53,13 @@ def norm_axis_angles(a):
         of the axis vector is 1 and the angle is in [0, pi). No rotation
         is represented by [1, 0, 0, 0].
     """
+    a = np.asarray(a)
+    only_one = a.ndim == 1
+
+    a = np.atleast_2d(a)
+
     angles = a[..., 3]
     norm = np.linalg.norm(a[..., :3], axis=-1)
-
 
     res = np.ones_like(a)
 
@@ -75,6 +79,8 @@ def norm_axis_angles(a):
     angle_normalized[negative_angle_mask] *= -1.0
 
     res[non_zero_mask, 3] = angle_normalized[non_zero_mask]
+    if only_one:
+        res = res[0]
     return res
 
 
