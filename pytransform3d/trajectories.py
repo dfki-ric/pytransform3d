@@ -648,8 +648,8 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
     moments = np.cross(qs, s_axis)
     half_distances = 0.5 * ds
     half_thetas = 0.5 * mod_thetas
-    sin_half_angles = np.sin(0.5 * half_thetas)
-    cos_half_angles = np.cos(0.5 * half_thetas)
+    sin_half_angles = np.sin(half_thetas)
+    cos_half_angles = np.cos(half_thetas)
 
     real_w = cos_half_angles
     real_vec = sin_half_angles[..., np.newaxis] * s_axis

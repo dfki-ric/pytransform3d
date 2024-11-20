@@ -394,6 +394,14 @@ def test_dual_quaternions_from_screw_parameters():
     assert_array_almost_equal(pqs[1], np.r_[s_axis[1] * thetas[1], 1, 0, 0, 0])
     assert_array_almost_equal(pqs[2, :3], [0, 0, 0])
 
+    rng = np.random.default_rng(83323)
+    dqs = np.array([ptr.dual_quaternions_from_transforms(
+        pt.random_transform(rng)) for _ in range(5)])
+    screw_parameters = ptr.screw_parameters_from_dual_quaternions(dqs)
+    dqs2 = ptr.dual_quaternions_from_screw_parameters(*screw_parameters)
+    for dq1, dq2 in zip(dqs, dqs2):
+        pt.assert_unit_dual_quaternion_equal(dq1, dq2)
+
 
 def test_dual_quaternions_sclerp_same_dual_quaternions():
     rng = np.random.default_rng(19)
