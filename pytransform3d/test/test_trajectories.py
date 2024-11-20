@@ -371,18 +371,15 @@ def test_dual_quaternions_from_screw_parameters():
 
 
 def test_dual_quaternions_sclerp_same_dual_quaternions():
-    rng0 = np.random.default_rng(19)
-    pose0 = random_transform(rng0)
+    rng = np.random.default_rng(19)
+
+    pose0 = random_transform(rng)
     dq0 = dual_quaternion_from_transform(pose0)
-    t0 = 0.5
-
-    rng1 = np.random.default_rng(25)
-    pose1 = random_transform(rng1)
+    pose1 = random_transform(rng)
     dq1 = dual_quaternion_from_transform(pose1)
-    t1 = 0.8
-
     dqs = np.vstack([dq0, dq1])
-    ts = np.array([t0, t1])
+
+    ts = np.array([0.5, 0.8])
 
     dqs_res = dual_quaternions_sclerp(dqs, dqs, ts)
 
@@ -394,11 +391,37 @@ def test_dual_quaternions_sclerp_same_dual_quaternions():
     with pytest.raises(ValueError, match="same number of elements"):
         dual_quaternions_sclerp(dqs, dqs, ts[:-1])
 
+    with pytest.raises(ValueError, match="same number of elements"):
+        dual_quaternions_sclerp(dqs, dqs, ts[0])
+
+
+def test_dual_quaternions_sclerp():
+    rng = np.random.default_rng(4832238)
+    Ts = np.array([pt.random_transform(rng) for _ in range(20)])
+
+    # 3D
+    dqs_start = ptr.dual_quaternions_from_transforms(Ts).reshape(5, 4, -1)
+    dqs_end = ptr.dual_quaternions_from_transforms(Ts).reshape(5, 4, -1)
+    ts = np.linspace(0, 1, 20).reshape(5, 4)
+    dqs_int = ptr.dual_quaternions_sclerp(dqs_start, dqs_end, ts)
+    assert dqs_int.shape == (5, 4, 8)
+    for dq_start, dq_end, t, dq_int in zip(
+            dqs_start.reshape(-1, 8),
+            dqs_end.reshape(-1, 8),
+            ts.reshape(-1),
+            dqs_int.reshape(-1, 8)):
+        pt.assert_unit_dual_quaternion_equal(
+            dq_int, pt.dual_quaternion_sclerp(dq_start, dq_end, t))
+
+    # 1D
+    pt.assert_unit_dual_quaternion_equal(
+        pt.dual_quaternion_sclerp(dqs_start[0, 0], dqs_end[0, 0], ts[0, 0]),
+        ptr.dual_quaternions_sclerp(dqs_start[0, 0], dqs_end[0, 0], ts[0, 0]))
+
 
 def test_batch_dq_q_conj():
     rng = np.random.default_rng(48338)
-    Ts = np.array([
-        pt.random_transform(rng) for _ in range(20)])
+    Ts = np.array([pt.random_transform(rng) for _ in range(20)])
     dqs = ptr.dual_quaternions_from_transforms(Ts).reshape(5, 4, -1)
 
     # 1D
