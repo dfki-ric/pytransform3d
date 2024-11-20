@@ -586,25 +586,6 @@ def test_numpy_timeseries_transform_wrong_input_shapes():
         NumpyTimeseriesTransform(time, pqs)
 
 
-def test_numpy_timeseries_transform_wrong_input_shapes():
-    n_steps = 10
-    with pytest.raises(
-            ValueError, match="Number of timesteps"):
-        time = np.arange(n_steps)
-        pqs = np.random.randn(n_steps + 1, 7)
-        NumpyTimeseriesTransform(time, pqs)
-
-    with pytest.raises(ValueError, match="`pqs` matrix"):
-        time = np.arange(10)
-        pqs = np.random.randn(n_steps, 8)
-        NumpyTimeseriesTransform(time, pqs)
-
-    with pytest.raises(ValueError, match="Shape of PQ array"):
-        time = np.arange(10)
-        pqs = np.random.randn(n_steps, 8).flatten()
-        NumpyTimeseriesTransform(time, pqs)
-
-
 def test_numpy_timeseries_transform_multiple_query_times():
     # create entities A and B together with their transformations from world
     duration = 10.0  # [s]
