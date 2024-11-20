@@ -403,22 +403,22 @@ def axis_angles_from_quaternions(qs):
         constrained to [0, pi) so that the mapping is unique.
     """
     quaternion_vector_part = qs[..., 1:]
-    p_norm = np.linalg.norm(quaternion_vector_part, axis=-1)
+    qvec_norm = np.linalg.norm(quaternion_vector_part, axis=-1)
 
-    result = np.empty_like(qs)
-
-    small_p_norm_mask = p_norm < np.finfo(float).eps
-    result[small_p_norm_mask] = np.array([1.0, 0.0, 0.0, 0.0])
-
+    # Vectorized branches bases on norm of the vector part
+    small_p_norm_mask = qvec_norm < np.finfo(float).eps
     non_zero_mask = ~small_p_norm_mask
+
     axes = (quaternion_vector_part[non_zero_mask]
-            / p_norm[non_zero_mask, np.newaxis])
+            / qvec_norm[non_zero_mask, np.newaxis])
 
     w_clamped = np.clip(qs[non_zero_mask, 0], -1.0, 1.0)
     angles = 2.0 * np.arccos(w_clamped)
 
+    result = np.empty_like(qs)
     result[non_zero_mask] = norm_axis_angles(
         np.concatenate((axes, angles[..., np.newaxis]), axis=-1))
+    result[small_p_norm_mask] = np.array([1.0, 0.0, 0.0, 0.0])
 
     return result
 
