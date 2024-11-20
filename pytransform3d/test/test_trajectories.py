@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+import pytransform3d.trajectories as ptr
 from pytransform3d.trajectories import (
     invert_transforms, transforms_from_pqs, pqs_from_transforms,
     transforms_from_exponential_coordinates,
@@ -14,6 +15,7 @@ from pytransform3d.trajectories import (
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
+import pytransform3d.transformations as pt
 from pytransform3d.transformations import (
     exponential_coordinates_from_transform, translate_transform,
     rotate_transform, random_transform, transform_from_pq,
@@ -391,3 +393,25 @@ def test_dual_quaternions_sclerp_same_dual_quaternions():
 
     with pytest.raises(ValueError, match="same number of elements"):
         dual_quaternions_sclerp(dqs, dqs, ts[:-1])
+
+
+def test_batch_dq_q_conj():
+    rng = np.random.default_rng(48338)
+    Ts = np.array([
+        pt.random_transform(rng) for _ in range(20)])
+    dqs = ptr.dual_quaternions_from_transforms(Ts).reshape(5, 4, -1)
+
+    # 1D
+    assert_array_almost_equal(
+        pt.transform_from_dual_quaternion(
+            pt.concatenate_dual_quaternions(
+                dqs[0, 0], ptr.batch_dq_q_conj(dqs[0, 0]))),
+        np.eye(4)
+    )
+
+    # 3D
+    dqs_inv = ptr.batch_dq_q_conj(dqs)
+    dqs_id = ptr.batch_concatenate_dual_quaternions(dqs, dqs_inv)
+    Is = ptr.transforms_from_dual_quaternions(dqs_id)
+    for I in Is.reshape(-1, 4, 4):
+        assert_array_almost_equal(I, np.eye(4))
