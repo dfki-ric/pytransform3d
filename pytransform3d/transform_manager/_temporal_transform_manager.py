@@ -51,7 +51,6 @@ class TimeVaryingTransform(abc.ABC):
         """
 
 
-
 class StaticTransform(TimeVaryingTransform):
     """Transformation, which does not change over time.
 
@@ -60,7 +59,6 @@ class StaticTransform(TimeVaryingTransform):
     A2B : array-like, shape (4, 4)
         Homogeneous transformation matrix.
     """
-
     def __init__(self, A2B):
         self._A2B = A2B
 
@@ -133,7 +131,6 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         idxs_timestep_earlier_wrt_query_time = np.searchsorted(
             self.time, query_time_arr, side='right'
         ) - 1
-
 
         # deal with first and last timestamp
         min_index = 0
