@@ -607,7 +607,7 @@ def test_numpy_timeseries_transform_multiple_query_times():
     tm.add_transform("A", "W", transform_WA)
     tm.add_transform("B", "W", transform_WB)
 
-    query_times = np.array([4.9,5.2])  # [s]
+    query_times = np.array([4.9, 5.2])  # [s]
     A2B_at_query_time = tm.get_transform_at_time("A", "B", query_times)
 
     origin_of_A_pos = pt.vector_to_point([0, 0, 0])
