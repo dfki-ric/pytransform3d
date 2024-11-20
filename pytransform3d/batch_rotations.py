@@ -405,16 +405,13 @@ def axis_angles_from_quaternions(qs):
     quaternion_vector_part = qs[..., 1:]
     p_norm = np.linalg.norm(quaternion_vector_part, axis=-1)
 
-    # Create a mask for quaternions where p_norm is small
-    small_p_norm_mask = p_norm < np.finfo(float).eps
+    result = np.empty_like(qs)
 
-    # Initialize the output with default values for small p_norm cases
-    result = np.zeros_like(qs)
+    small_p_norm_mask = p_norm < np.finfo(float).eps
     result[small_p_norm_mask] = np.array([1.0, 0.0, 0.0, 0.0])
 
-    # For non-zero norms, calculate axis, clamped w, and angle
     non_zero_mask = ~small_p_norm_mask
-    axis = np.zeros_like(quaternion_vector_part)
+    axis = np.empty_like(quaternion_vector_part)
     axis[non_zero_mask] = (
         quaternion_vector_part[non_zero_mask] /
         p_norm[non_zero_mask, np.newaxis]
@@ -423,14 +420,9 @@ def axis_angles_from_quaternions(qs):
     w_clamped = np.clip(qs[..., 0], -1.0, 1.0)
     angle = 2.0 * np.arccos(w_clamped)
 
-    # Stack the axis and the angle together a
-    # and normalize the axis-angle representation
     result[non_zero_mask] = norm_axis_angles(
-        np.hstack((
-            axis[non_zero_mask],
-            angle[non_zero_mask, np.newaxis]
-        ))
-    )
+        np.concatenate(
+            (axis[non_zero_mask], angle[non_zero_mask, np.newaxis]), axis=-1))
 
     return result
 
