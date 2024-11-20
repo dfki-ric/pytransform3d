@@ -411,18 +411,14 @@ def axis_angles_from_quaternions(qs):
     result[small_p_norm_mask] = np.array([1.0, 0.0, 0.0, 0.0])
 
     non_zero_mask = ~small_p_norm_mask
-    axis = np.empty_like(quaternion_vector_part)
-    axis[non_zero_mask] = (
-        quaternion_vector_part[non_zero_mask] /
-        p_norm[non_zero_mask, np.newaxis]
-    )
+    axes = (quaternion_vector_part[non_zero_mask]
+            / p_norm[non_zero_mask, np.newaxis])
 
-    w_clamped = np.clip(qs[..., 0], -1.0, 1.0)
-    angle = 2.0 * np.arccos(w_clamped)
+    w_clamped = np.clip(qs[non_zero_mask, 0], -1.0, 1.0)
+    angles = 2.0 * np.arccos(w_clamped)
 
     result[non_zero_mask] = norm_axis_angles(
-        np.concatenate(
-            (axis[non_zero_mask], angle[non_zero_mask, np.newaxis]), axis=-1))
+        np.concatenate((axes, angles[..., np.newaxis]), axis=-1))
 
     return result
 
