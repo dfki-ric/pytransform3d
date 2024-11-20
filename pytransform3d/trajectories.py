@@ -563,7 +563,7 @@ def screw_parameters_from_dual_quaternions(dqs):
     outer_else_mask = np.logical_not(outer_if_mask)
 
 
-    ds = np.linalg.norm(translation, axis=1)
+    ds = np.linalg.norm(translation, axis=-1)
     inner_if_mask = ds < np.finfo(float).eps
 
     outer_if_inner_if_mask = np.logical_and(outer_if_mask, inner_if_mask)
@@ -584,9 +584,9 @@ def screw_parameters_from_dual_quaternions(dqs):
             / ds[outer_if_inner_else_mask][..., np.newaxis]
         )
 
-    qs = np.zeros((dqs.shape[0], 3))
+    qs = np.zeros(list(dqs.shape[:-1]) + [3])
     thetas[outer_if_mask] = ds[outer_if_mask]
-    hs = np.full(dqs.shape[0], np.inf)
+    hs = np.full(dqs.shape[:-1], np.inf)
 
     if np.any(outer_else_mask):
         distance = np.einsum('ij,ij->i',
@@ -641,10 +641,10 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
     h_is_inf_mask = np.isinf(hs)
     h_is_not_inf_mask = np.logical_not(h_is_inf_mask)
 
-    mod_thetas = thetas.copy()
+    mod_thetas = np.copy(thetas)
     if np.any(h_is_inf_mask):
         ds[h_is_inf_mask] = thetas[h_is_inf_mask]
-        mod_thetas[h_is_inf_mask] = 0
+        mod_thetas[h_is_inf_mask] = 0.0
 
     if np.any(h_is_not_inf_mask):
         ds[h_is_not_inf_mask] = hs[h_is_not_inf_mask] * \
@@ -723,14 +723,20 @@ def dual_quaternions_sclerp(starts, ends, ts):
     pytransform3d.transformations.dual_quaternion_sclerp :
         Screw linear interpolation (ScLERP) for dual quaternions.
     """
+    starts = np.asarray(starts)
+    ends = np.asarray(ends)
+    ts = np.asarray(ts)
+
     if starts.shape != ends.shape:
         raise ValueError(
             "The 'starts' and 'ends' arrays must have the same shape."
         )
 
-    if starts.shape[0] != ts.shape[0]:
+    if (ts.ndim != starts.ndim - 1
+            or (ts.ndim > 0 and ts.shape != starts.shape[:-1])):
         raise ValueError(
-            "ts array must have the same number of elements as starts array"
+            "ts array, shape=%s must have the same number of elements as "
+            "starts array, shape=%s" % (ts.shape, starts.shape)
         )
 
     diffs = batch_concatenate_dual_quaternions(batch_dq_q_conj(starts), ends)
