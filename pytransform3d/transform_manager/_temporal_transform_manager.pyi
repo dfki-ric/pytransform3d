@@ -29,6 +29,8 @@ class StaticTransform(TimeVaryingTransform):
 class NumpyTimeseriesTransform(TimeVaryingTransform):
     time: np.ndarray
     _pqs: np.ndarray
+    _min_time: float
+    _max_time: float
 
     def __init__(self, time: npt.ArrayLike, pqs: npt.ArrayLike): ...
 
