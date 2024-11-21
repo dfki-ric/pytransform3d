@@ -235,7 +235,7 @@ class TemporalTransformManager(TransformGraphBase):
     def get_transform(self, from_frame, to_frame):
         """Request a transformation.
         
-        The internal current_time will get used for time based Transformations.
+        The internal current_time will be used for time based transformations.
 
         Parameters
         ----------
@@ -257,7 +257,6 @@ class TemporalTransformManager(TransformGraphBase):
             If one of the frames is unknown or there is no connection between
             them
         """
-        # overwrite get_transform to be able to work with arrays trajectories
         if self.check:
             if from_frame not in self.nodes:
                 raise KeyError("Unknown frame '%s'" % from_frame)
