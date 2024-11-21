@@ -396,10 +396,24 @@ def test_dual_quaternions_from_screw_parameters():
 
     rng = np.random.default_rng(83323)
     dqs = np.array([ptr.dual_quaternions_from_transforms(
-        pt.random_transform(rng)) for _ in range(5)])
+        pt.random_transform(rng)) for _ in range(18)])
+
+    # 1D
+    screw_parameters = ptr.screw_parameters_from_dual_quaternions(dqs[0])
+    pt.assert_unit_dual_quaternion_equal(
+        dqs[0], ptr.dual_quaternions_from_screw_parameters(*screw_parameters))
+
+    # 2D
     screw_parameters = ptr.screw_parameters_from_dual_quaternions(dqs)
     dqs2 = ptr.dual_quaternions_from_screw_parameters(*screw_parameters)
     for dq1, dq2 in zip(dqs, dqs2):
+        pt.assert_unit_dual_quaternion_equal(dq1, dq2)
+
+    # 3D
+    dqs = dqs.reshape(6, 3, 8)
+    screw_parameters = ptr.screw_parameters_from_dual_quaternions(dqs)
+    dqs2 = ptr.dual_quaternions_from_screw_parameters(*screw_parameters)
+    for dq1, dq2 in zip(dqs.reshape(-1, 8), dqs2.reshape(-1, 8)):
         pt.assert_unit_dual_quaternion_equal(dq1, dq2)
 
 
