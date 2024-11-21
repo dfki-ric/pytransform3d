@@ -73,6 +73,6 @@ class TemporalTransformManager(TransformGraphBase):
     def get_transform(self, from_frame: Hashable,
                       to_frame: Hashable) -> np.ndarray: ...
 
-    def get_transform_at_time(self, from_frame: Hashable,
-                              to_frame: Hashable,
-                              query_time: Union[float, np.ndarray]) -> np.ndarray: ...
+    def get_transform_at_time(
+            self, from_frame: Hashable, to_frame: Hashable,
+            query_time: Union[float, npt.ArrayLike]) -> np.ndarray: ...

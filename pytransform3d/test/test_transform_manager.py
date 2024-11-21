@@ -517,6 +517,7 @@ def create_sinusoidal_movement(
 
     return time_arr, np.array(pq_arr)
 
+
 def test_numpy_timeseries_transform():
     # create entities A and B together with their transformations from world
     duration = 10.0  # [s]
@@ -551,7 +552,7 @@ def test_numpy_timeseries_transform():
     assert A2Ws_at_start_2.ndim == 3
     assert A2W_at_start_2.ndim == 2
 
-    query_times = [time_A[0],time_A[0]] # start times
+    query_times = [time_A[0], time_A[0]]  # start times
     A2Ws_at_start_2 = tm.get_transform_at_time("A", "W", query_times)
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[0], decimal=2)
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[1], decimal=2)
@@ -619,3 +620,27 @@ def test_numpy_timeseries_transform_multiple_query_times():
 
     assert origin_of_A_in_B_x1 == pytest.approx(-1.11, abs=1e-2)
     assert origin_of_A_in_B_y1 == pytest.approx(-1.28, abs=1e-2)
+
+
+def test_temporal_transform_manager_incorrect_frame():
+    duration = 10.0  # [s]
+    sample_period = 0.5  # [s]
+    velocity_x = 1  # [m/s]
+    time_A, pq_arr_A = create_sinusoidal_movement(
+        duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
+    )
+    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
+
+    tm = TemporalTransformManager()
+    tm.add_transform("A", "W", transform_WA)
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("B", "W")
+    with pytest.raises(KeyError, match="Unknown frame"):
+        tm.get_transform("A", "B")
+
+    tm = TemporalTransformManager(check=False)
+    tm.add_transform("A", "W", transform_WA)
+    with pytest.raises(ValueError):
+        tm.get_transform("B", "W")
+    with pytest.raises(ValueError):
+        tm.get_transform("A", "B")
