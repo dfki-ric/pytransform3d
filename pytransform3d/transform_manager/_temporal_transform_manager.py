@@ -102,6 +102,9 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         if self._pqs.shape[1] != 7:
             raise ValueError("`pqs` matrix shall have 7 columns.")
 
+        self._min_time = min(self.time)
+        self._max_time = max(self.time)
+
     def as_matrix(self, query_time):
         """Get transformation matrix at given time.
 
@@ -113,7 +116,7 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         Returns
         -------
         A2B_t : array, shape (4, 4) or (..., 4, 4)
-            Homogeneous transformation matrix at given time. . or times
+            Homogeneous transformation matrix / matrices at given time / times.
         """
         pq = self._interpolate_pq_using_sclerp(query_time)
         transforms = transforms_from_pqs(pq)
@@ -136,27 +139,37 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         min_index = 0
         max_index = self.time.shape[0] - 2
         idxs_timestep_earlier_wrt_query_time = np.clip(
-            idxs_timestep_earlier_wrt_query_time,
-            min_index,
-            max_index
-        )
+            idxs_timestep_earlier_wrt_query_time, min_index, max_index)
+        idxs_timestep_later_wrt_query_time = \
+            idxs_timestep_earlier_wrt_query_time + 1
+        before_start = query_time_arr <= self._min_time
+        idxs_timestep_later_wrt_query_time[
+            before_start] = idxs_timestep_earlier_wrt_query_time[before_start]
+        after_end = query_time_arr >= self._max_time
+        idxs_timestep_earlier_wrt_query_time[
+            after_end] = idxs_timestep_later_wrt_query_time[after_end]
 
         # dual quaternion from preceding sample
         t_prev = self.time[idxs_timestep_earlier_wrt_query_time]
-        pq_prev = self._pqs[idxs_timestep_earlier_wrt_query_time, :]
+        pq_prev = self._pqs[idxs_timestep_earlier_wrt_query_time]
         dq_prev = dual_quaternions_from_pqs(pq_prev)
 
         # dual quaternion from successive sample
-        t_next = self.time[idxs_timestep_earlier_wrt_query_time + 1]
-        pq_next = self._pqs[idxs_timestep_earlier_wrt_query_time + 1, :]
+        t_next = self.time[idxs_timestep_later_wrt_query_time]
+        pq_next = self._pqs[idxs_timestep_later_wrt_query_time]
         dq_next = dual_quaternions_from_pqs(pq_next)
 
-        # since sclerp works with relative (0-1) positions
-        rel_delta_t = (query_time - t_prev) / (t_next - t_prev)
+        # scale t, since sclerp works with relative times t in [0, 1]
+        rel_delta_t = np.empty_like(query_time_arr)
+        edge_case = t_prev == t_next
+        rel_delta_t[edge_case] = 0.0
+        interpolation_case = ~edge_case
+        rel_delta_t[interpolation_case] = (
+            query_time[interpolation_case] - t_prev[interpolation_case]
+        ) / (t_next[interpolation_case] - t_prev[interpolation_case])
         dqs_interpolated = dual_quaternions_sclerp(
             dq_prev, dq_next, rel_delta_t)
-        res = pqs_from_dual_quaternions(dqs_interpolated)
-        return res
+        return pqs_from_dual_quaternions(dqs_interpolated)
 
 
 class TemporalTransformManager(TransformGraphBase):
@@ -210,7 +223,9 @@ class TemporalTransformManager(TransformGraphBase):
             Name of the frame in which the transformation is defined
 
         time : Union[float, array-like shape (...)]
-            Time or times at which we request the transformation.
+            Time or times at which we request the transformation. If the query
+            time is out of bounds, it will be clipped to either the first or
+            last available time.
 
         Returns
         -------
@@ -236,6 +251,8 @@ class TemporalTransformManager(TransformGraphBase):
         """Request a transformation.
         
         The internal current_time will be used for time based transformations.
+        If the query time is out of bounds, it will be clipped to either the
+        first or the last available time.
 
         Parameters
         ----------
