@@ -86,11 +86,16 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
     pqs : array, shape (n_steps, 7)
         Time-sequence of transformations, with each row representing a single
         sample as position-quarternion (PQ) structure.
-    """
 
-    def __init__(self, time, pqs):
+    time_clipping : bool, optional (default: False)
+        Clip time to minimum or maximum respectively when query time is out of
+        range of the time series. If this deactivated, we will raise a
+        ValueError when the query time is out of range.
+    """
+    def __init__(self, time, pqs, time_clipping=False):
         self.time = np.asarray(time)
         self._pqs = np.asarray(pqs)
+        self.time_clipping = time_clipping
 
         if len(self._pqs.shape) != 2:
             raise ValueError("Shape of PQ array must be 2-dimensional.")
@@ -136,18 +141,30 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         ) - 1
 
         # deal with first and last timestamp
-        min_index = 0
-        max_index = self.time.shape[0] - 2
-        idxs_timestep_earlier_wrt_query_time = np.clip(
-            idxs_timestep_earlier_wrt_query_time, min_index, max_index)
+        before_start = query_time_arr < self._min_time
+        after_end = query_time_arr > self._max_time
+        out_of_range = np.logical_or(before_start, after_end)
+        if self.time_clipping:
+            min_index = 0
+            max_index = self.time.shape[0] - 2
+            idxs_timestep_earlier_wrt_query_time = np.clip(
+                idxs_timestep_earlier_wrt_query_time, min_index, max_index)
+        elif any(out_of_range):
+            indices = np.where(out_of_range)[0]
+            times = query_time_arr[indices]
+            raise ValueError(
+                "Query time at indices %s, time(s): %s is/are out of range of "
+                "time series." % (indices, times))
+
         idxs_timestep_later_wrt_query_time = \
             idxs_timestep_earlier_wrt_query_time + 1
-        before_start = query_time_arr <= self._min_time
-        idxs_timestep_later_wrt_query_time[
-            before_start] = idxs_timestep_earlier_wrt_query_time[before_start]
-        after_end = query_time_arr >= self._max_time
-        idxs_timestep_earlier_wrt_query_time[
-            after_end] = idxs_timestep_later_wrt_query_time[after_end]
+        if self.time_clipping:
+            before_or_eq_start = query_time_arr <= self._min_time
+            after_or_eq_end = query_time_arr >= self._max_time
+            idxs_timestep_later_wrt_query_time[before_or_eq_start] = \
+                idxs_timestep_earlier_wrt_query_time[before_or_eq_start]
+            idxs_timestep_earlier_wrt_query_time[after_or_eq_end] = \
+                idxs_timestep_later_wrt_query_time[after_or_eq_end]
 
         # dual quaternion from preceding sample
         t_prev = self.time[idxs_timestep_earlier_wrt_query_time]
