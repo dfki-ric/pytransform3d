@@ -167,25 +167,25 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
                 idxs_timestep_later_wrt_query_time[after_or_eq_end]
 
         # dual quaternion from preceding sample
-        t_prev = self.time[idxs_timestep_earlier_wrt_query_time]
-        pq_prev = self._pqs[idxs_timestep_earlier_wrt_query_time]
-        dq_prev = dual_quaternions_from_pqs(pq_prev)
+        times_prev = self.time[idxs_timestep_earlier_wrt_query_time]
+        pqs_prev = self._pqs[idxs_timestep_earlier_wrt_query_time]
+        dqs_prev = dual_quaternions_from_pqs(pqs_prev)
 
         # dual quaternion from successive sample
-        t_next = self.time[idxs_timestep_later_wrt_query_time]
-        pq_next = self._pqs[idxs_timestep_later_wrt_query_time]
-        dq_next = dual_quaternions_from_pqs(pq_next)
+        times_next = self.time[idxs_timestep_later_wrt_query_time]
+        pqs_next = self._pqs[idxs_timestep_later_wrt_query_time]
+        dqs_next = dual_quaternions_from_pqs(pqs_next)
 
         # scale t, since sclerp works with relative times t in [0, 1]
         rel_delta_t = np.empty_like(query_time_arr)
-        edge_case = t_prev == t_next
+        edge_case = times_prev == times_next
         rel_delta_t[edge_case] = 0.0
         interpolation_case = ~edge_case
         rel_delta_t[interpolation_case] = (
-            query_time[interpolation_case] - t_prev[interpolation_case]
-        ) / (t_next[interpolation_case] - t_prev[interpolation_case])
+            query_time[interpolation_case] - times_prev[interpolation_case]
+        ) / (times_next[interpolation_case] - times_prev[interpolation_case])
         dqs_interpolated = dual_quaternions_sclerp(
-            dq_prev, dq_next, rel_delta_t)
+            dqs_prev, dqs_next, rel_delta_t)
         return pqs_from_dual_quaternions(dqs_interpolated)
 
 
