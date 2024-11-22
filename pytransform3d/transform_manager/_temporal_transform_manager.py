@@ -176,16 +176,17 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         pqs_next = self._pqs[idxs_timestep_later_wrt_query_time]
         dqs_next = dual_quaternions_from_pqs(pqs_next)
 
-        # scale t, since sclerp works with relative times t in [0, 1]
-        rel_delta_t = np.empty_like(query_time_arr)
-        edge_case = times_prev == times_next
-        rel_delta_t[edge_case] = 0.0
-        interpolation_case = ~edge_case
-        rel_delta_t[interpolation_case] = (
+        # For each query timestamp, determine its normalized time distance
+        # between the preceeding and succeeding sample, since ScLERP works with
+        # relative times t in [0, 1]. If query time equals a time sample
+        # exactly, 0.0 is set.
+        rel_times_between_samples = np.zeros_like(query_time_arr, dtype=float)
+        interpolation_case = times_prev != times_next
+        rel_times_between_samples[interpolation_case] = (
             query_time[interpolation_case] - times_prev[interpolation_case]
         ) / (times_next[interpolation_case] - times_prev[interpolation_case])
         dqs_interpolated = dual_quaternions_sclerp(
-            dqs_prev, dqs_next, rel_delta_t)
+            dqs_prev, dqs_next, rel_times_between_samples)
         return pqs_from_dual_quaternions(dqs_interpolated)
 
 
