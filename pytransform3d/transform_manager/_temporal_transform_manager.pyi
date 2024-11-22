@@ -29,10 +29,12 @@ class StaticTransform(TimeVaryingTransform):
 class NumpyTimeseriesTransform(TimeVaryingTransform):
     time: np.ndarray
     _pqs: np.ndarray
+    time_clipping: bool
     _min_time: float
     _max_time: float
 
-    def __init__(self, time: npt.ArrayLike, pqs: npt.ArrayLike): ...
+    def __init__(self, time: npt.ArrayLike, pqs: npt.ArrayLike,
+                 time_clipping: bool = ...): ...
 
     def as_matrix(self, query_time: Union[float, np.ndarray]) -> np.ndarray: ...
 

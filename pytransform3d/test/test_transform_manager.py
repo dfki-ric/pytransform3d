@@ -653,12 +653,14 @@ def test_temporal_transform_manager_out_of_bounds():
     time_A, pq_arr_A = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.0
     )
-    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
+    transform_WA = NumpyTimeseriesTransform(
+        time_A, pq_arr_A, time_clipping=True)
 
     time_B, pq_arr_B = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.1
     )
-    transform_WB = NumpyTimeseriesTransform(time_B, pq_arr_B)
+    transform_WB = NumpyTimeseriesTransform(
+        time_B, pq_arr_B, time_clipping=True)
 
     tm = TemporalTransformManager()
     tm.add_transform("A", "W", transform_WA)
@@ -675,3 +677,16 @@ def test_temporal_transform_manager_out_of_bounds():
     A2B_at_end_time = tm.get_transform_at_time("A", "B", 9.6)
     A2B_after_end_time = tm.get_transform_at_time("A", "B", 10.0)
     assert_array_almost_equal(A2B_at_end_time, A2B_after_end_time)
+
+    transform_WA.time_clipping = False
+    transform_WB.time_clipping = False
+
+    with pytest.raises(
+            ValueError,
+            match="Query time at indices \[0\], time\(s\): \[0.\]"):
+        tm.get_transform_at_time("A", "B", [0.0, 0.1])
+
+    with pytest.raises(
+            ValueError,
+            match=r"Query time at indices \[0 1\], time\(s\): \[ 9.7 10. \]"):
+        tm.get_transform_at_time("A", "B", [9.7, 10.0])
