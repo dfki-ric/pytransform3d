@@ -31,12 +31,12 @@ class TimeVaryingTransform(abc.ABC):
 
         Parameters
         ----------
-        query_time : Union[float, array-like shape (...)]
+        query_time : Union[float, array-like shape (n_queries,)]
             Query time
 
         Returns
         -------
-        A2B_t : array, shape (4, 4) or (..., 4, 4)
+        A2B_t : array, shape (4, 4) or (n_queries, 4, 4)
             Homogeneous transformation matrix at given time or times
         """
 
