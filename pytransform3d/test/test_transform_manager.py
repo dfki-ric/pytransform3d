@@ -526,18 +526,18 @@ def test_numpy_timeseries_transform():
     time_A, pq_arr_A = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
     )
-    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
+    A2world = NumpyTimeseriesTransform(time_A, pq_arr_A)
 
     time_B, pq_arr_B = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=2.0,
         start_time=0.35
     )
-    transform_WB = NumpyTimeseriesTransform(time_B, pq_arr_B)
+    B2world = NumpyTimeseriesTransform(time_B, pq_arr_B)
 
     tm = TemporalTransformManager()
 
-    tm.add_transform("A", "W", transform_WA)
-    tm.add_transform("B", "W", transform_WB)
+    tm.add_transform("A", "W", A2world)
+    tm.add_transform("B", "W", B2world)
 
     query_time = time_A[0]  # Start time
     A2W_at_start = pt.transform_from_pq(pq_arr_A[0, :])
@@ -593,18 +593,18 @@ def test_numpy_timeseries_transform_multiple_query_times():
     time_A, pq_arr_A = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
     )
-    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
+    A2world = NumpyTimeseriesTransform(time_A, pq_arr_A)
 
     time_B, pq_arr_B = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=2.0,
         start_time=0.35
     )
-    transform_WB = NumpyTimeseriesTransform(time_B, pq_arr_B)
+    B2world = NumpyTimeseriesTransform(time_B, pq_arr_B)
 
     tm = TemporalTransformManager()
 
-    tm.add_transform("A", "W", transform_WA)
-    tm.add_transform("B", "W", transform_WB)
+    tm.add_transform("A", "W", A2world)
+    tm.add_transform("B", "W", B2world)
 
     query_times = np.array([4.9, 5.2])  # [s]
     A2B_at_query_time = tm.get_transform_at_time("A", "B", query_times)
@@ -627,17 +627,17 @@ def test_temporal_transform_manager_incorrect_frame():
     time_A, pq_arr_A = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.1
     )
-    transform_WA = NumpyTimeseriesTransform(time_A, pq_arr_A)
+    A2world = NumpyTimeseriesTransform(time_A, pq_arr_A)
 
     tm = TemporalTransformManager()
-    tm.add_transform("A", "W", transform_WA)
+    tm.add_transform("A", "W", A2world)
     with pytest.raises(KeyError, match="Unknown frame"):
         tm.get_transform("B", "W")
     with pytest.raises(KeyError, match="Unknown frame"):
         tm.get_transform("A", "B")
 
     tm = TemporalTransformManager(check=False)
-    tm.add_transform("A", "W", transform_WA)
+    tm.add_transform("A", "W", A2world)
     with pytest.raises(ValueError):
         tm.get_transform("B", "W")
     with pytest.raises(ValueError):
@@ -651,18 +651,16 @@ def test_temporal_transform_manager_out_of_bounds():
     time_A, pq_arr_A = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=0.0, start_time=0.0
     )
-    transform_WA = NumpyTimeseriesTransform(
-        time_A, pq_arr_A, time_clipping=True)
+    A2world = NumpyTimeseriesTransform(time_A, pq_arr_A, time_clipping=True)
 
     time_B, pq_arr_B = create_sinusoidal_movement(
         duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.1
     )
-    transform_WB = NumpyTimeseriesTransform(
-        time_B, pq_arr_B, time_clipping=True)
+    B2world = NumpyTimeseriesTransform(time_B, pq_arr_B, time_clipping=True)
 
     tm = TemporalTransformManager()
-    tm.add_transform("A", "W", transform_WA)
-    tm.add_transform("B", "W", transform_WB)
+    tm.add_transform("A", "W", A2world)
+    tm.add_transform("B", "W", B2world)
 
     assert min(time_A) == 0.0
     assert min(time_B) == 0.1
@@ -676,8 +674,8 @@ def test_temporal_transform_manager_out_of_bounds():
     A2B_after_end_time = tm.get_transform_at_time("A", "B", 10.0)
     assert_array_almost_equal(A2B_at_end_time, A2B_after_end_time)
 
-    transform_WA.time_clipping = False
-    transform_WB.time_clipping = False
+    A2world.time_clipping = False
+    B2world.time_clipping = False
 
     with pytest.raises(
             ValueError,
