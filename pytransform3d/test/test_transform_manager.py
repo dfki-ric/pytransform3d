@@ -542,14 +542,14 @@ def test_numpy_timeseries_transform():
     query_time = time_A[0]  # Start time
     A2W_at_start = pt.transform_from_pq(pq_arr_A[0, :])
     A2W_at_start_2 = tm.get_transform_at_time("A", "W", query_time)
-    assert_array_almost_equal(A2W_at_start, A2W_at_start_2, decimal=2)
     assert A2W_at_start_2.ndim == 2
+    assert_array_almost_equal(A2W_at_start, A2W_at_start_2, decimal=2)
 
     query_times = [time_A[0], time_A[0]]  # Start times
     A2Ws_at_start_2 = tm.get_transform_at_time("A", "W", query_times)
+    assert A2Ws_at_start_2.ndim == 3
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[0], decimal=2)
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[1], decimal=2)
-    assert A2Ws_at_start_2.ndim == 3
 
     A2Ws_at_start_2 = tm.get_transform_at_time("A", "W", query_times)
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[0], decimal=2)
@@ -605,6 +605,13 @@ def test_numpy_timeseries_transform_multiple_query_times():
 
     tm.add_transform("A", "W", A2world)
     tm.add_transform("B", "W", B2world)
+
+    # test if shape is conserved correctly
+    A2B_at_query_time = tm.get_transform_at_time("A", "B", 1.0)
+    assert A2B_at_query_time.shape == (4, 4)
+
+    A2B_at_query_time = tm.get_transform_at_time("A", "B", np.array([1.0]))
+    assert A2B_at_query_time.shape == (1, 4, 4)
 
     query_times = np.array([4.9, 5.2])  # [s]
     A2B_at_query_time = tm.get_transform_at_time("A", "B", query_times)

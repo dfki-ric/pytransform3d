@@ -123,18 +123,17 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         A2B_t : array, shape (4, 4) or (..., 4, 4)
             Homogeneous transformation matrix / matrices at given time / times.
         """
-        pq = self._interpolate_pq_using_sclerp(query_time)
+        query_time = np.asarray(query_time)
+        pq = self._interpolate_pq_using_sclerp(np.atleast_1d(query_time))
         transforms = transforms_from_pqs(pq)
-        transforms = np.squeeze(transforms)  # to keep the external API
-        return transforms
+        output_shape = list(query_time.shape) + [4, 4]
+        return transforms.reshape(*output_shape)
 
     def check_transforms(self):
         self._pqs[:, 3:] = norm_vectors(self._pqs[:, 3:])
         return self
 
-    def _interpolate_pq_using_sclerp(self, query_time):
-        query_time_arr = np.atleast_1d(query_time)
-
+    def _interpolate_pq_using_sclerp(self, query_time_arr):
         # identify the index of the preceding sample
         idxs_timestep_earlier_wrt_query_time = np.searchsorted(
             self.time, query_time_arr, side='right'
@@ -183,7 +182,7 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         rel_times_between_samples = np.zeros_like(query_time_arr, dtype=float)
         interpolation_case = times_prev != times_next
         rel_times_between_samples[interpolation_case] = (
-            query_time[interpolation_case] - times_prev[interpolation_case]
+            query_time_arr[interpolation_case] - times_prev[interpolation_case]
         ) / (times_next[interpolation_case] - times_prev[interpolation_case])
         dqs_interpolated = dual_quaternions_sclerp(
             dqs_prev, dqs_next, rel_times_between_samples)
@@ -220,7 +219,7 @@ class TemporalTransformManager(TransformGraphBase):
     @current_time.setter
     def current_time(self, time):
         """Set current time at which we evaluate transformations."""
-        self._current_time = np.atleast_1d(time)
+        self._current_time = time
 
     @property
     def transforms(self):
