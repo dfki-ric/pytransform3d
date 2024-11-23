@@ -45,7 +45,7 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
 class TemporalTransformManager(TransformGraphBase):
     _transforms: Dict[Tuple[Hashable, Hashable], TimeVaryingTransform]
-    _current_time: np.ndarray
+    _current_time: Union[float, np.ndarray]
 
     def __init__(self, strict_check: bool = ..., check: bool = ...): ...
 
@@ -53,7 +53,7 @@ class TemporalTransformManager(TransformGraphBase):
     def transforms(self) -> Dict[Tuple[Hashable, Hashable], np.ndarray]: ...
 
     @property
-    def current_time(self) -> np.ndarray: ...
+    def current_time(self) -> Union[float, np.ndarray]: ...
 
     @current_time.setter
     def current_time(self, query_time: Union[float, np.ndarray]): ...
