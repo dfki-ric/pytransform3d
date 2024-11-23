@@ -551,7 +551,6 @@ def test_numpy_timeseries_transform():
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[1], decimal=2)
     assert A2Ws_at_start_2.ndim == 3
 
-    query_times = [time_A[0], time_A[0]]  # start times
     A2Ws_at_start_2 = tm.get_transform_at_time("A", "W", query_times)
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[0], decimal=2)
     assert_array_almost_equal(A2W_at_start, A2Ws_at_start_2[1], decimal=2)
