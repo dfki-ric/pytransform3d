@@ -664,14 +664,14 @@ def test_temporal_transform_manager_out_of_bounds():
 
     assert min(time_A) == 0.0
     assert min(time_B) == 0.1
-    A2B_at_start_time = tm.get_transform_at_time("A", "B", 0.0)
-    A2B_before_start_time = tm.get_transform_at_time("A", "B", -0.1)
+    A2B_at_start_time, A2B_before_start_time = tm.get_transform_at_time(
+        "A", "B", [0.0, -0.1])
     assert_array_almost_equal(A2B_at_start_time, A2B_before_start_time)
 
     assert max(time_A) == 9.5
     assert max(time_B) == 9.6
-    A2B_at_end_time = tm.get_transform_at_time("A", "B", 9.6)
-    A2B_after_end_time = tm.get_transform_at_time("A", "B", 10.0)
+    A2B_at_end_time, A2B_after_end_time = tm.get_transform_at_time(
+        "A", "B", [9.6, 10.0])
     assert_array_almost_equal(A2B_at_end_time, A2B_after_end_time)
 
     A2world.time_clipping = False
