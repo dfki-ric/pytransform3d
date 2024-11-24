@@ -62,13 +62,13 @@ def norm_axis_angles(a):
     angles = a[..., 3]
     norm = np.linalg.norm(a[..., :3], axis=-1)
 
-    zero_mask = (angles == 0.0) | (norm == 0.0)
-    non_zero_mask = ~zero_mask
+    no_rot_mask = (angles == 0.0) | (norm == 0.0)
+    rot_mask = ~no_rot_mask
 
     res = np.empty_like(a)
-    res[zero_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
-    res[non_zero_mask, :3] = (
-        a[non_zero_mask, :3] / norm[non_zero_mask, np.newaxis]
+    res[no_rot_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
+    res[rot_mask, :3] = (
+        a[rot_mask, :3] / norm[rot_mask, np.newaxis]
     )
 
     angle_normalized = norm_angle(angles)
@@ -77,7 +77,7 @@ def norm_axis_angles(a):
     res[negative_angle_mask, :3] *= -1.0
     angle_normalized[negative_angle_mask] *= -1.0
 
-    res[non_zero_mask, 3] = angle_normalized[non_zero_mask]
+    res[rot_mask, 3] = angle_normalized[rot_mask]
 
     if only_one:
         res = res[0]
