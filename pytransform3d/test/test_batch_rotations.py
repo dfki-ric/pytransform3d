@@ -52,7 +52,7 @@ def test_norm_axis_angles():
         np.pi + rng.uniform(size=(num_instances, 1))
     ))
 
-    # 1D
+    # cross check scalar version with vectorized version when passing an 1D array
     assert_array_almost_equal(
         pbr.norm_axis_angles(A[0]), pr.norm_axis_angle(A[0]))
 
