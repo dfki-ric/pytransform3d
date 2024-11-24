@@ -81,9 +81,11 @@ def test_concat_many_to_one():
 
 def test_concat_dynamic():
     rng = np.random.default_rng(84320)
-    A2Bs = np.stack([random_transform(rng) for _ in range(5)])
-    B2Cs = np.stack([random_transform(rng) for _ in range(5)])
+    n_rotations = 5
+    A2Bs = np.stack([random_transform(rng) for _ in range(n_rotations)])
+    B2Cs = np.stack([random_transform(rng) for _ in range(n_rotations)])
     A2Cs = concat_dynamic(A2Bs, B2Cs)
+
     for i in range(len(A2Cs)):
         assert_array_almost_equal(A2Cs[i], concat(A2Bs[i], B2Cs[i]))
         assert_array_almost_equal(A2Cs[i], concat_dynamic(A2Bs[i], B2Cs[i]))
