@@ -46,10 +46,10 @@ def test_norm_vectors_zero():
 def test_norm_axis_angles():
     rng = np.random.default_rng(843)
     # create a batch of axis-angle instances
-    num_instances = 10
+    n_rotations = 10
     A = np.hstack((
-        pbr.norm_vectors(rng.standard_normal(size=(num_instances, 3))),
-        np.pi + rng.uniform(size=(num_instances, 1))
+        pbr.norm_vectors(rng.standard_normal(size=(n_rotations, 3))),
+        np.pi + rng.uniform(size=(n_rotations, 1))
     ))
 
     # cross check scalar version with vectorized version when passing an 1D array
