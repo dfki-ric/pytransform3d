@@ -358,7 +358,8 @@ def test_axis_angles_from_matrices_output_variable():
 
 def test_axis_angles_from_quaternions():
     rng = np.random.default_rng(48322)
-    Q = pbr.norm_vectors(rng.standard_normal(size=(20, 4)))
+    n_rotations = 20
+    Q = pbr.norm_vectors(rng.standard_normal(size=(n_rotations, 4)))
 
     # 1D
     pr.assert_quaternion_equal(
@@ -372,9 +373,9 @@ def test_axis_angles_from_quaternions():
         pr.assert_quaternion_equal(a, pr.axis_angle_from_quaternion(q))
 
     # 3D
-    Q3D = Q.reshape(5, 4, 4)
+    Q3D = Q.reshape(n_rotations // 4, 4, 4)
     A3D = pbr.axis_angles_from_quaternions(Q3D)
-    for a, q in zip(A3D.reshape(20, 4), Q3D.reshape(20, 4)):
+    for a, q in zip(A3D.reshape(n_rotations, 4), Q3D.reshape(n_rotations, 4)):
         pr.assert_quaternion_equal(a, pr.axis_angle_from_quaternion(q))
 
 
