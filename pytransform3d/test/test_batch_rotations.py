@@ -45,17 +45,18 @@ def test_norm_vectors_zero():
 
 def test_norm_axis_angles():
     rng = np.random.default_rng(843)
-    # create a batch of axis-angle instances
+    # create a batch of unnormalized axis-angle instances
     n_rotations = 10
-    A = np.hstack((
-        pbr.norm_vectors(rng.standard_normal(size=(n_rotations, 3))),
+    A_unnormalized = np.hstack((
+        rng.standard_normal(size=(n_rotations, 3)),
         np.pi + rng.uniform(size=(n_rotations, 1))
     ))
 
     # cross check scalar version with vectorized version when passing
     # an 1D array
     assert_array_almost_equal(
-        pbr.norm_axis_angles(A[0]), pr.norm_axis_angle(A[0]))
+        pbr.norm_axis_angles(A_unnormalized[0]),
+        pr.norm_axis_angle(A_unnormalized[0]))
 
     # cross check scalar version with vectorized version when passing
     # a 3D array
@@ -64,16 +65,19 @@ def test_norm_axis_angles():
         pr.norm_axis_angle(np.array([0.0, 0.0, 0.0, np.pi])))
 
     # 2D
-    A_norm = pbr.norm_axis_angles(A)
-    for a, a_norm in zip(A, A_norm):
-        assert pytest.approx(a[3]) != a_norm[3]
-        assert_array_almost_equal(a_norm, pr.norm_axis_angle(a))
+    A_norm = pbr.norm_axis_angles(A_unnormalized)
+    for a_unnormalized, a_norm in zip(A_unnormalized, A_norm):
+        # Make sure that the unnormalized version was in fact not normalized.
+        assert pytest.approx(a_unnormalized[3]) != a_norm[3]
+        assert pytest.approx(np.linalg.norm(a_unnormalized[:3])) != 1.0
+        assert_array_almost_equal(a_norm, pr.norm_axis_angle(a_unnormalized))
 
     # 3D
-    A3D = A.reshape(5, 2, -1)
+    A3D = A_unnormalized.reshape(5, 2, -1)
     A3D_norm = pbr.norm_axis_angles(A3D)
-    for a, a_norm in zip(A3D.reshape(10, -1), A3D_norm.reshape(10, -1)):
-        assert_array_almost_equal(a_norm, pr.norm_axis_angle(a))
+    for a_unnormalized, a_norm in zip(A3D.reshape(10, -1),
+                                      A3D_norm.reshape(10, -1)):
+        assert_array_almost_equal(a_norm, pr.norm_axis_angle(a_unnormalized))
 
 
 def test_angles_between_vectors_0dims():
