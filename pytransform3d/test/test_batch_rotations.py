@@ -52,11 +52,13 @@ def test_norm_axis_angles():
         np.pi + rng.uniform(size=(n_rotations, 1))
     ))
 
-    # cross check scalar version with vectorized version when passing an 1D array
+    # cross check scalar version with vectorized version when passing
+    # an 1D array
     assert_array_almost_equal(
         pbr.norm_axis_angles(A[0]), pr.norm_axis_angle(A[0]))
 
-    # cross check scalar version with vectorized version when passing an 3D array
+    # cross check scalar version with vectorized version when passing
+    # a 3D array
     assert_array_almost_equal(
         pbr.norm_axis_angles(np.array([[[0.0, 0.0, 0.0, np.pi]]]))[0, 0],
         pr.norm_axis_angle(np.array([0.0, 0.0, 0.0, np.pi])))
