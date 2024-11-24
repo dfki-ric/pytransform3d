@@ -73,10 +73,10 @@ def test_norm_axis_angles():
         assert_array_almost_equal(a_norm, pr.norm_axis_angle(a_unnormalized))
 
     # 3D
-    A3D = A_unnormalized.reshape(5, 2, -1)
+    A3D = A_unnormalized.reshape(n_rotations // 2, 2, -1)
     A3D_norm = pbr.norm_axis_angles(A3D)
-    for a_unnormalized, a_norm in zip(A3D.reshape(10, -1),
-                                      A3D_norm.reshape(10, -1)):
+    for a_unnormalized, a_norm in zip(A3D.reshape(n_rotations, -1),
+                                      A3D_norm.reshape(n_rotations, -1)):
         assert_array_almost_equal(a_norm, pr.norm_axis_angle(a_unnormalized))
 
 
