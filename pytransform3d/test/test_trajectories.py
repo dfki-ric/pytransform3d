@@ -87,12 +87,17 @@ def test_concat_dynamic():
     A2Cs = concat_dynamic(A2Bs, B2Cs)
 
     for i in range(len(A2Cs)):
+        # check n_rotations - n_rotations case
         assert_array_almost_equal(A2Cs[i], concat(A2Bs[i], B2Cs[i]))
+        # check 1 - 1 case
         assert_array_almost_equal(A2Cs[i], concat_dynamic(A2Bs[i], B2Cs[i]))
+    # check 1 - n_rotations case
     assert_array_almost_equal(concat_dynamic(A2Bs[0], B2Cs),
                               concat_one_to_many(A2Bs[0], B2Cs))
+    # check n_rotations - 1 case
     assert_array_almost_equal(concat_dynamic(A2Bs, B2Cs[0]),
                               concat_many_to_one(A2Bs, B2Cs[0]))
+
     with pytest.raises(ValueError, match="Expected ndim 2 or 3"):
         concat_dynamic(A2Bs, B2Cs[np.newaxis])
     with pytest.raises(ValueError, match="Expected ndim 2 or 3"):
