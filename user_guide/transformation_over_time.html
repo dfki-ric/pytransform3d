@@ -51,7 +51,7 @@
     <link rel="prev" title="7. Organizing Transformations in a Graph" href="transform_manager.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
+    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
   </head>
   
   
@@ -438,7 +438,7 @@ abstract class <a class="reference internal" href="../_apidoc/pytransform3d.tran
 <h2><span class="section-number">8.2. </span>Transform Between Coordinate Systems<a class="headerlink" href="#transform-between-coordinate-systems" title="Link to this heading">#</a></h2>
 <p>Finally, you can transform between coordinate systems at a particular time
 <span class="math notranslate nohighlight">\(t_q\)</span>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_time</span> <span class="o">=</span> <span class="mf">4.9</span>  <span class="c1"># [s]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_time</span> <span class="o">=</span> <span class="mf">4.9</span>  <span class="c1"># [s] or an array of times np.array([4.9, 5.2])</span>
 <span class="n">A2B_at_query_time</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform_at_time</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">query_time</span><span class="p">)</span>
 
 <span class="c1"># transform the origin of A in A (x=0, y=0, z=0) to B</span>

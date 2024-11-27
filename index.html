@@ -50,7 +50,7 @@
     <link rel="next" title="Installation" href="install.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
+    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
   </head>
   
   
@@ -369,6 +369,11 @@ transformations</p></li>
 <li><p>a matplotlib-like interface to Open3D’s visualizer to display
 geometries and transformations</p></li>
 </ul>
+<p>The design philosophy of pytransform3d is to not hide anything; there is no
+magic: no operator overloading, no classes to store data (rotations or
+transformations) other than NumPy arrays, and no layers of abstraction.
+It is as transparent to the user as possible and its interface is mainly
+functional.</p>
 </section>
 <section id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">#</a></h2>

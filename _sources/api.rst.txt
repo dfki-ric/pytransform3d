@@ -98,8 +98,10 @@ Logarithm of Rotation
    :toctree: _apidoc/
    :template: function.rst
 
+   ~check_rot_log
    ~check_skew_symmetric_matrix
 
+   ~rot_log_from_compact_axis_angle
    ~cross_product_matrix
 
 
@@ -178,6 +180,7 @@ Modified Rodrigues Parameters
    ~mrp_double
 
    ~concatenate_mrp
+   ~mrp_prod_vector
 
    ~mrp_from_axis_angle
    ~mrp_from_quaternion
@@ -295,7 +298,6 @@ Transformation Matrix
    ~vectors_to_points
    ~vector_to_direction
    ~vectors_to_directions
-   ~scale_transform
    ~adjoint_from_transform
 
    ~plot_transform
@@ -439,6 +441,15 @@ Jacobians
    ~left_jacobian_SE3_inv
    ~left_jacobian_SE3_inv_series
 
+Deprecated Functions
+--------------------
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~scale_transform
+
 
 :mod:`pytransform3d.batch_rotations`
 ====================================
@@ -468,7 +479,9 @@ Axis-Angle Representation
    :toctree: _apidoc/
    :template: function.rst
 
+   ~norm_axis_angles
    ~axis_angles_from_matrices
+   ~axis_angles_from_quaternions
 
    ~cross_product_matrices
 
@@ -516,6 +529,8 @@ Transformation Matrices
    ~invert_transforms
    ~concat_one_to_many
    ~concat_many_to_one
+   ~concat_many_to_many
+   ~concat_dynamic
 
    ~transforms_from_pqs
    ~transforms_from_exponential_coordinates
@@ -533,6 +548,13 @@ Positions and Quaternions
    ~pqs_from_transforms
    ~pqs_from_dual_quaternions
 
+Screw Parameters
+----------------
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~screw_parameters_from_dual_quaternions
 
 Exponential Coordinates
 -----------------------
@@ -553,10 +575,13 @@ Dual Quaternions
    :template: function.rst
 
    ~batch_dq_conj
+   ~batch_dq_q_conj
    ~batch_concatenate_dual_quaternions
    ~batch_dq_prod_vector
-
    ~dual_quaternions_from_pqs
+   ~dual_quaternions_power
+   ~dual_quaternions_sclerp
+   ~dual_quaternions_from_screw_parameters
 
 
 :mod:`pytransform3d.uncertainty`

@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
+    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
   </head>
   
   
@@ -398,6 +398,9 @@ document.write(`
 <span class="sd">        -v_2 &amp; v_1 &amp; 0</span>
 <span class="sd">        \end{array}\right).</span>
 
+<span class="sd">    The function can also be used to compute the logarithm of rotation from</span>
+<span class="sd">    a compact axis-angle representation.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    v : array-like, shape (3,)</span>
@@ -405,13 +408,16 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    V : array-like, shape (3, 3)</span>
+<span class="sd">    V : array, shape (3, 3)</span>
 <span class="sd">        Cross-product matrix</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
                      <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
                      <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">]])</span></div>
 
+
+
+<span class="n">rot_log_from_compact_axis_angle</span> <span class="o">=</span> <span class="n">cross_product_matrix</span>
 
 
 <div class="viewcode-block" id="matrix_from_two_vectors">
@@ -2519,12 +2525,13 @@ document.write(`
 <span class="k">def</span> <span class="nf">compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute 3-dimensional axis-angle from a 4-dimensional one.</span>
 
-<span class="sd">    In a 3-dimensional axis-angle, the 4th dimension (the rotation) is</span>
-<span class="sd">    represented by the norm of the rotation axis vector, which means we</span>
-<span class="sd">    transform :math:`\left( \boldsymbol{\hat{e}}, \theta \right)` to</span>
-<span class="sd">    :math:`\theta \boldsymbol{\hat{e}}`.</span>
+<span class="sd">    In the 3-dimensional axis-angle representation, the 4th dimension (the</span>
+<span class="sd">    rotation) is represented by the norm of the rotation axis vector, which</span>
+<span class="sd">    means we map :math:`\left( \hat{\boldsymbol{\omega}}, \theta \right)` to</span>
+<span class="sd">    :math:`\boldsymbol{\omega} = \theta \hat{\boldsymbol{\omega}}`.</span>
 
-<span class="sd">    We usually assume active rotations.</span>
+<span class="sd">    This representation is also called rotation vector or exponential</span>
+<span class="sd">    coordinates of rotation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
+    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
   </head>
   
   
@@ -451,7 +451,7 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    A : array-like, shape (n_steps, 3)</span>
+<span class="sd">    A : array, shape (n_steps, 3)</span>
 <span class="sd">        Angular velocities in a compact axis-angle representation. Each angular</span>
 <span class="sd">        velocity represents the rotational offset after one unit of time.</span>
 <span class="sd">        Angular velocities are given in global frame and will be</span>
@@ -653,7 +653,7 @@ document.write(`
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \omega = 2 \log (q_1 * \overline{q_2})</span>
+<span class="sd">        (\hat{\boldsymbol{\omega}}, \theta) = \log (q_1 \overline{q_2})</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

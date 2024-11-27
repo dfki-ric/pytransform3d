@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
+    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
   </head>
   
   
@@ -426,6 +426,9 @@ document.write(`
 <span class="sd">    \boldsymbol{\psi}` represent the same rotation and correspond to two</span>
 <span class="sd">    antipodal unit quaternions [1]_.</span>
 
+<span class="sd">    No rotation is a special case, in which no second representation exists.</span>
+<span class="sd">    Only the zero vector represents no rotation.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    mrp : array-like, shape (3,)</span>
@@ -444,7 +447,10 @@ document.write(`
 <span class="sd">       http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mrp</span> <span class="o">=</span> <span class="n">check_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">mrp</span> <span class="o">/</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mrp</span><span class="p">,</span> <span class="n">mrp</span><span class="p">)</span></div>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mrp</span><span class="p">,</span> <span class="n">mrp</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mrp</span>
+    <span class="k">return</span> <span class="n">mrp</span> <span class="o">/</span> <span class="o">-</span><span class="n">norm</span></div>
 
 
 
@@ -459,7 +465,8 @@ document.write(`
 <span class="sd">    apply the result to v.</span>
 
 <span class="sd">    The solution for concatenation of two rotations</span>
-<span class="sd">    :math:`\boldsymbol{\psi}_1,\boldsymbol{\psi}_2` is given by Shuster [1]_:</span>
+<span class="sd">    :math:`\boldsymbol{\psi}_1,\boldsymbol{\psi}_2` is given by Shuster [1]_</span>
+<span class="sd">    (Equation 257):</span>
 
 <span class="sd">    .. math::</span>
 
@@ -500,6 +507,39 @@ document.write(`
     <span class="k">return</span> <span class="p">(</span>
         <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">norm1_sq</span><span class="p">)</span> <span class="o">*</span> <span class="n">mrp2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">norm2_sq</span><span class="p">)</span> <span class="o">*</span> <span class="n">mrp1</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">cross_product</span>
     <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">norm2_sq</span> <span class="o">*</span> <span class="n">norm1_sq</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">scalar_product</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="mrp_prod_vector">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.mrp_prod_vector.html#pytransform3d.rotations.mrp_prod_vector">[docs]</a>
+<span class="k">def</span> <span class="nf">mrp_prod_vector</span><span class="p">(</span><span class="n">mrp</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply rotation represented by MRPs to a vector.</span>
+
+<span class="sd">    To apply the rotation defined by modified Rodrigues parameters</span>
+<span class="sd">    :math:`\boldsymbol{\psi} \in \mathbb{R}^3` to a vector</span>
+<span class="sd">    :math:`\boldsymbol{v} \in \mathbb{R}^3`, we left-concatenate the original</span>
+<span class="sd">    MRPs and then right-concatenate its inverted (negative) version.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mrp : array-like, shape (3,)</span>
+<span class="sd">        Modified Rodrigues parameters.</span>
+
+<span class="sd">    v : array-like, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    w : array, shape (3,)</span>
+<span class="sd">        3d vector</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    concatenate_mrp : Concatenates MRPs.</span>
+<span class="sd">    q_prod_vector : The same operation with a quaternion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mrp</span> <span class="o">=</span> <span class="n">check_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">concatenate_mrp</span><span class="p">(</span><span class="n">concatenate_mrp</span><span class="p">(</span><span class="n">mrp</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="o">-</span><span class="n">mrp</span><span class="p">)</span></div>
 
 </pre></div>
 

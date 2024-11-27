@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 28, 2024"/>
+    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
   </head>
   
   
@@ -366,7 +366,7 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.rotations</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">angle_between_vectors</span><span class="p">,</span> <span class="n">slerp_weights</span><span class="p">,</span> <span class="n">pick_closest_quaternion</span><span class="p">)</span>
+    <span class="n">angle_between_vectors</span><span class="p">,</span> <span class="n">slerp_weights</span><span class="p">,</span> <span class="n">pick_closest_quaternion</span><span class="p">,</span> <span class="n">norm_angle</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="norm_vectors">
@@ -396,6 +396,55 @@ document.write(`
     <span class="c1"># require further processing.</span>
     <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">norms</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="norm_axis_angles">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.batch_rotations.norm_axis_angles.html#pytransform3d.batch_rotations.norm_axis_angles">[docs]</a>
+<span class="k">def</span> <span class="nf">norm_axis_angles</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize axis-angle representation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : array-like, shape (..., 4)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : array, shape (..., 4)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle). The length</span>
+<span class="sd">        of the axis vector is 1 and the angle is in [0, pi). No rotation</span>
+<span class="sd">        is represented by [1, 0, 0, 0].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="c1"># Handle the case of only one axis-angle instance</span>
+    <span class="n">only_one</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">no_rot_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">angles</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">norm</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">rot_mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">no_rot_mask</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">no_rot_mask</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">rot_mask</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">rot_mask</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">norm</span><span class="p">[</span><span class="n">rot_mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">angle_normalized</span> <span class="o">=</span> <span class="n">norm_angle</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+
+    <span class="n">negative_angle_mask</span> <span class="o">=</span> <span class="n">angle_normalized</span> <span class="o">&lt;</span> <span class="mf">0.0</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">negative_angle_mask</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">angle_normalized</span><span class="p">[</span><span class="n">negative_angle_mask</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+    <span class="n">res</span><span class="p">[</span><span class="n">rot_mask</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle_normalized</span><span class="p">[</span><span class="n">rot_mask</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">only_one</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">res</span></div>
 
 
 
@@ -714,6 +763,48 @@ document.write(`
     <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">angles</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="axis_angles_from_quaternions">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.batch_rotations.axis_angles_from_quaternions.html#pytransform3d.batch_rotations.axis_angles_from_quaternions">[docs]</a>
+<span class="k">def</span> <span class="nf">axis_angles_from_quaternions</span><span class="p">(</span><span class="n">qs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute axis-angle from quaternion.</span>
+
+<span class="sd">    This operation is called logarithmic map.</span>
+
+<span class="sd">    We usually assume active rotations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    qs : array-like, shape (..., 4)</span>
+<span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    as : array, shape (..., 4)</span>
+<span class="sd">        Axis of rotation and rotation angle: (x, y, z, angle). The angle is</span>
+<span class="sd">        constrained to [0, pi) so that the mapping is unique.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">quaternion_vector_part</span> <span class="o">=</span> <span class="n">qs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="n">qvec_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">quaternion_vector_part</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Vectorized branches bases on norm of the vector part</span>
+    <span class="n">small_p_norm_mask</span> <span class="o">=</span> <span class="n">qvec_norm</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    <span class="n">non_zero_mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">small_p_norm_mask</span>
+
+    <span class="n">axes</span> <span class="o">=</span> <span class="p">(</span><span class="n">quaternion_vector_part</span><span class="p">[</span><span class="n">non_zero_mask</span><span class="p">]</span>
+            <span class="o">/</span> <span class="n">qvec_norm</span><span class="p">[</span><span class="n">non_zero_mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+
+    <span class="n">w_clamped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">qs</span><span class="p">[</span><span class="n">non_zero_mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">w_clamped</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">non_zero_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_axis_angles</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">axes</span><span class="p">,</span> <span class="n">angles</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">small_p_norm_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
 
 
 
