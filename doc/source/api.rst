@@ -599,6 +599,7 @@ Dual Quaternions
 
    ~estimate_gaussian_rotation_matrix_from_samples
    ~estimate_gaussian_transform_from_samples
+   ~frechet_mean
    ~invert_uncertain_transform
    ~concat_globally_uncertain_transforms
    ~concat_locally_uncertain_transforms

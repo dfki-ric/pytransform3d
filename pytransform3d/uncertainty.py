@@ -99,18 +99,80 @@ def estimate_gaussian_transform_from_samples(samples):
        https://doi.org/10.1007/s10851-006-6228-4
     """
     assert len(samples) > 0
-    samples = np.asarray(samples)
-    mean = samples[0]
-    for _ in range(20):
-        mean_inv = invert_transform(mean)
-        mean_diffs = exponential_coordinates_from_transforms(
-            concat_many_to_one(samples, mean_inv))
-        avg_mean_diff = np.mean(mean_diffs, axis=0)
-        mean = np.dot(
-            transform_from_exponential_coordinates(avg_mean_diff), mean)
+    mean, mean_diffs = frechet_mean(
+        samples=samples,
+        mean0=samples[0],
+        exp=transforms_from_exponential_coordinates,
+        log=exponential_coordinates_from_transforms,
+        inv=invert_transform,
+        concat_one_to_one=concat,
+        concat_many_to_one=concat_many_to_one,
+        n_iter=20
+    )
 
     cov = np.cov(mean_diffs, rowvar=False, bias=True)
     return mean, cov
+
+
+def frechet_mean(
+        samples, mean0, exp, log, inv, concat_one_to_one, concat_many_to_one,
+        n_iter=20):
+    """Compute the Fréchet mean of samples on a smooth Riemannian manifold.
+
+    The mean is computed with an iterative optimization algorithm.
+
+    Parameters
+    ----------
+    samples : array-like, shape (n_samples, ...)
+        Samples on a smooth Riemannian manifold.
+
+    mean0 : array-like, shape (...)
+        Initial guess for the mean on the manifold.
+
+    exp : callable
+        Exponential map from the tangent space to the manifold.
+
+    log : callable
+        Logarithmic map from the manifold to the tangent space.
+
+    inv : callable
+        Computes the inverse of an element on the manifold.
+
+    concat_one_to_one : callable
+        Concatenates elements on the manifold.
+
+    concat_many_to_one : callable
+        Concatenates multiple elements on the manifold to one element on the
+        manifold.
+
+    n_iter : int, optional (default: 20)
+        Number of iterations of the optimization algorithm.
+
+    Returns
+    -------
+    mean : array, shape (...)
+        Fréchet mean on the manifold.
+
+    mean_diffs : array, shape (n_samples, n_tangent_space_components)
+        Differences between the mean and the samples in the tangent space.
+
+    References
+    ----------
+    .. [1] Fréchet, M. (1948). Les éléments aléatoires de nature quelconque
+       dans un espace distancié. Annales de l’Institut Henri Poincaré, 10(3),
+       215–310.
+
+    .. [2] Pennec, X. (2006). Intrinsic Statistics on Riemannian Manifolds:
+       Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
+       https://doi.org/10.1007/s10851-006-6228-4
+    """
+    samples = np.asarray(samples)
+    mean = np.copy(mean0)
+    for _ in range(n_iter):
+        mean_diffs = log(concat_many_to_one(samples, inv(mean)))
+        avg_mean_diff = np.mean(mean_diffs, axis=0)
+        mean = concat_one_to_one(mean, exp(avg_mean_diff))
+    return mean, mean_diffs
 
 
 def invert_uncertain_transform(mean, cov):
