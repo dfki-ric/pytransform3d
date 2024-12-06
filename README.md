@@ -141,7 +141,7 @@ Execute the following command in the main folder of the repository
 to install the dependencies:
 
 ```bash
-pip install -e .[doc]
+pip install -e '.[doc]'
 ```
 
 ## Tests
