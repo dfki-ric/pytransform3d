@@ -44,7 +44,7 @@ I gave a talk at EuroSciPy 2023 about pytransform3d. Slides are available
 Use pip to install the package from PyPI:
 
 ```bash
-pip install pytransform3d[all]
+pip install 'pytransform3d[all]'
 ```
 
 or conda:
@@ -141,7 +141,7 @@ Execute the following command in the main folder of the repository
 to install the dependencies:
 
 ```bash
-pip install -e .[doc]
+pip install -e '.[doc]'
 ```
 
 ## Tests

@@ -33,7 +33,7 @@ For example, you can call
 
 .. code-block:: bash
 
-    python -m pip install pytransform3d[all]
+    python -m pip install 'pytransform3d[all]'
 
 Unfortunately, pip cannot install all dependencies:
 
