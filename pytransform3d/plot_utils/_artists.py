@@ -299,3 +299,108 @@ class Arrow3D(FancyArrowPatch):
     def do_3d_projection(self, renderer=None):
         # This supports both matplotlib 3.4 and 3.5
         return 0
+
+
+class Camera(artist.Artist):
+    """A Matplotlib artist that displays a camera.
+
+    This function is inspired by Blender's camera visualization. It will
+    show the camera center, a virtual image plane, and the top of the virtual
+    image plane.
+
+    Parameters
+    ----------
+    M : array-like, shape (3, 3)
+        Intrinsic camera matrix that contains the focal lengths on the diagonal
+        and the center of the the image in the last column. It does not matter
+        whether values are given in meters or pixels as long as the unit is the
+        same as for the sensor size.
+
+    virtual_image_distance : float, optional (default: 1)
+        Distance from pinhole to virtual image plane that will be displayed.
+        We assume that this distance is given in meters.
+
+    sensor_size : array-like, shape (2,), optional (default: [1920, 1080])
+        Size of the image sensor: (width, height). It does not matter whether
+        values are given in meters or pixels as long as the unit is the same as
+        for the sensor size.
+
+    kwargs : dict, optional (default: {})
+        Additional arguments for the plotting functions, e.g. alpha.
+    """
+
+    def __init__(
+        self, M, A2B, virtual_image_distance=1.0, sensor_size=(1920, 1080), **kwargs
+    ):
+        super(Camera, self).__init__()
+
+        if "c" in kwargs:
+            color = kwargs.pop("c")
+        elif "color" in kwargs:
+            color = kwargs.pop("color")
+        else:
+            color = "k"
+
+        focal_length = np.mean((M[0, 0], M[1, 1]))
+        sensor_corners = np.array(
+            [
+                [0, 0, focal_length],
+                [0, sensor_size[1], focal_length],
+                [sensor_size[0], sensor_size[1], focal_length],
+                [sensor_size[0], 0, focal_length],
+            ]
+        )
+        sensor_corners[:, 0] -= M[0, 2]
+        sensor_corners[:, 1] -= M[1, 2]
+        self.sensor_corners = virtual_image_distance / focal_length * sensor_corners
+
+        up = self.sensor_corners[0] - self.sensor_corners[1]
+        self.top_corners = np.array(
+            [
+                self.sensor_corners[0] + 0.1 * up,
+                0.5 * (self.sensor_corners[0] + self.sensor_corners[3]) + 0.5 * up,
+                self.sensor_corners[3] + 0.1 * up,
+                self.sensor_corners[0] + 0.1 * up,
+            ]
+        )
+
+        self.lines_sensor = [
+            Line3D([], [], [], color=color, **kwargs) for _ in range(4)
+        ]
+        self.line_top = Line3D([], [], [], color=color, **kwargs)
+
+        self.set_data(A2B)
+
+    def set_data(self, A2B):
+        """Set the transformation data.
+
+        Parameters
+        ----------
+        A2B : array-like, shape (4, 4)
+            Transform from frame A to frame B
+        """
+        sensor_in_world = A2B @ np.vstack((self.sensor_corners.T, np.ones(4)))
+        for i in range(4):
+            xs, ys, zs = [
+                [A2B[j, 3], sensor_in_world[j, i], sensor_in_world[j, (i + 1) % 4]]
+                for j in range(3)
+            ]
+            self.lines_sensor[i].set_data_3d(xs, ys, zs)
+
+        top_in_world = A2B @ np.vstack((self.top_corners.T, np.ones(4)))
+        xs, ys, zs, _ = top_in_world
+        self.line_top.set_data_3d(xs, ys, zs)
+
+    @artist.allow_rasterization
+    def draw(self, renderer, *args, **kwargs):
+        """Draw the artist."""
+        for b in self.lines_sensor:
+            b.draw(renderer, *args, **kwargs)
+        self.line_top.draw(renderer, *args, **kwargs)
+        super(Camera, self).draw(renderer, *args, **kwargs)
+
+    def add_camera(self, axis):
+        """Add the camera to a 3D axis."""
+        for b in self.lines_sensor:
+            axis.add_line(b)
+        axis.add_line(self.line_top)
