@@ -736,6 +736,7 @@ Dual Quaternions
    ~Frame
    ~LabeledFrame
    ~Trajectory
+   ~Camera
 
 
 :mod:`pytransform3d.visualizer`
