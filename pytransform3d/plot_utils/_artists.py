@@ -316,6 +316,9 @@ class Camera(artist.Artist):
         whether values are given in meters or pixels as long as the unit is the
         same as for the sensor size.
 
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
     virtual_image_distance : float, optional (default: 1)
         Distance from pinhole to virtual image plane that will be displayed.
         We assume that this distance is given in meters.
