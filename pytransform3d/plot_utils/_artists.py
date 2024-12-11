@@ -382,7 +382,7 @@ class Camera(artist.Artist):
         A2B : array-like, shape (4, 4)
             Transform from frame A to frame B
         """
-        sensor_in_world = A2B @ np.vstack((self.sensor_corners.T, np.ones(4)))
+        sensor_in_world = np.dot(A2B, np.vstack((self.sensor_corners.T, np.ones(4))))
         for i in range(4):
             xs, ys, zs = [
                 [A2B[j, 3], sensor_in_world[j, i], sensor_in_world[j, (i + 1) % 4]]
@@ -390,7 +390,7 @@ class Camera(artist.Artist):
             ]
             self.lines_sensor[i].set_data_3d(xs, ys, zs)
 
-        top_in_world = A2B @ np.vstack((self.top_corners.T, np.ones(4)))
+        top_in_world = np.dot(A2B, np.vstack((self.top_corners.T, np.ones(4))))
         xs, ys, zs, _ = top_in_world
         self.line_top.set_data_3d(xs, ys, zs)
 
