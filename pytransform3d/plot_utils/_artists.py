@@ -316,7 +316,7 @@ class Camera(artist.Artist):
         whether values are given in meters or pixels as long as the unit is the
         same as for the sensor size.
 
-    A2B : array-like, shape (4, 4)
+    cam2world : array-like, shape (4, 4)
         Transform from frame A to frame B
 
     virtual_image_distance : float, optional (default: 1)
@@ -335,7 +335,7 @@ class Camera(artist.Artist):
     def __init__(
         self,
         M,
-        A2B,
+        cam2world,
         virtual_image_distance=1.0,
         sensor_size=(1920, 1080),
         **kwargs,
@@ -361,7 +361,7 @@ class Camera(artist.Artist):
         ]
         self.line_top = Line3D([], [], [], color=color, **kwargs)
 
-        self.set_data(A2B)
+        self.set_data(cam2world)
 
     def _calculate_sensor_corners_in_camera(
         self, M, virtual_image_distance, sensor_size
@@ -398,21 +398,21 @@ class Camera(artist.Artist):
             ]
         )
 
-    def set_data(self, A2B):
+    def set_data(self, cam2world):
         """Set the transformation data.
 
         Parameters
         ----------
-        A2B : array-like, shape (4, 4)
+        cam2world : array-like, shape (4, 4)
             Transform from frame A to frame B
         """
         sensor_in_world = np.dot(
-            A2B, np.vstack((self.sensor_corners.T, np.ones(4)))
+            cam2world, np.vstack((self.sensor_corners.T, np.ones(4)))
         )
         for i in range(4):
             xs, ys, zs = [
                 [
-                    A2B[j, 3],
+                    cam2world[j, 3],
                     sensor_in_world[j, i],
                     sensor_in_world[j, (i + 1) % 4],
                 ]
@@ -420,7 +420,7 @@ class Camera(artist.Artist):
             ]
             self.lines_sensor[i].set_data_3d(xs, ys, zs)
 
-        top_in_world = np.dot(A2B, np.vstack((self.top_corners.T, np.ones(4))))
+        top_in_world = np.dot(cam2world, np.vstack((self.top_corners.T, np.ones(4))))
         xs, ys, zs, _ = top_in_world
         self.line_top.set_data_3d(xs, ys, zs)
 
