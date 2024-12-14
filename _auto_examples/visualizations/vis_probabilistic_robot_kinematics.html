@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Probabilistic Product of Exponentials &#8212; pytransform3d 3.8.0 documentation</title>
+    <title>Probabilistic Product of Exponentials &#8212; pytransform3d 3.10.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=948f11bf"></script>
+    <script src="../../_static/documentation_options.js?v=f8d09eac"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_auto_examples/visualizations/vis_probabilistic_robot_kinematics';</script>
@@ -49,7 +49,7 @@
     <link rel="prev" title="Visualize Wrench" href="vis_ee_wrench.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
+    <meta name="docbuild:last-update" content="Dec 14, 2024"/>
   </head>
   
   
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.0"/>`);</script>
   
   
 </a></div>
@@ -316,7 +316,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../animations/index.html">Matplotlib Animations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/index.html">GUI Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plots/index.html">Matplotlib Figures</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3D Visualizations</a><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">3D Visualizations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="vis_sphere.html">Visualize Sphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vis_ellipsoid.html">Visualize Ellipsoid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vis_basis.html">Visualize Coordinate Frame</a></li>
@@ -340,7 +340,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="vis_urdf.html">URDF Joints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vis_ee_wrench.html">Visualize Wrench</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Probabilistic Product of Exponentials</a></li>
-</ul><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary>
+</ul>
 </details></li>
 </ul>
 </div>
@@ -405,7 +405,7 @@ document.write(`
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#sphx-glr-download-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code</p>
+to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="probabilistic-product-of-exponentials">
 <span id="sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"></span><h1>Probabilistic Product of Exponentials<a class="headerlink" href="#probabilistic-product-of-exponentials" title="Link to this heading">#</a></h1>
@@ -735,13 +735,16 @@ pp. 3263-3270, doi: 10.1109/IROS47612.2022.9981399.
 <a class="reference external" href="https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf">https://elib.dlr.de/191928/1/202212_ELIB_PAPER_VERSION_with_copyright.pdf</a></p>
 </aside>
 </aside>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.231 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.317 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ae747dcd65487475e5bbb7403b4ec297/vis_probabilistic_robot_kinematics.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vis_probabilistic_robot_kinematics.ipynb</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/8630ba1403f468d0c354b432e8397ce7/vis_probabilistic_robot_kinematics.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">vis_probabilistic_robot_kinematics.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c3a2271cc360e1a2492ca9a8cc1a23aa/vis_probabilistic_robot_kinematics.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">vis_probabilistic_robot_kinematics.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

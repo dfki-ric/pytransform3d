@@ -10,10 +10,11 @@ Matplotlib Animations
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Simple animations of frames and trajectories are easy to implement with Matplotlib&#x27;s FuncAnimat...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Simple animations of frames and trajectories are easy to implement with Matplotlib&#x27;s FuncAnimation. The following example will generate a frame that will be rotated about the x-axis.">
 
 .. only:: html
 
@@ -25,6 +26,23 @@ Matplotlib Animations
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Animate Rotation</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Animate a camera moving along a circular trajectory while looking at a target.">
+
+.. only:: html
+
+  .. image:: /_auto_examples/animations/images/thumb/sphx_glr_animate_camera_thumb.gif
+    :alt:
+
+  :ref:`sphx_glr__auto_examples_animations_animate_camera.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Animate Camera</div>
     </div>
 
 
@@ -64,7 +82,7 @@ Matplotlib Animations
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either linearly or with slerp (spherical linear interpolation). Here we compare both methods and measure the angular velocity between two successive steps. We can see that linear interpolation results in a non-constant angular velocity. Usually it is a better idea to interpolate with slerp.">
 
 .. only:: html
 
@@ -81,7 +99,7 @@ Matplotlib Animations
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by quaternions either linearly...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by quaternions either linearly or with slerp (spherical linear interpolation). Here we compare both methods and measure the angular velocity between two successive steps. We can see that linear interpolation results in a non-constant angular velocity. Usually it is a better idea to interpolate with slerp.">
 
 .. only:: html
 
@@ -96,6 +114,8 @@ Matplotlib Animations
     </div>
 
 
+.. thumbnail-parent-div-close
+
 .. raw:: html
 
     </div>
@@ -105,6 +125,7 @@ Matplotlib Animations
    :hidden:
 
    /_auto_examples/animations/animate_rotation
+   /_auto_examples/animations/animate_camera
    /_auto_examples/animations/animate_trajectory
    /_auto_examples/animations/animate_quaternion_integration
    /_auto_examples/animations/animate_angle_axis_interpolation

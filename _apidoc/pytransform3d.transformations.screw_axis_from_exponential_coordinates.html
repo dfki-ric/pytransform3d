@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transformations.screw_axis_from_exponential_coordinates &#8212; pytransform3d 3.8.0 documentation</title>
+    <title>pytransform3d.transformations.screw_axis_from_exponential_coordinates &#8212; pytransform3d 3.10.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=948f11bf"></script>
+    <script src="../_static/documentation_options.js?v=f8d09eac"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.transformations.screw_axis_from_exponential_coordinates';</script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="pytransform3d.transformations.screw_axis_from_screw_parameters" href="pytransform3d.transformations.screw_axis_from_screw_parameters.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
+    <meta name="docbuild:last-update" content="Dec 14, 2024"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.0"/>`);</script>
   
   
 </a></div>
@@ -693,6 +693,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Frame.html">pytransform3d.plot_utils.Frame</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.LabeledFrame.html">pytransform3d.plot_utils.LabeledFrame</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Trajectory.html">pytransform3d.plot_utils.Trajectory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Camera.html">pytransform3d.plot_utils.Camera</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.figure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code>.figure</a></li>
@@ -808,10 +809,10 @@ and h * theta the translation.</p>
 
 <section id="examples-using-pytransform3d-transformations-screw-axis-from-exponential-coordinates">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.screw_axis_from_exponential_coordinates</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-screw-axis-from-exponential-coordinates" title="Link to this heading">#</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds..."><img alt="" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds to linear interpolation with exponential coordinates, the green line corresponds to linear interpolation with dual quaternions, and the blue line corresponds to screw linear interpolation (ScLERP) with dual quaternions. The true screw motion from pose 1 to pose 2 is shown by a thick, transparent black line in the background of the ScLERP interpolation."><img alt="" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_dual_quaternion_interpolation.html#sphx-glr-auto-examples-plots-plot-dual-quaternion-interpolation-py"><span class="std std-ref">Dual Quaternion Interpolation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Dual Quaternion Interpolation</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the fo..."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
   <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
 </div></div></section>

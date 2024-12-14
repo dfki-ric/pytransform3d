@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.8.0 documentation</title>
+    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.10.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=948f11bf"></script>
+    <script src="../_static/documentation_options.js?v=f8d09eac"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="1. Introduction to 3D Rigid Transformations" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
+    <meta name="docbuild:last-update" content="Dec 14, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.0"/>`);</script>
   
   
 </a></div>
@@ -390,7 +390,8 @@ matrices <a class="footnote-reference brackets" href="#id16" id="id1" role="doc-
 any rotation from <span class="math notranslate nohighlight">\(SO(3)\)</span> is 3. However, there is no representation that
 is non-redundant, continuous, and free of singularities.</p>
 <figure class="align-center" id="id18">
-<a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" src="../_images/rotations.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" src="../_images/rotations.png" style="width: 50%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">Overview of the representations and the conversions between them that are
 available in pytransform3d.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
@@ -603,7 +604,8 @@ This will be done, for instance, to obtain rotation matrices from Euler angles
 <section id="axis-angle">
 <h2><span class="section-number">2.2. </span>Axis-Angle<a class="headerlink" href="#axis-angle" title="Link to this heading">#</a></h2>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_axis_angle.html"><img alt="../_images/sphx_glr_plot_axis_angle_001.png" src="../_images/sphx_glr_plot_axis_angle_001.png" style="width: 50%;" /></a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_axis_angle.html"><img alt="../_images/sphx_glr_plot_axis_angle_001.png" src="../_images/sphx_glr_plot_axis_angle_001.png" style="width: 50%;" />
+</a>
 </figure>
 <p>Each rotation can be represented by a single rotation about one axis.
 The axis can be represented as a three-dimensional unit vector and the angle
@@ -793,7 +795,8 @@ representation.</p></li>
 <section id="rotors">
 <h2><span class="section-number">2.7. </span>Rotors<a class="headerlink" href="#rotors" title="Link to this heading">#</a></h2>
 <figure class="align-center">
-<a class="reference external image-reference" href="../_auto_examples/plots/plot_bivector.html"><img alt="../_images/sphx_glr_plot_bivector_001.png" src="../_images/sphx_glr_plot_bivector_001.png" style="width: 70%;" /></a>
+<a class="reference external image-reference" href="../_auto_examples/plots/plot_bivector.html"><img alt="../_images/sphx_glr_plot_bivector_001.png" src="../_images/sphx_glr_plot_bivector_001.png" style="width: 70%;" />
+</a>
 </figure>
 <p>Rotors and quaternions are very similar concepts in 3D. However, rotors are
 more general as they can be extended to more dimensions <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>.</p>

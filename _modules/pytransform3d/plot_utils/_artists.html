@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.plot_utils._artists &#8212; pytransform3d 3.8.0 documentation</title>
+    <title>pytransform3d.plot_utils._artists &#8212; pytransform3d 3.10.0 documentation</title>
   
   
   
@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=948f11bf"></script>
+    <script src="../../../_static/documentation_options.js?v=f8d09eac"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/plot_utils/_artists';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
+    <meta name="docbuild:last-update" content="Dec 14, 2024"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.0"/>`);</script>
   
   
 </a></div>
@@ -714,6 +714,158 @@ document.write(`
         <span class="c1"># This supports both matplotlib 3.4 and 3.5</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 
+
+
+<div class="viewcode-block" id="Camera">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Camera.html#pytransform3d.plot_utils.Camera">[docs]</a>
+<span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">Artist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Matplotlib artist that displays a camera.</span>
+
+<span class="sd">    This function is inspired by Blender&#39;s camera visualization. It will</span>
+<span class="sd">    show the camera center, a virtual image plane, and the top of the virtual</span>
+<span class="sd">    image plane.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    M : array-like, shape (3, 3)</span>
+<span class="sd">        Intrinsic camera matrix that contains the focal lengths on the diagonal</span>
+<span class="sd">        and the center of the the image in the last column. It does not matter</span>
+<span class="sd">        whether values are given in meters or pixels as long as the unit is the</span>
+<span class="sd">        same as for the sensor size.</span>
+
+<span class="sd">    cam2world : array-like, shape (4, 4)</span>
+<span class="sd">        Transformation matrix of camera in world frame. We assume that the</span>
+<span class="sd">        position is given in meters.</span>
+
+<span class="sd">    virtual_image_distance : float, optional (default: 1)</span>
+<span class="sd">        Distance from pinhole to virtual image plane that will be displayed.</span>
+<span class="sd">        We assume that this distance is given in meters.</span>
+
+<span class="sd">    sensor_size : array-like, shape (2,), optional (default: [1920, 1080])</span>
+<span class="sd">        Size of the image sensor: (width, height). It does not matter whether</span>
+<span class="sd">        values are given in meters or pixels as long as the unit is the same as</span>
+<span class="sd">        for the sensor size.</span>
+
+<span class="sd">    kwargs : dict, optional (default: {})</span>
+<span class="sd">        Additional arguments for the plotting functions, e.g. alpha.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Camera.__init__">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Camera.html#pytransform3d.plot_utils.Camera.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">M</span><span class="p">,</span>
+        <span class="n">cam2world</span><span class="p">,</span>
+        <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Camera</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s2">&quot;c&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensor_corners</span> <span class="o">=</span> <span class="n">_calculate_sensor_corners_in_camera</span><span class="p">(</span>
+            <span class="n">M</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_corners</span> <span class="o">=</span> <span class="n">_calculate_top_corners_in_camera</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sensor_corners</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines_sensor</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Line3D</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_top</span> <span class="o">=</span> <span class="n">Line3D</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">cam2world</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Camera.set_data">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Camera.html#pytransform3d.plot_utils.Camera.set_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the transformation data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cam2world : array-like, shape (4, 4)</span>
+<span class="sd">            Transform from frame A to frame B</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cam2world</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">cam2world</span><span class="p">)</span>
+        <span class="n">sensor_in_world</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">cam2world</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sensor_corners</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                  <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sensor_corners</span><span class="p">)))))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span>
+                    <span class="n">cam2world</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                    <span class="n">sensor_in_world</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span>
+                    <span class="n">sensor_in_world</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">],</span>
+                <span class="p">]</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lines_sensor</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_data_3d</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">)</span>
+
+        <span class="n">top_in_world</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">cam2world</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">top_corners</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                  <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_corners</span><span class="p">)))))</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">top_in_world</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_top</span><span class="o">.</span><span class="n">set_data_3d</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Camera.draw">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Camera.html#pytransform3d.plot_utils.Camera.draw">[docs]</a>
+    <span class="nd">@artist</span><span class="o">.</span><span class="n">allow_rasterization</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the artist.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines_sensor</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_top</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Camera</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">renderer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Camera.add_camera">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.plot_utils.Camera.html#pytransform3d.plot_utils.Camera.add_camera">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add the camera to a 3D axis.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines_sensor</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line_top</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">def</span> <span class="nf">_calculate_sensor_corners_in_camera</span><span class="p">(</span>
+        <span class="n">M</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the corners of the sensor frame in camera coordinates.&quot;&quot;&quot;</span>
+    <span class="n">focal_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="n">sensor_corners</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sensor_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">focal_length</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">sensor_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">sensor_corners</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">sensor_corners</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">virtual_image_distance</span> <span class="o">/</span> <span class="n">focal_length</span> <span class="o">*</span> <span class="n">sensor_corners</span>
+
+
+<span class="k">def</span> <span class="nf">_calculate_top_corners_in_camera</span><span class="p">(</span><span class="n">sensor_corners</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the corners of the top triangle in camera coordinates.&quot;&quot;&quot;</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="n">sensor_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">sensor_corners</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">sensor_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+            <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">sensor_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sensor_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+            <span class="n">sensor_corners</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+            <span class="n">sensor_corners</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">up</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
 </pre></div>
 
                 </article>

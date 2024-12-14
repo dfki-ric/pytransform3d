@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.camera.plot_camera &#8212; pytransform3d 3.8.0 documentation</title>
+    <title>pytransform3d.camera.plot_camera &#8212; pytransform3d 3.10.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=948f11bf"></script>
+    <script src="../_static/documentation_options.js?v=f8d09eac"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.camera.plot_camera';</script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="pytransform3d.camera.world2image" href="pytransform3d.camera.world2image.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
+    <meta name="docbuild:last-update" content="Dec 14, 2024"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.0"/>`);</script>
   
   
 </a></div>
@@ -693,6 +693,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Frame.html">pytransform3d.plot_utils.Frame</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.LabeledFrame.html">pytransform3d.plot_utils.LabeledFrame</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Trajectory.html">pytransform3d.plot_utils.Trajectory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Camera.html">pytransform3d.plot_utils.Camera</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.figure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code>.figure</a></li>
@@ -829,13 +830,13 @@ warning.</p>
 
 <section id="examples-using-pytransform3d-camera-plot-camera">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.camera.plot_camera</span></code><a class="headerlink" href="#examples-using-pytransform3d-camera-plot-camera" title="Link to this heading">#</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente..."><img alt="" src="../_images/sphx_glr_plot_camera_3d_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera center, a virtual image plane at a desired distance to the camera center, and the top direction of the virtual image plane."><img alt="" src="../_images/sphx_glr_plot_camera_3d_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_camera_3d.html#sphx-glr-auto-examples-plots-plot-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camera Representation in 3D</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know t..."><img alt="" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know the world coordinates. If we know the location and orientation of the camera in the world, we can easily compute the location of the points on the image."><img alt="" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_camera_with_image.html#sphx-glr-auto-examples-plots-plot-camera-with-image-py"><span class="std std-ref">Camera Transform</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camera Transform</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometr..."><img alt="" src="../_images/sphx_glr_plot_camera_trajectory_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometry. This specific trajectory has been used to reconstruct a colored mesh from a depth camera and an RGB camera."><img alt="" src="../_images/sphx_glr_plot_camera_trajectory_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camera Trajectory</div>
 </div></div></section>

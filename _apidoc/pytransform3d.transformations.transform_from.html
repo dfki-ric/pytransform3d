@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transformations.transform_from &#8212; pytransform3d 3.8.0 documentation</title>
+    <title>pytransform3d.transformations.transform_from &#8212; pytransform3d 3.10.0 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=948f11bf"></script>
+    <script src="../_static/documentation_options.js?v=f8d09eac"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="pytransform3d.transformations.assert_transform" href="pytransform3d.transformations.assert_transform.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 27, 2024"/>
+    <meta name="docbuild:last-update" content="Dec 14, 2024"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.8.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.8.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.0"/>`);</script>
   
   
 </a></div>
@@ -694,6 +694,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Frame.html">pytransform3d.plot_utils.Frame</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.LabeledFrame.html">pytransform3d.plot_utils.LabeledFrame</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Trajectory.html">pytransform3d.plot_utils.Trajectory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.plot_utils.Camera.html">pytransform3d.plot_utils.Camera</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.visualizer.figure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code>.figure</a></li>
@@ -810,7 +811,10 @@ warning.</p>
 
 <section id="examples-using-pytransform3d-transformations-transform-from">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.transform_from</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-transform-from" title="Link to this heading">#</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="" src="../_images/sphx_glr_animate_trajectory_thumb.gif" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Animate a camera moving along a circular trajectory while looking at a target."><img alt="" src="../_images/sphx_glr_animate_camera_thumb.gif" />
+<p><a class="reference internal" href="../_auto_examples/animations/animate_camera.html#sphx-glr-auto-examples-animations-animate-camera-py"><span class="std std-ref">Animate Camera</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Camera</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="" src="../_images/sphx_glr_animate_trajectory_thumb.gif" />
 <p><a class="reference internal" href="../_auto_examples/animations/animate_trajectory.html#sphx-glr-auto-examples-animations-animate-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animate Trajectory</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="The transformation editor can be used to manipulate transformations."><img alt="" src="../_images/sphx_glr_app_transformation_editor_thumb.png" />
@@ -819,31 +823,31 @@ warning.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Sample Transforms"><img alt="" src="../_images/sphx_glr_plot_sample_transforms_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_sample_transforms.html#sphx-glr-auto-examples-plots-plot-sample-transforms-py"><span class="std std-ref">Sample Transforms</span></a></p>
   <div class="sphx-glr-thumbnail-title">Sample Transforms</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ..."><img alt="" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and B2A. We can construct a transform C2A to extract the position of p in frame A."><img alt="" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_transform_concatenation.html#sphx-glr-auto-examples-plots-plot-transform-concatenation-py"><span class="std std-ref">Transform Concatenation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Transform Concatenation</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plots surfaces of transformed cylindrical shells."><img alt="" src="../_images/sphx_glr_plot_cylinder_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_cylinder.html#sphx-glr-auto-examples-plots-plot-cylinder-py"><span class="std std-ref">Plot Transformed Cylinders</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Transformed Cylinders</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformati..."><img alt="" src="../_images/sphx_glr_plot_screw_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformation with a screw axis and an additional parameter theta that encodes the rotation angle and through h * theta the translation. Here we visualize a screw axis and the transformation generated from a specific theta."><img alt="" src="../_images/sphx_glr_plot_screw_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_screw.html#sphx-glr-auto-examples-plots-plot-screw-py"><span class="std std-ref">Plot Transformation through Screw Motion</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Transformation through Screw Motion</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will use the TransformManager to infer a transformation automatically."><img alt="" src="../_images/sphx_glr_plot_transform_manager_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_transform_manager.html#sphx-glr-auto-examples-plots-plot-transform-manager-py"><span class="std std-ref">Transformation Manager</span></a></p>
   <div class="sphx-glr-thumbnail-title">Transformation Manager</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and pl..."><img alt="" src="../_images/sphx_glr_plot_rotate_cylinder_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and plot it at several steps during the acceleration."><img alt="" src="../_images/sphx_glr_plot_rotate_cylinder_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_rotate_cylinder.html#sphx-glr-auto-examples-plots-plot-rotate-cylinder-py"><span class="std std-ref">Rotate Cylinder</span></a></p>
   <div class="sphx-glr-thumbnail-title">Rotate Cylinder</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know t..."><img alt="" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know the world coordinates. If we know the location and orientation of the camera in the world, we can easily compute the location of the points on the image."><img alt="" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_camera_with_image.html#sphx-glr-auto-examples-plots-plot-camera-with-image-py"><span class="std std-ref">Camera Transform</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camera Transform</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i..."><img alt="" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This is a demonstration of batch conversion from exponential coordinates to transformation matrices."><img alt="" src="../_images/sphx_glr_plot_straight_line_path_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_straight_line_path.html#sphx-glr-auto-examples-plots-plot-straight-line-path-py"><span class="std std-ref">Plot Straight Line Paths</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Straight Line Paths</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We sample from the original transform distribution and from the inverse distribution. Samples a..."><img alt="" src="../_images/sphx_glr_plot_invert_uncertain_transform_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="We sample from the original transform distribution and from the inverse distribution. Samples are then projected to all 2D planes and plotted. The color indicates the pose distribution. Green is the original distribution and red is the inverse."><img alt="" src="../_images/sphx_glr_plot_invert_uncertain_transform_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_invert_uncertain_transform.html#sphx-glr-auto-examples-plots-plot-invert-uncertain-transform-py"><span class="std std-ref">Invert Uncertain Transform</span></a></p>
   <div class="sphx-glr-thumbnail-title">Invert Uncertain Transform</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, given two trajectories of 3D rigid transformations, we will interpolate both a..."><img alt="" src="../_images/sphx_glr_plot_interpolation_for_transform_manager_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, given two trajectories of 3D rigid transformations, we will interpolate both and use the transform manager for the target timestep."><img alt="" src="../_images/sphx_glr_plot_interpolation_for_transform_manager_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/plots/plot_interpolation_for_transform_manager.html#sphx-glr-auto-examples-plots-plot-interpolation-for-transform-manager-py"><span class="std std-ref">Managing Transformations over Time</span></a></p>
   <div class="sphx-glr-thumbnail-title">Managing Transformations over Time</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><img alt="" src="../_images/sphx_glr_vis_box_thumb.png" />

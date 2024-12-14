@@ -12,6 +12,9 @@ The following examples show how pytransform3d can be used.
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
+
+.. thumbnail-parent-div-close
 
 .. raw:: html
 
@@ -25,10 +28,11 @@ Matplotlib Animations
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Simple animations of frames and trajectories are easy to implement with Matplotlib&#x27;s FuncAnimat...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Simple animations of frames and trajectories are easy to implement with Matplotlib&#x27;s FuncAnimation. The following example will generate a frame that will be rotated about the x-axis.">
 
 .. only:: html
 
@@ -40,6 +44,23 @@ Matplotlib Animations
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Animate Rotation</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Animate a camera moving along a circular trajectory while looking at a target.">
+
+.. only:: html
+
+  .. image:: /_auto_examples/animations/images/thumb/sphx_glr_animate_camera_thumb.gif
+    :alt:
+
+  :ref:`sphx_glr__auto_examples_animations_animate_camera.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Animate Camera</div>
     </div>
 
 
@@ -79,7 +100,7 @@ Matplotlib Animations
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by an axis and an angle either linearly or with slerp (spherical linear interpolation). Here we compare both methods and measure the angular velocity between two successive steps. We can see that linear interpolation results in a non-constant angular velocity. Usually it is a better idea to interpolate with slerp.">
 
 .. only:: html
 
@@ -96,7 +117,7 @@ Matplotlib Animations
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by quaternions either linearly...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We can interpolate between two orientations that are represented by quaternions either linearly or with slerp (spherical linear interpolation). Here we compare both methods and measure the angular velocity between two successive steps. We can see that linear interpolation results in a non-constant angular velocity. Usually it is a better idea to interpolate with slerp.">
 
 .. only:: html
 
@@ -111,6 +132,8 @@ Matplotlib Animations
     </div>
 
 
+.. thumbnail-parent-div-close
+
 .. raw:: html
 
     </div>
@@ -123,6 +146,7 @@ GUI Applications
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
 
 .. raw:: html
 
@@ -141,6 +165,8 @@ GUI Applications
     </div>
 
 
+.. thumbnail-parent-div-close
+
 .. raw:: html
 
     </div>
@@ -153,10 +179,11 @@ Matplotlib Figures
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate fr...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate frame.">
 
 .. only:: html
 
@@ -173,7 +200,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Visualizes a bivector constructed from the wedge product of two vectors. The two vectors will b...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Visualizes a bivector constructed from the wedge product of two vectors. The two vectors will be displayed in grey together with the parallelogram that they form. Each component of the bivector corresponds to the area of the parallelogram projected on the basis planes. These parallelograms will be shown as well. Furthermore, one black arrow will show the rotation direction of the bivector and one black arrow will represent the normal of the plane that can be extracted by rearranging the elements of the bivector and normalizing the vector.">
 
 .. only:: html
 
@@ -241,7 +268,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the sam...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We compute rotation matrix from two vectors that form a plane. The x-axis will point in the same direction as the first vector, the y-axis corresponds to the normalized vector rejection of b on a, and the z-axis is the cross product of the other basis vectors.">
 
 .. only:: html
 
@@ -275,7 +302,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented with a single rotation about some axis. Here we see a frame tha...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented with a single rotation about some axis. Here we see a frame that is rotated in multiple steps around a rotation axis.">
 
 .. only:: html
 
@@ -292,7 +319,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and B2A. We can construct a transform C2A to extract the position of p in frame A.">
 
 .. only:: html
 
@@ -309,7 +336,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folde...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folder because it uses a hard-coded path to the STL file.">
 
 .. only:: html
 
@@ -326,7 +353,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transfor...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how we can compute the axis-angle representation of a rotation that transforms a direction given by a vector &#x27;a&#x27; to a direction given by a vector &#x27;b&#x27;. We show both vectors, the rotation about the rotation axis and the initial and resulting coordinate frame, where the vector &#x27;b&#x27; and its corresponding frame after the rotation are represented by shorter lines.">
 
 .. only:: html
 
@@ -343,7 +370,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera center, a virtual image plane at a desired distance to the camera center, and the top direction of the virtual image plane.">
 
 .. only:: html
 
@@ -360,7 +387,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Plot a grid in spherical coordinates with rho = 1 as Cartesian points. We can see that the Cart...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Plot a grid in spherical coordinates with rho = 1 as Cartesian points. We can see that the Cartesian distances between points are not regular and there are many points that were converted to the same Cartesian point at the poles of the sphere.">
 
 .. only:: html
 
@@ -394,7 +421,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several trans...">
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several transforms to the manager and plot all frames in two reference frames (&#x27;world&#x27; and &#x27;A&#x27;).">
 
 .. only:: html
 
@@ -428,7 +455,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented by three consecutive rotations about three basis vectors. Here ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be represented by three consecutive rotations about three basis vectors. Here we use the extrinsic xyz convention.">
 
 .. only:: html
 
@@ -445,7 +472,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes.">
 
 .. only:: html
 
@@ -496,7 +523,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Benchmarks plotting of multiple spheres at once and compares it to plotting each sphere individ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Benchmarks plotting of multiple spheres at once and compares it to plotting each sphere individually.">
 
 .. only:: html
 
@@ -547,7 +574,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformati...">
+    <div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformation with a screw axis and an additional parameter theta that encodes the rotation angle and through h * theta the translation. Here we visualize a screw axis and the transformation generated from a specific theta.">
 
 .. only:: html
 
@@ -581,7 +608,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="There are different ways of sampling rotations. We draw random samples of rotations, convert th...">
+    <div class="sphx-glr-thumbcontainer" tooltip="There are different ways of sampling rotations. We draw random samples of rotations, convert them to rotation matrices, and apply these to the basis vector (1, 0, 0) to obtain points on the unit sphere.">
 
 .. only:: html
 
@@ -598,7 +625,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We can see the camera coordinate frame and a grid of points in the camera coordinate system whi...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We can see the camera coordinate frame and a grid of points in the camera coordinate system which will be projected to the sensor. From the coordinates on the sensor we can compute the corresponding pixels.">
 
 .. only:: html
 
@@ -615,7 +642,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and pl...">
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and plot it at several steps during the acceleration.">
 
 .. only:: html
 
@@ -632,7 +659,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spher...">
+    <div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spherical linear interpolation (SLERP). For larger angles there are significant differences as you can see in this example. The outer circle uses linear interpolation and the inner circle uses SLERP. You can play around with the value of &#x27;end_angle&#x27; in this example.">
 
 .. only:: html
 
@@ -649,7 +676,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know t...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know the world coordinates. If we know the location and orientation of the camera in the world, we can easily compute the location of the points on the image.">
 
 .. only:: html
 
@@ -666,7 +693,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This i...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We will compose a trajectory of multiple straight line paths in exponential coordinates. This is a demonstration of batch conversion from exponential coordinates to transformation matrices.">
 
 .. only:: html
 
@@ -683,7 +710,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We sample from the original transform distribution and from the inverse distribution. Samples a...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We sample from the original transform distribution and from the inverse distribution. Samples are then projected to all 2D planes and plotted. The color indicates the pose distribution. Green is the original distribution and red is the inverse.">
 
 .. only:: html
 
@@ -700,7 +727,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometr...">
+    <div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometry. This specific trajectory has been used to reconstruct a colored mesh from a depth camera and an RGB camera.">
 
 .. only:: html
 
@@ -734,7 +761,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames.">
 
 .. only:: html
 
@@ -751,7 +778,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We will compare all possible combinations of passive and active rotations and extrinsic and int...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We will compare all possible combinations of passive and active rotations and extrinsic and intrinsic concatenation of rotations.">
 
 .. only:: html
 
@@ -768,7 +795,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we assume that a robot is moving with constant velocity along the x-axis, howe...">
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we assume that a robot is moving with constant velocity along the x-axis, however, there is noise in the orientation of the robot that accumulates and leads to different paths when sampling. Uncertainty accumulation leads to the so-called banana distribution, which does not seem Gaussian in Cartesian space, but it is Gaussian in exponential coordinates of SE(3).">
 
 .. only:: html
 
@@ -785,7 +812,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="In this example, given two trajectories of 3D rigid transformations, we will interpolate both a...">
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, given two trajectories of 3D rigid transformations, we will interpolate both and use the transform manager for the target timestep.">
 
 .. only:: html
 
@@ -802,7 +829,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds to linear interpolation with exponential coordinates, the green line corresponds to linear interpolation with dual quaternions, and the blue line corresponds to screw linear interpolation (ScLERP) with dual quaternions. The true screw motion from pose 1 to pose 2 is shown by a thick, transparent black line in the background of the ScLERP interpolation.">
 
 .. only:: html
 
@@ -819,7 +846,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Each of the poses is has an associated covariance that is considered during the fusion. Each of...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Each of the poses is has an associated covariance that is considered during the fusion. Each of the plots shows a projection of the distributions in exponential coordinate space to two dimensions. Red, green, and blue ellipses represent the uncertain poses that will be fused. A black ellipse indicates the fused pose&#x27;s distribution.">
 
 .. only:: html
 
@@ -834,6 +861,8 @@ Matplotlib Figures
     </div>
 
 
+.. thumbnail-parent-div-close
+
 .. raw:: html
 
     </div>
@@ -846,6 +875,7 @@ Matplotlib Figures
 
     <div class="sphx-glr-thumbnails">
 
+.. thumbnail-parent-div-open
 
 .. raw:: html
 
@@ -1002,7 +1032,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folde...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folder because it uses a hard-coded path to the STL file. Press &#x27;H&#x27; to print the viewer&#x27;s help message to stdout.">
 
 .. only:: html
 
@@ -1053,7 +1083,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera cente...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera center, a virtual image plane at a desired distance to the camera center, and the top direction of the virtual image plane.">
 
 .. only:: html
 
@@ -1087,7 +1117,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes.">
 
 .. only:: html
 
@@ -1104,7 +1134,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run ...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes.">
 
 .. only:: html
 
@@ -1172,7 +1202,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exp...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exponential coordinates of transformation to finally compute the new pose of the cylinder.">
 
 .. only:: html
 
@@ -1189,7 +1219,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display...">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames.">
 
 .. only:: html
 
@@ -1206,7 +1236,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the fo...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base.">
 
 .. only:: html
 
@@ -1223,7 +1253,7 @@ Matplotlib Figures
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and vi...">
+    <div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and visualize the projected equiprobably ellipsoid of the end-effector&#x27;s pose distribution.">
 
 .. only:: html
 
@@ -1237,6 +1267,8 @@ Matplotlib Figures
       <div class="sphx-glr-thumbnail-title">Probabilistic Product of Exponentials</div>
     </div>
 
+
+.. thumbnail-parent-div-close
 
 .. raw:: html
 
