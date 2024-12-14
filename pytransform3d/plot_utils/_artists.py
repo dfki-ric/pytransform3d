@@ -317,7 +317,8 @@ class Camera(artist.Artist):
         same as for the sensor size.
 
     cam2world : array-like, shape (4, 4)
-        Transform from frame A to frame B
+        Transformation matrix of camera in world frame. We assume that the
+        position is given in meters.
 
     virtual_image_distance : float, optional (default: 1)
         Distance from pinhole to virtual image plane that will be displayed.
@@ -349,10 +350,10 @@ class Camera(artist.Artist):
         else:
             color = "k"
 
-        self.sensor_corners = self._calculate_sensor_corners_in_camera(
+        self.sensor_corners = _calculate_sensor_corners_in_camera(
             M, virtual_image_distance, sensor_size
         )
-        self.top_corners = self._calculate_top_corners_in_camera(
+        self.top_corners = _calculate_top_corners_in_camera(
             self.sensor_corners
         )
 
@@ -363,41 +364,6 @@ class Camera(artist.Artist):
 
         self.set_data(cam2world)
 
-    def _calculate_sensor_corners_in_camera(
-        self, M, virtual_image_distance, sensor_size
-    ):
-        """Calculate the corners of the sensor frame in camera coordinates."""
-        focal_length = np.mean((M[0, 0], M[1, 1]))
-        sensor_corners = np.array(
-            [
-                [0, 0, focal_length],
-                [0, sensor_size[1], focal_length],
-                [sensor_size[0], sensor_size[1], focal_length],
-                [sensor_size[0], 0, focal_length],
-            ]
-        )
-        sensor_corners[:, 0] -= M[0, 2]
-        sensor_corners[:, 1] -= M[1, 2]
-        return virtual_image_distance / focal_length * sensor_corners
-
-    def _calculate_top_corners_in_camera(self, sensor_corners):
-        """Calculate the corners of the top triangle in camera coordinates.
-
-        Parameters
-        ----------
-        sensor_corners : array-like, shape (4, 3)
-            Corners of the sensor in camera coordinates
-        """
-        up = sensor_corners[0] - sensor_corners[1]
-        return np.array(
-            [
-                sensor_corners[0] + 0.1 * up,
-                0.5 * (sensor_corners[0] + sensor_corners[3]) + 0.5 * up,
-                sensor_corners[3] + 0.1 * up,
-                sensor_corners[0] + 0.1 * up,
-            ]
-        )
-
     def set_data(self, cam2world):
         """Set the transformation data.
 
@@ -406,9 +372,10 @@ class Camera(artist.Artist):
         cam2world : array-like, shape (4, 4)
             Transform from frame A to frame B
         """
+        cam2world = np.asarray(cam2world)
         sensor_in_world = np.dot(
-            cam2world, np.vstack((self.sensor_corners.T, np.ones(4)))
-        )
+            cam2world, np.vstack((self.sensor_corners.T,
+                                  np.ones(len(self.sensor_corners)))))
         for i in range(4):
             xs, ys, zs = [
                 [
@@ -420,7 +387,9 @@ class Camera(artist.Artist):
             ]
             self.lines_sensor[i].set_data_3d(xs, ys, zs)
 
-        top_in_world = np.dot(cam2world, np.vstack((self.top_corners.T, np.ones(4))))
+        top_in_world = np.dot(
+            cam2world, np.vstack((self.top_corners.T,
+                                  np.ones(len(self.top_corners)))))
         xs, ys, zs, _ = top_in_world
         self.line_top.set_data_3d(xs, ys, zs)
 
@@ -437,3 +406,33 @@ class Camera(artist.Artist):
         for b in self.lines_sensor:
             axis.add_line(b)
         axis.add_line(self.line_top)
+
+
+def _calculate_sensor_corners_in_camera(
+        M, virtual_image_distance, sensor_size):
+    """Calculate the corners of the sensor frame in camera coordinates."""
+    focal_length = np.mean((M[0, 0], M[1, 1]))
+    sensor_corners = np.array(
+        [
+            [0, 0, focal_length],
+            [0, sensor_size[1], focal_length],
+            [sensor_size[0], sensor_size[1], focal_length],
+            [sensor_size[0], 0, focal_length],
+        ]
+    )
+    sensor_corners[:, 0] -= M[0, 2]
+    sensor_corners[:, 1] -= M[1, 2]
+    return virtual_image_distance / focal_length * sensor_corners
+
+
+def _calculate_top_corners_in_camera(sensor_corners):
+    """Calculate the corners of the top triangle in camera coordinates."""
+    up = sensor_corners[0] - sensor_corners[1]
+    return np.array(
+        [
+            sensor_corners[0] + 0.1 * up,
+            0.5 * (sensor_corners[0] + sensor_corners[3]) + 0.5 * up,
+            sensor_corners[3] + 0.1 * up,
+            sensor_corners[0] + 0.1 * up,
+        ]
+    )

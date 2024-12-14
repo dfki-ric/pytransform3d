@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d.art3d import Line3D
 from matplotlib import artist
 from matplotlib.patches import FancyArrowPatch
 from matplotlib.backend_bases import RendererBase
-from typing import Union
+from typing import Union, List
 
 
 class Frame(artist.Artist):
@@ -54,18 +54,17 @@ class Arrow3D(FancyArrowPatch):
 
     def draw(self, renderer: RendererBase): ...
 
+
 class Camera(artist.Artist):
+    sensor_corners: np.ndarray
+    top_corners: np.ndarray
+    lines_sensor: List[Line3D]
+    line_top: Line3D
+
     def __init__(
-        self, M: npt.ArrayLike, cam2world: npt.ArrayLike,
-        virtual_image_distance: float = ...,
-        sensor_size: npt.ArrayLike = ..., **kwargs): ...
-
-    def _calculate_sensor_corners_in_camera(
-        self, M: npt.ArrayLike, virtual_image_distance: float,
-        sensor_size: npt.ArrayLike) -> npt.ArrayLike: ...
-
-    def _calculate_top_corners_in_camera(
-        self, sensor_corners: npt.ArrayLike) -> npt.ArrayLike: ...
+            self, M: npt.ArrayLike, cam2world: npt.ArrayLike,
+            virtual_image_distance: float = ...,
+            sensor_size: npt.ArrayLike = ..., **kwargs): ...
 
     def set_data(self, cam2world: npt.ArrayLike): ...
 
@@ -73,3 +72,12 @@ class Camera(artist.Artist):
     def draw(self, renderer: RendererBase, *args, **kwargs): ...
 
     def add_camera(self, axis: Axes3D): ...
+
+
+def _calculate_sensor_corners_in_camera(
+        M: npt.ArrayLike, virtual_image_distance: float,
+        sensor_size: npt.ArrayLike) -> npt.ArrayLike: ...
+
+
+def _calculate_top_corners_in_camera(
+        sensor_corners: npt.ArrayLike) -> npt.ArrayLike: ...
