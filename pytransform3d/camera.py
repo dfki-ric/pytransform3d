@@ -266,7 +266,9 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
 
     cam2world = check_transform(cam2world, strict_check=strict_check)
 
-    camera_artist = Camera(M, cam2world, virtual_image_distance, sensor_size,**kwargs)
+    camera_artist = Camera(
+        M, cam2world, virtual_image_distance, sensor_size, **kwargs
+    )
     camera_artist.add_camera(ax)
 
     return ax
