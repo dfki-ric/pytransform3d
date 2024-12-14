@@ -36,11 +36,22 @@ if __name__ == "__main__":
     fl = 3000  # [pixels]
     w, h = 1920, 1080  # [pixels]
     M = np.array(((fl, 0, w // 2), (0, fl, h // 2), (0, 0, 1)))
-    camera = Camera(M, np.eye(4), virtual_image_distance=5, sensor_size=(w, h), c="c")
+    camera = Camera(
+        M,
+        np.eye(4),
+        virtual_image_distance=5,
+        sensor_size=(w, h),
+        c="c",
+    )
     camera.add_camera(ax)
 
     anim = animation.FuncAnimation(
-        fig, update_camera, n_frames, fargs=(n_frames, camera), interval=50, blit=False
+        fig,
+        update_camera,
+        n_frames,
+        fargs=(n_frames, camera),
+        interval=50,
+        blit=False,
     )
 
     plt.show()

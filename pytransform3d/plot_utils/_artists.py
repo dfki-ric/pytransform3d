@@ -333,7 +333,12 @@ class Camera(artist.Artist):
     """
 
     def __init__(
-        self, M, A2B, virtual_image_distance=1.0, sensor_size=(1920, 1080), **kwargs
+        self,
+        M,
+        A2B,
+        virtual_image_distance=1.0,
+        sensor_size=(1920, 1080),
+        **kwargs,
     ):
         super(Camera, self).__init__()
 
@@ -344,6 +349,24 @@ class Camera(artist.Artist):
         else:
             color = "k"
 
+        self.sensor_corners = self._calculate_sensor_corners_in_camera(
+            M, virtual_image_distance, sensor_size
+        )
+        self.top_corners = self._calculate_top_corners_in_camera(
+            self.sensor_corners
+        )
+
+        self.lines_sensor = [
+            Line3D([], [], [], color=color, **kwargs) for _ in range(4)
+        ]
+        self.line_top = Line3D([], [], [], color=color, **kwargs)
+
+        self.set_data(A2B)
+
+    def _calculate_sensor_corners_in_camera(
+        self, M, virtual_image_distance, sensor_size
+    ):
+        """Calculate the corners of the sensor frame in camera coordinates."""
         focal_length = np.mean((M[0, 0], M[1, 1]))
         sensor_corners = np.array(
             [
@@ -355,24 +378,25 @@ class Camera(artist.Artist):
         )
         sensor_corners[:, 0] -= M[0, 2]
         sensor_corners[:, 1] -= M[1, 2]
-        self.sensor_corners = virtual_image_distance / focal_length * sensor_corners
+        return virtual_image_distance / focal_length * sensor_corners
 
-        up = self.sensor_corners[0] - self.sensor_corners[1]
-        self.top_corners = np.array(
+    def _calculate_top_corners_in_camera(self, sensor_corners):
+        """Calculate the corners of the top triangle in camera coordinates.
+
+        Parameters
+        ----------
+        sensor_corners : array-like, shape (4, 3)
+            Corners of the sensor in camera coordinates
+        """
+        up = sensor_corners[0] - sensor_corners[1]
+        return np.array(
             [
-                self.sensor_corners[0] + 0.1 * up,
-                0.5 * (self.sensor_corners[0] + self.sensor_corners[3]) + 0.5 * up,
-                self.sensor_corners[3] + 0.1 * up,
-                self.sensor_corners[0] + 0.1 * up,
+                sensor_corners[0] + 0.1 * up,
+                0.5 * (sensor_corners[0] + sensor_corners[3]) + 0.5 * up,
+                sensor_corners[3] + 0.1 * up,
+                sensor_corners[0] + 0.1 * up,
             ]
         )
-
-        self.lines_sensor = [
-            Line3D([], [], [], color=color, **kwargs) for _ in range(4)
-        ]
-        self.line_top = Line3D([], [], [], color=color, **kwargs)
-
-        self.set_data(A2B)
 
     def set_data(self, A2B):
         """Set the transformation data.
@@ -382,10 +406,16 @@ class Camera(artist.Artist):
         A2B : array-like, shape (4, 4)
             Transform from frame A to frame B
         """
-        sensor_in_world = np.dot(A2B, np.vstack((self.sensor_corners.T, np.ones(4))))
+        sensor_in_world = np.dot(
+            A2B, np.vstack((self.sensor_corners.T, np.ones(4)))
+        )
         for i in range(4):
             xs, ys, zs = [
-                [A2B[j, 3], sensor_in_world[j, i], sensor_in_world[j, (i + 1) % 4]]
+                [
+                    A2B[j, 3],
+                    sensor_in_world[j, i],
+                    sensor_in_world[j, (i + 1) % 4],
+                ]
                 for j in range(3)
             ]
             self.lines_sensor[i].set_data_3d(xs, ys, zs)
