@@ -5,7 +5,7 @@ try:
 except ImportError:
     pytest.skip("matplotlib is required for these tests")
 from pytransform3d.plot_utils import (
-    make_3d_axis, remove_frame, Frame, LabeledFrame, Trajectory,
+    make_3d_axis, remove_frame, Frame, LabeledFrame, Trajectory, Camera,
     plot_box, plot_sphere, plot_spheres, plot_cylinder, plot_mesh,
     plot_ellipsoid, plot_capsule, plot_cone, plot_vector, plot_length_variable)
 from numpy.testing import assert_array_almost_equal
@@ -98,6 +98,20 @@ def test_trajectory():
         trajectory.add_trajectory(ax)
         assert len(ax.lines) == 7  # 2 * 3 axes + connection line
         # assert_equal(len(ax.artists), 1)  # arrow is not an artist anymore
+    finally:
+        ax.remove()
+
+
+def test_camera():
+    ax = make_3d_axis(1.0)
+    try:
+        fl = 3000  # [pixels]
+        w, h = 1920, 1080  # [pixels]
+        M = np.array(((100, 0, 100), (0, 100, 100), (0, 0, 1)))
+        camera = Camera(
+            M, np.eye(4), virtual_image_distance=5, sensor_size=(w, h))
+        camera.add_camera(ax)
+        assert len(ax.lines) == 5  # 4 egdes + 1 triangle
     finally:
         ax.remove()
 
