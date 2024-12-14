@@ -105,7 +105,6 @@ def test_trajectory():
 def test_camera():
     ax = make_3d_axis(1.0)
     try:
-        fl = 3000  # [pixels]
         w, h = 1920, 1080  # [pixels]
         M = np.array(((100, 0, 100), (0, 100, 100), (0, 0, 1)))
         camera = Camera(

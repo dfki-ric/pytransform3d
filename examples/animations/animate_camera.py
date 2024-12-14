@@ -1,11 +1,10 @@
 """
-================
+==============
 Animate Camera
-================
+==============
 
 Animate a camera moving along a circular trajectory while looking at a target.
 """
-
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
@@ -16,12 +15,13 @@ from pytransform3d.plot_utils import Frame, Camera, make_3d_axis
 
 
 def update_camera(step, n_frames, camera):
-    phi = 2 * step / n_frames * np.pi
+    phi = 2 * np.pi * step / n_frames
     tf = transform_from(
-        matrix_from_euler([-1 / 2 * np.pi, phi, 0], 0, 1, 2, False),
+        matrix_from_euler([-0.5 * np.pi, phi, 0], 0, 1, 2, False),
         -10 * np.array([np.sin(phi), np.cos(phi), 0]),
     )
     camera.set_data(tf)
+    return camera
 
 
 if __name__ == "__main__":
