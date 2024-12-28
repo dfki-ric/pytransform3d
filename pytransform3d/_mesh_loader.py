@@ -23,14 +23,23 @@ def load_mesh(filename):
     mesh : MeshBase
         Mesh instance.
     """
-    mesh = _Trimesh(filename)
-    loader_available = mesh.load()
-
-    if not loader_available:  # pragma: no cover
+    # since trimesh does not support color for STL files, we try Open3D first
+    if filename.endswith(".stl"):
         mesh = _Open3DMesh(filename)
-        loader_available = mesh.load()
+        mesh_loaded = mesh.load()
+    else:  # pragma: no cover
+        mesh_loaded = False
 
-    if not loader_available:  # pragma: no cover
+    # trimesh is usually better for other formats
+    if not mesh_loaded:  # pragma: no cover
+        mesh = _Trimesh(filename)
+        mesh_loaded = mesh.load()
+
+    if not mesh_loaded:  # pragma: no cover
+        mesh = _Open3DMesh(filename)
+        mesh_loaded = mesh.load()
+
+    if not mesh_loaded:  # pragma: no cover
         raise ImportError(
             "Could not load mesh from '%s'. Please install one of the "
             "optional dependencies 'trimesh' or 'open3d'." % filename)
@@ -94,41 +103,34 @@ class _Trimesh(MeshBase):
             import trimesh
         except ImportError:
             return False
-        obj = trimesh.load(self.filename)
-        if isinstance(obj, trimesh.Scene):  # pragma: no cover
-            obj = self._convert_scene_to_mesh(obj)
-        self.mesh = obj
+        self.mesh = trimesh.load_mesh(self.filename)
         return True
-
-    def _convert_scene_to_mesh(self, obj):  # pragma: no cover
-        # Special case in which we load a collada file that contains
-        # multiple meshes. We might lose textures. This is excluded
-        # from testing as it would add another dependency.
-        import trimesh
-        trimesh_version_parts = trimesh.__version__.split(".")
-        major_version = int(trimesh_version_parts[0])
-        if major_version >= 4:
-            try:
-                minor_version = int(trimesh_version_parts[1])
-            except:
-                minor_version = 0
-            try:
-                patch_version = int(trimesh_version_parts[2])
-            except:  # most likely release candidate (rc) version
-                patch_version = 0
-            if (minor_version >= 5
-                    or minor_version == 4 and patch_version >= 9):
-                return obj.to_mesh()
-        return obj.dump(concatenate=True)
 
     def convex_hull(self):
         self.mesh = self.mesh.convex_hull
 
     def get_open3d_mesh(self):  # pragma: no cover
         import open3d
-        return open3d.geometry.TriangleMesh(
-            open3d.utility.Vector3dVector(self.vertices),
-            open3d.utility.Vector3iVector(self.triangles))
+        import trimesh
+        if isinstance(self.mesh, trimesh.Scene):
+            mesh = open3d.geometry.TriangleMesh()
+            for d in self.mesh.dump():
+                if isinstance(d, trimesh.Trimesh):
+                    mesh += self._trimesh_to_open3d_mesh(d)
+        else:  # self.mesh is an instance of trimesh.Trimesh
+            mesh = self._trimesh_to_open3d_mesh(self.mesh)
+        return mesh
+
+    def _trimesh_to_open3d_mesh(self, tri_mesh):  # pragma: no cover
+        import open3d
+        import trimesh
+        mesh = open3d.geometry.TriangleMesh(
+            open3d.utility.Vector3dVector(tri_mesh.vertices),
+            open3d.utility.Vector3iVector(tri_mesh.faces))
+        if isinstance(tri_mesh.visual, trimesh.visual.ColorVisuals):
+            mesh.vertex_colors = open3d.utility.Vector3dVector(
+                tri_mesh.visual.vertex_colors[:, :3] / 255.0)
+        return mesh
 
     @property
     def vertices(self):
