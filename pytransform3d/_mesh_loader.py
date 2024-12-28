@@ -116,7 +116,8 @@ class _Trimesh(MeshBase):
                 patch_version = int(trimesh_version_parts[2])
             except:  # most likely release candidate (rc) version
                 patch_version = 0
-            if minor_version >= 4 and patch_version >= 9:
+            if (minor_version >= 5
+                    or minor_version == 4 and patch_version >= 9):
                 return obj.to_mesh()
         return obj.dump(concatenate=True)
 
