@@ -132,7 +132,7 @@ of the point have to be the same (:math:`A` in this example). The rotation is
 applied incorrectly if this is not the case.
 
 *Each column* of a rotation matrix :math:`\boldsymbol{R}_{BA}` is a basis
-vector of frame :math:`B` with respect to frame :math:`A`. We can plot the
+vector of frame :math:`A` with respect to frame :math:`B`. We can plot the
 basis vectors of an orientation to visualize it. Here, we can see orientation
 represented by the rotation matrix
 
