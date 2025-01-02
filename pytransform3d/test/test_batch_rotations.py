@@ -356,6 +356,23 @@ def test_axis_angles_from_matrices_output_variable():
     assert_array_almost_equal(A, A2_compact)
 
 
+def test_axis_angles_from_matrices_norot():
+    a = pbr.axis_angles_from_matrices(np.eye(3))
+    assert_array_almost_equal(a, [1, 0, 0, 0])
+
+    A = pbr.axis_angles_from_matrices([np.eye(3), np.eye(3)])
+    assert_array_almost_equal(A, [[1, 0, 0, 0], [1, 0, 0, 0]])
+
+    A = pbr.axis_angles_from_matrices(
+        [[np.eye(3), np.eye(3)], [np.eye(3), np.eye(3)]])
+    assert_array_almost_equal(
+        A,
+        [
+            [[1, 0, 0, 0], [1, 0, 0, 0]],
+            [[1, 0, 0, 0], [1, 0, 0, 0]]
+        ])
+
+
 def test_axis_angles_from_quaternions():
     rng = np.random.default_rng(48322)
     n_rotations = 20
