@@ -140,6 +140,7 @@ __all__ = [
     "random_axis_angle",
     "random_compact_axis_angle",
     "random_quaternion",
+    "random_matrix",
     "check_skew_symmetric_matrix",
     "check_rot_log",
     "check_matrix",
