@@ -5,7 +5,6 @@ See :doc:`user_guide/uncertainty` for more information.
 import numpy as np
 
 from ._geometry import unit_sphere_surface_grid
-from .rotations import norm_matrix
 from .batch_rotations import (axis_angles_from_matrices,
                               matrices_from_compact_axis_angles)
 from .trajectories import (concat_many_to_one,
