@@ -5,8 +5,9 @@ See :doc:`user_guide/uncertainty` for more information.
 import numpy as np
 
 from ._geometry import unit_sphere_surface_grid
-from .batch_rotations import axis_angles_from_matrices
-from .rotations import matrix_from_compact_axis_angle, norm_matrix
+from .rotations import norm_matrix
+from .batch_rotations import (axis_angles_from_matrices,
+                              matrices_from_compact_axis_angles)
 from .trajectories import (concat_many_to_one,
                            exponential_coordinates_from_transforms,
                            transforms_from_exponential_coordinates)
@@ -40,16 +41,20 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
     .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
        https://ethaneade.com/lie.pdf
     """
-    assert len(samples) > 0
-    samples = np.asarray([norm_matrix(R) for R in samples])
-    mean = samples[0]
-    for _ in range(20):
-        mean_inv = mean.T
-        mean_diffs = axis_angles_from_matrices(
-            concat_many_to_one(samples, mean_inv))
-        mean_diffs = mean_diffs[:, :3] * mean_diffs[:, 3, np.newaxis]
-        avg_mean_diff = np.mean(mean_diffs, axis=0)
-        mean = np.dot(matrix_from_compact_axis_angle(avg_mean_diff), mean)
+    def compact_axis_angles_from_matrices(Rs):
+        A = axis_angles_from_matrices(Rs)
+        return A[:, :3] * A[:, 3, np.newaxis]
+
+    mean, mean_diffs = frechet_mean(
+        samples=samples,
+        mean0=samples[0],
+        exp=matrices_from_compact_axis_angles,
+        log=compact_axis_angles_from_matrices,
+        inv=lambda R: R.T,
+        concat_one_to_one=lambda R1, R2: np.dot(R2, R1),
+        concat_many_to_one=concat_many_to_one,
+        n_iter=20
+    )
 
     cov = np.cov(mean_diffs, rowvar=False, bias=True)
     return mean, cov
@@ -98,7 +103,6 @@ def estimate_gaussian_transform_from_samples(samples):
        Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
        https://doi.org/10.1007/s10851-006-6228-4
     """
-    assert len(samples) > 0
     mean, mean_diffs = frechet_mean(
         samples=samples,
         mean0=samples[0],
@@ -166,6 +170,7 @@ def frechet_mean(
        Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
        https://doi.org/10.1007/s10851-006-6228-4
     """
+    assert len(samples) > 0
     samples = np.asarray(samples)
     mean = np.copy(mean0)
     for _ in range(n_iter):

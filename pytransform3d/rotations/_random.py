@@ -1,6 +1,6 @@
 import numpy as np
 
-from ._utils import norm_vector, check_matrix
+from ._utils import norm_vector, check_matrix, norm_matrix
 from ._conversions import matrix_from_compact_axis_angle
 
 
@@ -119,4 +119,4 @@ def random_matrix(rng=np.random.default_rng(0), mean=np.eye(3), cov=np.eye(3)):
     mean = check_matrix(mean)
     a = rng.multivariate_normal(mean=np.zeros(3), cov=cov)
     delta = matrix_from_compact_axis_angle(a)
-    return np.dot(delta, mean)
+    return norm_matrix(np.dot(delta, mean))
