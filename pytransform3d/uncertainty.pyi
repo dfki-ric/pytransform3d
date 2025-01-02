@@ -14,7 +14,7 @@ def estimate_gaussian_transform_from_samples(
 
 def frechet_mean(
         samples: npt.ArrayLike, mean0: npt.ArrayLike,
-        exp:Callable, log: Callable,
+        exp: Callable, log: Callable,
         inv: Callable, concat_one_to_one: Callable,
         concat_many_to_one: Callable,
         n_iter: int = ...) -> Tuple[np.ndarray, np.ndarray]: ...
