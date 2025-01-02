@@ -366,18 +366,23 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     # We can still use the original formula to reconstruct the signs of
     # the rotation axis correctly.
     angle_close_to_pi = np.abs(angles - np.pi) < 1e-4
-    angle_not_zero = np.abs(angles) != 0.0
+    angle_zero = np.abs(angles) == 0.0
+    angle_not_zero = np.logical_not(angle_zero)
 
     Rs_diag = np.einsum("nii->ni", Rs.reshape(-1, 3, 3))
     if instances_shape:
         Rs_diag = Rs_diag.reshape(*(instances_shape + (3,)))
     else:
         Rs_diag = Rs_diag[0]
+
     out[angle_close_to_pi, :3] = (
         np.sqrt(0.5 * (Rs_diag[angle_close_to_pi] + 1.0))
         * np.sign(out[angle_close_to_pi, :3]))
     out[angle_not_zero, :3] /= np.linalg.norm(
         out[angle_not_zero, :3], axis=-1)[..., np.newaxis]
+
+    out[angle_zero, 0] = 1.0
+    out[angle_zero, 1:3] = 0.0
 
     out[..., 3] = angles
 
