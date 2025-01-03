@@ -4,8 +4,7 @@ See :doc:`user_guide/camera` for more information.
 """
 import numpy as np
 from .plot_utils import Camera
-from .transformations import (invert_transform, transform, check_transform,
-                              vectors_to_points)
+from .transformations import invert_transform, transform, check_transform
 
 
 def make_world_grid(n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5),
