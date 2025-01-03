@@ -120,9 +120,23 @@ def estimate_gaussian_transform_from_samples(samples):
 def frechet_mean(
         samples, mean0, exp, log, inv, concat_one_to_one, concat_many_to_one,
         n_iter=20):
-    """Compute the Fréchet mean of samples on a smooth Riemannian manifold.
+    r"""Compute the Fréchet mean of samples on a smooth Riemannian manifold.
 
-    The mean is computed with an iterative optimization algorithm.
+    The mean is computed with an iterative optimization algorithm [1]_ [2]_:
+
+    1. For a set of samples :math:`\{x_1, \ldots, x_n\}`, we initialize
+       the estimated mean :math:`\bar{x}_0`, e.g., as :math:`x_1`.
+    2. For a fixed number of steps :math:`K`, in each iteration :math:`k` we
+       improve the estimation of the mean by
+
+       a. Computing the distance of each sample to the current estimate of the
+          mean in tangent space with
+          :math:`d_{i,k} \leftarrow \log (x_i \cdot \bar{x}_k^{-1})`.
+       b. Updating the estimate of the mean with
+          :math:`\bar{x}_{k+1} \leftarrow
+          \exp(\frac{1}{N}\sum_i d_{i,k}) \cdot \bar{x}_k`.
+
+    3. Return :math:`\bar{x}_K`.
 
     Parameters
     ----------
@@ -158,6 +172,16 @@ def frechet_mean(
 
     mean_diffs : array, shape (n_samples, n_tangent_space_components)
         Differences between the mean and the samples in the tangent space.
+
+    See Also
+    --------
+    estimate_gaussian_rotation_matrix_from_samples
+        Uses the Frechet mean to compute the mean of a Gaussian distribution
+        over rotations.
+
+    estimate_gaussian_transform_from_samples
+        Uses the Frechet mean to compute the mean of a Gaussian distribution
+        over transformations.
 
     References
     ----------
