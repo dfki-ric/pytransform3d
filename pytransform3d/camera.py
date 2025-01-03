@@ -3,9 +3,7 @@
 See :doc:`user_guide/camera` for more information.
 """
 import numpy as np
-from .plot_utils import Camera
-from .transformations import (invert_transform, transform, check_transform,
-                              vectors_to_points)
+from .transformations import invert_transform, transform, check_transform
 
 
 def make_world_grid(n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5),
@@ -254,6 +252,8 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
     ValueError
         If input is not valid
     """
+    from .plot_utils import Camera
+
     if ax is None:
         from .plot_utils import make_3d_axis
         ax = make_3d_axis(ax_s)

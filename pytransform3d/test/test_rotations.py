@@ -2458,3 +2458,12 @@ def test_assert_euler_almost_equal():
         [0.2, 0.3, -0.5], [0.2 + np.pi, -0.3, -0.5 - np.pi], 0, 1, 0)
     pr.assert_euler_equal(
         [0.2, 0.3, -0.5], [0.2 + np.pi, np.pi - 0.3, -0.5 - np.pi], 0, 1, 2)
+
+
+def test_random_matrices():
+    rng = np.random.default_rng(33)
+    mean = pr.random_matrix(rng, np.eye(3), np.eye(3))
+    cov = np.eye(3) * 1e-10
+    samples = np.stack([pr.random_matrix(rng, mean, cov) for _ in range(10)])
+    for sample in samples:
+        assert_array_almost_equal(sample, mean, decimal=4)

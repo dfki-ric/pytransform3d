@@ -332,7 +332,6 @@ class Camera(artist.Artist):
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha.
     """
-
     def __init__(
         self,
         M,
