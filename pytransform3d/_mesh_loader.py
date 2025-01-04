@@ -104,21 +104,36 @@ class _Trimesh(MeshBase):
         except ImportError:
             return False
         self.mesh = trimesh.load_mesh(self.filename)
+        if isinstance(self.mesh, trimesh.Scene):
+            open3d_mesh = self._scene_to_open3d_mesh(self.mesh)
+            self.mesh = self._open3d_mesh_to_trimesh(open3d_mesh)
         return True
+
+    def _open3d_mesh_to_trimesh(self, open3d_mesh):
+        import trimesh
+        if len(open3d_mesh.vertex_colors) == 0:
+            vertex_colors = None
+        else:
+            vertex_colors = open3d_mesh.vertex_colors * 255.0
+        return trimesh.Trimesh(
+            vertices=np.asarray(open3d_mesh.vertices),
+            faces=np.asarray(open3d_mesh.triangles),
+            vertex_colors=vertex_colors
+        )
 
     def convex_hull(self):
         self.mesh = self.mesh.convex_hull
 
     def get_open3d_mesh(self):  # pragma: no cover
+        return self._trimesh_to_open3d_mesh(self.mesh)
+
+    def _scene_to_open3d_mesh(self, scene):
         import open3d
         import trimesh
-        if isinstance(self.mesh, trimesh.Scene):
-            mesh = open3d.geometry.TriangleMesh()
-            for d in self.mesh.dump():
-                if isinstance(d, trimesh.Trimesh):
-                    mesh += self._trimesh_to_open3d_mesh(d)
-        else:  # self.mesh is an instance of trimesh.Trimesh
-            mesh = self._trimesh_to_open3d_mesh(self.mesh)
+        mesh = open3d.geometry.TriangleMesh()
+        for d in scene.dump():
+            if isinstance(d, trimesh.Trimesh):
+                mesh += self._trimesh_to_open3d_mesh(d)
         return mesh
 
     def _trimesh_to_open3d_mesh(self, tri_mesh):  # pragma: no cover
