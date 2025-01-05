@@ -17,6 +17,28 @@ def test_trimesh():
     assert len(mesh.vertices) == 64
 
 
+def test_trimesh_scene():
+    mesh = _mesh_loader._Trimesh("test/test_data/scene.obj")
+    try:
+        mesh_loaded = mesh.load()
+    except ImportError as e:
+        if e.name == "open3d":
+            pytest.skip("open3d is required for this test")
+        else:
+            raise e
+
+    if not mesh_loaded:
+        pytest.skip("trimesh is required for this test")
+
+    assert mesh_loaded
+    assert len(mesh.vertices) == 16
+    assert len(mesh.triangles) == 24
+
+    mesh.convex_hull()
+
+    assert len(mesh.vertices) == 8
+
+
 def test_open3d():
     mesh = _mesh_loader._Open3DMesh("test/test_data/cone.stl")
     loader_available = mesh.load()
