@@ -101,8 +101,11 @@ class _Trimesh(MeshBase):
     def load(self):
         try:
             import trimesh
-        except ImportError:
-            return False
+        except ImportError as e:
+            if e.name == "trimesh":
+                return False
+            else:
+                raise e
         self.mesh = trimesh.load_mesh(self.filename)
         if isinstance(self.mesh, trimesh.Scene):
             open3d_mesh = self._scene_to_open3d_mesh(self.mesh)
@@ -164,8 +167,11 @@ class _Open3DMesh(MeshBase):  # pragma: no cover
     def load(self):
         try:
             import open3d
-        except ImportError:
-            return False
+        except ImportError as e:
+            if e.name == "open3d":
+                return False
+            else:
+                raise e
         self.mesh = open3d.io.read_triangle_mesh(self.filename)
         return True
 
