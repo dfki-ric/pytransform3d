@@ -72,5 +72,19 @@ def test_interface():
     try:
         mesh = _mesh_loader.load_mesh("test/test_data/cone.stl")
         assert len(mesh.triangles) == 124
-    except ImportError:
-        pytest.skip("trimesh or open3d are required for this test")
+    except ImportError as e:
+        if e.name in ["open3d", "trimesh"]:
+            pytest.skip("trimesh or open3d are required for this test")
+        else:
+            raise e
+
+
+def test_interface_with_scene():
+    try:
+        mesh = _mesh_loader.load_mesh("test/test_data/scene.obj")
+        assert len(mesh.triangles) == 24
+    except ImportError as e:
+        if e.name in ["open3d", "trimesh"]:
+            pytest.skip("trimesh and open3d are required for this test")
+        else:
+            raise e
