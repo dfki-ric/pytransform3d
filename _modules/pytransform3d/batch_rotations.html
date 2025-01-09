@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.batch_rotations &#8212; pytransform3d 3.10.1 documentation</title>
+    <title>pytransform3d.batch_rotations &#8212; pytransform3d 3.11.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=5ca81ab5"></script>
+    <script src="../../_static/documentation_options.js?v=8905d4f5"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/batch_rotations';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 31, 2024"/>
+    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.1"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.1"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
   
   
 </a></div>
@@ -747,18 +747,23 @@ document.write(`
     <span class="c1"># We can still use the original formula to reconstruct the signs of</span>
     <span class="c1"># the rotation axis correctly.</span>
     <span class="n">angle_close_to_pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">angles</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span>
-    <span class="n">angle_not_zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span> <span class="o">!=</span> <span class="mf">0.0</span>
+    <span class="n">angle_zero</span> <span class="o">=</span> <span class="n">angles</span> <span class="o">==</span> <span class="mf">0.0</span>
+    <span class="n">angle_not_zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">angle_zero</span><span class="p">)</span>
 
     <span class="n">Rs_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;nii-&gt;ni&quot;</span><span class="p">,</span> <span class="n">Rs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">instances_shape</span><span class="p">:</span>
         <span class="n">Rs_diag</span> <span class="o">=</span> <span class="n">Rs_diag</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">instances_shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">Rs_diag</span> <span class="o">=</span> <span class="n">Rs_diag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="n">out</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">Rs_diag</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">))</span>
         <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">angle_close_to_pi</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]))</span>
     <span class="n">out</span><span class="p">[</span><span class="n">angle_not_zero</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
         <span class="n">out</span><span class="p">[</span><span class="n">angle_not_zero</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+    <span class="n">out</span><span class="p">[</span><span class="n">angle_zero</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">out</span><span class="p">[</span><span class="n">angle_zero</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
     <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">angles</span>
 
@@ -1261,7 +1266,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      © Copyright 2014-2025, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
       <br/>
     
   </p>

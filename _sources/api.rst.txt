@@ -28,6 +28,8 @@ Rotation Matrix
    ~matrix_requires_renormalization
    ~norm_matrix
 
+   ~random_matrix
+
    ~plot_basis
 
    ~assert_rotation_matrix
@@ -595,7 +597,9 @@ Dual Quaternions
    :toctree: _apidoc/
    :template: function.rst
 
+   ~estimate_gaussian_rotation_matrix_from_samples
    ~estimate_gaussian_transform_from_samples
+   ~frechet_mean
    ~invert_uncertain_transform
    ~concat_globally_uncertain_transforms
    ~concat_locally_uncertain_transforms
@@ -606,7 +610,7 @@ Dual Quaternions
 
 
 :mod:`pytransform3d.coordinates`
-=================================
+================================
 
 .. automodule:: pytransform3d.coordinates
     :no-members:

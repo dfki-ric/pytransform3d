@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Documentation &#8212; pytransform3d 3.10.1 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 3.11.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=5ca81ab5"></script>
+    <script src="_static/documentation_options.js?v=8905d4f5"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="10. Camera" href="user_guide/camera.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 31, 2024"/>
+    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.1"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.1"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
   
   
 </a></div>
@@ -380,34 +380,37 @@ You can also search for specific modules, classes, or functions in the
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.norm_matrix.html#pytransform3d.rotations.norm_matrix" title="pytransform3d.rotations.norm_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_matrix</span></code></a>(R)</p></td>
 <td><p>Orthonormalize rotation matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.plot_basis.html#pytransform3d.rotations.plot_basis" title="pytransform3d.rotations.plot_basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_basis</span></code></a>([ax, R, p, s, ax_s, strict_check])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.random_matrix.html#pytransform3d.rotations.random_matrix" title="pytransform3d.rotations.random_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_matrix</span></code></a>([rng, mean, cov])</p></td>
+<td><p>Generate random rotation matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.plot_basis.html#pytransform3d.rotations.plot_basis" title="pytransform3d.rotations.plot_basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_basis</span></code></a>([ax, R, p, s, ax_s, strict_check])</p></td>
 <td><p>Plot basis of a rotation matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.assert_rotation_matrix.html#pytransform3d.rotations.assert_rotation_matrix" title="pytransform3d.rotations.assert_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_rotation_matrix</span></code></a>(R, *args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.assert_rotation_matrix.html#pytransform3d.rotations.assert_rotation_matrix" title="pytransform3d.rotations.assert_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_rotation_matrix</span></code></a>(R, *args, **kwargs)</p></td>
 <td><p>Raise an assertion if a matrix is not a rotation matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.passive_matrix_from_angle.html#pytransform3d.rotations.passive_matrix_from_angle" title="pytransform3d.rotations.passive_matrix_from_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">passive_matrix_from_angle</span></code></a>(basis, angle)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.passive_matrix_from_angle.html#pytransform3d.rotations.passive_matrix_from_angle" title="pytransform3d.rotations.passive_matrix_from_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">passive_matrix_from_angle</span></code></a>(basis, angle)</p></td>
 <td><p>Compute passive rotation matrix from rotation about basis vector.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_angle.html#pytransform3d.rotations.active_matrix_from_angle" title="pytransform3d.rotations.active_matrix_from_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_angle</span></code></a>(basis, angle)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.active_matrix_from_angle.html#pytransform3d.rotations.active_matrix_from_angle" title="pytransform3d.rotations.active_matrix_from_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_matrix_from_angle</span></code></a>(basis, angle)</p></td>
 <td><p>Compute active rotation matrix from rotation about basis vector.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_two_vectors.html#pytransform3d.rotations.matrix_from_two_vectors" title="pytransform3d.rotations.matrix_from_two_vectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_two_vectors</span></code></a>(a, b)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_two_vectors.html#pytransform3d.rotations.matrix_from_two_vectors" title="pytransform3d.rotations.matrix_from_two_vectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_two_vectors</span></code></a>(a, b)</p></td>
 <td><p>Compute rotation matrix from two vectors.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="user_guide/_apidoc/pytransform3d.rotations.matrix_from_euler.html#pytransform3d.rotations.matrix_from_euler" title="pytransform3d.rotations.matrix_from_euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_euler</span></code></a>(e, i, j, k, extrinsic)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="user_guide/_apidoc/pytransform3d.rotations.matrix_from_euler.html#pytransform3d.rotations.matrix_from_euler" title="pytransform3d.rotations.matrix_from_euler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_euler</span></code></a>(e, i, j, k, extrinsic)</p></td>
 <td><p>General method to compute active rotation matrix from any Euler angles.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_axis_angle.html#pytransform3d.rotations.matrix_from_axis_angle" title="pytransform3d.rotations.matrix_from_axis_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_axis_angle</span></code></a>(a)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_axis_angle.html#pytransform3d.rotations.matrix_from_axis_angle" title="pytransform3d.rotations.matrix_from_axis_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_axis_angle</span></code></a>(a)</p></td>
 <td><p>Compute rotation matrix from axis-angle.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_compact_axis_angle.html#pytransform3d.rotations.matrix_from_compact_axis_angle" title="pytransform3d.rotations.matrix_from_compact_axis_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_compact_axis_angle</span></code></a>(a)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_compact_axis_angle.html#pytransform3d.rotations.matrix_from_compact_axis_angle" title="pytransform3d.rotations.matrix_from_compact_axis_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_compact_axis_angle</span></code></a>(a)</p></td>
 <td><p>Compute rotation matrix from compact axis-angle.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_quaternion.html#pytransform3d.rotations.matrix_from_quaternion" title="pytransform3d.rotations.matrix_from_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_quaternion</span></code></a>(q)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_quaternion.html#pytransform3d.rotations.matrix_from_quaternion" title="pytransform3d.rotations.matrix_from_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_quaternion</span></code></a>(q)</p></td>
 <td><p>Compute rotation matrix from quaternion.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_rotor.html#pytransform3d.rotations.matrix_from_rotor" title="pytransform3d.rotations.matrix_from_rotor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_rotor</span></code></a>(rotor)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_from_rotor.html#pytransform3d.rotations.matrix_from_rotor" title="pytransform3d.rotations.matrix_from_rotor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_from_rotor</span></code></a>(rotor)</p></td>
 <td><p>Compute rotation matrix from rotor.</p></td>
 </tr>
 </tbody>
@@ -1381,8 +1384,14 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <p>See <a class="reference internal" href="user_guide/uncertainty.html"><span class="doc">Uncertainty in Transformations</span></a> for more information.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples" title="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_gaussian_transform_from_samples</span></code></a>(samples)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples" title="pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_gaussian_rotation_matrix_from_samples</span></code></a>(samples)</p></td>
+<td><p>Estimate Gaussian distribution over rotations from samples.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples" title="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_gaussian_transform_from_samples</span></code></a>(samples)</p></td>
 <td><p>Estimate Gaussian distribution over transformations from samples.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.uncertainty.frechet_mean.html#pytransform3d.uncertainty.frechet_mean" title="pytransform3d.uncertainty.frechet_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frechet_mean</span></code></a>(samples, mean0, exp, log, inv, ...)</p></td>
+<td><p>Compute the Fréchet mean of samples on a smooth Riemannian manifold.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.uncertainty.invert_uncertain_transform.html#pytransform3d.uncertainty.invert_uncertain_transform" title="pytransform3d.uncertainty.invert_uncertain_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invert_uncertain_transform</span></code></a>(mean, cov)</p></td>
 <td><p>Invert uncertain transform.</p></td>
@@ -1813,7 +1822,7 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 
   <p class="copyright">
     
-      © Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      © Copyright 2014-2025, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
       <br/>
     
   </p>

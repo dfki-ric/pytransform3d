@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._random &#8212; pytransform3d 3.10.1 documentation</title>
+    <title>pytransform3d.rotations._random &#8212; pytransform3d 3.11.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=5ca81ab5"></script>
+    <script src="../../../_static/documentation_options.js?v=8905d4f5"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_random';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 31, 2024"/>
+    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.1"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.1"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
   
   
 </a></div>
@@ -358,7 +358,8 @@ document.write(`
   <h1>Source code for pytransform3d.rotations._random</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">norm_vector</span>
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">norm_vector</span><span class="p">,</span> <span class="n">check_matrix</span><span class="p">,</span> <span class="n">norm_matrix</span>
+<span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="n">matrix_from_compact_axis_angle</span>
 
 
 <div class="viewcode-block" id="random_vector">
@@ -454,6 +455,44 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span></div>
 
+
+
+<div class="viewcode-block" id="random_matrix">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.random_matrix.html#pytransform3d.rotations.random_matrix">[docs]</a>
+<span class="k">def</span> <span class="nf">random_matrix</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate random rotation matrix.</span>
+
+<span class="sd">    Generate :math:`\Delta \boldsymbol{R}_{B_{i+1}{B_i}}</span>
+<span class="sd">    \boldsymbol{R}_{{B_i}A}`, with :math:`\Delta \boldsymbol{R}_{B_{i+1}{B_i}}</span>
+<span class="sd">    = Exp(\hat{\omega} \theta)` and :math:`\hat{\omega}\theta \sim</span>
+<span class="sd">    \mathcal{N}(\boldsymbol{0}_3, \boldsymbol{\Sigma}_{3 \times 3})`.</span>
+<span class="sd">    The mean :math:`\boldsymbol{R}_{{B_i}A}` and the covariance</span>
+<span class="sd">    :math:`\boldsymbol{\Sigma}_{3 \times 3}` are parameters of the function.</span>
+
+<span class="sd">    Note that uncertainty is defined in the global frame B, not in the</span>
+<span class="sd">    body frame A.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rng : np.random.Generator, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator.</span>
+
+<span class="sd">    mean : array-like, shape (3, 3), optional (default: I)</span>
+<span class="sd">        Mean rotation matrix.</span>
+
+<span class="sd">    cov : array-like, shape (3, 3), optional (default: I)</span>
+<span class="sd">        Covariance of noise in exponential coordinate space.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R : array, shape (3, 3)</span>
+<span class="sd">        Rotation matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">check_matrix</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">matrix_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">norm_matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">mean</span><span class="p">))</span></div>
+
 </pre></div>
 
                 </article>
@@ -495,7 +534,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      © Copyright 2014-2025, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
       <br/>
     
   </p>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.uncertainty.estimate_gaussian_transform_from_samples &#8212; pytransform3d 3.10.1 documentation</title>
+    <title>pytransform3d.uncertainty.estimate_gaussian_transform_from_samples &#8212; pytransform3d 3.11.0 documentation</title>
   
   
   
@@ -40,18 +40,17 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=5ca81ab5"></script>
+    <script src="../_static/documentation_options.js?v=8905d4f5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.uncertainty.invert_uncertain_transform" href="pytransform3d.uncertainty.invert_uncertain_transform.html" />
-    <link rel="prev" title="pytransform3d.trajectories.dual_quaternions_from_screw_parameters" href="pytransform3d.trajectories.dual_quaternions_from_screw_parameters.html" />
+    <link rel="next" title="pytransform3d.uncertainty.frechet_mean" href="pytransform3d.uncertainty.frechet_mean.html" />
+    <link rel="prev" title="pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples" href="pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 31, 2024"/>
+    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
   </head>
   
   
@@ -129,8 +128,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.10.1"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.10.1"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
   
   
 </a></div>
@@ -318,6 +317,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_requires_renormalization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_rotation_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_rotation_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.passive_matrix_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.passive_matrix_from_angle</a></li>
@@ -625,7 +625,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.trajectories.dual_quaternions_from_screw_parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.dual_quaternions_from_screw_parameters</a></li>
 </ul>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.estimate_gaussian_rotation_matrix_from_samples</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.estimate_gaussian_transform_from_samples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.frechet_mean.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.frechet_mean</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.invert_uncertain_transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.invert_uncertain_transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.concat_globally_uncertain_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.concat_globally_uncertain_transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.uncertainty.concat_locally_uncertain_transforms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.concat_locally_uncertain_transforms</a></li>
@@ -780,25 +782,9 @@ document.write(`
 <dt class="sig sig-object py" id="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples">
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.uncertainty.</span></span><span class="sig-name descname"><span class="pre">estimate_gaussian_transform_from_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/uncertainty.html#estimate_gaussian_transform_from_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples" title="Link to this definition">#</a></dt>
 <dd><p>Estimate Gaussian distribution over transformations from samples.</p>
-<p>Uses iterative computation of mean described by Eade <a class="reference internal" href="#r8d000e5e43d0-1" id="id1">[1]</a> and computes
-covariance in exponential coordinate space (using an unbiased estimator).
-The derivation of the procedure is presented by Pennec <a class="reference internal" href="#r8d000e5e43d0-2" id="id2">[2]</a>.</p>
-<ol class="arabic simple">
-<li><p>For a set of transformations <span class="math notranslate nohighlight">\(\{T_1, \ldots, T_N\}\)</span>, we initialize
-the estimated mean <span class="math notranslate nohighlight">\(\overline{T}_0 \leftarrow T_1\)</span>.</p></li>
-<li><p>For a fixed number of steps, in each iteration <span class="math notranslate nohighlight">\(k\)</span> we improve the
-estimation of the mean by</p>
-<ol class="loweralpha simple">
-<li><p>Computing the distance of each sample to the current estimate of the
-mean in exponential coordinates
-<span class="math notranslate nohighlight">\(V_{i,k} \leftarrow T_i \cdot \overline{T}_k^{-1}\)</span>.</p></li>
-<li><p>Updating the estimate of the mean
-<span class="math notranslate nohighlight">\(\overline{T}_{k+1} \leftarrow Exp(\frac{1}{N}\sum_i V_{i,k}) \cdot \overline{T}_k\)</span>.</p></li>
-</ol>
-</li>
-<li><p>Estimate the covariance in the space of exponential coordinates with
-<span class="math notranslate nohighlight">\(\Sigma \leftarrow \frac{1}{N - 1} \sum_i \left[ V_{i,k} \cdot V_{i,k}^T \right]\)</span></p></li>
-</ol>
+<p>Computes the Fréchet mean of the samples and the covariance in tangent
+space (exponential coordinates of transformation) using an unbiased
+estimator as outlines by Eade <a class="reference internal" href="#r8d000e5e43d0-1" id="id1">[1]</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -815,18 +801,19 @@ mean in exponential coordinates
 </dl>
 </dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="pytransform3d.uncertainty.frechet_mean.html#pytransform3d.uncertainty.frechet_mean" title="pytransform3d.uncertainty.frechet_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frechet_mean</span></code></a></dt><dd><p>Algorithm used to compute the mean of the Gaussian.</p>
+</dd>
+</dl>
+</div>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="r8d000e5e43d0-1" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
 <a class="reference external" href="https://ethaneade.com/lie.pdf">https://ethaneade.com/lie.pdf</a></p>
-</div>
-<div class="citation" id="r8d000e5e43d0-2" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
-<p>Pennec, X. (2006). Intrinsic Statistics on Riemannian Manifolds:
-Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
-<a class="reference external" href="https://doi.org/10.1007/s10851-006-6228-4">https://doi.org/10.1007/s10851-006-6228-4</a></p>
 </div>
 </div>
 </dd></dl>
@@ -844,20 +831,20 @@ Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pytransform3d.trajectories.dual_quaternions_from_screw_parameters.html"
+       href="pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.trajectories</span></code>.dual_quaternions_from_screw_parameters</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.estimate_gaussian_rotation_matrix_from_samples</p>
       </div>
     </a>
     <a class="right-next"
-       href="pytransform3d.uncertainty.invert_uncertain_transform.html"
+       href="pytransform3d.uncertainty.frechet_mean.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.invert_uncertain_transform</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code>.frechet_mean</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -908,7 +895,7 @@ Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
 
   <p class="copyright">
     
-      © Copyright 2014-2024, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      © Copyright 2014-2025, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
       <br/>
     
   </p>
