@@ -10,7 +10,10 @@ def norm_dual_quaternion(dq):
     """Normalize unit dual quaternion.
 
     A unit dual quaternion has a real quaternion with unit norm and an
-    orthogonal real part.
+    orthogonal real part. Both properties are enforced by multiplying a
+    normalization factor [1]_. This is not always necessary. It is often
+    sufficient to only enforce the unit norm property of the real quaternion.
+    This can also be done with :func:`check_dual_quaternion`.
 
     Parameters
     ----------
