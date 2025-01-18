@@ -414,6 +414,7 @@ Dual Quaternion
    ~check_dual_quaternion
 
    ~dual_quaternion_requires_renormalization
+   ~norm_dual_quaternion
 
    ~assert_unit_dual_quaternion
    ~assert_unit_dual_quaternion_equal

@@ -616,18 +616,32 @@ def test_normalize_dual_quaternion():
     dq_norm = pt.check_dual_quaternion(dq)
     pt.assert_unit_dual_quaternion(dq_norm)
     assert_array_almost_equal(dq, dq_norm)
+    assert_array_almost_equal(dq, pt.norm_dual_quaternion(dq))
 
     dq = [0, 0, 0, 0, 0, 0, 0, 0]
     dq_norm = pt.check_dual_quaternion(dq)
     pt.assert_unit_dual_quaternion(dq_norm)
     assert_array_almost_equal([1, 0, 0, 0, 0, 0, 0, 0], dq_norm)
+    assert_array_almost_equal(dq_norm, pt.norm_dual_quaternion(dq))
 
     rng = np.random.default_rng(999)
-    for _ in range(5):
+    for _ in range(5):  # norm != 1
         A2B = pt.random_transform(rng)
         dq = rng.standard_normal() * pt.dual_quaternion_from_transform(A2B)
         dq_norm = pt.check_dual_quaternion(dq)
         pt.assert_unit_dual_quaternion(dq_norm)
+        assert_array_almost_equal(dq_norm, pt.norm_dual_quaternion(dq))
+
+    for _ in range(5):  # real and dual quaternion are not orthogonal
+        A2B = pt.random_transform(rng)
+        dq = pt.dual_quaternion_from_transform(A2B)
+        dq_roundoff_error = np.copy(dq)
+        dq_roundoff_error[4:] = np.round(dq_roundoff_error[4:], 3)
+        assert pt.dual_quaternion_requires_renormalization(dq_roundoff_error)
+        dq_norm = pt.norm_dual_quaternion(dq_roundoff_error)
+        pt.assert_unit_dual_quaternion(dq_norm)
+        assert not pt.dual_quaternion_requires_renormalization(dq_norm)
+        assert_array_almost_equal(dq, dq_norm, decimal=3)
 
 
 def test_conversions_between_dual_quternion_and_transform():
