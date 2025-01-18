@@ -417,6 +417,13 @@ def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
     check_dual_quaternion
         Input validation of dual quaternion representation. Has an option to
         normalize the dual quaternion.
+
+    norm_dual_quaternion
+        Normalization that enforces unit norm and orthogonality of the real and
+        dual quaternion.
+
+    assert_unit_dual_quaternion
+        Checks unit norm and orthogonality of real and dual quaternion.
     """
     real = dq[:4]
     dual = dq[4:]
@@ -463,6 +470,12 @@ def check_dual_quaternion(dq, unit=True):
     ------
     ValueError
         If input is invalid
+
+    See Also
+    --------
+    norm_dual_quaternion
+        Normalization that enforces unit norm and orthogonality of the real and
+        dual quaternion.
     """
     dq = np.asarray(dq, dtype=np.float64)
     if dq.ndim != 1 or dq.shape[0] != 8:
