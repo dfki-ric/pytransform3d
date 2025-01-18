@@ -27,6 +27,7 @@ Rotation Matrix
 
    ~matrix_requires_renormalization
    ~norm_matrix
+   ~polar_decomposition
 
    ~random_matrix
 
