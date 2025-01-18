@@ -80,6 +80,19 @@ def assert_unit_dual_quaternion(dq, *args, **kwargs):
     kwargs : dict
         Positional arguments that will be passed to
         `assert_array_almost_equal`
+
+    See Also
+    --------
+    check_dual_quaternion
+        Input validation of dual quaternion representation. Has an option to
+        normalize the dual quaternion.
+
+    dual_quaternion_requires_renormalization
+        Check if normalization is required.
+
+    norm_dual_quaternion
+        Normalization that enforces unit norm and orthogonality of the real and
+        dual quaternion.
     """
     real = dq[:4]
     dual = dq[4:]
