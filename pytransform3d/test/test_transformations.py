@@ -603,6 +603,13 @@ def test_check_dual_quaternion():
     dq4 = pt.check_dual_quaternion(dq3, unit=True)
     assert not pt.dual_quaternion_requires_renormalization(dq4)
 
+    dq5 = np.array([
+        0.94508498, 0.0617101, -0.06483886, 0.31432811,
+        -0.07743254, 0.04985168, -0.26119618, 0.1691491])
+    dq5_not_orthogonal = np.copy(dq5)
+    dq5_not_orthogonal[4:] = np.round(dq5_not_orthogonal[4:], 1)
+    assert pt.dual_quaternion_requires_renormalization(dq5_not_orthogonal)
+
 
 def test_normalize_dual_quaternion():
     dq = [1, 0, 0, 0, 0, 0, 0, 0]
