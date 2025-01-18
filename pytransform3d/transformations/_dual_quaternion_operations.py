@@ -24,6 +24,15 @@ def norm_dual_quaternion(dq):
         Unit dual quaternion to represent transform with orthogonal real and
         dual quaternion.
 
+    See Also
+    --------
+    check_dual_quaternion
+        Input validation of dual quaternion representation. Has an option to
+        normalize the dual quaternion.
+
+    dual_quaternion_requires_renormalization
+        Check if normalization is required.
+
     References
     ----------
     .. [1] enki (2023). Properly normalizing a dual quaternion.
