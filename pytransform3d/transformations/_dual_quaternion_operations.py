@@ -6,6 +6,48 @@ from ._conversions import (screw_parameters_from_dual_quaternion,
 from ..rotations import concatenate_quaternions
 
 
+def norm_dual_quaternion(dq):
+    """Normalize unit dual quaternion.
+
+    A unit dual quaternion has a real quaternion with unit norm and an
+    orthogonal real part.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion to represent transform with orthogonal real and
+        dual quaternion.
+
+    References
+    ----------
+    .. [1] enki (2023). Properly normalizing a dual quaternion.
+       https://stackoverflow.com/a/76313524
+    """
+    dq = check_dual_quaternion(dq, unit=False)
+    dq_prod = concatenate_dual_quaternions(dq, dq_q_conj(dq), unit=False)
+
+    prod_real = dq_prod[:4]
+    prod_dual = dq_prod[4:]
+
+    prod_real_norm = np.linalg.norm(prod_real)
+    if prod_real_norm == 0.0:
+        return np.r_[1, 0, 0, 0, dq[4:]]
+    real_inv_sqrt = 1.0 / prod_real_norm
+    dual_inv_sqrt = -0.5 * prod_dual * real_inv_sqrt ** 3
+
+    real = real_inv_sqrt * dq[:4]
+    dual = real_inv_sqrt * dq[4:] + concatenate_quaternions(
+        dual_inv_sqrt, dq[:4])
+
+    return np.hstack((real, dual))
+
+
 def dual_quaternion_double(dq):
     r"""Create another dual quaternion that represents the same transformation.
 
@@ -93,7 +135,7 @@ def dq_q_conj(dq):
     return np.r_[dq[0], -dq[1:4], dq[4], -dq[5:]]
 
 
-def concatenate_dual_quaternions(dq1, dq2):
+def concatenate_dual_quaternions(dq1, dq2, unit=True):
     r"""Concatenate dual quaternions.
 
     We concatenate two dual quaternions by dual quaternion multiplication
@@ -122,6 +164,12 @@ def concatenate_dual_quaternions(dq1, dq2):
         Dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
+    unit : bool, optional (default: True)
+        Normalize the dual quaternion so that it is a unit dual quaternion.
+        A unit dual quaternion has the properties
+        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
+        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
+
     Returns
     -------
     dq3 : array, shape (8,)
@@ -133,8 +181,8 @@ def concatenate_dual_quaternions(dq1, dq2):
     pytransform3d.rotations.concatenate_quaternions
         Quaternion multiplication.
     """
-    dq1 = check_dual_quaternion(dq1)
-    dq2 = check_dual_quaternion(dq2)
+    dq1 = check_dual_quaternion(dq1, unit=unit)
+    dq2 = check_dual_quaternion(dq2, unit=unit)
     real = concatenate_quaternions(dq1[:4], dq2[:4])
     dual = (concatenate_quaternions(dq1[:4], dq2[4:]) +
             concatenate_quaternions(dq1[4:], dq2[:4]))
