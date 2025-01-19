@@ -2496,6 +2496,7 @@ def test_polar_decomposition():
     norm_errors = np.linalg.norm((R_norm - R).T, axis=-1)
     assert np.all(norm_errors > 0)
     assert np.all(norm_errors < errors[0])
+    assert np.std(norm_errors) < np.std(errors)
 
     # random rotations of random basis vectors
     for _ in range(5):
@@ -2512,3 +2513,4 @@ def test_polar_decomposition():
         norm_errors = np.linalg.norm((R_norm - R).T, axis=-1)
         assert np.all(norm_errors > 0)
         assert np.all(norm_errors < errors.sum())
+        assert np.std(norm_errors) < np.std(errors)
