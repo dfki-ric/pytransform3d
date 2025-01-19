@@ -7,7 +7,7 @@ from ._quaternions import concatenate_quaternions
 def polar_decomposition(R, n_iter=20, eps=np.finfo(float).eps):
     r"""Orthonormalize rotation matrix with polar decomposition.
 
-    Use polar decomposition [1] [2] to normalize rotation matrix. This is a
+    Use polar decomposition [1]_ [2]_ to normalize rotation matrix. This is a
     computationally more costly method, but it spreads the error more
     evenly between the basis vectors.
 
@@ -16,7 +16,12 @@ def polar_decomposition(R, n_iter=20, eps=np.finfo(float).eps):
     R : array-like, shape (3, 3)
         Rotation matrix with small numerical errors.
 
-    TODO
+    n_iter : int, optional (default: 20)
+        Maximum number of iterations for which we refine the estimation of the
+        rotation matrix.
+
+    eps : float, optional (default: np.finfo(float).eps)
+        Precision for termination criterion of iterative refinement.
 
     Returns
     -------
