@@ -101,7 +101,7 @@ class _Trimesh(MeshBase):
     def load(self):
         try:
             import trimesh
-        except ImportError as e:
+        except ImportError as e:  # pragma: no cover
             if e.name == "trimesh":
                 return False
             else:
@@ -112,7 +112,7 @@ class _Trimesh(MeshBase):
             self.mesh = self._open3d_mesh_to_trimesh(open3d_mesh)
         return True
 
-    def _open3d_mesh_to_trimesh(self, open3d_mesh):
+    def _open3d_mesh_to_trimesh(self, open3d_mesh):  # pragma: no cover
         import trimesh
         if len(open3d_mesh.vertex_colors) == 0:
             vertex_colors = None
@@ -130,7 +130,7 @@ class _Trimesh(MeshBase):
     def get_open3d_mesh(self):  # pragma: no cover
         return self._trimesh_to_open3d_mesh(self.mesh)
 
-    def _scene_to_open3d_mesh(self, scene):
+    def _scene_to_open3d_mesh(self, scene):  # pragma: no cover
         import open3d
         import trimesh
         mesh = open3d.geometry.TriangleMesh()
