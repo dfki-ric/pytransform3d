@@ -84,13 +84,6 @@ def norm_matrix(R):
     R : array-like, shape (3, 3)
         Rotation matrix with small numerical errors.
 
-    polar_decomposition : bool, optional (default: False)
-        Use polar decomposition [1] [2] to normalize rotation matrix. This is a
-        computationally more costly method, but it spreads the error more
-        evenly between the basis vectors. The cheaper default
-        orthonormalization method is Gram-Schmidt orthonormalization
-        optimized for 3 dimensions.
-
     Returns
     -------
     R : array, shape (3, 3)
