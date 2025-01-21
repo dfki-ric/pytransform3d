@@ -47,15 +47,22 @@ def norm_dual_quaternion(dq):
     prod_real = dq_prod[:4]
     prod_dual = dq_prod[4:]
 
+    real = np.copy(dq[:4])
+    dual = dq[4:]
+
     prod_real_norm = np.linalg.norm(prod_real)
     if prod_real_norm == 0.0:
-        return np.r_[1, 0, 0, 0, dq[4:]]
+        real = np.array([1.0, 0.0, 0.0, 0.0])
+        prod_real_norm = 1.0
+        valid_dq = np.hstack((real, dual))
+        prod_dual = concatenate_dual_quaternions(
+            valid_dq, dq_q_conj(valid_dq), unit=False)[4:]
+
     real_inv_sqrt = 1.0 / prod_real_norm
     dual_inv_sqrt = -0.5 * prod_dual * real_inv_sqrt ** 3
 
-    real = real_inv_sqrt * dq[:4]
-    dual = real_inv_sqrt * dq[4:] + concatenate_quaternions(
-        dual_inv_sqrt, dq[:4])
+    real = real_inv_sqrt * real
+    dual = real_inv_sqrt * dual + concatenate_quaternions(dual_inv_sqrt, real)
 
     return np.hstack((real, dual))
 
