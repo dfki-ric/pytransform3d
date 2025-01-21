@@ -624,6 +624,13 @@ def test_normalize_dual_quaternion():
     assert_array_almost_equal([1, 0, 0, 0, 0, 0, 0, 0], dq_norm)
     assert_array_almost_equal(dq_norm, pt.norm_dual_quaternion(dq))
 
+    dq = [0, 0, 0, 0, 0.3, 0.5, 0, 0.2]
+    dq_norm = pt.check_dual_quaternion(dq)
+    assert pt.dual_quaternion_requires_renormalization(dq_norm)
+    assert_array_almost_equal([1, 0, 0, 0, 0.3, 0.5, 0, 0.2], dq_norm)
+    assert not pt.dual_quaternion_requires_renormalization(
+        pt.norm_dual_quaternion(dq))
+
     rng = np.random.default_rng(999)
     for _ in range(5):  # norm != 1
         A2B = pt.random_transform(rng)
