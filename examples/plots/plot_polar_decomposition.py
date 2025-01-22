@@ -48,7 +48,7 @@ for i in range(n_cases):
                   strict_check=False, ls="--")
     pr.plot_basis(axes[i + n_cases], R_gs, p=plot_center)
 
-    R_pd = pr.polar_decomposition(R_unnormalized)
+    R_pd = pr.robust_polar_decomposition(R_unnormalized)
     pr.plot_basis(axes[i + 2 * n_cases], R_unnormalized, p=plot_center,
                   strict_check=False, ls="--")
     pr.plot_basis(axes[i + 2 * n_cases], R_pd, p=plot_center)

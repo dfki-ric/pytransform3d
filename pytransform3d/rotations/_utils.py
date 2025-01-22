@@ -46,6 +46,9 @@ def matrix_requires_renormalization(R, tolerance=1e-6):
     See Also
     --------
     norm_matrix : Orthonormalize rotation matrix.
+    robust_polar_decomposition
+        A more expensive orthonormalization method that spreads the error more
+        evenly between the basis vectors.
     """
     R = np.asarray(R, dtype=float)
     RRT = np.dot(R, R.T)
@@ -94,7 +97,7 @@ def norm_matrix(R):
     check_matrix : Checks orthonormality of a rotation matrix.
     matrix_requires_renormalization
         Checks if a rotation matrix needs renormalization.
-    polar_decomposition
+    robust_polar_decomposition
         A more expensive orthonormalization method that spreads the error more
         evenly between the basis vectors.
     """
@@ -465,6 +468,9 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
     See Also
     --------
     norm_matrix : Enforces orthonormality of a rotation matrix.
+    robust_polar_decomposition
+        A more expensive orthonormalization method that spreads the error more
+        evenly between the basis vectors.
     """
     R = np.asarray(R, dtype=np.float64)
     if R.ndim != 2 or R.shape[0] != 3 or R.shape[1] != 3:

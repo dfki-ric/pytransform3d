@@ -2471,14 +2471,14 @@ def test_random_matrices():
 
 def test_polar_decomposition():
     # no iterations required
-    R_norm = pr.polar_decomposition(np.eye(3), n_iter=1, eps=1e-32)
+    R_norm = pr.robust_polar_decomposition(np.eye(3), n_iter=1, eps=1e-32)
     assert_array_almost_equal(R_norm, np.eye(3))
 
     rng = np.random.default_rng(33)
 
     # scaled valid rotation matrix
     R = pr.random_matrix(rng)
-    R_norm = pr.polar_decomposition(23.5 * R)
+    R_norm = pr.robust_polar_decomposition(23.5 * R)
     assert_array_almost_equal(R_norm, R)
 
     # slightly rotated basis vector
@@ -2492,7 +2492,7 @@ def test_polar_decomposition():
     # polar decomposition will spread the error more evenly among basis vectors
     errors = np.linalg.norm((R_unnormalized - R).T, axis=-1)
     assert pytest.approx(errors.tolist()) == [0.00909314, 0, 0]
-    R_norm = pr.polar_decomposition(R_unnormalized)
+    R_norm = pr.robust_polar_decomposition(R_unnormalized)
     norm_errors = np.linalg.norm((R_norm - R).T, axis=-1)
     assert np.all(norm_errors > 0)
     assert np.all(norm_errors < errors[0])
@@ -2508,7 +2508,7 @@ def test_polar_decomposition():
                 rng.integers(0, 3),
                 np.deg2rad(rng.uniform(-3, 3))),
             R_unnormalized[:, random_axis])
-        R_norm = pr.polar_decomposition(R_unnormalized)
+        R_norm = pr.robust_polar_decomposition(R_unnormalized)
         errors = np.linalg.norm((R_unnormalized - R).T, axis=-1)
         norm_errors = np.linalg.norm((R_norm - R).T, axis=-1)
         assert np.all(norm_errors > 0)
