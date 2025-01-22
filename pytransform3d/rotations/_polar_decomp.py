@@ -4,17 +4,26 @@ from ._conversions import (matrix_from_quaternion,
 from ._quaternions import concatenate_quaternions
 
 
-def polar_decomposition(R, n_iter=20, eps=np.finfo(float).eps):
-    r"""Orthonormalize rotation matrix with polar decomposition.
+def robust_polar_decomposition(A, n_iter=20, eps=np.finfo(float).eps):
+    r"""Orthonormalize rotation matrix with robust polar decomposition.
 
-    Use polar decomposition [1]_ [2]_ to normalize rotation matrix. This is a
-    computationally more costly method, but it spreads the error more
-    evenly between the basis vectors.
+    Use robust polar decomposition [1]_ [2]_ to normalize rotation matrix.
+    This is a computationally more costly method, but it spreads the error more
+    evenly between the basis vectors. Robust polar decomposition finds an
+    orthonormal matrix that minimizes the Frobenius norm
+
+    .. math::
+
+        ||\boldsymbol{A} - \boldsymbol{R}||^2
+
+    between the input :math:`\boldsymbol{A}` that is not orthonormal and the
+    output :math:`\boldsymbol{R}` that is orthonormal.
 
     Parameters
     ----------
-    R : array-like, shape (3, 3)
-        Rotation matrix with small numerical errors.
+    A : array-like, shape (3, 3)
+        Matrix that contains a basis vector in each column. The basis does not
+        have to be orthonormal.
 
     n_iter : int, optional (default: 20)
         Maximum number of iterations for which we refine the estimation of the
@@ -47,13 +56,13 @@ def polar_decomposition(R, n_iter=20, eps=np.finfo(float).eps):
     current_q = np.array([1.0, 0.0, 0.0, 0.0])
     for _ in range(n_iter):
         current_R = matrix_from_quaternion(current_q)
-        omega = ((np.cross(current_R[:, 0], R[:, 0])
-                  + np.cross(current_R[:, 1], R[:, 1])
-                  + np.cross(current_R[:, 2], R[:, 2]))
+        omega = ((np.cross(current_R[:, 0], A[:, 0])
+                  + np.cross(current_R[:, 1], A[:, 1])
+                  + np.cross(current_R[:, 2], A[:, 2]))
                  /
-                 (abs(np.dot(current_R[:, 0], R[:, 0])
-                      + np.dot(current_R[:, 1], R[:, 1])
-                      + np.dot(current_R[:, 2], R[:, 2]))
+                 (abs(np.dot(current_R[:, 0], A[:, 0])
+                      + np.dot(current_R[:, 1], A[:, 1])
+                      + np.dot(current_R[:, 2], A[:, 2]))
                   + eps))
         if np.linalg.norm(omega) < eps:
             break

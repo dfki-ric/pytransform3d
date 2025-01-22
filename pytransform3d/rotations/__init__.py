@@ -111,7 +111,7 @@ from ._rotors import (
 from ._jacobians import (
     left_jacobian_SO3, left_jacobian_SO3_series, left_jacobian_SO3_inv,
     left_jacobian_SO3_inv_series)
-from ._polar_decomp import polar_decomposition
+from ._polar_decomp import robust_polar_decomposition
 
 __all__ = [
     "eps",
@@ -275,5 +275,5 @@ __all__ = [
     "left_jacobian_SO3_series",
     "left_jacobian_SO3_inv",
     "left_jacobian_SO3_inv_series",
-    "polar_decomposition"
+    "robust_polar_decomposition"
 ]
