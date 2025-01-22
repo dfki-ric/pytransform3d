@@ -3,14 +3,14 @@
 Plot Polar Decomposition
 ========================
 
-Polar decomposition orthonormalizes basis vectors (i.e., rotation matrices).
-It is more expensive than standard Gram-Schmidt orthonormalization, but it
-spreads the error more evenly over all basis vectors. The top row of these
-plots shows the unnormalized bases that were obtained by randomly rotating
-one of the columns of the identity matrix. The middle row shows Gram-Schmidt
-orthonormalization and the bottom row shows orthonormalization through polar
-decomposition. For comparison, we show the unnormalized basis with dashed lines
-in the last two rows.
+Robust polar decomposition orthonormalizes basis vectors (i.e., rotation
+matrices). It is more expensive than standard Gram-Schmidt orthonormalization,
+but it spreads the error more evenly over all basis vectors. The top row of
+these plots shows the unnormalized bases that were obtained by randomly
+rotating one of the columns of the identity matrix. The middle row shows
+Gram-Schmidt orthonormalization and the bottom row shows orthonormalization
+through robust polar decomposition. For comparison, we show the unnormalized
+basis with dashed lines in the last two rows.
 """
 import numpy as np
 import matplotlib.pyplot as plt
