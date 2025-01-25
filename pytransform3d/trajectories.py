@@ -14,6 +14,96 @@ from .transformations import (
     screw_axis_from_screw_parameters)
 
 
+def random_trajectories(
+        rng=np.random.default_rng(0), n_trajectories=10, n_steps=101,
+        start=np.eye(4), goal=np.eye(4), dt=0.01):
+    """Generate random trajectories.
+
+    Create a smooth random trajectory with low accelerations.
+
+    Parameters
+    ----------
+    TODO
+
+    Returns
+    -------
+    TODO
+    """
+    n_dims = 6
+    L = acceleration_L(n_dims, n_steps, dt)
+    samples = rng.normal(size=(n_trajectories, n_dims * n_steps))
+    smooth_samples = np.einsum("ni,ji->nj", samples, L)
+    Sthetas = smooth_samples.reshape(n_trajectories, n_dims, n_steps).transpose([0, 2, 1])
+    trajectories = transforms_from_exponential_coordinates(Sthetas)
+    return trajectories
+
+
+def acceleration_L(n_dims, n_steps, dt):
+    """Cholesky decomposition of a smooth trajectory covariance.
+
+    Parameters
+    ----------
+    n_dims : int
+        Number of dimensions.
+
+    n_steps : int
+        Number of steps in the trajectory.
+
+    dt : float
+        Time difference between two steps.
+
+    Returns
+    -------
+    L : array, shape (n_steps * n_dims, n_steps * n_dims)
+        Cholesky decomposition of covariance created from finite difference
+        matrix.
+    """
+    # This finite difference matrix only works for 1D trajectories.
+    A = _create_fd_matrix_1d(n_steps, dt)
+    covariance = np.linalg.inv(A.T.dot(A))
+    L_per_dim = np.linalg.cholesky(covariance)
+
+    # We copy L for each dimension.
+    L = np.zeros((n_dims * n_steps, n_dims * n_steps))
+    for d in range(n_dims):
+        L[d * n_steps:(d + 1) * n_steps,
+          d * n_steps:(d + 1) * n_steps] = L_per_dim
+    return L
+
+
+def _create_fd_matrix_1d(n_steps, dt):
+    r"""Create one-dimensional finite difference matrix.
+
+    For example, the finite difference matrix A for the second derivative
+    with respect to time is defined by:
+
+    .. math::
+
+        \ddot(x) = A x
+
+    Parameters
+    ----------
+    n_steps : int
+        Number of steps in the trajectory
+
+    dt : float
+        Time in seconds between successive steps
+
+    Returns
+    -------
+    A : array, shape (n_steps + 2, n_steps)
+        Finite difference matrix for second derivative with respect to time
+    """
+    A = np.zeros((n_steps + 2, n_steps), dtype=float)
+    super_diagonal = (np.arange(n_steps), np.arange(n_steps))
+    A[super_diagonal] = np.ones(n_steps)
+    sub_diagonal = (np.arange(2, n_steps + 2), np.arange(n_steps))
+    A[sub_diagonal] = np.ones(n_steps)
+    main_diagonal = (np.arange(1, n_steps + 1), np.arange(n_steps))
+    A[main_diagonal] = -2 * np.ones(n_steps)
+    return A / (dt ** 2)
+
+
 def invert_transforms(A2Bs):
     """Invert transforms.
 
