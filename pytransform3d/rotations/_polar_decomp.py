@@ -7,10 +7,13 @@ from ._quaternions import concatenate_quaternions
 def robust_polar_decomposition(A, n_iter=20, eps=np.finfo(float).eps):
     r"""Orthonormalize rotation matrix with robust polar decomposition.
 
-    Use robust polar decomposition [1]_ [2]_ to normalize rotation matrix.
-    This is a computationally more costly method, but it spreads the error more
-    evenly between the basis vectors. Robust polar decomposition finds an
-    orthonormal matrix that minimizes the Frobenius norm
+    Robust polar decomposition [1]_ [2]_ is a computationally more costly
+    method, but it spreads the error more evenly between the basis vectors
+    in comparison to Gram-Schmidt orthonormalization (as in
+    :func:`norm_matrix`).
+
+    Robust polar decomposition finds an orthonormal matrix that minimizes the
+    Frobenius norm
 
     .. math::
 
