@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transformations.dual_quaternion_requires_renormalization &#8212; pytransform3d 3.11.0 documentation</title>
+    <title>pytransform3d.transformations.dual_quaternion_requires_renormalization &#8212; pytransform3d 3.12.0 documentation</title>
   
   
   
@@ -40,18 +40,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=8905d4f5"></script>
+    <script src="../_static/documentation_options.js?v=1b7a0a1e"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.transformations.dual_quaternion_requires_renormalization';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.transformations.assert_unit_dual_quaternion" href="pytransform3d.transformations.assert_unit_dual_quaternion.html" />
+    <link rel="next" title="pytransform3d.transformations.norm_dual_quaternion" href="pytransform3d.transformations.norm_dual_quaternion.html" />
     <link rel="prev" title="pytransform3d.transformations.check_dual_quaternion" href="pytransform3d.transformations.check_dual_quaternion.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
   
   
 </a></div>
@@ -318,6 +318,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_requires_renormalization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.norm_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.robust_polar_decomposition.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.robust_polar_decomposition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_rotation_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_rotation_matrix</a></li>
@@ -545,6 +546,7 @@ document.write(`
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_dual_quaternion</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_requires_renormalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.norm_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.norm_dual_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion_equal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_double.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_double</a></li>
@@ -784,8 +786,8 @@ document.write(`
 <span class="sig-prename descclassname"><span class="pre">pytransform3d.transformations.</span></span><span class="sig-name descname"><span class="pre">dual_quaternion_requires_renormalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transformations/_utils.html#dual_quaternion_requires_renormalization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transformations.dual_quaternion_requires_renormalization" title="Link to this definition">#</a></dt>
 <dd><p>Check if dual quaternion requires renormalization.</p>
 <p>Dual quaternions that represent transformations in 3D should have unit
-norm. Since the real and the dual quaternion are orthogonal, their
-product is 0. In addition, <span class="math notranslate nohighlight">\(\epsilon^2 = 0\)</span>. Hence,</p>
+norm. Since the real and the dual quaternion are orthogonal, their dot
+product should be 0. In addition, <span class="math notranslate nohighlight">\(\epsilon^2 = 0\)</span>. Hence,</p>
 <div class="math notranslate nohighlight">
 \[||\boldsymbol{p} + \epsilon \boldsymbol{q}||
 =
@@ -798,6 +800,8 @@ product is 0. In addition, <span class="math notranslate nohighlight">\(\epsilon
 =
 \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}},\]</div>
 <p>i.e., the norm only depends on the real quaternion.</p>
+<p>This function checks unit norm and orthogonality of the real and dual
+part.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -819,6 +823,10 @@ product is 0. In addition, <span class="math notranslate nohighlight">\(\epsilon
 <p class="admonition-title">See also</p>
 <dl class="simple">
 <dt><a class="reference internal" href="pytransform3d.transformations.check_dual_quaternion.html#pytransform3d.transformations.check_dual_quaternion" title="pytransform3d.transformations.check_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_dual_quaternion</span></code></a></dt><dd><p>Input validation of dual quaternion representation. Has an option to normalize the dual quaternion.</p>
+</dd>
+<dt><a class="reference internal" href="pytransform3d.transformations.norm_dual_quaternion.html#pytransform3d.transformations.norm_dual_quaternion" title="pytransform3d.transformations.norm_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">norm_dual_quaternion</span></code></a></dt><dd><p>Normalization that enforces unit norm and orthogonality of the real and dual quaternion.</p>
+</dd>
+<dt><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion.html#pytransform3d.transformations.assert_unit_dual_quaternion" title="pytransform3d.transformations.assert_unit_dual_quaternion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_unit_dual_quaternion</span></code></a></dt><dd><p>Checks unit norm and orthogonality of real and dual quaternion.</p>
 </dd>
 </dl>
 </div>
@@ -846,11 +854,11 @@ product is 0. In addition, <span class="math notranslate nohighlight">\(\epsilon
       </div>
     </a>
     <a class="right-next"
-       href="pytransform3d.transformations.assert_unit_dual_quaternion.html"
+       href="pytransform3d.transformations.norm_dual_quaternion.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.norm_dual_quaternion</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

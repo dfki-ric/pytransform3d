@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Matplotlib Figures &#8212; pytransform3d 3.11.0 documentation</title>
+    <title>Matplotlib Figures &#8212; pytransform3d 3.12.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=8905d4f5"></script>
+    <script src="../../_static/documentation_options.js?v=1b7a0a1e"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="Transformation Editor" href="../apps/app_transformation_editor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
   
   
 </a></div>
@@ -342,6 +342,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="plot_sample_rotations.html">Compare Rotation Sampling Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_projection.html">Camera Projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_rotate_cylinder.html">Rotate Cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_polar_decomposition.html">Plot Polar Decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_quaternion_slerp.html">Quaternion SLERP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_with_image.html">Camera Transform</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_straight_line_path.html">Plot Straight Line Paths</a></li>
@@ -500,6 +501,9 @@ document.write(`
 </div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and plot it at several steps during the acceleration."><img alt="" src="../../_images/sphx_glr_plot_rotate_cylinder_thumb.png" />
 <p><a class="reference internal" href="plot_rotate_cylinder.html#sphx-glr-auto-examples-plots-plot-rotate-cylinder-py"><span class="std std-ref">Rotate Cylinder</span></a></p>
   <div class="sphx-glr-thumbnail-title">Rotate Cylinder</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Robust polar decomposition orthonormalizes basis vectors (i.e., rotation matrices). It is more expensive than standard Gram-Schmidt orthonormalization, but it spreads the error more evenly over all basis vectors. The top row of these plots shows the unnormalized bases that were obtained by randomly rotating one of the columns of the identity matrix. The middle row shows Gram-Schmidt orthonormalization and the bottom row shows orthonormalization through robust polar decomposition. For comparison, we show the unnormalized basis with dashed lines in the last two rows."><img alt="" src="../../_images/sphx_glr_plot_polar_decomposition_thumb.png" />
+<p><a class="reference internal" href="plot_polar_decomposition.html#sphx-glr-auto-examples-plots-plot-polar-decomposition-py"><span class="std std-ref">Plot Polar Decomposition</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Polar Decomposition</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spherical linear interpolation (SLERP). For larger angles there are significant differences as you can see in this example. The outer circle uses linear interpolation and the inner circle uses SLERP. You can play around with the value of &#x27;end_angle&#x27; in this example."><img alt="" src="../../_images/sphx_glr_plot_quaternion_slerp_thumb.png" />
 <p><a class="reference internal" href="plot_quaternion_slerp.html#sphx-glr-auto-examples-plots-plot-quaternion-slerp-py"><span class="std std-ref">Quaternion SLERP</span></a></p>
   <div class="sphx-glr-thumbnail-title">Quaternion SLERP</div>

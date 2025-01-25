@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._utils &#8212; pytransform3d 3.11.0 documentation</title>
+    <title>pytransform3d.rotations._utils &#8212; pytransform3d 3.12.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=8905d4f5"></script>
+    <script src="../../../_static/documentation_options.js?v=1b7a0a1e"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_utils';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
   
   
 </a></div>
@@ -409,6 +409,9 @@ document.write(`
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    norm_matrix : Orthonormalize rotation matrix.</span>
+<span class="sd">    robust_polar_decomposition</span>
+<span class="sd">        A more expensive orthonormalization method that spreads the error more</span>
+<span class="sd">        evenly between the basis vectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">RRT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -442,7 +445,8 @@ document.write(`
 <span class="sd">    :math:`\boldsymbol R^T \boldsymbol R = \boldsymbol I`.</span>
 
 <span class="sd">    Because of numerical problems, a rotation matrix might not satisfy the</span>
-<span class="sd">    constraints anymore. This function will enforce them.</span>
+<span class="sd">    constraints anymore. This function will enforce them with Gram-Schmidt</span>
+<span class="sd">    orthonormalization optimized for 3 dimensions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -459,6 +463,9 @@ document.write(`
 <span class="sd">    check_matrix : Checks orthonormality of a rotation matrix.</span>
 <span class="sd">    matrix_requires_renormalization</span>
 <span class="sd">        Checks if a rotation matrix needs renormalization.</span>
+<span class="sd">    robust_polar_decomposition</span>
+<span class="sd">        A more expensive orthonormalization method that spreads the error more</span>
+<span class="sd">        evenly between the basis vectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
@@ -860,6 +867,9 @@ document.write(`
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    norm_matrix : Enforces orthonormality of a rotation matrix.</span>
+<span class="sd">    robust_polar_decomposition</span>
+<span class="sd">        A more expensive orthonormalization method that spreads the error more</span>
+<span class="sd">        evenly between the basis vectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">R</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>

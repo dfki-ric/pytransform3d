@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._testing &#8212; pytransform3d 3.11.0 documentation</title>
+    <title>pytransform3d.transformations._testing &#8212; pytransform3d 3.12.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=8905d4f5"></script>
+    <script src="../../../_static/documentation_options.js?v=1b7a0a1e"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transformations/_testing';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
   
   
 </a></div>
@@ -446,6 +446,19 @@ document.write(`
 <span class="sd">    kwargs : dict</span>
 <span class="sd">        Positional arguments that will be passed to</span>
 <span class="sd">        `assert_array_almost_equal`</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    check_dual_quaternion</span>
+<span class="sd">        Input validation of dual quaternion representation. Has an option to</span>
+<span class="sd">        normalize the dual quaternion.</span>
+
+<span class="sd">    dual_quaternion_requires_renormalization</span>
+<span class="sd">        Check if normalization is required.</span>
+
+<span class="sd">    norm_dual_quaternion</span>
+<span class="sd">        Normalization that enforces unit norm and orthogonality of the real and</span>
+<span class="sd">        dual quaternion.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">real</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
     <span class="n">dual</span> <span class="o">=</span> <span class="n">dq</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>

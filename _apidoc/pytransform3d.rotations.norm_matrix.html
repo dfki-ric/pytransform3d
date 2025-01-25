@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.rotations.norm_matrix &#8212; pytransform3d 3.11.0 documentation</title>
+    <title>pytransform3d.rotations.norm_matrix &#8212; pytransform3d 3.12.0 documentation</title>
   
   
   
@@ -40,18 +40,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=8905d4f5"></script>
+    <script src="../_static/documentation_options.js?v=1b7a0a1e"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.rotations.norm_matrix';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pytransform3d.rotations.random_matrix" href="pytransform3d.rotations.random_matrix.html" />
+    <link rel="next" title="pytransform3d.rotations.robust_polar_decomposition" href="pytransform3d.rotations.robust_polar_decomposition.html" />
     <link rel="prev" title="pytransform3d.rotations.matrix_requires_renormalization" href="pytransform3d.rotations.matrix_requires_renormalization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 09, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.11.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.11.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
   
   
 </a></div>
@@ -318,6 +318,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.check_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.check_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.matrix_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.matrix_requires_renormalization</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.norm_matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.robust_polar_decomposition.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.robust_polar_decomposition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.random_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.plot_basis.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.plot_basis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.assert_rotation_matrix.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.assert_rotation_matrix</a></li>
@@ -545,6 +546,7 @@ document.write(`
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_dual_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_requires_renormalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.norm_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.norm_dual_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion_equal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_double.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_double</a></li>
@@ -800,7 +802,8 @@ document.write(`
 <p>A more compact representation of these constraints is
 <span class="math notranslate nohighlight">\(\boldsymbol R^T \boldsymbol R = \boldsymbol I\)</span>.</p>
 <p>Because of numerical problems, a rotation matrix might not satisfy the
-constraints anymore. This function will enforce them.</p>
+constraints anymore. This function will enforce them with Gram-Schmidt
+orthonormalization optimized for 3 dimensions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -822,10 +825,18 @@ constraints anymore. This function will enforce them.</p>
 </dd>
 <dt><a class="reference internal" href="pytransform3d.rotations.matrix_requires_renormalization.html#pytransform3d.rotations.matrix_requires_renormalization" title="pytransform3d.rotations.matrix_requires_renormalization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_requires_renormalization</span></code></a></dt><dd><p>Checks if a rotation matrix needs renormalization.</p>
 </dd>
+<dt><a class="reference internal" href="pytransform3d.rotations.robust_polar_decomposition.html#pytransform3d.rotations.robust_polar_decomposition" title="pytransform3d.rotations.robust_polar_decomposition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">robust_polar_decomposition</span></code></a></dt><dd><p>A more expensive orthonormalization method that spreads the error more evenly between the basis vectors.</p>
+</dd>
 </dl>
 </div>
 </dd></dl>
 
+<section id="examples-using-pytransform3d-rotations-norm-matrix">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.rotations.norm_matrix</span></code><a class="headerlink" href="#examples-using-pytransform3d-rotations-norm-matrix" title="Link to this heading">#</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Robust polar decomposition orthonormalizes basis vectors (i.e., rotation matrices). It is more expensive than standard Gram-Schmidt orthonormalization, but it spreads the error more evenly over all basis vectors. The top row of these plots shows the unnormalized bases that were obtained by randomly rotating one of the columns of the identity matrix. The middle row shows Gram-Schmidt orthonormalization and the bottom row shows orthonormalization through robust polar decomposition. For comparison, we show the unnormalized basis with dashed lines in the last two rows."><img alt="" src="../_images/sphx_glr_plot_polar_decomposition_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_polar_decomposition.html#sphx-glr-auto-examples-plots-plot-polar-decomposition-py"><span class="std std-ref">Plot Polar Decomposition</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Polar Decomposition</div>
+</div></div></section>
 </section>
 
 
@@ -848,11 +859,11 @@ constraints anymore. This function will enforce them.</p>
       </div>
     </a>
     <a class="right-next"
-       href="pytransform3d.rotations.random_matrix.html"
+       href="pytransform3d.rotations.robust_polar_decomposition.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.random_matrix</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.robust_polar_decomposition</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -875,6 +886,7 @@ constraints anymore. This function will enforce them.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.rotations.norm_matrix"><code class="docutils literal notranslate"><span class="pre">norm_matrix()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-using-pytransform3d-rotations-norm-matrix">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.rotations.norm_matrix</span></code></a></li>
 </ul>
   </nav></div>
 
