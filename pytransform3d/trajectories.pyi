@@ -4,12 +4,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from typing import Union
 
 
-def random_trajectories(
-        rng: np.random.Generator = ..., n_trajectories: int = ...,
-        n_steps: int = ..., start: npt.ArrayLike = ...,
-        goal: npt.ArrayLike = ..., dt: float = ...) -> np.ndarray: ...
-
-
 def invert_transforms(A2Bs: npt.ArrayLike) -> np.ndarray: ...
 
 
@@ -85,7 +79,15 @@ def batch_concatenate_dual_quaternions(
         dqs1: npt.ArrayLike, dqs2: npt.ArrayLike) -> np.ndarray: ...
 
 
-def batch_dq_prod_vector(dqs: npt.ArrayLike, V: npt.ArrayLike) -> np.ndarray: ...
+def batch_dq_prod_vector(
+        dqs: npt.ArrayLike, V: npt.ArrayLike) -> np.ndarray: ...
+
+
+def random_trajectories(
+        rng: np.random.Generator = ..., n_trajectories: int = ...,
+        n_steps: int = ..., start: npt.ArrayLike = ...,
+        goal: npt.ArrayLike = ..., std_dev: npt.ArrayLike = ...
+) -> np.ndarray: ...
 
 
 def plot_trajectory(
