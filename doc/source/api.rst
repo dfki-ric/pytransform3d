@@ -530,6 +530,8 @@ Transformation Matrices
    :toctree: _apidoc/
    :template: function.rst
 
+   ~random_trajectories
+
    ~invert_transforms
    ~concat_one_to_many
    ~concat_many_to_one
