@@ -3,7 +3,7 @@
 Fuse 3 Poses
 ============
 
-Each of the poses is has an associated covariance that is considered during
+Each of the poses has an associated covariance that is considered during
 the fusion. Each of the plots shows a projection of the distributions in
 exponential coordinate space to two dimensions. Red, green, and blue ellipses
 represent the uncertain poses that will be fused. A black ellipse indicates
@@ -20,6 +20,10 @@ import pytransform3d.uncertainty as pu
 import pytransform3d.transformations as pt
 
 
+# %%
+# Helper Functions
+# ----------------
+# Here you find some helper functions for plotting.
 def to_ellipse(cov, factor=1.0):
     """Compute error ellipse.
 
@@ -88,6 +92,11 @@ def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
         ax.add_artist(ell)
 
 
+# %%
+# Example Configuration
+# ---------------------
+# A ground truth pose is known in this example. We sample 3 poses with
+# different covariances around the ground truth pose.
 x_true = np.array([1.0, 0.0, 0.0, 0.0, 0.0, np.pi / 6.0])
 T_true = pt.transform_from_exponential_coordinates(x_true)
 alpha = 5.0
@@ -108,9 +117,21 @@ x1 = pt.exponential_coordinates_from_transform(T1)
 x2 = pt.exponential_coordinates_from_transform(T2)
 x3 = pt.exponential_coordinates_from_transform(T3)
 
+# %%
+# Fusion
+# ------
+# We can then fuse the 3 sampled poses with their associated covariances.
 T_est, cov_est, V = pu.pose_fusion([T1, T2, T3], [cov1, cov2, cov3])
-x_est = pt.exponential_coordinates_from_transform(T_est)
 
+# %%
+# Plotting
+# --------
+# Each subplot shows two dimensions of the exponential coordinate space.
+# Each sampled pose and its associated covariance matrix is displayed as an
+# equiprobable ellipse. The fused pose estimate is also shown with its
+# associated covariance as an equiprobable ellipse. For comparison, the ground
+# truth pose is shown as a point.
+x_est = pt.exponential_coordinates_from_transform(T_est)
 _, axes = plt.subplots(
     nrows=6, ncols=6, sharex=True, sharey=True, squeeze=True, figsize=(10, 10))
 factors = [1.0]
