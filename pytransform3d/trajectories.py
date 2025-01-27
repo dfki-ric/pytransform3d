@@ -938,7 +938,27 @@ def random_trajectories(
 
 
 def _linear_movement(start, goal, n_steps, dt):
-    """Linear movement from start to goal."""
+    """Linear movement from start to goal.
+
+    Parameters
+    ----------
+    start : array-like, shape (4, 4)
+        Start pose as transformation matrix.
+
+    goal : array-like, shape (4, 4)
+        Goal pose as transformation matrix.
+
+    n_steps : int
+        Number of steps.
+
+    dt : float
+        Time difference between two steps.
+
+    Returns
+    -------
+    linear_component : array, shape (n_steps, 4, 4)
+        Linear trajectory from start to goal with equal step sizes.
+    """
     time = np.arange(n_steps) * dt
     start_dq = dual_quaternions_from_transforms(start)
     goal_dq = dual_quaternions_from_transforms(goal)

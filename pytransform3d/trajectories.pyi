@@ -90,6 +90,17 @@ def random_trajectories(
 ) -> np.ndarray: ...
 
 
+def _linear_movement(
+        start: npt.ArrayLike, goal:npt.ArrayLike, n_steps: int, dt: float
+) -> np.ndarray: ...
+
+
+def _acceleration_L(n_dims: int, n_steps: int, dt: float) -> np.ndarray: ...
+
+
+def _create_fd_matrix_1d(n_steps: int, dt: float) -> np.ndarray: ...
+
+
 def plot_trajectory(
         ax: Union[None, Axes3D] = ..., P: Union[None, npt.ArrayLike] = ...,
         normalize_quaternions: bool = ..., show_direction: bool = ...,
