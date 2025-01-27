@@ -887,18 +887,36 @@ def batch_dq_prod_vector(dqs, V):
 
 def random_trajectories(
         rng=np.random.default_rng(0), n_trajectories=10, n_steps=101,
-        start=np.eye(4), goal=np.eye(4), std_dev=np.ones(6)):
+        start=np.eye(4), goal=np.eye(4), scale=100.0 * np.ones(6)):
     """Generate random trajectories.
 
     Create a smooth random trajectory with low accelerations.
 
     Parameters
     ----------
-    TODO
+    rng : np.random.Generator, optional (default: random seed 0)
+        Random number generator
+
+    n_trajectories : int, optional (default: 10)
+        Number of trajectories that should be generated.
+
+    n_steps : int, optional (default: 101)
+        Number of steps in each trajectory.
+
+    start : array-like, shape (4, 4), optional (default: I)
+        Start pose as transformation matrix.
+
+    goal : array-like, shape (4, 4), optional (default: I)
+        Goal pose as transformation matrix.
+
+    scale : array-like, shape (6,), optional (default: [100] * 6)
+        Scaling factor for random deviations from linear movement from start to
+        goal.
 
     Returns
     -------
-    TODO
+    trajectories : array, shape (n_trajectories, n_steps, 4, 4)
+        Random trajectories between start and goal.
     """
     dt = 1.0 / (n_steps - 1)
     linear_component = _linear_movement(start, goal, n_steps, dt)
@@ -909,11 +927,13 @@ def random_trajectories(
     smooth_samples = np.einsum("ni,ji->nj", samples, L)
     Sthetas = smooth_samples.reshape(
         n_trajectories, exp_coordinate_dims, n_steps).transpose([0, 2, 1])
-    Sthetas *= np.asarray(std_dev)[np.newaxis, np.newaxis]
+    Sthetas *= np.asarray(scale)[np.newaxis, np.newaxis]
+
     trajectories = transforms_from_exponential_coordinates(Sthetas)
     for i in range(n_trajectories):
         trajectories[i] = concat_many_to_many(
             trajectories[i], linear_component)
+
     return trajectories
 
 

@@ -23,7 +23,7 @@ trajectories = ptr.random_trajectories(
     n_steps=1001,
     start=np.eye(4),
     goal=pt.transform_from(R=np.eye(3), p=0.3 * np.ones(3)),
-    std_dev=[200, 200, 200, 50, 50, 50]
+    scale=[200] * 3 + [50] * 3
 )
 
 # %%
