@@ -11,7 +11,7 @@ from pytransform3d.trajectories import (
     concat_one_to_many, concat_many_to_one, mirror_screw_axis_direction,
     screw_parameters_from_dual_quaternions,
     dual_quaternions_from_screw_parameters, dual_quaternions_sclerp,
-    concat_dynamic, concat_many_to_many)
+    concat_dynamic)
 from pytransform3d.rotations import (
     quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
     random_quaternion)
@@ -508,3 +508,32 @@ def test_batch_dq_q_conj():
     Is = ptr.transforms_from_dual_quaternions(dqs_id)
     for I in Is.reshape(-1, 4, 4):
         assert_array_almost_equal(I, np.eye(4))
+
+
+def test_random_trajectories():
+    rng = np.random.default_rng(3427)
+    start = pt.random_transform(rng)
+    goal = pt.random_transform(rng)
+
+    trajectories = ptr.random_trajectories(
+        rng, n_trajectories=7, n_steps=132, start=start, goal=goal,
+        scale=[100] * 6)
+    assert trajectories.shape == (7, 132, 4, 4)
+    assert_array_almost_equal(trajectories[0, 0], start, decimal=2)
+    assert_array_almost_equal(trajectories[0, -1], goal, decimal=2)
+
+    # check scaling, we assume start and goal are equal so that the linear
+    # movement from start to goal does not interfere with the random motion
+    rng = np.random.default_rng(3429)
+    trajectories1 = ptr.random_trajectories(
+        rng, n_trajectories=3, n_steps=20, scale=[1.0] * 6)
+    rng = np.random.default_rng(3429)
+    trajectories2 = ptr.random_trajectories(
+        rng, n_trajectories=3, n_steps=20, scale=[2.0] * 6)
+    Sthetas1 = ptr.exponential_coordinates_from_transforms(trajectories1)
+    acc1 = np.abs(np.gradient(np.gradient(Sthetas1, axis=1, edge_order=0),
+                              axis=1, edge_order=0))
+    Sthetas2 = ptr.exponential_coordinates_from_transforms(trajectories2)
+    acc2 = np.abs(np.gradient(np.gradient(Sthetas2, axis=1, edge_order=0),
+                              axis=1, edge_order=0))
+    assert np.all(acc1 <= acc2)

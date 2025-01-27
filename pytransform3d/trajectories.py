@@ -892,6 +892,11 @@ def random_trajectories(
 
     Create a smooth random trajectory with low accelerations.
 
+    The generated trajectories consist of a linear movement from start to goal
+    and a superimposed random movement with low accelerations. Hence, the first
+    pose and last pose do not exactly equal the start and goal pose
+    respectively.
+
     Parameters
     ----------
     rng : np.random.Generator, optional (default: random seed 0)
