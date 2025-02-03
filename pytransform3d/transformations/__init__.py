@@ -28,7 +28,7 @@ from ._conversions import (
 from ._transform_operations import (
     invert_transform, scale_transform, concat,
     vector_to_point, vectors_to_points, vector_to_direction,
-    vectors_to_directions, transform)
+    vectors_to_directions, transform, transform_sclerp, transform_power)
 from ._pq_operations import pq_slerp
 from ._dual_quaternion_operations import (
     norm_dual_quaternion, dual_quaternion_double, dq_q_conj, dq_conj,
@@ -72,7 +72,8 @@ __all__ = [
     "norm_exponential_coordinates",
     "invert_transform", "scale_transform", "concat",
     "vector_to_point", "vectors_to_points", "vector_to_direction",
-    "vectors_to_directions", "transform",
+    "vectors_to_directions", "transform", "transform_sclerp",
+    "transform_power",
     "random_transform", "random_screw_axis", "random_exponential_coordinates",
     "pq_slerp",
     "norm_dual_quaternion", "dual_quaternion_double", "dq_q_conj", "dq_conj",

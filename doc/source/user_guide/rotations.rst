@@ -23,10 +23,10 @@ is not implemented in pytransform3d then it is shown in brackets.
 +----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
 | Representation                         | Inverse       | Rotation of vector | Concatenation | Interpolation    | Renormalization |
 +========================================+===============+====================+===============+==================+=================+
-| Rotation matrix                        | Transpose     | Yes                | Yes           | via exponentials | Required        |
+| Rotation matrix                        | Transpose     | Yes                | Yes           | SLERP            | Required        |
 | :math:`\pmb{R}`                        |               |                    |               |                  |                 |
 +----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
-| Axis-angle                             | Negative axis | No                 | No            | direct SLERP     | Not necessary   |
+| Axis-angle                             | Negative axis | No                 | No            | SLERP            | Not necessary   |
 | :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |                  |                 |
 +----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
 | Rotation vector                        | Negative      | No                 | No            | SLERP / `(2)`    | Not required    |
@@ -35,10 +35,10 @@ is not implemented in pytransform3d then it is shown in brackets.
 | Logarithm of rotation                  | Negative      | No                 | No            | SLERP / `(2)`    | Not required    |
 | :math:`\left[\pmb{\omega}\right]`      |               |                    |               |                  |                 |
 +----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
-| Quaternion                             | Conjugate     | Yes                | Yes           | direct SLERP     | Required        |
+| Quaternion                             | Conjugate     | Yes                | Yes           | SLERP            | Required        |
 | :math:`\pmb{q}`                        |               |                    |               |                  |                 |
 +----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
-| Rotor                                  | Reverse       | Yes                | Yes           | direct SLERP     | Required        |
+| Rotor                                  | Reverse       | Yes                | Yes           | SLERP            | Required        |
 | :math:`R`                              |               |                    |               |                  |                 |
 +----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
 | Euler angles                           | `(1)`         | No                 | No            | No               | Not necessary   |
@@ -56,13 +56,10 @@ the negative of these.
 
 `(2)` Linear interpolation is approximately correct for small differences.
 
-SLERP means Spherical Linear intERPolation. This can be implemented to
-interpolate directly between two instances of the representation
-(direct SLERP) or by computing fractions of the representation when it is a
-difference between two orientations (indicated by SLERP in the table). For
-some representations a conversion to an exponential representation like the
-rotation vector is required to compute SLERP as a fraction of the exponential
-representation.
+SLERP means Spherical Linear intERPolation. This can either be implemented
+directly for two instances of the representation or sometimes involves a
+conversion to a rotation vector that represents the difference of the two
+orientations.
 
 ---------------
 Rotation Matrix

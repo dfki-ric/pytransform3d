@@ -824,10 +824,9 @@ def test_dual_quaternion_sclerp():
 
     # Ground truth: screw linear interpolation
     pose12pose2 = pt.concat(pose2, pt.invert_transform(pose1))
-    screw_axis, theta = pt.screw_axis_from_exponential_coordinates(
-        pt.exponential_coordinates_from_transform(pose12pose2))
+    Stheta = pt.exponential_coordinates_from_transform(pose12pose2)
     offsets = np.array(
-        [pt.transform_from_exponential_coordinates(screw_axis * t * theta)
+        [pt.transform_from_exponential_coordinates(Stheta * t)
          for t in np.linspace(0, 1, n_steps)])
     interpolated_poses = np.array([
         pt.concat(offset, pose1) for offset in offsets])
@@ -839,9 +838,16 @@ def test_dual_quaternion_sclerp():
     sclerp_interpolated_poses_from_dqs = np.array([
         pt.transform_from_dual_quaternion(dq) for dq in sclerp_interpolated_dqs])
 
+    # Transformation matrix ScLERP
+    sclerp_interpolated_transforms = np.array([
+        pt.transform_sclerp(pose1, pose2, t)
+        for t in np.linspace(0, 1, n_steps)])
+
     for t in range(n_steps):
         assert_array_almost_equal(
             interpolated_poses[t], sclerp_interpolated_poses_from_dqs[t])
+        assert_array_almost_equal(
+            interpolated_poses[t], sclerp_interpolated_transforms[t])
 
 
 def test_dual_quaternion_sclerp_sign_ambiguity():
@@ -866,6 +872,18 @@ def test_dual_quaternion_sclerp_sign_ambiguity():
          for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
 
     assert path_length_opposing == path_length
+
+
+def test_compare_dual_quaternion_and_transform_power():
+    rng = np.random.default_rng(44329)
+    for _ in range(20):
+        t = rng.normal()
+        A2B = pt.random_transform(rng)
+        dq = pt.dual_quaternion_from_transform(A2B)
+        assert_array_almost_equal(
+            pt.transform_power(A2B, t),
+            pt.transform_from_dual_quaternion(pt.dual_quaternion_power(dq, t))
+        )
 
 
 def test_exponential_coordinates_from_almost_identity_transform():
