@@ -98,8 +98,9 @@ from ._quaternions import (
 from ._mrp import (
     mrp_near_singularity, norm_mrp, mrp_double, concatenate_mrp,
     mrp_prod_vector)
-from ._slerp import (slerp_weights, pick_closest_quaternion, quaternion_slerp,
-                     axis_angle_slerp, rotor_slerp)
+from ._slerp import (
+    matrix_slerp, matrix_power, slerp_weights, pick_closest_quaternion,
+    quaternion_slerp, axis_angle_slerp, rotor_slerp, )
 from ._testing import (
     assert_euler_equal, assert_quaternion_equal, assert_axis_angle_equal,
     assert_compact_axis_angle_equal, assert_rotation_matrix, assert_mrp_equal)
@@ -245,6 +246,8 @@ __all__ = [
     "q_prod_vector",
     "quaternion_diff",
     "quaternion_dist",
+    "matrix_slerp",
+    "matrix_power",
     "slerp_weights",
     "pick_closest_quaternion",
     "quaternion_slerp",
