@@ -301,6 +301,8 @@ Transformation Matrix
    ~vectors_to_points
    ~vector_to_direction
    ~vectors_to_directions
+   ~transform_power
+   ~transform_sclerp
    ~adjoint_from_transform
 
    ~plot_transform

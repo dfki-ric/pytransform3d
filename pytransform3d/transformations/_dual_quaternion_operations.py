@@ -289,6 +289,9 @@ def dual_quaternion_sclerp(start, end, t):
 
     See Also
     --------
+    transform_sclerp :
+        ScLERP for transformation matrices.
+
     pq_slerp :
         An alternative approach is spherical linear interpolation (SLERP) with
         position and quaternion.
