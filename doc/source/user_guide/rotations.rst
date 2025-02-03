@@ -20,33 +20,33 @@ Not all representations support all operations directly without conversion to
 another representation. The following table is an overview. If the operation
 is not implemented in pytransform3d then it is shown in brackets.
 
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Representation                         | Inverse       | Rotation of vector | Concatenation | Interpolation | Renormalization |
-+========================================+===============+====================+===============+===============+=================+
-| Rotation matrix                        | Transpose     | Yes                | Yes           | No            | Required        |
-| :math:`\pmb{R}`                        |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Axis-angle                             | Negative axis | No                 | No            | SLERP         | Not necessary   |
-| :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Rotation vector                        | Negative      | No                 | No            | (Yes) `(2)`   | Not required    |
-| :math:`\pmb{\omega}`                   |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Logarithm of rotation                  | Negative      | No                 | No            | (Yes) `(2)`   | Not required    |
-| :math:`\left[\pmb{\omega}\right]`      |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Quaternion                             | Conjugate     | Yes                | Yes           | SLERP         | Required        |
-| :math:`\pmb{q}`                        |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Rotor                                  | Reverse       | Yes                | Yes           | SLERP         | Required        |
-| :math:`R`                              |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Euler angles                           | `(1)`         | No                 | No            | No            | Not necessary   |
-| :math:`(\alpha, \beta, \gamma)`        |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
-| Modified Rodrigues parameters          | Negative      | No                 | Yes           | No            | Not required    |
-| :math:`\pmb{\psi}`                     |               |                    |               |               |                 |
-+----------------------------------------+---------------+--------------------+---------------+---------------+-----------------+
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Representation                         | Inverse       | Rotation of vector | Concatenation | Interpolation    | Renormalization |
++========================================+===============+====================+===============+==================+=================+
+| Rotation matrix                        | Transpose     | Yes                | Yes           | via exponentials | Required        |
+| :math:`\pmb{R}`                        |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Axis-angle                             | Negative axis | No                 | No            | direct SLERP     | Not necessary   |
+| :math:`(\hat{\pmb{\omega}}, \theta)`   |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Rotation vector                        | Negative      | No                 | No            | SLERP / `(2)`    | Not required    |
+| :math:`\pmb{\omega}`                   |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Logarithm of rotation                  | Negative      | No                 | No            | SLERP / `(2)`    | Not required    |
+| :math:`\left[\pmb{\omega}\right]`      |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Quaternion                             | Conjugate     | Yes                | Yes           | direct SLERP     | Required        |
+| :math:`\pmb{q}`                        |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Rotor                                  | Reverse       | Yes                | Yes           | direct SLERP     | Required        |
+| :math:`R`                              |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Euler angles                           | `(1)`         | No                 | No            | No               | Not necessary   |
+| :math:`(\alpha, \beta, \gamma)`        |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
+| Modified Rodrigues parameters          | Negative      | No                 | Yes           | No               | Not required    |
+| :math:`\pmb{\psi}`                     |               |                    |               |                  |                 |
++----------------------------------------+---------------+--------------------+---------------+------------------+-----------------+
 
 Footnotes:
 
@@ -55,6 +55,14 @@ another convention CBA (e.g., zyx), reversing the order of angles, and taking
 the negative of these.
 
 `(2)` Linear interpolation is approximately correct for small differences.
+
+SLERP means Spherical Linear intERPolation. This can be implemented to
+interpolate directly between two instances of the representation
+(direct SLERP) or by computing fractions of the representation when it is a
+difference between two orientations (indicated by SLERP in the table). For
+some representations a conversion to an exponential representation like the
+rotation vector is required to compute SLERP as a fraction of the exponential
+representation.
 
 ---------------
 Rotation Matrix
