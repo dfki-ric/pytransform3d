@@ -248,6 +248,24 @@ coordinates of transformation and typically we use the variable name Stheta.
     [4]_. They use a different order of the 3D vector components and they do
     not separate :math:`\theta` from the screw axis in their notation.
 
+We say exponential coordinates of transformation because there is an
+exponential map :math:`Exp(\mathcal{S}\theta) = \boldsymbol{T}` (see
+:func:`~pytransform3d.transformations.transform_from_exponential_coordinates`)
+that converts them to a transformation matrix. The inverse operation is the
+logarithmic map :math:`Log(\boldsymbol{T}) = \mathcal{S}\theta` (see
+:func:`~pytransform3d.transformations.exponential_coordinates_from_transform`).
+
+Exponential coordinates can be used to implement screw linear interpolation
+(ScLERP) because we can easily compute fractions of a transformation in
+exponential coordinates. We just have to compute the difference between two
+transformations
+:math:`\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}`,
+convert it to exponential coordinates
+:math:`Log(\boldsymbol{T}_{AB}) = \mathcal{S}\theta_{AB}`, compute a fraction
+of it :math:`t\mathcal{S}\theta_{AB}` with :math:`t \in [0, 1]`, and use the
+exponential map to concatenate the fraction of the difference
+:math:`\boldsymbol{T}_{WA} Exp(t\mathcal{S}\theta_{AB})`.
+
 **Pros**
 
 * Representation: minimal.
@@ -299,6 +317,25 @@ algebra of Lie group :math:`SE(3)`.
 
 pytransform3d uses a numpy array of shape (4, 4) to represent the logarithm
 of a transformation and typically we use the variable name `transform_log`.
+
+We say logarithm of transformation because there is an
+exponential map :math:`\exp(\left[\mathcal{S}\right]\theta) = \boldsymbol{T}`
+(see :func:`~pytransform3d.transformations.transform_from_transform_log`)
+that converts it to a transformation matrix. The inverse operation is the
+logarithmic map :math:`\log(\boldsymbol{T}) = \left[\mathcal{S}\right]\theta`
+(see :func:`~pytransform3d.transformations.transform_log_from_transform`).
+
+The logarithm of transformation can be used to implement screw linear
+interpolation (ScLERP) because we can easily compute fractions of a
+transformation. We just have to compute the difference between two
+transformations
+:math:`\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}`,
+convert it to the logarithm
+:math:`\log(\boldsymbol{T}_{AB}) = \left[\mathcal{S}\right]\theta_{AB}`,
+compute a fraction of it :math:`t\left[\mathcal{S}\right]\theta_{AB}` with
+:math:`t \in [0, 1]`, and use the exponential map to concatenate the fraction
+of the difference
+:math:`\boldsymbol{T}_{WA} \exp(t\left[\mathcal{S}\right]\theta_{AB})`.
 
 -----
 Twist
