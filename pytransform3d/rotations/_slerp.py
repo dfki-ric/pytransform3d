@@ -2,6 +2,77 @@
 import numpy as np
 from ._utils import (check_axis_angle, check_quaternion, angle_between_vectors,
                      check_rotor)
+from ._conversions import (
+    compact_axis_angle_from_matrix, matrix_from_compact_axis_angle)
+
+
+def matrix_slerp(start, end, t):
+    r"""Spherical linear interpolation (SLERP) for rotation matrices.
+
+    We compute the difference between two orientations
+    :math:`\boldsymbol{R}_{AB} = \boldsymbol{R}^{-1}_{WA}\boldsymbol{R}_{WB}`,
+    convert it to a rotation vector
+    :math:`Log(\boldsymbol{R}_{AB}) = \boldsymbol{\omega}_{AB}`, compute a
+    fraction of it :math:`t\boldsymbol{\omega}_{AB}` with :math:`t \in [0, 1]`,
+    and use the exponential map to concatenate the fraction of the difference
+    :math:`\boldsymbol{R}_{WA} Exp(t\boldsymbol{\omega}_{AB})`.
+
+    Parameters
+    ----------
+    start : array-like, shape (3, 3)
+        Rotation matrix to represent start orientation.
+
+    end : array-like, shape (3, 3)
+        Rotation matrix to represent end orientation.
+
+    t : float in [0, 1]
+        Position between start and goal.
+
+    Returns
+    -------
+    R_t : array, shape (3, 3)
+        Interpolated orientation.
+
+    See Also
+    --------
+    axis_angle_slerp :
+        SLERP axis-angle representation.
+
+    quaternion_slerp :
+        SLERP for quaternions.
+
+    rotor_slerp :
+        SLERP for rotors.
+
+    pytransform3d.transformations.pq_slerp :
+        SLERP for position + quaternion.
+    """
+    end2start = np.dot(np.transpose(start), end)
+    return np.dot(start, matrix_power(end2start, t))
+
+
+def matrix_power(R, t):
+    r"""Compute power of a rotation matrix with respect to scalar.
+
+    .. math::
+
+        \boldsymbol{R}^t
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix.
+
+    t : float
+        Exponent.
+
+    Returns
+    -------
+    R_t : array, shape (3, 3)
+        Rotation matrix.
+    """
+    a = compact_axis_angle_from_matrix(R)
+    return matrix_from_compact_axis_angle(a * t)
 
 
 def axis_angle_slerp(start, end, t):
@@ -25,6 +96,9 @@ def axis_angle_slerp(start, end, t):
 
     See Also
     --------
+    matrix_slerp :
+        SLERP for rotation matrices.
+
     quaternion_slerp :
         SLERP for quaternions.
 
@@ -68,6 +142,9 @@ def quaternion_slerp(start, end, t, shortest_path=False):
 
     See Also
     --------
+    matrix_slerp :
+        SLERP for rotation matrices.
+
     axis_angle_slerp :
         SLERP for axis-angle representation.
 
@@ -162,6 +239,9 @@ def rotor_slerp(start, end, t, shortest_path=False):
 
     See Also
     --------
+    matrix_slerp :
+        SLERP for rotation matrices.
+
     axis_angle_slerp :
         SLERP for axis-angle representation.
 

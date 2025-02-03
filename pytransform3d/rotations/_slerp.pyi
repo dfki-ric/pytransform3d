@@ -3,6 +3,13 @@ import numpy.typing as npt
 from typing import Union
 
 
+def matrix_slerp(
+        start: npt.ArrayLike, end: npt.ArrayLike, t: float) -> np.ndarray: ...
+
+
+def matrix_power(R: npt.ArrayLike, t: float) -> np.ndarray: ...
+
+
 def axis_angle_slerp(
         start: npt.ArrayLike, end: npt.ArrayLike, t: float) -> np.ndarray: ...
 

@@ -1530,6 +1530,47 @@ def test_interpolate_shortest_path_same_quaternion():
     assert_array_almost_equal(q, q_interpolated)
 
 
+def test_q_R_slerps():
+    """Compare SLERP implementations for quaternions and rotation matrices."""
+    rng = np.random.default_rng(833234)
+    for _ in range(20):
+        q_start = pr.random_quaternion(rng)
+        q_end = pr.random_quaternion(rng)
+        R_start, R_end = (pr.matrix_from_quaternion(q_start),
+                          pr.matrix_from_quaternion(q_end))
+        t = rng.random()
+        q_t = pr.quaternion_slerp(q_start, q_end, t, shortest_path=True)
+        R_t = pr.matrix_slerp(R_start, R_end, t)
+        assert_array_almost_equal(R_t, pr.matrix_from_quaternion(q_t))
+
+
+def test_rotation_matrix_power():
+    """Test power of rotation matrices."""
+    R = pr.random_matrix(rng=np.random.default_rng(2844))
+    angle = pr.axis_angle_from_matrix(R)[-1]
+
+    R_m2 = pr.matrix_power(R, -2.0)
+    assert_array_almost_equal(R_m2, R.T.dot(R.T))
+
+    R_m1 = pr.matrix_power(R, -1.0)
+    assert_array_almost_equal(R_m1, R.T)
+
+    R_m05 = pr.matrix_power(R, -0.5)
+    assert pytest.approx(angle) == 2 * pr.axis_angle_from_matrix(R_m05)[-1]
+
+    R_0 = pr.matrix_power(R, 0.0)
+    assert_array_almost_equal(R_0, np.eye(3))
+
+    R_p05 = pr.matrix_power(R, 0.5)
+    assert pytest.approx(angle) == 2 * pr.axis_angle_from_matrix(R_p05)[-1]
+
+    R_p1 = pr.matrix_power(R, 1.0)
+    assert_array_almost_equal(R_p1, R)
+
+    R_p2 = pr.matrix_power(R, 2.0)
+    assert_array_almost_equal(R_p2, R.dot(R))
+
+
 def test_quaternion_conventions():
     """Test conversion of quaternion between wxyz and xyzw."""
     q_wxyz = np.array([1.0, 0.0, 0.0, 0.0])
