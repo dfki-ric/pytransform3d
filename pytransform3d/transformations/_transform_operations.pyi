@@ -31,3 +31,10 @@ def scale_transform(
         s_zr: float = ..., s_r: float = ..., s_xt: float = ...,
         s_yt: float = ..., s_zt: float = ..., s_t: float = ...,
         s_d: float = ..., strict_check: bool = ...) -> np.ndarray: ...
+
+
+def transform_sclerp(
+        start: npt.ArrayLike, end: npt.ArrayLike, t: float) -> np.ndarray: ...
+
+
+def transform_power(A2B: npt.ArrayLike, t: float) -> np.ndarray: ...

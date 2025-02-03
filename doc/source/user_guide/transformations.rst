@@ -46,31 +46,27 @@ another representation. The following table is an overview.
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
 | Representation                         | Inverse    | Transformation of vector | Concatenation | Interpolation    | Renormalization |
 +========================================+============+==========================+===============+==================+=================+
-| Transformation matrix                  | Inverse    | Yes                      | Yes           | via exponentials | Required        |
+| Transformation matrix                  | Inverse    | Yes                      | Yes           | ScLERP `(1)`     | Required        |
 | :math:`\pmb{R}`                        |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
-| Exponential coordinates                | Negative   | No                       | No            | ScLERP           | Not necessary   |
+| Exponential coordinates                | Negative   | No                       | No            | No               | Not necessary   |
 | :math:`\mathcal{S}\theta`              |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
-| Logarithm of transformation            | Negative   | No                       | No            | ScLERP           | Not necessary   |
+| Logarithm of transformation            | Negative   | No                       | No            | No               | Not necessary   |
 | :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
-| Position and quaternion                | No         | No                       | No            | direct SLERP     | Required        |
+| Position and quaternion                | No         | No                       | No            | SLERP `(2)`      | Required        |
 | :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
-| Dual quaternion                        | Quaternion | Yes                      | Yes           | direct ScLERP    | Required        |
-| :math:`\boldsymbol{\sigma}`            | Conjugate  |                          |               | via exponentials |                 |
+| Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP `(1)`     | Required        |
+| :math:`\boldsymbol{\sigma}`            | Conjugate  |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
 
-ScLERP means Screw Linear intERPolation. This can be implemented to
-interpolate directly between two instances of the representation
-(direct ScLERP) or by computing fractions of the representation when it is a
-difference between two poses (indicated by ScLERP in the table). For
-some representations a conversion to exponential coordinates is required to
-compute ScLERP as a fraction of the exponential representation.
+`(1)` ScLERP means Screw Linear intERPolation. This usually requires an
+internal conversion to exponential coordinates.
 
-SLERP means Spherical Linear intERPolation and is applied to the orientation
-while the translation is linearly interpolated.
+`(2)` SLERP means Spherical Linear intERPolation and is applied to the
+orientation while the translation is linearly interpolated.
 
 ---------------------
 Transformation Matrix

@@ -3,6 +3,9 @@ import numpy as np
 from ..rotations import (
     axis_angle_from_matrix, matrix_from_axis_angle, norm_vector)
 from ._utils import check_transform
+from ._conversions import (
+    exponential_coordinates_from_transform,
+    transform_from_exponential_coordinates)
 
 
 def invert_transform(A2B, strict_check=True, check=True):
@@ -340,3 +343,67 @@ def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
     A2B_scaled[:3, :3] = matrix_from_axis_angle(a_new)
 
     return A2B_scaled
+
+
+def transform_sclerp(start, end, t):
+    r"""Screw linear interpolation (ScLERP) for transformation matrices.
+
+    We compute the difference between two poses
+    :math:`\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}`,
+    convert it to exponential coordinates
+    :math:`Log(\boldsymbol{T}_{AB}) = \mathcal{S}\theta_{AB}`, compute a
+    fraction of it :math:`t\mathcal{S}\theta_{AB}` with :math:`t \in [0, 1]`,
+    and use the exponential map to concatenate the fraction of the difference
+    :math:`\boldsymbol{T}_{WA} Exp(t\mathcal{S}\theta_{AB})`.
+
+    Parameters
+    ----------
+    start : array-like, shape (4, 4)
+        Transformation matrix to represent start pose.
+
+    end : array-like, shape (4, 4)
+        Transformation matrix to represent end pose.
+
+    t : float in [0, 1]
+        Position between start and goal.
+
+    Returns
+    -------
+    A2B_t : array, shape (4, 4)
+        Interpolated pose.
+
+    See Also
+    --------
+    dual_quaternion_sclerp :
+        ScLERP for dual quaternions.
+
+    pq_slerp :
+        An alternative approach is spherical linear interpolation (SLERP) with
+        position and quaternion.
+    """
+    end2start = np.dot(invert_transform(start), end)
+    return np.dot(start, transform_power(end2start, t))
+
+
+def transform_power(A2B, t):
+    r"""Compute power of a transformation matrix with respect to scalar.
+
+    .. math::
+
+        \boldsymbol{T}_{BA}^t
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B.
+
+    t : float
+        Exponent.
+
+    Returns
+    -------
+    A2B_t : array, shape (4, 4)
+        Transformation matrix.
+    """
+    Stheta = exponential_coordinates_from_transform(A2B)
+    return transform_from_exponential_coordinates(Stheta * t)
