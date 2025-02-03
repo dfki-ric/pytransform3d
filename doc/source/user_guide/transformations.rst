@@ -49,13 +49,13 @@ another representation. The following table is an overview.
 | Transformation matrix                  | Inverse    | Yes                      | Yes           | ScLERP `(1)`     | Required        |
 | :math:`\pmb{R}`                        |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
-| Exponential coordinates                | Negative   | No                       | No            | No               | Not necessary   |
+| Exponential coordinates                | Negative   | No                       | No            | ScLERP `(2)`     | Not necessary   |
 | :math:`\mathcal{S}\theta`              |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
-| Logarithm of transformation            | Negative   | No                       | No            | No               | Not necessary   |
+| Logarithm of transformation            | Negative   | No                       | No            | ScLERP `(2)`     | Not necessary   |
 | :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
-| Position and quaternion                | No         | No                       | No            | SLERP `(2)`      | Required        |
+| Position and quaternion                | No         | No                       | No            | SLERP `(3)`      | Required        |
 | :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |                  |                 |
 +----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
 | Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP `(1)`     | Required        |
@@ -65,7 +65,11 @@ another representation. The following table is an overview.
 `(1)` ScLERP means Screw Linear intERPolation. This usually requires an
 internal conversion to exponential coordinates.
 
-`(2)` SLERP means Spherical Linear intERPolation and is applied to the
+`(2)` Fractions of this representation represent partial transformations, but
+a conversion to another representation is required to interpolate between
+poses.
+
+`(3)` SLERP means Spherical Linear intERPolation and is applied to the
 orientation while the translation is linearly interpolated.
 
 ---------------------
