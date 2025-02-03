@@ -40,15 +40,13 @@ n_steps = 100
 # --------------------------
 # The ground truth for interpolation of poses is a linear interpolation of
 # rotation about and translation along the screw axis. We will represent the
-# difference between the two poses as exponential coordinates and then
-# decompose the exponential coordinates into a screw axis and the magnitude of
-# the transformation theta. We can use fractions of theta to smoothly
-# interpolate between the two poses.
+# difference between the two poses as exponential coordinates, a product of the
+# screw axis and the magnitude of the transformation. We can use fractions of
+# the exponential coordinates to smoothly interpolate between the two poses.
 pose12pose2 = pt.concat(pose2, pt.invert_transform(pose1))
-screw_axis, theta = pt.screw_axis_from_exponential_coordinates(
-    pt.exponential_coordinates_from_transform(pose12pose2))
+Stheta = pt.exponential_coordinates_from_transform(pose12pose2)
 offsets = ptr.transforms_from_exponential_coordinates(
-    screw_axis[np.newaxis] * np.linspace(0, 1, n_steps)[:, np.newaxis] * theta)
+    Stheta[np.newaxis] * np.linspace(0, 1, n_steps)[:, np.newaxis])
 interpolated_poses = ptr.concat_many_to_one(offsets, pose1)
 
 # %%
