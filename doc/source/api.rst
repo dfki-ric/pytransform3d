@@ -35,6 +35,9 @@ Rotation Matrix
 
    ~assert_rotation_matrix
 
+   ~matrix_slerp
+   ~matrix_power
+
    ~passive_matrix_from_angle
    ~active_matrix_from_angle
    ~matrix_from_two_vectors
