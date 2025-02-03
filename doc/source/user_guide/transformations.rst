@@ -43,24 +43,34 @@ an analogous representation of transformations:
 Not all representations support all operations directly without conversion to
 another representation. The following table is an overview.
 
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Representation                         | Inverse    | Transformation of vector | Concatenation | Interpolation | Renormalization |
-+========================================+============+==========================+===============+===============+=================+
-| Transformation matrix                  | Inverse    | Yes                      | Yes           | No            | Required        |
-| :math:`\pmb{R}`                        |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Exponential coordinates                | Negative   | No                       | No            | ScLERP        | Not necessary   |
-| :math:`\mathcal{S}\theta`              |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Logarithm of transformation            | Negative   | No                       | No            | No            | Not necessary   |
-| :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Position and quaternion                | No         | No                       | No            | No            | Required        |
-| :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP        | Required        |
-| :math:`\boldsymbol{\sigma}`            | Conjugate  |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Representation                         | Inverse    | Transformation of vector | Concatenation | Interpolation    | Renormalization |
++========================================+============+==========================+===============+==================+=================+
+| Transformation matrix                  | Inverse    | Yes                      | Yes           | via exponentials | Required        |
+| :math:`\pmb{R}`                        |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Exponential coordinates                | Negative   | No                       | No            | ScLERP           | Not necessary   |
+| :math:`\mathcal{S}\theta`              |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Logarithm of transformation            | Negative   | No                       | No            | ScLERP           | Not necessary   |
+| :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Position and quaternion                | No         | No                       | No            | direct SLERP     | Required        |
+| :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Dual quaternion                        | Quaternion | Yes                      | Yes           | direct ScLERP    | Required        |
+| :math:`\boldsymbol{\sigma}`            | Conjugate  |                          |               | via exponentials |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+
+ScLERP means Screw Linear intERPolation. This can be implemented to
+interpolate directly between two instances of the representation
+(direct ScLERP) or by computing fractions of the representation when it is a
+difference between two poses (indicated by ScLERP in the table). For
+some representations a conversion to exponential coordinates is required to
+compute ScLERP as a fraction of the exponential representation.
+
+SLERP means Spherical Linear intERPolation and is applied to the orientation
+while the translation is linearly interpolated.
 
 ---------------------
 Transformation Matrix
