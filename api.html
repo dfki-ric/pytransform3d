@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Documentation &#8212; pytransform3d 3.12.0 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 3.13.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=1b7a0a1e"></script>
+    <script src="_static/documentation_options.js?v=6aaf4047"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="10. Camera" href="user_guide/camera.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
   
   
 </a></div>
@@ -391,6 +391,12 @@ You can also search for specific modules, classes, or functions in the
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.assert_rotation_matrix.html#pytransform3d.rotations.assert_rotation_matrix" title="pytransform3d.rotations.assert_rotation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_rotation_matrix</span></code></a>(R, *args, **kwargs)</p></td>
 <td><p>Raise an assertion if a matrix is not a rotation matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_slerp.html#pytransform3d.rotations.matrix_slerp" title="pytransform3d.rotations.matrix_slerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_slerp</span></code></a>(start, end, t)</p></td>
+<td><p>Spherical linear interpolation (SLERP) for rotation matrices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.matrix_power.html#pytransform3d.rotations.matrix_power" title="pytransform3d.rotations.matrix_power"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix_power</span></code></a>(R, t)</p></td>
+<td><p>Compute power of a rotation matrix with respect to scalar.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.passive_matrix_from_angle.html#pytransform3d.rotations.passive_matrix_from_angle" title="pytransform3d.rotations.passive_matrix_from_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">passive_matrix_from_angle</span></code></a>(basis, angle)</p></td>
 <td><p>Compute passive rotation matrix from rotation about basis vector.</p></td>
@@ -927,6 +933,12 @@ You can also search for specific modules, classes, or functions in the
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.vectors_to_directions.html#pytransform3d.transformations.vectors_to_directions" title="pytransform3d.transformations.vectors_to_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vectors_to_directions</span></code></a>(V)</p></td>
 <td><p>Convert 3D vectors to directions.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.transform_power.html#pytransform3d.transformations.transform_power" title="pytransform3d.transformations.transform_power"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_power</span></code></a>(A2B, t)</p></td>
+<td><p>Compute power of a transformation matrix with respect to scalar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.transform_sclerp.html#pytransform3d.transformations.transform_sclerp" title="pytransform3d.transformations.transform_sclerp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_sclerp</span></code></a>(start, end, t)</p></td>
+<td><p>Screw linear interpolation (ScLERP) for transformation matrices.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.transformations.adjoint_from_transform.html#pytransform3d.transformations.adjoint_from_transform" title="pytransform3d.transformations.adjoint_from_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjoint_from_transform</span></code></a>(A2B[, strict_check, ...])</p></td>
 <td><p>Compute adjoint representation of a transformation matrix.</p></td>
 </tr>
@@ -1281,28 +1293,31 @@ and can be 400 to 1000 times faster than a loop of individual conversions.</p>
 <h3>Transformation Matrices<a class="headerlink" href="#transformation-matrices" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.invert_transforms.html#pytransform3d.trajectories.invert_transforms" title="pytransform3d.trajectories.invert_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invert_transforms</span></code></a>(A2Bs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.random_trajectories.html#pytransform3d.trajectories.random_trajectories" title="pytransform3d.trajectories.random_trajectories"><code class="xref py py-obj docutils literal notranslate"><span class="pre">random_trajectories</span></code></a>([rng, n_trajectories, ...])</p></td>
+<td><p>Generate random trajectories.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.invert_transforms.html#pytransform3d.trajectories.invert_transforms" title="pytransform3d.trajectories.invert_transforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invert_transforms</span></code></a>(A2Bs)</p></td>
 <td><p>Invert transforms.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_one_to_many.html#pytransform3d.trajectories.concat_one_to_many" title="pytransform3d.trajectories.concat_one_to_many"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_one_to_many</span></code></a>(A2B, B2Cs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_one_to_many.html#pytransform3d.trajectories.concat_one_to_many" title="pytransform3d.trajectories.concat_one_to_many"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_one_to_many</span></code></a>(A2B, B2Cs)</p></td>
 <td><p>Concatenate transformation A2B with multiple transformations B2C.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_many_to_one.html#pytransform3d.trajectories.concat_many_to_one" title="pytransform3d.trajectories.concat_many_to_one"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_many_to_one</span></code></a>(A2Bs, B2C)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_many_to_one.html#pytransform3d.trajectories.concat_many_to_one" title="pytransform3d.trajectories.concat_many_to_one"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_many_to_one</span></code></a>(A2Bs, B2C)</p></td>
 <td><p>Concatenate multiple transformations A2B with transformation B2C.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_many_to_many.html#pytransform3d.trajectories.concat_many_to_many" title="pytransform3d.trajectories.concat_many_to_many"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_many_to_many</span></code></a>(A2B, B2C)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_many_to_many.html#pytransform3d.trajectories.concat_many_to_many" title="pytransform3d.trajectories.concat_many_to_many"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_many_to_many</span></code></a>(A2B, B2C)</p></td>
 <td><p>Concatenate multiple transformations A2B with transformation B2C.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_dynamic.html#pytransform3d.trajectories.concat_dynamic" title="pytransform3d.trajectories.concat_dynamic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_dynamic</span></code></a>(A2B, B2C)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.concat_dynamic.html#pytransform3d.trajectories.concat_dynamic" title="pytransform3d.trajectories.concat_dynamic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concat_dynamic</span></code></a>(A2B, B2C)</p></td>
 <td><p>Concatenate multiple transformations A2B,B2C with different shapes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs" title="pytransform3d.trajectories.transforms_from_pqs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_pqs</span></code></a>(P[, normalize_quaternions])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs" title="pytransform3d.trajectories.transforms_from_pqs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_pqs</span></code></a>(P[, normalize_quaternions])</p></td>
 <td><p>Get sequence of homogeneous matrices from positions and quaternions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates" title="pytransform3d.trajectories.transforms_from_exponential_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_exponential_coordinates</span></code></a>(Sthetas)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates" title="pytransform3d.trajectories.transforms_from_exponential_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_exponential_coordinates</span></code></a>(Sthetas)</p></td>
 <td><p>Compute transformations from exponential coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_dual_quaternions.html#pytransform3d.trajectories.transforms_from_dual_quaternions" title="pytransform3d.trajectories.transforms_from_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_dual_quaternions</span></code></a>(dqs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.trajectories.transforms_from_dual_quaternions.html#pytransform3d.trajectories.transforms_from_dual_quaternions" title="pytransform3d.trajectories.transforms_from_dual_quaternions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transforms_from_dual_quaternions</span></code></a>(dqs)</p></td>
 <td><p>Get transformations from dual quaternions.</p></td>
 </tr>
 </tbody>

@@ -43,24 +43,34 @@ an analogous representation of transformations:
 Not all representations support all operations directly without conversion to
 another representation. The following table is an overview.
 
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Representation                         | Inverse    | Transformation of vector | Concatenation | Interpolation | Renormalization |
-+========================================+============+==========================+===============+===============+=================+
-| Transformation matrix                  | Inverse    | Yes                      | Yes           | No            | Required        |
-| :math:`\pmb{R}`                        |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Exponential coordinates                | Negative   | No                       | No            | ScLERP        | Not necessary   |
-| :math:`\mathcal{S}\theta`              |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Logarithm of transformation            | Negative   | No                       | No            | No            | Not necessary   |
-| :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Position and quaternion                | No         | No                       | No            | No            | Required        |
-| :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
-| Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP        | Required        |
-| :math:`\boldsymbol{\sigma}`            | Conjugate  |                          |               |               |                 |
-+----------------------------------------+------------+--------------------------+---------------+---------------+-----------------+
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Representation                         | Inverse    | Transformation of vector | Concatenation | Interpolation    | Renormalization |
++========================================+============+==========================+===============+==================+=================+
+| Transformation matrix                  | Inverse    | Yes                      | Yes           | ScLERP `(1)`     | Required        |
+| :math:`\pmb{R}`                        |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Exponential coordinates                | Negative   | No                       | No            | ScLERP `(2)`     | Not necessary   |
+| :math:`\mathcal{S}\theta`              |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Logarithm of transformation            | Negative   | No                       | No            | ScLERP `(2)`     | Not necessary   |
+| :math:`\left[\mathcal{S}\theta\right]` |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Position and quaternion                | No         | No                       | No            | SLERP `(3)`      | Required        |
+| :math:`(\pmb{p}, \pmb{q})`             |            |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+| Dual quaternion                        | Quaternion | Yes                      | Yes           | ScLERP `(1)`     | Required        |
+| :math:`\boldsymbol{\sigma}`            | Conjugate  |                          |               |                  |                 |
++----------------------------------------+------------+--------------------------+---------------+------------------+-----------------+
+
+`(1)` ScLERP means Screw Linear intERPolation. This usually requires an
+internal conversion to exponential coordinates.
+
+`(2)` Fractions of this representation represent partial transformations, but
+a conversion to another representation is required to interpolate between
+poses.
+
+`(3)` SLERP means Spherical Linear intERPolation and is applied to the
+orientation while the translation is linearly interpolated.
 
 ---------------------
 Transformation Matrix
@@ -248,6 +258,24 @@ coordinates of transformation and typically we use the variable name Stheta.
     [4]_. They use a different order of the 3D vector components and they do
     not separate :math:`\theta` from the screw axis in their notation.
 
+We say exponential coordinates of transformation because there is an
+exponential map :math:`Exp(\mathcal{S}\theta) = \boldsymbol{T}` (see
+:func:`~pytransform3d.transformations.transform_from_exponential_coordinates`)
+that converts them to a transformation matrix. The inverse operation is the
+logarithmic map :math:`Log(\boldsymbol{T}) = \mathcal{S}\theta` (see
+:func:`~pytransform3d.transformations.exponential_coordinates_from_transform`).
+
+Exponential coordinates can be used to implement screw linear interpolation
+(ScLERP) because we can easily compute fractions of a transformation in
+exponential coordinates. We just have to compute the difference between two
+transformations
+:math:`\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}`,
+convert it to exponential coordinates
+:math:`Log(\boldsymbol{T}_{AB}) = \mathcal{S}\theta_{AB}`, compute a fraction
+of it :math:`t\mathcal{S}\theta_{AB}` with :math:`t \in [0, 1]`, and use the
+exponential map to concatenate the fraction of the difference
+:math:`\boldsymbol{T}_{WA} Exp(t\mathcal{S}\theta_{AB})`.
+
 **Pros**
 
 * Representation: minimal.
@@ -299,6 +327,25 @@ algebra of Lie group :math:`SE(3)`.
 
 pytransform3d uses a numpy array of shape (4, 4) to represent the logarithm
 of a transformation and typically we use the variable name `transform_log`.
+
+We say logarithm of transformation because there is an
+exponential map :math:`\exp(\left[\mathcal{S}\right]\theta) = \boldsymbol{T}`
+(see :func:`~pytransform3d.transformations.transform_from_transform_log`)
+that converts it to a transformation matrix. The inverse operation is the
+logarithmic map :math:`\log(\boldsymbol{T}) = \left[\mathcal{S}\right]\theta`
+(see :func:`~pytransform3d.transformations.transform_log_from_transform`).
+
+The logarithm of transformation can be used to implement screw linear
+interpolation (ScLERP) because we can easily compute fractions of a
+transformation. We just have to compute the difference between two
+transformations
+:math:`\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}`,
+convert it to the logarithm
+:math:`\log(\boldsymbol{T}_{AB}) = \left[\mathcal{S}\right]\theta_{AB}`,
+compute a fraction of it :math:`t\left[\mathcal{S}\right]\theta_{AB}` with
+:math:`t \in [0, 1]`, and use the exponential map to concatenate the fraction
+of the difference
+:math:`\boldsymbol{T}_{WA} \exp(t\left[\mathcal{S}\right]\theta_{AB})`.
 
 -----
 Twist

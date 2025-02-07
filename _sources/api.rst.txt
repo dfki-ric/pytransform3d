@@ -35,6 +35,9 @@ Rotation Matrix
 
    ~assert_rotation_matrix
 
+   ~matrix_slerp
+   ~matrix_power
+
    ~passive_matrix_from_angle
    ~active_matrix_from_angle
    ~matrix_from_two_vectors
@@ -301,6 +304,8 @@ Transformation Matrix
    ~vectors_to_points
    ~vector_to_direction
    ~vectors_to_directions
+   ~transform_power
+   ~transform_sclerp
    ~adjoint_from_transform
 
    ~plot_transform
@@ -529,6 +534,8 @@ Transformation Matrices
 .. autosummary::
    :toctree: _apidoc/
    :template: function.rst
+
+   ~random_trajectories
 
    ~invert_transforms
    ~concat_one_to_many

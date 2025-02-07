@@ -28,18 +28,7 @@ significant differences as you can see in this example. The outer circle uses
 linear interpolation and the inner circle uses SLERP. You can play around with
 the value of 'end_angle' in this example.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-52
-
-
-
-.. image-sg:: /_auto_examples/plots/images/sphx_glr_plot_quaternion_slerp_001.png
-   :alt: plot quaternion slerp
-   :srcset: /_auto_examples/plots/images/sphx_glr_plot_quaternion_slerp_001.png
-   :class: sphx-glr-single-img
-
-
-
-
+.. GENERATED FROM PYTHON SOURCE LINES 12-18
 
 .. code-block:: Python
 
@@ -49,6 +38,22 @@ the value of 'end_angle' in this example.
         matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp)
     from pytransform3d.trajectories import plot_trajectory
 
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 19-22
+
+We assume the array T represents something like time.
+The position follows a sigmoid profile on a circular path over time, hence
+velocity is not constant.
+
+.. GENERATED FROM PYTHON SOURCE LINES 22-34
+
+.. code-block:: Python
 
     T = np.linspace(0, 1, 1001)
     sigmoid = 0.5 * (np.tanh(1.5 * np.pi * (T - 0.5)) + 1.0)
@@ -62,32 +67,89 @@ the value of 'end_angle' in this example.
     q_start = quaternion_from_matrix(R1.dot(R2_start))
     q_end = quaternion_from_matrix(R1.dot(R2_end))
 
-    Y = np.zeros((len(T), 7))
-    Y[:, 0] = radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
-    Y[:, 2] = radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 35-37
+
+The naive linear interpolation method computes a time-weighted average
+between the orientation at the start and the orientation at the end.
+
+.. GENERATED FROM PYTHON SOURCE LINES 37-44
+
+.. code-block:: Python
+
+    lerp = np.zeros((len(T), 7))
+    lerp[:, 0] = radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
+    lerp[:, 2] = radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
     if end_angle > np.pi:
         q_end *= -1.0
-    Y[:, 3:] = (1.0 - T)[:, np.newaxis] * q_start + T[:, np.newaxis] * q_end
+    lerp[:, 3:] = (1.0 - T)[:, np.newaxis] * q_start + T[:, np.newaxis] * q_end
 
-    Y_slerp = np.zeros((len(T), 7))
-    Y_slerp[:, 0] = 0.7 * radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
-    Y_slerp[:, 2] = 0.7 * radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 45-46
+
+SLERP is the exact method to interpolate the orientations.
+
+.. GENERATED FROM PYTHON SOURCE LINES 46-52
+
+.. code-block:: Python
+
+    slerp = np.zeros((len(T), 7))
+    slerp[:, 0] = 0.7 * radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
+    slerp[:, 2] = 0.7 * radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
     for i, t in enumerate(T):
-        Y_slerp[i, 3:] = quaternion_slerp(q_start, q_end, t)
+        slerp[i, 3:] = quaternion_slerp(q_start, q_end, t)
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
+
+The following 3D plot compares the two approaches.
+
+.. GENERATED FROM PYTHON SOURCE LINES 54-62
+
+.. code-block:: Python
 
     ax = plot_trajectory(
-        P=Y[:, :7], show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
+        P=lerp, show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
     ax = plot_trajectory(
-        P=Y_slerp[:, :7], show_direction=False, n_frames=40, s=0.05, ax=ax)
+        P=slerp, show_direction=False, n_frames=40, s=0.05, ax=ax)
     ax.text(0.1, 0, 0, "SLERP")
     ax.text(0.4, 0, 0.6, "Naive linear interpolation")
     ax.view_init(elev=10, azim=90)
     plt.show()
 
 
+
+.. image-sg:: /_auto_examples/plots/images/sphx_glr_plot_quaternion_slerp_001.png
+   :alt: plot quaternion slerp
+   :srcset: /_auto_examples/plots/images/sphx_glr_plot_quaternion_slerp_001.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.164 seconds)
+   **Total running time of the script:** (0 minutes 0.169 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_quaternion_slerp.py:

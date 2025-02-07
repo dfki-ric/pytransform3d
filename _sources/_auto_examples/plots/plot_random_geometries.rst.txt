@@ -24,18 +24,7 @@ Plot Random Geometries
 
 Plotting of several geometric shapes is directly supported by the library.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-59
-
-
-
-.. image-sg:: /_auto_examples/plots/images/sphx_glr_plot_random_geometries_001.png
-   :alt: plot random geometries
-   :srcset: /_auto_examples/plots/images/sphx_glr_plot_random_geometries_001.png
-   :class: sphx-glr-single-img
-
-
-
-
+.. GENERATED FROM PYTHON SOURCE LINES 8-19
 
 .. code-block:: Python
 
@@ -48,53 +37,183 @@ Plotting of several geometric shapes is directly supported by the library.
         random_transform, plot_transform, translate_transform)
 
 
-    rng = np.random.default_rng(2834)
-    ax = make_3d_axis(2)
+    rng = np.random.default_rng(2832)
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 20-21
+
+A box is defined by its size along the three main axes and its pose.
+
+.. GENERATED FROM PYTHON SOURCE LINES 21-24
+
+.. code-block:: Python
 
     box2origin = random_transform(rng)
-    size = rng.random(size=3) * 3
-    plot_transform(ax=ax, A2B=box2origin, s=0.3)
-    plot_box(ax=ax, A2B=box2origin, size=size, color="b", alpha=0.5,
-             wireframe=False)
+    box_size = rng.random(size=3) * 3
 
-    p = rng.standard_normal(size=3)
-    radius = float(rng.random())
-    plot_transform(ax=ax, A2B=translate_transform(np.eye(4), p), s=0.3)
-    plot_sphere(ax=ax, p=p, radius=radius, color="y", alpha=0.5, wireframe=False)
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
+
+A sphere is defined by its position and radius.
+
+.. GENERATED FROM PYTHON SOURCE LINES 26-29
+
+.. code-block:: Python
+
+    sphere_position = rng.standard_normal(size=3)
+    sphere_radius = float(rng.random())
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
+
+A cylinder is defined by its length, radius, and pose.
+
+.. GENERATED FROM PYTHON SOURCE LINES 31-35
+
+.. code-block:: Python
 
     cylinder2origin = random_transform(rng)
     length = float(rng.random()) * 5
-    radius = float(rng.random())
-    plot_transform(ax=ax, A2B=cylinder2origin, s=0.3)
-    plot_cylinder(ax=ax, A2B=cylinder2origin, length=length, radius=radius,
-                  color="g", alpha=0.5, wireframe=False)
+    cylinder_radius = float(rng.random())
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 36-37
+
+An ellipsoid is defined by its 3 radii and pose.
+
+.. GENERATED FROM PYTHON SOURCE LINES 37-40
+
+.. code-block:: Python
 
     ellipsoid2origin = random_transform(rng)
     radii = rng.random(size=3) * 3
-    plot_transform(ax=ax, A2B=ellipsoid2origin, s=0.3)
-    plot_ellipsoid(ax=ax, A2B=ellipsoid2origin, radii=radii, color="m", alpha=0.5,
-                   wireframe=False)
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
+
+A capsule is defined by its height, radius, and pose.
+
+.. GENERATED FROM PYTHON SOURCE LINES 42-46
+
+.. code-block:: Python
 
     capsule2origin = random_transform(rng)
-    height = float(rng.random()) * 2
-    radius = float(rng.random())
-    plot_transform(ax=ax, A2B=capsule2origin, s=0.3)
-    plot_capsule(ax=ax, A2B=capsule2origin, height=height, radius=radius,
-                 color="r", alpha=0.5, wireframe=False)
+    capsule_height = float(rng.random()) * 2
+    capsule_radius = float(rng.random())
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
+
+A cone is defined by its height, radius, and pose.
+
+.. GENERATED FROM PYTHON SOURCE LINES 48-52
+
+.. code-block:: Python
 
     cone2origin = random_transform(rng)
-    height = float(rng.random()) * 5
-    radius = float(rng.random())
+    cone_height = float(rng.random()) * 5
+    cone_radius = float(rng.random())
+
+
+
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 53-54
+
+The following part shows pytransform3d's 3D plotting functions.
+
+.. GENERATED FROM PYTHON SOURCE LINES 54-87
+
+.. code-block:: Python
+
+    ax = make_3d_axis(2)
+
+    plot_transform(ax=ax, A2B=box2origin, s=0.3)
+    plot_box(ax=ax, A2B=box2origin, size=box_size, color="b", alpha=0.5,
+             wireframe=False)
+
+    plot_transform(
+        ax=ax, A2B=translate_transform(np.eye(4), sphere_position), s=0.3)
+    plot_sphere(
+        ax=ax, p=sphere_position, radius=sphere_radius,
+        color="y", alpha=0.5, wireframe=False)
+
+    plot_transform(ax=ax, A2B=cylinder2origin, s=0.3)
+    plot_cylinder(
+        ax=ax, A2B=cylinder2origin, length=length, radius=cylinder_radius,
+        color="g", alpha=0.5, wireframe=False)
+
+    plot_transform(ax=ax, A2B=ellipsoid2origin, s=0.3)
+    plot_ellipsoid(
+        ax=ax, A2B=ellipsoid2origin, radii=radii,
+        color="m", alpha=0.5, wireframe=False)
+
+    plot_transform(ax=ax, A2B=capsule2origin, s=0.3)
+    plot_capsule(
+        ax=ax, A2B=capsule2origin, height=capsule_height, radius=capsule_radius,
+        color="r", alpha=0.5, wireframe=False)
+
     plot_transform(ax=ax, A2B=cone2origin, s=0.3)
-    plot_cone(ax=ax, A2B=cone2origin, height=height, radius=radius, color="c",
-              alpha=0.5, wireframe=False)
+    plot_cone(
+        ax=ax, A2B=cone2origin, height=cone_height, radius=cone_radius,
+        color="c", alpha=0.5, wireframe=False)
 
     plt.show()
 
 
+
+.. image-sg:: /_auto_examples/plots/images/sphx_glr_plot_random_geometries_001.png
+   :alt: plot random geometries
+   :srcset: /_auto_examples/plots/images/sphx_glr_plot_random_geometries_001.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.108 seconds)
+   **Total running time of the script:** (0 minutes 0.115 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_random_geometries.py:

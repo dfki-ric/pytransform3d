@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.12.0 documentation</title>
+    <title>3. SE(3): 3D Transformations &#8212; pytransform3d 3.13.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1b7a0a1e"></script>
+    <script src="../_static/documentation_options.js?v=6aaf4047"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="2. SO(3): 3D Rotations" href="rotations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
   
   
 </a></div>
@@ -439,7 +439,7 @@ another representation. The following table is an overview.</p>
 <td><p>Inverse</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>No</p></td>
+<td><p>ScLERP <cite>(1)</cite></p></td>
 <td><p>Required</p></td>
 </tr>
 <tr class="row-odd"><td><p>Exponential coordinates
@@ -447,7 +447,7 @@ another representation. The following table is an overview.</p>
 <td><p>Negative</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>ScLERP</p></td>
+<td><p>ScLERP <cite>(2)</cite></p></td>
 <td><p>Not necessary</p></td>
 </tr>
 <tr class="row-even"><td><p>Logarithm of transformation
@@ -455,7 +455,7 @@ another representation. The following table is an overview.</p>
 <td><p>Negative</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>No</p></td>
+<td><p>ScLERP <cite>(2)</cite></p></td>
 <td><p>Not necessary</p></td>
 </tr>
 <tr class="row-odd"><td><p>Position and quaternion
@@ -463,7 +463,7 @@ another representation. The following table is an overview.</p>
 <td><p>No</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>No</p></td>
+<td><p>SLERP <cite>(3)</cite></p></td>
 <td><p>Required</p></td>
 </tr>
 <tr class="row-even"><td><p>Dual quaternion
@@ -472,12 +472,19 @@ another representation. The following table is an overview.</p>
 Conjugate</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>ScLERP</p></td>
+<td><p>ScLERP <cite>(1)</cite></p></td>
 <td><p>Required</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<p><cite>(1)</cite> ScLERP means Screw Linear intERPolation. This usually requires an
+internal conversion to exponential coordinates.</p>
+<p><cite>(2)</cite> Fractions of this representation represent partial transformations, but
+a conversion to another representation is required to interpolate between
+poses.</p>
+<p><cite>(3)</cite> SLERP means Spherical Linear intERPolation and is applied to the
+orientation while the translation is linearly interpolated.</p>
 <section id="transformation-matrix">
 <h2><span class="section-number">3.1. </span>Transformation Matrix<a class="headerlink" href="#transformation-matrix" title="Link to this heading">#</a></h2>
 <p>One of the most convenient ways to represent transformations are
@@ -628,6 +635,22 @@ alternative definition used by Eade (2017) <a class="footnote-reference brackets
 <a class="footnote-reference brackets" href="#id14" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. They use a different order of the 3D vector components and they do
 not separate <span class="math notranslate nohighlight">\(\theta\)</span> from the screw axis in their notation.</p>
 </div>
+<p>We say exponential coordinates of transformation because there is an
+exponential map <span class="math notranslate nohighlight">\(Exp(\mathcal{S}\theta) = \boldsymbol{T}\)</span> (see
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.transform_from_exponential_coordinates.html#pytransform3d.transformations.transform_from_exponential_coordinates" title="pytransform3d.transformations.transform_from_exponential_coordinates"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform_from_exponential_coordinates()</span></code></a>)
+that converts them to a transformation matrix. The inverse operation is the
+logarithmic map <span class="math notranslate nohighlight">\(Log(\boldsymbol{T}) = \mathcal{S}\theta\)</span> (see
+<a class="reference internal" href="../_apidoc/pytransform3d.transformations.exponential_coordinates_from_transform.html#pytransform3d.transformations.exponential_coordinates_from_transform" title="pytransform3d.transformations.exponential_coordinates_from_transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">exponential_coordinates_from_transform()</span></code></a>).</p>
+<p>Exponential coordinates can be used to implement screw linear interpolation
+(ScLERP) because we can easily compute fractions of a transformation in
+exponential coordinates. We just have to compute the difference between two
+transformations
+<span class="math notranslate nohighlight">\(\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}\)</span>,
+convert it to exponential coordinates
+<span class="math notranslate nohighlight">\(Log(\boldsymbol{T}_{AB}) = \mathcal{S}\theta_{AB}\)</span>, compute a fraction
+of it <span class="math notranslate nohighlight">\(t\mathcal{S}\theta_{AB}\)</span> with <span class="math notranslate nohighlight">\(t \in [0, 1]\)</span>, and use the
+exponential map to concatenate the fraction of the difference
+<span class="math notranslate nohighlight">\(\boldsymbol{T}_{WA} Exp(t\mathcal{S}\theta_{AB})\)</span>.</p>
 <p><strong>Pros</strong></p>
 <ul class="simple">
 <li><p>Representation: minimal.</p></li>
@@ -672,6 +695,23 @@ logarithm of a transformation matrix</strong> and <span class="math notranslate 
 algebra of Lie group <span class="math notranslate nohighlight">\(SE(3)\)</span>.</p>
 <p>pytransform3d uses a numpy array of shape (4, 4) to represent the logarithm
 of a transformation and typically we use the variable name <cite>transform_log</cite>.</p>
+<p>We say logarithm of transformation because there is an
+exponential map <span class="math notranslate nohighlight">\(\exp(\left[\mathcal{S}\right]\theta) = \boldsymbol{T}\)</span>
+(see <a class="reference internal" href="../_apidoc/pytransform3d.transformations.transform_from_transform_log.html#pytransform3d.transformations.transform_from_transform_log" title="pytransform3d.transformations.transform_from_transform_log"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform_from_transform_log()</span></code></a>)
+that converts it to a transformation matrix. The inverse operation is the
+logarithmic map <span class="math notranslate nohighlight">\(\log(\boldsymbol{T}) = \left[\mathcal{S}\right]\theta\)</span>
+(see <a class="reference internal" href="../_apidoc/pytransform3d.transformations.transform_log_from_transform.html#pytransform3d.transformations.transform_log_from_transform" title="pytransform3d.transformations.transform_log_from_transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">transform_log_from_transform()</span></code></a>).</p>
+<p>The logarithm of transformation can be used to implement screw linear
+interpolation (ScLERP) because we can easily compute fractions of a
+transformation. We just have to compute the difference between two
+transformations
+<span class="math notranslate nohighlight">\(\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}\)</span>,
+convert it to the logarithm
+<span class="math notranslate nohighlight">\(\log(\boldsymbol{T}_{AB}) = \left[\mathcal{S}\right]\theta_{AB}\)</span>,
+compute a fraction of it <span class="math notranslate nohighlight">\(t\left[\mathcal{S}\right]\theta_{AB}\)</span> with
+<span class="math notranslate nohighlight">\(t \in [0, 1]\)</span>, and use the exponential map to concatenate the fraction
+of the difference
+<span class="math notranslate nohighlight">\(\boldsymbol{T}_{WA} \exp(t\left[\mathcal{S}\right]\theta_{AB})\)</span>.</p>
 </section>
 <section id="twist">
 <h2><span class="section-number">3.7. </span>Twist<a class="headerlink" href="#twist" title="Link to this heading">#</a></h2>

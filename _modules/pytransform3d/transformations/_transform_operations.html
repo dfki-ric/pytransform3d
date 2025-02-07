@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._transform_operations &#8212; pytransform3d 3.12.0 documentation</title>
+    <title>pytransform3d.transformations._transform_operations &#8212; pytransform3d 3.13.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=1b7a0a1e"></script>
+    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transformations/_transform_operations';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
   
   
 </a></div>
@@ -361,6 +361,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">..rotations</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">axis_angle_from_matrix</span><span class="p">,</span> <span class="n">matrix_from_axis_angle</span><span class="p">,</span> <span class="n">norm_vector</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">check_transform</span>
+<span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">exponential_coordinates_from_transform</span><span class="p">,</span>
+    <span class="n">transform_from_exponential_coordinates</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="invert_transform">
@@ -721,6 +724,76 @@ document.write(`
     <span class="n">A2B_scaled</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_from_axis_angle</span><span class="p">(</span><span class="n">a_new</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">A2B_scaled</span></div>
+
+
+
+<div class="viewcode-block" id="transform_sclerp">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_sclerp.html#pytransform3d.transformations.transform_sclerp">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_sclerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Screw linear interpolation (ScLERP) for transformation matrices.</span>
+
+<span class="sd">    We compute the difference between two poses</span>
+<span class="sd">    :math:`\boldsymbol{T}_{AB} = \boldsymbol{T}^{-1}_{WA}\boldsymbol{T}_{WB}`,</span>
+<span class="sd">    convert it to exponential coordinates</span>
+<span class="sd">    :math:`Log(\boldsymbol{T}_{AB}) = \mathcal{S}\theta_{AB}`, compute a</span>
+<span class="sd">    fraction of it :math:`t\mathcal{S}\theta_{AB}` with :math:`t \in [0, 1]`,</span>
+<span class="sd">    and use the exponential map to concatenate the fraction of the difference</span>
+<span class="sd">    :math:`\boldsymbol{T}_{WA} Exp(t\mathcal{S}\theta_{AB})`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start : array-like, shape (4, 4)</span>
+<span class="sd">        Transformation matrix to represent start pose.</span>
+
+<span class="sd">    end : array-like, shape (4, 4)</span>
+<span class="sd">        Transformation matrix to represent end pose.</span>
+
+<span class="sd">    t : float in [0, 1]</span>
+<span class="sd">        Position between start and goal.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A2B_t : array, shape (4, 4)</span>
+<span class="sd">        Interpolated pose.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    dual_quaternion_sclerp :</span>
+<span class="sd">        ScLERP for dual quaternions.</span>
+
+<span class="sd">    pq_slerp :</span>
+<span class="sd">        An alternative approach is spherical linear interpolation (SLERP) with</span>
+<span class="sd">        position and quaternion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">end2start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">invert_transform</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="n">end</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">transform_power</span><span class="p">(</span><span class="n">end2start</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="transform_power">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.transform_power.html#pytransform3d.transformations.transform_power">[docs]</a>
+<span class="k">def</span> <span class="nf">transform_power</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute power of a transformation matrix with respect to scalar.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{T}_{BA}^t</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A2B : array-like, shape (4, 4)</span>
+<span class="sd">        Transform from frame A to frame B.</span>
+
+<span class="sd">    t : float</span>
+<span class="sd">        Exponent.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A2B_t : array, shape (4, 4)</span>
+<span class="sd">        Transformation matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Stheta</span> <span class="o">=</span> <span class="n">exponential_coordinates_from_transform</span><span class="p">(</span><span class="n">A2B</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transform_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span></div>
 
 </pre></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.12.0 documentation</title>
+    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.13.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1b7a0a1e"></script>
+    <script src="../_static/documentation_options.js?v=6aaf4047"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="1. Introduction to 3D Rigid Transformations" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
   
   
 </a></div>
@@ -416,7 +416,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Transpose</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-<td><p>No</p></td>
+<td><p>SLERP</p></td>
 <td><p>Required</p></td>
 </tr>
 <tr class="row-odd"><td><p>Axis-angle
@@ -432,7 +432,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Negative</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>(Yes) <cite>(2)</cite></p></td>
+<td><p>SLERP / <cite>(2)</cite> / <cite>(3)</cite></p></td>
 <td><p>Not required</p></td>
 </tr>
 <tr class="row-odd"><td><p>Logarithm of rotation
@@ -440,7 +440,7 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Negative</p></td>
 <td><p>No</p></td>
 <td><p>No</p></td>
-<td><p>(Yes) <cite>(2)</cite></p></td>
+<td><p>SLERP / <cite>(2)</cite> / <cite>(3)</cite></p></td>
 <td><p>Not required</p></td>
 </tr>
 <tr class="row-even"><td><p>Quaternion
@@ -479,10 +479,17 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 </table>
 </div>
 <p>Footnotes:</p>
+<p>SLERP means Spherical Linear intERPolation. This can either be implemented
+directly for two instances of the representation or sometimes involves a
+conversion to a rotation vector that represents the difference of the two
+orientations.</p>
 <p><cite>(1)</cite> Inversion of Euler angles in convention ABC (e.g., xyz) requires using
 another convention CBA (e.g., zyx), reversing the order of angles, and taking
 the negative of these.</p>
 <p><cite>(2)</cite> Linear interpolation is approximately correct for small differences.</p>
+<p><cite>(3)</cite> Fractions of this representation represent partial rotations, but
+a conversion to another representation is required to interpolate between
+orientations.</p>
 <section id="rotation-matrix">
 <h2><span class="section-number">2.1. </span>Rotation Matrix<a class="headerlink" href="#rotation-matrix" title="Link to this heading">#</a></h2>
 <p>One of the most practical representations of orientation is a rotation matrix</p>

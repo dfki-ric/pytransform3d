@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._slerp &#8212; pytransform3d 3.12.0 documentation</title>
+    <title>pytransform3d.rotations._slerp &#8212; pytransform3d 3.13.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=1b7a0a1e"></script>
+    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_slerp';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
   
   
 </a></div>
@@ -360,6 +360,83 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">check_axis_angle</span><span class="p">,</span> <span class="n">check_quaternion</span><span class="p">,</span> <span class="n">angle_between_vectors</span><span class="p">,</span>
                      <span class="n">check_rotor</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">._conversions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">compact_axis_angle_from_matrix</span><span class="p">,</span> <span class="n">matrix_from_compact_axis_angle</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="matrix_slerp">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.matrix_slerp.html#pytransform3d.rotations.matrix_slerp">[docs]</a>
+<span class="k">def</span> <span class="nf">matrix_slerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Spherical linear interpolation (SLERP) for rotation matrices.</span>
+
+<span class="sd">    We compute the difference between two orientations</span>
+<span class="sd">    :math:`\boldsymbol{R}_{AB} = \boldsymbol{R}^{-1}_{WA}\boldsymbol{R}_{WB}`,</span>
+<span class="sd">    convert it to a rotation vector</span>
+<span class="sd">    :math:`Log(\boldsymbol{R}_{AB}) = \boldsymbol{\omega}_{AB}`, compute a</span>
+<span class="sd">    fraction of it :math:`t\boldsymbol{\omega}_{AB}` with :math:`t \in [0, 1]`,</span>
+<span class="sd">    and use the exponential map to concatenate the fraction of the difference</span>
+<span class="sd">    :math:`\boldsymbol{R}_{WA} Exp(t\boldsymbol{\omega}_{AB})`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix to represent start orientation.</span>
+
+<span class="sd">    end : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix to represent end orientation.</span>
+
+<span class="sd">    t : float in [0, 1]</span>
+<span class="sd">        Position between start and goal.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R_t : array, shape (3, 3)</span>
+<span class="sd">        Interpolated orientation.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    axis_angle_slerp :</span>
+<span class="sd">        SLERP axis-angle representation.</span>
+
+<span class="sd">    quaternion_slerp :</span>
+<span class="sd">        SLERP for quaternions.</span>
+
+<span class="sd">    rotor_slerp :</span>
+<span class="sd">        SLERP for rotors.</span>
+
+<span class="sd">    pytransform3d.transformations.pq_slerp :</span>
+<span class="sd">        SLERP for position + quaternion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">end2start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="n">end</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">matrix_power</span><span class="p">(</span><span class="n">end2start</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="matrix_power">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.matrix_power.html#pytransform3d.rotations.matrix_power">[docs]</a>
+<span class="k">def</span> <span class="nf">matrix_power</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute power of a rotation matrix with respect to scalar.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \boldsymbol{R}^t</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : array-like, shape (3, 3)</span>
+<span class="sd">        Rotation matrix.</span>
+
+<span class="sd">    t : float</span>
+<span class="sd">        Exponent.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R_t : array, shape (3, 3)</span>
+<span class="sd">        Rotation matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">compact_axis_angle_from_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matrix_from_compact_axis_angle</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="axis_angle_slerp">
@@ -385,6 +462,9 @@ document.write(`
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
+<span class="sd">    matrix_slerp :</span>
+<span class="sd">        SLERP for rotation matrices.</span>
+
 <span class="sd">    quaternion_slerp :</span>
 <span class="sd">        SLERP for quaternions.</span>
 
@@ -431,6 +511,9 @@ document.write(`
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
+<span class="sd">    matrix_slerp :</span>
+<span class="sd">        SLERP for rotation matrices.</span>
+
 <span class="sd">    axis_angle_slerp :</span>
 <span class="sd">        SLERP for axis-angle representation.</span>
 
@@ -531,6 +614,9 @@ document.write(`
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
+<span class="sd">    matrix_slerp :</span>
+<span class="sd">        SLERP for rotation matrices.</span>
+
 <span class="sd">    axis_angle_slerp :</span>
 <span class="sd">        SLERP for axis-angle representation.</span>
 

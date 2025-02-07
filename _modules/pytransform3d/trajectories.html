@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.trajectories &#8212; pytransform3d 3.12.0 documentation</title>
+    <title>pytransform3d.trajectories &#8212; pytransform3d 3.13.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=1b7a0a1e"></script>
+    <script src="../../_static/documentation_options.js?v=6aaf4047"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/trajectories';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.12.0"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.12.0"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
   
   
 </a></div>
@@ -1301,6 +1301,164 @@ document.write(`
         <span class="n">batch_dq_conj</span><span class="p">(</span><span class="n">dqs</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">v_dq_transformed</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span></div>
 
+
+
+<div class="viewcode-block" id="random_trajectories">
+<a class="viewcode-back" href="../../_apidoc/pytransform3d.trajectories.random_trajectories.html#pytransform3d.trajectories.random_trajectories">[docs]</a>
+<span class="k">def</span> <span class="nf">random_trajectories</span><span class="p">(</span>
+        <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">n_trajectories</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">goal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="mf">100.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">6</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate random trajectories.</span>
+
+<span class="sd">    Create a smooth random trajectory with low accelerations.</span>
+
+<span class="sd">    The generated trajectories consist of a linear movement from start to goal</span>
+<span class="sd">    and a superimposed random movement with low accelerations. Hence, the first</span>
+<span class="sd">    pose and last pose do not exactly equal the start and goal pose</span>
+<span class="sd">    respectively.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rng : np.random.Generator, optional (default: random seed 0)</span>
+<span class="sd">        Random number generator</span>
+
+<span class="sd">    n_trajectories : int, optional (default: 10)</span>
+<span class="sd">        Number of trajectories that should be generated.</span>
+
+<span class="sd">    n_steps : int, optional (default: 101)</span>
+<span class="sd">        Number of steps in each trajectory.</span>
+
+<span class="sd">    start : array-like, shape (4, 4), optional (default: I)</span>
+<span class="sd">        Start pose as transformation matrix.</span>
+
+<span class="sd">    goal : array-like, shape (4, 4), optional (default: I)</span>
+<span class="sd">        Goal pose as transformation matrix.</span>
+
+<span class="sd">    scale : array-like, shape (6,), optional (default: [100] * 6)</span>
+<span class="sd">        Scaling factor for random deviations from linear movement from start to</span>
+<span class="sd">        goal.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    trajectories : array, shape (n_trajectories, n_steps, 4, 4)</span>
+<span class="sd">        Random trajectories between start and goal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">linear_component</span> <span class="o">=</span> <span class="n">_linear_movement</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">goal</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+    <span class="n">exp_coordinate_dims</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">_acceleration_L</span><span class="p">(</span><span class="n">exp_coordinate_dims</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_trajectories</span><span class="p">,</span> <span class="n">exp_coordinate_dims</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">))</span>
+    <span class="n">smooth_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ni,ji-&gt;nj&quot;</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+    <span class="n">Sthetas</span> <span class="o">=</span> <span class="n">smooth_samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="n">n_trajectories</span><span class="p">,</span> <span class="n">exp_coordinate_dims</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">Sthetas</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">scale</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+    <span class="n">trajectories</span> <span class="o">=</span> <span class="n">transforms_from_exponential_coordinates</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trajectories</span><span class="p">):</span>
+        <span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">concat_many_to_many</span><span class="p">(</span>
+            <span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linear_component</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">trajectories</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_linear_movement</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">goal</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Linear movement from start to goal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start : array-like, shape (4, 4)</span>
+<span class="sd">        Start pose as transformation matrix.</span>
+
+<span class="sd">    goal : array-like, shape (4, 4)</span>
+<span class="sd">        Goal pose as transformation matrix.</span>
+
+<span class="sd">    n_steps : int</span>
+<span class="sd">        Number of steps.</span>
+
+<span class="sd">    dt : float</span>
+<span class="sd">        Time difference between two steps.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    linear_component : array, shape (n_steps, 4, 4)</span>
+<span class="sd">        Linear trajectory from start to goal with equal step sizes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">start_dq</span> <span class="o">=</span> <span class="n">dual_quaternions_from_transforms</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+    <span class="n">goal_dq</span> <span class="o">=</span> <span class="n">dual_quaternions_from_transforms</span><span class="p">(</span><span class="n">goal</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transforms_from_dual_quaternions</span><span class="p">(</span>
+        <span class="n">dual_quaternions_sclerp</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">start_dq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">goal_dq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">time</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_acceleration_L</span><span class="p">(</span><span class="n">n_dims</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cholesky decomposition of a smooth trajectory covariance.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_dims : int</span>
+<span class="sd">        Number of dimensions.</span>
+
+<span class="sd">    n_steps : int</span>
+<span class="sd">        Number of steps in the trajectory.</span>
+
+<span class="sd">    dt : float</span>
+<span class="sd">        Time difference between two steps.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    L : array, shape (n_steps * n_dims, n_steps * n_dims)</span>
+<span class="sd">        Cholesky decomposition of covariance created from finite difference</span>
+<span class="sd">        matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This finite difference matrix only works for 1D trajectories.</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">_create_fd_matrix_1d</span><span class="p">(</span><span class="n">n_steps</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+    <span class="n">L_per_dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">covariance</span><span class="p">)</span>
+
+    <span class="c1"># We copy L for each dimension.</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_dims</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">n_dims</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_dims</span><span class="p">):</span>
+        <span class="n">L</span><span class="p">[</span><span class="n">d</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">:(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">,</span>
+          <span class="n">d</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">:(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">]</span> <span class="o">=</span> <span class="n">L_per_dim</span>
+    <span class="k">return</span> <span class="n">L</span>
+
+
+<span class="k">def</span> <span class="nf">_create_fd_matrix_1d</span><span class="p">(</span><span class="n">n_steps</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Create one-dimensional finite difference matrix.</span>
+
+<span class="sd">    For example, the finite difference matrix A for the second derivative</span>
+<span class="sd">    with respect to time is defined by:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \ddot(x) = A x</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_steps : int</span>
+<span class="sd">        Number of steps in the trajectory</span>
+
+<span class="sd">    dt : float</span>
+<span class="sd">        Time in seconds between successive steps</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A : array, shape (n_steps + 2, n_steps)</span>
+<span class="sd">        Finite difference matrix for second derivative with respect to time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_steps</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">super_diagonal</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_steps</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_steps</span><span class="p">))</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">super_diagonal</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span>
+    <span class="n">sub_diagonal</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_steps</span><span class="p">))</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">sub_diagonal</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span>
+    <span class="n">main_diagonal</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_steps</span><span class="p">))</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">main_diagonal</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">A</span> <span class="o">/</span> <span class="p">(</span><span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="plot_trajectory">

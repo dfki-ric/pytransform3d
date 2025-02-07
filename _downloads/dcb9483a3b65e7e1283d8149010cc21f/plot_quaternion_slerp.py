@@ -15,7 +15,10 @@ from pytransform3d.rotations import (
     matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp)
 from pytransform3d.trajectories import plot_trajectory
 
-
+# %%
+# We assume the array T represents something like time.
+# The position follows a sigmoid profile on a circular path over time, hence
+# velocity is not constant.
 T = np.linspace(0, 1, 1001)
 sigmoid = 0.5 * (np.tanh(1.5 * np.pi * (T - 0.5)) + 1.0)
 radius = 0.5
@@ -28,23 +31,30 @@ R2_end = matrix_from_axis_angle([1, 0, 0, end_angle])
 q_start = quaternion_from_matrix(R1.dot(R2_start))
 q_end = quaternion_from_matrix(R1.dot(R2_end))
 
-Y = np.zeros((len(T), 7))
-Y[:, 0] = radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
-Y[:, 2] = radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
+# %%
+# The naive linear interpolation method computes a time-weighted average
+# between the orientation at the start and the orientation at the end.
+lerp = np.zeros((len(T), 7))
+lerp[:, 0] = radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
+lerp[:, 2] = radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
 if end_angle > np.pi:
     q_end *= -1.0
-Y[:, 3:] = (1.0 - T)[:, np.newaxis] * q_start + T[:, np.newaxis] * q_end
+lerp[:, 3:] = (1.0 - T)[:, np.newaxis] * q_start + T[:, np.newaxis] * q_end
 
-Y_slerp = np.zeros((len(T), 7))
-Y_slerp[:, 0] = 0.7 * radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
-Y_slerp[:, 2] = 0.7 * radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
+# %%
+# SLERP is the exact method to interpolate the orientations.
+slerp = np.zeros((len(T), 7))
+slerp[:, 0] = 0.7 * radius * np.cos(np.deg2rad(90) - end_angle * sigmoid)
+slerp[:, 2] = 0.7 * radius * np.sin(np.deg2rad(90) - end_angle * sigmoid)
 for i, t in enumerate(T):
-    Y_slerp[i, 3:] = quaternion_slerp(q_start, q_end, t)
+    slerp[i, 3:] = quaternion_slerp(q_start, q_end, t)
 
+# %%
+# The following 3D plot compares the two approaches.
 ax = plot_trajectory(
-    P=Y[:, :7], show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
+    P=lerp, show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
 ax = plot_trajectory(
-    P=Y_slerp[:, :7], show_direction=False, n_frames=40, s=0.05, ax=ax)
+    P=slerp, show_direction=False, n_frames=40, s=0.05, ax=ax)
 ax.text(0.1, 0, 0, "SLERP")
 ax.text(0.4, 0, 0.6, "Naive linear interpolation")
 ax.view_init(elev=10, azim=90)
