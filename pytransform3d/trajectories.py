@@ -635,9 +635,19 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
     pytransform3d.transformations.dual_quaternion_from_screw_parameters :
         Compute dual quaternion from screw parameters.
     """
+    ds = np.zeros_like(hs)
+
     h_is_inf_mask = np.isinf(hs)
-    ds = np.where(h_is_inf_mask, thetas, hs * thetas)
-    mod_thetas = np.where(h_is_inf_mask, 0.0, thetas)
+    h_is_not_inf_mask = np.logical_not(h_is_inf_mask)
+
+    mod_thetas = np.copy(thetas)
+    if np.any(h_is_inf_mask):
+        ds[h_is_inf_mask] = thetas[h_is_inf_mask]
+        mod_thetas[h_is_inf_mask] = 0.0
+
+    if np.any(h_is_not_inf_mask):
+        ds[h_is_not_inf_mask] = hs[h_is_not_inf_mask] * \
+            thetas[h_is_not_inf_mask]
 
     moments = np.cross(qs, s_axis)
     half_distances = 0.5 * ds
