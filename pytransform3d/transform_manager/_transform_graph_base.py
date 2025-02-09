@@ -176,13 +176,11 @@ class TransformGraphBase(abc.ABC):
         transform_key = (from_frame, to_frame)
         if self._transform_available(transform_key):
             self._del_transform(transform_key)
-            ij_index = self.transform_to_ij_index[transform_key]
-            del self.transform_to_ij_index[transform_key]
+            ij_index = self.transform_to_ij_index.pop(transform_key)
             self.transform_to_ij_index = {
                 k: v if v < ij_index else v - 1
                 for k, v in self.transform_to_ij_index.items()}
-            del self.i[ij_index]
-            del self.j[ij_index]
+            del self.i[ij_index], self.j[ij_index]
             self._recompute_shortest_path()
         return self
 
