@@ -525,30 +525,19 @@ def _parse_mass(inertial):
 def _parse_inertia(inertial):
     """Parse inertia matrix."""
     inertia = inertial.find("inertia")
-
-    result = np.zeros((3, 3))
     if inertia is None:
-        return result
+        return np.zeros((3, 3))
 
-    if "ixx" in inertia.attrib:
-        result[0, 0] = float(inertia.attrib["ixx"])
-    if "ixy" in inertia.attrib:
-        ixy = float(inertia.attrib["ixy"])
-        result[0, 1] = ixy
-        result[1, 0] = ixy
-    if "ixz" in inertia.attrib:
-        ixz = float(inertia.attrib["ixz"])
-        result[0, 2] = ixz
-        result[2, 0] = ixz
-    if "iyy" in inertia.attrib:
-        result[1, 1] = float(inertia.attrib["iyy"])
-    if "iyz" in inertia.attrib:
-        iyz = float(inertia.attrib["iyz"])
-        result[1, 2] = iyz
-        result[2, 1] = iyz
-    if "izz" in inertia.attrib:
-        result[2, 2] = float(inertia.attrib["izz"])
-    return result
+    ixx = float(inertia.attrib.get("ixx", 0.0))
+    iyy = float(inertia.attrib.get("iyy", 0.0))
+    izz = float(inertia.attrib.get("izz", 0.0))
+    ixy = float(inertia.attrib.get("ixy", 0.0))
+    ixz = float(inertia.attrib.get("ixz", 0.0))
+    iyz = float(inertia.attrib.get("iyz", 0.0))
+    return np.array(
+        [[ixx, ixy, ixz],
+         [ixy, iyy, iyz],
+         [ixz, iyz, izz]])
 
 
 def _parse_joint(joint, link_names, strict_check):
