@@ -552,7 +552,7 @@ def plot_cone(ax=None, height=1.0, radius=1.0, A2B=np.eye(4), ax_s=1,
 
     X, Y, Z = [axis_start[i] + axis[i] * t
                + radii * np.sin(theta) * n1[i]
-               + radii * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+               + radii * np.cos(theta) * n2[i] for i in range(3)]
 
     if wireframe:
         ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, alpha=alpha,
