@@ -449,11 +449,8 @@ def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
     shape_objects = []
     transforms = []
     for i, child in enumerate(children):
-        if "name" in child.attrib:
-            name = "%s:%s/%s" % (child_type, link.attrib["name"],
-                                 child.attrib["name"])
-        else:
-            name = "%s:%s/%s" % (child_type, link.attrib["name"], i)
+        name = "%s:%s/%s" % (child_type, link.attrib["name"],
+                             child.attrib.get("name", i))
 
         color = None
         if child_type == "visual":
