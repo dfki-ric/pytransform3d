@@ -276,18 +276,18 @@ def plot_cylinder(ax=None, length=1.0, radius=1.0, thickness=0.0,
         X_outer, Y_outer, Z_outer = [
             axis_start[i] + axis[i] * t
             + radius * np.sin(theta) * n1[i]
-            + radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+            + radius * np.cos(theta) * n2[i] for i in range(3)]
         X_inner, Y_inner, Z_inner = [
             axis_end[i] - axis[i] * t
             + inner_radius * np.sin(theta) * n1[i]
-            + inner_radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+            + inner_radius * np.cos(theta) * n2[i] for i in range(3)]
         X = np.hstack((X_outer, X_inner))
         Y = np.hstack((Y_outer, Y_inner))
         Z = np.hstack((Z_outer, Z_inner))
     else:
         X, Y, Z = [axis_start[i] + axis[i] * t
                    + radius * np.sin(theta) * n1[i]
-                   + radius * np.cos(theta) * n2[i] for i in [0, 1, 2]]
+                   + radius * np.cos(theta) * n2[i] for i in range(3)]
 
     if wireframe:
         ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10, alpha=alpha,
