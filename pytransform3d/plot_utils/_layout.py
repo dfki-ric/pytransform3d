@@ -47,19 +47,16 @@ def make_3d_axis(ax_s, pos=111, unit=None, n_ticks=5):
         ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
         xlabel=xlabel, ylabel=ylabel, zlabel=zlabel)
 
-    ax.xaxis.set_major_locator(MaxNLocator(n_ticks))
-    ax.yaxis.set_major_locator(MaxNLocator(n_ticks))
-    ax.zaxis.set_major_locator(MaxNLocator(n_ticks))
+    for axis in [ax.xaxis, ax.yaxis, ax.zaxis]:
+        axis.set_major_locator(MaxNLocator(n_ticks))
 
     try:
-        ax.xaxis.pane.set_color("white")
-        ax.yaxis.pane.set_color("white")
-        ax.zaxis.pane.set_color("white")
+        for axis in [ax.xaxis, ax.yaxis, ax.zaxis]:
+            axis.pane.set_color("white")
     except AttributeError:  # pragma: no cover
         # fallback for older versions of matplotlib, deprecated since v3.1
-        ax.w_xaxis.pane.set_color("white")
-        ax.w_yaxis.pane.set_color("white")
-        ax.w_zaxis.pane.set_color("white")
+        for axis in [ax.w_xaxis, ax.w_yaxis, ax.w_zaxis]:
+            axis.pane.set_color("white")
 
     return ax
 
