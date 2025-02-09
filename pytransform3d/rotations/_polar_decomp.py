@@ -59,14 +59,11 @@ def robust_polar_decomposition(A, n_iter=20, eps=np.finfo(float).eps):
     current_q = np.array([1.0, 0.0, 0.0, 0.0])
     for _ in range(n_iter):
         current_R = matrix_from_quaternion(current_q)
-        omega = ((np.cross(current_R[:, 0], A[:, 0])
-                  + np.cross(current_R[:, 1], A[:, 1])
-                  + np.cross(current_R[:, 2], A[:, 2]))
-                 /
-                 (abs(np.dot(current_R[:, 0], A[:, 0])
-                      + np.dot(current_R[:, 1], A[:, 1])
-                      + np.dot(current_R[:, 2], A[:, 2]))
-                  + eps))
+        column_vector_cross_products = np.cross(
+            current_R, A, axisa=0, axisb=0, axisc=1)
+        column_vector_dot_products_sum = np.sum(current_R * A)
+        omega = (column_vector_cross_products.sum(axis=0)
+                 / (abs(column_vector_dot_products_sum) + eps))
         if np.linalg.norm(omega) < eps:
             break
         current_q = concatenate_quaternions(
