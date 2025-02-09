@@ -23,12 +23,12 @@ def load_mesh(filename):
     mesh : MeshBase
         Mesh instance.
     """
+    mesh_loaded = False
+
     # since trimesh does not support color for STL files, we try Open3D first
     if filename.endswith(".stl"):
         mesh = _Open3DMesh(filename)
         mesh_loaded = mesh.load()
-    else:  # pragma: no cover
-        mesh_loaded = False
 
     # trimesh is usually better for other formats
     if not mesh_loaded:  # pragma: no cover
