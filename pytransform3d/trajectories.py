@@ -14,7 +14,7 @@ from .transformations import (
     screw_axis_from_screw_parameters)
 
 
-N_EXP_COORDINATE_DIMS = 6
+_N_EXP_COORDINATE_DIMS = 6
 
 
 def invert_transforms(A2Bs):
@@ -929,12 +929,12 @@ def random_trajectories(
     dt = 1.0 / (n_steps - 1)
     linear_component = _linear_movement(start, goal, n_steps, dt)
 
-    L = _acceleration_L(N_EXP_COORDINATE_DIMS, n_steps, dt)
+    L = _acceleration_L(_N_EXP_COORDINATE_DIMS, n_steps, dt)
     samples = rng.normal(
-        size=(n_trajectories, N_EXP_COORDINATE_DIMS * n_steps))
+        size=(n_trajectories, _N_EXP_COORDINATE_DIMS * n_steps))
     smooth_samples = np.dot(samples, L.T)
     Sthetas = smooth_samples.reshape(
-        n_trajectories, N_EXP_COORDINATE_DIMS, n_steps).transpose([0, 2, 1])
+        n_trajectories, _N_EXP_COORDINATE_DIMS, n_steps).transpose([0, 2, 1])
     Sthetas *= np.asarray(scale)[np.newaxis, np.newaxis]
 
     trajectories = transforms_from_exponential_coordinates(Sthetas)
