@@ -41,12 +41,11 @@ def invert_transforms(A2Bs):
     # ( R t )^-1   ( R^T -R^T*t )
     # ( 0 1 )    = ( 0    1     )
     B2As[..., :3, :3] = A2Bs[..., :3, :3].transpose(
-        list(range(A2Bs.ndim - 2)) + [A2Bs.ndim - 1, A2Bs.ndim - 2])
+        tuple(range(A2Bs.ndim - 2)) + (A2Bs.ndim - 1, A2Bs.ndim - 2))
     B2As[..., :3, 3] = np.einsum(
         "nij,nj->ni",
         -B2As[..., :3, :3].reshape(-1, 3, 3),
-        A2Bs[..., :3, 3].reshape(-1, 3)).reshape(
-        *(list(instances_shape) + [3]))
+        A2Bs[..., :3, 3].reshape(-1, 3)).reshape(*(instances_shape + (3,)))
     B2As[..., 3, :3] = 0.0
     B2As[..., 3, 3] = 1.0
     return B2As
@@ -449,7 +448,7 @@ def dual_quaternions_from_pqs(pqs):
     """
     pqs = np.asarray(pqs)
     instances_shape = pqs.shape[:-1]
-    out = np.empty(list(instances_shape) + [8])
+    out = np.empty(instances_shape + (8,))
 
     # orientation quaternion
     out[..., :4] = pqs[..., 3:]
@@ -479,7 +478,7 @@ def dual_quaternions_from_transforms(A2Bs):
     """
     A2Bs = np.asarray(A2Bs)
     instances_shape = A2Bs.shape[:-2]
-    out = np.empty(list(instances_shape) + [8])
+    out = np.empty(instances_shape + (8,))
 
     # orientation quaternion
     out[..., :4] = quaternions_from_matrices(A2Bs[..., :3, :3])
@@ -510,7 +509,7 @@ def pqs_from_dual_quaternions(dqs):
     """
     dqs = np.asarray(dqs)
     instances_shape = dqs.shape[:-1]
-    out = np.empty(list(instances_shape) + [7])
+    out = np.empty(instances_shape + (7,))
     out[..., 3:] = dqs[..., :4]
     out[..., :3] = 2 * batch_concatenate_quaternions(
         dqs[..., 4:], batch_q_conj(out[..., 3:]))[..., 1:]
@@ -582,7 +581,7 @@ def screw_parameters_from_dual_quaternions(dqs):
             / ds[outer_if_inner_else_mask][..., np.newaxis]
         )
 
-    qs = np.zeros(list(dqs.shape[:-1]) + [3])
+    qs = np.zeros(dqs.shape[:-1] + (3,))
     thetas[outer_if_mask] = ds[outer_if_mask]
     hs = np.full(dqs.shape[:-1], np.inf)
 
@@ -748,7 +747,7 @@ def transforms_from_dual_quaternions(dqs):
     """
     dqs = np.asarray(dqs)
     instances_shape = dqs.shape[:-1]
-    out = np.empty(list(instances_shape) + [4, 4])
+    out = np.empty(instances_shape + (4, 4))
     out[..., :3, :3] = matrices_from_quaternions(dqs[..., :4])
     out[..., :3, 3] = 2 * batch_concatenate_quaternions(
         dqs[..., 4:], batch_q_conj(dqs[..., :4]))[..., 1:]
