@@ -911,8 +911,7 @@ def norm_euler(e, i, j, k):
     check_axis_index("j", j)
     check_axis_index("k", k)
 
-    e_norm = norm_angle(e)
-    alpha, beta, gamma = e_norm
+    alpha, beta, gamma = norm_angle(e)
 
     proper_euler = i == k
     if proper_euler:
