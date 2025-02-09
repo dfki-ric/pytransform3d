@@ -1099,8 +1099,7 @@ class Graph(Artist):
         if self.show_connections:
             for frame_names in self.tm.transforms.keys():
                 from_frame, to_frame = frame_names
-                if (from_frame in self.tm.nodes and
-                        to_frame in self.tm.nodes):
+                if from_frame in self.tm.nodes and to_frame in self.tm.nodes:
                     try:
                         self.tm.get_transform(from_frame, self.frame)
                         self.tm.get_transform(to_frame, self.frame)
