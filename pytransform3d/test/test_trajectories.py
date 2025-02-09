@@ -301,6 +301,7 @@ def test_batch_dual_quaternion_vector_product_2dims():
     V = rng.standard_normal(size=(3, 4, 3))
 
     V_transformed = batch_dq_prod_vector(dqs, V)
+    assert V_transformed.shape == (3, 4, 3)
     for v_t, dq, v in zip(V_transformed.reshape(-1, 3), dqs.reshape(-1, 8),
                           V.reshape(-1, 3)):
         assert_array_almost_equal(v_t, dq_prod_vector(dq, v))
