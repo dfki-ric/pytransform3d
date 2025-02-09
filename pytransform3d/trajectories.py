@@ -885,7 +885,7 @@ def batch_dq_prod_vector(dqs, V):
     v_dq_transformed = batch_concatenate_dual_quaternions(
         batch_concatenate_dual_quaternions(dqs, v_dqs),
         batch_dq_conj(dqs))
-    return v_dq_transformed[5:]
+    return v_dq_transformed[..., 5:]
 
 
 def random_trajectories(
