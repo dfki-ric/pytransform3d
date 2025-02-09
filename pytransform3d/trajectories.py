@@ -174,6 +174,8 @@ def concat_dynamic(A2B, B2C):
     pytransform3d.transformations.concat :
         Concatenate two transformations.
     """
+    A2B = np.asarray(A2B)
+    B2C = np.asarray(B2C)
     if B2C.ndim == 2 and A2B.ndim == 2:
         return B2C.dot(A2B)
     elif B2C.ndim == 2 and A2B.ndim == 3:
