@@ -215,9 +215,8 @@ def matrix_from_quaternion(q):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
-    q = check_quaternion(q)
-    uq = norm_vector(q)
-    w, x, y, z = uq
+    q = check_quaternion(q, unit=True)
+    w, x, y, z = q
     x2 = 2.0 * x * x
     y2 = 2.0 * y * y
     z2 = 2.0 * z * z
