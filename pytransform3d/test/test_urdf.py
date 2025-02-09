@@ -1076,7 +1076,7 @@ def test_load_inertial_info():
             <inertial>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <mass value="0.001"/>
-                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+                <inertia ixx="1" ixy="4" ixz="5" iyy="2" iyz="6" izz="3"/>
             </inertial>
         </link>
     </robot>
@@ -1086,7 +1086,11 @@ def test_load_inertial_info():
     assert links[0].name == "cone"
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
     assert links[0].mass == 0.001
-    assert_array_almost_equal(links[0].inertia, np.zeros((3, 3)))
+    assert_array_almost_equal(
+        links[0].inertia,
+        np.array([[1, 4, 5],
+                  [4, 2, 6],
+                  [5, 6, 3]]))
 
 
 def test_load_inertial_info_sparse_matrix():
