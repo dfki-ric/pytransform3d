@@ -202,7 +202,7 @@ class TransformGraphBase(abc.ABC):
 
 
         # Remove all transformations (edges) associated with the frame
-        for (from_frame, to_frame) in self._find_connected_transforms(frame):
+        for from_frame, to_frame in self._find_connected_transforms(frame):
             self.remove_transform(from_frame, to_frame)
 
         frame_index = self.nodes.index(frame)
@@ -216,10 +216,9 @@ class TransformGraphBase(abc.ABC):
 
         # Update the transform_to_ij_index dictionary
         self.transform_to_ij_index = {
-            (from_frame, to_frame): ij_index
-            for (from_frame, to_frame), ij_index
-            in self.transform_to_ij_index.items()
-            if from_frame != frame and to_frame != frame
+            nodes: ij_index
+            for nodes, ij_index in self.transform_to_ij_index.items()
+            if frame not in nodes
         }
 
         self._recompute_shortest_path()
