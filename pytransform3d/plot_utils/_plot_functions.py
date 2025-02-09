@@ -63,30 +63,15 @@ def plot_box(ax=None, size=np.ones(3), A2B=np.eye(4), ax_s=1, wireframe=True,
         for i, j in [(0, 1), (0, 2), (1, 3), (2, 3),
                      (4, 5), (4, 6), (5, 7), (6, 7),
                      (0, 4), (1, 5), (2, 6), (3, 7)]:
-            ax.plot([corners[i, 0], corners[j, 0]],
-                    [corners[i, 1], corners[j, 1]],
-                    [corners[i, 2], corners[j, 2]],
+            ax.plot(corners[[i, j], 0], corners[[i, j], 1], corners[[i, j], 2],
                     c=color, alpha=alpha)
     else:
-        p3c = Poly3DCollection(np.array([
-            [corners[0], corners[1], corners[2]],
-            [corners[1], corners[2], corners[3]],
-
-            [corners[4], corners[5], corners[6]],
-            [corners[5], corners[6], corners[7]],
-
-            [corners[0], corners[1], corners[4]],
-            [corners[1], corners[4], corners[5]],
-
-            [corners[2], corners[6], corners[7]],
-            [corners[2], corners[3], corners[7]],
-
-            [corners[0], corners[4], corners[6]],
-            [corners[0], corners[2], corners[6]],
-
-            [corners[1], corners[5], corners[7]],
-            [corners[1], corners[3], corners[7]],
-        ]))
+        faces = [
+            [0, 1, 2], [1, 2, 3], [4, 5, 6], [5, 6, 7],
+            [0, 1, 4], [1, 4, 5], [2, 6, 7], [2, 3, 7],
+            [0, 4, 6], [0, 2, 6], [1, 5, 7], [1, 3, 7]
+        ]
+        p3c = Poly3DCollection(corners[faces])
         p3c.set_alpha(alpha)
         p3c.set_facecolor(color)
         ax.add_collection3d(p3c)
