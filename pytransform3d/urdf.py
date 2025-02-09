@@ -398,12 +398,9 @@ def _parse_material(material):
     if "name" not in material.attrib:
         raise UrdfException("Material name is missing.")
     colors = material.findall("color")
-    if len(colors) not in [0, 1]:
+    if len(colors) > 1:
         raise UrdfException("More than one color is not allowed.")
-    if len(colors) == 1:
-        color = _parse_color(colors[0])
-    else:
-        color = None
+    color = _parse_color(colors[0]) if len(colors) == 1 else None
     # TODO texture is currently ignored
     return material.attrib["name"], color
 
