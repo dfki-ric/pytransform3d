@@ -2150,11 +2150,11 @@ def quaternion_from_axis_angle(a):
         Unit quaternion to represent rotation: (w, x, y, z)
     """
     a = check_axis_angle(a)
-    theta = a[3]
+    half_angle = 0.5 * a[3]
 
     q = np.empty(4)
-    q[0] = np.cos(theta / 2)
-    q[1:] = np.sin(theta / 2) * a[:3]
+    q[0] = np.cos(half_angle)
+    q[1:] = np.sin(half_angle) * a[:3]
     return q
 
 
