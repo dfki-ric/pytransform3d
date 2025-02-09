@@ -1000,7 +1000,7 @@ class Camera(Artist):
 
         up = virtual_image_corners[0] - virtual_image_corners[1]
         camera_line_points = np.vstack((
-            camera_center_in_world[:3],
+            camera_center_in_world,
             virtual_image_corners[0],
             virtual_image_corners[1],
             virtual_image_corners[2],
