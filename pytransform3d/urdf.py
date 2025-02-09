@@ -510,10 +510,9 @@ def _parse_mass(inertial):
     """Parse link mass."""
     mass = inertial.find("mass")
     if mass is not None and "value" in mass.attrib:
-        result = float(mass.attrib["value"])
+        return float(mass.attrib["value"])
     else:
-        result = 0.0
-    return result
+        return 0.0
 
 
 def _parse_inertia(inertial):
