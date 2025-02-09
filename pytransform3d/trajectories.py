@@ -14,6 +14,9 @@ from .transformations import (
     screw_axis_from_screw_parameters)
 
 
+N_EXP_COORDINATE_DIMS = 6
+
+
 def invert_transforms(A2Bs):
     """Invert transforms.
 
@@ -926,12 +929,12 @@ def random_trajectories(
     dt = 1.0 / (n_steps - 1)
     linear_component = _linear_movement(start, goal, n_steps, dt)
 
-    exp_coordinate_dims = 6
-    L = _acceleration_L(exp_coordinate_dims, n_steps, dt)
-    samples = rng.normal(size=(n_trajectories, exp_coordinate_dims * n_steps))
-    smooth_samples = np.einsum("ni,ji->nj", samples, L)
+    L = _acceleration_L(N_EXP_COORDINATE_DIMS, n_steps, dt)
+    samples = rng.normal(
+        size=(n_trajectories, N_EXP_COORDINATE_DIMS * n_steps))
+    smooth_samples = np.dot(samples, L.T)
     Sthetas = smooth_samples.reshape(
-        n_trajectories, exp_coordinate_dims, n_steps).transpose([0, 2, 1])
+        n_trajectories, N_EXP_COORDINATE_DIMS, n_steps).transpose([0, 2, 1])
     Sthetas *= np.asarray(scale)[np.newaxis, np.newaxis]
 
     trajectories = transforms_from_exponential_coordinates(Sthetas)
@@ -994,12 +997,11 @@ def _acceleration_L(n_dims, n_steps, dt):
         Cholesky decomposition of covariance created from finite difference
         matrix.
     """
-    # This finite difference matrix only works for 1D trajectories.
-    A = _create_fd_matrix_1d(n_steps, dt)
-    covariance = np.linalg.inv(A.T.dot(A))
+    A_per_dim = _create_fd_matrix_1d(n_steps, dt)
+    covariance = np.linalg.inv(np.dot(A_per_dim.T, A_per_dim))
     L_per_dim = np.linalg.cholesky(covariance)
 
-    # We copy L for each dimension.
+    # Copy L for each dimension
     L = np.zeros((n_dims * n_steps, n_dims * n_steps))
     for d in range(n_dims):
         L[d * n_steps:(d + 1) * n_steps,
@@ -1008,10 +1010,10 @@ def _acceleration_L(n_dims, n_steps, dt):
 
 
 def _create_fd_matrix_1d(n_steps, dt):
-    r"""Create one-dimensional finite difference matrix.
+    r"""Create one-dimensional finite difference matrix for second derivative.
 
-    For example, the finite difference matrix A for the second derivative
-    with respect to time is defined by:
+    The finite difference matrix A for the second derivative with respect to
+    time is defined as:
 
     .. math::
 
