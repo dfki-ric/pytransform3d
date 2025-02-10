@@ -3,7 +3,7 @@ import numpy as np
 from ._utils import angle_between_vectors
 from ._matrix import compact_axis_angle_from_matrix
 from ._axis_angle import check_axis_angle, matrix_from_compact_axis_angle
-from ._quaternions import check_quaternion
+from ._quaternions import check_quaternion, pick_closest_quaternion_impl
 from ._rotors import check_rotor
 
 
@@ -158,61 +158,10 @@ def quaternion_slerp(start, end, t, shortest_path=False):
     start = check_quaternion(start)
     end = check_quaternion(end)
     if shortest_path:
-        end = _pick_closest_quaternion(end, start)
+        end = pick_closest_quaternion_impl(end, start)
     angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return w1 * start + w2 * end
-
-
-def pick_closest_quaternion(quaternion, target_quaternion):
-    """Resolve quaternion ambiguity and pick the closest one to the target.
-
-    .. warning::
-        There are always two quaternions that represent the exact same
-        orientation: q and -q.
-
-    Parameters
-    ----------
-    quaternion : array-like, shape (4,)
-        Quaternion (w, x, y, z) of which we are unsure whether we want to
-        select quaternion or -quaternion.
-
-    target_quaternion : array-like, shape (4,)
-        Target quaternion (w, x, y, z) to which we want to be close.
-
-    Returns
-    -------
-    closest_quaternion : array, shape (4,)
-        Quaternion that is closest (Euclidean norm) to the target quaternion.
-    """
-    quaternion = check_quaternion(quaternion)
-    target_quaternion = check_quaternion(target_quaternion)
-    return _pick_closest_quaternion(quaternion, target_quaternion)
-
-
-def _pick_closest_quaternion(quaternion, target_quaternion):
-    """Resolve quaternion ambiguity and pick the closest one to the target.
-
-    This is an internal function that does not validate the inputs.
-
-    Parameters
-    ----------
-    quaternion : array, shape (4,)
-        Quaternion (w, x, y, z) of which we are unsure whether we want to
-        select quaternion or -quaternion.
-
-    target_quaternion : array, shape (4,)
-        Target quaternion (w, x, y, z) to which we want to be close.
-
-    Returns
-    -------
-    closest_quaternion : array, shape (4,)
-        Quaternion that is closest (Euclidean norm) to the target quaternion.
-    """
-    if (np.linalg.norm(-quaternion - target_quaternion) <
-            np.linalg.norm(quaternion - target_quaternion)):
-        return -quaternion
-    return quaternion
 
 
 def rotor_slerp(start, end, t, shortest_path=False):

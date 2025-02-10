@@ -118,6 +118,57 @@ def quaternion_double(q):
     return -check_quaternion(q, unit=True)
 
 
+def pick_closest_quaternion(quaternion, target_quaternion):
+    """Resolve quaternion ambiguity and pick the closest one to the target.
+
+    .. warning::
+        There are always two quaternions that represent the exact same
+        orientation: q and -q.
+
+    Parameters
+    ----------
+    quaternion : array-like, shape (4,)
+        Quaternion (w, x, y, z) of which we are unsure whether we want to
+        select quaternion or -quaternion.
+
+    target_quaternion : array-like, shape (4,)
+        Target quaternion (w, x, y, z) to which we want to be close.
+
+    Returns
+    -------
+    closest_quaternion : array, shape (4,)
+        Quaternion that is closest (Euclidean norm) to the target quaternion.
+    """
+    quaternion = check_quaternion(quaternion)
+    target_quaternion = check_quaternion(target_quaternion)
+    return pick_closest_quaternion_impl(quaternion, target_quaternion)
+
+
+def pick_closest_quaternion_impl(quaternion, target_quaternion):
+    """Resolve quaternion ambiguity and pick the closest one to the target.
+
+    This is an internal function that does not validate the inputs.
+
+    Parameters
+    ----------
+    quaternion : array, shape (4,)
+        Quaternion (w, x, y, z) of which we are unsure whether we want to
+        select quaternion or -quaternion.
+
+    target_quaternion : array, shape (4,)
+        Target quaternion (w, x, y, z) to which we want to be close.
+
+    Returns
+    -------
+    closest_quaternion : array, shape (4,)
+        Quaternion that is closest (Euclidean norm) to the target quaternion.
+    """
+    if (np.linalg.norm(-quaternion - target_quaternion) <
+            np.linalg.norm(quaternion - target_quaternion)):
+        return -quaternion
+    return quaternion
+
+
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     """Integrate angular velocities to quaternions.
 
