@@ -9,6 +9,11 @@ def euler_near_gimbal_lock(
         e: npt.ArrayLike, i: int, j: int, k: int, tolerance: float = ...) -> bool: ...
 
 
+def assert_euler_equal(
+        e1: npt.ArrayLike, e2: npt.ArrayLike, i: int, j: int, k: int,
+        *args, **kwargs): ...
+
+
 def matrix_from_euler(
         e: npt.ArrayLike, i: int, j: int, k: int, extrinsic: bool) -> np.ndarray: ...
 
