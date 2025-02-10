@@ -52,9 +52,6 @@ def transform_from_transform_log(
         transform_log: npt.ArrayLike) -> np.ndarray: ...
 
 
-def dual_quaternion_from_transform(A2B: npt.ArrayLike) -> np.ndarray: ...
-
-
 def dual_quaternion_from_pq(pq: npt.ArrayLike) -> np.ndarray: ...
 
 
