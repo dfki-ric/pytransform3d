@@ -2,7 +2,7 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 from ._utils import norm_axis_angle, norm_compact_axis_angle
-from ._conversions import norm_euler
+from ._euler import norm_euler
 from ._mrp import mrp_double
 
 
