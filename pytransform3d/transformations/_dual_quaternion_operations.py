@@ -1,9 +1,8 @@
 """Dual quaternion operations."""
 import numpy as np
-from ._utils import check_dual_quaternion
-from ._conversions import (screw_parameters_from_dual_quaternion,
-                           dual_quaternion_from_screw_parameters)
-from ..rotations import concatenate_quaternions
+from ._utils import check_screw_parameters
+from ..rotations import (
+    concatenate_quaternions, q_conj, axis_angle_from_quaternion)
 
 
 def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
@@ -124,6 +123,66 @@ def norm_dual_quaternion(dq):
     dual = real_inv_sqrt * dual + concatenate_quaternions(dual_inv_sqrt, real)
 
     return np.hstack((real, dual))
+
+
+def check_dual_quaternion(dq, unit=True):
+    """Input validation of dual quaternion representation.
+
+    See http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
+
+    A dual quaternion is defined as
+
+    .. math::
+
+        \\boldsymbol{\\sigma} = \\boldsymbol{p} + \\epsilon \\boldsymbol{q},
+
+    where :math:`\\boldsymbol{p}` and :math:`\\boldsymbol{q}` are both
+    quaternions and :math:`\\epsilon` is the dual unit with
+    :math:`\\epsilon^2 = 0`. The first quaternion is also called the real part
+    and the second quaternion is called the dual part.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    unit : bool, optional (default: True)
+        Normalize the dual quaternion so that it is a unit dual quaternion.
+        A unit dual quaternion has the properties
+        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
+        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+
+    See Also
+    --------
+    norm_dual_quaternion
+        Normalization that enforces unit norm and orthogonality of the real and
+        dual quaternion.
+    """
+    dq = np.asarray(dq, dtype=np.float64)
+    if dq.ndim != 1 or dq.shape[0] != 8:
+        raise ValueError("Expected dual quaternion with shape (8,), got "
+                         "array-like object with shape %s" % (dq.shape,))
+    if unit:
+        # Norm of a dual quaternion only depends on the real part because
+        # the dual part vanishes with (1) epsilon ** 2 = 0 and (2) the real
+        # and dual part being orthogonal, i.e., their product is 0.
+        real_norm = np.linalg.norm(dq[:4])
+        if real_norm == 0.0:
+            return np.r_[1, 0, 0, 0, dq[4:]]
+        return dq / real_norm
+    return dq
 
 
 def dual_quaternion_double(dq):
@@ -386,3 +445,106 @@ def dual_quaternion_power(dq, t):
     dq = check_dual_quaternion(dq)
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
     return dual_quaternion_from_screw_parameters(q, s_axis, h, theta * t)
+
+
+def screw_parameters_from_dual_quaternion(dq):
+    """Compute screw parameters from dual quaternion.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    q : array, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array, shape (3,)
+        Direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+    """
+    dq = check_dual_quaternion(dq, unit=True)
+
+    real = dq[:4]
+    dual = dq[4:]
+
+    a = axis_angle_from_quaternion(real)
+    s_axis = a[:3]
+    theta = a[3]
+
+    translation = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
+    if abs(theta) < np.finfo(float).eps:
+        # pure translation
+        d = np.linalg.norm(translation)
+        if d < np.finfo(float).eps:
+            s_axis = np.array([1, 0, 0])
+        else:
+            s_axis = translation / d
+        q = np.zeros(3)
+        theta = d
+        h = np.inf
+        return q, s_axis, h, theta
+
+    distance = np.dot(translation, s_axis)
+    moment = 0.5 * (np.cross(translation, s_axis) +
+                    (translation - distance * s_axis)
+                    / np.tan(0.5 * theta))
+    dual = np.cross(s_axis, moment)
+    h = distance / theta
+    return dual, s_axis, h, theta
+
+
+def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
+    """Compute dual quaternion from screw parameters.
+
+    Parameters
+    ----------
+    q : array-like, shape (3,)
+        Vector to a point on the screw axis
+
+    s_axis : array-like, shape (3,)
+        Direction vector of the screw axis
+
+    h : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+    """
+    q, s_axis, h = check_screw_parameters(q, s_axis, h)
+
+    if np.isinf(h):  # pure translation
+        d = theta
+        theta = 0
+    else:
+        d = h * theta
+    moment = np.cross(q, s_axis)
+
+    half_distance = 0.5 * d
+    sin_half_angle = np.sin(0.5 * theta)
+    cos_half_angle = np.cos(0.5 * theta)
+
+    real_w = cos_half_angle
+    real_vec = sin_half_angle * s_axis
+    dual_w = -half_distance * sin_half_angle
+    dual_vec = (sin_half_angle * moment +
+                half_distance * cos_half_angle * s_axis)
+
+    return np.r_[real_w, real_vec, dual_w, dual_vec]
