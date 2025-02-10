@@ -1,5 +1,6 @@
 import warnings
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ._utils import (
     norm_vector, perpendicular_to_vectors, vector_projection)
 from ._axis_angle import compact_axis_angle
@@ -157,6 +158,31 @@ def norm_matrix(R):
     c1 = norm_vector(np.cross(c2, c3))
     c2 = norm_vector(np.cross(c3, c1))
     return np.column_stack((c1, c2, c3))
+
+
+def assert_rotation_matrix(R, *args, **kwargs):
+    """Raise an assertion if a matrix is not a rotation matrix.
+
+    The two properties :math:`\\boldsymbol{I} = \\boldsymbol{R R}^T` and
+    :math:`det(R) = 1` will be checked. See
+    numpy.testing.assert_array_almost_equal for a more detailed documentation
+    of the other parameters.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    assert_array_almost_equal(np.dot(R, R.T), np.eye(3), *args, **kwargs)
+    assert_array_almost_equal(np.linalg.det(R), 1.0, *args, **kwargs)
 
 
 def matrix_from_two_vectors(a, b):

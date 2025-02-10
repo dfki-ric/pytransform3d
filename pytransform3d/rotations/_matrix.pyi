@@ -11,6 +11,9 @@ def check_matrix(R: npt.ArrayLike, tolerance: float = ..., strict_check: bool = 
 def norm_matrix(R: npt.ArrayLike) -> np.ndarray: ...
 
 
+def assert_rotation_matrix(R: npt.ArrayLike, *args, **kwargs): ...
+
+
 def matrix_from_two_vectors(a: npt.ArrayLike, b: npt.ArrayLike) -> np.ndarray: ...
 
 

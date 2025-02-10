@@ -1,5 +1,6 @@
 """Quaternion operations."""
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ._utils import check_axis_index, norm_vector
 from ._angle import quaternion_from_angle
 from ._axis_angle import (
@@ -167,6 +168,35 @@ def pick_closest_quaternion_impl(quaternion, target_quaternion):
             np.linalg.norm(quaternion - target_quaternion)):
         return -quaternion
     return quaternion
+
+
+def assert_quaternion_equal(q1, q2, *args, **kwargs):
+    """Raise an assertion if two quaternions are not approximately equal.
+
+    Note that quaternions are equal either if q1 == q2 or if q1 == -q2. See
+    numpy.testing.assert_array_almost_equal for a more detailed documentation
+    of the other parameters.
+
+    Parameters
+    ----------
+    q1 : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    q2 : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    try:
+        assert_array_almost_equal(q1, q2, *args, **kwargs)
+    except AssertionError:
+        assert_array_almost_equal(q1, -q2, *args, **kwargs)
 
 
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):

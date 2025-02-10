@@ -1,5 +1,6 @@
 import math
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ._constants import half_pi, unitx, unity, unitz, eps
 from ._utils import check_axis_index
 from ._angle import norm_angle, active_matrix_from_angle
@@ -84,6 +85,39 @@ def euler_near_gimbal_lock(e, i, j, k, tolerance=1e-6):
         return abs(beta) < tolerance or abs(beta - np.pi) < tolerance
     else:
         return abs(abs(beta) - half_pi) < tolerance
+
+
+def assert_euler_equal(e1, e2, i, j, k, *args, **kwargs):
+    """Raise an assertion if two Euler angles are not approximately equal.
+
+    Parameters
+    ----------
+    e1 : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    e2 : array-like, shape (3,)
+        Rotation angles in radians about the axes i, j, k in this order.
+
+    i : int from [0, 1, 2]
+        The first rotation axis (0: x, 1: y, 2: z)
+
+    j : int from [0, 1, 2]
+        The second rotation axis (0: x, 1: y, 2: z)
+
+    k : int from [0, 1, 2]
+        The third rotation axis (0: x, 1: y, 2: z)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    e1 = norm_euler(e1, i, j, k)
+    e2 = norm_euler(e2, i, j, k)
+    assert_array_almost_equal(e1, e2, *args, **kwargs)
 
 
 def matrix_from_euler(e, i, j, k, extrinsic):

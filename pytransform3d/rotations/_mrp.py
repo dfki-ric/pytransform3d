@@ -1,5 +1,6 @@
 """Modified Rodrigues parameters."""
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ._angle import norm_angle
 from ._axis_angle import mrp_from_axis_angle
 from ._constants import two_pi, eps
@@ -111,6 +112,35 @@ def mrp_double(mrp):
     if norm == 0.0:
         return mrp
     return mrp / -norm
+
+
+def assert_mrp_equal(mrp1, mrp2, *args, **kwargs):
+    """Raise an assertion if two MRPs are not approximately equal.
+
+    There are two MRPs that represent the same orientation (double cover). See
+    numpy.testing.assert_array_almost_equal for a more detailed documentation
+    of the other parameters.
+
+    Parameters
+    ----------
+    mrp1 : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    mrp1 : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    try:
+        assert_array_almost_equal(mrp1, mrp2, *args, **kwargs)
+    except AssertionError:
+        assert_array_almost_equal(mrp1, mrp_double(mrp2), *args, **kwargs)
 
 
 def concatenate_mrp(mrp1, mrp2):
