@@ -166,3 +166,25 @@ def quaternion_from_compact_axis_angle(a):
     """
     a = axis_angle_from_compact_axis_angle(a)
     return quaternion_from_axis_angle(a)
+
+
+def mrp_from_axis_angle(a):
+    r"""Compute modified Rodrigues parameters from axis-angle representation.
+
+    .. math::
+
+        \boldsymbol{\psi} = \tan \left(\frac{\theta}{4}\right)
+        \hat{\boldsymbol{\omega}}
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Modified Rodrigues parameters.
+    """
+    a = check_axis_angle(a)
+    return np.tan(0.25 * a[3]) * a[:3]
