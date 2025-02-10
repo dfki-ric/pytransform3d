@@ -10,20 +10,27 @@ from ._utils import (
     check_screw_matrix,
     check_transform_log)
 from ._conversions import (
-    pq_from_transform, transform_from_pq,
-    transform_from_transform_log, transform_log_from_transform,
+    pq_from_transform,
+    transform_from_pq,
+    transform_from_transform_log,
+    transform_log_from_transform,
     transform_from_exponential_coordinates,
     exponential_coordinates_from_transform,
-    screw_parameters_from_screw_axis, screw_axis_from_screw_parameters,
+    screw_parameters_from_screw_axis,
+    screw_axis_from_screw_parameters,
     exponential_coordinates_from_screw_axis,
     screw_axis_from_exponential_coordinates,
     transform_log_from_exponential_coordinates,
     exponential_coordinates_from_transform_log,
-    screw_matrix_from_screw_axis, screw_axis_from_screw_matrix,
-    transform_log_from_screw_matrix, screw_matrix_from_transform_log,
-    dual_quaternion_from_transform, transform_from_dual_quaternion,
-    dual_quaternion_from_pq, pq_from_dual_quaternion,
-    adjoint_from_transform, norm_exponential_coordinates)
+    screw_matrix_from_screw_axis,
+    screw_axis_from_screw_matrix,
+    transform_log_from_screw_matrix,
+    screw_matrix_from_transform_log,
+    dual_quaternion_from_transform,
+    transform_from_dual_quaternion,
+    dual_quaternion_from_pq,
+    pq_from_dual_quaternion,
+    adjoint_from_transform)
 from ._transform import (
     transform_requires_renormalization,
     check_transform,
@@ -41,6 +48,7 @@ from ._transform_operations import (
     transform,
     transform_sclerp,
     transform_power)
+from ._exp_coords import norm_exponential_coordinates
 from ._pq_operations import pq_slerp
 from ._dual_quaternion_operations import (
     dual_quaternion_requires_renormalization,

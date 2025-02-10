@@ -4,7 +4,7 @@ from numpy.testing import assert_array_almost_equal
 from ..rotations import assert_rotation_matrix, norm_angle, eps
 from ._dual_quaternion_operations import (
     dq_q_conj, concatenate_dual_quaternions)
-from ._conversions import norm_exponential_coordinates
+from ._exp_coords import norm_exponential_coordinates
 
 
 def assert_transform(A2B, *args, **kwargs):
