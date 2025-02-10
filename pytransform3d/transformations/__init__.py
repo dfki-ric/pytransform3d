@@ -64,14 +64,20 @@ from ._dual_quaternion_operations import (
     screw_parameters_from_dual_quaternion,
     dual_quaternion_from_screw_parameters)
 from ._random import (
-    random_transform, random_screw_axis, random_exponential_coordinates)
+    random_transform,
+    random_screw_axis,
+    random_exponential_coordinates)
 from ._plot import plot_transform, plot_screw
 from ._testing import (
-    assert_transform, assert_exponential_coordinates_equal,
-    assert_screw_parameters_equal, assert_unit_dual_quaternion_equal,
+    assert_transform,
+    assert_exponential_coordinates_equal,
+    assert_screw_parameters_equal,
+    assert_unit_dual_quaternion_equal,
     assert_unit_dual_quaternion)
 from ._jacobians import (
-    left_jacobian_SE3, left_jacobian_SE3_series, left_jacobian_SE3_inv,
+    left_jacobian_SE3,
+    left_jacobian_SE3_series,
+    left_jacobian_SE3_inv,
     left_jacobian_SE3_inv_series)
 
 
