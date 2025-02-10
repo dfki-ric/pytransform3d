@@ -705,8 +705,7 @@ def dual_quaternion_from_pq(pq):
     """
     pq = check_pq(pq)
     real = pq[3:]
-    dual = 0.5 * concatenate_quaternions(
-        np.r_[0, pq[:3]], real)
+    dual = 0.5 * concatenate_quaternions(np.r_[0, pq[:3]], real)
     return np.hstack((real, dual))
 
 
