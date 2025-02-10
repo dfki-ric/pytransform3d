@@ -275,7 +275,8 @@ def test_norm_exponential_coordinates():
     for _ in range(10):
         Stheta = rng.standard_normal(size=6)
         # ensure that theta is not within [-pi, pi]
-        Stheta[rng.integers(0, 3)] += np.pi + rng.random()
+        i = rng.integers(0, 3)
+        Stheta[i] = np.sign(Stheta[i]) * (np.pi + rng.random())
         Stheta_norm = pt.norm_exponential_coordinates(Stheta)
         assert not np.all(Stheta == Stheta_norm)
         pt.assert_exponential_coordinates_equal(Stheta, Stheta_norm)
