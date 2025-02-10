@@ -23,11 +23,8 @@ from ._random import (
 from ._conversions import (
     quaternion_from_matrix, quaternion_wxyz_from_xyzw,
     quaternion_xyzw_from_wxyz, quaternion_from_extrinsic_euler_xyz,
-    axis_angle_from_quaternion,
     axis_angle_from_matrix, axis_angle_from_two_directions,
-    compact_axis_angle, compact_axis_angle_from_quaternion,
     compact_axis_angle_from_matrix,
-    matrix_from_quaternion,
     matrix_from_two_vectors,
     active_matrix_from_angle, norm_euler, euler_near_gimbal_lock,
     matrix_from_euler,
@@ -86,14 +83,16 @@ from ._conversions import (
     quaternion_from_angle,
     cross_product_matrix,
     rot_log_from_compact_axis_angle,
-    mrp_from_quaternion,
     quaternion_from_mrp,
     axis_angle_from_mrp)
 from ._convert_from_axis_angle import (
     matrix_from_axis_angle, matrix_from_compact_axis_angle,
-    axis_angle_from_compact_axis_angle,
+    axis_angle_from_compact_axis_angle, compact_axis_angle,
     quaternion_from_axis_angle, quaternion_from_compact_axis_angle,
     mrp_from_axis_angle)
+from ._convert_from_quaternion import (
+    matrix_from_quaternion, axis_angle_from_quaternion,
+    compact_axis_angle_from_quaternion, mrp_from_quaternion)
 from ._quaternions import (
     quaternion_double, quaternion_integrate, quaternion_gradient,
     concatenate_quaternions, q_conj, q_prod_vector, quaternion_diff,
