@@ -2,8 +2,9 @@
 import numpy as np
 from ._utils import check_quaternion, check_quaternions
 from ._conversions import (
-    quaternion_from_compact_axis_angle, compact_axis_angle_from_quaternion,
+    compact_axis_angle_from_quaternion,
     axis_angle_from_quaternion, quaternion_from_angle, check_axis_index)
+from ._convert_from_axis_angle import quaternion_from_compact_axis_angle
 
 
 def quaternion_double(q):
