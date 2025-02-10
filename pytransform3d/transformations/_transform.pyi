@@ -22,3 +22,7 @@ def translate_transform(
 def rotate_transform(
         A2B: npt.ArrayLike, R: npt.ArrayLike, strict_check: bool = ...,
         check: bool = ...) -> np.ndarray: ...
+
+
+def pq_from_transform(
+        A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...

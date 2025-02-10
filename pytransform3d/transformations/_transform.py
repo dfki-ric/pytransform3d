@@ -1,7 +1,8 @@
 """Transformation matrices."""
 import warnings
 import numpy as np
-from ..rotations import matrix_requires_renormalization, check_matrix
+from ..rotations import (
+    matrix_requires_renormalization, check_matrix, quaternion_from_matrix)
 
 
 def transform_requires_renormalization(A2B, tolerance=1e-6):
@@ -167,3 +168,25 @@ def rotate_transform(A2B, R, strict_check=True, check=True):
     out = A2B.copy()
     out[:3, :3] = R
     return out
+
+
+def pq_from_transform(A2B, strict_check=True):
+    """Compute position and quaternion from transformation matrix.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transformation matrix from frame A to frame B
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
+    Returns
+    -------
+    pq : array, shape (7,)
+        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
+    """
+    A2B = check_transform(A2B, strict_check=strict_check)
+    return np.hstack((A2B[:3, 3], quaternion_from_matrix(A2B[:3, :3])))
