@@ -43,13 +43,13 @@ from ._random import (
     random_quaternion,
     random_matrix)
 from ._conversions import (
-    axis_angle_from_matrix,
-    compact_axis_angle_from_matrix,
     cross_product_matrix,
     rot_log_from_compact_axis_angle)
 from ._matrix import (
     matrix_from_two_vectors,
-    quaternion_from_matrix)
+    quaternion_from_matrix,
+    axis_angle_from_matrix,
+    compact_axis_angle_from_matrix)
 from ._angle import (
     active_matrix_from_angle,
     passive_matrix_from_angle,
