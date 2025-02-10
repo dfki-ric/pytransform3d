@@ -41,7 +41,8 @@ for i in range(n_cases):
     R_unnormalized[:, random_axis] = np.dot(
         pr.random_matrix(rng, cov=0.1 * np.eye(3)),
         R_unnormalized[:, random_axis])
-    pr.plot_basis(axes[0, i], R_unnormalized, p=plot_center, strict_check=False)
+    pr.plot_basis(
+        axes[0, i], R_unnormalized, p=plot_center, strict_check=False)
 
     R_gs = pr.norm_matrix(R_unnormalized)
     pr.plot_basis(axes[1, i], R_unnormalized, p=plot_center,
