@@ -44,7 +44,6 @@ from ._random import (
     random_matrix)
 from ._conversions import (
     axis_angle_from_matrix,
-    axis_angle_from_two_directions,
     compact_axis_angle_from_matrix,
     cross_product_matrix,
     rot_log_from_compact_axis_angle)
@@ -61,7 +60,8 @@ from ._euler import (
     matrix_from_euler,
     euler_from_matrix,
     euler_from_quaternion)
-from ._convert_from_axis_angle import (
+from ._axis_angle import (
+    axis_angle_from_two_directions,
     matrix_from_axis_angle,
     matrix_from_compact_axis_angle,
     axis_angle_from_compact_axis_angle,

@@ -5,7 +5,7 @@ from ._angle import quaternion_from_angle
 from ._euler import check_axis_index
 from ._convert_from_quaternion import (
     compact_axis_angle_from_quaternion, axis_angle_from_quaternion)
-from ._convert_from_axis_angle import quaternion_from_compact_axis_angle
+from ._axis_angle import quaternion_from_compact_axis_angle
 
 
 def quaternion_double(q):

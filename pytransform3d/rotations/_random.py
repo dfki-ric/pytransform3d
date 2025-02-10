@@ -1,7 +1,7 @@
 import numpy as np
 
 from ._utils import norm_vector, check_matrix, norm_matrix
-from ._convert_from_axis_angle import matrix_from_compact_axis_angle
+from ._axis_angle import matrix_from_compact_axis_angle
 
 
 def random_vector(rng=np.random.default_rng(0), n=3):
