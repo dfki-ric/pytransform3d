@@ -1,28 +1,9 @@
 import math
 import numpy as np
-from ._angle import norm_angle, active_matrix_from_angle
-from ._utils import check_matrix, check_quaternion
 from ._constants import half_pi, unitx, unity, unitz, eps
-
-
-def check_axis_index(name, i):
-    """Checks axis index.
-
-    Parameters
-    ----------
-    name : str
-        Name of the axis. Required for the error message.
-
-    i : int from [0, 1, 2]
-        Index of the axis (0: x, 1: y, 2: z)
-
-    Raises
-    ------
-    ValueError
-        If basis is invalid
-    """
-    if i not in [0, 1, 2]:
-        raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
+from ._utils import check_axis_index, check_matrix
+from ._angle import norm_angle, active_matrix_from_angle
+from ._quaternions import check_quaternion
 
 
 def norm_euler(e, i, j, k):
