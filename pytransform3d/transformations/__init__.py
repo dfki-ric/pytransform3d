@@ -3,7 +3,7 @@
 See :doc:`user_guide/transformations` for more information.
 """
 from ._utils import (
-    transform_requires_renormalization, check_transform, check_pq,
+    check_pq,
     check_screw_parameters, check_screw_axis, check_exponential_coordinates,
     check_screw_matrix, check_transform_log,
     dual_quaternion_requires_renormalization, check_dual_quaternion)
@@ -25,10 +25,20 @@ from ._conversions import (
     dual_quaternion_from_screw_parameters,
     dual_quaternion_from_pq, pq_from_dual_quaternion,
     adjoint_from_transform, norm_exponential_coordinates)
+from ._transform import (
+    transform_requires_renormalization,
+    check_transform)
 from ._transform_operations import (
-    invert_transform, scale_transform, concat,
-    vector_to_point, vectors_to_points, vector_to_direction,
-    vectors_to_directions, transform, transform_sclerp, transform_power)
+    invert_transform,
+    scale_transform,
+    concat,
+    vector_to_point,
+    vectors_to_points,
+    vector_to_direction,
+    vectors_to_directions,
+    transform,
+    transform_sclerp,
+    transform_power)
 from ._pq_operations import pq_slerp
 from ._dual_quaternion_operations import (
     norm_dual_quaternion, dual_quaternion_double, dq_q_conj, dq_conj,

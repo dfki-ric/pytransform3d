@@ -3,14 +3,6 @@ import numpy.typing as npt
 from typing import Tuple
 
 
-def transform_requires_renormalization(
-        A2B: npt.ArrayLike, tolerance: float = ...) -> bool: ...
-
-
-def check_transform(
-        A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
-
-
 def check_pq(pq: npt.ArrayLike) -> np.ndarray: ...
 
 
