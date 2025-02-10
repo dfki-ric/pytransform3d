@@ -1,9 +1,7 @@
 """Conversions between rotation representations."""
 import numpy as np
-from ._utils import (
-    check_matrix, norm_vector, norm_axis_angle, perpendicular_to_vector)
+from ._utils import check_matrix
 from ._axis_angle import compact_axis_angle
-from ._constants import eps
 
 
 def cross_product_matrix(v):
