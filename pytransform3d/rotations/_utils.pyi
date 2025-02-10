@@ -3,6 +3,9 @@ import numpy.typing as npt
 from typing import Tuple
 
 
+def check_axis_index(name: str, i: int): ...
+
+
 def norm_vector(v: npt.ArrayLike) -> np.ndarray: ...
 
 
@@ -23,12 +26,6 @@ def plane_basis_from_normal(
 
 
 def check_matrix(R: npt.ArrayLike, tolerance: float = ..., strict_check: bool = ...) -> np.ndarray: ...
-
-
-def check_quaternion(q: npt.ArrayLike, unit: bool = ...) -> np.ndarray: ...
-
-
-def check_quaternions(Q: npt.ArrayLike, unit: bool = ...) -> np.ndarray: ...
 
 
 def check_rotor(a: npt.ArrayLike) -> np.ndarray: ...

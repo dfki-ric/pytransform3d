@@ -22,8 +22,6 @@ from ._utils import (
     perpendicular_to_vectors,
     plane_basis_from_normal,
     check_matrix,
-    check_quaternion,
-    check_quaternions,
     check_rotor, check_mrp)
 from ._random import (
     random_vector,
@@ -68,13 +66,10 @@ from ._axis_angle import (
     quaternion_from_axis_angle,
     quaternion_from_compact_axis_angle,
     mrp_from_axis_angle)
-from ._convert_from_quaternion import (
-    matrix_from_quaternion,
-    axis_angle_from_quaternion,
-    compact_axis_angle_from_quaternion,
-    mrp_from_quaternion)
 from ._quaternions import (
     quaternion_requires_renormalization,
+    check_quaternion,
+    check_quaternions,
     quaternion_double,
     quaternion_integrate,
     quaternion_gradient,
@@ -84,6 +79,10 @@ from ._quaternions import (
     quaternion_diff,
     quaternion_dist,
     quaternion_from_euler,
+    matrix_from_quaternion,
+    axis_angle_from_quaternion,
+    compact_axis_angle_from_quaternion,
+    mrp_from_quaternion,
     quaternion_wxyz_from_xyzw,
     quaternion_xyzw_from_wxyz)
 from ._mrp import (

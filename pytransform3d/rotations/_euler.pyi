@@ -2,9 +2,6 @@ import numpy as np
 import numpy.typing as npt
 
 
-def check_axis_index(name: str, i: int): ...
-
-
 def norm_euler(e: npt.ArrayLike, i: int, j: int, k: int) -> np.ndarray: ...
 
 

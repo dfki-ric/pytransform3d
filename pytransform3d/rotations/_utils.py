@@ -5,6 +5,26 @@ import numpy as np
 from ._constants import unitz, eps
 
 
+def check_axis_index(name, i):
+    """Checks axis index.
+
+    Parameters
+    ----------
+    name : str
+        Name of the axis. Required for the error message.
+
+    i : int from [0, 1, 2]
+        Index of the axis (0: x, 1: y, 2: z)
+
+    Raises
+    ------
+    ValueError
+        If basis is invalid
+    """
+    if i not in [0, 1, 2]:
+        raise ValueError("Axis index %s (%d) must be in [0, 1, 2]" % (name, i))
+
+
 def norm_vector(v):
     """Normalize vector.
 
@@ -234,68 +254,6 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
             raise ValueError(error_msg)
         warnings.warn(error_msg)
     return R
-
-
-def check_quaternion(q, unit=True):
-    """Input validation of quaternion representation.
-
-    Parameters
-    ----------
-    q : array-like, shape (4,)
-        Quaternion to represent rotation: (w, x, y, z)
-
-    unit : bool, optional (default: True)
-        Normalize the quaternion so that it is a unit quaternion
-
-    Returns
-    -------
-    q : array, shape (4,)
-        Validated quaternion to represent rotation: (w, x, y, z)
-
-    Raises
-    ------
-    ValueError
-        If input is invalid
-    """
-    q = np.asarray(q, dtype=np.float64)
-    if q.ndim != 1 or q.shape[0] != 4:
-        raise ValueError("Expected quaternion with shape (4,), got "
-                         "array-like object with shape %s" % (q.shape,))
-    if unit:
-        return norm_vector(q)
-    return q
-
-
-def check_quaternions(Q, unit=True):
-    """Input validation of quaternion representation.
-
-    Parameters
-    ----------
-    Q : array-like, shape (n_steps, 4)
-        Quaternions to represent rotations: (w, x, y, z)
-
-    unit : bool, optional (default: True)
-        Normalize the quaternions so that they are unit quaternions
-
-    Returns
-    -------
-    Q : array, shape (n_steps, 4)
-        Validated quaternions to represent rotations: (w, x, y, z)
-
-    Raises
-    ------
-    ValueError
-        If input is invalid
-    """
-    Q_checked = np.asarray(Q, dtype=np.float64)
-    if Q_checked.ndim != 2 or Q_checked.shape[1] != 4:
-        raise ValueError(
-            "Expected quaternion array with shape (n_steps, 4), got "
-            "array-like object with shape %s" % (Q_checked.shape,))
-    if unit:
-        for i in range(len(Q)):
-            Q_checked[i] = norm_vector(Q_checked[i])
-    return Q_checked
 
 
 def check_rotor(rotor):
