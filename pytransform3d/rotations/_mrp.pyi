@@ -5,6 +5,9 @@ import numpy.typing as npt
 def norm_mrp(mrp: npt.ArrayLike) -> np.ndarray: ...
 
 
+def check_mrp(mrp: npt.ArrayLike) -> np.ndarray: ...
+
+
 def mrp_near_singularity(mrp: npt.ArrayLike, tolerance: float = ...) -> bool: ...
 
 

@@ -1,8 +1,33 @@
 """Rotor operations."""
 import numpy as np
-from ._utils import norm_vector, check_rotor, perpendicular_to_vector
+from ._utils import norm_vector, perpendicular_to_vector
 from ._constants import unitx, unity, unitz, eps
 from ._quaternions import concatenate_quaternions, q_prod_vector
+
+
+def check_rotor(rotor):
+    """Input validation of rotor.
+
+    Parameters
+    ----------
+    rotor : array-like, shape (4,)
+        Rotor: (a, b_yz, b_zx, b_xy)
+
+    Returns
+    -------
+    rotor : array, shape (4,)
+        Validated rotor (with unit norm): (a, b_yz, b_zx, b_xy)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    rotor = np.asarray(rotor, dtype=np.float64)
+    if rotor.ndim != 1 or rotor.shape[0] != 4:
+        raise ValueError("Expected rotor with shape (4,), got "
+                         "array-like object with shape %s" % (rotor.shape,))
+    return norm_vector(rotor)
 
 
 def wedge(a, b):

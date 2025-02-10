@@ -2,6 +2,9 @@ import numpy as np
 import numpy.typing as npt
 
 
+def check_rotor(a: npt.ArrayLike) -> np.ndarray: ...
+
+
 def wedge(a: npt.ArrayLike, b: npt.ArrayLike) -> np.ndarray: ...
 
 
