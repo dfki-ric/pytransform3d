@@ -1,8 +1,8 @@
 """Conversions between transform representations."""
 import numpy as np
-from ._utils import (check_pq, check_screw_axis,
-                     check_screw_parameters, check_exponential_coordinates,
-                     check_screw_matrix, check_transform_log)
+from ._utils import (
+    check_pq, check_screw_axis, check_screw_parameters,
+    check_exponential_coordinates, check_screw_matrix, check_transform_log)
 from ._transform import (
     check_transform, transform_from, translate_transform)
 from ._dual_quaternion_operations import check_dual_quaternion
@@ -10,8 +10,7 @@ from ..rotations import (
     matrix_from_quaternion, quaternion_from_matrix,
     compact_axis_angle_from_matrix, matrix_from_compact_axis_angle,
     cross_product_matrix, q_conj, concatenate_quaternions,
-    norm_angle, eps)
-from ..rotations import left_jacobian_SO3, left_jacobian_SO3_inv
+    norm_angle, eps, left_jacobian_SO3, left_jacobian_SO3_inv)
 
 
 def pq_from_transform(A2B, strict_check=True):
