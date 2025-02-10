@@ -88,12 +88,12 @@ from ._conversions import (
     rot_log_from_compact_axis_angle,
     mrp_from_quaternion,
     quaternion_from_mrp,
-    mrp_from_axis_angle,
     axis_angle_from_mrp)
 from ._convert_from_axis_angle import (
     matrix_from_axis_angle, matrix_from_compact_axis_angle,
     axis_angle_from_compact_axis_angle,
-    quaternion_from_axis_angle, quaternion_from_compact_axis_angle)
+    quaternion_from_axis_angle, quaternion_from_compact_axis_angle,
+    mrp_from_axis_angle)
 from ._quaternions import (
     quaternion_double, quaternion_integrate, quaternion_gradient,
     concatenate_quaternions, q_conj, q_prod_vector, quaternion_diff,
