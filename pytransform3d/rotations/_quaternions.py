@@ -1,7 +1,8 @@
 """Quaternion operations."""
 import numpy as np
 from ._utils import check_quaternion, check_quaternions
-from ._conversions import quaternion_from_angle, check_axis_index
+from ._angle import quaternion_from_angle
+from ._euler import check_axis_index
 from ._convert_from_quaternion import (
     compact_axis_angle_from_quaternion, axis_angle_from_quaternion)
 from ._convert_from_axis_angle import quaternion_from_compact_axis_angle
@@ -337,3 +338,37 @@ def quaternion_from_euler(e, i, j, k, extrinsic):
     if not extrinsic:
         q0, q2 = q2, q0
     return concatenate_quaternions(concatenate_quaternions(q2, q1), q0)
+
+
+def quaternion_xyzw_from_wxyz(q_wxyz):
+    """Converts from w, x, y, z to x, y, z, w convention.
+
+    Parameters
+    ----------
+    q_wxyz : array-like, shape (4,)
+        Quaternion with scalar part before vector part
+
+    Returns
+    -------
+    q_xyzw : array, shape (4,)
+        Quaternion with scalar part after vector part
+    """
+    q_wxyz = check_quaternion(q_wxyz)
+    return np.array([q_wxyz[1], q_wxyz[2], q_wxyz[3], q_wxyz[0]])
+
+
+def quaternion_wxyz_from_xyzw(q_xyzw):
+    """Converts from x, y, z, w to w, x, y, z convention.
+
+    Parameters
+    ----------
+    q_xyzw : array-like, shape (4,)
+        Quaternion with scalar part after vector part
+
+    Returns
+    -------
+    q_wxyz : array, shape (4,)
+        Quaternion with scalar part before vector part
+    """
+    q_xyzw = check_quaternion(q_xyzw)
+    return np.array([q_xyzw[3], q_xyzw[0], q_xyzw[1], q_xyzw[2]])
