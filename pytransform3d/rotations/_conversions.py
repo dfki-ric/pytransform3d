@@ -3,9 +3,9 @@ import math
 import warnings
 import numpy as np
 from ._utils import (
-    check_matrix, check_quaternion, check_axis_angle, check_compact_axis_angle,
-    check_mrp, norm_angle, norm_vector, norm_axis_angle,
-    perpendicular_to_vector, perpendicular_to_vectors, vector_projection)
+    check_matrix, check_quaternion, check_axis_angle, check_mrp, norm_angle,
+    norm_vector, norm_axis_angle, perpendicular_to_vector,
+    perpendicular_to_vectors, vector_projection)
 from ._constants import unitx, unity, unitz, eps, half_pi
 
 
@@ -2105,28 +2105,6 @@ def mrp_from_quaternion(q):
     if q[0] < 0.0:
         q = -q
     return q[1:] / (1.0 + q[0])
-
-
-def mrp_from_axis_angle(a):
-    r"""Compute modified Rodrigues parameters from axis-angle representation.
-
-    .. math::
-
-        \boldsymbol{\psi} = \tan \left(\frac{\theta}{4}\right)
-        \hat{\boldsymbol{\omega}}
-
-    Parameters
-    ----------
-    a : array-like, shape (4,)
-        Axis of rotation and rotation angle: (x, y, z, angle)
-
-    Returns
-    -------
-    mrp : array, shape (3,)
-        Modified Rodrigues parameters.
-    """
-    a = check_axis_angle(a)
-    return np.tan(0.25 * a[3]) * a[:3]
 
 
 def axis_angle_from_mrp(mrp):
