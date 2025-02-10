@@ -27,9 +27,7 @@ from ._conversions import (
     transform_log_from_screw_matrix,
     screw_matrix_from_transform_log,
     dual_quaternion_from_transform,
-    transform_from_dual_quaternion,
     dual_quaternion_from_pq,
-    pq_from_dual_quaternion,
     adjoint_from_transform)
 from ._transform import (
     transform_requires_renormalization,
@@ -61,6 +59,8 @@ from ._dual_quaternion_operations import (
     dual_quaternion_sclerp,
     dual_quaternion_power,
     dq_prod_vector,
+    transform_from_dual_quaternion,
+    pq_from_dual_quaternion,
     screw_parameters_from_dual_quaternion,
     dual_quaternion_from_screw_parameters)
 from ._random import (

@@ -1,8 +1,10 @@
 """Dual quaternion operations."""
 import numpy as np
 from ._utils import check_screw_parameters
+from ._transform import transform_from
 from ..rotations import (
-    concatenate_quaternions, q_conj, axis_angle_from_quaternion)
+    concatenate_quaternions, q_conj, axis_angle_from_quaternion,
+    matrix_from_quaternion)
 
 
 def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
@@ -445,6 +447,49 @@ def dual_quaternion_power(dq, t):
     dq = check_dual_quaternion(dq)
     q, s_axis, h, theta = screw_parameters_from_dual_quaternion(dq)
     return dual_quaternion_from_screw_parameters(q, s_axis, h, theta * t)
+
+
+def transform_from_dual_quaternion(dq):
+    """Compute transformation matrix from dual quaternion.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    A2B : array, shape (4, 4)
+        Transform from frame A to frame B
+    """
+    dq = check_dual_quaternion(dq)
+    real = dq[:4]
+    dual = dq[4:]
+    R = matrix_from_quaternion(real)
+    p = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
+    return transform_from(R=R, p=p)
+
+
+def pq_from_dual_quaternion(dq):
+    """Compute position and quaternion from dual quaternion.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    pq : array, shape (7,)
+        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
+    """
+    dq = check_dual_quaternion(dq)
+    real = dq[:4]
+    dual = dq[4:]
+    p = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
+    return np.hstack((p, real))
 
 
 def screw_parameters_from_dual_quaternion(dq):
