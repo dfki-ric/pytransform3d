@@ -1,3 +1,4 @@
+"""Exponential coordinates of transformation."""
 import numpy as np
 from ._conversions import (
     screw_parameters_from_screw_axis, screw_axis_from_screw_parameters)
