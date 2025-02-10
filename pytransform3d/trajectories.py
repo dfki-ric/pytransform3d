@@ -14,6 +14,9 @@ from .transformations import (
     screw_axis_from_screw_parameters)
 
 
+_N_EXP_COORDINATE_DIMS = 6
+
+
 def invert_transforms(A2Bs):
     """Invert transforms.
 
@@ -38,12 +41,11 @@ def invert_transforms(A2Bs):
     # ( R t )^-1   ( R^T -R^T*t )
     # ( 0 1 )    = ( 0    1     )
     B2As[..., :3, :3] = A2Bs[..., :3, :3].transpose(
-        list(range(A2Bs.ndim - 2)) + [A2Bs.ndim - 1, A2Bs.ndim - 2])
+        tuple(range(A2Bs.ndim - 2)) + (A2Bs.ndim - 1, A2Bs.ndim - 2))
     B2As[..., :3, 3] = np.einsum(
         "nij,nj->ni",
         -B2As[..., :3, :3].reshape(-1, 3, 3),
-        A2Bs[..., :3, 3].reshape(-1, 3)).reshape(
-        *(list(instances_shape) + [3]))
+        A2Bs[..., :3, 3].reshape(-1, 3)).reshape(*(instances_shape + (3,)))
     B2As[..., 3, :3] = 0.0
     B2As[..., 3, 3] = 1.0
     return B2As
@@ -172,6 +174,8 @@ def concat_dynamic(A2B, B2C):
     pytransform3d.transformations.concat :
         Concatenate two transformations.
     """
+    A2B = np.asarray(A2B)
+    B2C = np.asarray(B2C)
     if B2C.ndim == 2 and A2B.ndim == 2:
         return B2C.dot(A2B)
     elif B2C.ndim == 2 and A2B.ndim == 3:
@@ -446,7 +450,7 @@ def dual_quaternions_from_pqs(pqs):
     """
     pqs = np.asarray(pqs)
     instances_shape = pqs.shape[:-1]
-    out = np.empty(list(instances_shape) + [8])
+    out = np.empty(instances_shape + (8,))
 
     # orientation quaternion
     out[..., :4] = pqs[..., 3:]
@@ -476,7 +480,7 @@ def dual_quaternions_from_transforms(A2Bs):
     """
     A2Bs = np.asarray(A2Bs)
     instances_shape = A2Bs.shape[:-2]
-    out = np.empty(list(instances_shape) + [8])
+    out = np.empty(instances_shape + (8,))
 
     # orientation quaternion
     out[..., :4] = quaternions_from_matrices(A2Bs[..., :3, :3])
@@ -507,7 +511,7 @@ def pqs_from_dual_quaternions(dqs):
     """
     dqs = np.asarray(dqs)
     instances_shape = dqs.shape[:-1]
-    out = np.empty(list(instances_shape) + [7])
+    out = np.empty(instances_shape + (7,))
     out[..., 3:] = dqs[..., :4]
     out[..., :3] = 2 * batch_concatenate_quaternions(
         dqs[..., 4:], batch_q_conj(out[..., 3:]))[..., 1:]
@@ -579,7 +583,7 @@ def screw_parameters_from_dual_quaternions(dqs):
             / ds[outer_if_inner_else_mask][..., np.newaxis]
         )
 
-    qs = np.zeros(list(dqs.shape[:-1]) + [3])
+    qs = np.zeros(dqs.shape[:-1] + (3,))
     thetas[outer_if_mask] = ds[outer_if_mask]
     hs = np.full(dqs.shape[:-1], np.inf)
 
@@ -631,19 +635,10 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
     pytransform3d.transformations.dual_quaternion_from_screw_parameters :
         Compute dual quaternion from screw parameters.
     """
-    ds = np.zeros_like(hs)
-
-    h_is_inf_mask = np.isinf(hs)
-    h_is_not_inf_mask = np.logical_not(h_is_inf_mask)
-
-    mod_thetas = np.copy(thetas)
-    if np.any(h_is_inf_mask):
-        ds[h_is_inf_mask] = thetas[h_is_inf_mask]
-        mod_thetas[h_is_inf_mask] = 0.0
-
-    if np.any(h_is_not_inf_mask):
-        ds[h_is_not_inf_mask] = hs[h_is_not_inf_mask] * \
-            thetas[h_is_not_inf_mask]
+    h_is_not_inf_mask = ~np.isinf(hs)
+    mod_thetas = np.where(h_is_not_inf_mask, thetas, 0.0)
+    ds = np.copy(thetas)
+    ds[h_is_not_inf_mask] *= hs[h_is_not_inf_mask]
 
     moments = np.cross(qs, s_axis)
     half_distances = 0.5 * ds
@@ -755,7 +750,7 @@ def transforms_from_dual_quaternions(dqs):
     """
     dqs = np.asarray(dqs)
     instances_shape = dqs.shape[:-1]
-    out = np.empty(list(instances_shape) + [4, 4])
+    out = np.empty(instances_shape + (4, 4))
     out[..., :3, :3] = matrices_from_quaternions(dqs[..., :4])
     out[..., :3, 3] = 2 * batch_concatenate_quaternions(
         dqs[..., 4:], batch_q_conj(dqs[..., :4]))[..., 1:]
@@ -882,7 +877,7 @@ def batch_dq_prod_vector(dqs, V):
     v_dq_transformed = batch_concatenate_dual_quaternions(
         batch_concatenate_dual_quaternions(dqs, v_dqs),
         batch_dq_conj(dqs))
-    return v_dq_transformed[5:]
+    return v_dq_transformed[..., 5:]
 
 
 def random_trajectories(
@@ -926,12 +921,12 @@ def random_trajectories(
     dt = 1.0 / (n_steps - 1)
     linear_component = _linear_movement(start, goal, n_steps, dt)
 
-    exp_coordinate_dims = 6
-    L = _acceleration_L(exp_coordinate_dims, n_steps, dt)
-    samples = rng.normal(size=(n_trajectories, exp_coordinate_dims * n_steps))
-    smooth_samples = np.einsum("ni,ji->nj", samples, L)
+    L = _acceleration_L(_N_EXP_COORDINATE_DIMS, n_steps, dt)
+    samples = rng.normal(
+        size=(n_trajectories, _N_EXP_COORDINATE_DIMS * n_steps))
+    smooth_samples = np.dot(samples, L.T)
     Sthetas = smooth_samples.reshape(
-        n_trajectories, exp_coordinate_dims, n_steps).transpose([0, 2, 1])
+        n_trajectories, _N_EXP_COORDINATE_DIMS, n_steps).transpose([0, 2, 1])
     Sthetas *= np.asarray(scale)[np.newaxis, np.newaxis]
 
     trajectories = transforms_from_exponential_coordinates(Sthetas)
@@ -994,12 +989,11 @@ def _acceleration_L(n_dims, n_steps, dt):
         Cholesky decomposition of covariance created from finite difference
         matrix.
     """
-    # This finite difference matrix only works for 1D trajectories.
-    A = _create_fd_matrix_1d(n_steps, dt)
-    covariance = np.linalg.inv(A.T.dot(A))
+    A_per_dim = _create_fd_matrix_1d(n_steps, dt)
+    covariance = np.linalg.inv(np.dot(A_per_dim.T, A_per_dim))
     L_per_dim = np.linalg.cholesky(covariance)
 
-    # We copy L for each dimension.
+    # Copy L for each dimension
     L = np.zeros((n_dims * n_steps, n_dims * n_steps))
     for d in range(n_dims):
         L[d * n_steps:(d + 1) * n_steps,
@@ -1008,10 +1002,10 @@ def _acceleration_L(n_dims, n_steps, dt):
 
 
 def _create_fd_matrix_1d(n_steps, dt):
-    r"""Create one-dimensional finite difference matrix.
+    r"""Create one-dimensional finite difference matrix for second derivative.
 
-    For example, the finite difference matrix A for the second derivative
-    with respect to time is defined by:
+    The finite difference matrix A for the second derivative with respect to
+    time is defined as:
 
     .. math::
 

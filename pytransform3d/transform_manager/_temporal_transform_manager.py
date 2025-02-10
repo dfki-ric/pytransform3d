@@ -335,8 +335,5 @@ class TemporalTransformManager(TransformGraphBase):
         """Convert sequence of node names to rigid transformation."""
         A2B = np.eye(4)
         for from_f, to_f in zip(path[:-1], path[1:]):
-            A2B = concat_dynamic(
-                A2B,
-                self.get_transform(from_f, to_f),
-            )
+            A2B = concat_dynamic(A2B, self.get_transform(from_f, to_f))
         return A2B

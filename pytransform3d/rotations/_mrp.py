@@ -1,8 +1,9 @@
 """Modified Rodrigues parameters."""
 import numpy as np
-from ._utils import check_mrp, norm_angle
-from ._conversions import axis_angle_from_mrp, mrp_from_axis_angle
-from ._constants import two_pi
+from numpy.testing import assert_array_almost_equal
+from ._angle import norm_angle
+from ._axis_angle import mrp_from_axis_angle
+from ._constants import two_pi, eps
 
 
 def norm_mrp(mrp):
@@ -25,6 +26,32 @@ def norm_mrp(mrp):
     a = axis_angle_from_mrp(mrp)
     a[3] = norm_angle(a[3])
     return mrp_from_axis_angle(a)
+
+
+def check_mrp(mrp):
+    """Input validation of modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Validated modified Rodrigues parameters.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    mrp = np.asarray(mrp)
+    if mrp.ndim != 1 or mrp.shape[0] != 3:
+        raise ValueError(
+            "Expected modified Rodrigues parameters with shape (3,), got "
+            "array-like object with shape %s" % (mrp.shape,))
+    return mrp
 
 
 def mrp_near_singularity(mrp, tolerance=1e-6):
@@ -85,6 +112,35 @@ def mrp_double(mrp):
     if norm == 0.0:
         return mrp
     return mrp / -norm
+
+
+def assert_mrp_equal(mrp1, mrp2, *args, **kwargs):
+    """Raise an assertion if two MRPs are not approximately equal.
+
+    There are two MRPs that represent the same orientation (double cover). See
+    numpy.testing.assert_array_almost_equal for a more detailed documentation
+    of the other parameters.
+
+    Parameters
+    ----------
+    mrp1 : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    mrp1 : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    try:
+        assert_array_almost_equal(mrp1, mrp2, *args, **kwargs)
+    except AssertionError:
+        assert_array_almost_equal(mrp1, mrp_double(mrp2), *args, **kwargs)
 
 
 def concatenate_mrp(mrp1, mrp2):
@@ -168,3 +224,48 @@ def mrp_prod_vector(mrp, v):
     """
     mrp = check_mrp(mrp)
     return concatenate_mrp(concatenate_mrp(mrp, v), -mrp)
+
+
+def quaternion_from_mrp(mrp):
+    """Compute quaternion from modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    q : array, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+    """
+    mrp = check_mrp(mrp)
+    dot_product_p1 = np.dot(mrp, mrp) + 1.0
+    q = np.empty(4, dtype=float)
+    q[0] = (2.0 - dot_product_p1) / dot_product_p1
+    q[1:] = 2.0 * mrp / dot_product_p1
+    return q
+
+
+def axis_angle_from_mrp(mrp):
+    """Compute axis-angle representation from modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+    """
+    mrp = check_mrp(mrp)
+
+    mrp_norm = np.linalg.norm(mrp)
+    angle = np.arctan(mrp_norm) * 4.0
+    if abs(angle) < eps:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    axis = mrp / mrp_norm
+    return np.hstack((axis, (angle,)))

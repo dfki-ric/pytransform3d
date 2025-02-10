@@ -1,9 +1,98 @@
 """Quaternion operations."""
 import numpy as np
-from ._utils import check_quaternion, check_quaternions
-from ._conversions import (
-    quaternion_from_compact_axis_angle, compact_axis_angle_from_quaternion,
-    axis_angle_from_quaternion, quaternion_from_angle, check_axis_index)
+from numpy.testing import assert_array_almost_equal
+from ._utils import check_axis_index, norm_vector
+from ._angle import quaternion_from_angle
+from ._axis_angle import (
+    norm_axis_angle, quaternion_from_compact_axis_angle, compact_axis_angle)
+
+
+def quaternion_requires_renormalization(q, tolerance=1e-6):
+    r"""Check if a unit quaternion requires renormalization.
+
+    Quaternions that represent rotations should have unit norm, so we check
+    :math:`||\boldsymbol{q}|| \approx 1`.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Quaternion to represent rotation: (w, x, y, z)
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Renormalization is required.
+
+    See Also
+    --------
+    check_quaternion : Normalizes quaternion.
+    """
+    return abs(np.linalg.norm(q) - 1.0) > tolerance
+
+
+def check_quaternion(q, unit=True):
+    """Input validation of quaternion representation.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Quaternion to represent rotation: (w, x, y, z)
+
+    unit : bool, optional (default: True)
+        Normalize the quaternion so that it is a unit quaternion
+
+    Returns
+    -------
+    q : array, shape (4,)
+        Validated quaternion to represent rotation: (w, x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    q = np.asarray(q, dtype=np.float64)
+    if q.ndim != 1 or q.shape[0] != 4:
+        raise ValueError("Expected quaternion with shape (4,), got "
+                         "array-like object with shape %s" % (q.shape,))
+    if unit:
+        return norm_vector(q)
+    return q
+
+
+def check_quaternions(Q, unit=True):
+    """Input validation of quaternion representation.
+
+    Parameters
+    ----------
+    Q : array-like, shape (n_steps, 4)
+        Quaternions to represent rotations: (w, x, y, z)
+
+    unit : bool, optional (default: True)
+        Normalize the quaternions so that they are unit quaternions
+
+    Returns
+    -------
+    Q : array, shape (n_steps, 4)
+        Validated quaternions to represent rotations: (w, x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    Q_checked = np.asarray(Q, dtype=np.float64)
+    if Q_checked.ndim != 2 or Q_checked.shape[1] != 4:
+        raise ValueError(
+            "Expected quaternion array with shape (n_steps, 4), got "
+            "array-like object with shape %s" % (Q_checked.shape,))
+    if unit:
+        for i in range(len(Q)):
+            Q_checked[i] = norm_vector(Q_checked[i])
+    return Q_checked
 
 
 def quaternion_double(q):
@@ -28,6 +117,86 @@ def quaternion_double(q):
         Picks the quaternion that is closest to another one in Euclidean space.
     """
     return -check_quaternion(q, unit=True)
+
+
+def pick_closest_quaternion(quaternion, target_quaternion):
+    """Resolve quaternion ambiguity and pick the closest one to the target.
+
+    .. warning::
+        There are always two quaternions that represent the exact same
+        orientation: q and -q.
+
+    Parameters
+    ----------
+    quaternion : array-like, shape (4,)
+        Quaternion (w, x, y, z) of which we are unsure whether we want to
+        select quaternion or -quaternion.
+
+    target_quaternion : array-like, shape (4,)
+        Target quaternion (w, x, y, z) to which we want to be close.
+
+    Returns
+    -------
+    closest_quaternion : array, shape (4,)
+        Quaternion that is closest (Euclidean norm) to the target quaternion.
+    """
+    quaternion = check_quaternion(quaternion)
+    target_quaternion = check_quaternion(target_quaternion)
+    return pick_closest_quaternion_impl(quaternion, target_quaternion)
+
+
+def pick_closest_quaternion_impl(quaternion, target_quaternion):
+    """Resolve quaternion ambiguity and pick the closest one to the target.
+
+    This is an internal function that does not validate the inputs.
+
+    Parameters
+    ----------
+    quaternion : array, shape (4,)
+        Quaternion (w, x, y, z) of which we are unsure whether we want to
+        select quaternion or -quaternion.
+
+    target_quaternion : array, shape (4,)
+        Target quaternion (w, x, y, z) to which we want to be close.
+
+    Returns
+    -------
+    closest_quaternion : array, shape (4,)
+        Quaternion that is closest (Euclidean norm) to the target quaternion.
+    """
+    if (np.linalg.norm(-quaternion - target_quaternion) <
+            np.linalg.norm(quaternion - target_quaternion)):
+        return -quaternion
+    return quaternion
+
+
+def assert_quaternion_equal(q1, q2, *args, **kwargs):
+    """Raise an assertion if two quaternions are not approximately equal.
+
+    Note that quaternions are equal either if q1 == q2 or if q1 == -q2. See
+    numpy.testing.assert_array_almost_equal for a more detailed documentation
+    of the other parameters.
+
+    Parameters
+    ----------
+    q1 : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    q2 : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    try:
+        assert_array_almost_equal(q1, q2, *args, **kwargs)
+    except AssertionError:
+        assert_array_almost_equal(q1, -q2, *args, **kwargs)
 
 
 def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
@@ -336,3 +505,140 @@ def quaternion_from_euler(e, i, j, k, extrinsic):
     if not extrinsic:
         q0, q2 = q2, q0
     return concatenate_quaternions(concatenate_quaternions(q2, q1), q0)
+
+
+def matrix_from_quaternion(q):
+    """Compute rotation matrix from quaternion.
+
+    This typically results in an active rotation matrix.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+    """
+    q = check_quaternion(q, unit=True)
+    w, x, y, z = q
+    x2 = 2.0 * x * x
+    y2 = 2.0 * y * y
+    z2 = 2.0 * z * z
+    xy = 2.0 * x * y
+    xz = 2.0 * x * z
+    yz = 2.0 * y * z
+    xw = 2.0 * x * w
+    yw = 2.0 * y * w
+    zw = 2.0 * z * w
+
+    R = np.array([[1.0 - y2 - z2, xy - zw, xz + yw],
+                  [xy + zw, 1.0 - x2 - z2, yz - xw],
+                  [xz - yw, yz + xw, 1.0 - x2 - y2]])
+    return R
+
+
+def axis_angle_from_quaternion(q):
+    """Compute axis-angle from quaternion.
+
+    This operation is called logarithmic map.
+
+    We usually assume active rotations.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
+        constrained to [0, pi) so that the mapping is unique.
+    """
+    q = check_quaternion(q)
+    p = q[1:]
+    p_norm = np.linalg.norm(p)
+
+    if p_norm < np.finfo(float).eps:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    axis = p / p_norm
+    w_clamped = max(min(q[0], 1.0), -1.0)
+    angle = (2.0 * np.arccos(w_clamped),)
+    return norm_axis_angle(np.hstack((axis, angle)))
+
+
+def compact_axis_angle_from_quaternion(q):
+    """Compute compact axis-angle from quaternion (logarithmic map).
+
+    We usually assume active rotations.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    a : array, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z). The angle is
+        constrained to [0, pi].
+    """
+    a = axis_angle_from_quaternion(q)
+    return compact_axis_angle(a)
+
+
+def mrp_from_quaternion(q):
+    """Compute modified Rodrigues parameters from quaternion.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Modified Rodrigues parameters.
+    """
+    q = check_quaternion(q)
+    if q[0] < 0.0:
+        q = -q
+    return q[1:] / (1.0 + q[0])
+
+
+def quaternion_xyzw_from_wxyz(q_wxyz):
+    """Converts from w, x, y, z to x, y, z, w convention.
+
+    Parameters
+    ----------
+    q_wxyz : array-like, shape (4,)
+        Quaternion with scalar part before vector part
+
+    Returns
+    -------
+    q_xyzw : array, shape (4,)
+        Quaternion with scalar part after vector part
+    """
+    q_wxyz = check_quaternion(q_wxyz)
+    return np.array([q_wxyz[1], q_wxyz[2], q_wxyz[3], q_wxyz[0]])
+
+
+def quaternion_wxyz_from_xyzw(q_xyzw):
+    """Converts from x, y, z, w to w, x, y, z convention.
+
+    Parameters
+    ----------
+    q_xyzw : array-like, shape (4,)
+        Quaternion with scalar part after vector part
+
+    Returns
+    -------
+    q_wxyz : array, shape (4,)
+        Quaternion with scalar part before vector part
+    """
+    q_xyzw = check_quaternion(q_xyzw)
+    return np.array([q_xyzw[3], q_xyzw[0], q_xyzw[1], q_xyzw[2]])

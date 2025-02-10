@@ -398,12 +398,9 @@ def _parse_material(material):
     if "name" not in material.attrib:
         raise UrdfException("Material name is missing.")
     colors = material.findall("color")
-    if len(colors) not in [0, 1]:
+    if len(colors) > 1:
         raise UrdfException("More than one color is not allowed.")
-    if len(colors) == 1:
-        color = _parse_color(colors[0])
-    else:
-        color = None
+    color = _parse_color(colors[0]) if len(colors) == 1 else None
     # TODO texture is currently ignored
     return material.attrib["name"], color
 
@@ -452,11 +449,8 @@ def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
     shape_objects = []
     transforms = []
     for i, child in enumerate(children):
-        if "name" in child.attrib:
-            name = "%s:%s/%s" % (child_type, link.attrib["name"],
-                                 child.attrib["name"])
-        else:
-            name = "%s:%s/%s" % (child_type, link.attrib["name"], i)
+        name = "%s:%s/%s" % (child_type, link.attrib["name"],
+                             child.attrib.get("name", i))
 
         color = None
         if child_type == "visual":
@@ -516,39 +510,27 @@ def _parse_mass(inertial):
     """Parse link mass."""
     mass = inertial.find("mass")
     if mass is not None and "value" in mass.attrib:
-        result = float(mass.attrib["value"])
+        return float(mass.attrib["value"])
     else:
-        result = 0.0
-    return result
+        return 0.0
 
 
 def _parse_inertia(inertial):
     """Parse inertia matrix."""
     inertia = inertial.find("inertia")
-
-    result = np.zeros((3, 3))
     if inertia is None:
-        return result
+        return np.zeros((3, 3))
 
-    if "ixx" in inertia.attrib:
-        result[0, 0] = float(inertia.attrib["ixx"])
-    if "ixy" in inertia.attrib:
-        ixy = float(inertia.attrib["ixy"])
-        result[0, 1] = ixy
-        result[1, 0] = ixy
-    if "ixz" in inertia.attrib:
-        ixz = float(inertia.attrib["ixz"])
-        result[0, 2] = ixz
-        result[2, 0] = ixz
-    if "iyy" in inertia.attrib:
-        result[1, 1] = float(inertia.attrib["iyy"])
-    if "iyz" in inertia.attrib:
-        iyz = float(inertia.attrib["iyz"])
-        result[1, 2] = iyz
-        result[2, 1] = iyz
-    if "izz" in inertia.attrib:
-        result[2, 2] = float(inertia.attrib["izz"])
-    return result
+    ixx = float(inertia.attrib.get("ixx", 0.0))
+    iyy = float(inertia.attrib.get("iyy", 0.0))
+    izz = float(inertia.attrib.get("izz", 0.0))
+    ixy = float(inertia.attrib.get("ixy", 0.0))
+    ixz = float(inertia.attrib.get("ixz", 0.0))
+    iyz = float(inertia.attrib.get("iyz", 0.0))
+    return np.array(
+        [[ixx, ixy, ixz],
+         [ixy, iyy, iyz],
+         [ixz, iyz, izz]])
 
 
 def _parse_joint(joint, link_names, strict_check):

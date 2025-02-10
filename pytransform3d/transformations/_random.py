@@ -1,7 +1,7 @@
 """Random transform generation."""
 import numpy as np
 from ..rotations import norm_vector
-from ._utils import check_transform
+from ._transform import check_transform
 from ._conversions import transform_from_exponential_coordinates
 
 

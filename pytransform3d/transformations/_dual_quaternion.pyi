@@ -2,7 +2,15 @@ import numpy as np
 import numpy.typing as npt
 
 
+def dual_quaternion_requires_renormalization(
+        dq: npt.ArrayLike, tolerance: float = ...) -> bool: ...
+
+
 def norm_dual_quaternion(dq: npt.ArrayLike) -> np.ndarray: ...
+
+
+def check_dual_quaternion(
+        dq: npt.ArrayLike, unit: bool = ...) -> np.ndarray: ...
 
 
 def dual_quaternion_double(dq: npt.ArrayLike) -> np.ndarray: ...
@@ -27,3 +35,17 @@ def dual_quaternion_sclerp(
 
 
 def dual_quaternion_power(dq: npt.ArrayLike, t: float) -> np.ndarray: ...
+
+
+def transform_from_dual_quaternion(dq: npt.ArrayLike) -> np.ndarray: ...
+
+
+def pq_from_dual_quaternion(dq: npt.ArrayLike) -> np.ndarray: ...
+
+
+def screw_parameters_from_dual_quaternion(dq: npt.ArrayLike) -> np.ndarray: ...
+
+
+def dual_quaternion_from_screw_parameters(
+        q: npt.ArrayLike, s_axis: npt.ArrayLike, h: float,
+        theta: float) -> np.ndarray: ...

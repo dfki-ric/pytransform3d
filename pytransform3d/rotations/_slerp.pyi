@@ -19,11 +19,6 @@ def quaternion_slerp(
         shortest_path: bool = ...) -> np.ndarray: ...
 
 
-def pick_closest_quaternion(
-        quaternion: npt.ArrayLike,
-        target_quaternion: npt.ArrayLike) -> np.ndarray: ...
-
-
 def rotor_slerp(
         start: npt.ArrayLike, end: npt.ArrayLike, t: float,
         shortest_path: bool = ...) -> np.ndarray: ...

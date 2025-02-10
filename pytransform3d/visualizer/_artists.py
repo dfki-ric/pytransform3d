@@ -1000,7 +1000,7 @@ class Camera(Artist):
 
         up = virtual_image_corners[0] - virtual_image_corners[1]
         camera_line_points = np.vstack((
-            camera_center_in_world[:3],
+            camera_center_in_world,
             virtual_image_corners[0],
             virtual_image_corners[1],
             virtual_image_corners[2],
@@ -1099,8 +1099,7 @@ class Graph(Artist):
         if self.show_connections:
             for frame_names in self.tm.transforms.keys():
                 from_frame, to_frame = frame_names
-                if (from_frame in self.tm.nodes and
-                        to_frame in self.tm.nodes):
+                if from_frame in self.tm.nodes and to_frame in self.tm.nodes:
                     try:
                         self.tm.get_transform(from_frame, self.frame)
                         self.tm.get_transform(to_frame, self.frame)
