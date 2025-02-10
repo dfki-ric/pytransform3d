@@ -82,9 +82,7 @@ from ._conversions import (
     euler_from_quaternion,
     quaternion_from_angle,
     cross_product_matrix,
-    rot_log_from_compact_axis_angle,
-    quaternion_from_mrp,
-    axis_angle_from_mrp)
+    rot_log_from_compact_axis_angle)
 from ._convert_from_axis_angle import (
     matrix_from_axis_angle, matrix_from_compact_axis_angle,
     axis_angle_from_compact_axis_angle, compact_axis_angle,
@@ -99,7 +97,7 @@ from ._quaternions import (
     quaternion_dist, quaternion_from_euler)
 from ._mrp import (
     mrp_near_singularity, norm_mrp, mrp_double, concatenate_mrp,
-    mrp_prod_vector)
+    mrp_prod_vector, quaternion_from_mrp, axis_angle_from_mrp)
 from ._slerp import (
     matrix_slerp, matrix_power, slerp_weights, pick_closest_quaternion,
     quaternion_slerp, axis_angle_slerp, rotor_slerp, )

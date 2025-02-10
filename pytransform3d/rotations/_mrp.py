@@ -1,9 +1,8 @@
 """Modified Rodrigues parameters."""
 import numpy as np
 from ._utils import check_mrp, norm_angle
-from ._conversions import axis_angle_from_mrp
 from ._convert_from_axis_angle import mrp_from_axis_angle
-from ._constants import two_pi
+from ._constants import two_pi, eps
 
 
 def norm_mrp(mrp):
@@ -169,3 +168,48 @@ def mrp_prod_vector(mrp, v):
     """
     mrp = check_mrp(mrp)
     return concatenate_mrp(concatenate_mrp(mrp, v), -mrp)
+
+
+def quaternion_from_mrp(mrp):
+    """Compute quaternion from modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    q : array, shape (4,)
+        Unit quaternion to represent rotation: (w, x, y, z)
+    """
+    mrp = check_mrp(mrp)
+    dot_product_p1 = np.dot(mrp, mrp) + 1.0
+    q = np.empty(4, dtype=float)
+    q[0] = (2.0 - dot_product_p1) / dot_product_p1
+    q[1:] = 2.0 * mrp / dot_product_p1
+    return q
+
+
+def axis_angle_from_mrp(mrp):
+    """Compute axis-angle representation from modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+    """
+    mrp = check_mrp(mrp)
+
+    mrp_norm = np.linalg.norm(mrp)
+    angle = np.arctan(mrp_norm) * 4.0
+    if abs(angle) < eps:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    axis = mrp / mrp_norm
+    return np.hstack((axis, (angle,)))
