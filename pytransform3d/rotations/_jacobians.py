@@ -1,6 +1,6 @@
 import math
 import numpy as np
-from ._conversions import cross_product_matrix
+from ._rot_log import cross_product_matrix
 
 
 def left_jacobian_SO3(omega):

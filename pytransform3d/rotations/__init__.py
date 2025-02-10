@@ -42,7 +42,7 @@ from ._random import (
     random_compact_axis_angle,
     random_quaternion,
     random_matrix)
-from ._conversions import (
+from ._rot_log import (
     cross_product_matrix,
     rot_log_from_compact_axis_angle)
 from ._matrix import (
