@@ -1,8 +1,9 @@
 import math
 import numpy as np
 from ._constants import half_pi, unitx, unity, unitz, eps
-from ._utils import check_axis_index, check_matrix
+from ._utils import check_axis_index
 from ._angle import norm_angle, active_matrix_from_angle
+from ._matrix import check_matrix
 from ._quaternions import check_quaternion
 
 
