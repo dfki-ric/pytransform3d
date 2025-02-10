@@ -5,11 +5,10 @@ from ._utils import (
     check_exponential_coordinates, check_screw_matrix, check_transform_log)
 from ._transform import (
     check_transform, transform_from, translate_transform)
-from ._dual_quaternion_operations import check_dual_quaternion
 from ..rotations import (
     matrix_from_quaternion, quaternion_from_matrix,
     compact_axis_angle_from_matrix, matrix_from_compact_axis_angle,
-    cross_product_matrix, q_conj, concatenate_quaternions,
+    cross_product_matrix, concatenate_quaternions,
     left_jacobian_SO3, left_jacobian_SO3_inv)
 
 
@@ -707,49 +706,6 @@ def dual_quaternion_from_pq(pq):
     real = pq[3:]
     dual = 0.5 * concatenate_quaternions(np.r_[0, pq[:3]], real)
     return np.hstack((real, dual))
-
-
-def transform_from_dual_quaternion(dq):
-    """Compute transformation matrix from dual quaternion.
-
-    Parameters
-    ----------
-    dq : array-like, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-
-    Returns
-    -------
-    A2B : array, shape (4, 4)
-        Transform from frame A to frame B
-    """
-    dq = check_dual_quaternion(dq)
-    real = dq[:4]
-    dual = dq[4:]
-    R = matrix_from_quaternion(real)
-    p = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
-    return transform_from(R=R, p=p)
-
-
-def pq_from_dual_quaternion(dq):
-    """Compute position and quaternion from dual quaternion.
-
-    Parameters
-    ----------
-    dq : array-like, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-
-    Returns
-    -------
-    pq : array, shape (7,)
-        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
-    """
-    dq = check_dual_quaternion(dq)
-    real = dq[:4]
-    dual = dq[4:]
-    p = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
-    return np.hstack((p, real))
 
 
 def adjoint_from_transform(A2B, strict_check=True, check=True):
