@@ -1,7 +1,7 @@
 import numpy as np
 
-from ._utils import norm_vector, check_matrix
-from ._matrix import norm_matrix
+from ._utils import norm_vector
+from ._matrix import check_matrix, norm_matrix
 from ._axis_angle import matrix_from_compact_axis_angle
 
 
