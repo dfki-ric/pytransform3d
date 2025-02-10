@@ -2,6 +2,10 @@ import numpy as np
 import numpy.typing as npt
 
 
+def dual_quaternion_requires_renormalization(
+        dq: npt.ArrayLike, tolerance: float = ...) -> bool: ...
+
+
 def norm_dual_quaternion(dq: npt.ArrayLike) -> np.ndarray: ...
 
 
