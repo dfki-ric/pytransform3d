@@ -20,8 +20,7 @@ from ._utils import (
     perpendicular_to_vector,
     vector_projection,
     perpendicular_to_vectors,
-    plane_basis_from_normal,
-    check_matrix)
+    plane_basis_from_normal)
 from ._random import (
     random_vector,
     random_axis_angle,
@@ -35,6 +34,7 @@ from ._rot_log import (
     rot_log_from_compact_axis_angle)
 from ._matrix import (
     matrix_requires_renormalization,
+    check_matrix,
     norm_matrix,
     matrix_from_two_vectors,
     quaternion_from_matrix,

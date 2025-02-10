@@ -5,6 +5,9 @@ import numpy.typing as npt
 def matrix_requires_renormalization(R: npt.ArrayLike, tolerance: float = ...) -> bool: ...
 
 
+def check_matrix(R: npt.ArrayLike, tolerance: float = ..., strict_check: bool = ...) -> np.ndarray: ...
+
+
 def norm_matrix(R: npt.ArrayLike) -> np.ndarray: ...
 
 

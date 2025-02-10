@@ -1,6 +1,7 @@
+import warnings
 import numpy as np
 from ._utils import (
-    check_matrix, norm_vector, perpendicular_to_vectors, vector_projection)
+    norm_vector, perpendicular_to_vectors, vector_projection)
 from ._axis_angle import compact_axis_angle
 
 
@@ -32,6 +33,76 @@ def matrix_requires_renormalization(R, tolerance=1e-6):
     R = np.asarray(R, dtype=float)
     RRT = np.dot(R, R.T)
     return not np.allclose(RRT, np.eye(3), atol=tolerance)
+
+
+def check_matrix(R, tolerance=1e-6, strict_check=True):
+    r"""Input validation of a rotation matrix.
+
+    We check whether R multiplied by its inverse is approximately the identity
+    matrix
+
+    .. math::
+
+        \boldsymbol{R}\boldsymbol{R}^T = \boldsymbol{I}
+
+    and whether the determinant is positive
+
+    .. math::
+
+        det(\boldsymbol{R}) > 0
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance threshold for checks. Default tolerance is the same as in
+        assert_rotation_matrix(R).
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Validated rotation matrix
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+
+    See Also
+    --------
+    norm_matrix : Enforces orthonormality of a rotation matrix.
+    robust_polar_decomposition
+        A more expensive orthonormalization method that spreads the error more
+        evenly between the basis vectors.
+    """
+    R = np.asarray(R, dtype=np.float64)
+    if R.ndim != 2 or R.shape[0] != 3 or R.shape[1] != 3:
+        raise ValueError("Expected rotation matrix with shape (3, 3), got "
+                         "array-like object with shape %s" % (R.shape,))
+    RRT = np.dot(R, R.T)
+    if not np.allclose(RRT, np.eye(3), atol=tolerance):
+        error_msg = ("Expected rotation matrix, but it failed the test "
+                     "for inversion by transposition. np.dot(R, R.T) "
+                     "gives %r" % RRT)
+        if strict_check:
+            raise ValueError(error_msg)
+        warnings.warn(error_msg)
+    R_det = np.linalg.det(R)
+    if R_det < 0.0:
+        error_msg = ("Expected rotation matrix, but it failed the test "
+                     "for the determinant, which should be 1 but is %g; "
+                     "that is, it probably represents a rotoreflection"
+                     % R_det)
+        if strict_check:
+            raise ValueError(error_msg)
+        warnings.warn(error_msg)
+    return R
 
 
 def norm_matrix(R):
