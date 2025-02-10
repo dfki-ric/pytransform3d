@@ -4,7 +4,7 @@ import numpy as np
 from ..rotations import (
     matrix_requires_renormalization, check_matrix, quaternion_from_matrix,
     compact_axis_angle_from_matrix, left_jacobian_SO3_inv,
-    cross_product_matrix)
+    cross_product_matrix, concatenate_quaternions)
 
 
 def transform_requires_renormalization(A2B, tolerance=1e-6):
@@ -355,3 +355,23 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
     v_theta = np.dot(left_jacobian_SO3_inv(omega_theta), p)
 
     return np.hstack((omega_theta, v_theta))
+
+
+def dual_quaternion_from_transform(A2B):
+    """Compute dual quaternion from transformation matrix.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+    """
+    A2B = check_transform(A2B)
+    real = quaternion_from_matrix(A2B[:3, :3])
+    dual = 0.5 * concatenate_quaternions(np.r_[0, A2B[:3, 3]], real)
+    return np.hstack((real, dual))
