@@ -1,5 +1,5 @@
 import numpy as np
-from ._conversions import matrix_from_compact_axis_angle
+from ._convert_from_axis_angle import matrix_from_compact_axis_angle
 
 
 def robust_polar_decomposition(A, n_iter=20, eps=np.finfo(float).eps):
