@@ -1,7 +1,7 @@
 import math
 import numpy as np
-from ._angle import active_matrix_from_angle
-from ._utils import norm_angle, check_matrix, check_quaternion
+from ._angle import norm_angle, active_matrix_from_angle
+from ._utils import check_matrix, check_quaternion
 from ._constants import half_pi, unitx, unity, unitz, eps
 
 

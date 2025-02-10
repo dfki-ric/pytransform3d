@@ -1,9 +1,137 @@
 """Conversions from axis-angle to other representations."""
 import math
 import numpy as np
-from ._utils import (check_axis_angle, check_compact_axis_angle, norm_vector,
-                     norm_axis_angle, perpendicular_to_vector)
+from ._utils import norm_vector, perpendicular_to_vector
+from ._angle import norm_angle
 from ._constants import eps
+
+
+def norm_axis_angle(a):
+    """Normalize axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle). The length
+        of the axis vector is 1 and the angle is in [0, pi). No rotation
+        is represented by [1, 0, 0, 0].
+    """
+    angle = a[3]
+    norm = np.linalg.norm(a[:3])
+    if angle == 0.0 or norm == 0.0:
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    res = np.empty(4)
+    res[:3] = a[:3] / norm
+
+    angle = norm_angle(angle)
+    if angle < 0.0:
+        angle *= -1.0
+        res[:3] *= -1.0
+
+    res[3] = angle
+
+    return res
+
+
+def norm_compact_axis_angle(a):
+    """Normalize compact axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    Returns
+    -------
+    a : array, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z).
+        The angle is in [0, pi). No rotation is represented by [0, 0, 0].
+    """
+    angle = np.linalg.norm(a)
+    if angle == 0.0:
+        return np.zeros(3)
+    axis = a / angle
+    return axis * norm_angle(angle)
+
+
+def compact_axis_angle_near_pi(a, tolerance=1e-6):
+    r"""Check if angle of compact axis-angle representation is near pi.
+
+    When the angle :math:`\theta = \pi`, both :math:`\hat{\boldsymbol{\omega}}`
+    and :math:`-\hat{\boldsymbol{\omega}}` result in the same rotation. This
+    ambiguity could lead to problems when averaging or interpolating.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z).
+
+    tolerance : float
+        Tolerance of this check.
+
+    Returns
+    -------
+    near_pi : bool
+        Angle is near pi.
+    """
+    theta = np.linalg.norm(a)
+    return abs(theta - np.pi) < tolerance
+
+
+def check_axis_angle(a):
+    """Input validation of axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    Returns
+    -------
+    a : array, shape (4,)
+        Validated axis of rotation and rotation angle: (x, y, z, angle)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    a = np.asarray(a, dtype=np.float64)
+    if a.ndim != 1 or a.shape[0] != 4:
+        raise ValueError("Expected axis and angle in array with shape (4,), "
+                         "got array-like object with shape %s" % (a.shape,))
+    return norm_axis_angle(a)
+
+
+def check_compact_axis_angle(a):
+    """Input validation of compact axis-angle representation.
+
+    Parameters
+    ----------
+    a : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    Returns
+    -------
+    a : array, shape (3,)
+        Validated axis of rotation and rotation angle: angle * (x, y, z)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    a = np.asarray(a, dtype=np.float64)
+    if a.ndim != 1 or a.shape[0] != 3:
+        raise ValueError("Expected axis and angle in array with shape (3,), "
+                         "got array-like object with shape %s" % (a.shape,))
+    return norm_compact_axis_angle(a)
 
 
 def axis_angle_from_two_directions(a, b):

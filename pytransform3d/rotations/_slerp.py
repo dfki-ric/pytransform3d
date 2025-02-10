@@ -1,9 +1,8 @@
 """Spherical linear interpolation (SLERP)."""
 import numpy as np
-from ._utils import (check_axis_angle, check_quaternion, angle_between_vectors,
-                     check_rotor)
+from ._utils import check_quaternion, angle_between_vectors, check_rotor
 from ._matrix import compact_axis_angle_from_matrix
-from ._axis_angle import matrix_from_compact_axis_angle
+from ._axis_angle import check_axis_angle, matrix_from_compact_axis_angle
 
 
 def matrix_slerp(start, end, t):
