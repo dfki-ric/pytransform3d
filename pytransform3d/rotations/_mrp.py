@@ -1,6 +1,5 @@
 """Modified Rodrigues parameters."""
 import numpy as np
-from ._utils import check_mrp
 from ._angle import norm_angle
 from ._axis_angle import mrp_from_axis_angle
 from ._constants import two_pi, eps
@@ -26,6 +25,32 @@ def norm_mrp(mrp):
     a = axis_angle_from_mrp(mrp)
     a[3] = norm_angle(a[3])
     return mrp_from_axis_angle(a)
+
+
+def check_mrp(mrp):
+    """Input validation of modified Rodrigues parameters.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Validated modified Rodrigues parameters.
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+    """
+    mrp = np.asarray(mrp)
+    if mrp.ndim != 1 or mrp.shape[0] != 3:
+        raise ValueError(
+            "Expected modified Rodrigues parameters with shape (3,), got "
+            "array-like object with shape %s" % (mrp.shape,))
+    return mrp
 
 
 def mrp_near_singularity(mrp, tolerance=1e-6):

@@ -26,9 +26,3 @@ def plane_basis_from_normal(
 
 
 def check_matrix(R: npt.ArrayLike, tolerance: float = ..., strict_check: bool = ...) -> np.ndarray: ...
-
-
-def check_rotor(a: npt.ArrayLike) -> np.ndarray: ...
-
-
-def check_mrp(mrp: npt.ArrayLike) -> np.ndarray: ...
