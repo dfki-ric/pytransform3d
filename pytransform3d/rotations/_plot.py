@@ -1,7 +1,8 @@
 """Plotting functions."""
 import numpy as np
-from ._utils import (check_matrix, check_axis_angle,
-                     perpendicular_to_vectors, angle_between_vectors)
+from ._utils import (
+    check_matrix, perpendicular_to_vectors, angle_between_vectors)
+from ._axis_angle import check_axis_angle
 from ._rotors import wedge, plane_normal_from_bivector
 from ._constants import a_id, p0, unitx, unity
 from ._slerp import slerp_weights

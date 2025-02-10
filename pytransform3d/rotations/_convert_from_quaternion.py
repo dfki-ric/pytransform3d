@@ -1,7 +1,7 @@
 """Conversions from quaternion to other representations."""
 import numpy as np
-from ._utils import check_quaternion, norm_axis_angle
-from ._axis_angle import compact_axis_angle
+from ._utils import check_quaternion
+from ._axis_angle import compact_axis_angle, norm_axis_angle
 
 
 def matrix_from_quaternion(q):

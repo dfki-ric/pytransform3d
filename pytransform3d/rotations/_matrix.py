@@ -4,6 +4,90 @@ from ._utils import (
 from ._axis_angle import compact_axis_angle
 
 
+def matrix_requires_renormalization(R, tolerance=1e-6):
+    r"""Check if a rotation matrix needs renormalization.
+
+    This function will check if :math:`R R^T \approx I`.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix that should be orthonormal.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Indicates if renormalization is required.
+
+    See Also
+    --------
+    norm_matrix : Orthonormalize rotation matrix.
+    robust_polar_decomposition
+        A more expensive orthonormalization method that spreads the error more
+        evenly between the basis vectors.
+    """
+    R = np.asarray(R, dtype=float)
+    RRT = np.dot(R, R.T)
+    return not np.allclose(RRT, np.eye(3), atol=tolerance)
+
+
+def norm_matrix(R):
+    r"""Orthonormalize rotation matrix.
+
+    A rotation matrix is defined as
+
+    .. math::
+
+        \boldsymbol R =
+        \left( \begin{array}{ccc}
+            r_{11} & r_{12} & r_{13}\\
+            r_{21} & r_{22} & r_{23}\\
+            r_{31} & r_{32} & r_{33}\\
+        \end{array} \right)
+        \in SO(3)
+
+    and must be orthonormal, which results in 6 constraints:
+
+    * column vectors must have unit norm (3 constraints)
+    * and must be orthogonal to each other (3 constraints)
+
+    A more compact representation of these constraints is
+    :math:`\boldsymbol R^T \boldsymbol R = \boldsymbol I`.
+
+    Because of numerical problems, a rotation matrix might not satisfy the
+    constraints anymore. This function will enforce them with Gram-Schmidt
+    orthonormalization optimized for 3 dimensions.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix with small numerical errors.
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Orthonormalized rotation matrix.
+
+    See Also
+    --------
+    check_matrix : Checks orthonormality of a rotation matrix.
+    matrix_requires_renormalization
+        Checks if a rotation matrix needs renormalization.
+    robust_polar_decomposition
+        A more expensive orthonormalization method that spreads the error more
+        evenly between the basis vectors.
+    """
+    R = np.asarray(R)
+    c2 = R[:, 1]
+    c3 = norm_vector(R[:, 2])
+    c1 = norm_vector(np.cross(c2, c3))
+    c2 = norm_vector(np.cross(c3, c1))
+    return np.column_stack((c1, c2, c3))
+
+
 def matrix_from_two_vectors(a, b):
     """Compute rotation matrix from two vectors.
 

@@ -15,26 +15,15 @@ from ._constants import (
     R_id,
     p0)
 from ._utils import (
-    norm_angle,
     norm_vector,
     angle_between_vectors,
     perpendicular_to_vector,
     vector_projection,
     perpendicular_to_vectors,
-    norm_axis_angle,
-    compact_axis_angle_near_pi,
-    norm_compact_axis_angle,
-    matrix_requires_renormalization,
-    norm_matrix,
-    quaternion_requires_renormalization,
     plane_basis_from_normal,
-    check_skew_symmetric_matrix,
-    check_rot_log,
     check_matrix,
     check_quaternion,
     check_quaternions,
-    check_axis_angle,
-    check_compact_axis_angle,
     check_rotor, check_mrp)
 from ._random import (
     random_vector,
@@ -43,14 +32,19 @@ from ._random import (
     random_quaternion,
     random_matrix)
 from ._rot_log import (
+    check_skew_symmetric_matrix,
+    check_rot_log,
     cross_product_matrix,
     rot_log_from_compact_axis_angle)
 from ._matrix import (
+    matrix_requires_renormalization,
+    norm_matrix,
     matrix_from_two_vectors,
     quaternion_from_matrix,
     axis_angle_from_matrix,
     compact_axis_angle_from_matrix)
 from ._angle import (
+    norm_angle,
     active_matrix_from_angle,
     passive_matrix_from_angle,
     quaternion_from_angle)
@@ -61,6 +55,11 @@ from ._euler import (
     euler_from_matrix,
     euler_from_quaternion)
 from ._axis_angle import (
+    norm_axis_angle,
+    norm_compact_axis_angle,
+    compact_axis_angle_near_pi,
+    check_axis_angle,
+    check_compact_axis_angle,
     axis_angle_from_two_directions,
     matrix_from_axis_angle,
     matrix_from_compact_axis_angle,
@@ -75,6 +74,7 @@ from ._convert_from_quaternion import (
     compact_axis_angle_from_quaternion,
     mrp_from_quaternion)
 from ._quaternions import (
+    quaternion_requires_renormalization,
     quaternion_double,
     quaternion_integrate,
     quaternion_gradient,
