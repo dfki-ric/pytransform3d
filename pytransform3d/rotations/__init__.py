@@ -21,8 +21,7 @@ from ._utils import (
     vector_projection,
     perpendicular_to_vectors,
     plane_basis_from_normal,
-    check_matrix,
-    check_rotor, check_mrp)
+    check_matrix)
 from ._random import (
     random_vector,
     random_axis_angle,
@@ -86,8 +85,9 @@ from ._quaternions import (
     quaternion_wxyz_from_xyzw,
     quaternion_xyzw_from_wxyz)
 from ._mrp import (
-    mrp_near_singularity,
     norm_mrp,
+    check_mrp,
+    mrp_near_singularity,
     mrp_double,
     concatenate_mrp,
     mrp_prod_vector,
@@ -108,8 +108,12 @@ from ._testing import (
     assert_compact_axis_angle_equal,
     assert_rotation_matrix,
     assert_mrp_equal)
-from ._plot import plot_basis, plot_axis_angle, plot_bivector
+from ._plot import (
+    plot_basis,
+    plot_axis_angle,
+    plot_bivector)
 from ._rotors import (
+    check_rotor,
     wedge,
     geometric_product,
     rotor_apply,
