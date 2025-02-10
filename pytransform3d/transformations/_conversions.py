@@ -6,10 +6,8 @@ from ._utils import (
 from ._transform import (
     check_transform, transform_from, translate_transform)
 from ..rotations import (
-    matrix_from_quaternion, quaternion_from_matrix,
-    matrix_from_compact_axis_angle,
-    cross_product_matrix, concatenate_quaternions,
-    left_jacobian_SO3)
+    matrix_from_quaternion, matrix_from_compact_axis_angle,
+    cross_product_matrix, concatenate_quaternions, left_jacobian_SO3)
 
 
 def transform_from_pq(pq):
@@ -480,27 +478,6 @@ def transform_from_transform_log(transform_log):
     J = left_jacobian_SO3(omega_theta)
     A2B[:3, 3] = np.dot(J, v_theta)
     return A2B
-
-
-def dual_quaternion_from_transform(A2B):
-    """Compute dual quaternion from transformation matrix.
-
-    Parameters
-    ----------
-    A2B : array-like, shape (4, 4)
-        Transform from frame A to frame B
-
-    Returns
-    -------
-    dq : array, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-    """
-    A2B = check_transform(A2B)
-    real = quaternion_from_matrix(A2B[:3, :3])
-    dual = 0.5 * concatenate_quaternions(
-        np.r_[0, A2B[:3, 3]], real)
-    return np.hstack((real, dual))
 
 
 def dual_quaternion_from_pq(pq):
