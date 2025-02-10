@@ -9,6 +9,10 @@ def dual_quaternion_requires_renormalization(
 def norm_dual_quaternion(dq: npt.ArrayLike) -> np.ndarray: ...
 
 
+def check_dual_quaternion(
+        dq: npt.ArrayLike, unit: bool = ...) -> np.ndarray: ...
+
+
 def dual_quaternion_double(dq: npt.ArrayLike) -> np.ndarray: ...
 
 
@@ -31,3 +35,11 @@ def dual_quaternion_sclerp(
 
 
 def dual_quaternion_power(dq: npt.ArrayLike, t: float) -> np.ndarray: ...
+
+
+def screw_parameters_from_dual_quaternion(dq: npt.ArrayLike) -> np.ndarray: ...
+
+
+def dual_quaternion_from_screw_parameters(
+        q: npt.ArrayLike, s_axis: npt.ArrayLike, h: float,
+        theta: float) -> np.ndarray: ...

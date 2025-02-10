@@ -2,14 +2,14 @@
 import numpy as np
 from ._utils import (check_pq, check_screw_axis,
                      check_screw_parameters, check_exponential_coordinates,
-                     check_screw_matrix, check_transform_log,
-                     check_dual_quaternion)
+                     check_screw_matrix, check_transform_log)
 from ._transform import check_transform
+from ._dual_quaternion_operations import check_dual_quaternion
 from ..rotations import (
     matrix_from_quaternion, quaternion_from_matrix,
     compact_axis_angle_from_matrix, matrix_from_compact_axis_angle,
     cross_product_matrix, q_conj, concatenate_quaternions,
-    axis_angle_from_quaternion, norm_angle, eps)
+    norm_angle, eps)
 from ..rotations import left_jacobian_SO3, left_jacobian_SO3_inv
 
 
@@ -809,53 +809,6 @@ def dual_quaternion_from_pq(pq):
     return np.hstack((real, dual))
 
 
-def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
-    """Compute dual quaternion from screw parameters.
-
-    Parameters
-    ----------
-    q : array-like, shape (3,)
-        Vector to a point on the screw axis
-
-    s_axis : array-like, shape (3,)
-        Direction vector of the screw axis
-
-    h : float
-        Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis. Infinite pitch indicates pure translation.
-
-    theta : float
-        Parameter of the transformation: theta is the angle of rotation
-        and h * theta the translation.
-
-    Returns
-    -------
-    dq : array, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-    """
-    q, s_axis, h = check_screw_parameters(q, s_axis, h)
-
-    if np.isinf(h):  # pure translation
-        d = theta
-        theta = 0
-    else:
-        d = h * theta
-    moment = np.cross(q, s_axis)
-
-    half_distance = 0.5 * d
-    sin_half_angle = np.sin(0.5 * theta)
-    cos_half_angle = np.cos(0.5 * theta)
-
-    real_w = cos_half_angle
-    real_vec = sin_half_angle * s_axis
-    dual_w = -half_distance * sin_half_angle
-    dual_vec = (sin_half_angle * moment +
-                half_distance * cos_half_angle * s_axis)
-
-    return np.r_[real_w, real_vec, dual_w, dual_vec]
-
-
 def transform_from_dual_quaternion(dq):
     """Compute transformation matrix from dual quaternion.
 
@@ -897,62 +850,6 @@ def pq_from_dual_quaternion(dq):
     dual = dq[4:]
     p = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
     return np.hstack((p, real))
-
-
-def screw_parameters_from_dual_quaternion(dq):
-    """Compute screw parameters from dual quaternion.
-
-    Parameters
-    ----------
-    dq : array-like, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-
-    Returns
-    -------
-    q : array, shape (3,)
-        Vector to a point on the screw axis
-
-    s_axis : array, shape (3,)
-        Direction vector of the screw axis
-
-    h : float
-        Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis. Infinite pitch indicates pure translation.
-
-    theta : float
-        Parameter of the transformation: theta is the angle of rotation
-        and h * theta the translation.
-    """
-    dq = check_dual_quaternion(dq, unit=True)
-
-    real = dq[:4]
-    dual = dq[4:]
-
-    a = axis_angle_from_quaternion(real)
-    s_axis = a[:3]
-    theta = a[3]
-
-    translation = 2 * concatenate_quaternions(dual, q_conj(real))[1:]
-    if abs(theta) < np.finfo(float).eps:
-        # pure translation
-        d = np.linalg.norm(translation)
-        if d < np.finfo(float).eps:
-            s_axis = np.array([1, 0, 0])
-        else:
-            s_axis = translation / d
-        q = np.zeros(3)
-        theta = d
-        h = np.inf
-        return q, s_axis, h, theta
-
-    distance = np.dot(translation, s_axis)
-    moment = 0.5 * (np.cross(translation, s_axis) +
-                    (translation - distance * s_axis)
-                    / np.tan(0.5 * theta))
-    dual = np.cross(s_axis, moment)
-    h = distance / theta
-    return dual, s_axis, h, theta
 
 
 def adjoint_from_transform(A2B, strict_check=True, check=True):

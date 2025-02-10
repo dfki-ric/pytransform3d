@@ -23,6 +23,3 @@ def check_screw_matrix(screw_matrix: npt.ArrayLike, tolerance: float = ...,
 
 def check_transform_log(transform_log: npt.ArrayLike, tolerance: float = ...,
                         strict_check: bool = ...) -> np.ndarray: ...
-
-
-def check_dual_quaternion(dq: npt.ArrayLike, unit: bool = ...) -> np.ndarray: ...
