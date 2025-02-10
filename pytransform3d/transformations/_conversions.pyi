@@ -29,11 +29,6 @@ def exponential_coordinates_from_transform_log(
         transform_log: npt.ArrayLike, check: bool = ...) -> np.ndarray: ...
 
 
-def exponential_coordinates_from_transform(
-        A2B: npt.ArrayLike, strict_check: bool = ...,
-        check: bool = ...) -> np.ndarray: ...
-
-
 def screw_matrix_from_screw_axis(screw_axis: npt.ArrayLike) -> np.ndarray: ...
 
 
@@ -47,10 +42,6 @@ def transform_log_from_exponential_coordinates(
 
 def transform_log_from_screw_matrix(
         screw_matrix: npt.ArrayLike, theta: float) -> np.ndarray: ...
-
-
-def transform_log_from_transform(
-        A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
 
 
 def transform_from_exponential_coordinates(

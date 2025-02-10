@@ -26,3 +26,12 @@ def rotate_transform(
 
 def pq_from_transform(
         A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
+
+
+def transform_log_from_transform(
+        A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
+
+
+def exponential_coordinates_from_transform(
+        A2B: npt.ArrayLike, strict_check: bool = ...,
+        check: bool = ...) -> np.ndarray: ...
