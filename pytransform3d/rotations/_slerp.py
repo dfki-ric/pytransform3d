@@ -2,7 +2,7 @@
 import numpy as np
 from ._utils import (check_axis_angle, check_quaternion, angle_between_vectors,
                      check_rotor)
-from ._conversions import compact_axis_angle_from_matrix
+from ._matrix import compact_axis_angle_from_matrix
 from ._axis_angle import matrix_from_compact_axis_angle
 
 
