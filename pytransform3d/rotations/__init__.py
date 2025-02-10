@@ -70,6 +70,7 @@ from ._quaternions import (
     check_quaternion,
     check_quaternions,
     quaternion_double,
+    pick_closest_quaternion,
     quaternion_integrate,
     quaternion_gradient,
     concatenate_quaternions,
@@ -97,7 +98,6 @@ from ._slerp import (
     matrix_slerp,
     matrix_power,
     slerp_weights,
-    pick_closest_quaternion,
     quaternion_slerp,
     axis_angle_slerp,
     rotor_slerp, )

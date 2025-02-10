@@ -14,6 +14,16 @@ def check_quaternions(Q: npt.ArrayLike, unit: bool = ...) -> np.ndarray: ...
 def quaternion_double(q: npt.ArrayLike) -> np.ndarray: ...
 
 
+def pick_closest_quaternion(
+        quaternion: npt.ArrayLike,
+        target_quaternion: npt.ArrayLike) -> np.ndarray: ...
+
+
+def pick_closest_quaternion_impl(
+        quaternion: np.ndarray, target_quaternion: np.ndarray
+) -> np.ndarray: ...
+
+
 def quaternion_integrate(Qd: npt.ArrayLike, q0: npt.ArrayLike = ..., dt: float = ...) -> np.ndarray: ...
 
 
