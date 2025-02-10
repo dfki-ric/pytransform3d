@@ -12,28 +12,6 @@ from ..rotations import (
     left_jacobian_SO3, left_jacobian_SO3_inv)
 
 
-def pq_from_transform(A2B, strict_check=True):
-    """Compute position and quaternion from transformation matrix.
-
-    Parameters
-    ----------
-    A2B : array-like, shape (4, 4)
-        Transformation matrix from frame A to frame B
-
-    strict_check : bool, optional (default: True)
-        Raise a ValueError if the transformation matrix is not numerically
-        close enough to a real transformation matrix. Otherwise we print a
-        warning.
-
-    Returns
-    -------
-    pq : array, shape (7,)
-        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
-    """
-    A2B = check_transform(A2B, strict_check=strict_check)
-    return np.hstack((A2B[:3, 3], quaternion_from_matrix(A2B[:3, :3])))
-
-
 def transform_from_pq(pq):
     """Compute transformation matrix from position and quaternion.
 

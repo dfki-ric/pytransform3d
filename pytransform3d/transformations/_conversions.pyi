@@ -3,10 +3,6 @@ import numpy.typing as npt
 from typing import Tuple
 
 
-def pq_from_transform(
-        A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
-
-
 def transform_from_pq(pq: npt.ArrayLike) -> np.ndarray: ...
 
 
