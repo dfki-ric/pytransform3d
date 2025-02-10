@@ -4,9 +4,12 @@ See :doc:`user_guide/transformations` for more information.
 """
 from ._utils import (
     check_pq,
-    check_screw_parameters, check_screw_axis, check_exponential_coordinates,
-    check_screw_matrix, check_transform_log,
-    dual_quaternion_requires_renormalization, check_dual_quaternion)
+    check_screw_parameters,
+    check_screw_axis,
+    check_exponential_coordinates,
+    check_screw_matrix,
+    check_transform_log,
+    check_dual_quaternion)
 from ._conversions import (
     transform_from, rotate_transform, translate_transform,
     pq_from_transform, transform_from_pq,
@@ -41,9 +44,15 @@ from ._transform_operations import (
     transform_power)
 from ._pq_operations import pq_slerp
 from ._dual_quaternion_operations import (
-    norm_dual_quaternion, dual_quaternion_double, dq_q_conj, dq_conj,
-    concatenate_dual_quaternions, dual_quaternion_sclerp,
-    dual_quaternion_power, dq_prod_vector)
+    dual_quaternion_requires_renormalization,
+    norm_dual_quaternion,
+    dual_quaternion_double,
+    dq_q_conj,
+    dq_conj,
+    concatenate_dual_quaternions,
+    dual_quaternion_sclerp,
+    dual_quaternion_power,
+    dq_prod_vector)
 from ._random import (
     random_transform, random_screw_axis, random_exponential_coordinates)
 from ._plot import plot_transform, plot_screw

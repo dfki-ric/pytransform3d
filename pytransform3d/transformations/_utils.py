@@ -304,65 +304,6 @@ def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
     return transform_log
 
 
-def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
-    r"""Check if dual quaternion requires renormalization.
-
-    Dual quaternions that represent transformations in 3D should have unit
-    norm. Since the real and the dual quaternion are orthogonal, their dot
-    product should be 0. In addition, :math:`\epsilon^2 = 0`. Hence,
-
-    .. math::
-
-        ||\boldsymbol{p} + \epsilon \boldsymbol{q}||
-        =
-        \sqrt{(\boldsymbol{p} + \epsilon \boldsymbol{q}) \cdot
-        (\boldsymbol{p} + \epsilon \boldsymbol{q})}
-        =
-        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}
-        + 2\epsilon \boldsymbol{p}\cdot\boldsymbol{q}
-        + \epsilon^2 \boldsymbol{q}\cdot\boldsymbol{q}}
-        =
-        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}},
-
-    i.e., the norm only depends on the real quaternion.
-
-    This function checks unit norm and orthogonality of the real and dual
-    part.
-
-    Parameters
-    ----------
-    dq : array-like, shape (8,)
-        Dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-
-    tolerance : float, optional (default: 1e-6)
-        Tolerance for check.
-
-    Returns
-    -------
-    required : bool
-        Indicates if renormalization is required.
-
-    See Also
-    --------
-    check_dual_quaternion
-        Input validation of dual quaternion representation. Has an option to
-        normalize the dual quaternion.
-
-    norm_dual_quaternion
-        Normalization that enforces unit norm and orthogonality of the real and
-        dual quaternion.
-
-    assert_unit_dual_quaternion
-        Checks unit norm and orthogonality of real and dual quaternion.
-    """
-    real = dq[:4]
-    dual = dq[4:]
-    real_norm = np.linalg.norm(real)
-    real_dual_dot = np.dot(real, dual)
-    return abs(real_norm - 1.0) > tolerance or abs(real_dual_dot) > tolerance
-
-
 def check_dual_quaternion(dq, unit=True):
     """Input validation of dual quaternion representation.
 
