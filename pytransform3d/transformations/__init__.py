@@ -48,7 +48,7 @@ from ._transform_operations import (
     transform_power)
 from ._exp_coords import norm_exponential_coordinates
 from ._pq_operations import pq_slerp
-from ._dual_quaternion_operations import (
+from ._dual_quaternion import (
     dual_quaternion_requires_renormalization,
     norm_dual_quaternion,
     check_dual_quaternion,
