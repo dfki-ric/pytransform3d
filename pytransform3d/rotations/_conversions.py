@@ -2,7 +2,7 @@
 import numpy as np
 from ._utils import (
     check_matrix, norm_vector, norm_axis_angle, perpendicular_to_vector)
-from ._convert_from_axis_angle import compact_axis_angle
+from ._axis_angle import compact_axis_angle
 from ._constants import eps
 
 
@@ -125,42 +125,6 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
 
     a[3] = angle
     return a
-
-
-def axis_angle_from_two_directions(a, b):
-    """Compute axis-angle representation from two direction vectors.
-
-    The rotation will transform direction vector a to direction vector b.
-    The direction vectors don't have to be normalized as this will be
-    done internally. Note that there is more than one possible solution.
-
-    Parameters
-    ----------
-    a : array-like, shape (3,)
-        First direction vector
-
-    b : array-like, shape (3,)
-        Second direction vector
-
-    Returns
-    -------
-    a : array, shape (4,)
-        Axis of rotation and rotation angle: (x, y, z, angle). The angle is
-        constrained to [0, pi].
-    """
-    a = norm_vector(a)
-    b = norm_vector(b)
-    cos_angle = a.dot(b)
-    if abs(-1.0 - cos_angle) < eps:
-        # For 180 degree rotations we have an infinite number of solutions,
-        # but we have to pick one axis.
-        axis = perpendicular_to_vector(a)
-    else:
-        axis = np.cross(a, b)
-    aa = np.empty(4)
-    aa[:3] = norm_vector(axis)
-    aa[3] = np.arccos(max(min(cos_angle, 1.0), -1.0))
-    return norm_axis_angle(aa)
 
 
 def compact_axis_angle_from_matrix(R, check=True):

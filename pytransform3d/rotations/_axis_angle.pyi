@@ -2,6 +2,9 @@ import numpy as np
 import numpy.typing as npt
 
 
+def axis_angle_from_two_directions(a: npt.ArrayLike, b: npt.ArrayLike) -> np.ndarray: ...
+
+
 def matrix_from_axis_angle(a: npt.ArrayLike) -> np.ndarray: ...
 
 
