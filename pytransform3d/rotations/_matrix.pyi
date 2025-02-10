@@ -2,6 +2,12 @@ import numpy as np
 import numpy.typing as npt
 
 
+def matrix_requires_renormalization(R: npt.ArrayLike, tolerance: float = ...) -> bool: ...
+
+
+def norm_matrix(R: npt.ArrayLike) -> np.ndarray: ...
+
+
 def matrix_from_two_vectors(a: npt.ArrayLike, b: npt.ArrayLike) -> np.ndarray: ...
 
 

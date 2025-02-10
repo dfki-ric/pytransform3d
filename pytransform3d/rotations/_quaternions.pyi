@@ -2,6 +2,9 @@ import numpy as np
 import numpy.typing as npt
 
 
+def quaternion_requires_renormalization(q: npt.ArrayLike, tolerance: float = ...) -> bool: ...
+
+
 def quaternion_double(q: npt.ArrayLike) -> np.ndarray: ...
 
 
