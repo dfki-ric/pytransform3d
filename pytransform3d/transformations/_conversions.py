@@ -7,9 +7,9 @@ from ._transform import (
     check_transform, transform_from, translate_transform)
 from ..rotations import (
     matrix_from_quaternion, quaternion_from_matrix,
-    compact_axis_angle_from_matrix, matrix_from_compact_axis_angle,
+    matrix_from_compact_axis_angle,
     cross_product_matrix, concatenate_quaternions,
-    left_jacobian_SO3, left_jacobian_SO3_inv)
+    left_jacobian_SO3)
 
 
 def transform_from_pq(pq):
@@ -245,88 +245,6 @@ def exponential_coordinates_from_transform_log(transform_log, check=True):
     return Stheta
 
 
-def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
-    r"""Compute exponential coordinates from transformation matrix.
-
-    Logarithmic map.
-
-    .. math::
-
-        Log: \boldsymbol{T} \in SE(3)
-        \rightarrow \mathcal{S} \theta \in \mathbb{R}^6
-
-    .. math::
-
-        Log(\boldsymbol{T}) =
-        Log\left(
-        \begin{array}{cc}
-        \boldsymbol{R} & \boldsymbol{p}\\
-        \boldsymbol{0} & 1
-        \end{array}
-        \right)
-        =
-        \left(
-        \begin{array}{c}
-        Log(\boldsymbol{R})\\
-        \boldsymbol{J}^{-1}(\theta) \boldsymbol{p}
-        \end{array}
-        \right)
-        =
-        \left(
-        \begin{array}{c}
-        \hat{\boldsymbol{\omega}}\\
-        \boldsymbol{v}
-        \end{array}
-        \right)
-        \theta
-        =
-        \mathcal{S}\theta,
-
-    where :math:`\boldsymbol{J}^{-1}(\theta)` is the inverse left Jacobian of
-    :math:`SO(3)` (see :func:`~pytransform3d.rotations.left_jacobian_SO3_inv`).
-
-    Parameters
-    ----------
-    A2B : array-like, shape (4, 4)
-        Transformation matrix from frame A to frame B
-
-    strict_check : bool, optional (default: True)
-        Raise a ValueError if the transformation matrix is not numerically
-        close enough to a real transformation matrix. Otherwise we print a
-        warning.
-
-    check : bool, optional (default: True)
-        Check if transformation matrix is valid
-
-    Returns
-    -------
-    Stheta : array, shape (6,)
-        Exponential coordinates of transformation:
-        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
-        where S is the screw axis, the first 3 components are related to
-        rotation and the last 3 components are related to translation.
-        Theta is the rotation angle and h * theta the translation.
-    """
-    if check:
-        A2B = check_transform(A2B, strict_check=strict_check)
-
-    R = A2B[:3, :3]
-    p = A2B[:3, 3]
-
-    if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
-        return np.r_[0.0, 0.0, 0.0, p]
-
-    omega_theta = compact_axis_angle_from_matrix(R, check=check)
-    theta = np.linalg.norm(omega_theta)
-
-    if theta == 0:
-        return np.r_[0.0, 0.0, 0.0, p]
-
-    v_theta = np.dot(left_jacobian_SO3_inv(omega_theta), p)
-
-    return np.hstack((omega_theta, v_theta))
-
-
 def screw_matrix_from_screw_axis(screw_axis):
     """Compute screw matrix from screw axis.
 
@@ -444,87 +362,6 @@ def transform_log_from_screw_matrix(screw_matrix, theta):
     """
     screw_matrix = check_screw_matrix(screw_matrix)
     return screw_matrix * theta
-
-
-def transform_log_from_transform(A2B, strict_check=True):
-    r"""Compute matrix logarithm of transformation from transformation.
-
-    Logarithmic map.
-
-    .. math::
-
-        \log: \boldsymbol{T} \in SE(3)
-        \rightarrow \left[ \mathcal{S} \right] \theta \in se(3)
-
-    .. math::
-
-        \log(\boldsymbol{T}) =
-        \log\left(
-        \begin{array}{cc}
-        \boldsymbol{R} & \boldsymbol{p}\\
-        \boldsymbol{0} & 1
-        \end{array}
-        \right)
-        =
-        \left(
-        \begin{array}{cc}
-        \log\boldsymbol{R} & \boldsymbol{J}^{-1}(\theta) \boldsymbol{p}\\
-        \boldsymbol{0} & 0
-        \end{array}
-        \right)
-        =
-        \left(
-        \begin{array}{cc}
-        \hat{\boldsymbol{\omega}} \theta
-        & \boldsymbol{v} \theta\\
-        \boldsymbol{0} & 0
-        \end{array}
-        \right)
-        =
-        \left[\mathcal{S}\right]\theta,
-
-    where :math:`\boldsymbol{J}^{-1}(\theta)` is the inverse left Jacobian of
-    :math:`SO(3)` (see :func:`~pytransform3d.rotations.left_jacobian_SO3_inv`).
-
-    Parameters
-    ----------
-    A2B : array, shape (4, 4)
-        Transform from frame A to frame B
-
-    strict_check : bool, optional (default: True)
-        Raise a ValueError if the transformation matrix is not numerically
-        close enough to a real transformation matrix. Otherwise we print a
-        warning.
-
-    Returns
-    -------
-    transform_log : array, shape (4, 4)
-        Matrix logarithm of transformation matrix: [S] * theta.
-    """
-    A2B = check_transform(A2B, strict_check=strict_check)
-
-    R = A2B[:3, :3]
-    p = A2B[:3, 3]
-
-    transform_log = np.zeros((4, 4))
-
-    if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
-        transform_log[:3, 3] = p
-        return transform_log
-
-    omega_theta = compact_axis_angle_from_matrix(R)
-    theta = np.linalg.norm(omega_theta)
-
-    if theta == 0:
-        return transform_log
-
-    J_inv = left_jacobian_SO3_inv(omega_theta)
-    v_theta = np.dot(J_inv, p)
-
-    transform_log[:3, :3] = cross_product_matrix(omega_theta)
-    transform_log[:3, 3] = v_theta
-
-    return transform_log
 
 
 def transform_from_exponential_coordinates(Stheta, check=True):

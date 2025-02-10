@@ -12,9 +12,7 @@ from ._utils import (
 from ._conversions import (
     transform_from_pq,
     transform_from_transform_log,
-    transform_log_from_transform,
     transform_from_exponential_coordinates,
-    exponential_coordinates_from_transform,
     screw_parameters_from_screw_axis,
     screw_axis_from_screw_parameters,
     exponential_coordinates_from_screw_axis,
@@ -34,7 +32,9 @@ from ._transform import (
     transform_from,
     rotate_transform,
     translate_transform,
-    pq_from_transform)
+    pq_from_transform,
+    transform_log_from_transform,
+    exponential_coordinates_from_transform)
 from ._transform_operations import (
     invert_transform,
     scale_transform,
