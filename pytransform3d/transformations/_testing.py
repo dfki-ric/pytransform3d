@@ -2,7 +2,7 @@
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 from ..rotations import assert_rotation_matrix, norm_angle, eps
-from ._dual_quaternion_operations import (
+from ._dual_quaternion import (
     dq_q_conj, concatenate_dual_quaternions)
 from ._exp_coords import norm_exponential_coordinates
 
