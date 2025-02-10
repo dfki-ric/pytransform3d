@@ -3,20 +3,6 @@ import numpy.typing as npt
 from typing import Tuple
 
 
-def transform_from(R: npt.ArrayLike, p: npt.ArrayLike,
-                   strict_check: bool = ...) -> np.ndarray: ...
-
-
-def translate_transform(
-        A2B: npt.ArrayLike, p: npt.ArrayLike, strict_check: bool = ...,
-        check: bool = ...) -> np.ndarray: ...
-
-
-def rotate_transform(
-        A2B: npt.ArrayLike, R: npt.ArrayLike, strict_check: bool = ...,
-        check: bool = ...) -> np.ndarray: ...
-
-
 def pq_from_transform(
         A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
 

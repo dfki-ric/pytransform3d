@@ -10,7 +10,6 @@ from ._utils import (
     check_screw_matrix,
     check_transform_log)
 from ._conversions import (
-    transform_from, rotate_transform, translate_transform,
     pq_from_transform, transform_from_pq,
     transform_from_transform_log, transform_log_from_transform,
     transform_from_exponential_coordinates,
@@ -27,7 +26,10 @@ from ._conversions import (
     adjoint_from_transform, norm_exponential_coordinates)
 from ._transform import (
     transform_requires_renormalization,
-    check_transform)
+    check_transform,
+    transform_from,
+    rotate_transform,
+    translate_transform)
 from ._transform_operations import (
     invert_transform,
     scale_transform,
