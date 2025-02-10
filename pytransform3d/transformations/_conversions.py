@@ -1,9 +1,10 @@
 """Conversions between transform representations."""
 import numpy as np
-from ._utils import (check_transform, check_pq, check_screw_axis,
+from ._utils import (check_pq, check_screw_axis,
                      check_screw_parameters, check_exponential_coordinates,
                      check_screw_matrix, check_transform_log,
                      check_dual_quaternion)
+from ._transform import check_transform
 from ..rotations import (
     matrix_from_quaternion, quaternion_from_matrix,
     compact_axis_angle_from_matrix, matrix_from_compact_axis_angle,
