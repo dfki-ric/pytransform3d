@@ -2,7 +2,7 @@
 import numpy as np
 from ..rotations import (
     axis_angle_from_matrix, matrix_from_axis_angle, norm_vector)
-from ._utils import check_transform
+from ._transform import check_transform
 from ._conversions import (
     exponential_coordinates_from_transform,
     transform_from_exponential_coordinates)
