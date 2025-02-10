@@ -1,6 +1,7 @@
 """Conversions from axis-angle to other representations."""
 import math
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ._utils import norm_vector, perpendicular_to_vector
 from ._angle import norm_angle
 from ._constants import eps
@@ -132,6 +133,75 @@ def check_compact_axis_angle(a):
         raise ValueError("Expected axis and angle in array with shape (3,), "
                          "got array-like object with shape %s" % (a.shape,))
     return norm_compact_axis_angle(a)
+
+
+def assert_axis_angle_equal(a1, a2, *args, **kwargs):
+    """Raise an assertion if two axis-angle are not approximately equal.
+
+    Usually we assume that the rotation axis is normalized to length 1 and
+    the angle is within [0, pi). However, this function ignores these
+    constraints and will normalize the representations before comparison.
+    See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+
+    Parameters
+    ----------
+    a1 : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    a2 : array-like, shape (4,)
+        Axis of rotation and rotation angle: (x, y, z, angle)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    a1 = norm_axis_angle(a1)
+    a2 = norm_axis_angle(a2)
+    # required despite normalization in case of 180 degree rotation
+    if np.any(np.sign(a1) != np.sign(a2)):
+        a1 = -a1
+        a1 = norm_axis_angle(a1)
+    assert_array_almost_equal(a1, a2, *args, **kwargs)
+
+
+def assert_compact_axis_angle_equal(a1, a2, *args, **kwargs):
+    """Raise an assertion if two axis-angle are not approximately equal.
+
+    Usually we assume that the angle is within [0, pi). However, this function
+    ignores this constraint and will normalize the representations before
+    comparison. See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+
+    Parameters
+    ----------
+    a1 : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    a2 : array-like, shape (3,)
+        Axis of rotation and rotation angle: angle * (x, y, z)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    angle1 = np.linalg.norm(a1)
+    angle2 = np.linalg.norm(a2)
+    # required despite normalization in case of 180 degree rotation
+    if (abs(angle1) == np.pi and abs(angle2) == np.pi and
+            any(np.sign(a1) != np.sign(a2))):
+        a1 = -a1
+    a1 = norm_compact_axis_angle(a1)
+    a2 = norm_compact_axis_angle(a2)
+    assert_array_almost_equal(a1, a2, *args, **kwargs)
 
 
 def axis_angle_from_two_directions(a, b):

@@ -21,33 +21,24 @@ from ._utils import (
     vector_projection,
     perpendicular_to_vectors,
     plane_basis_from_normal)
-from ._random import (
-    random_vector,
-    random_axis_angle,
-    random_compact_axis_angle,
-    random_quaternion,
-    random_matrix)
-from ._rot_log import (
-    check_skew_symmetric_matrix,
-    check_rot_log,
-    cross_product_matrix,
-    rot_log_from_compact_axis_angle)
-from ._matrix import (
-    matrix_requires_renormalization,
-    check_matrix,
-    norm_matrix,
-    matrix_from_two_vectors,
-    quaternion_from_matrix,
-    axis_angle_from_matrix,
-    compact_axis_angle_from_matrix)
 from ._angle import (
     norm_angle,
     active_matrix_from_angle,
     passive_matrix_from_angle,
     quaternion_from_angle)
+from ._matrix import (
+    matrix_requires_renormalization,
+    check_matrix,
+    norm_matrix,
+    assert_rotation_matrix,
+    matrix_from_two_vectors,
+    quaternion_from_matrix,
+    axis_angle_from_matrix,
+    compact_axis_angle_from_matrix)
 from ._euler import (
     norm_euler,
     euler_near_gimbal_lock,
+    assert_euler_equal,
     matrix_from_euler,
     euler_from_matrix,
     euler_from_quaternion)
@@ -57,6 +48,8 @@ from ._axis_angle import (
     compact_axis_angle_near_pi,
     check_axis_angle,
     check_compact_axis_angle,
+    assert_axis_angle_equal,
+    assert_compact_axis_angle_equal,
     axis_angle_from_two_directions,
     matrix_from_axis_angle,
     matrix_from_compact_axis_angle,
@@ -65,12 +58,18 @@ from ._axis_angle import (
     quaternion_from_axis_angle,
     quaternion_from_compact_axis_angle,
     mrp_from_axis_angle)
+from ._rot_log import (
+    check_skew_symmetric_matrix,
+    check_rot_log,
+    cross_product_matrix,
+    rot_log_from_compact_axis_angle)
 from ._quaternions import (
     quaternion_requires_renormalization,
     check_quaternion,
     check_quaternions,
     quaternion_double,
     pick_closest_quaternion,
+    assert_quaternion_equal,
     quaternion_integrate,
     quaternion_gradient,
     concatenate_quaternions,
@@ -90,28 +89,11 @@ from ._mrp import (
     check_mrp,
     mrp_near_singularity,
     mrp_double,
+    assert_mrp_equal,
     concatenate_mrp,
     mrp_prod_vector,
     quaternion_from_mrp,
     axis_angle_from_mrp)
-from ._slerp import (
-    matrix_slerp,
-    matrix_power,
-    slerp_weights,
-    quaternion_slerp,
-    axis_angle_slerp,
-    rotor_slerp, )
-from ._testing import (
-    assert_euler_equal,
-    assert_quaternion_equal,
-    assert_axis_angle_equal,
-    assert_compact_axis_angle_equal,
-    assert_rotation_matrix,
-    assert_mrp_equal)
-from ._plot import (
-    plot_basis,
-    plot_axis_angle,
-    plot_bivector)
 from ._rotors import (
     check_rotor,
     wedge,
@@ -123,12 +105,29 @@ from ._rotors import (
     rotor_from_two_directions,
     matrix_from_rotor,
     plane_normal_from_bivector)
+from ._random import (
+    random_vector,
+    random_axis_angle,
+    random_compact_axis_angle,
+    random_quaternion,
+    random_matrix)
+from ._slerp import (
+    matrix_slerp,
+    matrix_power,
+    slerp_weights,
+    quaternion_slerp,
+    axis_angle_slerp,
+    rotor_slerp)
 from ._jacobians import (
     left_jacobian_SO3,
     left_jacobian_SO3_series,
     left_jacobian_SO3_inv,
     left_jacobian_SO3_inv_series)
 from ._polar_decomp import robust_polar_decomposition
+from ._plot import (
+    plot_basis,
+    plot_axis_angle,
+    plot_bivector)
 from ._euler_deprecated import (
     active_matrix_from_extrinsic_euler_xyx,
     active_matrix_from_intrinsic_euler_xyx,
