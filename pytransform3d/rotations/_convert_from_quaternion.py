@@ -1,3 +1,4 @@
+"""Conversions from quaternion to other representations."""
 import numpy as np
 from ._utils import check_quaternion, norm_axis_angle
 from ._convert_from_axis_angle import compact_axis_angle
