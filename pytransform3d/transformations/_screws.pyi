@@ -3,6 +3,25 @@ import numpy.typing as npt
 from typing import Tuple
 
 
+def check_screw_parameters(
+        q: npt.ArrayLike, s_axis: npt.ArrayLike,
+        h: float) -> Tuple[np.ndarray, np.ndarray, float]: ...
+
+
+def check_screw_axis(screw_axis: npt.ArrayLike) -> np.ndarray: ...
+
+
+def check_exponential_coordinates(Stheta: npt.ArrayLike) -> np.ndarray: ...
+
+
+def check_screw_matrix(screw_matrix: npt.ArrayLike, tolerance: float = ...,
+                       strict_check: bool = ...) -> np.ndarray: ...
+
+
+def check_transform_log(transform_log: npt.ArrayLike, tolerance: float = ...,
+                        strict_check: bool = ...) -> np.ndarray: ...
+
+
 def norm_exponential_coordinates(Stheta: npt.ArrayLike) -> np.ndarray: ...
 
 
@@ -50,3 +69,8 @@ def transform_from_exponential_coordinates(
 
 def transform_from_transform_log(
         transform_log: npt.ArrayLike) -> np.ndarray: ...
+
+
+def dual_quaternion_from_screw_parameters(
+        q: npt.ArrayLike, s_axis: npt.ArrayLike, h: float,
+        theta: float) -> np.ndarray: ...
