@@ -53,7 +53,3 @@ def transform_from_transform_log(
 
 
 def dual_quaternion_from_pq(pq: npt.ArrayLike) -> np.ndarray: ...
-
-
-def adjoint_from_transform(A2B: npt.ArrayLike, strict_check: bool = ...,
-                           check: bool = ...) -> np.ndarray: ...

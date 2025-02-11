@@ -23,8 +23,7 @@ from ._conversions import (
     screw_axis_from_screw_matrix,
     transform_log_from_screw_matrix,
     screw_matrix_from_transform_log,
-    dual_quaternion_from_pq,
-    adjoint_from_transform)
+    dual_quaternion_from_pq)
 from ._transform import (
     transform_requires_renormalization,
     check_transform,
@@ -34,7 +33,8 @@ from ._transform import (
     pq_from_transform,
     transform_log_from_transform,
     exponential_coordinates_from_transform,
-    dual_quaternion_from_transform)
+    dual_quaternion_from_transform,
+    adjoint_from_transform)
 from ._transform_operations import (
     invert_transform,
     scale_transform,
