@@ -13,6 +13,13 @@ def check_dual_quaternion(
         dq: npt.ArrayLike, unit: bool = ...) -> np.ndarray: ...
 
 
+def assert_unit_dual_quaternion(dq: npt.ArrayLike, *args, **kwargs): ...
+
+
+def assert_unit_dual_quaternion_equal(
+        dq1: npt.ArrayLike, dq2: npt.ArrayLike, *args, **kwargs): ...
+
+
 def dual_quaternion_double(dq: npt.ArrayLike) -> np.ndarray: ...
 
 
