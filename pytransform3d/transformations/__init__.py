@@ -5,6 +5,7 @@ See :doc:`user_guide/transformations` for more information.
 from ._transform import (
     transform_requires_renormalization,
     check_transform,
+    assert_transform,
     transform_from,
     rotate_transform,
     translate_transform,
@@ -31,6 +32,8 @@ from ._screws import (
     check_screw_matrix,
     check_transform_log,
     norm_exponential_coordinates,
+    assert_exponential_coordinates_equal,
+    assert_screw_parameters_equal,
     transform_from_transform_log,
     transform_from_exponential_coordinates,
     screw_parameters_from_screw_axis,
@@ -53,6 +56,8 @@ from ._dual_quaternion import (
     dual_quaternion_requires_renormalization,
     norm_dual_quaternion,
     check_dual_quaternion,
+    assert_unit_dual_quaternion_equal,
+    assert_unit_dual_quaternion,
     dual_quaternion_double,
     dq_q_conj,
     dq_conj,
@@ -67,13 +72,9 @@ from ._random import (
     random_transform,
     random_screw_axis,
     random_exponential_coordinates)
-from ._plot import plot_transform, plot_screw
-from ._testing import (
-    assert_transform,
-    assert_exponential_coordinates_equal,
-    assert_screw_parameters_equal,
-    assert_unit_dual_quaternion_equal,
-    assert_unit_dual_quaternion)
+from ._plot import (
+    plot_transform,
+    plot_screw)
 from ._jacobians import (
     left_jacobian_SE3,
     left_jacobian_SE3_series,

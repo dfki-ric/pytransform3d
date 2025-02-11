@@ -1,10 +1,11 @@
 """Transformation matrices."""
 import warnings
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ..rotations import (
-    matrix_requires_renormalization, check_matrix, quaternion_from_matrix,
-    compact_axis_angle_from_matrix, left_jacobian_SO3_inv,
-    cross_product_matrix, concatenate_quaternions)
+    matrix_requires_renormalization, check_matrix, assert_rotation_matrix,
+    quaternion_from_matrix, compact_axis_angle_from_matrix,
+    left_jacobian_SO3_inv, cross_product_matrix, concatenate_quaternions)
 
 
 def transform_requires_renormalization(A2B, tolerance=1e-6):
@@ -71,6 +72,30 @@ def check_transform(A2B, strict_check=True):
             raise ValueError(error_msg)
         warnings.warn(error_msg)
     return A2B
+
+
+def assert_transform(A2B, *args, **kwargs):
+    """Raise an assertion if the transform is not a homogeneous matrix.
+
+    See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    assert_rotation_matrix(A2B[:3, :3], *args, **kwargs)
+    assert_array_almost_equal(A2B[3], np.array([0.0, 0.0, 0.0, 1.0]),
+                              *args, **kwargs)
 
 
 def transform_from(R, p, strict_check=True):
