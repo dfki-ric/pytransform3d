@@ -1,30 +1,11 @@
 """Conversions between transform representations."""
 import numpy as np
 from ._utils import (
-    check_pq, check_screw_axis, check_screw_parameters,
-    check_exponential_coordinates, check_screw_matrix, check_transform_log)
-from ._transform import (
-    check_transform, transform_from, translate_transform)
+    check_screw_axis, check_screw_parameters, check_exponential_coordinates,
+    check_screw_matrix, check_transform_log)
+from ._transform import translate_transform
 from ..rotations import (
-    matrix_from_quaternion, matrix_from_compact_axis_angle,
-    cross_product_matrix, concatenate_quaternions, left_jacobian_SO3)
-
-
-def transform_from_pq(pq):
-    """Compute transformation matrix from position and quaternion.
-
-    Parameters
-    ----------
-    pq : array-like, shape (7,)
-        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
-
-    Returns
-    -------
-    A2B : array, shape (4, 4)
-        Transformation matrix from frame A to frame B
-    """
-    pq = check_pq(pq)
-    return transform_from(matrix_from_quaternion(pq[3:]), pq[:3])
+    matrix_from_compact_axis_angle, cross_product_matrix, left_jacobian_SO3)
 
 
 def screw_parameters_from_screw_axis(screw_axis):
@@ -478,23 +459,3 @@ def transform_from_transform_log(transform_log):
     J = left_jacobian_SO3(omega_theta)
     A2B[:3, 3] = np.dot(J, v_theta)
     return A2B
-
-
-def dual_quaternion_from_pq(pq):
-    """Compute dual quaternion from position and quaternion.
-
-    Parameters
-    ----------
-    pq : array-like, shape (7,)
-        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)
-
-    Returns
-    -------
-    dq : array, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-    """
-    pq = check_pq(pq)
-    real = pq[3:]
-    dual = 0.5 * concatenate_quaternions(np.r_[0, pq[:3]], real)
-    return np.hstack((real, dual))
