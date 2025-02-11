@@ -375,3 +375,104 @@ def dual_quaternion_from_transform(A2B):
     real = quaternion_from_matrix(A2B[:3, :3])
     dual = 0.5 * concatenate_quaternions(np.r_[0, A2B[:3, 3]], real)
     return np.hstack((real, dual))
+
+
+def adjoint_from_transform(A2B, strict_check=True, check=True):
+    r"""Compute adjoint representation of a transformation matrix.
+
+    The adjoint representation of a transformation
+    :math:`\left[Ad_{\boldsymbol{T}_{BA}}\right] \in \mathbb{R}^{6 \times 6}`
+    from frame A to frame B translates a twist from frame A to frame B
+    through the adjoint map
+
+    .. math::
+
+        \mathcal{V}_{B}
+        = \left[Ad_{\boldsymbol{T}_{BA}}\right] \mathcal{V}_A
+
+    The corresponding transformation matrix operation is
+
+    .. math::
+
+        \left[\mathcal{V}_{B}\right]
+        = \boldsymbol{T}_{BA} \left[\mathcal{V}_A\right]
+        \boldsymbol{T}_{BA}^{-1}
+
+    We can also use the adjoint representation to transform a wrench from frame
+    A to frame B:
+
+    .. math::
+
+        \mathcal{F}_B
+        = \left[ Ad_{\boldsymbol{T}_{AB}} \right]^T \mathcal{F}_A
+
+    Note that not only the adjoint is transposed but also the transformation is
+    inverted.
+
+    Adjoint representations have the following properties:
+
+    .. math::
+
+        \left[Ad_{\boldsymbol{T}_1 \boldsymbol{T}_2}\right]
+        = \left[Ad_{\boldsymbol{T}_1}\right]
+        \left[Ad_{\boldsymbol{T}_2}\right]
+
+    .. math::
+
+        \left[Ad_{\boldsymbol{T}}\right]^{-1} =
+        \left[Ad_{\boldsymbol{T}^{-1}}\right]
+
+    For a transformation matrix
+
+    .. math::
+
+        \boldsymbol T =
+        \left( \begin{array}{cc}
+            \boldsymbol R & \boldsymbol t\\
+            \boldsymbol 0 & 1\\
+        \end{array} \right)
+
+    the adjoint is defined as
+
+    .. math::
+
+        \left[Ad_{\boldsymbol{T}}\right]
+        =
+        \left( \begin{array}{cc}
+            \boldsymbol R & \boldsymbol 0\\
+            \left[\boldsymbol{t}\right]_{\times}\boldsymbol R & \boldsymbol R\\
+        \end{array} \right),
+
+    where :math:`\left[\boldsymbol{t}\right]_{\times}` is the cross-product
+    matrix (see :func:`~pytransform3d.rotations.cross_product_matrix`) of the
+    translation component.
+
+    Parameters
+    ----------
+    A2B : array-like, shape (4, 4)
+        Transform from frame A to frame B
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the transformation matrix is not numerically
+        close enough to a real transformation matrix. Otherwise we print a
+        warning.
+
+    check : bool, optional (default: True)
+        Check if transformation matrix is valid
+
+    Returns
+    -------
+    adj_A2B : array, shape (6, 6)
+        Adjoint representation of transformation matrix
+    """
+    if check:
+        A2B = check_transform(A2B, strict_check)
+
+    R = A2B[:3, :3]
+    p = A2B[:3, 3]
+
+    adj_A2B = np.zeros((6, 6))
+    adj_A2B[:3, :3] = R
+    adj_A2B[3:, :3] = np.dot(cross_product_matrix(p), R)
+    adj_A2B[3:, 3:] = R
+    return adj_A2B
