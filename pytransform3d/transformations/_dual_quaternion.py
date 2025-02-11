@@ -1,6 +1,6 @@
 """Dual quaternion operations."""
 import numpy as np
-from ._utils import check_screw_parameters
+from ._screws import dual_quaternion_from_screw_parameters
 from ._transform import transform_from
 from ..rotations import (
     concatenate_quaternions, q_conj, axis_angle_from_quaternion,
@@ -546,50 +546,3 @@ def screw_parameters_from_dual_quaternion(dq):
     dual = np.cross(s_axis, moment)
     h = distance / theta
     return dual, s_axis, h, theta
-
-
-def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
-    """Compute dual quaternion from screw parameters.
-
-    Parameters
-    ----------
-    q : array-like, shape (3,)
-        Vector to a point on the screw axis
-
-    s_axis : array-like, shape (3,)
-        Direction vector of the screw axis
-
-    h : float
-        Pitch of the screw. The pitch is the ratio of translation and rotation
-        of the screw axis. Infinite pitch indicates pure translation.
-
-    theta : float
-        Parameter of the transformation: theta is the angle of rotation
-        and h * theta the translation.
-
-    Returns
-    -------
-    dq : array, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-    """
-    q, s_axis, h = check_screw_parameters(q, s_axis, h)
-
-    if np.isinf(h):  # pure translation
-        d = theta
-        theta = 0
-    else:
-        d = h * theta
-    moment = np.cross(q, s_axis)
-
-    half_distance = 0.5 * d
-    sin_half_angle = np.sin(0.5 * theta)
-    cos_half_angle = np.cos(0.5 * theta)
-
-    real_w = cos_half_angle
-    real_vec = sin_half_angle * s_axis
-    dual_w = -half_distance * sin_half_angle
-    dual_vec = (sin_half_angle * moment +
-                half_distance * cos_half_angle * s_axis)
-
-    return np.r_[real_w, real_vec, dual_w, dual_vec]

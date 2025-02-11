@@ -2,26 +2,6 @@
 
 See :doc:`user_guide/transformations` for more information.
 """
-from ._utils import (
-    check_screw_parameters,
-    check_screw_axis,
-    check_exponential_coordinates,
-    check_screw_matrix,
-    check_transform_log)
-from ._screws import (
-    norm_exponential_coordinates,
-    transform_from_transform_log,
-    transform_from_exponential_coordinates,
-    screw_parameters_from_screw_axis,
-    screw_axis_from_screw_parameters,
-    exponential_coordinates_from_screw_axis,
-    screw_axis_from_exponential_coordinates,
-    transform_log_from_exponential_coordinates,
-    exponential_coordinates_from_transform_log,
-    screw_matrix_from_screw_axis,
-    screw_axis_from_screw_matrix,
-    transform_log_from_screw_matrix,
-    screw_matrix_from_transform_log)
 from ._transform import (
     transform_requires_renormalization,
     check_transform,
@@ -44,6 +24,26 @@ from ._transform_operations import (
     transform,
     transform_sclerp,
     transform_power)
+from ._screws import (
+    check_screw_parameters,
+    check_screw_axis,
+    check_exponential_coordinates,
+    check_screw_matrix,
+    check_transform_log,
+    norm_exponential_coordinates,
+    transform_from_transform_log,
+    transform_from_exponential_coordinates,
+    screw_parameters_from_screw_axis,
+    screw_axis_from_screw_parameters,
+    exponential_coordinates_from_screw_axis,
+    screw_axis_from_exponential_coordinates,
+    transform_log_from_exponential_coordinates,
+    exponential_coordinates_from_transform_log,
+    screw_matrix_from_screw_axis,
+    screw_axis_from_screw_matrix,
+    transform_log_from_screw_matrix,
+    screw_matrix_from_transform_log,
+    dual_quaternion_from_screw_parameters)
 from ._pq import (
     check_pq,
     pq_slerp,
@@ -62,8 +62,7 @@ from ._dual_quaternion import (
     dq_prod_vector,
     transform_from_dual_quaternion,
     pq_from_dual_quaternion,
-    screw_parameters_from_dual_quaternion,
-    dual_quaternion_from_screw_parameters)
+    screw_parameters_from_dual_quaternion)
 from ._random import (
     random_transform,
     random_screw_axis,
