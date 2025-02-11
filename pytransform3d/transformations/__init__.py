@@ -8,7 +8,8 @@ from ._utils import (
     check_exponential_coordinates,
     check_screw_matrix,
     check_transform_log)
-from ._conversions import (
+from ._screws import (
+    norm_exponential_coordinates,
     transform_from_transform_log,
     transform_from_exponential_coordinates,
     screw_parameters_from_screw_axis,
@@ -43,7 +44,6 @@ from ._transform_operations import (
     transform,
     transform_sclerp,
     transform_power)
-from ._exp_coords import norm_exponential_coordinates
 from ._pq import (
     check_pq,
     pq_slerp,
