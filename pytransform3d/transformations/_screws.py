@@ -1,5 +1,6 @@
 """Conversions between transform representations."""
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ._transform import translate_transform
 from ..rotations import (
     eps, norm_vector, norm_angle, cross_product_matrix,
@@ -319,6 +320,119 @@ def norm_exponential_coordinates(Stheta):
     screw_axis = screw_axis_from_screw_parameters(q, s_axis, h_normalized)
 
     return screw_axis * theta_normed
+
+
+def assert_exponential_coordinates_equal(Stheta1, Stheta2):
+    """Raise an assertion if exp. coordinates are not approximately equal.
+
+    Parameters
+    ----------
+    Stheta1 : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    Stheta2 : array-like, shape (6,)
+        Exponential coordinates of transformation:
+        S * theta = (omega_1, omega_2, omega_3, v_1, v_2, v_3) * theta,
+        where the first 3 components are related to rotation and the last 3
+        components are related to translation.
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    Stheta1 = norm_exponential_coordinates(Stheta1)
+    Stheta2 = norm_exponential_coordinates(Stheta2)
+    assert_array_almost_equal(Stheta1, Stheta2)
+
+
+def assert_screw_parameters_equal(
+        q1, s_axis1, h1, theta1, q2, s_axis2, h2, theta2, *args, **kwargs):
+    """Raise an assertion if two sets of screw parameters are not similar.
+
+    Note that the screw axis can be inverted. In this case theta and h have
+    to be adapted.
+
+    Parameters
+    ----------
+    q1 : array, shape (3,)
+        Vector to a point on the screw axis that is orthogonal to s_axis
+
+    s_axis1 : array, shape (3,)
+        Unit direction vector of the screw axis
+
+    h1 : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta1 : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    q2 : array, shape (3,)
+        Vector to a point on the screw axis that is orthogonal to s_axis
+
+    s_axis2 : array, shape (3,)
+        Unit direction vector of the screw axis
+
+    h2 : float
+        Pitch of the screw. The pitch is the ratio of translation and rotation
+        of the screw axis. Infinite pitch indicates pure translation.
+
+    theta2 : float
+        Parameter of the transformation: theta is the angle of rotation
+        and h * theta the translation.
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    # normalize thetas
+    theta1_new = norm_angle(theta1)
+    h1 *= theta1 / theta1_new
+    theta1 = theta1_new
+
+    theta2_new = norm_angle(theta2)
+    h2 *= theta2 / theta2_new
+    theta2 = theta2_new
+
+    # q1 and q2 can be any points on the screw axis, that is, they must be a
+    # linear combination of each other and the screw axis (which one does not
+    # matter since they should be identical or mirrored)
+    q1_to_q2 = q2 - q1
+    factors = q1_to_q2 / s_axis2
+    assert abs(factors[0] - factors[1]) < eps
+    assert abs(factors[1] - factors[2]) < eps
+    try:
+        assert_array_almost_equal(s_axis1, s_axis2, *args, **kwargs)
+        assert abs(h1 - h2) < eps
+        assert abs(theta1 - theta2) < eps
+    except AssertionError:  # possibly mirrored screw axis
+        s_axis1_new = -s_axis1
+        # make sure that we keep the direction of rotation
+        theta1_new = 2.0 * np.pi - theta1
+        # adjust pitch: switch sign and update rotation component
+        h1 = -h1 / theta1_new * theta1
+        theta1 = theta1_new
+
+        # we have to normalize the angle again
+        theta1_new = norm_angle(theta1)
+        h1 *= theta1 / theta1_new
+        theta1 = theta1_new
+
+        assert_array_almost_equal(s_axis1_new, s_axis2, *args, **kwargs)
+        assert abs(h1 - h2) < eps
+        assert abs(theta1 - theta2) < eps
 
 
 def screw_parameters_from_screw_axis(screw_axis):

@@ -25,6 +25,16 @@ def check_transform_log(transform_log: npt.ArrayLike, tolerance: float = ...,
 def norm_exponential_coordinates(Stheta: npt.ArrayLike) -> np.ndarray: ...
 
 
+def assert_exponential_coordinates_equal(
+        Stheta1: npt.ArrayLike, Stheta2: npt.ArrayLike): ...
+
+
+def assert_screw_parameters_equal(
+        q1: npt.ArrayLike, s_axis1: npt.ArrayLike, h1: float, theta1: float,
+        q2: npt.ArrayLike, s_axis2: npt.ArrayLike, h2: float, theta2: float,
+        *args, **kwargs): ...
+
+
 def screw_parameters_from_screw_axis(
         screw_axis: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray, float]: ...
 

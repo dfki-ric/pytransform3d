@@ -1,5 +1,6 @@
 """Dual quaternion operations."""
 import numpy as np
+from numpy.testing import assert_array_almost_equal
 from ._screws import dual_quaternion_from_screw_parameters
 from ._transform import transform_from
 from ..rotations import (
@@ -185,6 +186,88 @@ def check_dual_quaternion(dq, unit=True):
             return np.r_[1, 0, 0, 0, dq[4:]]
         return dq / real_norm
     return dq
+
+
+def assert_unit_dual_quaternion(dq, *args, **kwargs):
+    """Raise an assertion if the dual quaternion does not have unit norm.
+
+    See numpy.testing.assert_array_almost_equal for a more detailed
+    documentation of the other parameters.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    See Also
+    --------
+    check_dual_quaternion
+        Input validation of dual quaternion representation. Has an option to
+        normalize the dual quaternion.
+
+    dual_quaternion_requires_renormalization
+        Check if normalization is required.
+
+    norm_dual_quaternion
+        Normalization that enforces unit norm and orthogonality of the real and
+        dual quaternion.
+    """
+    real = dq[:4]
+    dual = dq[4:]
+
+    real_norm = np.linalg.norm(real)
+    assert_array_almost_equal(real_norm, 1.0, *args, **kwargs)
+
+    real_dual_dot = np.dot(real, dual)
+    assert_array_almost_equal(real_dual_dot, 0.0, *args, **kwargs)
+
+    # The two previous checks are consequences of the unit norm requirement.
+    # The norm of a dual quaternion is defined as the product of a dual
+    # quaternion and its quaternion conjugate.
+    dq_conj = dq_q_conj(dq)
+    dq_prod_dq_conj = concatenate_dual_quaternions(dq, dq_conj)
+    assert_array_almost_equal(dq_prod_dq_conj, [1, 0, 0, 0, 0, 0, 0, 0],
+                              *args, **kwargs)
+
+
+def assert_unit_dual_quaternion_equal(dq1, dq2, *args, **kwargs):
+    """Raise an assertion if unit dual quaternions are not approximately equal.
+
+    Note that unit dual quaternions are equal either if dq1 == dq2 or if
+    dq1 == -dq2. See numpy.testing.assert_array_almost_equal for a more
+    detailed documentation of the other parameters.
+
+    Parameters
+    ----------
+    dq1 : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    dq2 : array-like, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    args : tuple
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+
+    kwargs : dict
+        Positional arguments that will be passed to
+        `assert_array_almost_equal`
+    """
+    try:
+        assert_array_almost_equal(dq1, dq2, *args, **kwargs)
+    except AssertionError:
+        assert_array_almost_equal(dq1, -dq2, *args, **kwargs)
 
 
 def dual_quaternion_double(dq):

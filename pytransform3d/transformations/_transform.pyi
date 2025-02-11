@@ -10,6 +10,9 @@ def check_transform(
         A2B: npt.ArrayLike, strict_check: bool = ...) -> np.ndarray: ...
 
 
+def assert_transform(A2B: npt.ArrayLike, *args, **kwargs): ...
+
+
 def transform_from(R: npt.ArrayLike, p: npt.ArrayLike,
                    strict_check: bool = ...) -> np.ndarray: ...
 
