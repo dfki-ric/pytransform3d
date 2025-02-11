@@ -3,14 +3,12 @@
 See :doc:`user_guide/transformations` for more information.
 """
 from ._utils import (
-    check_pq,
     check_screw_parameters,
     check_screw_axis,
     check_exponential_coordinates,
     check_screw_matrix,
     check_transform_log)
 from ._conversions import (
-    transform_from_pq,
     transform_from_transform_log,
     transform_from_exponential_coordinates,
     screw_parameters_from_screw_axis,
@@ -22,8 +20,7 @@ from ._conversions import (
     screw_matrix_from_screw_axis,
     screw_axis_from_screw_matrix,
     transform_log_from_screw_matrix,
-    screw_matrix_from_transform_log,
-    dual_quaternion_from_pq)
+    screw_matrix_from_transform_log)
 from ._transform import (
     transform_requires_renormalization,
     check_transform,
@@ -47,7 +44,11 @@ from ._transform_operations import (
     transform_sclerp,
     transform_power)
 from ._exp_coords import norm_exponential_coordinates
-from ._pq_operations import pq_slerp
+from ._pq import (
+    check_pq,
+    pq_slerp,
+    transform_from_pq,
+    dual_quaternion_from_pq)
 from ._dual_quaternion import (
     dual_quaternion_requires_renormalization,
     norm_dual_quaternion,

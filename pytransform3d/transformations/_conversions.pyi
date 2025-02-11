@@ -3,9 +3,6 @@ import numpy.typing as npt
 from typing import Tuple
 
 
-def transform_from_pq(pq: npt.ArrayLike) -> np.ndarray: ...
-
-
 def screw_parameters_from_screw_axis(
         screw_axis: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray, float]: ...
 
@@ -50,6 +47,3 @@ def transform_from_exponential_coordinates(
 
 def transform_from_transform_log(
         transform_log: npt.ArrayLike) -> np.ndarray: ...
-
-
-def dual_quaternion_from_pq(pq: npt.ArrayLike) -> np.ndarray: ...
