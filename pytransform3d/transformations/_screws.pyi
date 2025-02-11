@@ -3,6 +3,9 @@ import numpy.typing as npt
 from typing import Tuple
 
 
+def norm_exponential_coordinates(Stheta: npt.ArrayLike) -> np.ndarray: ...
+
+
 def screw_parameters_from_screw_axis(
         screw_axis: npt.ArrayLike) -> Tuple[np.ndarray, np.ndarray, float]: ...
 
