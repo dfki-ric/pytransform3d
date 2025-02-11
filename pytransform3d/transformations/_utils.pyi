@@ -3,9 +3,6 @@ import numpy.typing as npt
 from typing import Tuple
 
 
-def check_pq(pq: npt.ArrayLike) -> np.ndarray: ...
-
-
 def check_screw_parameters(
         q: npt.ArrayLike, s_axis: npt.ArrayLike,
         h: float) -> Tuple[np.ndarray, np.ndarray, float]: ...
