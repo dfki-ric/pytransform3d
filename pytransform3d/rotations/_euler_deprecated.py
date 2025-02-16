@@ -20,9 +20,11 @@ def active_matrix_from_intrinsic_euler_xzx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, alpha).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(0, gamma))
+    R = (
+        active_matrix_from_angle(0, alpha)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(0, gamma))
+    )
     return R
 
 
@@ -40,9 +42,11 @@ def active_matrix_from_extrinsic_euler_xzx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, gamma).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(0, alpha))
+    R = (
+        active_matrix_from_angle(0, gamma)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(0, alpha))
+    )
     return R
 
 
@@ -60,9 +64,11 @@ def active_matrix_from_intrinsic_euler_xyx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, alpha).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(0, gamma))
+    R = (
+        active_matrix_from_angle(0, alpha)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(0, gamma))
+    )
     return R
 
 
@@ -80,9 +86,11 @@ def active_matrix_from_extrinsic_euler_xyx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, gamma).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(0, alpha))
+    R = (
+        active_matrix_from_angle(0, gamma)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(0, alpha))
+    )
     return R
 
 
@@ -100,9 +108,11 @@ def active_matrix_from_intrinsic_euler_yxy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, alpha).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(1, gamma))
+    R = (
+        active_matrix_from_angle(1, alpha)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(1, gamma))
+    )
     return R
 
 
@@ -120,9 +130,11 @@ def active_matrix_from_extrinsic_euler_yxy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, gamma).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(1, alpha))
+    R = (
+        active_matrix_from_angle(1, gamma)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(1, alpha))
+    )
     return R
 
 
@@ -140,9 +152,11 @@ def active_matrix_from_intrinsic_euler_yzy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, alpha).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(1, gamma))
+    R = (
+        active_matrix_from_angle(1, alpha)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(1, gamma))
+    )
     return R
 
 
@@ -160,9 +174,11 @@ def active_matrix_from_extrinsic_euler_yzy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, gamma).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(1, alpha))
+    R = (
+        active_matrix_from_angle(1, gamma)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(1, alpha))
+    )
     return R
 
 
@@ -180,9 +196,11 @@ def active_matrix_from_intrinsic_euler_zyz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, alpha).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(2, gamma))
+    R = (
+        active_matrix_from_angle(2, alpha)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(2, gamma))
+    )
     return R
 
 
@@ -206,9 +224,11 @@ def active_matrix_from_extrinsic_euler_zyz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, gamma).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(2, alpha))
+    R = (
+        active_matrix_from_angle(2, gamma)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(2, alpha))
+    )
     return R
 
 
@@ -226,9 +246,11 @@ def active_matrix_from_intrinsic_euler_zxz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, alpha).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(2, gamma))
+    R = (
+        active_matrix_from_angle(2, alpha)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(2, gamma))
+    )
     return R
 
 
@@ -252,9 +274,11 @@ def active_matrix_from_extrinsic_euler_zxz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, gamma).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(2, alpha))
+    R = (
+        active_matrix_from_angle(2, gamma)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(2, alpha))
+    )
     return R
 
 
@@ -272,9 +296,11 @@ def active_matrix_from_intrinsic_euler_xzy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, alpha).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(1, gamma))
+    R = (
+        active_matrix_from_angle(0, alpha)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(1, gamma))
+    )
     return R
 
 
@@ -292,9 +318,11 @@ def active_matrix_from_extrinsic_euler_xzy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, gamma).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(0, alpha))
+    R = (
+        active_matrix_from_angle(1, gamma)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(0, alpha))
+    )
     return R
 
 
@@ -312,9 +340,11 @@ def active_matrix_from_intrinsic_euler_xyz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, alpha).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(2, gamma))
+    R = (
+        active_matrix_from_angle(0, alpha)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(2, gamma))
+    )
     return R
 
 
@@ -332,9 +362,11 @@ def active_matrix_from_extrinsic_euler_xyz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, gamma).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(0, alpha))
+    R = (
+        active_matrix_from_angle(2, gamma)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(0, alpha))
+    )
     return R
 
 
@@ -352,9 +384,11 @@ def active_matrix_from_intrinsic_euler_yxz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, alpha).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(2, gamma))
+    R = (
+        active_matrix_from_angle(1, alpha)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(2, gamma))
+    )
     return R
 
 
@@ -372,9 +406,11 @@ def active_matrix_from_extrinsic_euler_yxz(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, gamma).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(1, alpha))
+    R = (
+        active_matrix_from_angle(2, gamma)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(1, alpha))
+    )
     return R
 
 
@@ -392,9 +428,11 @@ def active_matrix_from_intrinsic_euler_yzx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, alpha).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(0, gamma))
+    R = (
+        active_matrix_from_angle(1, alpha)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(0, gamma))
+    )
     return R
 
 
@@ -412,9 +450,11 @@ def active_matrix_from_extrinsic_euler_yzx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, gamma).dot(
-        active_matrix_from_angle(2, beta)).dot(
-        active_matrix_from_angle(1, alpha))
+    R = (
+        active_matrix_from_angle(0, gamma)
+        .dot(active_matrix_from_angle(2, beta))
+        .dot(active_matrix_from_angle(1, alpha))
+    )
     return R
 
 
@@ -432,9 +472,11 @@ def active_matrix_from_intrinsic_euler_zyx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, alpha).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(0, gamma))
+    R = (
+        active_matrix_from_angle(2, alpha)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(0, gamma))
+    )
     return R
 
 
@@ -452,9 +494,11 @@ def active_matrix_from_extrinsic_euler_zyx(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(0, gamma).dot(
-        active_matrix_from_angle(1, beta)).dot(
-        active_matrix_from_angle(2, alpha))
+    R = (
+        active_matrix_from_angle(0, gamma)
+        .dot(active_matrix_from_angle(1, beta))
+        .dot(active_matrix_from_angle(2, alpha))
+    )
     return R
 
 
@@ -472,9 +516,11 @@ def active_matrix_from_intrinsic_euler_zxy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(2, alpha).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(1, gamma))
+    R = (
+        active_matrix_from_angle(2, alpha)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(1, gamma))
+    )
     return R
 
 
@@ -492,9 +538,11 @@ def active_matrix_from_extrinsic_euler_zxy(e):
         Rotation matrix
     """
     alpha, beta, gamma = e
-    R = active_matrix_from_angle(1, gamma).dot(
-        active_matrix_from_angle(0, beta)).dot(
-        active_matrix_from_angle(2, alpha))
+    R = (
+        active_matrix_from_angle(1, gamma)
+        .dot(active_matrix_from_angle(0, beta))
+        .dot(active_matrix_from_angle(2, alpha))
+    )
     return R
 
 
@@ -533,7 +581,8 @@ def intrinsic_euler_xzx_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, z'-, and x''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unitz, unitx, True, strict_check)
+        R, unitx, unitz, unitx, True, strict_check
+    )
 
 
 def extrinsic_euler_xzx_from_active_matrix(R, strict_check=True):
@@ -554,7 +603,8 @@ def extrinsic_euler_xzx_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, z-, and x-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unitz, unitx, True, strict_check)[::-1]
+        R, unitx, unitz, unitx, True, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_xyx_from_active_matrix(R, strict_check=True):
@@ -575,7 +625,8 @@ def intrinsic_euler_xyx_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, y'-, and x''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unity, unitx, True, strict_check)
+        R, unitx, unity, unitx, True, strict_check
+    )
 
 
 def extrinsic_euler_xyx_from_active_matrix(R, strict_check=True):
@@ -596,7 +647,8 @@ def extrinsic_euler_xyx_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, y-, and x-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unity, unitx, True, strict_check)[::-1]
+        R, unitx, unity, unitx, True, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
@@ -617,7 +669,8 @@ def intrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, x'-, and y''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitx, unity, True, strict_check)
+        R, unity, unitx, unity, True, strict_check
+    )
 
 
 def extrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
@@ -638,7 +691,8 @@ def extrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, x-, and y-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitx, unity, True, strict_check)[::-1]
+        R, unity, unitx, unity, True, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
@@ -659,7 +713,8 @@ def intrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, z'-, and y''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitz, unity, True, strict_check)
+        R, unity, unitz, unity, True, strict_check
+    )
 
 
 def extrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
@@ -680,7 +735,8 @@ def extrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, z-, and y-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitz, unity, True, strict_check)[::-1]
+        R, unity, unitz, unity, True, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
@@ -701,7 +757,8 @@ def intrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, y'-, and z''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unity, unitz, True, strict_check)
+        R, unitz, unity, unitz, True, strict_check
+    )
 
 
 def extrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
@@ -722,7 +779,8 @@ def extrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, y-, and z-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unity, unitz, True, strict_check)[::-1]
+        R, unitz, unity, unitz, True, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
@@ -743,7 +801,8 @@ def intrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, x'-, and z''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unitx, unitz, True, strict_check)
+        R, unitz, unitx, unitz, True, strict_check
+    )
 
 
 def extrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
@@ -764,7 +823,8 @@ def extrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, x-, and z-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unitx, unitz, True, strict_check)[::-1]
+        R, unitz, unitx, unitz, True, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
@@ -785,7 +845,8 @@ def intrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, z'-, and y''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unitz, unity, False, strict_check)
+        R, unitx, unitz, unity, False, strict_check
+    )
 
 
 def extrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
@@ -806,7 +867,8 @@ def extrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, z-, and y-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitz, unitx, False, strict_check)[::-1]
+        R, unity, unitz, unitx, False, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
@@ -827,7 +889,8 @@ def intrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unity, unitz, False, strict_check)
+        R, unitx, unity, unitz, False, strict_check
+    )
 
 
 def extrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
@@ -848,7 +911,8 @@ def extrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
         Angles for rotation around x-, y-, and z-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unity, unitx, False, strict_check)[::-1]
+        R, unitz, unity, unitx, False, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
@@ -869,7 +933,8 @@ def intrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, x'-, and z''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitx, unitz, False, strict_check)
+        R, unity, unitx, unitz, False, strict_check
+    )
 
 
 def extrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
@@ -890,7 +955,8 @@ def extrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, x-, and z-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unitx, unity, False, strict_check)[::-1]
+        R, unitz, unitx, unity, False, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
@@ -911,7 +977,8 @@ def intrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, z'-, and x''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitz, unitx, False, strict_check)
+        R, unity, unitz, unitx, False, strict_check
+    )
 
 
 def extrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
@@ -932,7 +999,8 @@ def extrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
         Angles for rotation around y-, z-, and x-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unitz, unity, False, strict_check)[::-1]
+        R, unitx, unitz, unity, False, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
@@ -953,7 +1021,8 @@ def intrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unity, unitx, False, strict_check)
+        R, unitz, unity, unitx, False, strict_check
+    )
 
 
 def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
@@ -974,7 +1043,8 @@ def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, y-, and x-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitx, unity, unitz, False, strict_check)[::-1]
+        R, unitx, unity, unitz, False, strict_check
+    )[::-1]
 
 
 def intrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
@@ -995,7 +1065,8 @@ def intrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, x'-, and y''-axes (intrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unitz, unitx, unity, False, strict_check)
+        R, unitz, unitx, unity, False, strict_check
+    )
 
 
 def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
@@ -1016,7 +1087,8 @@ def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
         Angles for rotation around z-, x-, and y-axes (extrinsic rotations)
     """
     return general_intrinsic_euler_from_active_matrix(
-        R, unity, unitx, unitz, False, strict_check)[::-1]
+        R, unity, unitx, unitz, False, strict_check
+    )[::-1]
 
 
 def quaternion_from_extrinsic_euler_xyz(e):
@@ -1034,6 +1106,8 @@ def quaternion_from_extrinsic_euler_xyz(e):
     """
     warnings.warn(
         "quaternion_from_extrinsic_euler_xyz is deprecated, use "
-        "quaternion_from_euler", DeprecationWarning)
+        "quaternion_from_euler",
+        DeprecationWarning,
+    )
     R = active_matrix_from_extrinsic_euler_xyz(e)
     return quaternion_from_matrix(R)

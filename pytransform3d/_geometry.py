@@ -1,4 +1,5 @@
 """Basic functionality for geometrical shapes."""
+
 import numpy as np
 from .transformations import check_transform
 
@@ -22,8 +23,9 @@ def unit_sphere_surface_grid(n_steps):
     z : array, shape (n_steps, n_steps)
         z-coordinates of grid points.
     """
-    phi, theta = np.mgrid[0.0:np.pi:n_steps * 1j,
-                          0.0:2.0 * np.pi:n_steps * 1j]
+    phi, theta = np.mgrid[
+        0.0 : np.pi : n_steps * 1j, 0.0 : 2.0 * np.pi : n_steps * 1j
+    ]
     sin_phi = np.sin(phi)
 
     x = sin_phi * np.cos(theta)

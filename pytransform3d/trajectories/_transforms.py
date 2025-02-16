@@ -25,11 +25,13 @@ def invert_transforms(A2Bs):
     # ( R t )^-1   ( R^T -R^T*t )
     # ( 0 1 )    = ( 0    1     )
     B2As[..., :3, :3] = A2Bs[..., :3, :3].transpose(
-        tuple(range(A2Bs.ndim - 2)) + (A2Bs.ndim - 1, A2Bs.ndim - 2))
+        tuple(range(A2Bs.ndim - 2)) + (A2Bs.ndim - 1, A2Bs.ndim - 2)
+    )
     B2As[..., :3, 3] = np.einsum(
         "nij,nj->ni",
         -B2As[..., :3, :3].reshape(-1, 3, 3),
-        A2Bs[..., :3, 3].reshape(-1, 3)).reshape(*(instances_shape + (3,)))
+        A2Bs[..., :3, 3].reshape(-1, 3),
+    ).reshape(*(instances_shape + (3,)))
     B2As[..., 3, :3] = 0.0
     B2As[..., 3, 3] = 1.0
     return B2As

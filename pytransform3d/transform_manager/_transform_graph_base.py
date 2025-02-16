@@ -21,6 +21,7 @@ class TransformGraphBase(abc.ABC):
         Check if transformation matrices are valid and requested nodes exist,
         which might significantly slow down some operations.
     """
+
     def __init__(self, strict_check=True, check=True):
         self.strict_check = strict_check
         self.check = check
@@ -56,8 +57,12 @@ class TransformGraphBase(abc.ABC):
         """Convert sequence of node names to rigid transformation."""
         A2B = np.eye(4)
         for from_f, to_f in zip(path[:-1], path[1:]):
-            A2B = concat(A2B, self.get_transform(from_f, to_f),
-                         strict_check=self.strict_check, check=self.check)
+            A2B = concat(
+                A2B,
+                self.get_transform(from_f, to_f),
+                strict_check=self.strict_check,
+                check=self.check,
+            )
         return A2B
 
     @abc.abstractmethod
@@ -139,17 +144,21 @@ class TransformGraphBase(abc.ABC):
     def _recompute_shortest_path(self):
         n_nodes = len(self.nodes)
         self.connections = sp.csr_matrix(
-            (np.zeros(len(self.i)), (self.i, self.j)),
-            shape=(n_nodes, n_nodes))
+            (np.zeros(len(self.i)), (self.i, self.j)), shape=(n_nodes, n_nodes)
+        )
         self.dist, self.predecessors = csgraph.shortest_path(
-            self.connections, unweighted=True, directed=False, method="D",
-            return_predecessors=True)
+            self.connections,
+            unweighted=True,
+            directed=False,
+            method="D",
+            return_predecessors=True,
+        )
         self._cached_shortest_paths.clear()
 
     def _find_connected_transforms(self, frame):
         """Find all transformations connected to a frame."""
         connected_transforms = []
-        for (from_frame, to_frame) in self.transform_to_ij_index.keys():
+        for from_frame, to_frame in self.transform_to_ij_index.keys():
             if from_frame == frame or to_frame == frame:
                 connected_transforms.append((from_frame, to_frame))
         return connected_transforms
@@ -179,7 +188,8 @@ class TransformGraphBase(abc.ABC):
             ij_index = self.transform_to_ij_index.pop(transform_key)
             self.transform_to_ij_index = {
                 k: v if v < ij_index else v - 1
-                for k, v in self.transform_to_ij_index.items()}
+                for k, v in self.transform_to_ij_index.items()
+            }
             del self.i[ij_index], self.j[ij_index]
             self._recompute_shortest_path()
         return self
@@ -200,7 +210,6 @@ class TransformGraphBase(abc.ABC):
         if frame not in self.nodes:
             raise KeyError(f"Frame '{frame}' is not in the graph.")
 
-
         # Remove all transformations (edges) associated with the frame
         for from_frame, to_frame in self._find_connected_transforms(frame):
             self.remove_transform(from_frame, to_frame)
@@ -209,10 +218,12 @@ class TransformGraphBase(abc.ABC):
         self.nodes.pop(frame_index)
 
         # Adjust the connection indices in self.i and self.j
-        self.i = [index if index < frame_index else index - 1
-                  for index in self.i]
-        self.j = [index if index < frame_index else index - 1
-                  for index in self.j]
+        self.i = [
+            index if index < frame_index else index - 1 for index in self.i
+        ]
+        self.j = [
+            index if index < frame_index else index - 1 for index in self.j
+        ]
 
         # Update the transform_to_ij_index dictionary
         self.transform_to_ij_index = {
@@ -261,14 +272,16 @@ class TransformGraphBase(abc.ABC):
             return invert_transform(
                 self._get_transform((to_frame, from_frame)),
                 strict_check=self.strict_check,
-                check=self.check
+                check=self.check,
             )
 
         i = self.nodes.index(from_frame)
         j = self.nodes.index(to_frame)
         if not np.isfinite(self.dist[i, j]):
-            raise KeyError("Cannot compute path from frame '%s' to "
-                           "frame '%s'." % (from_frame, to_frame))
+            raise KeyError(
+                "Cannot compute path from frame '%s' to "
+                "frame '%s'." % (from_frame, to_frame)
+            )
 
         path = self._shortest_path(i, j)
         return self._path_transform(path)
@@ -298,7 +311,8 @@ class TransformGraphBase(abc.ABC):
             Number of connected components.
         """
         return csgraph.connected_components(
-            self.connections, directed=False, return_labels=False)
+            self.connections, directed=False, return_labels=False
+        )
 
     def check_consistency(self):
         """Check consistency of the known transformations.
@@ -321,8 +335,9 @@ class TransformGraphBase(abc.ABC):
                     node1_to_node2 = self.get_transform(node1, node2)
                     node2_to_node1 = self.get_transform(node2, node1)
                     node1_to_node2_inv = invert_transform(node2_to_node1)
-                    consistent = consistent and np.allclose(node1_to_node2,
-                                                            node1_to_node2_inv)
+                    consistent = consistent and np.allclose(
+                        node1_to_node2, node1_to_node2_inv
+                    )
                 except KeyError:
                     pass  # Frames are not connected
         return consistent

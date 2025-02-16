@@ -1,4 +1,5 @@
 """Rotor operations."""
+
 import numpy as np
 
 from ._constants import unitx, unity, unitz, eps
@@ -26,8 +27,10 @@ def check_rotor(rotor):
     """
     rotor = np.asarray(rotor, dtype=np.float64)
     if rotor.ndim != 1 or rotor.shape[0] != 4:
-        raise ValueError("Expected rotor with shape (4,), got "
-                         "array-like object with shape %s" % (rotor.shape,))
+        raise ValueError(
+            "Expected rotor with shape (4,), got "
+            "array-like object with shape %s" % (rotor.shape,)
+        )
     return norm_vector(rotor)
 
 
@@ -195,9 +198,13 @@ def matrix_from_rotor(rotor):
         Rotation matrix
     """
     rotor = check_rotor(rotor)
-    return np.column_stack((
-        rotor_apply(rotor, unitx), rotor_apply(rotor, unity),
-        rotor_apply(rotor, unitz)))
+    return np.column_stack(
+        (
+            rotor_apply(rotor, unitx),
+            rotor_apply(rotor, unity),
+            rotor_apply(rotor, unitz),
+        )
+    )
 
 
 def rotor_from_two_directions(v_from, v_to):

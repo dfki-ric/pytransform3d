@@ -1,4 +1,5 @@
 """Visualizer artists."""
+
 import warnings
 from itertools import chain
 
@@ -50,6 +51,7 @@ class Line3D(Artist):
         color for each segment. A color is represented by 3 values between
         0 and 1 indicate representing red, green, and blue respectively.
     """
+
     def __init__(self, P, c=(0, 0, 0)):
         self.line_set = o3d.geometry.LineSet()
         self.set_data(P, c)
@@ -69,9 +71,14 @@ class Line3D(Artist):
             blue respectively.
         """
         self.line_set.points = o3d.utility.Vector3dVector(P)
-        self.line_set.lines = o3d.utility.Vector2iVector(np.hstack((
-            np.arange(len(P) - 1)[:, np.newaxis],
-            np.arange(1, len(P))[:, np.newaxis])))
+        self.line_set.lines = o3d.utility.Vector2iVector(
+            np.hstack(
+                (
+                    np.arange(len(P) - 1)[:, np.newaxis],
+                    np.arange(1, len(P))[:, np.newaxis],
+                )
+            )
+        )
 
         if c is not None:
             try:
@@ -79,7 +86,8 @@ class Line3D(Artist):
                     self.line_set.colors = o3d.utility.Vector3dVector(c)
             except TypeError:  # one color for all segments
                 self.line_set.colors = o3d.utility.Vector3dVector(
-                    [c for _ in range(len(P) - 1)])
+                    [c for _ in range(len(P) - 1)]
+                )
 
     @property
     def geometries(self):
@@ -108,6 +116,7 @@ class PointCollection3D(Artist):
         A color is represented by 3 values between 0 and 1 indicate
         representing red, green, and blue respectively.
     """
+
     def __init__(self, P, s=0.05, c=None):
         self._points = []
         self._P = np.zeros_like(P)
@@ -119,7 +128,8 @@ class PointCollection3D(Artist):
 
         for i in range(len(P)):
             point = o3d.geometry.TriangleMesh.create_sphere(
-                radius=s, resolution=10)
+                radius=s, resolution=10
+            )
             if c is not None:
                 n_vertices = len(point.vertices)
                 colors = np.zeros((n_vertices, 3))
@@ -140,7 +150,8 @@ class PointCollection3D(Artist):
         """
         P = np.copy(P)
         for i, point, p, previous_p in zip(
-                range(len(self._P)), self._points, P, self._P):
+            range(len(self._P)), self._points, P, self._P
+        ):
             if any(np.isnan(p)):
                 P[i] = previous_p
             else:
@@ -175,11 +186,16 @@ class Vector3D(Artist):
         A color is represented by 3 values between 0 and 1 indicate
         representing red, green, and blue respectively.
     """
-    def __init__(self, start=np.zeros(3), direction=np.array([1, 0, 0]),
-                 c=(0, 0, 0)):
+
+    def __init__(
+        self, start=np.zeros(3), direction=np.array([1, 0, 0]), c=(0, 0, 0)
+    ):
         self.vector = o3d.geometry.TriangleMesh.create_arrow(
-            cylinder_radius=0.035, cone_radius=0.07,
-            cylinder_height=0.8, cone_height=0.2)
+            cylinder_radius=0.035,
+            cone_radius=0.07,
+            cylinder_height=0.8,
+            cone_height=0.2,
+        )
         self.set_data(start, direction, c)
 
     def set_data(self, start, direction, c=None):
@@ -204,8 +220,11 @@ class Vector3D(Artist):
         A2B = pt.transform_from(R, start)
 
         new_vector = o3d.geometry.TriangleMesh.create_arrow(
-            cylinder_radius=0.035 * length, cone_radius=0.07 * length,
-            cylinder_height=0.8 * length, cone_height=0.2 * length)
+            cylinder_radius=0.035 * length,
+            cone_radius=0.07 * length,
+            cylinder_height=0.8 * length,
+            cone_height=0.2 * length,
+        )
         self.vector.vertices = new_vector.vertices
         self.vector.triangles = new_vector.triangles
         self.vector.transform(A2B)
@@ -239,13 +258,15 @@ class Frame(Artist):
     s : float, optional (default: 1)
         Length of basis vectors
     """
+
     def __init__(self, A2B, label=None, s=1.0):
         self.A2B = None
         self.label = None
         self.s = s
 
         self.frame = o3d.geometry.TriangleMesh.create_coordinate_frame(
-            size=self.s)
+            size=self.s
+        )
 
         self.set_data(A2B, label)
 
@@ -268,10 +289,10 @@ class Frame(Artist):
         if label is not None:
             warnings.warn(
                 "This viewer does not support text. Frame label "
-                "will be ignored.")
+                "will be ignored."
+            )
 
-        self.frame.transform(
-            pt.invert_transform(previous_A2B, check=False))
+        self.frame.transform(pt.invert_transform(previous_A2B, check=False))
         self.frame.transform(self.A2B)
 
     @property
@@ -304,6 +325,7 @@ class Trajectory(Artist):
         A color is represented by 3 values between 0 and 1 indicate
         representing red, green, and blue respectively.
     """
+
     def __init__(self, H, n_frames=10, s=1.0, c=(0, 0, 0)):
         self.H = H
         self.n_frames = n_frames
@@ -314,7 +336,8 @@ class Trajectory(Artist):
         self.line = Line3D(H[:, :3, 3], c)
 
         self.key_frames_indices = np.linspace(
-            0, len(self.H) - 1, self.n_frames, dtype=np.int64)
+            0, len(self.H) - 1, self.n_frames, dtype=np.int64
+        )
         for key_frame_idx in self.key_frames_indices:
             self.key_frames.append(Frame(self.H[key_frame_idx], s=self.s))
 
@@ -342,7 +365,8 @@ class Trajectory(Artist):
             List of geometries that can be added to the visualizer.
         """
         return self.line.geometries + list(
-            chain(*[kf.geometries for kf in self.key_frames]))
+            chain(*[kf.geometries for kf in self.key_frames])
+        )
 
 
 class Sphere(Artist):
@@ -366,9 +390,11 @@ class Sphere(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
+
     def __init__(self, radius=1.0, A2B=np.eye(4), resolution=20, c=None):
         self.sphere = o3d.geometry.TriangleMesh.create_sphere(
-            radius, resolution)
+            radius, resolution
+        )
         if c is not None:
             n_vertices = len(self.sphere.vertices)
             colors = np.zeros((n_vertices, 3))
@@ -391,8 +417,7 @@ class Sphere(Artist):
             previous_A2B = np.eye(4)
         self.A2B = A2B
 
-        self.sphere.transform(
-            pt.invert_transform(previous_A2B, check=False))
+        self.sphere.transform(pt.invert_transform(previous_A2B, check=False))
         self.sphere.transform(self.A2B)
 
     @property
@@ -421,11 +446,11 @@ class Box(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
+
     def __init__(self, size=np.ones(3), A2B=np.eye(4), c=None):
         self.half_size = np.asarray(size) / 2.0
         width, height, depth = size
-        self.box = o3d.geometry.TriangleMesh.create_box(
-            width, height, depth)
+        self.box = o3d.geometry.TriangleMesh.create_box(width, height, depth)
         if c is not None:
             n_vertices = len(self.box.vertices)
             colors = np.zeros((n_vertices, 3))
@@ -446,7 +471,8 @@ class Box(Artist):
         previous_A2B = self.A2B
         if previous_A2B is None:
             self.box.transform(
-                pt.transform_from(R=np.eye(3), p=-self.half_size))
+                pt.transform_from(R=np.eye(3), p=-self.half_size)
+            )
             previous_A2B = np.eye(4)
         self.A2B = A2B
 
@@ -491,17 +517,24 @@ class Cylinder(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
-    def __init__(self, length=2.0, radius=1.0, A2B=np.eye(4), resolution=20,
-                 split=4, c=None):
+
+    def __init__(
+        self,
+        length=2.0,
+        radius=1.0,
+        A2B=np.eye(4),
+        resolution=20,
+        split=4,
+        c=None,
+    ):
         self.cylinder = o3d.geometry.TriangleMesh.create_cylinder(
-            radius=radius, height=length, resolution=resolution,
-            split=split)
+            radius=radius, height=length, resolution=resolution, split=split
+        )
         if c is not None:
             n_vertices = len(self.cylinder.vertices)
             colors = np.zeros((n_vertices, 3))
             colors[:] = c
-            self.cylinder.vertex_colors = \
-                o3d.utility.Vector3dVector(colors)
+            self.cylinder.vertex_colors = o3d.utility.Vector3dVector(colors)
         self.cylinder.compute_vertex_normals()
         self.A2B = None
         self.set_data(A2B)
@@ -519,8 +552,7 @@ class Cylinder(Artist):
             previous_A2B = np.eye(4)
         self.A2B = A2B
 
-        self.cylinder.transform(
-            pt.invert_transform(previous_A2B, check=False))
+        self.cylinder.transform(pt.invert_transform(previous_A2B, check=False))
         self.cylinder.transform(self.A2B)
 
     @property
@@ -555,15 +587,18 @@ class Mesh(Artist):
     convex_hull : bool, optional (default: False)
         Compute convex hull of mesh.
     """
-    def __init__(self, filename, A2B=np.eye(4), s=np.ones(3), c=None,
-                 convex_hull=False):
+
+    def __init__(
+        self, filename, A2B=np.eye(4), s=np.ones(3), c=None, convex_hull=False
+    ):
         mesh = load_mesh(filename)
         if convex_hull:
             mesh.convex_hull()
 
         self.mesh = mesh.get_open3d_mesh()
         self.mesh.vertices = o3d.utility.Vector3dVector(
-            np.asarray(self.mesh.vertices) * s)
+            np.asarray(self.mesh.vertices) * s
+        )
         self.mesh.compute_vertex_normals()
         if c is not None:
             n_vertices = len(self.mesh.vertices)
@@ -622,9 +657,11 @@ class Ellipsoid(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
+
     def __init__(self, radii, A2B=np.eye(4), resolution=20, c=None):
         self.ellipsoid = o3d.geometry.TriangleMesh.create_sphere(
-            1.0, resolution)
+            1.0, resolution
+        )
         vertices = np.asarray(self.ellipsoid.vertices)
         vertices *= np.asarray(radii)[np.newaxis]
         self.ellipsoid.vertices = o3d.utility.Vector3dVector(vertices)
@@ -650,8 +687,7 @@ class Ellipsoid(Artist):
             previous_A2B = np.eye(4)
         self.A2B = A2B
 
-        self.ellipsoid.transform(
-            pt.invert_transform(previous_A2B, check=False))
+        self.ellipsoid.transform(pt.invert_transform(previous_A2B, check=False))
         self.ellipsoid.transform(self.A2B)
 
     @property
@@ -693,10 +729,13 @@ class Capsule(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
-    def __init__(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
-                 c=None):
+
+    def __init__(
+        self, height=1, radius=1, A2B=np.eye(4), resolution=20, c=None
+    ):
         self.capsule = o3d.geometry.TriangleMesh.create_sphere(
-            radius, resolution)
+            radius, resolution
+        )
         vertices = np.asarray(self.capsule.vertices)
         vertices[vertices[:, 2] < 0, 2] -= 0.5 * height
         vertices[vertices[:, 2] > 0, 2] += 0.5 * height
@@ -723,8 +762,7 @@ class Capsule(Artist):
             previous_A2B = np.eye(4)
         self.A2B = A2B
 
-        self.capsule.transform(
-            pt.invert_transform(previous_A2B, check=False))
+        self.capsule.transform(pt.invert_transform(previous_A2B, check=False))
         self.capsule.transform(self.A2B)
 
     @property
@@ -759,10 +797,13 @@ class Cone(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
-    def __init__(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
-                 c=None):
+
+    def __init__(
+        self, height=1, radius=1, A2B=np.eye(4), resolution=20, c=None
+    ):
         self.cone = o3d.geometry.TriangleMesh.create_cone(
-            radius, height, resolution)
+            radius, height, resolution
+        )
         self.cone.compute_vertex_normals()
         if c is not None:
             n_vertices = len(self.cone.vertices)
@@ -785,8 +826,7 @@ class Cone(Artist):
             previous_A2B = np.eye(4)
         self.A2B = A2B
 
-        self.cone.transform(
-            pt.invert_transform(previous_A2B, check=False))
+        self.cone.transform(pt.invert_transform(previous_A2B, check=False))
         self.cone.transform(self.A2B)
 
     @property
@@ -827,23 +867,32 @@ class Plane(Artist):
     c : array-like, shape (3,), optional (default: None)
         Color.
     """
-    def __init__(self, normal=np.array([0.0, 0.0, 1.0]), d=None,
-                 point_in_plane=None, s=1.0, c=None):
-        self.triangles = np.array([
-            [0, 1, 2],
-            [1, 3, 2],
-            [2, 1, 0],
-            [2, 3, 1],
-        ])
+
+    def __init__(
+        self,
+        normal=np.array([0.0, 0.0, 1.0]),
+        d=None,
+        point_in_plane=None,
+        s=1.0,
+        c=None,
+    ):
+        self.triangles = np.array(
+            [
+                [0, 1, 2],
+                [1, 3, 2],
+                [2, 1, 0],
+                [2, 3, 1],
+            ]
+        )
         vertices = np.zeros((4, 3))
         self.plane = o3d.geometry.TriangleMesh(
             o3d.utility.Vector3dVector(vertices),
-            o3d.utility.Vector3iVector(self.triangles))
+            o3d.utility.Vector3iVector(self.triangles),
+        )
 
         self.set_data(normal, d, point_in_plane, s, c)
 
-    def set_data(self, normal, d=None, point_in_plane=None, s=None,
-                 c=None):
+    def set_data(self, normal, d=None, point_in_plane=None, s=None, c=None):
         """Update data.
 
         Parameters
@@ -872,18 +921,21 @@ class Plane(Artist):
         if point_in_plane is None:
             if d is None:
                 raise ValueError(
-                    "Either 'd' or 'point_in_plane' has to be defined!")
+                    "Either 'd' or 'point_in_plane' has to be defined!"
+                )
             point_in_plane = d * normal
         else:
             point_in_plane = np.asarray(point_in_plane)
 
         x_axis, y_axis = pr.plane_basis_from_normal(normal)
-        vertices = np.array([
-            point_in_plane + s * x_axis + s * y_axis,
-            point_in_plane - s * x_axis + s * y_axis,
-            point_in_plane + s * x_axis - s * y_axis,
-            point_in_plane - s * x_axis - s * y_axis,
-        ])
+        vertices = np.array(
+            [
+                point_in_plane + s * x_axis + s * y_axis,
+                point_in_plane - s * x_axis + s * y_axis,
+                point_in_plane + s * x_axis - s * y_axis,
+                point_in_plane - s * x_axis - s * y_axis,
+            ]
+        )
         self.plane.vertices = o3d.utility.Vector3dVector(vertices)
         self.plane.compute_vertex_normals()
         if c is not None:
@@ -931,8 +983,15 @@ class Camera(Artist):
         close enough to a real transformation matrix. Otherwise we print a
         warning.
     """
-    def __init__(self, M, cam2world=None, virtual_image_distance=1,
-                 sensor_size=(1920, 1080), strict_check=True):
+
+    def __init__(
+        self,
+        M,
+        cam2world=None,
+        virtual_image_distance=1,
+        sensor_size=(1920, 1080),
+        strict_check=True,
+    ):
         self.M = None
         self.cam2world = None
         self.virtual_image_distance = None
@@ -946,8 +1005,13 @@ class Camera(Artist):
 
         self.set_data(M, cam2world, virtual_image_distance, sensor_size)
 
-    def set_data(self, M=None, cam2world=None, virtual_image_distance=None,
-                 sensor_size=None):
+    def set_data(
+        self,
+        M=None,
+        cam2world=None,
+        virtual_image_distance=None,
+        sensor_size=None,
+    ):
         """Update camera parameters.
 
         Parameters
@@ -977,7 +1041,8 @@ class Camera(Artist):
             self.M = M
         if cam2world is not None:
             self.cam2world = pt.check_transform(
-                cam2world, strict_check=self.strict_check)
+                cam2world, strict_check=self.strict_check
+            )
         if virtual_image_distance is not None:
             self.virtual_image_distance = virtual_image_distance
         if sensor_size is not None:
@@ -985,40 +1050,59 @@ class Camera(Artist):
 
         camera_center_in_world = cam2world[:3, 3]
         focal_length = np.mean(np.diag(M[:2, :2]))
-        sensor_corners_in_cam = np.array([
-            [0, 0, focal_length],
-            [0, sensor_size[1], focal_length],
-            [sensor_size[0], sensor_size[1], focal_length],
-            [sensor_size[0], 0, focal_length],
-        ])
+        sensor_corners_in_cam = np.array(
+            [
+                [0, 0, focal_length],
+                [0, sensor_size[1], focal_length],
+                [sensor_size[0], sensor_size[1], focal_length],
+                [sensor_size[0], 0, focal_length],
+            ]
+        )
         sensor_corners_in_cam[:, 0] -= M[0, 2]
         sensor_corners_in_cam[:, 1] -= M[1, 2]
         sensor_corners_in_world = pt.transform(
-            cam2world, pt.vectors_to_points(sensor_corners_in_cam))[:, :3]
+            cam2world, pt.vectors_to_points(sensor_corners_in_cam)
+        )[:, :3]
         virtual_image_corners = (
-            virtual_image_distance / focal_length *
-            (sensor_corners_in_world - camera_center_in_world[np.newaxis]) +
-            camera_center_in_world[np.newaxis])
+            virtual_image_distance
+            / focal_length
+            * (sensor_corners_in_world - camera_center_in_world[np.newaxis])
+            + camera_center_in_world[np.newaxis]
+        )
 
         up = virtual_image_corners[0] - virtual_image_corners[1]
-        camera_line_points = np.vstack((
-            camera_center_in_world,
-            virtual_image_corners[0],
-            virtual_image_corners[1],
-            virtual_image_corners[2],
-            virtual_image_corners[3],
-            virtual_image_corners[0] + 0.1 * up,
-            0.5 * (virtual_image_corners[0] +
-                   virtual_image_corners[3]) + 0.5 * up,
-            virtual_image_corners[3] + 0.1 * up
-        ))
+        camera_line_points = np.vstack(
+            (
+                camera_center_in_world,
+                virtual_image_corners[0],
+                virtual_image_corners[1],
+                virtual_image_corners[2],
+                virtual_image_corners[3],
+                virtual_image_corners[0] + 0.1 * up,
+                0.5 * (virtual_image_corners[0] + virtual_image_corners[3])
+                + 0.5 * up,
+                virtual_image_corners[3] + 0.1 * up,
+            )
+        )
 
-        self.line_set.points = o3d.utility.Vector3dVector(
-            camera_line_points)
+        self.line_set.points = o3d.utility.Vector3dVector(camera_line_points)
         self.line_set.lines = o3d.utility.Vector2iVector(
-            np.array([[0, 1], [0, 2], [0, 3], [0, 4],
-                      [1, 2], [2, 3], [3, 4], [4, 1],
-                      [5, 6], [6, 7], [7, 5]]))
+            np.array(
+                [
+                    [0, 1],
+                    [0, 2],
+                    [0, 3],
+                    [0, 4],
+                    [1, 2],
+                    [2, 3],
+                    [3, 4],
+                    [4, 1],
+                    [5, 6],
+                    [6, 7],
+                    [7, 5],
+                ]
+            )
+        )
 
     @property
     def geometries(self):
@@ -1067,10 +1151,20 @@ class Graph(Artist):
     s : float, optional (default: 1)
         Scaling of the frames that will be drawn
     """
-    def __init__(self, tm, frame, show_frames=False, show_connections=False,
-                 show_visuals=False, show_collision_objects=False,
-                 show_name=False, whitelist=None,
-                 convex_hull_of_collision_objects=False, s=1.0):
+
+    def __init__(
+        self,
+        tm,
+        frame,
+        show_frames=False,
+        show_connections=False,
+        show_visuals=False,
+        show_collision_objects=False,
+        show_name=False,
+        whitelist=None,
+        convex_hull_of_collision_objects=False,
+        s=1.0,
+    ):
         self.tm = tm
         self.frame = frame
         self.show_frames = show_frames
@@ -1078,8 +1172,7 @@ class Graph(Artist):
         self.show_visuals = show_visuals
         self.show_collision_objects = show_collision_objects
         self.whitelist = whitelist
-        self.convex_hull_of_collision_objects = \
-            convex_hull_of_collision_objects
+        self.convex_hull_of_collision_objects = convex_hull_of_collision_objects
         self.s = s
 
         if self.frame not in self.tm.nodes:
@@ -1105,8 +1198,7 @@ class Graph(Artist):
                     try:
                         self.tm.get_transform(from_frame, self.frame)
                         self.tm.get_transform(to_frame, self.frame)
-                        self.connections[frame_names] = \
-                            o3d.geometry.LineSet()
+                        self.connections[frame_names] = o3d.geometry.LineSet()
                     except KeyError:
                         pass  # Frame is not connected to reference frame
 
@@ -1114,11 +1206,12 @@ class Graph(Artist):
         if show_visuals and hasattr(self.tm, "visuals"):
             self.visuals.update(_objects_to_artists(self.tm.visuals))
         self.collision_objects = {}
-        if show_collision_objects and hasattr(
-                self.tm, "collision_objects"):
+        if show_collision_objects and hasattr(self.tm, "collision_objects"):
             self.collision_objects.update(
-                _objects_to_artists(self.tm.collision_objects,
-                                    convex_hull_of_collision_objects))
+                _objects_to_artists(
+                    self.tm.collision_objects, convex_hull_of_collision_objects
+                )
+            )
 
         self.set_data()
 
@@ -1136,15 +1229,16 @@ class Graph(Artist):
             for frame_names in self.connections:
                 from_frame, to_frame = frame_names
                 try:
-                    from2ref = self.tm.get_transform(
-                        from_frame, self.frame)
+                    from2ref = self.tm.get_transform(from_frame, self.frame)
                     to2ref = self.tm.get_transform(to_frame, self.frame)
 
                     points = np.vstack((from2ref[:3, 3], to2ref[:3, 3]))
-                    self.connections[frame_names].points = \
+                    self.connections[frame_names].points = (
                         o3d.utility.Vector3dVector(points)
-                    self.connections[frame_names].lines = \
+                    )
+                    self.connections[frame_names].lines = (
                         o3d.utility.Vector2iVector(np.array([[0, 1]]))
+                    )
                 except KeyError:
                     pass  # Frame is not connected to the reference frame
 
@@ -1210,8 +1304,9 @@ def _objects_to_artists(objects, convex_hull=False):
                 artist = Cylinder(obj.length, obj.radius, c=color)
             else:
                 assert isinstance(obj, urdf.Mesh)
-                artist = Mesh(obj.filename, s=obj.scale, c=color,
-                              convex_hull=convex_hull)
+                artist = Mesh(
+                    obj.filename, s=obj.scale, c=color, convex_hull=convex_hull
+                )
             artists[obj.frame] = artist
         except RuntimeError as e:
             warnings.warn(str(e))

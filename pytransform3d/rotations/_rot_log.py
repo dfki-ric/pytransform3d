@@ -1,4 +1,5 @@
 """Conversions between rotation representations."""
+
 import warnings
 
 import numpy as np
@@ -37,11 +38,15 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
     """
     V = np.asarray(V, dtype=np.float64)
     if V.ndim != 2 or V.shape[0] != 3 or V.shape[1] != 3:
-        raise ValueError("Expected skew-symmetric matrix with shape (3, 3), "
-                         "got array-like object with shape %s" % (V.shape,))
+        raise ValueError(
+            "Expected skew-symmetric matrix with shape (3, 3), "
+            "got array-like object with shape %s" % (V.shape,)
+        )
     if not np.allclose(V.T, -V, atol=tolerance):
-        error_msg = ("Expected skew-symmetric matrix, but it failed the test "
-                     "V.T = %r\n-V = %r" % (V.T, -V))
+        error_msg = (
+            "Expected skew-symmetric matrix, but it failed the test "
+            "V.T = %r\n-V = %r" % (V.T, -V)
+        )
         if strict_check:
             raise ValueError(error_msg)
         warnings.warn(error_msg)
@@ -93,9 +98,9 @@ def cross_product_matrix(v):
     V : array, shape (3, 3)
         Cross-product matrix
     """
-    return np.array([[0.0, -v[2], v[1]],
-                     [v[2], 0.0, -v[0]],
-                     [-v[1], v[0], 0.0]])
+    return np.array(
+        [[0.0, -v[2], v[1]], [v[2], 0.0, -v[0]], [-v[1], v[0], 0.0]]
+    )
 
 
 rot_log_from_compact_axis_angle = cross_product_matrix

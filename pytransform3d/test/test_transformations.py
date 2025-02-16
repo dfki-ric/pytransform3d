@@ -11,8 +11,9 @@ def test_check_transform():
     """Test input validation for transformation matrix."""
     A2B = np.eye(3)
     with pytest.raises(
-            ValueError,
-            match="Expected homogeneous transformation matrix with shape"):
+        ValueError,
+        match="Expected homogeneous transformation matrix with shape",
+    ):
         pt.check_transform(A2B)
 
     A2B = np.eye(4, dtype=int)
@@ -59,12 +60,10 @@ def test_check_pq():
     assert len(q3) == q4.shape[0]
 
     A2B = np.eye(4)
-    with pytest.raises(ValueError,
-                       match="position and orientation quaternion"):
+    with pytest.raises(ValueError, match="position and orientation quaternion"):
         pt.check_pq(A2B)
     q5 = np.zeros(8)
-    with pytest.raises(
-            ValueError, match="position and orientation quaternion"):
+    with pytest.raises(ValueError, match="position and orientation quaternion"):
         pt.check_pq(q5)
 
 
@@ -171,8 +170,7 @@ def test_concat():
 
 def test_transform():
     """Test transformation of points."""
-    PA = np.array([[1, 2, 3, 1],
-                   [2, 3, 4, 1]])
+    PA = np.array([[1, 2, 3, 1], [2, 3, 4, 1]])
 
     rng = np.random.default_rng(0)
     A2B = pt.random_transform(rng)
@@ -183,8 +181,8 @@ def test_transform():
     assert_array_almost_equal(PB, np.array([p0B, p1B]))
 
     with pytest.raises(
-            ValueError,
-            match="Cannot transform array with more than 2 dimensions"):
+        ValueError, match="Cannot transform array with more than 2 dimensions"
+    ):
         pt.transform(A2B, np.zeros((2, 2, 4)))
 
 
@@ -218,8 +216,7 @@ def test_pq_from_transform():
     """Test conversion from homogeneous matrix to position and quaternion."""
     A2B = np.eye(4)
     pq = pt.pq_from_transform(A2B)
-    assert_array_almost_equal(
-        pq, np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]))
+    assert_array_almost_equal(pq, np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]))
 
 
 def test_transform_from_pq():
@@ -249,11 +246,12 @@ def test_deactivate_transform_precision_error():
 def test_norm_exponential_coordinates():
     Stheta_only_translation = np.array([0.0, 0.0, 0.0, 100.0, 25.0, -23.0])
     Stheta_only_translation2 = pt.norm_exponential_coordinates(
-        Stheta_only_translation)
-    assert_array_almost_equal(
-        Stheta_only_translation, Stheta_only_translation2)
+        Stheta_only_translation
+    )
+    assert_array_almost_equal(Stheta_only_translation, Stheta_only_translation2)
     pt.assert_exponential_coordinates_equal(
-        Stheta_only_translation, Stheta_only_translation2)
+        Stheta_only_translation, Stheta_only_translation2
+    )
 
     rng = np.random.default_rng(381)
 
@@ -266,10 +264,12 @@ def test_norm_exponential_coordinates():
         Stheta2 = pt.screw_axis_from_screw_parameters(q, -s, -h) * np.pi
         assert_array_almost_equal(
             pt.transform_from_exponential_coordinates(Stheta),
-            pt.transform_from_exponential_coordinates(Stheta2))
+            pt.transform_from_exponential_coordinates(Stheta2),
+        )
         assert_array_almost_equal(
             pt.norm_exponential_coordinates(Stheta),
-            pt.norm_exponential_coordinates(Stheta2))
+            pt.norm_exponential_coordinates(Stheta2),
+        )
         pt.assert_exponential_coordinates_equal(Stheta, Stheta2)
 
     for _ in range(10):
@@ -323,11 +323,13 @@ def test_check_screw_axis():
         pt.check_screw_axis(np.r_[0, 1, v])
 
     with pytest.raises(
-            ValueError, match="Norm of rotation axis must either be 0 or 1"):
+        ValueError, match="Norm of rotation axis must either be 0 or 1"
+    ):
         pt.check_screw_axis(np.r_[2 * omega, v])
 
     with pytest.raises(
-            ValueError, match="If the norm of the rotation axis is 0"):
+        ValueError, match="If the norm of the rotation axis is 0"
+    ):
         pt.check_screw_axis(np.r_[0, 0, 0, v])
 
     S_pure_translation = np.r_[0, 0, 0, pr.norm_vector(v)]
@@ -356,34 +358,48 @@ def test_check_screw_matrix():
     with pytest.raises(ValueError, match="Expected array-like with shape"):
         pt.check_screw_matrix(np.zeros((4, 3)))
 
-    with pytest.raises(ValueError, match="Last row of screw matrix must only "
-                                         "contains zeros"):
+    with pytest.raises(
+        ValueError, match="Last row of screw matrix must only " "contains zeros"
+    ):
         pt.check_screw_matrix(np.eye(4))
 
-    screw_matrix = pt.screw_matrix_from_screw_axis(
-        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
+    screw_matrix = (
+        pt.screw_matrix_from_screw_axis(
+            np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+        )
+        * 1.1
+    )
     with pytest.raises(
-            ValueError, match="Norm of rotation axis must either be 0 or 1"):
+        ValueError, match="Norm of rotation axis must either be 0 or 1"
+    ):
+        pt.check_screw_matrix(screw_matrix)
+
+    screw_matrix = (
+        pt.screw_matrix_from_screw_axis(
+            np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+        )
+        * 1.1
+    )
+    with pytest.raises(
+        ValueError, match="If the norm of the rotation axis is 0"
+    ):
         pt.check_screw_matrix(screw_matrix)
 
     screw_matrix = pt.screw_matrix_from_screw_axis(
-        np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
-    with pytest.raises(
-            ValueError, match="If the norm of the rotation axis is 0"):
-        pt.check_screw_matrix(screw_matrix)
-
-    screw_matrix = pt.screw_matrix_from_screw_axis(
-        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+    )
     screw_matrix2 = pt.check_screw_matrix(screw_matrix)
     assert_array_almost_equal(screw_matrix, screw_matrix2)
 
     screw_matrix = pt.screw_matrix_from_screw_axis(
-        np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+        np.array([0.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+    )
     screw_matrix2 = pt.check_screw_matrix(screw_matrix)
     assert_array_almost_equal(screw_matrix, screw_matrix2)
 
     screw_matrix = pt.screw_matrix_from_screw_axis(
-        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0]))
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+    )
     screw_matrix[0, 0] = 0.0001
     with pytest.raises(ValueError, match="Expected skew-symmetric matrix"):
         pt.check_screw_matrix(screw_matrix)
@@ -398,16 +414,26 @@ def test_check_transform_log():
         pt.check_transform_log(np.zeros((4, 3)))
 
     with pytest.raises(
-            ValueError, match="Last row of logarithm of transformation must "
-                              "only contains zeros"):
+        ValueError,
+        match="Last row of logarithm of transformation must "
+        "only contains zeros",
+    ):
         pt.check_transform_log(np.eye(4))
-    transform_log = pt.screw_matrix_from_screw_axis(
-        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
+    transform_log = (
+        pt.screw_matrix_from_screw_axis(
+            np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+        )
+        * 1.1
+    )
     transform_log2 = pt.check_transform_log(transform_log)
     assert_array_almost_equal(transform_log, transform_log2)
 
-    transform_log = pt.screw_matrix_from_screw_axis(
-        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])) * 1.1
+    transform_log = (
+        pt.screw_matrix_from_screw_axis(
+            np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+        )
+        * 1.1
+    )
     transform_log[0, 0] = 0.0001
     with pytest.raises(ValueError, match="Expected skew-symmetric matrix"):
         pt.check_transform_log(transform_log)
@@ -462,7 +488,8 @@ def test_conversions_between_exponential_coordinates_and_transform():
     assert_array_almost_equal(A2B, A2B2)
 
     A2B = pt.rotate_transform(
-        np.eye(4), pr.active_matrix_from_angle(2, 0.5 * np.pi))
+        np.eye(4), pr.active_matrix_from_angle(2, 0.5 * np.pi)
+    )
     Stheta = pt.exponential_coordinates_from_transform(A2B)
     assert_array_almost_equal(Stheta, [0.0, 0.0, 0.5 * np.pi, 0.0, 0.0, 0.0])
     A2B2 = pt.transform_from_exponential_coordinates(Stheta)
@@ -519,10 +546,14 @@ def test_conversions_between_screw_matrix_and_screw_axis():
 
 
 def test_conversions_between_screw_matrix_and_transform_log():
-    S_mat = np.array([[0.0, 0.0, 0.0, 1.0],
-                      [0.0, 0.0, 0.0, 0.0],
-                      [0.0, 0.0, 0.0, 0.0],
-                      [0.0, 0.0, 0.0, 0.0]])
+    S_mat = np.array(
+        [
+            [0.0, 0.0, 0.0, 1.0],
+            [0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0],
+        ]
+    )
     theta = 1.0
     transform_log = pt.transform_log_from_screw_matrix(S_mat, theta)
     S_mat2, theta2 = pt.screw_matrix_from_transform_log(transform_log)
@@ -604,9 +635,18 @@ def test_check_dual_quaternion():
     dq4 = pt.check_dual_quaternion(dq3, unit=True)
     assert not pt.dual_quaternion_requires_renormalization(dq4)
 
-    dq5 = np.array([
-        0.94508498, 0.0617101, -0.06483886, 0.31432811,
-        -0.07743254, 0.04985168, -0.26119618, 0.1691491])
+    dq5 = np.array(
+        [
+            0.94508498,
+            0.0617101,
+            -0.06483886,
+            0.31432811,
+            -0.07743254,
+            0.04985168,
+            -0.26119618,
+            0.1691491,
+        ]
+    )
     dq5_not_orthogonal = np.copy(dq5)
     dq5_not_orthogonal[4:] = np.round(dq5_not_orthogonal[4:], 1)
     assert pt.dual_quaternion_requires_renormalization(dq5_not_orthogonal)
@@ -630,7 +670,8 @@ def test_normalize_dual_quaternion():
     assert pt.dual_quaternion_requires_renormalization(dq_norm)
     assert_array_almost_equal([1, 0, 0, 0, 0.3, 0.5, 0, 0.2], dq_norm)
     assert not pt.dual_quaternion_requires_renormalization(
-        pt.norm_dual_quaternion(dq))
+        pt.norm_dual_quaternion(dq)
+    )
 
     rng = np.random.default_rng(999)
     for _ in range(5):  # norm != 1
@@ -705,7 +746,8 @@ def test_dual_quaternion_applied_to_point():
         dq = pt.dual_quaternion_from_transform(A2B)
         p_B = pt.dq_prod_vector(dq, p_A)
         assert_array_almost_equal(
-            p_B, pt.transform(A2B, pt.vector_to_point(p_A))[:3])
+            p_B, pt.transform(A2B, pt.vector_to_point(p_A))[:3]
+        )
 
 
 def test_assert_screw_parameters_equal():
@@ -714,19 +756,20 @@ def test_assert_screw_parameters_equal():
     h = 2
     theta = 1
     pt.assert_screw_parameters_equal(
-        q, s_axis, h, theta,
-        q + 484.3 * s_axis, s_axis, h, theta)
+        q, s_axis, h, theta, q + 484.3 * s_axis, s_axis, h, theta
+    )
 
     with pytest.raises(AssertionError):
         pt.assert_screw_parameters_equal(
-            q, s_axis, h, theta, q + 484.3, s_axis, h, theta)
+            q, s_axis, h, theta, q + 484.3, s_axis, h, theta
+        )
 
     s_axis_mirrored = -s_axis
     theta_mirrored = 2.0 * np.pi - theta
     h_mirrored = -h * theta / theta_mirrored
     pt.assert_screw_parameters_equal(
-        q, s_axis_mirrored, h_mirrored, theta_mirrored,
-        q, s_axis, h, theta)
+        q, s_axis_mirrored, h_mirrored, theta_mirrored, q, s_axis, h, theta
+    )
 
 
 def test_screw_parameters_from_dual_quaternion():
@@ -747,8 +790,7 @@ def test_screw_parameters_from_dual_quaternion():
     rng = np.random.default_rng(1001)
     quat = pr.random_quaternion(rng)
     a = pr.axis_angle_from_quaternion(quat)
-    dq = pt.dual_quaternion_from_pq(
-        np.r_[0, 0, 0, quat])
+    dq = pt.dual_quaternion_from_pq(np.r_[0, 0, 0, quat])
     q, s_axis, h, theta = pt.screw_parameters_from_dual_quaternion(dq)
     assert_array_almost_equal(q, np.zeros(3))
     assert_array_almost_equal(s_axis, a[:3])
@@ -763,7 +805,8 @@ def test_screw_parameters_from_dual_quaternion():
         q, s_axis, h = pt.screw_parameters_from_screw_axis(S)
         q2, s_axis2, h2, theta2 = pt.screw_parameters_from_dual_quaternion(dq)
         pt.assert_screw_parameters_equal(
-            q, s_axis, h, theta, q2, s_axis2, h2, theta2)
+            q, s_axis, h, theta, q2, s_axis2, h2, theta2
+        )
 
 
 def test_dual_quaternion_from_screw_parameters():
@@ -791,7 +834,8 @@ def test_dual_quaternion_from_screw_parameters():
     assert_array_almost_equal(pq[:3], [0, 0, 0])
     assert_array_almost_equal(
         pr.axis_angle_from_quaternion(pq[3:]),
-        pr.norm_axis_angle(np.r_[s_axis, theta]))
+        pr.norm_axis_angle(np.r_[s_axis, theta]),
+    )
 
     rng = np.random.default_rng(1001)
     for _ in range(5):
@@ -827,28 +871,44 @@ def test_dual_quaternion_sclerp():
     pose12pose2 = pt.concat(pose2, pt.invert_transform(pose1))
     Stheta = pt.exponential_coordinates_from_transform(pose12pose2)
     offsets = np.array(
-        [pt.transform_from_exponential_coordinates(Stheta * t)
-         for t in np.linspace(0, 1, n_steps)])
-    interpolated_poses = np.array([
-        pt.concat(offset, pose1) for offset in offsets])
+        [
+            pt.transform_from_exponential_coordinates(Stheta * t)
+            for t in np.linspace(0, 1, n_steps)
+        ]
+    )
+    interpolated_poses = np.array(
+        [pt.concat(offset, pose1) for offset in offsets]
+    )
 
     # Dual quaternion ScLERP
-    sclerp_interpolated_dqs = np.vstack([
-        pt.dual_quaternion_sclerp(dq1, dq2, t)
-        for t in np.linspace(0, 1, n_steps)])
-    sclerp_interpolated_poses_from_dqs = np.array([
-        pt.transform_from_dual_quaternion(dq) for dq in sclerp_interpolated_dqs])
+    sclerp_interpolated_dqs = np.vstack(
+        [
+            pt.dual_quaternion_sclerp(dq1, dq2, t)
+            for t in np.linspace(0, 1, n_steps)
+        ]
+    )
+    sclerp_interpolated_poses_from_dqs = np.array(
+        [
+            pt.transform_from_dual_quaternion(dq)
+            for dq in sclerp_interpolated_dqs
+        ]
+    )
 
     # Transformation matrix ScLERP
-    sclerp_interpolated_transforms = np.array([
-        pt.transform_sclerp(pose1, pose2, t)
-        for t in np.linspace(0, 1, n_steps)])
+    sclerp_interpolated_transforms = np.array(
+        [
+            pt.transform_sclerp(pose1, pose2, t)
+            for t in np.linspace(0, 1, n_steps)
+        ]
+    )
 
     for t in range(n_steps):
         assert_array_almost_equal(
-            interpolated_poses[t], sclerp_interpolated_poses_from_dqs[t])
+            interpolated_poses[t], sclerp_interpolated_poses_from_dqs[t]
+        )
         assert_array_almost_equal(
-            interpolated_poses[t], sclerp_interpolated_transforms[t])
+            interpolated_poses[t], sclerp_interpolated_transforms[t]
+        )
 
 
 def test_dual_quaternion_sclerp_sign_ambiguity():
@@ -860,17 +920,25 @@ def test_dual_quaternion_sclerp_sign_ambiguity():
 
     if np.sign(dq1[0]) != np.sign(dq2[0]):
         dq2 *= -1.0
-    traj_q = [pt.dual_quaternion_sclerp(dq1, dq2, t)
-              for t in np.linspace(0, 1, n_steps)]
-    path_length = np.sum([np.linalg.norm(r - s)
-                          for r, s in zip(traj_q[:-1], traj_q[1:])])
+    traj_q = [
+        pt.dual_quaternion_sclerp(dq1, dq2, t)
+        for t in np.linspace(0, 1, n_steps)
+    ]
+    path_length = np.sum(
+        [np.linalg.norm(r - s) for r, s in zip(traj_q[:-1], traj_q[1:])]
+    )
 
     dq2 *= -1.0
-    traj_q_opposing = [pt.dual_quaternion_sclerp(dq1, dq2, t)
-                       for t in np.linspace(0, 1, n_steps)]
+    traj_q_opposing = [
+        pt.dual_quaternion_sclerp(dq1, dq2, t)
+        for t in np.linspace(0, 1, n_steps)
+    ]
     path_length_opposing = np.sum(
-        [np.linalg.norm(r - s)
-         for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
+        [
+            np.linalg.norm(r - s)
+            for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])
+        ]
+    )
 
     assert path_length_opposing == path_length
 
@@ -883,32 +951,62 @@ def test_compare_dual_quaternion_and_transform_power():
         dq = pt.dual_quaternion_from_transform(A2B)
         assert_array_almost_equal(
             pt.transform_power(A2B, t),
-            pt.transform_from_dual_quaternion(pt.dual_quaternion_power(dq, t))
+            pt.transform_from_dual_quaternion(pt.dual_quaternion_power(dq, t)),
         )
 
 
 def test_exponential_coordinates_from_almost_identity_transform():
-    A2B = np.array([
-        [0.9999999999999999, -1.5883146449068575e-16, 4.8699079321578667e-17,
-         -7.54265065748827e-05],
-        [5.110044286978025e-17, 0.9999999999999999, 1.1798895336935056e-17,
-         9.340523179823812e-05],
-        [3.0048299647976294e-18, 5.4741890703482423e-17, 1.0,
-         -7.803584869947588e-05],
-        [0, 0, 0, 1]])
+    A2B = np.array(
+        [
+            [
+                0.9999999999999999,
+                -1.5883146449068575e-16,
+                4.8699079321578667e-17,
+                -7.54265065748827e-05,
+            ],
+            [
+                5.110044286978025e-17,
+                0.9999999999999999,
+                1.1798895336935056e-17,
+                9.340523179823812e-05,
+            ],
+            [
+                3.0048299647976294e-18,
+                5.4741890703482423e-17,
+                1.0,
+                -7.803584869947588e-05,
+            ],
+            [0, 0, 0, 1],
+        ]
+    )
     Stheta = pt.exponential_coordinates_from_transform(A2B)
     assert_array_almost_equal(np.zeros(6), Stheta, decimal=4)
 
 
 def test_transform_log_from_almost_identity_transform():
-    A2B = np.array([
-        [0.9999999999999999, -1.5883146449068575e-16, 4.8699079321578667e-17,
-         -7.54265065748827e-05],
-        [5.110044286978025e-17, 0.9999999999999999, 1.1798895336935056e-17,
-         9.340523179823812e-05],
-        [3.0048299647976294e-18, 5.4741890703482423e-17, 1.0,
-         -7.803584869947588e-05],
-        [0, 0, 0, 1]])
+    A2B = np.array(
+        [
+            [
+                0.9999999999999999,
+                -1.5883146449068575e-16,
+                4.8699079321578667e-17,
+                -7.54265065748827e-05,
+            ],
+            [
+                5.110044286978025e-17,
+                0.9999999999999999,
+                1.1798895336935056e-17,
+                9.340523179823812e-05,
+            ],
+            [
+                3.0048299647976294e-18,
+                5.4741890703482423e-17,
+                1.0,
+                -7.803584869947588e-05,
+            ],
+            [0, 0, 0, 1],
+        ]
+    )
     transform_log = pt.transform_log_from_transform(A2B)
     assert_array_almost_equal(np.zeros((4, 4)), transform_log)
 
@@ -916,7 +1014,8 @@ def test_transform_log_from_almost_identity_transform():
 def test_exponential_coordinates_from_transform_log_without_check():
     transform_log = np.ones((4, 4))
     Stheta = pt.exponential_coordinates_from_transform_log(
-        transform_log, check=False)
+        transform_log, check=False
+    )
     assert_array_almost_equal(Stheta, np.ones(6))
 
 
@@ -993,5 +1092,4 @@ def test_dual_quaternion_double():
     dq = pt.dual_quaternion_from_transform(A2B)
     dq_double = pt.dual_quaternion_double(dq)
     pt.assert_unit_dual_quaternion_equal(dq, dq_double)
-    assert_array_almost_equal(
-        A2B, pt.transform_from_dual_quaternion(dq_double))
+    assert_array_almost_equal(A2B, pt.transform_from_dual_quaternion(dq_double))

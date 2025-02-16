@@ -1,12 +1,18 @@
 """Conversions between transform representations."""
+
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
 from ._transform import translate_transform
 from ..rotations import (
-    eps, norm_vector, norm_angle, cross_product_matrix,
-    matrix_from_compact_axis_angle, check_skew_symmetric_matrix,
-    left_jacobian_SO3)
+    eps,
+    norm_vector,
+    norm_angle,
+    cross_product_matrix,
+    matrix_from_compact_axis_angle,
+    check_skew_symmetric_matrix,
+    left_jacobian_SO3,
+)
 
 
 def check_screw_parameters(q, s_axis, h):
@@ -47,15 +53,19 @@ def check_screw_parameters(q, s_axis, h):
     """
     s_axis = np.asarray(s_axis, dtype=np.float64)
     if s_axis.ndim != 1 or s_axis.shape[0] != 3:
-        raise ValueError("Expected 3D vector with shape (3,), got array-like "
-                         "object with shape %s" % (s_axis.shape,))
+        raise ValueError(
+            "Expected 3D vector with shape (3,), got array-like "
+            "object with shape %s" % (s_axis.shape,)
+        )
     if np.linalg.norm(s_axis) == 0.0:
         raise ValueError("s_axis must not have norm 0")
 
     q = np.asarray(q, dtype=np.float64)
     if q.ndim != 1 or q.shape[0] != 3:
-        raise ValueError("Expected 3D vector with shape (3,), got array-like "
-                         "object with shape %s" % (q.shape,))
+        raise ValueError(
+            "Expected 3D vector with shape (3,), got array-like "
+            "object with shape %s" % (q.shape,)
+        )
     if np.isinf(h):  # pure translation
         q = np.zeros(3)
 
@@ -99,21 +109,27 @@ def check_screw_axis(screw_axis):
     """
     screw_axis = np.asarray(screw_axis, dtype=np.float64)
     if screw_axis.ndim != 1 or screw_axis.shape[0] != 6:
-        raise ValueError("Expected 3D vector with shape (6,), got array-like "
-                         "object with shape %s" % (screw_axis.shape,))
+        raise ValueError(
+            "Expected 3D vector with shape (6,), got array-like "
+            "object with shape %s" % (screw_axis.shape,)
+        )
 
     omega_norm = np.linalg.norm(screw_axis[:3])
-    if (abs(omega_norm - 1.0) > 10.0 * np.finfo(float).eps
-            and abs(omega_norm) > 10.0 * np.finfo(float).eps):
+    if (
+        abs(omega_norm - 1.0) > 10.0 * np.finfo(float).eps
+        and abs(omega_norm) > 10.0 * np.finfo(float).eps
+    ):
         raise ValueError(
             "Norm of rotation axis must either be 0 or 1, but it is %g."
-            % omega_norm)
+            % omega_norm
+        )
     if abs(omega_norm) < np.finfo(float).eps:
         v_norm = np.linalg.norm(screw_axis[3:])
         if abs(v_norm - 1.0) > np.finfo(float).eps:
             raise ValueError(
                 "If the norm of the rotation axis is 0, then the direction "
-                "vector must have norm 1, but it is %g." % v_norm)
+                "vector must have norm 1, but it is %g." % v_norm
+            )
 
     return screw_axis
 
@@ -154,8 +170,10 @@ def check_exponential_coordinates(Stheta):
     """
     Stheta = np.asarray(Stheta, dtype=np.float64)
     if Stheta.ndim != 1 or Stheta.shape[0] != 6:
-        raise ValueError("Expected array-like with shape (6,), got array-like "
-                         "object with shape %s" % (Stheta.shape,))
+        raise ValueError(
+            "Expected array-like with shape (6,), got array-like "
+            "object with shape %s" % (Stheta.shape,)
+        )
     return Stheta
 
 
@@ -209,31 +227,42 @@ def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
         If input is invalid
     """
     screw_matrix = np.asarray(screw_matrix, dtype=np.float64)
-    if (screw_matrix.ndim != 2 or screw_matrix.shape[0] != 4
-            or screw_matrix.shape[1] != 4):
+    if (
+        screw_matrix.ndim != 2
+        or screw_matrix.shape[0] != 4
+        or screw_matrix.shape[1] != 4
+    ):
         raise ValueError(
             "Expected array-like with shape (4, 4), got array-like "
-            "object with shape %s" % (screw_matrix.shape,))
+            "object with shape %s" % (screw_matrix.shape,)
+        )
     if any(screw_matrix[3] != 0.0):
         raise ValueError("Last row of screw matrix must only contains zeros.")
 
     check_skew_symmetric_matrix(screw_matrix[:3, :3], tolerance, strict_check)
 
     omega_norm = np.linalg.norm(
-        [screw_matrix[2, 1], screw_matrix[0, 2], screw_matrix[1, 0]])
+        [screw_matrix[2, 1], screw_matrix[0, 2], screw_matrix[1, 0]]
+    )
 
-    if (abs(omega_norm - 1.0) > np.finfo(float).eps
-            and abs(omega_norm) > np.finfo(float).eps):
+    if (
+        abs(omega_norm - 1.0) > np.finfo(float).eps
+        and abs(omega_norm) > np.finfo(float).eps
+    ):
         raise ValueError(
             "Norm of rotation axis must either be 0 or 1, but it is %g."
-            % omega_norm)
+            % omega_norm
+        )
     if abs(omega_norm) < np.finfo(float).eps:
         v_norm = np.linalg.norm(screw_matrix[:3, 3])
-        if (abs(v_norm - 1.0) > np.finfo(float).eps
-                and abs(v_norm) > np.finfo(float).eps):
+        if (
+            abs(v_norm - 1.0) > np.finfo(float).eps
+            and abs(v_norm) > np.finfo(float).eps
+        ):
             raise ValueError(
                 "If the norm of the rotation axis is 0, then the direction "
-                "vector must have norm 1 or 0, but it is %g." % v_norm)
+                "vector must have norm 1 or 0, but it is %g." % v_norm
+            )
 
     return screw_matrix
 
@@ -268,20 +297,24 @@ def check_transform_log(transform_log, tolerance=1e-6, strict_check=True):
         If input is invalid
     """
     transform_log = np.asarray(transform_log, dtype=np.float64)
-    if (transform_log.ndim != 2 or transform_log.shape[0] != 4
-            or transform_log.shape[1] != 4):
+    if (
+        transform_log.ndim != 2
+        or transform_log.shape[0] != 4
+        or transform_log.shape[1] != 4
+    ):
         raise ValueError(
             "Expected array-like with shape (4, 4), got array-like "
-            "object with shape %s" % (transform_log.shape,))
+            "object with shape %s" % (transform_log.shape,)
+        )
     if any(transform_log[3] != 0.0):
         raise ValueError(
             "Last row of logarithm of transformation must only "
-            "contains zeros.")
+            "contains zeros."
+        )
 
     check_skew_symmetric_matrix(transform_log[:3, :3], tolerance, strict_check)
 
     return transform_log
-
 
 
 def norm_exponential_coordinates(Stheta):
@@ -354,7 +387,8 @@ def assert_exponential_coordinates_equal(Stheta1, Stheta2):
 
 
 def assert_screw_parameters_equal(
-        q1, s_axis1, h1, theta1, q2, s_axis2, h2, theta2, *args, **kwargs):
+    q1, s_axis1, h1, theta1, q2, s_axis2, h2, theta2, *args, **kwargs
+):
     """Raise an assertion if two sets of screw parameters are not similar.
 
     Note that the screw axis can be inverted. In this case theta and h have
@@ -695,8 +729,9 @@ def screw_matrix_from_transform_log(transform_log):
     """
     transform_log = check_transform_log(transform_log)
 
-    omega = np.array([
-        transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]])
+    omega = np.array(
+        [transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]]
+    )
     theta = np.linalg.norm(omega)
     if abs(theta) < np.finfo(float).eps:
         theta = np.linalg.norm(transform_log[:3, 3])
@@ -874,8 +909,9 @@ def transform_from_transform_log(transform_log):
     """
     transform_log = check_transform_log(transform_log)
 
-    omega_theta = np.array([
-        transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]])
+    omega_theta = np.array(
+        [transform_log[2, 1], transform_log[0, 2], transform_log[1, 0]]
+    )
     v_theta = transform_log[:3, 3]
     theta = np.linalg.norm(omega_theta)
 
@@ -930,7 +966,6 @@ def dual_quaternion_from_screw_parameters(q, s_axis, h, theta):
     real_w = cos_half_angle
     real_vec = sin_half_angle * s_axis
     dual_w = -half_distance * sin_half_angle
-    dual_vec = (sin_half_angle * moment +
-                half_distance * cos_half_angle * s_axis)
+    dual_vec = sin_half_angle * moment + half_distance * cos_half_angle * s_axis
 
     return np.r_[real_w, real_vec, dual_w, dual_vec]

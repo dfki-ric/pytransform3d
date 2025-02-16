@@ -1,10 +1,14 @@
 """Quaternion operations."""
+
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
 from ._angle import quaternion_from_angle
 from ._axis_angle import (
-    norm_axis_angle, quaternion_from_compact_axis_angle, compact_axis_angle)
+    norm_axis_angle,
+    quaternion_from_compact_axis_angle,
+    compact_axis_angle,
+)
 from ._utils import check_axis_index, norm_vector
 
 
@@ -57,8 +61,10 @@ def check_quaternion(q, unit=True):
     """
     q = np.asarray(q, dtype=np.float64)
     if q.ndim != 1 or q.shape[0] != 4:
-        raise ValueError("Expected quaternion with shape (4,), got "
-                         "array-like object with shape %s" % (q.shape,))
+        raise ValueError(
+            "Expected quaternion with shape (4,), got "
+            "array-like object with shape %s" % (q.shape,)
+        )
     if unit:
         return norm_vector(q)
     return q
@@ -89,7 +95,8 @@ def check_quaternions(Q, unit=True):
     if Q_checked.ndim != 2 or Q_checked.shape[1] != 4:
         raise ValueError(
             "Expected quaternion array with shape (n_steps, 4), got "
-            "array-like object with shape %s" % (Q_checked.shape,))
+            "array-like object with shape %s" % (Q_checked.shape,)
+        )
     if unit:
         for i in range(len(Q)):
             Q_checked[i] = norm_vector(Q_checked[i])
@@ -165,8 +172,9 @@ def pick_closest_quaternion_impl(quaternion, target_quaternion):
     closest_quaternion : array, shape (4,)
         Quaternion that is closest (Euclidean norm) to the target quaternion.
     """
-    if (np.linalg.norm(-quaternion - target_quaternion) <
-            np.linalg.norm(quaternion - target_quaternion)):
+    if np.linalg.norm(-quaternion - target_quaternion) < np.linalg.norm(
+        quaternion - target_quaternion
+    ):
         return -quaternion
     return quaternion
 
@@ -228,7 +236,8 @@ def quaternion_integrate(Qd, q0=np.array([1.0, 0.0, 0.0, 0.0]), dt=1.0):
     for t in range(1, len(Qd)):
         qd = (Qd[t] + Qd[t - 1]) / 2.0
         Q[t] = concatenate_quaternions(
-            quaternion_from_compact_axis_angle(dt * qd), Q[t - 1])
+            quaternion_from_compact_axis_angle(dt * qd), Q[t - 1]
+        )
     return Q
 
 
@@ -264,14 +273,23 @@ def quaternion_gradient(Q, dt=1.0):
     """
     Q = check_quaternions(Q)
     Qd = np.empty((len(Q), 3))
-    Qd[0] = compact_axis_angle_from_quaternion(
-        concatenate_quaternions(Q[1], q_conj(Q[0]))) / dt
+    Qd[0] = (
+        compact_axis_angle_from_quaternion(
+            concatenate_quaternions(Q[1], q_conj(Q[0]))
+        )
+        / dt
+    )
     for t in range(1, len(Q) - 1):
         # divided by two because of central differences
         Qd[t] = compact_axis_angle_from_quaternion(
-            concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))) / (2.0 * dt)
-    Qd[-1] = compact_axis_angle_from_quaternion(
-        concatenate_quaternions(Q[-1], q_conj(Q[-2]))) / dt
+            concatenate_quaternions(Q[t + 1], q_conj(Q[t - 1]))
+        ) / (2.0 * dt)
+    Qd[-1] = (
+        compact_axis_angle_from_quaternion(
+            concatenate_quaternions(Q[-1], q_conj(Q[-2]))
+        )
+        / dt
+    )
     return Qd
 
 
@@ -535,9 +553,13 @@ def matrix_from_quaternion(q):
     yw = 2.0 * y * w
     zw = 2.0 * z * w
 
-    R = np.array([[1.0 - y2 - z2, xy - zw, xz + yw],
-                  [xy + zw, 1.0 - x2 - z2, yz - xw],
-                  [xz - yw, yz + xw, 1.0 - x2 - y2]])
+    R = np.array(
+        [
+            [1.0 - y2 - z2, xy - zw, xz + yw],
+            [xy + zw, 1.0 - x2 - z2, yz - xw],
+            [xz - yw, yz + xw, 1.0 - x2 - y2],
+        ]
+    )
     return R
 
 

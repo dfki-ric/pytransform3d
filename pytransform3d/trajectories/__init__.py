@@ -3,12 +3,13 @@
 Conversions from this module operate on batches of poses or transformations
 and can be 400 to 1000 times faster than a loop of individual conversions.
 """
+
 from ._transforms import (
     invert_transforms,
     concat_one_to_many,
     concat_many_to_one,
     concat_many_to_many,
-    concat_dynamic
+    concat_dynamic,
 )
 from ._trajectories import (
     transforms_from_pqs,
@@ -29,7 +30,7 @@ from ._trajectories import (
     batch_dq_prod_vector,
     mirror_screw_axis_direction,
     random_trajectories,
-    plot_trajectory
+    plot_trajectory,
 )
 
 
@@ -57,5 +58,5 @@ __all__ = [
     "batch_dq_prod_vector",
     "mirror_screw_axis_direction",
     "random_trajectories",
-    "plot_trajectory"
+    "plot_trajectory",
 ]

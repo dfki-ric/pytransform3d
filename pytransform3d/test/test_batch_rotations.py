@@ -17,16 +17,14 @@ def test_norm_vectors_1dim():
     rng = np.random.default_rng(8381)
     V = rng.standard_normal(size=(100, 3))
     V_unit = pbr.norm_vectors(V)
-    assert_array_almost_equal(
-        np.linalg.norm(V_unit, axis=1), np.ones(len(V)))
+    assert_array_almost_equal(np.linalg.norm(V_unit, axis=1), np.ones(len(V)))
 
 
 def test_norm_vectors_1dim_output_variable():
     rng = np.random.default_rng(8381)
     V = rng.standard_normal(size=(100, 3))
     pbr.norm_vectors(V, out=V)
-    assert_array_almost_equal(
-        np.linalg.norm(V, axis=1), np.ones(len(V)))
+    assert_array_almost_equal(np.linalg.norm(V, axis=1), np.ones(len(V)))
 
 
 def test_norm_vectors_3dims():
@@ -34,7 +32,8 @@ def test_norm_vectors_3dims():
     V = rng.standard_normal(size=(8, 2, 8, 3))
     V_unit = pbr.norm_vectors(V)
     assert_array_almost_equal(
-        np.linalg.norm(V_unit, axis=-1), np.ones(V_unit.shape[:-1]))
+        np.linalg.norm(V_unit, axis=-1), np.ones(V_unit.shape[:-1])
+    )
 
 
 def test_norm_vectors_zero():
@@ -47,22 +46,26 @@ def test_norm_axis_angles():
     rng = np.random.default_rng(843)
     # create a batch of unnormalized axis-angle instances
     n_rotations = 10
-    A_unnormalized = np.hstack((
-        rng.standard_normal(size=(n_rotations, 3)),
-        np.pi + rng.uniform(size=(n_rotations, 1))
-    ))
+    A_unnormalized = np.hstack(
+        (
+            rng.standard_normal(size=(n_rotations, 3)),
+            np.pi + rng.uniform(size=(n_rotations, 1)),
+        )
+    )
 
     # cross check scalar version with vectorized version when passing
     # an 1D array
     assert_array_almost_equal(
         pbr.norm_axis_angles(A_unnormalized[0]),
-        pr.norm_axis_angle(A_unnormalized[0]))
+        pr.norm_axis_angle(A_unnormalized[0]),
+    )
 
     # cross check scalar version with vectorized version when passing
     # a 3D array
     assert_array_almost_equal(
         pbr.norm_axis_angles(np.array([[[0.0, 0.0, 0.0, np.pi]]]))[0, 0],
-        pr.norm_axis_angle(np.array([0.0, 0.0, 0.0, np.pi])))
+        pr.norm_axis_angle(np.array([0.0, 0.0, 0.0, np.pi])),
+    )
 
     # 2D
     A_norm = pbr.norm_axis_angles(A_unnormalized)
@@ -75,8 +78,9 @@ def test_norm_axis_angles():
     # 3D
     A3D = A_unnormalized.reshape(n_rotations // 2, 2, -1)
     A3D_norm = pbr.norm_axis_angles(A3D)
-    for a_unnormalized, a_norm in zip(A3D.reshape(n_rotations, -1),
-                                      A3D_norm.reshape(n_rotations, -1)):
+    for a_unnormalized, a_norm in zip(
+        A3D.reshape(n_rotations, -1), A3D_norm.reshape(n_rotations, -1)
+    ):
         assert_array_almost_equal(a_norm, pr.norm_axis_angle(a_unnormalized))
 
 
@@ -103,8 +107,10 @@ def test_angles_between_vectors_3dims():
     A = rng.standard_normal(size=(2, 4, 3, 4))
     B = rng.standard_normal(size=(2, 4, 3, 4))
     angles = pbr.angles_between_vectors(A, B).ravel()
-    angles2 = [pr.angle_between_vectors(a, b)
-               for a, b in zip(A.reshape(-1, 4), B.reshape(-1, 4))]
+    angles2 = [
+        pr.angle_between_vectors(a, b)
+        for a, b in zip(A.reshape(-1, 4), B.reshape(-1, 4))
+    ]
     assert_array_almost_equal(angles, angles2)
 
 
@@ -125,8 +131,9 @@ def test_active_matrices_from_angles_3dims():
     angles = rng.standard_normal(size=(2, 3, 4))
     Rs = pbr.active_matrices_from_angles(2, angles)
     Rs = Rs.reshape(-1, 3, 3)
-    Rs2 = [pr.active_matrix_from_angle(2, angle)
-           for angle in angles.reshape(-1)]
+    Rs2 = [
+        pr.active_matrix_from_angle(2, angle) for angle in angles.reshape(-1)
+    ]
     assert_array_almost_equal(Rs, Rs2)
 
 
@@ -136,8 +143,9 @@ def test_active_matrices_from_angles_3dims_output_variable():
     Rs = np.empty((2, 3, 4, 3, 3))
     pbr.active_matrices_from_angles(2, angles, out=Rs)
     Rs = Rs.reshape(-1, 3, 3)
-    Rs2 = [pr.active_matrix_from_angle(2, angle)
-           for angle in angles.reshape(-1)]
+    Rs2 = [
+        pr.active_matrix_from_angle(2, angle) for angle in angles.reshape(-1)
+    ]
     assert_array_almost_equal(Rs, Rs2)
 
 
@@ -171,8 +179,9 @@ def test_active_matrices_from_intrinsic_euler_angles_1dim_output_variables():
 def test_active_matrices_from_intrinsic_euler_angles_3dims():
     rng = np.random.default_rng(8385)
     e = rng.standard_normal(size=(2, 3, 4, 3))
-    Rs = pbr.active_matrices_from_intrinsic_euler_angles(
-        2, 1, 0, e).reshape(-1, 3, 3)
+    Rs = pbr.active_matrices_from_intrinsic_euler_angles(2, 1, 0, e).reshape(
+        -1, 3, 3
+    )
     e = e.reshape(-1, 3)
     for i in range(len(e)):
         Ri = pr.active_matrix_from_intrinsic_euler_zyx(e[i])
@@ -199,8 +208,9 @@ def test_active_matrices_from_extrinsic_euler_angles_1dim():
 def test_active_matrices_from_extrinsic_euler_angles_3dim():
     rng = np.random.default_rng(8385)
     e = rng.standard_normal(size=(2, 3, 4, 3))
-    Rs = pbr.active_matrices_from_extrinsic_euler_angles(
-        2, 1, 0, e).reshape(-1, 3, 3)
+    Rs = pbr.active_matrices_from_extrinsic_euler_angles(2, 1, 0, e).reshape(
+        -1, 3, 3
+    )
     e = e.reshape(-1, 3)
     for i in range(len(e)):
         Ri = pr.active_matrix_from_extrinsic_euler_zyx(e[i])
@@ -221,7 +231,8 @@ def test_cross_product_matrix():
     rng = np.random.default_rng(3820)
     v = rng.standard_normal(size=3)
     assert_array_almost_equal(
-        pbr.cross_product_matrices(v), pr.cross_product_matrix(v))
+        pbr.cross_product_matrices(v), pr.cross_product_matrix(v)
+    )
 
 
 def test_cross_product_matrices():
@@ -238,14 +249,16 @@ def test_matrices_from_quaternions():
     for _ in range(5):
         q = pr.random_quaternion(rng)
         R = pbr.matrices_from_quaternions(
-            q[np.newaxis], normalize_quaternions=False)[0]
+            q[np.newaxis], normalize_quaternions=False
+        )[0]
         q2 = pr.quaternion_from_matrix(R)
         pr.assert_quaternion_equal(q, q2)
 
     for _ in range(5):
         q = rng.standard_normal(size=4)
         R = pbr.matrices_from_quaternions(
-            q[np.newaxis], normalize_quaternions=True)[0]
+            q[np.newaxis], normalize_quaternions=True
+        )[0]
         q2 = pr.quaternion_from_matrix(R)
         pr.assert_quaternion_equal(q / np.linalg.norm(q), q2)
 
@@ -364,13 +377,11 @@ def test_axis_angles_from_matrices_norot():
     assert_array_almost_equal(A, [[1, 0, 0, 0], [1, 0, 0, 0]])
 
     A = pbr.axis_angles_from_matrices(
-        [[np.eye(3), np.eye(3)], [np.eye(3), np.eye(3)]])
+        [[np.eye(3), np.eye(3)], [np.eye(3), np.eye(3)]]
+    )
     assert_array_almost_equal(
-        A,
-        [
-            [[1, 0, 0, 0], [1, 0, 0, 0]],
-            [[1, 0, 0, 0], [1, 0, 0, 0]]
-        ])
+        A, [[[1, 0, 0, 0], [1, 0, 0, 0]], [[1, 0, 0, 0], [1, 0, 0, 0]]]
+    )
 
 
 def test_axis_angles_from_quaternions():
@@ -381,7 +392,7 @@ def test_axis_angles_from_quaternions():
     # 1D
     pr.assert_quaternion_equal(
         pbr.axis_angles_from_quaternions(Q[0]),
-        pr.axis_angle_from_quaternion(Q[0])
+        pr.axis_angle_from_quaternion(Q[0]),
     )
 
     # 2D
@@ -425,25 +436,36 @@ def test_quaternion_slerp_batch_sign_ambiguity():
     if np.sign(q1[0]) != np.sign(q2[0]):
         q2 *= -1.0
     traj_q = pbr.quaternion_slerp_batch(
-        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
-    path_length = np.sum([pr.quaternion_dist(r, s)
-                          for r, s in zip(traj_q[:-1], traj_q[1:])])
+        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True
+    )
+    path_length = np.sum(
+        [pr.quaternion_dist(r, s) for r, s in zip(traj_q[:-1], traj_q[1:])]
+    )
 
     q2 *= -1.0
     traj_q_opposing = pbr.quaternion_slerp_batch(
-        q1, q2, np.linspace(0, 1, n_steps), shortest_path=False)
+        q1, q2, np.linspace(0, 1, n_steps), shortest_path=False
+    )
     path_length_opposing = np.sum(
-        [pr.quaternion_dist(r, s)
-         for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])])
+        [
+            pr.quaternion_dist(r, s)
+            for r, s in zip(traj_q_opposing[:-1], traj_q_opposing[1:])
+        ]
+    )
 
     assert path_length_opposing > path_length
 
     traj_q_opposing_corrected = pbr.quaternion_slerp_batch(
-        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True)
+        q1, q2, np.linspace(0, 1, n_steps), shortest_path=True
+    )
     path_length_opposing_corrected = np.sum(
-        [pr.quaternion_dist(r, s)
-         for r, s in zip(traj_q_opposing_corrected[:-1],
-                         traj_q_opposing_corrected[1:])])
+        [
+            pr.quaternion_dist(r, s)
+            for r, s in zip(
+                traj_q_opposing_corrected[:-1], traj_q_opposing_corrected[1:]
+            )
+        ]
+    )
 
     assert pytest.approx(path_length_opposing_corrected) == path_length
 
@@ -452,27 +474,27 @@ def test_batch_concatenate_quaternions_mismatch():
     Q1 = np.zeros((1, 2, 4))
     Q2 = np.zeros((1, 2, 3, 4))
     with pytest.raises(
-            ValueError, match="Number of dimensions must be the same."):
+        ValueError, match="Number of dimensions must be the same."
+    ):
         pbr.batch_concatenate_quaternions(Q1, Q2)
 
     Q1 = np.zeros((1, 2, 4, 4))
     Q2 = np.zeros((1, 2, 3, 4))
-    with pytest.raises(
-            ValueError, match="Size of dimension 3 does not match"):
+    with pytest.raises(ValueError, match="Size of dimension 3 does not match"):
         pbr.batch_concatenate_quaternions(Q1, Q2)
 
     Q1 = np.zeros((1, 2, 3, 3))
     Q2 = np.zeros((1, 2, 3, 4))
     with pytest.raises(
-            ValueError, match="Last dimension of first argument does not "
-                              "match."):
+        ValueError, match="Last dimension of first argument does not " "match."
+    ):
         pbr.batch_concatenate_quaternions(Q1, Q2)
 
     Q1 = np.zeros((1, 2, 3, 4))
     Q2 = np.zeros((1, 2, 3, 3))
     with pytest.raises(
-            ValueError, match="Last dimension of second argument does "
-                              "not match."):
+        ValueError, match="Last dimension of second argument does " "not match."
+    ):
         pbr.batch_concatenate_quaternions(Q1, Q2)
 
 
@@ -482,8 +504,7 @@ def test_batch_concatenate_quaternions_1d():
     q2 = pr.random_quaternion(rng)
     q12 = np.empty(4)
     pbr.batch_concatenate_quaternions(q1, q2, out=q12)
-    assert_array_almost_equal(
-        q12, pr.concatenate_quaternions(q1, q2))
+    assert_array_almost_equal(q12, pr.concatenate_quaternions(q1, q2))
 
 
 def test_batch_q_conj_1d():
@@ -494,26 +515,27 @@ def test_batch_q_conj_1d():
 
 def test_batch_concatenate_q_conj():
     rng = np.random.default_rng(231)
-    Q = np.array([pr.random_quaternion(rng)
-                  for _ in range(10)])
+    Q = np.array([pr.random_quaternion(rng) for _ in range(10)])
     Q = Q.reshape(2, 5, 4)
 
     Q_conj = pbr.batch_q_conj(Q)
     Q_Q_conj = pbr.batch_concatenate_quaternions(Q, Q_conj)
 
     assert_array_almost_equal(
-        Q_Q_conj.reshape(-1, 4),
-        np.array([[1, 0, 0, 0]] * 10))
+        Q_Q_conj.reshape(-1, 4), np.array([[1, 0, 0, 0]] * 10)
+    )
 
 
 def test_batch_convert_quaternion_conventions():
     q_wxyz = np.array([[1.0, 0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0]])
     q_xyzw = pbr.batch_quaternion_xyzw_from_wxyz(q_wxyz)
     assert_array_almost_equal(
-        q_xyzw, np.array([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]]))
+        q_xyzw, np.array([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]])
+    )
     pbr.batch_quaternion_xyzw_from_wxyz(q_wxyz, out=q_xyzw)
     assert_array_almost_equal(
-        q_xyzw, np.array([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]]))
+        q_xyzw, np.array([[0.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 1.0]])
+    )
     q_wxyz2 = pbr.batch_quaternion_wxyz_from_xyzw(q_xyzw)
     assert_array_almost_equal(q_wxyz, q_wxyz2)
     pbr.batch_quaternion_wxyz_from_xyzw(q_xyzw, out=q_wxyz2)
@@ -554,11 +576,13 @@ def test_smooth_quaternion_trajectory_start_component_negative():
         if q[index] > 0.0:
             q *= -1.0
         q_corrected = pbr.smooth_quaternion_trajectory(
-            [q], start_component_positive=component)[0]
+            [q], start_component_positive=component
+        )[0]
         assert q_corrected[index] > 0.0
 
 
 def test_smooth_quaternion_trajectory_empty():
     with pytest.raises(
-            ValueError, match=r"At least one quaternion is expected"):
+        ValueError, match=r"At least one quaternion is expected"
+    ):
         pbr.smooth_quaternion_trajectory(np.zeros((0, 4)))

@@ -8,6 +8,7 @@ run from within the main folder because it uses a
 hard-coded path to the STL file. Press 'H' to print the viewer's
 help message to stdout.
 """
+
 import os
 import numpy as np
 from pytransform3d import visualizer as pv
@@ -16,8 +17,10 @@ from pytransform3d import visualizer as pv
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
-while (not os.path.exists(data_dir) and
-       os.path.dirname(search_path) != "pytransform3d"):
+while (
+    not os.path.exists(data_dir)
+    and os.path.dirname(search_path) != "pytransform3d"
+):
     search_path = os.path.join(search_path, "..")
     data_dir = os.path.join(search_path, BASE_DIR)
 

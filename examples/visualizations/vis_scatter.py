@@ -5,6 +5,7 @@ Scatter Plot
 
 Visualizes a point collection.
 """
+
 import numpy as np
 import pytransform3d.visualizer as pv
 

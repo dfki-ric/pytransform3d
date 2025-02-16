@@ -1,4 +1,5 @@
 """Common interface to load meshes."""
+
 import abc
 
 import numpy as np
@@ -42,7 +43,8 @@ def load_mesh(filename):
     if not mesh_loaded:  # pragma: no cover
         raise ImportError(
             "Could not load mesh from '%s'. Please install one of the "
-            "optional dependencies 'trimesh' or 'open3d'." % filename)
+            "optional dependencies 'trimesh' or 'open3d'." % filename
+        )
 
     return mesh
 
@@ -55,6 +57,7 @@ class MeshBase(abc.ABC):
     filename : str
         File in which the mesh is stored.
     """
+
     def __init__(self, filename):
         self.filename = filename
 
@@ -114,6 +117,7 @@ class _Trimesh(MeshBase):
 
     def _open3d_mesh_to_trimesh(self, open3d_mesh):  # pragma: no cover
         import trimesh
+
         if len(open3d_mesh.vertex_colors) == 0:
             vertex_colors = None
         else:
@@ -121,7 +125,7 @@ class _Trimesh(MeshBase):
         return trimesh.Trimesh(
             vertices=np.asarray(open3d_mesh.vertices),
             faces=np.asarray(open3d_mesh.triangles),
-            vertex_colors=vertex_colors
+            vertex_colors=vertex_colors,
         )
 
     def convex_hull(self):
@@ -133,6 +137,7 @@ class _Trimesh(MeshBase):
     def _scene_to_open3d_mesh(self, scene):  # pragma: no cover
         import open3d
         import trimesh
+
         mesh = open3d.geometry.TriangleMesh()
         for d in scene.dump():
             if isinstance(d, trimesh.Trimesh):
@@ -142,12 +147,15 @@ class _Trimesh(MeshBase):
     def _trimesh_to_open3d_mesh(self, tri_mesh):  # pragma: no cover
         import open3d
         import trimesh
+
         mesh = open3d.geometry.TriangleMesh(
             open3d.utility.Vector3dVector(tri_mesh.vertices),
-            open3d.utility.Vector3iVector(tri_mesh.faces))
+            open3d.utility.Vector3iVector(tri_mesh.faces),
+        )
         if isinstance(tri_mesh.visual, trimesh.visual.ColorVisuals):
             mesh.vertex_colors = open3d.utility.Vector3dVector(
-                tri_mesh.visual.vertex_colors[:, :3] / 255.0)
+                tri_mesh.visual.vertex_colors[:, :3] / 255.0
+            )
         return mesh
 
     @property

@@ -15,12 +15,18 @@ indicates the position of q, which is a point on the screw axis. A straight
 arrow shows the direction of the screw axis. The spiral path represents
 a displacement of length theta along the screw axis.
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import active_matrix_from_extrinsic_roll_pitch_yaw
 from pytransform3d.transformations import (
-    plot_transform, plot_screw, screw_axis_from_screw_parameters,
-    transform_from_exponential_coordinates, concat, transform_from)
+    plot_transform,
+    plot_screw,
+    screw_axis_from_screw_parameters,
+    transform_from_exponential_coordinates,
+    concat,
+    transform_from,
+)
 
 
 # Screw parameters
@@ -34,12 +40,14 @@ A2B = transform_from_exponential_coordinates(Stheta)
 
 origin = transform_from(
     active_matrix_from_extrinsic_roll_pitch_yaw([0.5, -0.3, 0.2]),
-    np.array([0.0, 0.1, 0.1]))
+    np.array([0.0, 0.1, 0.1]),
+)
 
 ax = plot_transform(A2B=origin, s=0.4)
 plot_transform(ax=ax, A2B=concat(A2B, origin), s=0.2)
 plot_screw(
-    ax=ax, q=q, s_axis=s_axis, h=h, theta=theta, A2B=origin, s=1.5, alpha=0.6)
+    ax=ax, q=q, s_axis=s_axis, h=h, theta=theta, A2B=origin, s=1.5, alpha=0.6
+)
 ax.view_init(elev=40, azim=170)
 plt.subplots_adjust(0, 0, 1, 1)
 plt.show()

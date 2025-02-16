@@ -1,4 +1,5 @@
 """Modified Rodrigues parameters."""
+
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
@@ -51,7 +52,8 @@ def check_mrp(mrp):
     if mrp.ndim != 1 or mrp.shape[0] != 3:
         raise ValueError(
             "Expected modified Rodrigues parameters with shape (3,), got "
-            "array-like object with shape %s" % (mrp.shape,))
+            "array-like object with shape %s" % (mrp.shape,)
+        )
     return mrp
 
 

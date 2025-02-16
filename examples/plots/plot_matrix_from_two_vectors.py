@@ -8,10 +8,14 @@ point in the same direction as the first vector, the y-axis corresponds to the
 normalized vector rejection of b on a, and the z-axis is the cross product of
 the other basis vectors.
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import (
-    matrix_from_two_vectors, plot_basis, random_vector)
+    matrix_from_two_vectors,
+    plot_basis,
+    random_vector,
+)
 from pytransform3d.plot_utils import plot_vector
 
 

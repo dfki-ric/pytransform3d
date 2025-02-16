@@ -5,6 +5,7 @@ Animate Camera
 
 Animate a camera moving along a circular trajectory while looking at a target.
 """
+
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np

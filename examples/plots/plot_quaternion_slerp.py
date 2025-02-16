@@ -9,10 +9,14 @@ significant differences as you can see in this example. The outer circle uses
 linear interpolation and the inner circle uses SLERP. You can play around with
 the value of 'end_angle' in this example.
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import (
-    matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp)
+    matrix_from_axis_angle,
+    quaternion_from_matrix,
+    quaternion_slerp,
+)
 from pytransform3d.trajectories import plot_trajectory
 
 # %%
@@ -52,9 +56,9 @@ for i, t in enumerate(T):
 # %%
 # The following 3D plot compares the two approaches.
 ax = plot_trajectory(
-    P=lerp, show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
-ax = plot_trajectory(
-    P=slerp, show_direction=False, n_frames=40, s=0.05, ax=ax)
+    P=lerp, show_direction=False, n_frames=40, s=0.05, ax_s=0.7
+)
+ax = plot_trajectory(P=slerp, show_direction=False, n_frames=40, s=0.05, ax=ax)
 ax.text(0.1, 0, 0, "SLERP")
 ax.text(0.4, 0, 0.6, "Naive linear interpolation")
 ax.view_init(elev=10, azim=90)

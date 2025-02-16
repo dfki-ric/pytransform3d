@@ -1,4 +1,5 @@
 """Conversions from axis-angle to other representations."""
+
 import math
 
 import numpy as np
@@ -107,8 +108,10 @@ def check_axis_angle(a):
     """
     a = np.asarray(a, dtype=np.float64)
     if a.ndim != 1 or a.shape[0] != 4:
-        raise ValueError("Expected axis and angle in array with shape (4,), "
-                         "got array-like object with shape %s" % (a.shape,))
+        raise ValueError(
+            "Expected axis and angle in array with shape (4,), "
+            "got array-like object with shape %s" % (a.shape,)
+        )
     return norm_axis_angle(a)
 
 
@@ -132,8 +135,10 @@ def check_compact_axis_angle(a):
     """
     a = np.asarray(a, dtype=np.float64)
     if a.ndim != 1 or a.shape[0] != 3:
-        raise ValueError("Expected axis and angle in array with shape (3,), "
-                         "got array-like object with shape %s" % (a.shape,))
+        raise ValueError(
+            "Expected axis and angle in array with shape (3,), "
+            "got array-like object with shape %s" % (a.shape,)
+        )
     return norm_compact_axis_angle(a)
 
 
@@ -198,8 +203,11 @@ def assert_compact_axis_angle_equal(a1, a2, *args, **kwargs):
     angle1 = np.linalg.norm(a1)
     angle2 = np.linalg.norm(a2)
     # required despite normalization in case of 180 degree rotation
-    if (abs(angle1) == np.pi and abs(angle2) == np.pi and
-            any(np.sign(a1) != np.sign(a2))):
+    if (
+        abs(angle1) == np.pi
+        and abs(angle2) == np.pi
+        and any(np.sign(a1) != np.sign(a2))
+    ):
         a1 = -a1
     a1 = norm_compact_axis_angle(a1)
     a2 = norm_compact_axis_angle(a2)
@@ -279,16 +287,13 @@ def matrix_from_axis_angle(a):
     c = math.cos(theta)
     s = math.sin(theta)
     ci = 1.0 - c
-    R = np.array([[ci * ux * ux + c,
-                   ci * ux * uy - uz * s,
-                   ci * ux * uz + uy * s],
-                  [ci * uy * ux + uz * s,
-                   ci * uy * uy + c,
-                   ci * uy * uz - ux * s],
-                  [ci * uz * ux - uy * s,
-                   ci * uz * uy + ux * s,
-                   ci * uz * uz + c],
-                  ])
+    R = np.array(
+        [
+            [ci * ux * ux + c, ci * ux * uy - uz * s, ci * ux * uz + uy * s],
+            [ci * uy * ux + uz * s, ci * uy * uy + c, ci * uy * uz - ux * s],
+            [ci * uz * ux - uy * s, ci * uz * uy + ux * s, ci * uz * uz + c],
+        ]
+    )
 
     # This is equivalent to
     # R = (np.eye(3) * np.cos(a[3]) +

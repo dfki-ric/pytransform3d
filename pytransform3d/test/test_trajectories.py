@@ -2,27 +2,47 @@ import numpy as np
 import pytest
 import pytransform3d.trajectories as ptr
 from pytransform3d.trajectories import (
-    invert_transforms, transforms_from_pqs, pqs_from_transforms,
+    invert_transforms,
+    transforms_from_pqs,
+    pqs_from_transforms,
     transforms_from_exponential_coordinates,
     exponential_coordinates_from_transforms,
-    pqs_from_dual_quaternions, dual_quaternions_from_pqs,
-    batch_concatenate_dual_quaternions, batch_dq_prod_vector,
-    transforms_from_dual_quaternions, dual_quaternions_from_transforms,
-    concat_one_to_many, concat_many_to_one, mirror_screw_axis_direction,
+    pqs_from_dual_quaternions,
+    dual_quaternions_from_pqs,
+    batch_concatenate_dual_quaternions,
+    batch_dq_prod_vector,
+    transforms_from_dual_quaternions,
+    dual_quaternions_from_transforms,
+    concat_one_to_many,
+    concat_many_to_one,
+    mirror_screw_axis_direction,
     screw_parameters_from_dual_quaternions,
-    dual_quaternions_from_screw_parameters, dual_quaternions_sclerp,
-    concat_dynamic)
+    dual_quaternions_from_screw_parameters,
+    dual_quaternions_sclerp,
+    concat_dynamic,
+)
 from pytransform3d.rotations import (
-    quaternion_from_matrix, assert_quaternion_equal, active_matrix_from_angle,
-    random_quaternion)
+    quaternion_from_matrix,
+    assert_quaternion_equal,
+    active_matrix_from_angle,
+    random_quaternion,
+)
 import pytransform3d.transformations as pt
 from pytransform3d.transformations import (
-    exponential_coordinates_from_transform, translate_transform,
-    rotate_transform, random_transform, transform_from_pq,
-    concatenate_dual_quaternions, dq_prod_vector,
-    assert_unit_dual_quaternion_equal, invert_transform, concat,
-    transform_from_exponential_coordinates, dual_quaternion_from_transform,
-    screw_parameters_from_dual_quaternion)
+    exponential_coordinates_from_transform,
+    translate_transform,
+    rotate_transform,
+    random_transform,
+    transform_from_pq,
+    concatenate_dual_quaternions,
+    dq_prod_vector,
+    assert_unit_dual_quaternion_equal,
+    invert_transform,
+    concat,
+    transform_from_exponential_coordinates,
+    dual_quaternion_from_transform,
+    screw_parameters_from_dual_quaternion,
+)
 from pytransform3d.batch_rotations import norm_vectors
 from numpy.testing import assert_array_almost_equal
 
@@ -52,7 +72,8 @@ def test_invert_transforms_2dims():
         A2Bs[i] = random_transform(rng)
         B2As[i] = invert_transform(A2Bs[i])
     assert_array_almost_equal(
-        B2As.reshape(3, 3, 4, 4), invert_transforms(A2Bs.reshape(3, 3, 4, 4)))
+        B2As.reshape(3, 3, 4, 4), invert_transforms(A2Bs.reshape(3, 3, 4, 4))
+    )
 
 
 def test_concat_one_to_many():
@@ -92,11 +113,13 @@ def test_concat_dynamic():
         # check 1 - 1 case
         assert_array_almost_equal(A2Cs[i], concat_dynamic(A2Bs[i], B2Cs[i]))
     # check 1 - n_rotations case
-    assert_array_almost_equal(concat_dynamic(A2Bs[0], B2Cs),
-                              concat_one_to_many(A2Bs[0], B2Cs))
+    assert_array_almost_equal(
+        concat_dynamic(A2Bs[0], B2Cs), concat_one_to_many(A2Bs[0], B2Cs)
+    )
     # check n_rotations - 1 case
-    assert_array_almost_equal(concat_dynamic(A2Bs, B2Cs[0]),
-                              concat_many_to_one(A2Bs, B2Cs[0]))
+    assert_array_almost_equal(
+        concat_dynamic(A2Bs, B2Cs[0]), concat_many_to_one(A2Bs, B2Cs[0])
+    )
 
     with pytest.raises(ValueError, match="Expected ndim 2 or 3"):
         concat_dynamic(A2Bs, B2Cs[np.newaxis])
@@ -197,8 +220,9 @@ def test_transforms_from_exponential_coordinates():
         assert_array_almost_equal(A2B, A2B2)
         A2B2 = transforms_from_exponential_coordinates(Stheta)
         assert_array_almost_equal(A2B, A2B2)
-        A2B2 = transforms_from_exponential_coordinates(
-            [[Stheta], [Stheta]])[0, 0]
+        A2B2 = transforms_from_exponential_coordinates([[Stheta], [Stheta]])[
+            0, 0
+        ]
         assert_array_almost_equal(A2B, A2B2)
 
 
@@ -262,7 +286,8 @@ def test_batch_concatenate_dual_quaternions_0dims():
 
     assert_array_almost_equal(
         batch_concatenate_dual_quaternions(dq1, dq2),
-        concatenate_dual_quaternions(dq1, dq2))
+        concatenate_dual_quaternions(dq1, dq2),
+    )
 
 
 def test_batch_concatenate_dual_quaternions_2dims():
@@ -275,11 +300,11 @@ def test_batch_concatenate_dual_quaternions_2dims():
 
     dqs_result = batch_concatenate_dual_quaternions(dqs1, dqs2)
     for dq_result, dq1, dq2 in zip(
-            dqs_result.reshape(-1, 8), dqs1.reshape(-1, 8),
-            dqs2.reshape(-1, 8)):
+        dqs_result.reshape(-1, 8), dqs1.reshape(-1, 8), dqs2.reshape(-1, 8)
+    ):
         assert_array_almost_equal(
-            concatenate_dual_quaternions(dq1, dq2),
-            dq_result)
+            concatenate_dual_quaternions(dq1, dq2), dq_result
+        )
 
 
 def test_batch_dual_quaternion_vector_product_0dims():
@@ -290,7 +315,8 @@ def test_batch_dual_quaternion_vector_product_0dims():
     v = rng.standard_normal(size=3)
 
     assert_array_almost_equal(
-        batch_dq_prod_vector(dq, v), dq_prod_vector(dq, v))
+        batch_dq_prod_vector(dq, v), dq_prod_vector(dq, v)
+    )
 
 
 def test_batch_dual_quaternion_vector_product_2dims():
@@ -302,8 +328,9 @@ def test_batch_dual_quaternion_vector_product_2dims():
 
     V_transformed = batch_dq_prod_vector(dqs, V)
     assert V_transformed.shape == (3, 4, 3)
-    for v_t, dq, v in zip(V_transformed.reshape(-1, 3), dqs.reshape(-1, 8),
-                          V.reshape(-1, 3)):
+    for v_t, dq, v in zip(
+        V_transformed.reshape(-1, 3), dqs.reshape(-1, 8), V.reshape(-1, 3)
+    ):
         assert_array_almost_equal(v_t, dq_prod_vector(dq, v))
 
 
@@ -335,21 +362,27 @@ def test_batch_conversions_dual_quaternions_transforms_3dims():
 
 
 def test_mirror_screw_axis():
-    pose = np.array([[0.10156069, -0.02886784, 0.99441042, 0.6753021],
-                     [-0.4892026, -0.87182166, 0.02465395, -0.2085889],
-                     [0.86623683, -0.48897203, -0.10266503, 0.30462221],
-                     [0.0, 0.0, 0.0, 1.0]])
+    pose = np.array(
+        [
+            [0.10156069, -0.02886784, 0.99441042, 0.6753021],
+            [-0.4892026, -0.87182166, 0.02465395, -0.2085889],
+            [0.86623683, -0.48897203, -0.10266503, 0.30462221],
+            [0.0, 0.0, 0.0, 1.0],
+        ]
+    )
     exponential_coordinates = exponential_coordinates_from_transform(pose)
     mirror_exponential_coordinates = mirror_screw_axis_direction(
-        exponential_coordinates.reshape(1, 6))[0]
+        exponential_coordinates.reshape(1, 6)
+    )[0]
     pose2 = transform_from_exponential_coordinates(
-        mirror_exponential_coordinates)
+        mirror_exponential_coordinates
+    )
     assert_array_almost_equal(pose, pose2)
 
 
 def test_screw_parameters_from_dual_quaternions():
     case_idx0 = np.array([1, 0, 0, 0, 0, 0, 0, 0])
-    case_idx1 = np.array([[1., 0., 0., 0., 0., 0.6, 0.65, 0.7]])
+    case_idx1 = np.array([[1.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.65, 0.7]])
 
     dqs = np.vstack([case_idx0, case_idx1])
     q, s_axis, h, theta = screw_parameters_from_dual_quaternions(dqs)
@@ -362,20 +395,23 @@ def test_screw_parameters_from_dual_quaternions():
 
     assert_array_almost_equal(q[1], np.zeros(3))
     assert_array_almost_equal(
-        s_axis[1], norm_vectors(np.array([1.2, 1.3, 1.4])))
+        s_axis[1], norm_vectors(np.array([1.2, 1.3, 1.4]))
+    )
     assert np.isinf(h[1])
     assert pytest.approx(theta[1]) == np.linalg.norm(np.array([1.2, 1.3, 1.4]))
 
     rng = np.random.default_rng(83343)
     dqs = dual_quaternions_from_transforms(
-        np.array([random_transform(rng) for _ in range(10)])).reshape(5, 2, -1)
+        np.array([random_transform(rng) for _ in range(10)])
+    ).reshape(5, 2, -1)
     qs, s_axes, hs, thetas = screw_parameters_from_dual_quaternions(dqs)
     for q, s_axis, h, theta, dq in zip(
-            qs.reshape(10, -1),
-            s_axes.reshape(10, -1),
-            hs.reshape(10),
-            thetas.reshape(10),
-            dqs.reshape(10, -1)):
+        qs.reshape(10, -1),
+        s_axes.reshape(10, -1),
+        hs.reshape(10),
+        thetas.reshape(10),
+        dqs.reshape(10, -1),
+    ):
         q2, s_axis2, h2, theta2 = screw_parameters_from_dual_quaternion(dq)
         assert_array_almost_equal(q, q2)
         assert_array_almost_equal(s_axis, s_axis2)
@@ -419,13 +455,18 @@ def test_dual_quaternions_from_screw_parameters():
     assert_array_almost_equal(pqs[2, :3], [0, 0, 0])
 
     rng = np.random.default_rng(83323)
-    dqs = np.array([ptr.dual_quaternions_from_transforms(
-        pt.random_transform(rng)) for _ in range(18)])
+    dqs = np.array(
+        [
+            ptr.dual_quaternions_from_transforms(pt.random_transform(rng))
+            for _ in range(18)
+        ]
+    )
 
     # 1D
     screw_parameters = ptr.screw_parameters_from_dual_quaternions(dqs[0])
     pt.assert_unit_dual_quaternion_equal(
-        dqs[0], ptr.dual_quaternions_from_screw_parameters(*screw_parameters))
+        dqs[0], ptr.dual_quaternions_from_screw_parameters(*screw_parameters)
+    )
 
     # 2D
     screw_parameters = ptr.screw_parameters_from_dual_quaternions(dqs)
@@ -477,17 +518,20 @@ def test_dual_quaternions_sclerp():
     dqs_int = ptr.dual_quaternions_sclerp(dqs_start, dqs_end, ts)
     assert dqs_int.shape == (5, 4, 8)
     for dq_start, dq_end, t, dq_int in zip(
-            dqs_start.reshape(-1, 8),
-            dqs_end.reshape(-1, 8),
-            ts.reshape(-1),
-            dqs_int.reshape(-1, 8)):
+        dqs_start.reshape(-1, 8),
+        dqs_end.reshape(-1, 8),
+        ts.reshape(-1),
+        dqs_int.reshape(-1, 8),
+    ):
         pt.assert_unit_dual_quaternion_equal(
-            dq_int, pt.dual_quaternion_sclerp(dq_start, dq_end, t))
+            dq_int, pt.dual_quaternion_sclerp(dq_start, dq_end, t)
+        )
 
     # 1D
     pt.assert_unit_dual_quaternion_equal(
         pt.dual_quaternion_sclerp(dqs_start[0, 0], dqs_end[0, 0], ts[0, 0]),
-        ptr.dual_quaternions_sclerp(dqs_start[0, 0], dqs_end[0, 0], ts[0, 0]))
+        ptr.dual_quaternions_sclerp(dqs_start[0, 0], dqs_end[0, 0], ts[0, 0]),
+    )
 
 
 def test_batch_dq_q_conj():
@@ -499,8 +543,10 @@ def test_batch_dq_q_conj():
     assert_array_almost_equal(
         pt.transform_from_dual_quaternion(
             pt.concatenate_dual_quaternions(
-                dqs[0, 0], ptr.batch_dq_q_conj(dqs[0, 0]))),
-        np.eye(4)
+                dqs[0, 0], ptr.batch_dq_q_conj(dqs[0, 0])
+            )
+        ),
+        np.eye(4),
     )
 
     # 3D
@@ -517,8 +563,13 @@ def test_random_trajectories():
     goal = pt.random_transform(rng)
 
     trajectories = ptr.random_trajectories(
-        rng, n_trajectories=7, n_steps=132, start=start, goal=goal,
-        scale=[100] * 6)
+        rng,
+        n_trajectories=7,
+        n_steps=132,
+        start=start,
+        goal=goal,
+        scale=[100] * 6,
+    )
     assert trajectories.shape == (7, 132, 4, 4)
     assert_array_almost_equal(trajectories[0, 0], start, decimal=2)
     assert_array_almost_equal(trajectories[0, -1], goal, decimal=2)
@@ -527,14 +578,22 @@ def test_random_trajectories():
     # movement from start to goal does not interfere with the random motion
     rng = np.random.default_rng(3429)
     trajectories1 = ptr.random_trajectories(
-        rng, n_trajectories=3, n_steps=20, scale=[1.0] * 6)
+        rng, n_trajectories=3, n_steps=20, scale=[1.0] * 6
+    )
     rng = np.random.default_rng(3429)
     trajectories2 = ptr.random_trajectories(
-        rng, n_trajectories=3, n_steps=20, scale=[2.0] * 6)
+        rng, n_trajectories=3, n_steps=20, scale=[2.0] * 6
+    )
     Sthetas1 = ptr.exponential_coordinates_from_transforms(trajectories1)
-    acc1 = np.abs(np.gradient(np.gradient(Sthetas1, axis=1, edge_order=1),
-                              axis=1, edge_order=1))
+    acc1 = np.abs(
+        np.gradient(
+            np.gradient(Sthetas1, axis=1, edge_order=1), axis=1, edge_order=1
+        )
+    )
     Sthetas2 = ptr.exponential_coordinates_from_transforms(trajectories2)
-    acc2 = np.abs(np.gradient(np.gradient(Sthetas2, axis=1, edge_order=1),
-                              axis=1, edge_order=1))
+    acc2 = np.abs(
+        np.gradient(
+            np.gradient(Sthetas2, axis=1, edge_order=1), axis=1, edge_order=1
+        )
+    )
     assert np.all(acc1 <= acc2)

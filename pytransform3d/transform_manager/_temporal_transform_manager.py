@@ -12,7 +12,7 @@ from ..trajectories import (
     dual_quaternions_sclerp,
     transforms_from_pqs,
     concat_dynamic,
-    invert_transforms
+    invert_transforms,
 )
 
 
@@ -59,6 +59,7 @@ class StaticTransform(TimeVaryingTransform):
     A2B : array-like, shape (4, 4)
         Homogeneous transformation matrix.
     """
+
     def __init__(self, A2B):
         self._A2B = A2B
 
@@ -92,6 +93,7 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
         range of the time series. If this deactivated, we will raise a
         ValueError when the query time is out of range.
     """
+
     def __init__(self, time, pqs, time_clipping=False):
         self.time = np.asarray(time)
         self._pqs = np.asarray(pqs)
@@ -102,7 +104,8 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
         if self.time.size != self._pqs.shape[0]:
             raise ValueError(
-                "Number of timesteps does not equal to number of PQ samples")
+                "Number of timesteps does not equal to number of PQ samples"
+            )
 
         if self._pqs.shape[1] != 7:
             raise ValueError("`pqs` matrix shall have 7 columns.")
@@ -135,9 +138,9 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
     def _interpolate_pq_using_sclerp(self, query_time_arr):
         # identify the index of the preceding sample
-        idxs_timestep_earlier_wrt_query_time = np.searchsorted(
-            self.time, query_time_arr, side='right'
-        ) - 1
+        idxs_timestep_earlier_wrt_query_time = (
+            np.searchsorted(self.time, query_time_arr, side="right") - 1
+        )
 
         # deal with first and last timestamp
         before_start = query_time_arr < self._min_time
@@ -147,23 +150,28 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
             min_index = 0
             max_index = self.time.shape[0] - 2
             idxs_timestep_earlier_wrt_query_time = np.clip(
-                idxs_timestep_earlier_wrt_query_time, min_index, max_index)
+                idxs_timestep_earlier_wrt_query_time, min_index, max_index
+            )
         elif any(out_of_range):
             indices = np.where(out_of_range)[0]
             times = query_time_arr[indices]
             raise ValueError(
                 "Query time at indices %s, time(s): %s is/are out of range of "
-                "time series." % (indices, times))
+                "time series." % (indices, times)
+            )
 
-        idxs_timestep_later_wrt_query_time = \
+        idxs_timestep_later_wrt_query_time = (
             idxs_timestep_earlier_wrt_query_time + 1
+        )
         if self.time_clipping:
             before_or_eq_start = query_time_arr <= self._min_time
             after_or_eq_end = query_time_arr >= self._max_time
-            idxs_timestep_later_wrt_query_time[before_or_eq_start] = \
+            idxs_timestep_later_wrt_query_time[before_or_eq_start] = (
                 idxs_timestep_earlier_wrt_query_time[before_or_eq_start]
-            idxs_timestep_earlier_wrt_query_time[after_or_eq_end] = \
+            )
+            idxs_timestep_earlier_wrt_query_time[after_or_eq_end] = (
                 idxs_timestep_later_wrt_query_time[after_or_eq_end]
+            )
 
         # dual quaternion from preceding sample
         times_prev = self.time[idxs_timestep_earlier_wrt_query_time]
@@ -185,7 +193,8 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
             query_time_arr[interpolation_case] - times_prev[interpolation_case]
         ) / (times_next[interpolation_case] - times_prev[interpolation_case])
         dqs_interpolated = dual_quaternions_sclerp(
-            dqs_prev, dqs_next, rel_times_between_samples)
+            dqs_prev, dqs_next, rel_times_between_samples
+        )
         return pqs_from_dual_quaternions(dqs_interpolated)
 
 
@@ -224,8 +233,10 @@ class TemporalTransformManager(TransformGraphBase):
     @property
     def transforms(self):
         """Rigid transformations between nodes."""
-        return {transform_key: transform.as_matrix(self.current_time) for
-                transform_key, transform in self._transforms.items()}
+        return {
+            transform_key: transform.as_matrix(self.current_time)
+            for transform_key, transform in self._transforms.items()
+        }
 
     def get_transform_at_time(self, from_frame, to_frame, time):
         """Request a transformation at a given time.
@@ -266,7 +277,7 @@ class TemporalTransformManager(TransformGraphBase):
 
     def get_transform(self, from_frame, to_frame):
         """Request a transformation.
-        
+
         The internal current_time will be used for time based transformations.
         If the query time is out of bounds, it will be clipped to either the
         first or the last available time.
