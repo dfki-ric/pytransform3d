@@ -13,6 +13,68 @@ from ..rotations import (
 )
 
 
+def check_dual_quaternion(dq, unit=True):
+    """Input validation of dual quaternion representation.
+
+    See http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
+
+    A dual quaternion is defined as
+
+    .. math::
+
+        \\boldsymbol{\\sigma} = \\boldsymbol{p} + \\epsilon \\boldsymbol{q},
+
+    where :math:`\\boldsymbol{p}` and :math:`\\boldsymbol{q}` are both
+    quaternions and :math:`\\epsilon` is the dual unit with
+    :math:`\\epsilon^2 = 0`. The first quaternion is also called the real part
+    and the second quaternion is called the dual part.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8,)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    unit : bool, optional (default: True)
+        Normalize the dual quaternion so that it is a unit dual quaternion.
+        A unit dual quaternion has the properties
+        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
+        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
+
+    Returns
+    -------
+    dq : array, shape (8,)
+        Unit dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Raises
+    ------
+    ValueError
+        If input is invalid
+
+    See Also
+    --------
+    norm_dual_quaternion
+        Normalization that enforces unit norm and orthogonality of the real and
+        dual quaternion.
+    """
+    dq = np.asarray(dq, dtype=np.float64)
+    if dq.ndim != 1 or dq.shape[0] != 8:
+        raise ValueError(
+            "Expected dual quaternion with shape (8,), got "
+            "array-like object with shape %s" % (dq.shape,)
+        )
+    if unit:
+        # Norm of a dual quaternion only depends on the real part because
+        # the dual part vanishes with (1) epsilon ** 2 = 0 and (2) the real
+        # and dual part being orthogonal, i.e., their product is 0.
+        real_norm = np.linalg.norm(dq[:4])
+        if real_norm == 0.0:
+            return np.r_[1, 0, 0, 0, dq[4:]]
+        return dq / real_norm
+    return dq
+
+
 def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
     r"""Check if dual quaternion requires renormalization.
 
@@ -132,68 +194,6 @@ def norm_dual_quaternion(dq):
     dual = real_inv_sqrt * dual + concatenate_quaternions(dual_inv_sqrt, real)
 
     return np.hstack((real, dual))
-
-
-def check_dual_quaternion(dq, unit=True):
-    """Input validation of dual quaternion representation.
-
-    See http://web.cs.iastate.edu/~cs577/handouts/dual-quaternion.pdf
-
-    A dual quaternion is defined as
-
-    .. math::
-
-        \\boldsymbol{\\sigma} = \\boldsymbol{p} + \\epsilon \\boldsymbol{q},
-
-    where :math:`\\boldsymbol{p}` and :math:`\\boldsymbol{q}` are both
-    quaternions and :math:`\\epsilon` is the dual unit with
-    :math:`\\epsilon^2 = 0`. The first quaternion is also called the real part
-    and the second quaternion is called the dual part.
-
-    Parameters
-    ----------
-    dq : array-like, shape (8,)
-        Dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-
-    unit : bool, optional (default: True)
-        Normalize the dual quaternion so that it is a unit dual quaternion.
-        A unit dual quaternion has the properties
-        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
-        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
-
-    Returns
-    -------
-    dq : array, shape (8,)
-        Unit dual quaternion to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz)
-
-    Raises
-    ------
-    ValueError
-        If input is invalid
-
-    See Also
-    --------
-    norm_dual_quaternion
-        Normalization that enforces unit norm and orthogonality of the real and
-        dual quaternion.
-    """
-    dq = np.asarray(dq, dtype=np.float64)
-    if dq.ndim != 1 or dq.shape[0] != 8:
-        raise ValueError(
-            "Expected dual quaternion with shape (8,), got "
-            "array-like object with shape %s" % (dq.shape,)
-        )
-    if unit:
-        # Norm of a dual quaternion only depends on the real part because
-        # the dual part vanishes with (1) epsilon ** 2 = 0 and (2) the real
-        # and dual part being orthogonal, i.e., their product is 0.
-        real_norm = np.linalg.norm(dq[:4])
-        if real_norm == 0.0:
-            return np.r_[1, 0, 0, 0, dq[4:]]
-        return dq / real_norm
-    return dq
 
 
 def assert_unit_dual_quaternion(dq, *args, **kwargs):
