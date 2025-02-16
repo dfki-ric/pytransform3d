@@ -1,12 +1,13 @@
 """Figure based on Open3D's visualizer."""
 import numpy as np
 import open3d as o3d
-from .. import rotations as pr
-from .. import transformations as pt
-from .. import trajectories as ptr
+
 from ._artists import (Line3D, PointCollection3D, Vector3D, Frame, Trajectory,
                        Camera, Box, Sphere, Cylinder, Mesh, Ellipsoid, Capsule,
                        Cone, Plane, Graph)
+from .. import rotations as pr
+from .. import trajectories as ptr
+from .. import transformations as pt
 
 
 class Figure:
