@@ -1,14 +1,20 @@
 """Plotting utilities."""
+
 import numpy as np
 
 from ._screws import check_screw_parameters
 from ._transform import check_transform
 from ._transform_operations import (
-    transform, vector_to_point, vector_to_direction, vectors_to_points)
+    transform,
+    vector_to_point,
+    vector_to_direction,
+    vectors_to_points,
+)
 
 
-def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None,
-                   strict_check=True, **kwargs):
+def plot_transform(
+    ax=None, A2B=None, s=1.0, ax_s=1, name=None, strict_check=True, **kwargs
+):
     """Plot transform.
 
     Parameters
@@ -42,6 +48,7 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None,
         New or old axis
     """
     from ..plot_utils import make_3d_axis, Frame
+
     if ax is None:
         ax = make_3d_axis(ax_s)
 
@@ -55,8 +62,18 @@ def plot_transform(ax=None, A2B=None, s=1.0, ax_s=1, name=None,
     return ax
 
 
-def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0,
-               theta=1.0, A2B=None, s=1.0, ax_s=1, alpha=1.0, **kwargs):
+def plot_screw(
+    ax=None,
+    q=np.zeros(3),
+    s_axis=np.array([1.0, 0.0, 0.0]),
+    h=1.0,
+    theta=1.0,
+    A2B=None,
+    s=1.0,
+    ax_s=1,
+    alpha=1.0,
+    **kwargs,
+):
     """Plot transformation about and along screw axis.
 
     Parameters
@@ -98,8 +115,12 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0,
         New or old axis
     """
     from ..plot_utils import make_3d_axis, Arrow3D
-    from ..rotations import (vector_projection, angle_between_vectors,
-                             perpendicular_to_vectors, slerp_weights)
+    from ..rotations import (
+        vector_projection,
+        angle_between_vectors,
+        perpendicular_to_vectors,
+        slerp_weights,
+    )
 
     if ax is None:
         ax = make_3d_axis(ax_s)
@@ -116,59 +137,97 @@ def plot_screw(ax=None, q=np.zeros(3), s_axis=np.array([1.0, 0.0, 0.0]), h=1.0,
     if not pure_translation:
         screw_axis_to_old_frame = -origin_projected_on_screw_axis
         screw_axis_to_rotated_frame = perpendicular_to_vectors(
-            s_axis, screw_axis_to_old_frame)
+            s_axis, screw_axis_to_old_frame
+        )
         screw_axis_to_translated_frame = h * s_axis
 
         arc = np.empty((100, 3))
         angle = angle_between_vectors(
-            screw_axis_to_old_frame, screw_axis_to_rotated_frame)
-        for i, t in enumerate(zip(np.linspace(0, 2 * theta / np.pi, len(arc)),
-                                  np.linspace(0.0, 1.0, len(arc)))):
+            screw_axis_to_old_frame, screw_axis_to_rotated_frame
+        )
+        for i, t in enumerate(
+            zip(
+                np.linspace(0, 2 * theta / np.pi, len(arc)),
+                np.linspace(0.0, 1.0, len(arc)),
+            )
+        ):
             t1, t2 = t
             w1, w2 = slerp_weights(angle, t1)
-            arc[i] = (origin_projected_on_screw_axis
-                      + w1 * screw_axis_to_old_frame
-                      + w2 * screw_axis_to_rotated_frame
-                      + screw_axis_to_translated_frame * t2 * theta)
+            arc[i] = (
+                origin_projected_on_screw_axis
+                + w1 * screw_axis_to_old_frame
+                + w2 * screw_axis_to_rotated_frame
+                + screw_axis_to_translated_frame * t2 * theta
+            )
 
     q = transform(A2B, vector_to_point(q))[:3]
     s_axis = transform(A2B, vector_to_direction(s_axis))[:3]
     if not pure_translation:
         arc = transform(A2B, vectors_to_points(arc))[:, :3]
         origin_projected_on_screw_axis = transform(
-            A2B, vector_to_point(origin_projected_on_screw_axis))[:3]
+            A2B, vector_to_point(origin_projected_on_screw_axis)
+        )[:3]
 
     # Screw axis
     ax.scatter(q[0], q[1], q[2], color="r")
     if pure_translation:
         s_axis *= theta
-        ax.scatter(q[0] + s_axis[0], q[1] + s_axis[1], q[2] + s_axis[2],
-                   color="r")
+        ax.scatter(
+            q[0] + s_axis[0], q[1] + s_axis[1], q[2] + s_axis[2], color="r"
+        )
     ax.plot(
         [q[0] - s * s_axis[0], q[0] + (1 + s) * s_axis[0]],
         [q[1] - s * s_axis[1], q[1] + (1 + s) * s_axis[1]],
         [q[2] - s * s_axis[2], q[2] + (1 + s) * s_axis[2]],
-        "--", c="k", alpha=alpha)
+        "--",
+        c="k",
+        alpha=alpha,
+    )
     axis_arrow = Arrow3D(
         [q[0], q[0] + s_axis[0]],
         [q[1], q[1] + s_axis[1]],
         [q[2], q[2] + s_axis[2]],
-        mutation_scale=20, lw=3, arrowstyle="-|>", color="k", alpha=alpha)
+        mutation_scale=20,
+        lw=3,
+        arrowstyle="-|>",
+        color="k",
+        alpha=alpha,
+    )
     ax.add_artist(axis_arrow)
 
     if not pure_translation:
         # Transformation
-        ax.plot(arc[:, 0], arc[:, 1], arc[:, 2], color="k", lw=3,
-                alpha=alpha, **kwargs)
+        ax.plot(
+            arc[:, 0],
+            arc[:, 1],
+            arc[:, 2],
+            color="k",
+            lw=3,
+            alpha=alpha,
+            **kwargs,
+        )
         arrow_coords = np.vstack((arc[-1], arc[-1] + (arc[-1] - arc[-2]))).T
         angle_arrow = Arrow3D(
-            arrow_coords[0], arrow_coords[1], arrow_coords[2],
-            mutation_scale=20, lw=3, arrowstyle="-|>", color="k", alpha=alpha)
+            arrow_coords[0],
+            arrow_coords[1],
+            arrow_coords[2],
+            mutation_scale=20,
+            lw=3,
+            arrowstyle="-|>",
+            color="k",
+            alpha=alpha,
+        )
         ax.add_artist(angle_arrow)
 
         for i in [0, -1]:
             arc_bound = np.vstack((origin_projected_on_screw_axis, arc[i])).T
-            ax.plot(arc_bound[0], arc_bound[1], arc_bound[2], "--", c="k",
-                    alpha=alpha)
+            ax.plot(
+                arc_bound[0],
+                arc_bound[1],
+                arc_bound[2],
+                "--",
+                c="k",
+                alpha=alpha,
+            )
 
     return ax

@@ -55,17 +55,11 @@ def passive_matrix_from_angle(basis, angle):
     s = np.sin(angle)
 
     if basis == 0:
-        R = np.array([[1.0, 0.0, 0.0],
-                      [0.0, c, s],
-                      [0.0, -s, c]])
+        R = np.array([[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]])
     elif basis == 1:
-        R = np.array([[c, 0.0, -s],
-                      [0.0, 1.0, 0.0],
-                      [s, 0.0, c]])
+        R = np.array([[c, 0.0, -s], [0.0, 1.0, 0.0], [s, 0.0, c]])
     elif basis == 2:
-        R = np.array([[c, s, 0.0],
-                      [-s, c, 0.0],
-                      [0.0, 0.0, 1.0]])
+        R = np.array([[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]])
     else:
         raise ValueError("Basis must be in [0, 1, 2]")
 
@@ -133,17 +127,11 @@ def active_matrix_from_angle(basis, angle):
     s = np.sin(angle)
 
     if basis == 0:
-        R = np.array([[1.0, 0.0, 0.0],
-                      [0.0, c, -s],
-                      [0.0, s, c]])
+        R = np.array([[1.0, 0.0, 0.0], [0.0, c, -s], [0.0, s, c]])
     elif basis == 1:
-        R = np.array([[c, 0.0, s],
-                      [0.0, 1.0, 0.0],
-                      [-s, 0.0, c]])
+        R = np.array([[c, 0.0, s], [0.0, 1.0, 0.0], [-s, 0.0, c]])
     elif basis == 2:
-        R = np.array([[c, -s, 0.0],
-                      [s, c, 0.0],
-                      [0.0, 0.0, 1.0]])
+        R = np.array([[c, -s, 0.0], [s, c, 0.0], [0.0, 0.0, 1.0]])
     else:
         raise ValueError("Basis must be in [0, 1, 2]")
 

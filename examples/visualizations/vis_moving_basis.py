@@ -5,6 +5,7 @@ Animate Rotation
 
 Animates a rotation about the x-axis.
 """
+
 import numpy as np
 import pytransform3d.visualizer as pv
 from pytransform3d import rotations as pr
@@ -26,7 +27,8 @@ fig.view_init()
 n_frames = 100
 if "__file__" in globals():
     fig.animate(
-        animation_callback, n_frames, fargs=(n_frames, frame), loop=True)
+        animation_callback, n_frames, fargs=(n_frames, frame), loop=True
+    )
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")

@@ -1,0 +1,19 @@
+[tool.black]
+line-length = 80
+target-version = ["py38", "py39", "py310", "py311", "py312", "py313"]
+include = '''
+/(
+      pytransform3d
+    | examples
+)\/.*\.pyi?$
+'''
+exclude = '''
+/(
+      .git
+    | __pycache__
+    | doc
+    | venv
+    | build
+    | dist
+)/
+'''

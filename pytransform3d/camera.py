@@ -2,12 +2,14 @@
 
 See :doc:`user_guide/camera` for more information.
 """
+
 import numpy as np
 from .transformations import invert_transform, transform, check_transform
 
 
-def make_world_grid(n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5),
-                    ylim=(-0.5, 0.5)):
+def make_world_grid(
+    n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5), ylim=(-0.5, 0.5)
+):
     """Generate grid in world coordinate frame.
 
     The grid will have the form
@@ -47,12 +49,18 @@ def make_world_grid(n_lines=11, n_points_per_line=51, xlim=(-0.5, 0.5),
     world_grid : array-like, shape (2 * n_lines * n_points_per_line, 4)
         Grid as homogenous coordinate vectors
     """
-    world_grid_x = np.vstack([make_world_line([xlim[0], y], [xlim[1], y],
-                                              n_points_per_line)
-                              for y in np.linspace(ylim[0], ylim[1], n_lines)])
-    world_grid_y = np.vstack([make_world_line([x, ylim[0]], [x, ylim[1]],
-                                              n_points_per_line)
-                              for x in np.linspace(xlim[0], xlim[1], n_lines)])
+    world_grid_x = np.vstack(
+        [
+            make_world_line([xlim[0], y], [xlim[1], y], n_points_per_line)
+            for y in np.linspace(ylim[0], ylim[1], n_lines)
+        ]
+    )
+    world_grid_y = np.vstack(
+        [
+            make_world_line([x, ylim[0]], [x, ylim[1]], n_points_per_line)
+            for x in np.linspace(xlim[0], xlim[1], n_lines)
+        ]
+    )
     return np.vstack((world_grid_x, world_grid_y))
 
 
@@ -79,10 +87,14 @@ def make_world_line(p1, p2, n_points):
         p1 = [p1[0], p1[1], 0]
     if len(p2) == 2:
         p2 = [p2[0], p2[1], 0]
-    return np.array([np.linspace(p1[0], p2[0], n_points),
-                     np.linspace(p1[1], p2[1], n_points),
-                     np.linspace(p1[2], p2[2], n_points),
-                     np.ones(n_points)]).T
+    return np.array(
+        [
+            np.linspace(p1[0], p2[0], n_points),
+            np.linspace(p1[1], p2[1], n_points),
+            np.linspace(p1[2], p2[2], n_points),
+            np.ones(n_points),
+        ]
+    ).T
 
 
 def cam2sensor(P_cam, focal_length, kappa=0.0):
@@ -112,8 +124,9 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
     """
     n_points, n_dims = P_cam.shape
     if n_dims not in (3, 4):
-        raise ValueError("Expected 3- or 4-dimensional points, got %d "
-                         "dimensions" % n_dims)
+        raise ValueError(
+            "Expected 3- or 4-dimensional points, got %d " "dimensions" % n_dims
+        )
     if focal_length <= 0.0:
         raise ValueError("Focal length must be greater than 0.")
 
@@ -158,8 +171,15 @@ def sensor2img(P_sensor, sensor_size, image_size, image_center=None):
     return P_img
 
 
-def world2image(P_world, cam2world, sensor_size, image_size, focal_length,
-                image_center=None, kappa=0.0):
+def world2image(
+    P_world,
+    cam2world,
+    sensor_size,
+    image_size,
+    focal_length,
+    image_center=None,
+    kappa=0.0,
+):
     """Project points from 3D world coordinate system to 2D image.
 
     Parameters
@@ -197,9 +217,16 @@ def world2image(P_world, cam2world, sensor_size, image_size, focal_length,
     return P_img
 
 
-def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
-                sensor_size=(1920, 1080), ax_s=1, strict_check=True,
-                **kwargs):  # pragma: no cover
+def plot_camera(
+    ax=None,
+    M=None,
+    cam2world=None,
+    virtual_image_distance=1.0,
+    sensor_size=(1920, 1080),
+    ax_s=1,
+    strict_check=True,
+    **kwargs,
+):  # pragma: no cover
     """Plot camera in world coordinates.
 
     This function is inspired by Blender's camera visualization. It will
@@ -256,6 +283,7 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
 
     if ax is None:
         from .plot_utils import make_3d_axis
+
         ax = make_3d_axis(ax_s)
 
     if M is None:
@@ -266,8 +294,7 @@ def plot_camera(ax=None, M=None, cam2world=None, virtual_image_distance=1.0,
 
     cam2world = check_transform(cam2world, strict_check=strict_check)
 
-    camera = Camera(
-        M, cam2world, virtual_image_distance, sensor_size, **kwargs)
+    camera = Camera(M, cam2world, virtual_image_distance, sensor_size, **kwargs)
     camera.add_camera(ax)
 
     return ax

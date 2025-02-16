@@ -2,18 +2,28 @@
 
 See :doc:`user_guide/uncertainty` for more information.
 """
+
 import numpy as np
 
 from ._geometry import unit_sphere_surface_grid
-from .batch_rotations import (axis_angles_from_matrices,
-                              matrices_from_compact_axis_angles)
-from .trajectories import (concat_many_to_one,
-                           exponential_coordinates_from_transforms,
-                           transforms_from_exponential_coordinates)
+from .batch_rotations import (
+    axis_angles_from_matrices,
+    matrices_from_compact_axis_angles,
+)
+from .trajectories import (
+    concat_many_to_one,
+    exponential_coordinates_from_transforms,
+    transforms_from_exponential_coordinates,
+)
 from .transformations import (
-    adjoint_from_transform, concat, exponential_coordinates_from_transform,
-    invert_transform, left_jacobian_SE3_inv, transform_from,
-    transform_from_exponential_coordinates)
+    adjoint_from_transform,
+    concat,
+    exponential_coordinates_from_transform,
+    invert_transform,
+    left_jacobian_SE3_inv,
+    transform_from,
+    transform_from_exponential_coordinates,
+)
 
 
 def estimate_gaussian_rotation_matrix_from_samples(samples):
@@ -46,6 +56,7 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
     .. [1] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
        https://ethaneade.com/lie.pdf
     """
+
     def compact_axis_angles_from_matrices(Rs):
         A = axis_angles_from_matrices(Rs)
         return A[:, :3] * A[:, 3, np.newaxis]
@@ -58,7 +69,7 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
         inv=lambda R: R.T,
         concat_one_to_one=lambda R1, R2: np.dot(R2, R1),
         concat_many_to_one=concat_many_to_one,
-        n_iter=20
+        n_iter=20,
     )
 
     cov = np.cov(mean_diffs, rowvar=False, bias=True)
@@ -103,7 +114,7 @@ def estimate_gaussian_transform_from_samples(samples):
         inv=invert_transform,
         concat_one_to_one=concat,
         concat_many_to_one=concat_many_to_one,
-        n_iter=20
+        n_iter=20,
     )
 
     cov = np.cov(mean_diffs, rowvar=False, bias=True)
@@ -111,8 +122,15 @@ def estimate_gaussian_transform_from_samples(samples):
 
 
 def frechet_mean(
-        samples, mean0, exp, log, inv, concat_one_to_one, concat_many_to_one,
-        n_iter=20):
+    samples,
+    mean0,
+    exp,
+    log,
+    inv,
+    concat_one_to_one,
+    concat_many_to_one,
+    n_iter=20,
+):
     r"""Compute the Fréchet mean of samples on a smooth Riemannian manifold.
 
     The mean is computed with an iterative optimization algorithm [1]_ [2]_:
@@ -338,7 +356,8 @@ def concat_globally_uncertain_transforms(mean_A2B, cov_A2B, mean_B2C, cov_B2C):
     second_order_terms = cov_B2C + cov_A2B_in_C
 
     cov_A2C = second_order_terms + _compound_cov_fourth_order_terms(
-        cov_B2C, cov_A2B_in_C)
+        cov_B2C, cov_A2B_in_C
+    )
 
     return mean_A2C, cov_A2C
 
@@ -355,35 +374,42 @@ def _compound_cov_fourth_order_terms(cov1, cov2_prime):
     cov2_22 = cov2_prime[3:, 3:]
     cov2_12 = cov2_prime[:3, 3:]
 
-    A1 = np.block([
-        [_covop1(cov1_22), _covop1(cov1_12 + cov1_12.T)],
-        [np.zeros((3, 3)), _covop1(cov1_22)]
-    ])
-    A2 = np.block([
-        [_covop1(cov2_22), _covop1(cov2_12 + cov2_12.T)],
-        [np.zeros((3, 3)), _covop1(cov2_22)]
-    ])
-    B_11 = (_covop2(cov1_22, cov2_11) + _covop2(cov1_12.T, cov2_12)
-            + _covop2(cov1_12, cov2_12.T) + _covop2(cov1_11, cov2_22))
+    A1 = np.block(
+        [
+            [_covop1(cov1_22), _covop1(cov1_12 + cov1_12.T)],
+            [np.zeros((3, 3)), _covop1(cov1_22)],
+        ]
+    )
+    A2 = np.block(
+        [
+            [_covop1(cov2_22), _covop1(cov2_12 + cov2_12.T)],
+            [np.zeros((3, 3)), _covop1(cov2_22)],
+        ]
+    )
+    B_11 = (
+        _covop2(cov1_22, cov2_11)
+        + _covop2(cov1_12.T, cov2_12)
+        + _covop2(cov1_12, cov2_12.T)
+        + _covop2(cov1_11, cov2_22)
+    )
     B_12 = _covop2(cov1_22, cov2_12.T) + _covop2(cov1_12.T, cov2_22)
     B_22 = _covop2(cov1_22, cov2_22)
-    B = np.block([
-        [B_11, B_12],
-        [B_12.T, B_22]
-    ])
+    B = np.block([[B_11, B_12], [B_12.T, B_22]])
 
     return _swap_cov(
-        (np.dot(A1, cov2_prime) + np.dot(cov2_prime, A1.T)
-         + np.dot(A2, cov1) + np.dot(cov1, A2.T)) / 12.0
+        (
+            np.dot(A1, cov2_prime)
+            + np.dot(cov2_prime, A1.T)
+            + np.dot(A2, cov1)
+            + np.dot(cov1, A2.T)
+        )
+        / 12.0
         + B / 4.0
     )
 
 
 def _swap_cov(cov):
-    return np.block([
-        [cov[3:, 3:], cov[3:, :3]],
-        [cov[:3, 3:], cov[:3, :3]]
-    ])
+    return np.block([[cov[3:, 3:], cov[3:, :3]], [cov[:3, 3:], cov[:3, :3]]])
 
 
 def _covop1(A):
@@ -527,7 +553,8 @@ def pose_fusion(means, covs):
         RHS[:] = 0.0
         for k in range(n_poses):
             x_ik = exponential_coordinates_from_transform(
-                np.dot(mean, invert_transform(means[k])))
+                np.dot(mean, invert_transform(means[k]))
+            )
             J_inv = left_jacobian_SE3_inv(x_ik)
             J_invT_S = np.dot(J_inv.T, covs_inv[k])
             LHS += np.dot(J_invT_S, J_inv)
@@ -540,7 +567,8 @@ def pose_fusion(means, covs):
     V = 0.0
     for k in range(n_poses):
         x_ik = exponential_coordinates_from_transform(
-            np.dot(mean, invert_transform(means[k])))
+            np.dot(mean, invert_transform(means[k]))
+        )
         V += 0.5 * np.dot(x_ik, np.dot(covs_inv[k], x_ik))
     return mean, cov, V
 
@@ -582,6 +610,7 @@ def to_ellipsoid(mean, cov):
         three axes of the ellipsoid. These are sorted in ascending order.
     """
     from scipy import linalg
+
     radii, R = linalg.eigh(cov)
     if np.linalg.det(R) < 0:  # undo reflection (exploit symmetry)
         R *= -1
@@ -621,6 +650,7 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=20):
         Coordinates on z-axis of grid on projected ellipsoid.
     """
     from scipy import linalg
+
     vals, vecs = linalg.eigh(cov)
     order = vals.argsort()[::-1]
     vals, vecs = vals[order], vecs[:, order]
@@ -650,8 +680,15 @@ def to_projected_ellipsoid(mean, cov, factor=1.96, n_steps=20):
 
 
 def plot_projected_ellipsoid(
-        ax, mean, cov, factor=1.96, wireframe=True, n_steps=20, color=None,
-        alpha=1.0):  # pragma: no cover
+    ax,
+    mean,
+    cov,
+    factor=1.96,
+    wireframe=True,
+    n_steps=20,
+    color=None,
+    alpha=1.0,
+):  # pragma: no cover
     """Plots projected equiprobable ellipsoid in 3D.
 
     An error ellipsoid shows equiprobable points. This is a projection of a
@@ -692,7 +729,8 @@ def plot_projected_ellipsoid(
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha)
+            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha
+        )
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
 

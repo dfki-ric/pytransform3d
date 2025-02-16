@@ -12,6 +12,7 @@ Gram-Schmidt orthonormalization and the bottom row shows orthonormalization
 through robust polar decomposition. For comparison, we show the unnormalized
 basis with dashed lines in the last two rows.
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d import rotations as pr
@@ -19,7 +20,8 @@ from pytransform3d import rotations as pr
 
 n_cases = 4
 fig, axes = plt.subplots(
-    3, n_cases, subplot_kw={"projection": "3d"}, figsize=(8, 8))
+    3, n_cases, subplot_kw={"projection": "3d"}, figsize=(8, 8)
+)
 ax_s = 1.0
 plot_center = np.array([-0.2, -0.2, -0.2])
 for ax in axes.flat:
@@ -40,18 +42,20 @@ for i in range(n_cases):
     R_unnormalized = np.eye(3)
     R_unnormalized[:, random_axis] = np.dot(
         pr.random_matrix(rng, cov=0.1 * np.eye(3)),
-        R_unnormalized[:, random_axis])
-    pr.plot_basis(
-        axes[0, i], R_unnormalized, p=plot_center, strict_check=False)
+        R_unnormalized[:, random_axis],
+    )
+    pr.plot_basis(axes[0, i], R_unnormalized, p=plot_center, strict_check=False)
 
     R_gs = pr.norm_matrix(R_unnormalized)
-    pr.plot_basis(axes[1, i], R_unnormalized, p=plot_center,
-                  strict_check=False, ls="--")
+    pr.plot_basis(
+        axes[1, i], R_unnormalized, p=plot_center, strict_check=False, ls="--"
+    )
     pr.plot_basis(axes[1, i], R_gs, p=plot_center)
 
     R_pd = pr.robust_polar_decomposition(R_unnormalized)
-    pr.plot_basis(axes[2, i], R_unnormalized, p=plot_center,
-                  strict_check=False, ls="--")
+    pr.plot_basis(
+        axes[2, i], R_unnormalized, p=plot_center, strict_check=False, ls="--"
+    )
     pr.plot_basis(axes[2, i], R_pd, p=plot_center)
 
 plt.tight_layout()

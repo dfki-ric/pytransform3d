@@ -6,8 +6,11 @@ import numpy as np
 import pytransform3d.rotations as pr
 import pytransform3d.transformations as pt
 from pytransform3d.transform_manager import (
-    TransformManager, TemporalTransformManager, StaticTransform,
-    NumpyTimeseriesTransform)
+    TransformManager,
+    TemporalTransformManager,
+    StaticTransform,
+    NumpyTimeseriesTransform,
+)
 from pytransform3d import transform_manager
 from numpy.testing import assert_array_almost_equal
 import pytest
@@ -47,10 +50,18 @@ def test_remove_frame():
     A2E = tm.get_transform("A", "E")
 
     # Check that connections are correctly represented in self.i and self.j
-    assert tm.i == [tm.nodes.index("A"), tm.nodes.index("A"),
-                    tm.nodes.index("B"), tm.nodes.index("D")]
-    assert tm.j == [tm.nodes.index("B"), tm.nodes.index("D"),
-                    tm.nodes.index("C"), tm.nodes.index("E")]
+    assert tm.i == [
+        tm.nodes.index("A"),
+        tm.nodes.index("A"),
+        tm.nodes.index("B"),
+        tm.nodes.index("D"),
+    ]
+    assert tm.j == [
+        tm.nodes.index("B"),
+        tm.nodes.index("D"),
+        tm.nodes.index("C"),
+        tm.nodes.index("E"),
+    ]
 
     tm.remove_frame("B")
     assert not tm.has_frame("B")
@@ -146,7 +157,8 @@ def test_request_concatenated_transform():
 
     C2A = tm.get_transform("C", "A")
     assert_array_almost_equal(
-        C2A, pt.concat(pt.invert_transform(B2C), pt.invert_transform(A2B)))
+        C2A, pt.concat(pt.invert_transform(B2C), pt.invert_transform(A2B))
+    )
 
     F2B = tm.get_transform("F", "B")
     assert_array_almost_equal(F2B, pt.concat(F2A, A2B))
@@ -259,13 +271,15 @@ def test_png_export():
     rng = np.random.default_rng(0)
 
     ee2robot = pt.transform_from_pq(
-        np.hstack((np.array([0.4, -0.3, 0.5]),
-                   pr.random_quaternion(rng))))
+        np.hstack((np.array([0.4, -0.3, 0.5]), pr.random_quaternion(rng)))
+    )
     cam2robot = pt.transform_from_pq(
-        np.hstack((np.array([0.0, 0.0, 0.8]), pr.q_id)))
+        np.hstack((np.array([0.0, 0.0, 0.8]), pr.q_id))
+    )
     object2cam = pt.transform_from(
         pr.active_matrix_from_intrinsic_euler_xyz(np.array([0.0, 0.0, 0.5])),
-        np.array([0.5, 0.1, 0.1]))
+        np.array([0.5, 0.1, 0.1]),
+    )
 
     tm = TransformManager()
     tm.add_transform("end-effector", "robot", ee2robot)
@@ -293,8 +307,8 @@ def test_png_export_without_pydot_fails():
     try:
         transform_manager._transform_manager.PYDOT_AVAILABLE = False
         with pytest.raises(
-                ImportError,
-                match="pydot must be installed to use this feature."):
+            ImportError, match="pydot must be installed to use this feature."
+        ):
             tm.write_png("bla")
     finally:
         transform_manager._transform_manager.PYDOT_AVAILABLE = pydot_available
@@ -362,8 +376,9 @@ def test_from_to_dict():
     tm2 = TransformManager.from_dict(tm_dict)
     tm2_dict = tm2.to_dict()
 
-    assert_array_almost_equal(tm.get_transform("D", "A"),
-                              tm2.get_transform("D", "A"))
+    assert_array_almost_equal(
+        tm.get_transform("D", "A"), tm2.get_transform("D", "A")
+    )
 
     assert tm_dict == tm2_dict
 
@@ -443,10 +458,18 @@ def test_remove_frame_temporal_manager():
     A2E = tm.get_transform("A", "E")
 
     # Check that connections are correctly represented in self.i and self.j
-    assert tm.i == [tm.nodes.index("A"), tm.nodes.index("A"),
-                    tm.nodes.index("B"), tm.nodes.index("D")]
-    assert tm.j == [tm.nodes.index("B"), tm.nodes.index("D"),
-                    tm.nodes.index("C"), tm.nodes.index("E")]
+    assert tm.i == [
+        tm.nodes.index("A"),
+        tm.nodes.index("A"),
+        tm.nodes.index("B"),
+        tm.nodes.index("D"),
+    ]
+    assert tm.j == [
+        tm.nodes.index("B"),
+        tm.nodes.index("D"),
+        tm.nodes.index("C"),
+        tm.nodes.index("E"),
+    ]
 
     tm.remove_frame("B")
     assert not tm.has_frame("B")
@@ -529,8 +552,7 @@ def test_numpy_timeseries_transform():
     A2world = NumpyTimeseriesTransform(time_A, pq_arr_A)
 
     time_B, pq_arr_B = create_sinusoidal_movement(
-        duration, sample_period, velocity_x, y_start_offset=2.0,
-        start_time=0.35
+        duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.35
     )
     B2world = NumpyTimeseriesTransform(time_B, pq_arr_B)
 
@@ -596,8 +618,7 @@ def test_numpy_timeseries_transform_multiple_query_times():
     A2world = NumpyTimeseriesTransform(time_A, pq_arr_A)
 
     time_B, pq_arr_B = create_sinusoidal_movement(
-        duration, sample_period, velocity_x, y_start_offset=2.0,
-        start_time=0.35
+        duration, sample_period, velocity_x, y_start_offset=2.0, start_time=0.35
     )
     B2world = NumpyTimeseriesTransform(time_B, pq_arr_B)
 
@@ -620,8 +641,10 @@ def test_numpy_timeseries_transform_multiple_query_times():
     origin_of_A_in_B_pos1 = pt.transform(A2B_at_query_time[0], origin_of_A_pos)
     origin_of_A_in_B_xyz1 = origin_of_A_in_B_pos1[:-1]
 
-    origin_of_A_in_B_x1, origin_of_A_in_B_y1 = \
-        origin_of_A_in_B_xyz1[0], origin_of_A_in_B_xyz1[1]
+    origin_of_A_in_B_x1, origin_of_A_in_B_y1 = (
+        origin_of_A_in_B_xyz1[0],
+        origin_of_A_in_B_xyz1[1],
+    )
 
     assert origin_of_A_in_B_x1 == pytest.approx(-1.11, abs=1e-2)
     assert origin_of_A_in_B_y1 == pytest.approx(-1.28, abs=1e-2)
@@ -672,24 +695,27 @@ def test_temporal_transform_manager_out_of_bounds():
     assert min(time_A) == 0.0
     assert min(time_B) == 0.1
     A2B_at_start_time, A2B_before_start_time = tm.get_transform_at_time(
-        "A", "B", [0.0, -0.1])
+        "A", "B", [0.0, -0.1]
+    )
     assert_array_almost_equal(A2B_at_start_time, A2B_before_start_time)
 
     assert max(time_A) == 9.5
     assert max(time_B) == 9.6
     A2B_at_end_time, A2B_after_end_time = tm.get_transform_at_time(
-        "A", "B", [9.6, 10.0])
+        "A", "B", [9.6, 10.0]
+    )
     assert_array_almost_equal(A2B_at_end_time, A2B_after_end_time)
 
     A2world.time_clipping = False
     B2world.time_clipping = False
 
     with pytest.raises(
-            ValueError,
-            match="Query time at indices \[0\], time\(s\): \[0.\]"):
+        ValueError, match="Query time at indices \[0\], time\(s\): \[0.\]"
+    ):
         tm.get_transform_at_time("A", "B", [0.0, 0.1])
 
     with pytest.raises(
-            ValueError,
-            match=r"Query time at indices \[0 1\], time\(s\): \[ 9.7 10. \]"):
+        ValueError,
+        match=r"Query time at indices \[0 1\], time\(s\): \[ 9.7 10. \]",
+    ):
         tm.get_transform_at_time("A", "B", [9.7, 10.0])

@@ -3,6 +3,7 @@
 Visualize Capsule
 =================
 """
+
 import numpy as np
 import pytransform3d.visualizer as pv
 

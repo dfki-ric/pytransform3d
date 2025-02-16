@@ -58,10 +58,12 @@ def robust_polar_decomposition(A, n_iter=20, eps=np.finfo(float).eps):
     current_R = np.eye(3)
     for _ in range(n_iter):
         column_vector_cross_products = np.cross(
-            current_R, A, axisa=0, axisb=0, axisc=1)
+            current_R, A, axisa=0, axisb=0, axisc=1
+        )
         column_vector_dot_products_sum = np.sum(current_R * A)
-        omega = (column_vector_cross_products.sum(axis=0)
-                 / (abs(column_vector_dot_products_sum) + eps))
+        omega = column_vector_cross_products.sum(axis=0) / (
+            abs(column_vector_dot_products_sum) + eps
+        )
         if np.linalg.norm(omega) < eps:
             break
         current_R = np.dot(matrix_from_compact_axis_angle(omega), current_R)

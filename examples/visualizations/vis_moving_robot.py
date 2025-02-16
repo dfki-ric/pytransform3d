@@ -5,6 +5,7 @@ Animated Robot
 
 In this example we animate a 6-DOF robot arm with cylindrical visuals.
 """
+
 import os
 import numpy as np
 from pytransform3d.urdf import UrdfTransformManager
@@ -22,8 +23,10 @@ def animation_callback(step, n_frames, tm, graph, joint_names):
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
-while (not os.path.exists(data_dir) and
-       os.path.dirname(search_path) != "pytransform3d"):
+while (
+    not os.path.exists(data_dir)
+    and os.path.dirname(search_path) != "pytransform3d"
+):
     search_path = os.path.join(search_path, "..")
     data_dir = os.path.join(search_path, BASE_DIR)
 
@@ -38,13 +41,18 @@ for joint_name in joint_names:
 
 fig = pv.figure()
 graph = fig.plot_graph(
-    tm, "robot_arm", s=0.1, show_frames=True, show_visuals=True)
+    tm, "robot_arm", s=0.1, show_frames=True, show_visuals=True
+)
 fig.view_init()
 fig.set_zoom(1.5)
 n_frames = 100
 if "__file__" in globals():
-    fig.animate(animation_callback, n_frames, loop=True,
-                fargs=(n_frames, tm, graph, joint_names))
+    fig.animate(
+        animation_callback,
+        n_frames,
+        loop=True,
+        fargs=(n_frames, tm, graph, joint_names),
+    )
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")

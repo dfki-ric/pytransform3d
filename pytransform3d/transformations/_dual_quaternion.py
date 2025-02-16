@@ -1,12 +1,16 @@
 """Dual quaternion operations."""
+
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
 from ._screws import dual_quaternion_from_screw_parameters
 from ._transform import transform_from
 from ..rotations import (
-    concatenate_quaternions, q_conj, axis_angle_from_quaternion,
-    matrix_from_quaternion)
+    concatenate_quaternions,
+    q_conj,
+    axis_angle_from_quaternion,
+    matrix_from_quaternion,
+)
 
 
 def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
@@ -118,10 +122,11 @@ def norm_dual_quaternion(dq):
         prod_real_norm = 1.0
         valid_dq = np.hstack((real, dual))
         prod_dual = concatenate_dual_quaternions(
-            valid_dq, dq_q_conj(valid_dq), unit=False)[4:]
+            valid_dq, dq_q_conj(valid_dq), unit=False
+        )[4:]
 
     real_inv_sqrt = 1.0 / prod_real_norm
-    dual_inv_sqrt = -0.5 * prod_dual * real_inv_sqrt ** 3
+    dual_inv_sqrt = -0.5 * prod_dual * real_inv_sqrt**3
 
     real = real_inv_sqrt * real
     dual = real_inv_sqrt * dual + concatenate_quaternions(dual_inv_sqrt, real)
@@ -176,8 +181,10 @@ def check_dual_quaternion(dq, unit=True):
     """
     dq = np.asarray(dq, dtype=np.float64)
     if dq.ndim != 1 or dq.shape[0] != 8:
-        raise ValueError("Expected dual quaternion with shape (8,), got "
-                         "array-like object with shape %s" % (dq.shape,))
+        raise ValueError(
+            "Expected dual quaternion with shape (8,), got "
+            "array-like object with shape %s" % (dq.shape,)
+        )
     if unit:
         # Norm of a dual quaternion only depends on the real part because
         # the dual part vanishes with (1) epsilon ** 2 = 0 and (2) the real
@@ -236,8 +243,9 @@ def assert_unit_dual_quaternion(dq, *args, **kwargs):
     # quaternion and its quaternion conjugate.
     dq_conj = dq_q_conj(dq)
     dq_prod_dq_conj = concatenate_dual_quaternions(dq, dq_conj)
-    assert_array_almost_equal(dq_prod_dq_conj, [1, 0, 0, 0, 0, 0, 0, 0],
-                              *args, **kwargs)
+    assert_array_almost_equal(
+        dq_prod_dq_conj, [1, 0, 0, 0, 0, 0, 0, 0], *args, **kwargs
+    )
 
 
 def assert_unit_dual_quaternion_equal(dq1, dq2, *args, **kwargs):
@@ -407,8 +415,9 @@ def concatenate_dual_quaternions(dq1, dq2, unit=True):
     dq1 = check_dual_quaternion(dq1, unit=unit)
     dq2 = check_dual_quaternion(dq2, unit=unit)
     real = concatenate_quaternions(dq1[:4], dq2[:4])
-    dual = (concatenate_quaternions(dq1[:4], dq2[4:]) +
-            concatenate_quaternions(dq1[4:], dq2[:4]))
+    dual = concatenate_quaternions(dq1[:4], dq2[4:]) + concatenate_quaternions(
+        dq1[4:], dq2[:4]
+    )
     return np.hstack((real, dual))
 
 
@@ -454,8 +463,8 @@ def dq_prod_vector(dq, v):
     dq = check_dual_quaternion(dq)
     v_dq = np.r_[1, 0, 0, 0, 0, v]
     v_dq_transformed = concatenate_dual_quaternions(
-        concatenate_dual_quaternions(dq, v_dq),
-        dq_conj(dq))
+        concatenate_dual_quaternions(dq, v_dq), dq_conj(dq)
+    )
     return v_dq_transformed[5:]
 
 
@@ -624,9 +633,10 @@ def screw_parameters_from_dual_quaternion(dq):
         return q, s_axis, h, theta
 
     distance = np.dot(translation, s_axis)
-    moment = 0.5 * (np.cross(translation, s_axis) +
-                    (translation - distance * s_axis)
-                    / np.tan(0.5 * theta))
+    moment = 0.5 * (
+        np.cross(translation, s_axis)
+        + (translation - distance * s_axis) / np.tan(0.5 * theta)
+    )
     dual = np.cross(s_axis, moment)
     h = distance / theta
     return dual, s_axis, h, theta

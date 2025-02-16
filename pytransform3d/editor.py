@@ -1,26 +1,48 @@
 """Modify transformations visually."""
+
 qt_available = False
 qt_version = None
 try:
     import PyQt5.QtCore as QtCore
     from PyQt5.QtWidgets import (
-        QApplication, QMainWindow, QWidget, QSlider, QDoubleSpinBox,
-        QGridLayout, QLabel, QGroupBox, QHBoxLayout, QComboBox, QVBoxLayout)
+        QApplication,
+        QMainWindow,
+        QWidget,
+        QSlider,
+        QDoubleSpinBox,
+        QGridLayout,
+        QLabel,
+        QGroupBox,
+        QHBoxLayout,
+        QComboBox,
+        QVBoxLayout,
+    )
+
     qt_available = True
     qt_version = 5
 except ImportError:
     try:
         import PyQt4.QtCore as QtCore
         from PyQt4.QtGui import (
-            QApplication, QMainWindow, QWidget, QSlider, QDoubleSpinBox,
-            QGridLayout, QLabel, QGroupBox, QHBoxLayout, QComboBox,
-            QVBoxLayout)
+            QApplication,
+            QMainWindow,
+            QWidget,
+            QSlider,
+            QDoubleSpinBox,
+            QGridLayout,
+            QLabel,
+            QGroupBox,
+            QHBoxLayout,
+            QComboBox,
+            QVBoxLayout,
+        )
+
         qt_available = True
         qt_version = 4
     except ImportError:
         import warnings
-        warnings.warn(
-            "Cannot import PyQt. TransformEditor won't be available.")
+
+        warnings.warn("Cannot import PyQt. TransformEditor won't be available.")
         TransformEditor = None
 
 
@@ -30,11 +52,14 @@ if qt_available:
     from contextlib import contextmanager
     import numpy as np
     from .transform_manager import TransformManager
-    from .rotations import (active_matrix_from_intrinsic_euler_xyz,
-                            intrinsic_euler_xyz_from_active_matrix)
+    from .rotations import (
+        active_matrix_from_intrinsic_euler_xyz,
+        intrinsic_euler_xyz_from_active_matrix,
+    )
     from .transformations import transform_from
     from mpl_toolkits.mplot3d import Axes3D
     from matplotlib.figure import Figure
+
     if qt_version == 5:
         from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
         from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
@@ -52,14 +77,12 @@ if qt_available:
         finally:
             qobject.blockSignals(signals_blocked)
 
-
     def _internal_repr(A2B):
         """Compute internal representation of transform."""
         p = A2B[:3, 3]
         R = A2B[:3, :3]
         e = intrinsic_euler_xyz_from_active_matrix(R)
         return np.hstack((p, e))
-
 
     class PositionEulerEditor(QWidget):
         """Frame editor that represents orientation by Euler angles (XY'Z'').
@@ -84,16 +107,24 @@ if qt_available:
         parent : QWidget, optional (default: None)
             Parent widget.
         """
+
         frameChanged = QtCore.pyqtSignal()
 
         def __init__(self, base_frame, xlim, ylim, zlim, parent=None):
             super(PositionEulerEditor, self).__init__(parent)
 
             self.dim_labels = ["x", "y", "z", "X", "Y'", "Z''"]
-            self.limits = [xlim, ylim, zlim,
-                           (-3.141, 3.141), (-1.570, 1.570), (-3.141, 3.141)]
-            self.n_slider_steps = [int(100 * (upper - lower)) + 1
-                                   for lower, upper in self.limits]
+            self.limits = [
+                xlim,
+                ylim,
+                zlim,
+                (-3.141, 3.141),
+                (-1.570, 1.570),
+                (-3.141, 3.141),
+            ]
+            self.n_slider_steps = [
+                int(100 * (upper - lower)) + 1 for lower, upper in self.limits
+            ]
             self.setLayout(self._create(base_frame))
             self.A2B = None
 
@@ -103,26 +134,34 @@ if qt_available:
             for i in range(len(self.dim_labels)):
                 self.sliders.append(QSlider(QtCore.Qt.Horizontal))
                 self.sliders[i].setRange(0, self.n_slider_steps[i])
-                self.sliders[i].valueChanged.connect(
-                    partial(self._on_slide, i))
+                self.sliders[i].valueChanged.connect(partial(self._on_slide, i))
                 spinbox = QDoubleSpinBox()
                 spinbox.setRange(*self.limits[i])
                 spinbox.setDecimals(3)
                 spinbox.setSingleStep(0.001)
                 self.spinboxes.append(spinbox)
                 self.spinboxes[i].valueChanged.connect(
-                    partial(self._on_pos_edited, i))
+                    partial(self._on_pos_edited, i)
+                )
             slider_group = QGridLayout()
-            slider_group.addWidget(QLabel("Position"),
-                                   0, 0, 1, 3, QtCore.Qt.AlignCenter)
-            slider_group.addWidget(QLabel("Orientation (Euler angles)"),
-                                   0, 3, 1, 3, QtCore.Qt.AlignCenter)
+            slider_group.addWidget(
+                QLabel("Position"), 0, 0, 1, 3, QtCore.Qt.AlignCenter
+            )
+            slider_group.addWidget(
+                QLabel("Orientation (Euler angles)"),
+                0,
+                3,
+                1,
+                3,
+                QtCore.Qt.AlignCenter,
+            )
             for i, slider in enumerate(self.sliders):
                 slider_group.addWidget(QLabel(self.dim_labels[i]), 1, i)
                 slider_group.addWidget(slider, 2, i)
                 slider_group.addWidget(self.spinboxes[i], 3, i)
-            slider_groupbox = QGroupBox("Transformation in frame '%s'"
-                                        % base_frame)
+            slider_groupbox = QGroupBox(
+                "Transformation in frame '%s'" % base_frame
+            )
             slider_groupbox.setLayout(slider_group)
             layout = QHBoxLayout()
             layout.addWidget(slider_groupbox)
@@ -151,8 +190,9 @@ if qt_available:
             """Slot: value in spinbox changed."""
             pose = _internal_repr(self.A2B)
             pose[dim] = pos
-            self.A2B = transform_from(active_matrix_from_intrinsic_euler_xyz(
-                pose[3:]), pose[:3])
+            self.A2B = transform_from(
+                active_matrix_from_intrinsic_euler_xyz(pose[3:]), pose[:3]
+            )
 
             for i in range(6):
                 pos = self._pos_to_slider_pos(i, pose[i])
@@ -166,8 +206,9 @@ if qt_available:
             pose = _internal_repr(self.A2B)
             v = self._slider_pos_to_pos(dim, step)
             pose[dim] = v
-            self.A2B = transform_from(active_matrix_from_intrinsic_euler_xyz(
-                pose[3:]), pose[:3])
+            self.A2B = transform_from(
+                active_matrix_from_intrinsic_euler_xyz(pose[3:]), pose[:3]
+            )
 
             self.spinboxes[dim].setValue(v)
 
@@ -231,15 +272,26 @@ if qt_available:
         transform_manager : TransformManager
             Result, all frames are expressed in the base frame
         """
-        def __init__(self, transform_manager, base_frame, xlim=(-1.0, 1.0),
-                     ylim=(-1.0, 1.0), zlim=(-1.0, 1.0), s=1.0,
-                     figsize=(10, 10), dpi=100, window_size=(500, 600),
-                     parent=None):
+
+        def __init__(
+            self,
+            transform_manager,
+            base_frame,
+            xlim=(-1.0, 1.0),
+            ylim=(-1.0, 1.0),
+            zlim=(-1.0, 1.0),
+            s=1.0,
+            figsize=(10, 10),
+            dpi=100,
+            window_size=(500, 600),
+            parent=None,
+        ):
             self.app = QApplication(sys.argv)
 
             super(TransformEditor, self).__init__(parent)
             self.transform_manager = self._init_transform_manager(
-                transform_manager, base_frame)
+                transform_manager, base_frame
+            )
             self.base_frame = base_frame
             self.xlim = xlim
             self.ylim = ylim
@@ -277,7 +329,8 @@ if qt_available:
             self.main_frame = QWidget()
 
             self.frame_editor = PositionEulerEditor(
-                self.base_frame, self.xlim, self.ylim, self.zlim)
+                self.base_frame, self.xlim, self.ylim, self.zlim
+            )
             self.frame_editor.frameChanged.connect(self._on_update)
 
             self.frame_selection = self._create_frame_selector()
@@ -321,14 +374,16 @@ if qt_available:
             """Slot: manipulatable node changed."""
             self.node = self.frame_selection.itemText(node_idx)
             A2B = self.transform_manager.get_transform(
-                self.node, self.base_frame)
+                self.node, self.base_frame
+            )
             self.frame_editor.set_frame(A2B)
             self._plot()
 
         def _on_update(self):
             """Slot: transformation changed."""
             self.transform_manager.add_transform(
-                self.node, self.base_frame, self.frame_editor.A2B)
+                self.node, self.base_frame, self.frame_editor.A2B
+            )
             self._plot()
 
         def _plot(self):
@@ -347,10 +402,12 @@ if qt_available:
             self.axis.set_zlim(self.zlim)
 
             p = self.transform_manager.get_transform(
-                self.node, self.base_frame)[:3, 3]
+                self.node, self.base_frame
+            )[:3, 3]
             self.axis.scatter(p[0], p[1], p[2], s=100)
             self.transform_manager.plot_frames_in(
-                self.base_frame, ax=self.axis, s=self.s)
+                self.base_frame, ax=self.axis, s=self.s
+            )
 
             self.canvas.draw()
 

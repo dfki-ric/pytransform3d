@@ -4,8 +4,7 @@ import numpy as np
 from numpy.testing import assert_array_almost_equal
 
 from ._axis_angle import compact_axis_angle
-from ._utils import (
-    norm_vector, perpendicular_to_vectors, vector_projection)
+from ._utils import norm_vector, perpendicular_to_vectors, vector_projection
 
 
 def matrix_requires_renormalization(R, tolerance=1e-6):
@@ -86,22 +85,27 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
     """
     R = np.asarray(R, dtype=np.float64)
     if R.ndim != 2 or R.shape[0] != 3 or R.shape[1] != 3:
-        raise ValueError("Expected rotation matrix with shape (3, 3), got "
-                         "array-like object with shape %s" % (R.shape,))
+        raise ValueError(
+            "Expected rotation matrix with shape (3, 3), got "
+            "array-like object with shape %s" % (R.shape,)
+        )
     RRT = np.dot(R, R.T)
     if not np.allclose(RRT, np.eye(3), atol=tolerance):
-        error_msg = ("Expected rotation matrix, but it failed the test "
-                     "for inversion by transposition. np.dot(R, R.T) "
-                     "gives %r" % RRT)
+        error_msg = (
+            "Expected rotation matrix, but it failed the test "
+            "for inversion by transposition. np.dot(R, R.T) "
+            "gives %r" % RRT
+        )
         if strict_check:
             raise ValueError(error_msg)
         warnings.warn(error_msg)
     R_det = np.linalg.det(R)
     if R_det < 0.0:
-        error_msg = ("Expected rotation matrix, but it failed the test "
-                     "for the determinant, which should be 1 but is %g; "
-                     "that is, it probably represents a rotoreflection"
-                     % R_det)
+        error_msg = (
+            "Expected rotation matrix, but it failed the test "
+            "for the determinant, which should be 1 but is %g; "
+            "that is, it probably represents a rotoreflection" % R_det
+        )
         if strict_check:
             raise ValueError(error_msg)
         warnings.warn(error_msg)
@@ -334,7 +338,8 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     # 2 * sin(angle) * e,
     # where e is the normalized rotation axis.
     axis_unnormalized = np.array(
-        [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
+        [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]]
+    )
 
     if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
         # The threshold 1e-4 is a result from this discussion:

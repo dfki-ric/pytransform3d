@@ -14,6 +14,7 @@ This example is from
 Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for Use
 in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pytransform3d.uncertainty as pu
@@ -49,6 +50,7 @@ def to_ellipse(cov, factor=1.0):
         Height of the ellipse (semi axis, not diameter).
     """
     from scipy import linalg
+
     vals, vecs = linalg.eigh(cov)
     order = vals.argsort()[::-1]
     vals, vecs = vals[order], vecs[:, order]
@@ -57,8 +59,9 @@ def to_ellipse(cov, factor=1.0):
     return angle, width, height
 
 
-def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
-                       factors=np.linspace(0.25, 2.0, 8)):
+def plot_error_ellipse(
+    ax, mean, cov, color=None, alpha=0.25, factors=np.linspace(0.25, 2.0, 8)
+):
     """Plot error ellipse of MVN.
 
     Parameters
@@ -82,10 +85,15 @@ def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
         Multiples of the standard deviations that should be plotted.
     """
     from matplotlib.patches import Ellipse
+
     for factor in factors:
         angle, width, height = to_ellipse(cov, factor)
-        ell = Ellipse(xy=mean, width=2.0 * width, height=2.0 * height,
-                      angle=np.degrees(angle))
+        ell = Ellipse(
+            xy=mean,
+            width=2.0 * width,
+            height=2.0 * height,
+            angle=np.degrees(angle),
+        )
         ell.set_alpha(alpha)
         if color is not None:
             ell.set_color(color)
@@ -106,12 +114,24 @@ cov3 = alpha * np.diag([0.2, 0.1, 0.1, 1.0, 1.0, 5.0])
 
 rng = np.random.default_rng(0)
 
-T1 = np.dot(pt.transform_from_exponential_coordinates(
-    pt.random_exponential_coordinates(rng=rng, cov=cov1)), T_true)
-T2 = np.dot(pt.transform_from_exponential_coordinates(
-    pt.random_exponential_coordinates(rng=rng, cov=cov2)), T_true)
-T3 = np.dot(pt.transform_from_exponential_coordinates(
-    pt.random_exponential_coordinates(rng=rng, cov=cov3)), T_true)
+T1 = np.dot(
+    pt.transform_from_exponential_coordinates(
+        pt.random_exponential_coordinates(rng=rng, cov=cov1)
+    ),
+    T_true,
+)
+T2 = np.dot(
+    pt.transform_from_exponential_coordinates(
+        pt.random_exponential_coordinates(rng=rng, cov=cov2)
+    ),
+    T_true,
+)
+T3 = np.dot(
+    pt.transform_from_exponential_coordinates(
+        pt.random_exponential_coordinates(rng=rng, cov=cov3)
+    ),
+    T_true,
+)
 
 x1 = pt.exponential_coordinates_from_transform(T1)
 x2 = pt.exponential_coordinates_from_transform(T2)
@@ -133,7 +153,8 @@ T_est, cov_est, V = pu.pose_fusion([T1, T2, T3], [cov1, cov2, cov3])
 # truth pose is shown as a point.
 x_est = pt.exponential_coordinates_from_transform(T_est)
 _, axes = plt.subplots(
-    nrows=6, ncols=6, sharex=True, sharey=True, squeeze=True, figsize=(10, 10))
+    nrows=6, ncols=6, sharex=True, sharey=True, squeeze=True, figsize=(10, 10)
+)
 factors = [1.0]
 for i in range(6):
     for j in range(6):
@@ -145,12 +166,22 @@ for i in range(6):
 
         for x, cov, color in zip([x1, x2, x3], [cov1, cov2, cov3], "rgb"):
             plot_error_ellipse(
-                ax, x[indices], cov[indices][:, indices],
-                color=color, alpha=0.4, factors=factors)
+                ax,
+                x[indices],
+                cov[indices][:, indices],
+                color=color,
+                alpha=0.4,
+                factors=factors,
+            )
 
         plot_error_ellipse(
-            ax, x_est[indices], cov_est[indices][:, indices],
-            color="k", alpha=1, factors=factors)
+            ax,
+            x_est[indices],
+            cov_est[indices][:, indices],
+            color="k",
+            alpha=1,
+            factors=factors,
+        )
 
         ax.scatter(x_true[i], x_true[j])
 

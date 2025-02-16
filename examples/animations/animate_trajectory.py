@@ -5,6 +5,7 @@ Animate Trajectory
 
 Animates a trajectory.
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
@@ -47,7 +48,12 @@ if __name__ == "__main__":
     trajectory.add_trajectory(ax)
 
     anim = animation.FuncAnimation(
-        fig, update_trajectory, n_frames, fargs=(n_frames, trajectory),
-        interval=50, blit=False)
+        fig,
+        update_trajectory,
+        n_frames,
+        fargs=(n_frames, trajectory),
+        interval=50,
+        blit=False,
+    )
 
     plt.show()

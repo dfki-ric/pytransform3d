@@ -2,6 +2,7 @@
 
 See :doc:`user_guide/transform_manager` for more information.
 """
+
 import os
 import numpy as np
 import warnings
@@ -9,8 +10,10 @@ from lxml import etree
 from .transform_manager import TransformManager
 from .transformations import transform_from, concat
 from .rotations import (
-    active_matrix_from_extrinsic_roll_pitch_yaw, matrix_from_axis_angle,
-    norm_vector)
+    active_matrix_from_extrinsic_roll_pitch_yaw,
+    matrix_from_axis_angle,
+    norm_vector,
+)
 
 
 class UrdfTransformManager(TransformManager):
@@ -49,14 +52,23 @@ class UrdfTransformManager(TransformManager):
        Analysis. In IEEE Robotics and Automation Letters 9(5), pp. 4479-4486,
        doi: 10.1109/LRA.2024.3381482. https://arxiv.org/abs/2308.00514
     """
+
     def __init__(self, strict_check=True, check=True):
         super(UrdfTransformManager, self).__init__(strict_check, check)
         self._joints = {}
         self.collision_objects = []
         self.visuals = []
 
-    def add_joint(self, joint_name, from_frame, to_frame, child2parent, axis,
-                  limits=(float("-inf"), float("inf")), joint_type="revolute"):
+    def add_joint(
+        self,
+        joint_name,
+        from_frame,
+        to_frame,
+        child2parent,
+        axis,
+        limits=(float("-inf"), float("inf")),
+        joint_type="revolute",
+    ):
         """Add joint.
 
         Parameters
@@ -85,8 +97,13 @@ class UrdfTransformManager(TransformManager):
         """
         self.add_transform(from_frame, to_frame, child2parent)
         self._joints[joint_name] = (
-            from_frame, to_frame, child2parent, norm_vector(axis), limits,
-            joint_type)
+            from_frame,
+            to_frame,
+            child2parent,
+            norm_vector(axis),
+            limits,
+            joint_type,
+        )
 
     def set_joint(self, joint_name, value):
         """Set joint position.
@@ -109,26 +126,35 @@ class UrdfTransformManager(TransformManager):
         """
         if joint_name not in self._joints:
             raise KeyError("Joint '%s' is not known" % joint_name)
-        from_frame, to_frame, child2parent, axis, limits, joint_type = \
+        from_frame, to_frame, child2parent, axis, limits, joint_type = (
             self._joints[joint_name]
+        )
         # this is way faster than np.clip:
         value = min(max(value, limits[0]), limits[1])
         if joint_type == "revolute":
-            joint_rotation = matrix_from_axis_angle(
-                np.hstack((axis, (value,))))
+            joint_rotation = matrix_from_axis_angle(np.hstack((axis, (value,))))
             joint2A = transform_from(
-                joint_rotation, np.zeros(3), strict_check=self.strict_check)
+                joint_rotation, np.zeros(3), strict_check=self.strict_check
+            )
         elif joint_type == "prismatic":
             joint_offset = value * axis
             joint2A = transform_from(
-                np.eye(3), joint_offset, strict_check=self.strict_check)
+                np.eye(3), joint_offset, strict_check=self.strict_check
+            )
         else:
             assert joint_type == "fixed"
             warnings.warn("Trying to set a fixed joint")
             return
-        self.add_transform(from_frame, to_frame, concat(
-            joint2A, child2parent, strict_check=self.strict_check,
-            check=self.check))
+        self.add_transform(
+            from_frame,
+            to_frame,
+            concat(
+                joint2A,
+                child2parent,
+                strict_check=self.strict_check,
+                check=self.check,
+            ),
+        )
 
     def get_joint_limits(self, joint_name):
         """Get limits of a joint.
@@ -171,11 +197,19 @@ class UrdfTransformManager(TransformManager):
             variable defines to which path this prefix will be resolved.
         """
         robot_name, links, joints = parse_urdf(
-            urdf_xml, mesh_path, package_dir, self.strict_check)
+            urdf_xml, mesh_path, package_dir, self.strict_check
+        )
         initialize_urdf_transform_manager(self, robot_name, links, joints)
 
-    def plot_visuals(self, frame, ax=None, ax_s=1, wireframe=False,
-                     convex_hull_of_mesh=True, alpha=0.3):  # pragma: no cover
+    def plot_visuals(
+        self,
+        frame,
+        ax=None,
+        ax_s=1,
+        wireframe=False,
+        convex_hull_of_mesh=True,
+        alpha=0.3,
+    ):  # pragma: no cover
         """Plot all visuals in a given reference frame.
 
         Visuals can be boxes, spheres, cylinders, or meshes. Note that visuals
@@ -208,12 +242,18 @@ class UrdfTransformManager(TransformManager):
             New or old axis
         """
         return self._plot_objects(
-            self.visuals, frame, ax, ax_s, wireframe, convex_hull_of_mesh,
-            alpha)
+            self.visuals, frame, ax, ax_s, wireframe, convex_hull_of_mesh, alpha
+        )
 
     def plot_collision_objects(
-            self, frame, ax=None, ax_s=1, wireframe=True,
-            convex_hull_of_mesh=True, alpha=1.0):  # pragma: no cover
+        self,
+        frame,
+        ax=None,
+        ax_s=1,
+        wireframe=True,
+        convex_hull_of_mesh=True,
+        alpha=1.0,
+    ):  # pragma: no cover
         """Plot all collision objects in a given reference frame.
 
         Collision objects can be boxes, spheres, cylinders, or meshes. Note
@@ -247,11 +287,25 @@ class UrdfTransformManager(TransformManager):
             New or old axis
         """
         return self._plot_objects(
-            self.collision_objects, frame, ax, ax_s, wireframe,
-            convex_hull_of_mesh, alpha)
+            self.collision_objects,
+            frame,
+            ax,
+            ax_s,
+            wireframe,
+            convex_hull_of_mesh,
+            alpha,
+        )
 
-    def _plot_objects(self, objects, frame, ax=None, ax_s=1, wireframe=True,
-                      convex_hull_of_mesh=True, alpha=1.0):  # pragma: no cover
+    def _plot_objects(
+        self,
+        objects,
+        frame,
+        ax=None,
+        ax_s=1,
+        wireframe=True,
+        convex_hull_of_mesh=True,
+        alpha=1.0,
+    ):  # pragma: no cover
         """Plot all objects in a given reference frame.
 
         Objects can be boxes, spheres, cylinders, or meshes. Note that objects
@@ -288,11 +342,17 @@ class UrdfTransformManager(TransformManager):
         """
         if ax is None:
             from .plot_utils import make_3d_axis
+
             ax = make_3d_axis(ax_s)
         for obj in objects:
             ax = obj.plot(
-                self, frame, ax, wireframe=wireframe,
-                convex_hull=convex_hull_of_mesh, alpha=alpha)
+                self,
+                frame,
+                ax,
+                wireframe=wireframe,
+                convex_hull=convex_hull_of_mesh,
+                alpha=alpha,
+            )
         return ax
 
 
@@ -358,15 +418,20 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
 
     robot_name = root.attrib["name"]
 
-    materials = dict([_parse_material(material)
-                      for material in tree.findall("material")])
+    materials = dict(
+        [_parse_material(material) for material in tree.findall("material")]
+    )
 
-    links = [_parse_link(link, materials, mesh_path, package_dir, strict_check)
-             for link in tree.findall("link")]
+    links = [
+        _parse_link(link, materials, mesh_path, package_dir, strict_check)
+        for link in tree.findall("link")
+    ]
 
     link_names = [link.name for link in links]
-    joints = [_parse_joint(joint, link_names, strict_check)
-              for joint in tree.findall("joint")]
+    joints = [
+        _parse_joint(joint, link_names, strict_check)
+        for joint in tree.findall("joint")
+    ]
 
     return robot_name, links, joints
 
@@ -421,12 +486,14 @@ def _parse_link(link, materials, mesh_path, package_dir, strict_check):
     result.name = link.attrib["name"]
 
     visuals, visual_transforms = _parse_link_children(
-        link, "visual", materials, mesh_path, package_dir, strict_check)
+        link, "visual", materials, mesh_path, package_dir, strict_check
+    )
     result.visuals = visuals
     result.transforms.extend(visual_transforms)
 
     collision_objects, collision_object_transforms = _parse_link_children(
-        link, "collision", dict(), mesh_path, package_dir, strict_check)
+        link, "collision", dict(), mesh_path, package_dir, strict_check
+    )
     result.collision_objects = collision_objects
     result.transforms.extend(collision_object_transforms)
 
@@ -436,21 +503,29 @@ def _parse_link(link, materials, mesh_path, package_dir, strict_check):
         result.mass = _parse_mass(inertial)
         result.inertia[:, :] = _parse_inertia(inertial)
         result.transforms.append(
-            ("inertial_frame:%s" % result.name, result.name,
-             result.inertial_frame))
+            (
+                "inertial_frame:%s" % result.name,
+                result.name,
+                result.inertial_frame,
+            )
+        )
 
     return result
 
 
-def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
-                         strict_check):
+def _parse_link_children(
+    link, child_type, materials, mesh_path, package_dir, strict_check
+):
     """Parse collision objects or visuals."""
     children = link.findall(child_type)
     shape_objects = []
     transforms = []
     for i, child in enumerate(children):
-        name = "%s:%s/%s" % (child_type, link.attrib["name"],
-                             child.attrib.get("name", i))
+        name = "%s:%s/%s" % (
+            child_type,
+            link.attrib["name"],
+            child.attrib.get("name", i),
+        )
 
         color = None
         if child_type == "visual":
@@ -463,8 +538,9 @@ def _parse_link_children(link, child_type, materials, mesh_path, package_dir,
         child2link = _parse_origin(child, strict_check)
         transforms.append((name, link.attrib["name"], child2link))
 
-        shape_objects.extend(_parse_geometry(
-            child, name, color, mesh_path, package_dir))
+        shape_objects.extend(
+            _parse_geometry(child, name, color, mesh_path, package_dir)
+        )
     return shape_objects, transforms
 
 
@@ -479,8 +555,8 @@ def _parse_geometry(child, name, color, mesh_path, package_dir):
         Cls = shape_classes[shape_type]
         for shape in shapes:
             shape_object = Cls(
-                name, mesh_path=mesh_path, package_dir=package_dir,
-                color=color)
+                name, mesh_path=mesh_path, package_dir=package_dir, color=color
+            )
             shape_object.parse(shape)
             result.append(shape_object)
     return result
@@ -501,9 +577,9 @@ def _parse_origin(entry, strict_check):
             # conversion from Euler angles, see this blog post:
             # https://orbitalstation.wordpress.com/tag/quaternion/
             rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
-                roll_pitch_yaw)
-    return transform_from(
-        rotation, translation, strict_check=strict_check)
+                roll_pitch_yaw
+            )
+    return transform_from(rotation, translation, strict_check=strict_check)
 
 
 def _parse_mass(inertial):
@@ -527,10 +603,7 @@ def _parse_inertia(inertial):
     ixy = float(inertia.attrib.get("ixy", 0.0))
     ixz = float(inertia.attrib.get("ixz", 0.0))
     iyz = float(inertia.attrib.get("iyz", 0.0))
-    return np.array(
-        [[ixx, ixy, ixz],
-         [ixy, iyy, iyz],
-         [ixz, iyz, izz]])
+    return np.array([[ixx, ixy, ixz], [ixy, iyy, iyz], [ixz, iyz, izz]])
 
 
 def _parse_joint(joint, link_names, strict_check):
@@ -542,41 +615,47 @@ def _parse_joint(joint, link_names, strict_check):
     j.joint_name = joint.attrib["name"]
 
     if "type" not in joint.attrib:
-        raise UrdfException("Joint type is missing in joint '%s'."
-                            % j.joint_name)
+        raise UrdfException(
+            "Joint type is missing in joint '%s'." % j.joint_name
+        )
 
     parent = joint.find("parent")
     if parent is None:
-        raise UrdfException("No parent specified in joint '%s'"
-                            % j.joint_name)
+        raise UrdfException("No parent specified in joint '%s'" % j.joint_name)
     if "link" not in parent.attrib:
-        raise UrdfException("No parent link name given in joint '%s'."
-                            % j.joint_name)
+        raise UrdfException(
+            "No parent link name given in joint '%s'." % j.joint_name
+        )
     j.parent = parent.attrib["link"]
     if j.parent not in link_names:
-        raise UrdfException("Parent link '%s' of joint '%s' is not "
-                            "defined." % (j.parent, j.joint_name))
+        raise UrdfException(
+            "Parent link '%s' of joint '%s' is not "
+            "defined." % (j.parent, j.joint_name)
+        )
 
     child = joint.find("child")
     if child is None:
-        raise UrdfException("No child specified in joint '%s'"
-                            % j.joint_name)
+        raise UrdfException("No child specified in joint '%s'" % j.joint_name)
     if "link" not in child.attrib:
-        raise UrdfException("No child link name given in joint '%s'."
-                            % j.joint_name)
+        raise UrdfException(
+            "No child link name given in joint '%s'." % j.joint_name
+        )
     j.child = child.attrib["link"]
     if j.child not in link_names:
-        raise UrdfException("Child link '%s' of joint '%s' is not "
-                            "defined." % (j.child, j.joint_name))
+        raise UrdfException(
+            "Child link '%s' of joint '%s' is not "
+            "defined." % (j.child, j.joint_name)
+        )
 
     j.joint_type = joint.attrib["type"]
 
     if j.joint_type in ["planar", "floating"]:
         raise UrdfException("Unsupported joint type '%s'" % j.joint_type)
-    if j.joint_type not in ["revolute", "continuous", "prismatic",
-                            "fixed"]:
-        raise UrdfException("Joint type '%s' is not allowed in a URDF "
-                            "document." % j.joint_type)
+    if j.joint_type not in ["revolute", "continuous", "prismatic", "fixed"]:
+        raise UrdfException(
+            "Joint type '%s' is not allowed in a URDF "
+            "document." % j.joint_type
+        )
 
     j.child2parent = _parse_origin(joint, strict_check)
 
@@ -635,20 +714,35 @@ def _add_joints(tm, joints):
     for joint in joints:
         if joint.joint_type in ["revolute", "continuous"]:
             tm.add_joint(
-                joint.joint_name, joint.child, joint.parent,
-                joint.child2parent, joint.joint_axis, joint.limits,
-                "revolute")
+                joint.joint_name,
+                joint.child,
+                joint.parent,
+                joint.child2parent,
+                joint.joint_axis,
+                joint.limits,
+                "revolute",
+            )
         elif joint.joint_type == "prismatic":
             tm.add_joint(
-                joint.joint_name, joint.child, joint.parent,
-                joint.child2parent, joint.joint_axis, joint.limits,
-                "prismatic")
+                joint.joint_name,
+                joint.child,
+                joint.parent,
+                joint.child2parent,
+                joint.joint_axis,
+                joint.limits,
+                "prismatic",
+            )
         else:
             assert joint.joint_type == "fixed"
             tm.add_joint(
-                joint.joint_name, joint.child, joint.parent,
-                joint.child2parent, joint.joint_axis, (0.0, 0.0),
-                "fixed")
+                joint.joint_name,
+                joint.child,
+                joint.parent,
+                joint.child2parent,
+                joint.joint_axis,
+                (0.0, 0.0),
+                "fixed",
+            )
 
 
 class Link(object):
@@ -680,6 +774,7 @@ class Link(object):
     inertia : array, shape (3, 3)
         Inertia matrix
     """
+
     def __init__(self):
         self.name = None
         self.visuals = []
@@ -718,6 +813,7 @@ class Joint(object):
     limits : pair of float
         Lower and upper joint angle limit
     """
+
     def __init__(self):
         self.child = None
         self.parent = None
@@ -730,6 +826,7 @@ class Joint(object):
 
 class Geometry(object):
     """Geometrical object."""
+
     def __init__(self, frame, mesh_path, package_dir, color):
         self.frame = frame
         self.mesh_path = mesh_path
@@ -739,13 +836,15 @@ class Geometry(object):
     def parse(self, xml):
         """Parse parameters of geometry."""
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
-             convex_hull=True):
+    def plot(
+        self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True
+    ):
         """Plot geometry."""
 
 
 class Box(Geometry):
     """Geometrical object: box."""
+
     def __init__(self, frame, mesh_path, package_dir, color):
         super(Box, self).__init__(frame, mesh_path, package_dir, color)
         self.size = np.zeros(3)
@@ -755,18 +854,22 @@ class Box(Geometry):
         if "size" in xml.attrib:
             self.size[:] = np.fromstring(xml.attrib["size"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
-             convex_hull=True):  # pragma: no cover
+    def plot(
+        self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True
+    ):  # pragma: no cover
         """Plot box."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         from .plot_utils import plot_box
+
         return plot_box(
-            ax, self.size, A2B, wireframe=wireframe, alpha=alpha, color=color)
+            ax, self.size, A2B, wireframe=wireframe, alpha=alpha, color=color
+        )
 
 
 class Sphere(Geometry):
     """Geometrical object: sphere."""
+
     def __init__(self, frame, mesh_path, package_dir, color):
         super(Sphere, self).__init__(frame, mesh_path, package_dir, color)
         self.radius = 0.0
@@ -777,19 +880,27 @@ class Sphere(Geometry):
             raise UrdfException("Sphere has no radius.")
         self.radius = float(xml.attrib["radius"])
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
-             convex_hull=True):  # pragma: no cover
+    def plot(
+        self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True
+    ):  # pragma: no cover
         """Plot sphere."""
         center = tm.get_transform(self.frame, frame)[:3, 3]
         color = self.color if self.color is not None else "k"
         from .plot_utils import plot_sphere
+
         return plot_sphere(
-            ax, self.radius, center, wireframe=wireframe, alpha=alpha,
-            color=color)
+            ax,
+            self.radius,
+            center,
+            wireframe=wireframe,
+            alpha=alpha,
+            color=color,
+        )
 
 
 class Cylinder(Geometry):
     """Geometrical object: cylinder."""
+
     def __init__(self, frame, mesh_path, package_dir, color):
         super(Cylinder, self).__init__(frame, mesh_path, package_dir, color)
         self.radius = 0.0
@@ -804,19 +915,29 @@ class Cylinder(Geometry):
             raise UrdfException("Cylinder has no length.")
         self.length = float(xml.attrib["length"])
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
-             convex_hull=True):  # pragma: no cover
+    def plot(
+        self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True
+    ):  # pragma: no cover
         """Plot cylinder."""
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         from .plot_utils import plot_cylinder
+
         return plot_cylinder(
-            ax, self.length, self.radius, 0.0, A2B, wireframe=wireframe,
-            alpha=alpha, color=color)
+            ax,
+            self.length,
+            self.radius,
+            0.0,
+            A2B,
+            wireframe=wireframe,
+            alpha=alpha,
+            color=color,
+        )
 
 
 class Mesh(Geometry):
     """Geometrical object: mesh."""
+
     def __init__(self, frame, mesh_path, package_dir, color):
         super(Mesh, self).__init__(frame, mesh_path, package_dir, color)
         self.filename = None
@@ -831,29 +952,42 @@ class Mesh(Geometry):
                 raise UrdfException("Mesh has no filename.")
             if self.mesh_path is not None:
                 self.filename = os.path.join(
-                    self.mesh_path, xml.attrib["filename"])
+                    self.mesh_path, xml.attrib["filename"]
+                )
             else:
                 assert self.package_dir is not None
                 self.filename = xml.attrib["filename"].replace(
-                    "package://", self.package_dir)
+                    "package://", self.package_dir
+                )
             if "scale" in xml.attrib:
                 self.scale = np.fromstring(xml.attrib["scale"], sep=" ")
 
-    def plot(self, tm, frame, ax=None, alpha=0.3, wireframe=True,
-             convex_hull=True):  # pragma: no cover
+    def plot(
+        self, tm, frame, ax=None, alpha=0.3, wireframe=True, convex_hull=True
+    ):  # pragma: no cover
         """Plot mesh."""
         from .plot_utils import plot_mesh
+
         A2B = tm.get_transform(self.frame, frame)
         color = self.color if self.color is not None else "k"
         return plot_mesh(
-            ax, self.filename, A2B, self.scale, wireframe=wireframe,
-            convex_hull=convex_hull, alpha=alpha, color=color)
+            ax,
+            self.filename,
+            A2B,
+            self.scale,
+            wireframe=wireframe,
+            convex_hull=convex_hull,
+            alpha=alpha,
+            color=color,
+        )
 
 
-shape_classes = {"box": Box,
-                 "sphere": Sphere,
-                 "cylinder": Cylinder,
-                 "mesh": Mesh}
+shape_classes = {
+    "box": Box,
+    "sphere": Sphere,
+    "cylinder": Cylinder,
+    "mesh": Mesh,
+}
 
 
 class UrdfException(Exception):
