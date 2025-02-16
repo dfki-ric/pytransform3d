@@ -532,9 +532,9 @@ def test_random_trajectories():
     trajectories2 = ptr.random_trajectories(
         rng, n_trajectories=3, n_steps=20, scale=[2.0] * 6)
     Sthetas1 = ptr.exponential_coordinates_from_transforms(trajectories1)
-    acc1 = np.abs(np.gradient(np.gradient(Sthetas1, axis=1, edge_order=0),
-                              axis=1, edge_order=0))
+    acc1 = np.abs(np.gradient(np.gradient(Sthetas1, axis=1, edge_order=1),
+                              axis=1, edge_order=1))
     Sthetas2 = ptr.exponential_coordinates_from_transforms(trajectories2)
-    acc2 = np.abs(np.gradient(np.gradient(Sthetas2, axis=1, edge_order=0),
-                              axis=1, edge_order=0))
+    acc2 = np.abs(np.gradient(np.gradient(Sthetas2, axis=1, edge_order=1),
+                              axis=1, edge_order=1))
     assert np.all(acc1 <= acc2)
