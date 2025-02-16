@@ -12,32 +12,6 @@ from ._axis_angle import (
 from ._utils import check_axis_index, norm_vector
 
 
-def quaternion_requires_renormalization(q, tolerance=1e-6):
-    r"""Check if a unit quaternion requires renormalization.
-
-    Quaternions that represent rotations should have unit norm, so we check
-    :math:`||\boldsymbol{q}|| \approx 1`.
-
-    Parameters
-    ----------
-    q : array-like, shape (4,)
-        Quaternion to represent rotation: (w, x, y, z)
-
-    tolerance : float, optional (default: 1e-6)
-        Tolerance for check.
-
-    Returns
-    -------
-    required : bool
-        Renormalization is required.
-
-    See Also
-    --------
-    check_quaternion : Normalizes quaternion.
-    """
-    return abs(np.linalg.norm(q) - 1.0) > tolerance
-
-
 def check_quaternion(q, unit=True):
     """Input validation of quaternion representation.
 
@@ -101,6 +75,32 @@ def check_quaternions(Q, unit=True):
         for i in range(len(Q)):
             Q_checked[i] = norm_vector(Q_checked[i])
     return Q_checked
+
+
+def quaternion_requires_renormalization(q, tolerance=1e-6):
+    r"""Check if a unit quaternion requires renormalization.
+
+    Quaternions that represent rotations should have unit norm, so we check
+    :math:`||\boldsymbol{q}|| \approx 1`.
+
+    Parameters
+    ----------
+    q : array-like, shape (4,)
+        Quaternion to represent rotation: (w, x, y, z)
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Renormalization is required.
+
+    See Also
+    --------
+    check_quaternion : Normalizes quaternion.
+    """
+    return abs(np.linalg.norm(q) - 1.0) > tolerance
 
 
 def quaternion_double(q):

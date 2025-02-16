@@ -8,28 +8,6 @@ from ._axis_angle import mrp_from_axis_angle
 from ._constants import two_pi, eps
 
 
-def norm_mrp(mrp):
-    """Normalize angle of modified Rodrigues parameters to range [-pi, pi].
-
-    Normalization of modified Rodrigues parameters is required to avoid the
-    singularity at a rotation angle of 2 * pi.
-
-    Parameters
-    ----------
-    mrp : array-like, shape (3,)
-        Modified Rodrigues parameters.
-
-    Returns
-    -------
-    mrp : array, shape (3,)
-        Modified Rodrigues parameters with angle normalized to [-pi, pi].
-    """
-    mrp = check_mrp(mrp)
-    a = axis_angle_from_mrp(mrp)
-    a[3] = norm_angle(a[3])
-    return mrp_from_axis_angle(a)
-
-
 def check_mrp(mrp):
     """Input validation of modified Rodrigues parameters.
 
@@ -55,6 +33,28 @@ def check_mrp(mrp):
             "array-like object with shape %s" % (mrp.shape,)
         )
     return mrp
+
+
+def norm_mrp(mrp):
+    """Normalize angle of modified Rodrigues parameters to range [-pi, pi].
+
+    Normalization of modified Rodrigues parameters is required to avoid the
+    singularity at a rotation angle of 2 * pi.
+
+    Parameters
+    ----------
+    mrp : array-like, shape (3,)
+        Modified Rodrigues parameters.
+
+    Returns
+    -------
+    mrp : array, shape (3,)
+        Modified Rodrigues parameters with angle normalized to [-pi, pi].
+    """
+    mrp = check_mrp(mrp)
+    a = axis_angle_from_mrp(mrp)
+    a[3] = norm_angle(a[3])
+    return mrp_from_axis_angle(a)
 
 
 def mrp_near_singularity(mrp, tolerance=1e-6):
