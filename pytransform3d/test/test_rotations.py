@@ -302,12 +302,12 @@ def test_check_matrix():
     """Test input validation for rotation matrix."""
     R_list = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     R = pr.check_matrix(R_list)
-    assert type(R) == np.ndarray
+    assert type(R) is np.ndarray
     assert R.dtype == np.float64
 
     R_int_array = np.eye(3, dtype=int)
     R = pr.check_matrix(R_int_array)
-    assert type(R) == np.ndarray
+    assert type(R) is np.ndarray
     assert R.dtype == np.float64
 
     R_array = np.eye(3)
@@ -342,7 +342,7 @@ def test_check_axis_angle():
     a_list = [1, 0, 0, 0]
     a = pr.check_axis_angle(a_list)
     assert_array_almost_equal(a_list, a)
-    assert type(a) == np.ndarray
+    assert type(a) is np.ndarray
     assert a.dtype == np.float64
 
     rng = np.random.default_rng(0)
@@ -370,7 +370,7 @@ def test_check_compact_axis_angle():
     a_list = [0, 0, 0]
     a = pr.check_compact_axis_angle(a_list)
     assert_array_almost_equal(a_list, a)
-    assert type(a) == np.ndarray
+    assert type(a) is np.ndarray
     assert a.dtype == np.float64
 
     rng = np.random.default_rng(0)
@@ -395,7 +395,7 @@ def test_check_quaternion():
     q_list = [1, 0, 0, 0]
     q = pr.check_quaternion(q_list)
     assert_array_almost_equal(q_list, q)
-    assert type(q) == np.ndarray
+    assert type(q) is np.ndarray
     assert q.dtype == np.float64
 
     rng = np.random.default_rng(0)
@@ -418,7 +418,7 @@ def test_check_quaternions():
     Q_list = [[1, 0, 0, 0]]
     Q = pr.check_quaternions(Q_list)
     assert_array_almost_equal(Q_list, Q)
-    assert type(Q) == np.ndarray
+    assert type(Q) is np.ndarray
     assert Q.dtype == np.float64
     assert Q.ndim == 2
     assert_array_equal(Q.shape, (1, 4))
@@ -473,7 +473,7 @@ def test_active_matrix_from_angle():
         pr.active_matrix_from_angle(3, 0)
 
     rng = np.random.default_rng(21)
-    for i in range(20):
+    for _ in range(20):
         basis = rng.integers(0, 3)
         angle = 2.0 * np.pi * rng.random() - np.pi
         R_passive = pr.passive_matrix_from_angle(basis, angle)
@@ -1290,7 +1290,7 @@ def test_quaternion_from_matrix_180():
 def test_quaternion_from_matrix_180_not_axis_aligned():
     """Test for bug in rotation by 180 degrees around arbitrary axes."""
     rng = np.random.default_rng(0)
-    for i in range(10):
+    for _ in range(10):
         a = pr.random_axis_angle(rng)
         a[3] = np.pi
         q = pr.quaternion_from_axis_angle(a)
@@ -1302,7 +1302,7 @@ def test_quaternion_from_matrix_180_not_axis_aligned():
 def test_quaternion_from_extrinsic_euler_xyz():
     """Test quaternion_from_extrinsic_euler_xyz."""
     rng = np.random.default_rng(0)
-    for i in range(10):
+    for _ in range(10):
         e = rng.uniform(-100, 100, [3])
         q = pr.quaternion_from_extrinsic_euler_xyz(e)
         R_from_q = pr.matrix_from_quaternion(q)
@@ -1358,7 +1358,7 @@ def test_axis_angle_from_two_direction_vectors():
     pr.assert_axis_angle_equal(a, np.array([0, 0, 1, 0.5 * np.pi]))
 
     rng = np.random.default_rng(323)
-    for i in range(5):
+    for _ in range(5):
         R = pr.matrix_from_axis_angle(pr.random_axis_angle(rng))
         v1 = pr.random_vector(rng, 3)
         v2 = R.dot(v1)
@@ -2213,7 +2213,7 @@ def test_quaternion_from_angle():
         pr.quaternion_from_angle(3, 0)
 
     rng = np.random.default_rng(22)
-    for i in range(20):
+    for _ in range(20):
         basis = rng.integers(0, 3)
         angle = 2.0 * np.pi * rng.random() - np.pi
         R = pr.active_matrix_from_angle(basis, angle)
@@ -2266,7 +2266,7 @@ def test_quaternion_from_euler():
     rng = np.random.default_rng(83)
     for ea in euler_axes:
         for extrinsic in [False, True]:
-            for i in range(5):
+            for _ in range(5):
                 e = rng.random(3)
                 e[0] = 2.0 * np.pi * e[0] - np.pi
                 e[1] = np.pi * e[1]
@@ -2358,7 +2358,7 @@ def test_general_matrix_euler_conversions():
     ]
     for ea in euler_axes:
         for extrinsic in [False, True]:
-            for i in range(5):
+            for _ in range(5):
                 e = rng.random(3)
                 e[0] = 2.0 * np.pi * e[0] - np.pi
                 e[1] = np.pi * e[1]

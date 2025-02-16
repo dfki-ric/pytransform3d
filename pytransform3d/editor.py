@@ -42,7 +42,11 @@ except ImportError:
     except ImportError:
         import warnings
 
-        warnings.warn("Cannot import PyQt. TransformEditor won't be available.")
+        warnings.warn(
+            "Cannot import PyQt. TransformEditor won't be available.",
+            ImportWarning,
+            stacklevel=2,
+        )
         TransformEditor = None
 
 
@@ -57,7 +61,7 @@ if qt_available:
         intrinsic_euler_xyz_from_active_matrix,
     )
     from .transformations import transform_from
-    from mpl_toolkits.mplot3d import Axes3D
+    from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
     from matplotlib.figure import Figure
 
     if qt_version == 5:

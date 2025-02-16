@@ -98,7 +98,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
         )
         if strict_check:
             raise ValueError(error_msg)
-        warnings.warn(error_msg)
+        warnings.warn(error_msg, UserWarning, stacklevel=2)
     R_det = np.linalg.det(R)
     if R_det < 0.0:
         error_msg = (
@@ -108,7 +108,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
         )
         if strict_check:
             raise ValueError(error_msg)
-        warnings.warn(error_msg)
+        warnings.warn(error_msg, UserWarning, stacklevel=2)
     return R
 
 

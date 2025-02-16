@@ -1,5 +1,5 @@
 try:
-    import matplotlib
+    import matplotlib  # noqa: F401
 
     matplotlib_available = True
 except ImportError:
@@ -961,7 +961,6 @@ def test_parse_material_without_name():
         </link>
     </robot>
     """
-    tm = UrdfTransformManager()
     with pytest.raises(UrdfException):
         UrdfTransformManager().load_urdf(urdf)
 
@@ -1003,7 +1002,6 @@ def test_parse_material_without_rgba():
         </link>
     </robot>
     """
-    tm = UrdfTransformManager()
     with pytest.raises(UrdfException):
         UrdfTransformManager().load_urdf(urdf)
 
@@ -1026,7 +1024,6 @@ def test_parse_material_with_two_colors():
         </link>
     </robot>
     """
-    tm = UrdfTransformManager()
     with pytest.raises(UrdfException):
         UrdfTransformManager().load_urdf(urdf)
 
