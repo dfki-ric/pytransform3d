@@ -1,9 +1,11 @@
 import math
+
 import numpy as np
-from ..rotations import (
-    cross_product_matrix, left_jacobian_SO3, left_jacobian_SO3_inv)
+
 from ._screws import (
     check_exponential_coordinates, screw_axis_from_exponential_coordinates)
+from ..rotations import (
+    cross_product_matrix, left_jacobian_SO3, left_jacobian_SO3_inv)
 
 
 def left_jacobian_SE3(Stheta):

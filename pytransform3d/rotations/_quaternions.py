@@ -1,10 +1,11 @@
 """Quaternion operations."""
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-from ._utils import check_axis_index, norm_vector
+
 from ._angle import quaternion_from_angle
 from ._axis_angle import (
     norm_axis_angle, quaternion_from_compact_axis_angle, compact_axis_angle)
+from ._utils import check_axis_index, norm_vector
 
 
 def quaternion_requires_renormalization(q, tolerance=1e-6):
