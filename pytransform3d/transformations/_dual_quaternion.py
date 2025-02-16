@@ -1,6 +1,7 @@
 """Dual quaternion operations."""
 import numpy as np
 from numpy.testing import assert_array_almost_equal
+
 from ._screws import dual_quaternion_from_screw_parameters
 from ._transform import transform_from
 from ..rotations import (

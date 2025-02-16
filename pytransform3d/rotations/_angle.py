@@ -1,5 +1,7 @@
 import math
+
 import numpy as np
+
 from ._constants import two_pi
 
 

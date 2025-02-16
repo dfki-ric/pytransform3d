@@ -1,5 +1,6 @@
 """Conversions between rotation representations."""
 import warnings
+
 import numpy as np
 
 

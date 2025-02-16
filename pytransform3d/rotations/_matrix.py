@@ -1,9 +1,11 @@
 import warnings
+
 import numpy as np
 from numpy.testing import assert_array_almost_equal
+
+from ._axis_angle import compact_axis_angle
 from ._utils import (
     norm_vector, perpendicular_to_vectors, vector_projection)
-from ._axis_angle import compact_axis_angle
 
 
 def matrix_requires_renormalization(R, tolerance=1e-6):

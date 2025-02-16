@@ -1,4 +1,5 @@
 import numpy as np
+
 from ._axis_angle import matrix_from_compact_axis_angle
 
 

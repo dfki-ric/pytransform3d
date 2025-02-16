@@ -1,7 +1,8 @@
 """Utility functions for rotations."""
-import warnings
 import math
+
 import numpy as np
+
 from ._constants import unitz, eps
 
 

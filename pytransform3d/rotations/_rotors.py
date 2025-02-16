@@ -1,8 +1,9 @@
 """Rotor operations."""
 import numpy as np
-from ._utils import norm_vector, perpendicular_to_vector
+
 from ._constants import unitx, unity, unitz, eps
 from ._quaternions import concatenate_quaternions, q_prod_vector
+from ._utils import norm_vector, perpendicular_to_vector
 
 
 def check_rotor(rotor):

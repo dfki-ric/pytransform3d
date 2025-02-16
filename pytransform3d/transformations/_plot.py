@@ -1,5 +1,6 @@
 """Plotting utilities."""
 import numpy as np
+
 from ._screws import check_screw_parameters
 from ._transform import check_transform
 from ._transform_operations import (

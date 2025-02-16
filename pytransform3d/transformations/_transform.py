@@ -1,7 +1,9 @@
 """Transformation matrices."""
 import warnings
+
 import numpy as np
 from numpy.testing import assert_array_almost_equal
+
 from ..rotations import (
     matrix_requires_renormalization, check_matrix, assert_rotation_matrix,
     quaternion_from_matrix, compact_axis_angle_from_matrix,

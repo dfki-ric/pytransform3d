@@ -1,7 +1,8 @@
 """Position+quaternion operations."""
 import numpy as np
-from .. import rotations
+
 from ._transform import transform_from
+from .. import rotations
 
 
 def check_pq(pq):
