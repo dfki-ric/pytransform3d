@@ -1,7 +1,8 @@
 import warnings
+
 from ._angle import active_matrix_from_angle
-from ._euler import general_intrinsic_euler_from_active_matrix
 from ._constants import unitx, unity, unitz
+from ._euler import general_intrinsic_euler_from_active_matrix
 from ._matrix import quaternion_from_matrix
 
 

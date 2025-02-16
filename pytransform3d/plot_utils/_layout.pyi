@@ -1,7 +1,6 @@
-import numpy as np
-import numpy.typing as npt
-from mpl_toolkits.mplot3d import Axes3D
 from typing import Union
+
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def make_3d_axis(ax_s : float, pos: int = ..., unit: Union[str, None] = ...,

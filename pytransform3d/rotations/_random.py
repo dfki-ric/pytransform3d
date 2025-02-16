@@ -1,8 +1,8 @@
 import numpy as np
 
-from ._utils import norm_vector
-from ._matrix import check_matrix, norm_matrix
 from ._axis_angle import matrix_from_compact_axis_angle
+from ._matrix import check_matrix, norm_matrix
+from ._utils import norm_vector
 
 
 def random_vector(rng=np.random.default_rng(0), n=3):

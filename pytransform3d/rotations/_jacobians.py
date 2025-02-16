@@ -1,5 +1,7 @@
 import math
+
 import numpy as np
+
 from ._rot_log import cross_product_matrix
 
 

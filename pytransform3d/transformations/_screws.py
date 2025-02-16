@@ -1,6 +1,7 @@
 """Conversions between transform representations."""
 import numpy as np
 from numpy.testing import assert_array_almost_equal
+
 from ._transform import translate_transform
 from ..rotations import (
     eps, norm_vector, norm_angle, cross_product_matrix,

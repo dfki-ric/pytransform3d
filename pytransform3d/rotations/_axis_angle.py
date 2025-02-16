@@ -1,10 +1,12 @@
 """Conversions from axis-angle to other representations."""
 import math
+
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-from ._utils import norm_vector, perpendicular_to_vector
+
 from ._angle import norm_angle
 from ._constants import eps
+from ._utils import norm_vector, perpendicular_to_vector
 
 
 def norm_axis_angle(a):

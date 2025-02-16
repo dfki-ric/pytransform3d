@@ -1,6 +1,7 @@
 """Modified Rodrigues parameters."""
 import numpy as np
 from numpy.testing import assert_array_almost_equal
+
 from ._angle import norm_angle
 from ._axis_angle import mrp_from_axis_angle
 from ._constants import two_pi, eps

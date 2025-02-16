@@ -1,12 +1,13 @@
 """Plotting functions."""
 import numpy as np
-from ._constants import a_id, p0, unitx, unity
-from ._utils import (
-    perpendicular_to_vectors, angle_between_vectors)
-from ._matrix import check_matrix
+
 from ._axis_angle import check_axis_angle
+from ._constants import a_id, p0, unitx, unity
+from ._matrix import check_matrix
 from ._rotors import wedge, plane_normal_from_bivector
 from ._slerp import slerp_weights
+from ._utils import (
+    perpendicular_to_vectors, angle_between_vectors)
 
 
 def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1,

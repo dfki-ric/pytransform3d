@@ -1,9 +1,10 @@
 """Transform operations."""
 import numpy as np
+
+from ._screws import transform_from_exponential_coordinates
+from ._transform import check_transform, exponential_coordinates_from_transform
 from ..rotations import (
     axis_angle_from_matrix, matrix_from_axis_angle, norm_vector)
-from ._transform import check_transform, exponential_coordinates_from_transform
-from ._screws import transform_from_exponential_coordinates
 
 
 def invert_transform(A2B, strict_check=True, check=True):
