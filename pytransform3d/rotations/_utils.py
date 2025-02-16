@@ -1,4 +1,5 @@
 """Utility functions for rotations."""
+
 import math
 
 import numpy as np
@@ -113,8 +114,12 @@ def angle_between_vectors(a, b, fast=False):
     """
     if len(a) != 3 or fast:
         return np.arccos(
-            np.clip(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)),
-                    -1.0, 1.0))
+            np.clip(
+                np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)),
+                -1.0,
+                1.0,
+            )
+        )
     return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
 
 
@@ -168,20 +173,32 @@ def plane_basis_from_normal(plane_normal):
         # x or z is the largest magnitude component, swap them
         length = math.sqrt(
             plane_normal[0] * plane_normal[0]
-            + plane_normal[2] * plane_normal[2])
-        x_axis = np.array([-plane_normal[2] / length, 0.0,
-                           plane_normal[0] / length])
-        y_axis = np.array([
-            plane_normal[1] * x_axis[2],
-            plane_normal[2] * x_axis[0] - plane_normal[0] * x_axis[2],
-            -plane_normal[1] * x_axis[0]])
+            + plane_normal[2] * plane_normal[2]
+        )
+        x_axis = np.array(
+            [-plane_normal[2] / length, 0.0, plane_normal[0] / length]
+        )
+        y_axis = np.array(
+            [
+                plane_normal[1] * x_axis[2],
+                plane_normal[2] * x_axis[0] - plane_normal[0] * x_axis[2],
+                -plane_normal[1] * x_axis[0],
+            ]
+        )
     else:
         # y or z is the largest magnitude component, swap them
-        length = math.sqrt(plane_normal[1] * plane_normal[1]
-                           + plane_normal[2] * plane_normal[2])
-        x_axis = np.array([0.0, plane_normal[2] / length,
-                           -plane_normal[1] / length])
-        y_axis = np.array([
-            plane_normal[1] * x_axis[2] - plane_normal[2] * x_axis[1],
-            -plane_normal[0] * x_axis[2], plane_normal[0] * x_axis[1]])
+        length = math.sqrt(
+            plane_normal[1] * plane_normal[1]
+            + plane_normal[2] * plane_normal[2]
+        )
+        x_axis = np.array(
+            [0.0, plane_normal[2] / length, -plane_normal[1] / length]
+        )
+        y_axis = np.array(
+            [
+                plane_normal[1] * x_axis[2] - plane_normal[2] * x_axis[1],
+                -plane_normal[0] * x_axis[2],
+                plane_normal[0] * x_axis[1],
+            ]
+        )
     return x_axis, y_axis

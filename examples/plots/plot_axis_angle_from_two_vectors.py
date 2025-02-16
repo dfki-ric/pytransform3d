@@ -10,11 +10,15 @@ axis and the initial and resulting coordinate frame, where the vector 'b'
 and its corresponding frame after the rotation are represented by shorter
 lines.
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.rotations import (
-    axis_angle_from_two_directions, matrix_from_axis_angle, plot_axis_angle,
-    plot_basis)
+    axis_angle_from_two_directions,
+    matrix_from_axis_angle,
+    plot_axis_angle,
+    plot_basis,
+)
 from pytransform3d.plot_utils import make_3d_axis, plot_vector
 
 

@@ -1,10 +1,14 @@
 """Transform operations."""
+
 import numpy as np
 
 from ._screws import transform_from_exponential_coordinates
 from ._transform import check_transform, exponential_coordinates_from_transform
 from ..rotations import (
-    axis_angle_from_matrix, matrix_from_axis_angle, norm_vector)
+    axis_angle_from_matrix,
+    matrix_from_axis_angle,
+    norm_vector,
+)
 
 
 def invert_transform(A2B, strict_check=True, check=True):
@@ -274,9 +278,19 @@ def transform(A2B, PA, strict_check=True):
     raise ValueError("Cannot transform array with more than 2 dimensions")
 
 
-def scale_transform(A2B, s_xr=1.0, s_yr=1.0, s_zr=1.0, s_r=1.0,
-                    s_xt=1.0, s_yt=1.0, s_zt=1.0, s_t=1.0, s_d=1.0,
-                    strict_check=True):
+def scale_transform(
+    A2B,
+    s_xr=1.0,
+    s_yr=1.0,
+    s_zr=1.0,
+    s_r=1.0,
+    s_xt=1.0,
+    s_yt=1.0,
+    s_zt=1.0,
+    s_t=1.0,
+    s_d=1.0,
+    strict_check=True,
+):
     """Scale a transform from A to reference frame B.
 
     See algorithm 10 from "Analytic Approaches for Design and Operation of

@@ -3,6 +3,7 @@
 Plot Vector
 ===========
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from pytransform3d.plot_utils import plot_vector
@@ -15,6 +16,6 @@ plot_vector(
     s=0.5,
     ax_s=0.5,  # Scaling of 3D axes
     lw=0,  # Remove line around arrow
-    color="orange"
+    color="orange",
 )
 plt.show()

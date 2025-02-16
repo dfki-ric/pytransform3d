@@ -6,9 +6,14 @@ and can be orders of magnitude faster than a loop of individual conversions.
 All functions operate on nd arrays, where the last dimension (vectors) or
 the last two dimensions (matrices) contain individual rotations.
 """
+
 import numpy as np
 from .rotations import (
-    angle_between_vectors, slerp_weights, pick_closest_quaternion, norm_angle)
+    angle_between_vectors,
+    slerp_weights,
+    pick_closest_quaternion,
+    norm_angle,
+)
 
 
 def norm_vectors(V, out=None):
@@ -67,9 +72,7 @@ def norm_axis_angles(a):
 
     res = np.empty_like(a)
     res[no_rot_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
-    res[rot_mask, :3] = (
-        a[rot_mask, :3] / norm[rot_mask, np.newaxis]
-    )
+    res[rot_mask, :3] = a[rot_mask, :3] / norm[rot_mask, np.newaxis]
 
     angle_normalized = norm_angle(angles)
 
@@ -152,7 +155,8 @@ def active_matrices_from_angles(basis, angles, out=None):
 
 
 def active_matrices_from_intrinsic_euler_angles(
-        basis1, basis2, basis3, e, out=None):
+    basis1, basis2, basis3, e, out=None
+):
     """Compute active rotation matrices from intrinsic Euler angles.
 
     Parameters
@@ -190,14 +194,15 @@ def active_matrices_from_intrinsic_euler_angles(
         out = np.empty(R_shape)
 
     out[:] = np.einsum(
-        "nij,njk->nik", np.einsum("nij,njk->nik", R_alpha, R_beta),
-        R_gamma).reshape(R_shape)
+        "nij,njk->nik", np.einsum("nij,njk->nik", R_alpha, R_beta), R_gamma
+    ).reshape(R_shape)
 
     return out
 
 
 def active_matrices_from_extrinsic_euler_angles(
-        basis1, basis2, basis3, e, out=None):
+    basis1, basis2, basis3, e, out=None
+):
     """Compute active rotation matrices from extrinsic Euler angles.
 
     Parameters
@@ -235,14 +240,13 @@ def active_matrices_from_extrinsic_euler_angles(
         out = np.empty(R_shape)
 
     out[:] = np.einsum(
-        "nij,njk->nik", np.einsum("nij,njk->nik", R_gamma, R_beta),
-        R_alpha).reshape(R_shape)
+        "nij,njk->nik", np.einsum("nij,njk->nik", R_gamma, R_beta), R_alpha
+    ).reshape(R_shape)
 
     return out
 
 
-def matrices_from_compact_axis_angles(
-        A=None, axes=None, angles=None, out=None):
+def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
     """Compute rotation matrices from compact axis-angle representations.
 
     This is called exponential map or Rodrigues' formula.
@@ -375,11 +379,12 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     else:
         Rs_diag = Rs_diag[0]
 
-    out[angle_close_to_pi, :3] = (
-        np.sqrt(0.5 * (Rs_diag[angle_close_to_pi] + 1.0))
-        * np.sign(out[angle_close_to_pi, :3]))
-    out[angle_not_zero, :3] /= np.linalg.norm(
-        out[angle_not_zero, :3], axis=-1)[..., np.newaxis]
+    out[angle_close_to_pi, :3] = np.sqrt(
+        0.5 * (Rs_diag[angle_close_to_pi] + 1.0)
+    ) * np.sign(out[angle_close_to_pi, :3])
+    out[angle_not_zero, :3] /= np.linalg.norm(out[angle_not_zero, :3], axis=-1)[
+        ..., np.newaxis
+    ]
 
     out[angle_zero, 0] = 1.0
     out[angle_zero, 1:3] = 0.0
@@ -414,15 +419,18 @@ def axis_angles_from_quaternions(qs):
     small_p_norm_mask = qvec_norm < np.finfo(float).eps
     non_zero_mask = ~small_p_norm_mask
 
-    axes = (quaternion_vector_part[non_zero_mask]
-            / qvec_norm[non_zero_mask, np.newaxis])
+    axes = (
+        quaternion_vector_part[non_zero_mask]
+        / qvec_norm[non_zero_mask, np.newaxis]
+    )
 
     w_clamped = np.clip(qs[non_zero_mask, 0], -1.0, 1.0)
     angles = 2.0 * np.arccos(w_clamped)
 
     result = np.empty_like(qs)
     result[non_zero_mask] = norm_axis_angles(
-        np.concatenate((axes, angles[..., np.newaxis]), axis=-1))
+        np.concatenate((axes, angles[..., np.newaxis]), axis=-1)
+    )
     result[small_p_norm_mask] = np.array([1.0, 0.0, 0.0, 0.0])
 
     return result
@@ -563,16 +571,17 @@ def quaternions_from_matrices(Rs, out=None):
 
     ind2 = np.logical_and(
         np.logical_not(ind1),
-        np.logical_and(Rs[..., 0, 0] > Rs[..., 1, 1],
-                       Rs[..., 0, 0] > Rs[..., 2, 2]))
+        np.logical_and(
+            Rs[..., 0, 0] > Rs[..., 1, 1], Rs[..., 0, 0] > Rs[..., 2, 2]
+        ),
+    )
     s = 2.0 * np.sqrt(1.0 + Rs[ind2, 0, 0] - Rs[ind2, 1, 1] - Rs[ind2, 2, 2])
     out[ind2, 0] = (Rs[ind2, 2, 1] - Rs[ind2, 1, 2]) / s
     out[ind2, 1] = 0.25 * s
     out[ind2, 2] = (Rs[ind2, 1, 0] + Rs[ind2, 0, 1]) / s
     out[ind2, 3] = (Rs[ind2, 0, 2] + Rs[ind2, 2, 0]) / s
 
-    ind3 = np.logical_and(
-        np.logical_not(ind1), Rs[..., 1, 1] > Rs[..., 2, 2])
+    ind3 = np.logical_and(np.logical_not(ind1), Rs[..., 1, 1] > Rs[..., 2, 2])
     s = 2.0 * np.sqrt(1.0 + Rs[ind3, 1, 1] - Rs[ind3, 0, 0] - Rs[ind3, 2, 2])
     out[ind3, 0] = (Rs[ind3, 0, 2] - Rs[ind3, 2, 0]) / s
     out[ind3, 1] = (Rs[ind3, 1, 0] + Rs[ind3, 0, 1]) / s
@@ -580,9 +589,9 @@ def quaternions_from_matrices(Rs, out=None):
     out[ind3, 3] = (Rs[ind3, 2, 1] + Rs[ind3, 1, 2]) / s
 
     ind4 = np.logical_and(
-        np.logical_and(np.logical_not(ind1),
-                       np.logical_not(ind2)),
-        np.logical_not(ind3))
+        np.logical_and(np.logical_not(ind1), np.logical_not(ind2)),
+        np.logical_not(ind3),
+    )
     s = 2.0 * np.sqrt(1.0 + Rs[ind4, 2, 2] - Rs[ind4, 0, 0] - Rs[ind4, 1, 1])
     out[ind4, 0] = (Rs[ind4, 1, 0] - Rs[ind4, 0, 1]) / s
     out[ind4, 1] = (Rs[ind4, 0, 2] + Rs[ind4, 2, 0]) / s
@@ -620,8 +629,10 @@ def quaternion_slerp_batch(start, end, t, shortest_path=False):
         end = pick_closest_quaternion(end, start)
     angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
-    return (w1[:, np.newaxis] * start[np.newaxis]
-            + w2[:, np.newaxis] * end[np.newaxis])
+    return (
+        w1[:, np.newaxis] * start[np.newaxis]
+        + w2[:, np.newaxis] * end[np.newaxis]
+    )
 
 
 def batch_concatenate_quaternions(Q1, Q2, out=None):
@@ -658,30 +669,37 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
     Q2 = np.asarray(Q2)
 
     if Q1.ndim != Q2.ndim:
-        raise ValueError("Number of dimensions must be the same. "
-                         "Got %d for Q1 and %d for Q2." % (Q1.ndim, Q2.ndim))
+        raise ValueError(
+            "Number of dimensions must be the same. "
+            "Got %d for Q1 and %d for Q2." % (Q1.ndim, Q2.ndim)
+        )
     for d in range(Q1.ndim - 1):
         if Q1.shape[d] != Q2.shape[d]:
             raise ValueError(
                 "Size of dimension %d does not match: %d != %d"
-                % (d + 1, Q1.shape[d], Q2.shape[d]))
+                % (d + 1, Q1.shape[d], Q2.shape[d])
+            )
     if Q1.shape[-1] != 4:
         raise ValueError(
             "Last dimension of first argument does not match. A quaternion "
-            "must have 4 entries, got %d" % Q1.shape[-1])
+            "must have 4 entries, got %d" % Q1.shape[-1]
+        )
     if Q2.shape[-1] != 4:
         raise ValueError(
             "Last dimension of second argument does not match. A quaternion "
-            "must have 4 entries, got %d" % Q2.shape[-1])
+            "must have 4 entries, got %d" % Q2.shape[-1]
+        )
 
     if out is None:
         out = np.empty_like(Q1)
 
     vector_inner_products = np.sum(Q1[..., 1:] * Q2[..., 1:], axis=-1)
     out[..., 0] = Q1[..., 0] * Q2[..., 0] - vector_inner_products
-    out[..., 1:] = (Q1[..., 0, np.newaxis] * Q2[..., 1:] +
-                    Q2[..., 0, np.newaxis] * Q1[..., 1:] +
-                    np.cross(Q1[..., 1:], Q2[..., 1:]))
+    out[..., 1:] = (
+        Q1[..., 0, np.newaxis] * Q2[..., 1:]
+        + Q2[..., 0, np.newaxis] * Q1[..., 1:]
+        + np.cross(Q1[..., 1:], Q2[..., 1:])
+    )
     return out
 
 
@@ -802,14 +820,18 @@ def smooth_quaternion_trajectory(Q, start_component_positive="x"):
     # workaround for interpolation artifacts:
     before_smooth_jump_indices = np.isclose(q1q2_dists, q1mq2_dists)
     before_smooth_jump_indices = np.where(
-        np.logical_and(before_smooth_jump_indices[:-1],
-                       before_smooth_jump_indices[1:]))[0]
+        np.logical_and(
+            before_smooth_jump_indices[:-1], before_smooth_jump_indices[1:]
+        )
+    )[0]
     before_jump_indices = np.unique(
-        np.hstack((before_jump_indices, before_smooth_jump_indices))).tolist()
+        np.hstack((before_jump_indices, before_smooth_jump_indices))
+    ).tolist()
     before_jump_indices.append(len(Q) - 1)
 
     slices_to_correct = np.array(
-        list(zip(before_jump_indices[:-1], before_jump_indices[1:])))[::2]
+        list(zip(before_jump_indices[:-1], before_jump_indices[1:]))
+    )[::2]
     for i, j in slices_to_correct:
-        Q[i + 1:j + 1] *= -1.0
+        Q[i + 1 : j + 1] *= -1.0
     return Q

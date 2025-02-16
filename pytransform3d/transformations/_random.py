@@ -1,4 +1,5 @@
 """Random transform generation."""
+
 import numpy as np
 
 from ._screws import transform_from_exponential_coordinates
@@ -7,7 +8,8 @@ from ..rotations import norm_vector
 
 
 def random_transform(
-        rng=np.random.default_rng(0), mean=np.eye(4), cov=np.eye(6)):
+    rng=np.random.default_rng(0), mean=np.eye(4), cov=np.eye(6)
+):
     r"""Generate random transform.
 
     Generate :math:`\Delta \boldsymbol{T}_{B_{i+1}{B_i}}
@@ -67,8 +69,7 @@ def random_screw_axis(rng=np.random.default_rng(0)):
     return np.hstack((omega, v))
 
 
-def random_exponential_coordinates(
-        rng=np.random.default_rng(0), cov=np.eye(6)):
+def random_exponential_coordinates(rng=np.random.default_rng(0), cov=np.eye(6)):
     r"""Generate random exponential coordinates.
 
     Each component of Stheta will be sampled from a standard normal

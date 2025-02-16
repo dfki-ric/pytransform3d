@@ -7,6 +7,7 @@ Simple animations of frames and trajectories are easy to implement with
 Matplotlib's FuncAnimation. The following example will generate a frame
 that will be rotated about the x-axis.
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
@@ -41,7 +42,12 @@ if __name__ == "__main__":
     frame.add_frame(ax)
 
     anim = animation.FuncAnimation(
-        fig, update_frame, n_frames, fargs=(n_frames, frame), interval=50,
-        blit=False)
+        fig,
+        update_frame,
+        n_frames,
+        fargs=(n_frames, frame),
+        interval=50,
+        blit=False,
+    )
 
     plt.show()

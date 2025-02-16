@@ -1,12 +1,19 @@
 import numpy as np
 from ..batch_rotations import (
-    matrices_from_quaternions, quaternions_from_matrices,
-    matrices_from_compact_axis_angles, axis_angles_from_matrices,
-    batch_concatenate_quaternions, batch_q_conj, axis_angles_from_quaternions)
+    matrices_from_quaternions,
+    quaternions_from_matrices,
+    matrices_from_compact_axis_angles,
+    axis_angles_from_matrices,
+    batch_concatenate_quaternions,
+    batch_q_conj,
+    axis_angles_from_quaternions,
+)
 from ..transformations import (
     transform_from_exponential_coordinates,
-    screw_axis_from_exponential_coordinates, screw_parameters_from_screw_axis,
-    screw_axis_from_screw_parameters)
+    screw_axis_from_exponential_coordinates,
+    screw_parameters_from_screw_axis,
+    screw_axis_from_screw_parameters,
+)
 from ._transforms import concat_many_to_many
 
 
@@ -38,7 +45,8 @@ def transforms_from_pqs(P, normalize_quaternions=True):
     A2Bs[..., 3, 3] = 1.0
 
     matrices_from_quaternions(
-        P[..., 3:], normalize_quaternions, out=A2Bs[..., :3, :3])
+        P[..., 3:], normalize_quaternions, out=A2Bs[..., :3, :3]
+    )
 
     return A2Bs
 
@@ -143,18 +151,21 @@ def exponential_coordinates_from_transforms(A2Bs):
     o11 = o1 * o1
     o12 = o1 * o2
     o22 = o2 * o2
-    Sthetas[..., 3] = (p0 * ((-o11 - o22) * tan_term + ti)
-                       + p1 * (o01 * tan_term + 0.5 * o2)
-                       + p2 * (o02 * tan_term - 0.5 * o1)
-                       )
-    Sthetas[..., 4] = (p0 * (o01 * tan_term - 0.5 * o2)
-                       + p1 * ((-o00 - o22) * tan_term + ti)
-                       + p2 * (0.5 * o0 + o12 * tan_term)
-                       )
-    Sthetas[..., 5] = (p0 * (o02 * tan_term + 0.5 * o1)
-                       + p1 * (-0.5 * o0 + o12 * tan_term)
-                       + p2 * ((-o00 - o11) * tan_term + ti)
-                       )
+    Sthetas[..., 3] = (
+        p0 * ((-o11 - o22) * tan_term + ti)
+        + p1 * (o01 * tan_term + 0.5 * o2)
+        + p2 * (o02 * tan_term - 0.5 * o1)
+    )
+    Sthetas[..., 4] = (
+        p0 * (o01 * tan_term - 0.5 * o2)
+        + p1 * ((-o00 - o22) * tan_term + ti)
+        + p2 * (0.5 * o0 + o12 * tan_term)
+    )
+    Sthetas[..., 5] = (
+        p0 * (o02 * tan_term + 0.5 * o1)
+        + p1 * (-0.5 * o0 + o12 * tan_term)
+        + p2 * ((-o00 - o11) * tan_term + ti)
+    )
 
     Sthetas *= thetas[..., np.newaxis]
 
@@ -200,7 +211,8 @@ def transforms_from_exponential_coordinates(Sthetas):
         screw_axes = Sthetas / t[..., np.newaxis]
 
         matrices_from_compact_axis_angles(
-            axes=screw_axes[..., :3], angles=t, out=A2Bs[..., :3, :3])
+            axes=screw_axes[..., :3], angles=t, out=A2Bs[..., :3, :3]
+        )
 
         # from sympy import *
         # o0, o1, o2, vx, vy, vz, t = symbols("o0 o1 o2 v_x v_y v_z t")
@@ -239,15 +251,21 @@ def transforms_from_exponential_coordinates(Sthetas):
         v0 = v0.reshape(*instances_shape)
         v1 = v1.reshape(*instances_shape)
         v2 = v2.reshape(*instances_shape)
-        A2Bs[..., 0, 3] = (-v0 * (o11tms + o22tms - t)
-                           + v1 * (o01tms + o2cm1)
-                           + v2 * (o02tms - o1cm1))
-        A2Bs[..., 1, 3] = (v0 * (o01tms - o2cm1)
-                           - v1 * (o00tms + o22tms - t)
-                           + v2 * (o0cm1 + o12tms))
-        A2Bs[..., 2, 3] = (v0 * (o02tms + o1cm1)
-                           - v1 * (o0cm1 - o12tms)
-                           - v2 * (o00tms + o11tms - t))
+        A2Bs[..., 0, 3] = (
+            -v0 * (o11tms + o22tms - t)
+            + v1 * (o01tms + o2cm1)
+            + v2 * (o02tms - o1cm1)
+        )
+        A2Bs[..., 1, 3] = (
+            v0 * (o01tms - o2cm1)
+            - v1 * (o00tms + o22tms - t)
+            + v2 * (o0cm1 + o12tms)
+        )
+        A2Bs[..., 2, 3] = (
+            v0 * (o02tms + o1cm1)
+            - v1 * (o0cm1 - o12tms)
+            - v2 * (o00tms + o11tms - t)
+        )
 
     A2Bs[ind_only_translation, :3, :3] = np.eye(3)
     A2Bs[ind_only_translation, :3, 3] = Sthetas[ind_only_translation, 3:]
@@ -282,7 +300,8 @@ def dual_quaternions_from_pqs(pqs):
     out[..., 5:] = pqs[..., :3]
 
     out[..., 4:] = 0.5 * batch_concatenate_quaternions(
-        out[..., 4:], out[..., :4])
+        out[..., 4:], out[..., :4]
+    )
     return out
 
 
@@ -312,7 +331,8 @@ def dual_quaternions_from_transforms(A2Bs):
     out[..., 5:] = A2Bs[..., :3, 3]
 
     out[..., 4:] = 0.5 * batch_concatenate_quaternions(
-        out[..., 4:], out[..., :4])
+        out[..., 4:], out[..., :4]
+    )
     return out
 
 
@@ -335,8 +355,12 @@ def pqs_from_dual_quaternions(dqs):
     instances_shape = dqs.shape[:-1]
     out = np.empty(instances_shape + (7,))
     out[..., 3:] = dqs[..., :4]
-    out[..., :3] = 2 * batch_concatenate_quaternions(
-        dqs[..., 4:], batch_q_conj(out[..., 3:]))[..., 1:]
+    out[..., :3] = (
+        2
+        * batch_concatenate_quaternions(
+            dqs[..., 4:], batch_q_conj(out[..., 3:])
+        )[..., 1:]
+    )
     return out
 
 
@@ -377,10 +401,11 @@ def screw_parameters_from_dual_quaternions(dqs):
     s_axis = np.copy(a[..., :3])
     thetas = a[..., 3]
 
-    translation = 2 * batch_concatenate_quaternions(
-        duals, batch_q_conj(reals))[..., 1:]
+    translation = (
+        2 * batch_concatenate_quaternions(duals, batch_q_conj(reals))[..., 1:]
+    )
 
-    # instead of the if/else stamenets in the 
+    # instead of the if/else stamenets in the
     # screw_parameters_from_dual_quaternion function
     # we use mask array to enable vectorized operations
     # the name of the mask represent the according block in
@@ -388,13 +413,13 @@ def screw_parameters_from_dual_quaternions(dqs):
     outer_if_mask = np.abs(thetas) < np.finfo(float).eps
     outer_else_mask = np.logical_not(outer_if_mask)
 
-
     ds = np.linalg.norm(translation, axis=-1)
     inner_if_mask = ds < np.finfo(float).eps
 
     outer_if_inner_if_mask = np.logical_and(outer_if_mask, inner_if_mask)
-    outer_if_inner_else_mask = np.logical_and(outer_if_mask,
-                                              np.logical_not(inner_if_mask))
+    outer_if_inner_else_mask = np.logical_and(
+        outer_if_mask, np.logical_not(inner_if_mask)
+    )
 
     if np.any(outer_if_inner_if_mask):
         s_axis[outer_if_inner_if_mask] = np.array([1.0, 0.0, 0.0])
@@ -410,14 +435,16 @@ def screw_parameters_from_dual_quaternions(dqs):
     hs = np.full(dqs.shape[:-1], np.inf)
 
     if np.any(outer_else_mask):
-        distance = np.einsum('ij,ij->i',
-                             translation[outer_else_mask],
-                             s_axis[outer_else_mask])
+        distance = np.einsum(
+            "ij,ij->i", translation[outer_else_mask], s_axis[outer_else_mask]
+        )
 
         moment = 0.5 * (
-            np.cross(translation[outer_else_mask], s_axis[outer_else_mask]) +
-            (translation[outer_else_mask] - distance[..., np.newaxis] *
-             s_axis[outer_else_mask])
+            np.cross(translation[outer_else_mask], s_axis[outer_else_mask])
+            + (
+                translation[outer_else_mask]
+                - distance[..., np.newaxis] * s_axis[outer_else_mask]
+            )
             / np.tan(0.5 * thetas[outer_else_mask])[..., np.newaxis]
         )
 
@@ -471,13 +498,17 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
     real_w = cos_half_angles
     real_vec = sin_half_angles[..., np.newaxis] * s_axis
     dual_w = -half_distances * sin_half_angles
-    dual_vec = (sin_half_angles[..., np.newaxis] * moments +
-                half_distances[..., np.newaxis] *
-                cos_half_angles[..., np.newaxis] * s_axis)
+    dual_vec = (
+        sin_half_angles[..., np.newaxis] * moments
+        + half_distances[..., np.newaxis]
+        * cos_half_angles[..., np.newaxis]
+        * s_axis
+    )
 
-    result = np.concatenate([real_w[..., np.newaxis],
-                             real_vec, dual_w[..., np.newaxis],
-                             dual_vec], axis=-1)
+    result = np.concatenate(
+        [real_w[..., np.newaxis], real_vec, dual_w[..., np.newaxis], dual_vec],
+        axis=-1,
+    )
     return result
 
 
@@ -544,8 +575,9 @@ def dual_quaternions_sclerp(starts, ends, ts):
             "The 'starts' and 'ends' arrays must have the same shape."
         )
 
-    if (ts.ndim != starts.ndim - 1
-            or (ts.ndim > 0 and ts.shape != starts.shape[:-1])):
+    if ts.ndim != starts.ndim - 1 or (
+        ts.ndim > 0 and ts.shape != starts.shape[:-1]
+    ):
         raise ValueError(
             "ts array, shape=%s must have the same number of elements as "
             "starts array, shape=%s" % (ts.shape, starts.shape)
@@ -574,8 +606,12 @@ def transforms_from_dual_quaternions(dqs):
     instances_shape = dqs.shape[:-1]
     out = np.empty(instances_shape + (4, 4))
     out[..., :3, :3] = matrices_from_quaternions(dqs[..., :4])
-    out[..., :3, 3] = 2 * batch_concatenate_quaternions(
-        dqs[..., 4:], batch_q_conj(dqs[..., :4]))[..., 1:]
+    out[..., :3, 3] = (
+        2
+        * batch_concatenate_quaternions(
+            dqs[..., 4:], batch_q_conj(dqs[..., :4])
+        )[..., 1:]
+    )
     out[..., 3, :3] = 0.0
     out[..., 3, 3] = 1.0
     return out
@@ -666,11 +702,10 @@ def batch_concatenate_dual_quaternions(dqs1, dqs2):
     dqs2 = np.asarray(dqs2)
 
     out = np.empty_like(dqs1)
-    out[..., :4] = batch_concatenate_quaternions(
-        dqs1[..., :4], dqs2[..., :4])
-    out[..., 4:] = (
-        batch_concatenate_quaternions(dqs1[..., :4], dqs2[..., 4:]) +
-        batch_concatenate_quaternions(dqs1[..., 4:], dqs2[..., :4]))
+    out[..., :4] = batch_concatenate_quaternions(dqs1[..., :4], dqs2[..., :4])
+    out[..., 4:] = batch_concatenate_quaternions(
+        dqs1[..., :4], dqs2[..., 4:]
+    ) + batch_concatenate_quaternions(dqs1[..., 4:], dqs2[..., :4])
     return out
 
 
@@ -697,14 +732,19 @@ def batch_dq_prod_vector(dqs, V):
     v_dqs[..., 1:5] = 0.0
     v_dqs[..., 5:] = V
     v_dq_transformed = batch_concatenate_dual_quaternions(
-        batch_concatenate_dual_quaternions(dqs, v_dqs),
-        batch_dq_conj(dqs))
+        batch_concatenate_dual_quaternions(dqs, v_dqs), batch_dq_conj(dqs)
+    )
     return v_dq_transformed[..., 5:]
 
 
 def random_trajectories(
-        rng=np.random.default_rng(0), n_trajectories=10, n_steps=101,
-        start=np.eye(4), goal=np.eye(4), scale=100.0 * np.ones(6)):
+    rng=np.random.default_rng(0),
+    n_trajectories=10,
+    n_steps=101,
+    start=np.eye(4),
+    goal=np.eye(4),
+    scale=100.0 * np.ones(6),
+):
     """Generate random trajectories.
 
     Create a smooth random trajectory with low accelerations.
@@ -745,16 +785,17 @@ def random_trajectories(
 
     L = _acceleration_L(_N_EXP_COORDINATE_DIMS, n_steps, dt)
     samples = rng.normal(
-        size=(n_trajectories, _N_EXP_COORDINATE_DIMS * n_steps))
+        size=(n_trajectories, _N_EXP_COORDINATE_DIMS * n_steps)
+    )
     smooth_samples = np.dot(samples, L.T)
     Sthetas = smooth_samples.reshape(
-        n_trajectories, _N_EXP_COORDINATE_DIMS, n_steps).transpose([0, 2, 1])
+        n_trajectories, _N_EXP_COORDINATE_DIMS, n_steps
+    ).transpose([0, 2, 1])
     Sthetas *= np.asarray(scale)[np.newaxis, np.newaxis]
 
     trajectories = transforms_from_exponential_coordinates(Sthetas)
     for i in range(n_trajectories):
-        trajectories[i] = concat_many_to_many(
-            trajectories[i], linear_component)
+        trajectories[i] = concat_many_to_many(trajectories[i], linear_component)
 
     return trajectories
 
@@ -788,7 +829,9 @@ def _linear_movement(start, goal, n_steps, dt):
         dual_quaternions_sclerp(
             np.repeat(start_dq[np.newaxis], n_steps, axis=0),
             np.repeat(goal_dq[np.newaxis], n_steps, axis=0),
-            time))
+            time,
+        )
+    )
 
 
 def _acceleration_L(n_dims, n_steps, dt):
@@ -818,8 +861,9 @@ def _acceleration_L(n_dims, n_steps, dt):
     # Copy L for each dimension
     L = np.zeros((n_dims * n_steps, n_dims * n_steps))
     for d in range(n_dims):
-        L[d * n_steps:(d + 1) * n_steps,
-          d * n_steps:(d + 1) * n_steps] = L_per_dim
+        L[d * n_steps : (d + 1) * n_steps, d * n_steps : (d + 1) * n_steps] = (
+            L_per_dim
+        )
     return L
 
 
@@ -853,12 +897,19 @@ def _create_fd_matrix_1d(n_steps, dt):
     A[sub_diagonal] = np.ones(n_steps)
     main_diagonal = (np.arange(1, n_steps + 1), np.arange(n_steps))
     A[main_diagonal] = -2 * np.ones(n_steps)
-    return A / (dt ** 2)
+    return A / (dt**2)
 
 
 def plot_trajectory(
-        ax=None, P=None, normalize_quaternions=True, show_direction=True,
-        n_frames=10, s=1.0, ax_s=1, **kwargs):  # pragma: no cover
+    ax=None,
+    P=None,
+    normalize_quaternions=True,
+    show_direction=True,
+    n_frames=10,
+    s=1.0,
+    ax_s=1,
+    **kwargs,
+):  # pragma: no cover
     """Plot pose trajectory.
 
     Parameters
@@ -903,10 +954,12 @@ def plot_trajectory(
 
     if ax is None:
         from ..plot_utils import make_3d_axis
+
         ax = make_3d_axis(ax_s)
 
     A2Bs = transforms_from_pqs(P, normalize_quaternions)
     from ..plot_utils import Trajectory
+
     trajectory = Trajectory(A2Bs, show_direction, n_frames, s, **kwargs)
     trajectory.add_trajectory(ax)
 
@@ -939,7 +992,8 @@ def mirror_screw_axis_direction(Sthetas):
         s_new = -s
         theta_new = 2.0 * np.pi - theta
         h_new = -h * theta / theta_new
-        Stheta_new = screw_axis_from_screw_parameters(
-            q, s_new, h_new) * theta_new
+        Stheta_new = (
+            screw_axis_from_screw_parameters(q, s_new, h_new) * theta_new
+        )
         Sthetas_new[i] = Stheta_new
     return Sthetas_new

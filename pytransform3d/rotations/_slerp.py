@@ -1,4 +1,5 @@
 """Spherical linear interpolation (SLERP)."""
+
 import numpy as np
 
 from ._axis_angle import check_axis_angle, matrix_from_compact_axis_angle
@@ -228,5 +229,7 @@ def slerp_weights(angle, t):
     """
     if angle == 0.0:
         return np.ones_like(t), np.zeros_like(t)
-    return (np.sin((1.0 - t) * angle) / np.sin(angle),
-            np.sin(t * angle) / np.sin(angle))
+    return (
+        np.sin((1.0 - t) * angle) / np.sin(angle),
+        np.sin(t * angle) / np.sin(angle),
+    )

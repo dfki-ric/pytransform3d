@@ -3,9 +3,14 @@ import math
 import numpy as np
 
 from ._screws import (
-    check_exponential_coordinates, screw_axis_from_exponential_coordinates)
+    check_exponential_coordinates,
+    screw_axis_from_exponential_coordinates,
+)
 from ..rotations import (
-    cross_product_matrix, left_jacobian_SO3, left_jacobian_SO3_inv)
+    cross_product_matrix,
+    left_jacobian_SO3,
+    left_jacobian_SO3_inv,
+)
 
 
 def left_jacobian_SE3(Stheta):
@@ -62,10 +67,7 @@ def left_jacobian_SE3(Stheta):
 
     phi = Stheta[:3]
     J = left_jacobian_SO3(phi)
-    return np.block([
-        [J, np.zeros((3, 3))],
-        [_Q(Stheta), J]
-    ])
+    return np.block([[J, np.zeros((3, 3))], [_Q(Stheta), J]])
 
 
 def left_jacobian_SE3_series(Stheta, n_terms):
@@ -150,10 +152,12 @@ def left_jacobian_SE3_inv(Stheta):
 
     phi = Stheta[:3]
     J_inv = left_jacobian_SO3_inv(phi)
-    return np.block([
-        [J_inv, np.zeros((3, 3))],
-        [-np.dot(J_inv, np.dot(_Q(Stheta), J_inv)), J_inv]
-    ])
+    return np.block(
+        [
+            [J_inv, np.zeros((3, 3))],
+            [-np.dot(J_inv, np.dot(_Q(Stheta), J_inv)), J_inv],
+        ]
+    )
 
 
 def _Q(Stheta):
@@ -173,14 +177,22 @@ def _Q(Stheta):
     sph = math.sin(ph)
 
     t1 = 0.5 * rx
-    t2 = (ph - sph) / ph3 * (np.dot(px, rx) + np.dot(rx, px)
-                             + np.dot(px, np.dot(rx, px)))
+    t2 = (
+        (ph - sph)
+        / ph3
+        * (np.dot(px, rx) + np.dot(rx, px) + np.dot(px, np.dot(rx, px)))
+    )
     m3 = (1.0 - 0.5 * ph * ph - cph) / ph4
-    t3 = -m3 * (np.dot(px, np.dot(px, rx)) + np.dot(rx, np.dot(px, px))
-                - 3 * np.dot(px, np.dot(rx, px)))
+    t3 = -m3 * (
+        np.dot(px, np.dot(px, rx))
+        + np.dot(rx, np.dot(px, px))
+        - 3 * np.dot(px, np.dot(rx, px))
+    )
     m4 = 0.5 * (m3 - 3.0 * (ph - sph - ph3 / 6.0) / ph5)
-    t4 = -m4 * (np.dot(px, np.dot(rx, np.dot(px, px)))
-                + np.dot(px, np.dot(px, np.dot(rx, px))))
+    t4 = -m4 * (
+        np.dot(px, np.dot(rx, np.dot(px, px)))
+        + np.dot(px, np.dot(px, np.dot(rx, px)))
+    )
 
     Q = t1 + t2 + t3 + t4
 
@@ -226,7 +238,9 @@ def left_jacobian_SE3_inv_series(Stheta, n_terms):
 
 def _curlyhat(Stheta):
     omega_matrix = cross_product_matrix(Stheta[:3])
-    return np.block([
-        [omega_matrix, np.zeros((3, 3))],
-        [cross_product_matrix(Stheta[3:]), omega_matrix]
-    ])
+    return np.block(
+        [
+            [omega_matrix, np.zeros((3, 3))],
+            [cross_product_matrix(Stheta[3:]), omega_matrix],
+        ]
+    )

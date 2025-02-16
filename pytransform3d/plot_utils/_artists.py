@@ -1,4 +1,5 @@
 """Matplotlib artists."""
+
 import numpy as np
 from matplotlib import artist
 from matplotlib.patches import FancyArrowPatch
@@ -26,6 +27,7 @@ class Frame(artist.Artist):
 
     Other arguments except 'c' and 'color' are passed on to Line3D.
     """
+
     def __init__(self, A2B, label=None, s=1.0, **kwargs):
         super(Frame, self).__init__()
 
@@ -67,8 +69,10 @@ class Frame(artist.Artist):
         p = A2B[:3, 3]
 
         for d, b in enumerate([self.x_axis, self.y_axis, self.z_axis]):
-            b.set_data(np.array([p[0], p[0] + self.s * R[0, d]]),
-                       np.array([p[1], p[1] + self.s * R[1, d]]))
+            b.set_data(
+                np.array([p[0], p[0] + self.s * R[0, d]]),
+                np.array([p[1], p[1] + self.s * R[1, d]]),
+            )
             b.set_3d_properties(np.array([p[2], p[2] + self.s * R[2, d]]))
 
         if self.draw_label:
@@ -79,9 +83,11 @@ class Frame(artist.Artist):
             if self.draw_label_indicator:
                 self.label_indicator.set_data(
                     np.array([p[0], label_pos[0]]),
-                    np.array([p[1], label_pos[1]]))
+                    np.array([p[1], label_pos[1]]),
+                )
                 self.label_indicator.set_3d_properties(
-                    np.array([p[2], label_pos[2]]))
+                    np.array([p[2], label_pos[2]])
+                )
 
             self.label_text.set_text(label)
             self.label_text.set_position([label_pos[0], label_pos[1]])
@@ -128,12 +134,12 @@ class LabeledFrame(Frame):
 
     Other arguments except 'c' and 'color' are passed on to Line3D.
     """
+
     def __init__(self, A2B, label=None, s=1.0, **kwargs):
         self.x_label = Text3D(0, 0, 0, text="", zdir="x")
         self.y_label = Text3D(0, 0, 0, text="", zdir="x")
         self.z_label = Text3D(0, 0, 0, text="", zdir="x")
-        super(LabeledFrame, self).__init__(
-            A2B, label=label, s=s, **kwargs)
+        super(LabeledFrame, self).__init__(A2B, label=label, s=s, **kwargs)
 
     def set_data(self, A2B, label=None):
         """Set the transformation data.
@@ -201,19 +207,27 @@ class Trajectory(artist.Artist):
 
     Other arguments are passed onto Line3D.
     """
+
     def __init__(self, H, show_direction=True, n_frames=10, s=1.0, **kwargs):
         super(Trajectory, self).__init__()
 
         self.show_direction = show_direction
 
         self.trajectory = Line3D([], [], [], **kwargs)
-        self.key_frames = [Frame(np.eye(4), s=s, **kwargs)
-                           for _ in range(n_frames)]
+        self.key_frames = [
+            Frame(np.eye(4), s=s, **kwargs) for _ in range(n_frames)
+        ]
 
         if self.show_direction:
             self.direction_arrow = Arrow3D(
-                [0, 0], [0, 0], [0, 0],
-                mutation_scale=20, lw=1, arrowstyle="-|>", color="k")
+                [0, 0],
+                [0, 0],
+                [0, 0],
+                mutation_scale=20,
+                lw=1,
+                arrowstyle="-|>",
+                color="k",
+            )
 
         self.set_data(H)
 
@@ -230,7 +244,8 @@ class Trajectory(artist.Artist):
         self.trajectory.set_3d_properties(positions[:, 2])
 
         key_frames_indices = np.linspace(
-            0, len(H) - 1, len(self.key_frames), dtype=np.int64)
+            0, len(H) - 1, len(self.key_frames), dtype=np.int64
+        )
         for i, key_frame_idx in enumerate(key_frames_indices):
             self.key_frames[i].set_data(H[key_frame_idx])
 
@@ -238,7 +253,8 @@ class Trajectory(artist.Artist):
             start = 0.8 * positions[0] + 0.2 * positions[-1]
             end = 0.2 * positions[0] + 0.8 * positions[-1]
             self.direction_arrow.set_data(
-                [start[0], end[0]], [start[1], end[1]], [start[2], end[2]])
+                [start[0], end[0]], [start[1], end[1]], [start[2], end[2]]
+            )
 
     @artist.allow_rasterization
     def draw(self, renderer, *args, **kwargs):
@@ -264,6 +280,7 @@ class Arrow3D(FancyArrowPatch):
 
     Source: http://stackoverflow.com/a/11156353/915743
     """
+
     def __init__(self, xs, ys, zs, *args, **kwargs):
         super(Arrow3D, self).__init__((0, 0), (0, 0), *args, **kwargs)
         self._verts3d = xs, ys, zs
@@ -332,6 +349,7 @@ class Camera(artist.Artist):
     kwargs : dict, optional (default: {})
         Additional arguments for the plotting functions, e.g. alpha.
     """
+
     def __init__(
         self,
         M,
@@ -352,9 +370,7 @@ class Camera(artist.Artist):
         self.sensor_corners = _calculate_sensor_corners_in_camera(
             M, virtual_image_distance, sensor_size
         )
-        self.top_corners = _calculate_top_corners_in_camera(
-            self.sensor_corners
-        )
+        self.top_corners = _calculate_top_corners_in_camera(self.sensor_corners)
 
         self.lines_sensor = [
             Line3D([], [], [], color=color, **kwargs) for _ in range(4)
@@ -373,8 +389,11 @@ class Camera(artist.Artist):
         """
         cam2world = np.asarray(cam2world)
         sensor_in_world = np.dot(
-            cam2world, np.vstack((self.sensor_corners.T,
-                                  np.ones(len(self.sensor_corners)))))
+            cam2world,
+            np.vstack(
+                (self.sensor_corners.T, np.ones(len(self.sensor_corners)))
+            ),
+        )
         for i in range(4):
             xs, ys, zs = [
                 [
@@ -387,8 +406,9 @@ class Camera(artist.Artist):
             self.lines_sensor[i].set_data_3d(xs, ys, zs)
 
         top_in_world = np.dot(
-            cam2world, np.vstack((self.top_corners.T,
-                                  np.ones(len(self.top_corners)))))
+            cam2world,
+            np.vstack((self.top_corners.T, np.ones(len(self.top_corners)))),
+        )
         xs, ys, zs, _ = top_in_world
         self.line_top.set_data_3d(xs, ys, zs)
 
@@ -407,8 +427,7 @@ class Camera(artist.Artist):
         axis.add_line(self.line_top)
 
 
-def _calculate_sensor_corners_in_camera(
-        M, virtual_image_distance, sensor_size):
+def _calculate_sensor_corners_in_camera(M, virtual_image_distance, sensor_size):
     """Calculate the corners of the sensor frame in camera coordinates."""
     focal_length = np.mean((M[0, 0], M[1, 1]))
     sensor_corners = np.array(

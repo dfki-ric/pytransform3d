@@ -160,14 +160,17 @@ def matrix_from_euler(e, i, j, k, extrinsic):
     if not extrinsic:
         i, k = k, i
         alpha, gamma = gamma, alpha
-    R = active_matrix_from_angle(k, gamma).dot(
-        active_matrix_from_angle(j, beta)).dot(
-        active_matrix_from_angle(i, alpha))
+    R = (
+        active_matrix_from_angle(k, gamma)
+        .dot(active_matrix_from_angle(j, beta))
+        .dot(active_matrix_from_angle(i, alpha))
+    )
     return R
 
 
 def general_intrinsic_euler_from_active_matrix(
-        R, n1, n2, n3, proper_euler, strict_check=True):
+    R, n1, n2, n3, proper_euler, strict_check=True
+):
     """General algorithm to extract intrinsic euler angles from a matrix.
 
     The implementation is based on SciPy's implementation:
@@ -222,10 +225,7 @@ def general_intrinsic_euler_from_active_matrix(
     # Step 2
     # - Equation 5
     n1_cross_n2 = np.cross(n1, n2)
-    lmbda = np.arctan2(
-        np.dot(n1_cross_n2, n3),
-        np.dot(n1, n3)
-    )
+    lmbda = np.arctan2(np.dot(n1_cross_n2, n3), np.dot(n1, n3))
     # - Equation 6
     C = np.vstack((n2, n1_cross_n2, n1))
 
@@ -326,8 +326,13 @@ def euler_from_matrix(R, i, j, k, extrinsic, strict_check=True):
     if extrinsic:
         i, k = k, i
     e = general_intrinsic_euler_from_active_matrix(
-        R, basis_vectors[i], basis_vectors[j], basis_vectors[k], proper_euler,
-        strict_check)
+        R,
+        basis_vectors[i],
+        basis_vectors[j],
+        basis_vectors[k],
+        proper_euler,
+        strict_check,
+    )
 
     if extrinsic:
         e = e[::-1]
@@ -407,8 +412,7 @@ def euler_from_quaternion(q, i, j, k, extrinsic):
 
     # Equation 34 is used instead of Equation 35 as atan2 it is numerically
     # more accurate than acos.
-    angle_j = 2.0 * math.atan2(math.hypot(c, d),
-                               math.hypot(a, b))
+    angle_j = 2.0 * math.atan2(math.hypot(c, d), math.hypot(a, b))
 
     # Check for singularities
     if abs(angle_j) <= eps:

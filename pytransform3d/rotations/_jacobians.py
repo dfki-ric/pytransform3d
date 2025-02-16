@@ -117,8 +117,8 @@ def left_jacobian_SO3_inv(omega):
     return (
         np.eye(3)
         - 0.5 * omega_matrix * theta
-        + (1.0 - 0.5 * theta / np.tan(theta / 2.0)) * np.dot(
-            omega_matrix, omega_matrix)
+        + (1.0 - 0.5 * theta / np.tan(theta / 2.0))
+        * np.dot(omega_matrix, omega_matrix)
     )
 
 

@@ -1,4 +1,5 @@
 """Plotting functions."""
+
 import numpy as np
 
 from ._axis_angle import check_axis_angle
@@ -6,12 +7,12 @@ from ._constants import a_id, p0, unitx, unity
 from ._matrix import check_matrix
 from ._rotors import wedge, plane_normal_from_bivector
 from ._slerp import slerp_weights
-from ._utils import (
-    perpendicular_to_vectors, angle_between_vectors)
+from ._utils import perpendicular_to_vectors, angle_between_vectors
 
 
-def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1,
-               strict_check=True, **kwargs):
+def plot_basis(
+    ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1, strict_check=True, **kwargs
+):
     """Plot basis of a rotation matrix.
 
     Parameters
@@ -44,6 +45,7 @@ def plot_basis(ax=None, R=None, p=np.zeros(3), s=1.0, ax_s=1,
         New or old axis
     """
     from ..plot_utils import make_3d_axis, Frame
+
     if ax is None:
         ax = make_3d_axis(ax_s)
 
@@ -90,23 +92,38 @@ def plot_axis_angle(ax=None, a=a_id, p=p0, s=1.0, ax_s=1, **kwargs):
         New or old axis
     """
     from ..plot_utils import make_3d_axis, Arrow3D
+
     a = check_axis_angle(a)
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    ax.add_artist(Arrow3D(
-        [p[0], p[0] + s * a[0]],
-        [p[1], p[1] + s * a[1]],
-        [p[2], p[2] + s * a[2]],
-        mutation_scale=20, lw=3, arrowstyle="-|>", color="k"))
+    ax.add_artist(
+        Arrow3D(
+            [p[0], p[0] + s * a[0]],
+            [p[1], p[1] + s * a[1]],
+            [p[2], p[2] + s * a[2]],
+            mutation_scale=20,
+            lw=3,
+            arrowstyle="-|>",
+            color="k",
+        )
+    )
 
     arc = _arc_axis_angle(a, p, s)
     ax.plot(arc[:-5, 0], arc[:-5, 1], arc[:-5, 2], color="k", lw=3, **kwargs)
 
     arrow_coords = np.vstack((arc[-1], arc[-1] + 20 * (arc[-1] - arc[-3]))).T
-    ax.add_artist(Arrow3D(
-        arrow_coords[0], arrow_coords[1], arrow_coords[2],
-        mutation_scale=20, lw=3, arrowstyle="-|>", color="k"))
+    ax.add_artist(
+        Arrow3D(
+            arrow_coords[0],
+            arrow_coords[1],
+            arrow_coords[2],
+            mutation_scale=20,
+            lw=3,
+            arrowstyle="-|>",
+            color="k",
+        )
+    )
 
     for i in [0, -1]:
         arc_bound = np.vstack((p + 0.5 * s * a[:3], arc[i])).T
@@ -134,8 +151,11 @@ def _arc_axis_angle(a, p, s):  # pragma: no cover
     arc : array, shape (100, 3)
         Coordinates of arc
     """
-    p1 = (unitx if np.abs(a[0]) <= np.finfo(float).eps else
-          perpendicular_to_vectors(unity, a[:3]))
+    p1 = (
+        unitx
+        if np.abs(a[0]) <= np.finfo(float).eps
+        else perpendicular_to_vectors(unity, a[:3])
+    )
     p2 = perpendicular_to_vectors(a[:3], p1)
     angle_p1p2 = angle_between_vectors(p1, p2)
     arc = np.empty((100, 3))
@@ -176,6 +196,7 @@ def plot_bivector(ax=None, a=None, b=None, ax_s=1):
         New or old axis
     """
     from ..plot_utils import make_3d_axis, Arrow3D, plot_vector
+
     if ax is None:
         ax = make_3d_axis(ax_s)
 
@@ -194,8 +215,14 @@ def plot_bivector(ax=None, a=None, b=None, ax_s=1):
 
     arrow_coords = np.vstack((arc[-6], arc[-6] + 10 * (arc[-1] - arc[-3]))).T
     angle_arrow = Arrow3D(
-        arrow_coords[0], arrow_coords[1], arrow_coords[2],
-        mutation_scale=20, lw=2, arrowstyle="-|>", color="k")
+        arrow_coords[0],
+        arrow_coords[1],
+        arrow_coords[2],
+        mutation_scale=20,
+        lw=2,
+        arrowstyle="-|>",
+        color="k",
+    )
     ax.add_artist(angle_arrow)
 
     plot_vector(ax=ax, start=np.zeros(3), direction=normal, color="k")
@@ -255,6 +282,7 @@ def _plot_parallelogram(ax, a, b, color, alpha):
     """
     from ..plot_utils import plot_vector
     from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
     plot_vector(ax, start=np.zeros(3), direction=a, color=color, alpha=alpha)
     plot_vector(ax, start=np.zeros(3), direction=b, color=color, alpha=alpha)
     verts = np.vstack((np.zeros(3), a, b, a + b, b, a))

@@ -1,5 +1,6 @@
 try:
     import matplotlib
+
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
@@ -8,8 +9,11 @@ import json
 import numpy as np
 import warnings
 from pytransform3d.urdf import (
-    UrdfTransformManager, UrdfException, parse_urdf,
-    initialize_urdf_transform_manager)
+    UrdfTransformManager,
+    UrdfException,
+    parse_urdf,
+    initialize_urdf_transform_manager,
+)
 from pytransform3d.transformations import transform_from
 from numpy.testing import assert_array_almost_equal
 import pytest
@@ -109,7 +113,8 @@ def test_missing_robot_name():
 def test_missing_link_name():
     with pytest.raises(UrdfException):
         UrdfTransformManager().load_urdf(
-            "<robot name=\"robot_name\"><link/></robot>")
+            '<robot name="robot_name"><link/></robot>'
+        )
 
 
 def test_missing_joint_name():
@@ -312,10 +317,7 @@ def test_with_empty_axis():
     link1_to_link0 = tm.get_transform("link1", "link0")
     assert_array_almost_equal(
         link1_to_link0,
-        np.array([[1, 0, 0, 0],
-                  [0, -1, 0, 0],
-                  [0, 0, -1, 0],
-                  [0, 0, 0, 1]])
+        np.array([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]]),
     )
 
 
@@ -325,10 +327,7 @@ def test_ee_frame():
     link7_to_linkmount = tm.get_transform("link6", "linkmount")
     assert_array_almost_equal(
         link7_to_linkmount,
-        np.array([[1, 0, 0, 0],
-                  [0, 1, 0, 0],
-                  [0, 0, 1, 1.124],
-                  [0, 0, 0, 1]])
+        np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 1.124], [0, 0, 0, 1]]),
     )
 
 
@@ -340,10 +339,14 @@ def test_joint_angles():
     link7_to_linkmount = tm.get_transform("link6", "linkmount")
     assert_array_almost_equal(
         link7_to_linkmount,
-        np.array([[0.121698, -0.606672, 0.785582, 0.489351],
-                  [0.818364, 0.509198, 0.266455, 0.114021],
-                  [-0.561668, 0.610465, 0.558446, 0.924019],
-                  [0., 0., 0., 1.]])
+        np.array(
+            [
+                [0.121698, -0.606672, 0.785582, 0.489351],
+                [0.818364, 0.509198, 0.266455, 0.114021],
+                [-0.561668, 0.610465, 0.558446, 0.924019],
+                [0.0, 0.0, 0.0, 1.0],
+            ]
+        ),
     )
 
 
@@ -366,20 +369,28 @@ def test_joint_limit_clipping():
     link7_to_linkmount = tm.get_transform("link6", "linkmount")
     assert_array_almost_equal(
         link7_to_linkmount,
-        np.array([[0.5403023, -0.8414710, 0, 0],
-                  [0.8414710, 0.5403023, 0, 0],
-                  [0, 0, 1, 1.124],
-                  [0, 0, 0, 1]])
+        np.array(
+            [
+                [0.5403023, -0.8414710, 0, 0],
+                [0.8414710, 0.5403023, 0, 0],
+                [0, 0, 1, 1.124],
+                [0, 0, 0, 1],
+            ]
+        ),
     )
 
     tm.set_joint("joint1", -2.0)
     link7_to_linkmount = tm.get_transform("link6", "linkmount")
     assert_array_almost_equal(
         link7_to_linkmount,
-        np.array([[0.5403023, 0.8414710, 0, 0],
-                  [-0.8414710, 0.5403023, 0, 0],
-                  [0, 0, 1, 1.124],
-                  [0, 0, 0, 1]])
+        np.array(
+            [
+                [0.5403023, 0.8414710, 0, 0],
+                [-0.8414710, 0.5403023, 0, 0],
+                [0, 0, 1, 1.124],
+                [0, 0, 0, 1],
+            ]
+        ),
     )
 
 
@@ -389,10 +400,7 @@ def test_fixed_joint():
     tcp_to_link0 = tm.get_transform("tcp", "linkmount")
     assert_array_almost_equal(
         tcp_to_link0,
-        np.array([[1, 0, 0, 0],
-                  [0, 1, 0, 0],
-                  [0, 0, 1, 1.174],
-                  [0, 0, 0, 1]])
+        np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 1.174], [0, 0, 0, 1]]),
     )
 
 
@@ -404,10 +412,7 @@ def test_fixed_joint_unchanged_and_warning():
         tm.set_joint("jointtcp", 2.0)
     assert len(w) == 1
     tcp_to_link0_after = tm.get_transform("tcp", "linkmount")
-    assert_array_almost_equal(
-        tcp_to_link0_before,
-        tcp_to_link0_after
-    )
+    assert_array_almost_equal(tcp_to_link0_before, tcp_to_link0_after)
 
 
 def test_unknown_joint():
@@ -543,8 +548,7 @@ def test_collision_box():
     tm.load_urdf(urdf)
 
     assert len(tm.collision_objects) == 1
-    assert_array_almost_equal(tm.collision_objects[0].size,
-                              np.array([2, 3, 4]))
+    assert_array_almost_equal(tm.collision_objects[0].size, np.array([2, 3, 4]))
 
 
 def test_collision_box_without_size():
@@ -819,8 +823,11 @@ def test_plot_mesh_smoke_without_scale():
     tm.load_urdf(urdf, mesh_path=BASE_DIR)
     tm.set_joint("joint", -1.1)
     ax = tm.plot_frames_in(
-        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
-        show_name=True)
+        "lower_cone",
+        s=0.1,
+        whitelist=["upper_cone", "lower_cone"],
+        show_name=True,
+    )
     ax = tm.plot_connections_in("lower_cone", ax=ax)
     tm.plot_visuals("lower_cone", ax=ax)
 
@@ -846,11 +853,7 @@ def test_continuous_joint():
 
     c2p = tm.get_transform("child", "parent")
     assert_array_almost_equal(
-        c2p,
-        np.array([[1, 0, 0, 0],
-                  [0, 0, -1, 0],
-                  [0, 1, 0, 0],
-                  [0, 0, 0, 1]])
+        c2p, np.array([[1, 0, 0, 0], [0, 0, -1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
     )
 
 
@@ -876,10 +879,7 @@ def test_prismatic_joint():
     c2p = tm.get_transform("child", "parent")
     assert_array_almost_equal(
         c2p,
-        np.array([[1, 0, 0, 5.33],
-                  [0, 1, 0, 0],
-                  [0, 0, 1, 0],
-                  [0, 0, 0, 1]])
+        np.array([[1, 0, 0, 5.33], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]),
     )
 
 
@@ -893,8 +893,11 @@ def test_plot_mesh_smoke_with_scale():
         tm.load_urdf(f.read(), mesh_path=BASE_DIR)
     tm.set_joint("joint", -1.1)
     ax = tm.plot_frames_in(
-        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
-        show_name=True)
+        "lower_cone",
+        s=0.1,
+        whitelist=["upper_cone", "lower_cone"],
+        show_name=True,
+    )
     ax = tm.plot_connections_in("lower_cone", ax=ax)
     tm.plot_visuals("lower_cone", ax=ax)
 
@@ -909,8 +912,11 @@ def test_plot_without_mesh():
         tm.load_urdf(f.read(), mesh_path=None)
     tm.set_joint("joint", -1.1)
     ax = tm.plot_frames_in(
-        "lower_cone", s=0.1, whitelist=["upper_cone", "lower_cone"],
-        show_name=True)
+        "lower_cone",
+        s=0.1,
+        whitelist=["upper_cone", "lower_cone"],
+        show_name=True,
+    )
     ax = tm.plot_connections_in("lower_cone", ax=ax)
 
     with warnings.catch_warnings(record=True) as w:
@@ -1087,10 +1093,8 @@ def test_load_inertial_info():
     assert_array_almost_equal(links[0].inertial_frame, np.eye(4))
     assert links[0].mass == 0.001
     assert_array_almost_equal(
-        links[0].inertia,
-        np.array([[1, 4, 5],
-                  [4, 2, 6],
-                  [5, 6, 3]]))
+        links[0].inertia, np.array([[1, 4, 5], [4, 2, 6], [5, 6, 3]])
+    )
 
 
 def test_load_inertial_info_sparse_matrix():
@@ -1187,10 +1191,7 @@ def test_load_urdf_functional():
     link7_to_linkmount = tm.get_transform("link6", "linkmount")
     assert_array_almost_equal(
         link7_to_linkmount,
-        np.array([[1, 0, 0, 0],
-                  [0, 1, 0, 0],
-                  [0, 0, 1, 1.124],
-                  [0, 0, 0, 1]])
+        np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 1.124], [0, 0, 0, 1]]),
     )
 
 

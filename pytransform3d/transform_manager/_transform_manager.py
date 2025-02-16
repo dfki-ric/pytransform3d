@@ -6,6 +6,7 @@ from ..transformations import check_transform, plot_transform
 
 try:  # pragma: no cover
     import pydot
+
     PYDOT_AVAILABLE = True
 except ImportError:
     PYDOT_AVAILABLE = False
@@ -59,6 +60,7 @@ class TransformManager(TransformGraphBase):
        Technologies for Practical Robot Applications (TePRA), Woburn, MA, USA,
        pp. 1-6, doi: 10.1109/TePRA.2013.6556373.
     """
+
     def __init__(self, strict_check=True, check=True):
         super(TransformManager, self).__init__(strict_check, check)
         self._transforms = {}
@@ -84,8 +86,16 @@ class TransformManager(TransformGraphBase):
     def _del_transform(self, key):
         del self._transforms[key]
 
-    def plot_frames_in(self, frame, ax=None, s=1.0, ax_s=1, show_name=True,
-                       whitelist=None, **kwargs):  # pragma: no cover
+    def plot_frames_in(
+        self,
+        frame,
+        ax=None,
+        s=1.0,
+        ax_s=1,
+        show_name=True,
+        whitelist=None,
+        **kwargs,
+    ):  # pragma: no cover
         """Plot all frames in a given reference frame.
 
         Note that frames that cannot be connected to the reference frame are
@@ -134,14 +144,21 @@ class TransformManager(TransformGraphBase):
                 node2frame = self.get_transform(node, frame)
                 name = node if show_name else None
                 ax = plot_transform(
-                    ax, node2frame, s, ax_s, name,
-                    strict_check=self.strict_check, **kwargs)
+                    ax,
+                    node2frame,
+                    s,
+                    ax_s,
+                    name,
+                    strict_check=self.strict_check,
+                    **kwargs,
+                )
             except KeyError:
                 pass  # Frame is not connected to the reference frame
         return ax
 
-    def plot_connections_in(self, frame, ax=None, ax_s=1, whitelist=None,
-                            **kwargs):  # pragma: no cover
+    def plot_connections_in(
+        self, frame, ax=None, ax_s=1, whitelist=None, **kwargs
+    ):  # pragma: no cover
         """Plot direct frame connections in a given reference frame.
 
         A line between each pair of frames for which a direct transformation
@@ -184,6 +201,7 @@ class TransformManager(TransformGraphBase):
 
         if ax is None:
             from ..plot_utils import make_3d_axis
+
             ax = make_3d_axis(ax_s)
 
         nodes = self._whitelisted_nodes(whitelist)
@@ -201,7 +219,7 @@ class TransformManager(TransformGraphBase):
                         (from2ref[0, 3], to2ref[0, 3]),
                         (from2ref[1, 3], to2ref[1, 3]),
                         (from2ref[2, 3], to2ref[2, 3]),
-                        **kwargs
+                        **kwargs,
                     )
                 except KeyError:
                     pass  # Frame is not connected to the reference frame
@@ -232,8 +250,10 @@ class TransformManager(TransformGraphBase):
             nodes = nodes.intersection(whitelist)
             nonwhitlisted_nodes = whitelist.difference(nodes)
             if nonwhitlisted_nodes:
-                raise KeyError("Whitelist contains unknown nodes: '%s'"
-                               % nonwhitlisted_nodes)
+                raise KeyError(
+                    "Whitelist contains unknown nodes: '%s'"
+                    % nonwhitlisted_nodes
+                )
         return nodes
 
     def write_png(self, filename, prog=None):  # pragma: no cover
@@ -268,17 +288,25 @@ class TransformManager(TransformGraphBase):
 
         for frame in self.nodes:
             node = pydot.Node(
-                _dot_display_name(str(frame)), style="filled",
-                fillcolor=frame_color, shape="egg")
+                _dot_display_name(str(frame)),
+                style="filled",
+                fillcolor=frame_color,
+                shape="egg",
+            )
             graph.add_node(node)
         for frames, A2B in self._transforms.items():
             frame_a, frame_b = frames
             connection_name = "%s to %s\n%s" % (
                 _dot_display_name(str(frame_a)),
-                _dot_display_name(str(frame_b)), str(np.round(A2B, 3)))
+                _dot_display_name(str(frame_b)),
+                str(np.round(A2B, 3)),
+            )
             node = pydot.Node(
-                connection_name, style="filled", fillcolor=connection_color,
-                shape="note")
+                connection_name,
+                style="filled",
+                fillcolor=connection_color,
+                shape="note",
+            )
             graph.add_node(node)
             a_name = _dot_display_name(str(frame_a))
             a_edge = pydot.Edge(connection_name, a_name, penwidth=3)
@@ -301,8 +329,9 @@ class TransformManager(TransformGraphBase):
             "class": self.__class__.__name__,
             "strict_check": self.strict_check,
             "check": self.check,
-            "transforms": [(k, v.ravel().tolist())
-                           for k, v in self._transforms.items()],
+            "transforms": [
+                (k, v.ravel().tolist()) for k, v in self._transforms.items()
+            ],
             "nodes": self.nodes,
             "i": self.i,
             "j": self.j,
@@ -310,10 +339,10 @@ class TransformManager(TransformGraphBase):
             "connections": {
                 "data": self.connections.data.tolist(),
                 "indices": self.connections.indices.tolist(),
-                "indptr": self.connections.indptr.tolist()
+                "indptr": self.connections.indptr.tolist(),
             },
             "dist": self.dist.tolist(),
-            "predecessors": self.predecessors.tolist()
+            "predecessors": self.predecessors.tolist(),
         }
 
     @staticmethod
@@ -345,17 +374,19 @@ class TransformManager(TransformGraphBase):
             Serializable dict.
         """
         transforms = tm_dict.get("transforms")
-        self._transforms = {tuple(k): np.array(v).reshape(4, 4)
-                            for k, v in transforms}
+        self._transforms = {
+            tuple(k): np.array(v).reshape(4, 4) for k, v in transforms
+        }
         self.nodes = tm_dict.get("nodes")
         self.i = tm_dict.get("i")
         self.j = tm_dict.get("j")
         self.transform_to_ij_index = dict(
-            (tuple(k), v) for k, v in tm_dict.get("transform_to_ij_index"))
+            (tuple(k), v) for k, v in tm_dict.get("transform_to_ij_index")
+        )
         connections = tm_dict.get("connections")
-        self.connections = sp.csr_matrix((
-            connections["data"], connections["indices"],
-            connections["indptr"]))
+        self.connections = sp.csr_matrix(
+            (connections["data"], connections["indices"], connections["indptr"])
+        )
         n_nodes = len(self.nodes)
         dist = np.array(tm_dict.get("dist"))
         self.dist = dist.reshape(n_nodes, n_nodes)

@@ -1,4 +1,5 @@
 """Position+quaternion operations."""
+
 import numpy as np
 
 from ._transform import transform_from
@@ -26,9 +27,10 @@ def check_pq(pq):
     """
     pq = np.asarray(pq, dtype=np.float64)
     if pq.ndim != 1 or pq.shape[0] != 7:
-        raise ValueError("Expected position and orientation quaternion in a "
-                         "1D array, got array-like object with shape %s"
-                         % (pq.shape,))
+        raise ValueError(
+            "Expected position and orientation quaternion in a "
+            "1D array, got array-like object with shape %s" % (pq.shape,)
+        )
     return pq
 
 

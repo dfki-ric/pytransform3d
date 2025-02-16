@@ -1,4 +1,5 @@
 """Layout utilities for matplotlib."""
+
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
@@ -44,8 +45,14 @@ def make_3d_axis(ax_s, pos=111, unit=None, n_ticks=5):
         zlabel = "Z [%s]" % unit
 
     plt.setp(
-        ax, xlim=(-ax_s, ax_s), ylim=(-ax_s, ax_s), zlim=(-ax_s, ax_s),
-        xlabel=xlabel, ylabel=ylabel, zlabel=zlabel)
+        ax,
+        xlim=(-ax_s, ax_s),
+        ylim=(-ax_s, ax_s),
+        zlim=(-ax_s, ax_s),
+        xlabel=xlabel,
+        ylabel=ylabel,
+        zlabel=zlabel,
+    )
 
     for axis in [ax.xaxis, ax.yaxis, ax.zaxis]:
         axis.set_major_locator(MaxNLocator(n_ticks))

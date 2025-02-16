@@ -5,6 +5,7 @@ Animate Trajectory
 
 Animates a trajectory.
 """
+
 import numpy as np
 import pytransform3d.visualizer as pv
 from pytransform3d.rotations import passive_matrix_from_angle, R_id
@@ -42,7 +43,8 @@ fig.set_zoom(0.5)
 
 if "__file__" in globals():
     fig.animate(
-        update_trajectory, n_frames, fargs=(n_frames, trajectory), loop=True)
+        update_trajectory, n_frames, fargs=(n_frames, trajectory), loop=True
+    )
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")

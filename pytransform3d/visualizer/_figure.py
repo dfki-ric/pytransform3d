@@ -1,10 +1,25 @@
 """Figure based on Open3D's visualizer."""
+
 import numpy as np
 import open3d as o3d
 
-from ._artists import (Line3D, PointCollection3D, Vector3D, Frame, Trajectory,
-                       Camera, Box, Sphere, Cylinder, Mesh, Ellipsoid, Capsule,
-                       Cone, Plane, Graph)
+from ._artists import (
+    Line3D,
+    PointCollection3D,
+    Vector3D,
+    Frame,
+    Trajectory,
+    Camera,
+    Box,
+    Sphere,
+    Cylinder,
+    Mesh,
+    Ellipsoid,
+    Capsule,
+    Cone,
+    Plane,
+    Graph,
+)
 from .. import rotations as pr
 from .. import trajectories as ptr
 from .. import transformations as pt
@@ -30,14 +45,21 @@ class Figure:
         Creates a visualizer that allows to register callbacks
         for keys.
     """
-    def __init__(self, window_name="Open3D", width=1920, height=1080,
-                 with_key_callbacks=False):
+
+    def __init__(
+        self,
+        window_name="Open3D",
+        width=1920,
+        height=1080,
+        with_key_callbacks=False,
+    ):
         if with_key_callbacks:
             self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
         else:
             self.visualizer = o3d.visualization.Visualizer()
         self.visualizer.create_window(
-            window_name=window_name, width=width, height=height)
+            window_name=window_name, width=width, height=height
+        )
 
     def add_geometry(self, geometry):
         """Add geometry to visualizer.
@@ -145,7 +167,8 @@ class Figure:
                 if drawn_artists is None:
                     raise RuntimeError(
                         "The animation function must return a "
-                        "sequence of Artist objects.")
+                        "sequence of Artist objects."
+                    )
                 try:
                     drawn_artists = [a for a in drawn_artists]
                 except TypeError:
@@ -175,22 +198,21 @@ class Figure:
         vc = self.visualizer.get_view_control()
         pcp = vc.convert_to_pinhole_camera_parameters()
         distance = np.linalg.norm(pcp.extrinsic[:3, 3])
-        R_azim_elev_0_world2camera = np.array([
-            [0, 1, 0],
-            [0, 0, -1],
-            [-1, 0, 0]])
+        R_azim_elev_0_world2camera = np.array(
+            [[0, 1, 0], [0, 0, -1], [-1, 0, 0]]
+        )
         R_azim_elev_0_camera2world = R_azim_elev_0_world2camera.T
         # azimuth and elevation are defined in world frame
         R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
         R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
         R_elev_azim_camera2world = R_azim.dot(R_elev).dot(
-            R_azim_elev_0_camera2world)
+            R_azim_elev_0_camera2world
+        )
         pcp.extrinsic = pt.transform_from(  # world2camera
-            R=R_elev_azim_camera2world.T,
-            p=[0, 0, distance])
+            R=R_elev_azim_camera2world.T, p=[0, 0, distance]
+        )
         try:
-            vc.convert_from_pinhole_camera_parameters(
-                pcp, allow_arbitrary=True)
+            vc.convert_from_pinhole_camera_parameters(pcp, allow_arbitrary=True)
         except TypeError:
             vc.convert_from_pinhole_camera_parameters(pcp)
 
@@ -241,8 +263,9 @@ class Figure:
         point_collection.add_artist(self)
         return point_collection
 
-    def plot_vector(self, start=np.zeros(3), direction=np.array([1, 0, 0]),
-                    c=(0, 0, 0)):
+    def plot_vector(
+        self, start=np.zeros(3), direction=np.array([1, 0, 0]), c=(0, 0, 0)
+    ):
         """Plot vector.
 
         Parameters
@@ -415,8 +438,15 @@ class Figure:
         box.add_artist(self)
         return box
 
-    def plot_cylinder(self, length=2.0, radius=1.0, A2B=np.eye(4),
-                      resolution=20, split=4, c=None):
+    def plot_cylinder(
+        self,
+        length=2.0,
+        radius=1.0,
+        A2B=np.eye(4),
+        resolution=20,
+        split=4,
+        c=None,
+    ):
         """Plot cylinder.
 
         Parameters
@@ -475,8 +505,9 @@ class Figure:
         mesh.add_artist(self)
         return mesh
 
-    def plot_ellipsoid(self, radii=np.ones(3), A2B=np.eye(4), resolution=20,
-                       c=None):
+    def plot_ellipsoid(
+        self, radii=np.ones(3), A2B=np.eye(4), resolution=20, c=None
+    ):
         """Plot ellipsoid.
 
         Parameters
@@ -506,8 +537,9 @@ class Figure:
         ellipsoid.add_artist(self)
         return ellipsoid
 
-    def plot_capsule(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
-                     c=None):
+    def plot_capsule(
+        self, height=1, radius=1, A2B=np.eye(4), resolution=20, c=None
+    ):
         """Plot capsule.
 
         A capsule is the volume covered by a sphere moving along a line
@@ -544,8 +576,9 @@ class Figure:
         capsule.add_artist(self)
         return capsule
 
-    def plot_cone(self, height=1, radius=1, A2B=np.eye(4), resolution=20,
-                  c=None):
+    def plot_cone(
+        self, height=1, radius=1, A2B=np.eye(4), resolution=20, c=None
+    ):
         """Plot cone.
 
         Parameters
@@ -574,8 +607,14 @@ class Figure:
         cone.add_artist(self)
         return cone
 
-    def plot_plane(self, normal=np.array([0.0, 0.0, 1.0]), d=None,
-                   point_in_plane=None, s=1.0, c=None):
+    def plot_plane(
+        self,
+        normal=np.array([0.0, 0.0, 1.0]),
+        d=None,
+        point_in_plane=None,
+        s=1.0,
+        c=None,
+    ):
         """Plot plane.
 
         Parameters
@@ -605,10 +644,18 @@ class Figure:
         return plane
 
     def plot_graph(
-            self, tm, frame, show_frames=False, show_connections=False,
-            show_visuals=False, show_collision_objects=False,
-            show_name=False, whitelist=None,
-            convex_hull_of_collision_objects=False, s=1.0):
+        self,
+        tm,
+        frame,
+        show_frames=False,
+        show_connections=False,
+        show_visuals=False,
+        show_collision_objects=False,
+        show_name=False,
+        whitelist=None,
+        convex_hull_of_collision_objects=False,
+        s=1.0,
+    ):
         """Plot graph of connected frames.
 
         Parameters
@@ -648,14 +695,29 @@ class Figure:
         graph : Graph
             New graph.
         """
-        graph = Graph(tm, frame, show_frames, show_connections,
-                      show_visuals, show_collision_objects, show_name,
-                      whitelist, convex_hull_of_collision_objects, s)
+        graph = Graph(
+            tm,
+            frame,
+            show_frames,
+            show_connections,
+            show_visuals,
+            show_collision_objects,
+            show_name,
+            whitelist,
+            convex_hull_of_collision_objects,
+            s,
+        )
         graph.add_artist(self)
         return graph
 
-    def plot_camera(self, M, cam2world=None, virtual_image_distance=1,
-                    sensor_size=(1920, 1080), strict_check=True):
+    def plot_camera(
+        self,
+        M,
+        cam2world=None,
+        virtual_image_distance=1,
+        sensor_size=(1920, 1080),
+        strict_check=True,
+    ):
         """Plot camera in world coordinates.
 
         This function is inspired by Blender's camera visualization. It will
@@ -695,8 +757,9 @@ class Figure:
         camera : Camera
             New camera.
         """
-        camera = Camera(M, cam2world, virtual_image_distance, sensor_size,
-                        strict_check)
+        camera = Camera(
+            M, cam2world, virtual_image_distance, sensor_size, strict_check
+        )
         camera.add_artist(self)
         return camera
 
@@ -716,8 +779,9 @@ class Figure:
         self.visualizer.destroy_window()
 
 
-def figure(window_name="Open3D", width=1920, height=1080,
-           with_key_callbacks=False):
+def figure(
+    window_name="Open3D", width=1920, height=1080, with_key_callbacks=False
+):
     """Create a new figure.
 
     Parameters

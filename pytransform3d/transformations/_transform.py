@@ -1,13 +1,20 @@
 """Transformation matrices."""
+
 import warnings
 
 import numpy as np
 from numpy.testing import assert_array_almost_equal
 
 from ..rotations import (
-    matrix_requires_renormalization, check_matrix, assert_rotation_matrix,
-    quaternion_from_matrix, compact_axis_angle_from_matrix,
-    left_jacobian_SO3_inv, cross_product_matrix, concatenate_quaternions)
+    matrix_requires_renormalization,
+    check_matrix,
+    assert_rotation_matrix,
+    quaternion_from_matrix,
+    compact_axis_angle_from_matrix,
+    left_jacobian_SO3_inv,
+    cross_product_matrix,
+    concatenate_quaternions,
+)
 
 
 def transform_requires_renormalization(A2B, tolerance=1e-6):
@@ -63,13 +70,16 @@ def check_transform(A2B, strict_check=True):
     """
     A2B = np.asarray(A2B, dtype=np.float64)
     if A2B.ndim != 2 or A2B.shape[0] != 4 or A2B.shape[1] != 4:
-        raise ValueError("Expected homogeneous transformation matrix with "
-                         "shape (4, 4), got array-like object with shape %s"
-                         % (A2B.shape,))
+        raise ValueError(
+            "Expected homogeneous transformation matrix with "
+            "shape (4, 4), got array-like object with shape %s" % (A2B.shape,)
+        )
     check_matrix(A2B[:3, :3], strict_check=strict_check)
     if not np.allclose(A2B[3], np.array([0.0, 0.0, 0.0, 1.0])):
-        error_msg = ("Excpected homogeneous transformation matrix with "
-                     "[0, 0, 0, 1] at the bottom, got %r" % A2B)
+        error_msg = (
+            "Excpected homogeneous transformation matrix with "
+            "[0, 0, 0, 1] at the bottom, got %r" % A2B
+        )
         if strict_check:
             raise ValueError(error_msg)
         warnings.warn(error_msg)
@@ -96,8 +106,9 @@ def assert_transform(A2B, *args, **kwargs):
         `assert_array_almost_equal`
     """
     assert_rotation_matrix(A2B[:3, :3], *args, **kwargs)
-    assert_array_almost_equal(A2B[3], np.array([0.0, 0.0, 0.0, 1.0]),
-                              *args, **kwargs)
+    assert_array_almost_equal(
+        A2B[3], np.array([0.0, 0.0, 0.0, 1.0]), *args, **kwargs
+    )
 
 
 def transform_from(R, p, strict_check=True):
@@ -130,10 +141,8 @@ def transform_from(R, p, strict_check=True):
     A2B : array, shape (4, 4)
         Transform from frame A to frame B
     """
-    A2B = rotate_transform(
-        np.eye(4), R, strict_check=strict_check, check=False)
-    A2B = translate_transform(
-        A2B, p, strict_check=strict_check, check=False)
+    A2B = rotate_transform(np.eye(4), R, strict_check=strict_check, check=False)
+    A2B = translate_transform(A2B, p, strict_check=strict_check, check=False)
     return A2B
 
 

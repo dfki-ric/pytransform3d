@@ -5,6 +5,7 @@ Animate Line
 
 Animates a line.
 """
+
 import numpy as np
 import pytransform3d.visualizer as pv
 
@@ -30,8 +31,7 @@ fig.view_init()
 
 n_frames = 100
 if "__file__" in globals():
-    fig.animate(
-        animation_callback, n_frames, fargs=(n_frames, line), loop=True)
+    fig.animate(animation_callback, n_frames, fargs=(n_frames, line), loop=True)
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")

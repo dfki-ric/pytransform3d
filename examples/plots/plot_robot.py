@@ -5,6 +5,7 @@ Robot
 
 We see a 6-DOF robot arm with visuals.
 """
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,8 +15,10 @@ from pytransform3d.urdf import UrdfTransformManager
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
-while (not os.path.exists(data_dir) and
-       os.path.dirname(search_path) != "pytransform3d"):
+while (
+    not os.path.exists(data_dir)
+    and os.path.dirname(search_path) != "pytransform3d"
+):
     search_path = os.path.join(search_path, "..")
     data_dir = os.path.join(search_path, BASE_DIR)
 
