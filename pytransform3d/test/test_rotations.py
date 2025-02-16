@@ -1590,13 +1590,6 @@ def test_quaternion_conventions():
 
 def test_concatenate_quaternions():
     """Test concatenation of two quaternions."""
-    # Until ea9adc5, this combination of a list and a numpy array raised
-    # a ValueError:
-    q1 = [1, 0, 0, 0]
-    q2 = np.array([0, 0, 0, 1])
-    q12 = pr.concatenate_quaternions(q1, q2)
-    assert_array_almost_equal(q12, np.array([0, 0, 0, 1]))
-
     rng = np.random.default_rng(0)
     for _ in range(5):
         q1 = pr.quaternion_from_axis_angle(pr.random_axis_angle(rng))
@@ -1610,6 +1603,16 @@ def test_concatenate_quaternions():
         q12R = pr.quaternion_from_matrix(R12)
 
         pr.assert_quaternion_equal(q12, q12R)
+
+
+def test_concatenate_quaternions_list_array():
+    """Test concatenation of two quaternions given as list and array."""
+    # Until ea9adc5, this combination of a list and a numpy array raised
+    # a ValueError:
+    q1 = [1, 0, 0, 0]
+    q2 = np.array([0, 0, 0, 1])
+    q12 = pr.concatenate_quaternions(q1, q2)
+    assert_array_almost_equal(q12, np.array([0, 0, 0, 1]))
 
 
 def test_quaternion_hamilton():
