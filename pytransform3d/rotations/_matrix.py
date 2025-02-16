@@ -7,36 +7,6 @@ from ._axis_angle import compact_axis_angle
 from ._utils import norm_vector, perpendicular_to_vectors, vector_projection
 
 
-def matrix_requires_renormalization(R, tolerance=1e-6):
-    r"""Check if a rotation matrix needs renormalization.
-
-    This function will check if :math:`R R^T \approx I`.
-
-    Parameters
-    ----------
-    R : array-like, shape (3, 3)
-        Rotation matrix that should be orthonormal.
-
-    tolerance : float, optional (default: 1e-6)
-        Tolerance for check.
-
-    Returns
-    -------
-    required : bool
-        Indicates if renormalization is required.
-
-    See Also
-    --------
-    norm_matrix : Orthonormalize rotation matrix.
-    robust_polar_decomposition
-        A more expensive orthonormalization method that spreads the error more
-        evenly between the basis vectors.
-    """
-    R = np.asarray(R, dtype=float)
-    RRT = np.dot(R, R.T)
-    return not np.allclose(RRT, np.eye(3), atol=tolerance)
-
-
 def check_matrix(R, tolerance=1e-6, strict_check=True):
     r"""Input validation of a rotation matrix.
 
@@ -110,6 +80,36 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
             raise ValueError(error_msg)
         warnings.warn(error_msg, UserWarning, stacklevel=2)
     return R
+
+
+def matrix_requires_renormalization(R, tolerance=1e-6):
+    r"""Check if a rotation matrix needs renormalization.
+
+    This function will check if :math:`R R^T \approx I`.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix that should be orthonormal.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance for check.
+
+    Returns
+    -------
+    required : bool
+        Indicates if renormalization is required.
+
+    See Also
+    --------
+    norm_matrix : Orthonormalize rotation matrix.
+    robust_polar_decomposition
+        A more expensive orthonormalization method that spreads the error more
+        evenly between the basis vectors.
+    """
+    R = np.asarray(R, dtype=float)
+    RRT = np.dot(R, R.T)
+    return not np.allclose(RRT, np.eye(3), atol=tolerance)
 
 
 def norm_matrix(R):
