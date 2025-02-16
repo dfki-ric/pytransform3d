@@ -1,8 +1,10 @@
 """Visualizer artists."""
 import warnings
 from itertools import chain
+
 import numpy as np
 import open3d as o3d
+
 from .. import rotations as pr
 from .. import transformations as pt
 from .. import urdf
