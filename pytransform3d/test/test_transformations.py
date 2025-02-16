@@ -18,7 +18,7 @@ def test_check_transform():
 
     A2B = np.eye(4, dtype=int)
     A2B = pt.check_transform(A2B)
-    assert type(A2B) == np.ndarray
+    assert type(A2B) is np.ndarray
     assert A2B.dtype == np.float64
 
     A2B[:3, :3] = np.array([[1, 1, 1], [0, 0, 0], [2, 2, 2]])

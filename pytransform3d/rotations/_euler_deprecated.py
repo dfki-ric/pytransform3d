@@ -1108,6 +1108,7 @@ def quaternion_from_extrinsic_euler_xyz(e):
         "quaternion_from_extrinsic_euler_xyz is deprecated, use "
         "quaternion_from_euler",
         DeprecationWarning,
+        stacklevel=2,
     )
     R = active_matrix_from_extrinsic_euler_xyz(e)
     return quaternion_from_matrix(R)

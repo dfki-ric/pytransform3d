@@ -289,7 +289,9 @@ class Frame(Artist):
         if label is not None:
             warnings.warn(
                 "This viewer does not support text. Frame label "
-                "will be ignored."
+                "will be ignored.",
+                UserWarning,
+                stacklevel=2,
             )
 
         self.frame.transform(pt.invert_transform(previous_A2B, check=False))
@@ -1309,5 +1311,5 @@ def _objects_to_artists(objects, convex_hull=False):
                 )
             artists[obj.frame] = artist
         except RuntimeError as e:
-            warnings.warn(str(e))
+            warnings.warn(str(e), RuntimeWarning, stacklevel=1)
     return artists
