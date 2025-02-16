@@ -15,14 +15,14 @@ def test_cartesian_from_cylindrical_edge_cases():
 
 def test_convert_cartesian_cylindrical():
     rng = np.random.default_rng(0)
-    for i in range(1000):
+    for _ in range(1000):
         rho = rng.standard_normal()
         phi = rng.random() * 4 * np.pi - 2 * np.pi
         z = rng.standard_normal()
         p = np.array([rho, phi, z])
         q = pc.cartesian_from_cylindrical(p)
         r = pc.cylindrical_from_cartesian(q)
-        assert 0 <= r[0]
+        assert r[0] >= 0
         assert -np.pi <= r[1] <= np.pi
         s = pc.cartesian_from_cylindrical(r)
         assert_array_almost_equal(q, s)
@@ -40,14 +40,14 @@ def test_cartesian_from_spherical_edge_cases():
 
 def test_convert_cartesian_spherical():
     rng = np.random.default_rng(1)
-    for i in range(1000):
+    for _ in range(1000):
         rho = rng.standard_normal()
         theta = rng.random() * 4 * np.pi - 2 * np.pi
         phi = rng.random() * 4 * np.pi - 2 * np.pi
         p = np.array([rho, theta, phi])
         q = pc.cartesian_from_spherical(p)
         r = pc.spherical_from_cartesian(q)
-        assert 0 <= r[0]
+        assert r[0] >= 0
         assert 0 <= r[1] <= np.pi
         assert -np.pi <= r[2] <= np.pi
         s = pc.cartesian_from_spherical(r)
@@ -66,7 +66,7 @@ def test_cylindrical_from_spherical_edge_cases():
 
 def test_convert_cylindrical_spherical():
     rng = np.random.default_rng(2)
-    for i in range(1000):
+    for _ in range(1000):
         rho = rng.standard_normal()
         theta = rng.random() * 4 * np.pi - 2 * np.pi
         phi = rng.random() * 4 * np.pi - 2 * np.pi

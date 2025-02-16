@@ -3,7 +3,7 @@
 import warnings
 
 try:
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt  # noqa: F401
     from ._artists import Arrow3D, Frame, LabeledFrame, Trajectory, Camera
     from ._layout import make_3d_axis, remove_frame
     from ._plot_functions import (
@@ -41,7 +41,9 @@ try:
 except ImportError as e:
     if e.name == "matplotlib":
         warnings.warn(
-            "Matplotlib is not installed, visualization is not " "available"
+            "Matplotlib is not installed, visualization is not " "available",
+            ImportWarning,
+            stacklevel=2,
         )
     else:
         raise e

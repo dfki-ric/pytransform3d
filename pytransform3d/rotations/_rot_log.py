@@ -49,7 +49,7 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
         )
         if strict_check:
             raise ValueError(error_msg)
-        warnings.warn(error_msg)
+        warnings.warn(error_msg, UserWarning, stacklevel=2)
     return V
 
 

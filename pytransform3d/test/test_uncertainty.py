@@ -154,7 +154,7 @@ def test_concat_globally_uncertain_transforms():
 
     T_est = np.eye(4)
     cov_est = np.zeros((6, 6))
-    for t in range(n_steps):
+    for _ in range(n_steps):
         T_est, cov_est = pu.concat_globally_uncertain_transforms(
             T_est, cov_est, T_vel, cov_pose
         )
@@ -248,5 +248,5 @@ def test_projected_ellipsoid():
     x, y, z = pu.to_projected_ellipsoid(mean, cov, factor=1.0, n_steps=20)
     P = np.column_stack((x.reshape(-1), y.reshape(-1), z.reshape(-1)))
     r = np.linalg.norm(P, axis=1)
-    assert np.all(1.0 <= r)
+    assert np.all(r >= 1.0)
     assert np.all(r <= 2.0)

@@ -102,7 +102,7 @@ def exponential_coordinates_from_transforms(A2Bs):
     ps = A2Bs[..., :3, 3]
 
     traces = np.einsum("nii", Rs.reshape(-1, 3, 3))
-    if instances_shape:
+    if instances_shape:  # noqa: SIM108
         traces = traces.reshape(*instances_shape)
     else:
         # this works because indX will be a single boolean and

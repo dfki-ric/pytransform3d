@@ -435,7 +435,9 @@ def plot_mesh(
         warnings.warn(
             "No filename given for mesh. When you use the "
             "UrdfTransformManager, make sure to set the mesh path or "
-            "package directory."
+            "package directory.",
+            UserWarning,
+            stacklevel=2,
         )
         return ax
 

@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 try:
-    import matplotlib
+    import matplotlib  # noqa: F401
 except ImportError:
     pytest.skip("matplotlib is required for these tests")
 from pytransform3d.plot_utils import (
@@ -207,7 +207,7 @@ def test_plot_cylinder_wireframe():
 
 def test_plot_mesh():
     try:
-        import trimesh
+        import trimesh  # noqa: F401
     except ImportError:
         pytest.skip("trimesh is required for this test")
     ax = make_3d_axis(1.0)
@@ -220,7 +220,7 @@ def test_plot_mesh():
 
 def test_plot_mesh_wireframe():
     try:
-        import trimesh
+        import trimesh  # noqa: F401
     except ImportError:
         pytest.skip("trimesh is required for this test")
     ax = make_3d_axis(1.0)

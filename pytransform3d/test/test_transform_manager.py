@@ -190,13 +190,15 @@ def test_pickle():
 
     _, filename = tempfile.mkstemp(".pickle")
     try:
-        pickle.dump(tm, open(filename, "wb"))
-        tm2 = pickle.load(open(filename, "rb"))
+        with open(filename, "wb") as f:
+            pickle.dump(tm, f)
+        with open(filename, "rb") as f:
+            tm2 = pickle.load(f)
     finally:
         if os.path.exists(filename):
             try:
                 os.remove(filename)
-            except WindowsError:
+            except OSError:
                 pass  # workaround for permission problem on Windows
     A2B2 = tm2.get_transform("A", "B")
     assert_array_almost_equal(A2B, A2B2)
@@ -296,7 +298,7 @@ def test_png_export():
         if os.path.exists(filename):
             try:
                 os.remove(filename)
-            except WindowsError:
+            except OSError:
                 pass  # workaround for permission problem on Windows
 
 

@@ -143,7 +143,9 @@ class UrdfTransformManager(TransformManager):
             )
         else:
             assert joint_type == "fixed"
-            warnings.warn("Trying to set a fixed joint")
+            warnings.warn(
+                "Trying to set a fixed joint", UserWarning, stacklevel=2
+            )
             return
         self.add_transform(
             from_frame,
@@ -402,8 +404,8 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
     urdf_xml = bytes(urdf_xml.encode("utf-8"))
     try:
         root = etree.XML(urdf_xml, parser=etree.XMLParser(recover=True))
-    except etree.XMLSyntaxError:
-        raise UrdfException("Invalid XML.")
+    except etree.XMLSyntaxError as e:
+        raise UrdfException("Invalid XML.") from e
 
     # URDF XML schema:
     # https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd

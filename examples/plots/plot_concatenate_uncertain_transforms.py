@@ -135,8 +135,8 @@ plt.show()
 # References
 # ----------
 # .. [1] Barfoot, T. D., Furgale, P. T. (2014). Associating Uncertainty With
-#    Three-Dimensional Poses for Use in Estimation Problems. IEEE Transactions on
-#    Robotics 30(3), pp. 679-693, doi: 10.1109/TRO.2014.2298059.
+#    Three-Dimensional Poses for Use in Estimation Problems. IEEE Transactions
+#    on Robotics 30(3), pp. 679-693, doi: 10.1109/TRO.2014.2298059.
 #
 # .. [2] Long, A. W., Wolfe, K. C., Mashner, M. J., Chirikjian, G. S. (2013).
 #    The Banana Distribution is Gaussian: A Localization Study with Exponential

@@ -82,7 +82,7 @@ def check_transform(A2B, strict_check=True):
         )
         if strict_check:
             raise ValueError(error_msg)
-        warnings.warn(error_msg)
+        warnings.warn(error_msg, UserWarning, stacklevel=2)
     return A2B
 
 

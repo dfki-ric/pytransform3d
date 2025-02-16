@@ -3,7 +3,7 @@
 import warnings
 
 try:
-    import open3d as o3d
+    import open3d as o3d  # noqa: F401
     from ._artists import (
         Artist,
         Line3D,
@@ -45,4 +45,8 @@ try:
         "Graph",
     ]
 except ImportError:
-    warnings.warn("3D visualizer is not available. Install open3d.")
+    warnings.warn(
+        "3D visualizer is not available. Install open3d.",
+        ImportWarning,
+        stacklevel=2,
+    )

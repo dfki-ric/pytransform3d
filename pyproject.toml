@@ -17,3 +17,42 @@ exclude = '''
     | dist
 )/
 '''
+
+[tool.ruff]
+line-length = 80
+target-version = "py38"
+include = [
+    "pytransform3d/**/*.py",
+    "examples//**/*.py",
+]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+# all rules can be found here: https://beta.ruff.rs/docs/rules/
+ignore=[
+    "B008",  # Do not perform function calls in argument defaults
+    "I001",  # isort found an import in the wrong position
+    "SIM108",  # Use ternary operator
+    # old Python style, should be deprecated soon
+    "UP004",  # Class inherits from `object`
+    "UP008",  # Use `super()` instead of `super(__class__, self)`
+    "UP015",  # Unnecessary mode argument
+    "UP031",  # Use format specifiers instead of percent format
+    "SIM118",  # Use `key in dict` instead of `key in dict.keys()`
+]
+
+[tool.ruff.format]
+quote-style = "double"
