@@ -6,7 +6,7 @@ from numpy.testing import assert_array_almost_equal
 from ._angle import norm_angle, active_matrix_from_angle
 from ._constants import half_pi, unitx, unity, unitz, eps
 from ._matrix import check_matrix
-from ._quaternions import check_quaternion
+from ._quaternion import check_quaternion
 from ._utils import check_axis_index
 
 
