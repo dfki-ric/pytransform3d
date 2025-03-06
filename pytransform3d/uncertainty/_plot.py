@@ -1,3 +1,5 @@
+"""Plotting of uncertain transformations."""
+
 import numpy as np
 
 from .._geometry import unit_sphere_surface_grid

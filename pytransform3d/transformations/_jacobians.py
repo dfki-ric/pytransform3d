@@ -1,3 +1,5 @@
+"""Jacobians of SE(3)."""
+
 import math
 
 import numpy as np

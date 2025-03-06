@@ -1,8 +1,7 @@
+"""Random trajectory generation."""
+
 import numpy as np
-from ._transforms import (
-    concat_many_to_many,
-    dual_quaternions_from_transforms,
-)
+
 from ._dual_quaternions import (
     transforms_from_dual_quaternions,
     dual_quaternions_sclerp,
@@ -10,7 +9,10 @@ from ._dual_quaternions import (
 from ._screws import (
     transforms_from_exponential_coordinates,
 )
-
+from ._transforms import (
+    concat_many_to_many,
+    dual_quaternions_from_transforms,
+)
 
 _N_EXP_COORDINATE_DIMS = 6
 

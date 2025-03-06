@@ -1,3 +1,5 @@
+"""Temporal transform manager."""
+
 import abc
 
 import numpy as np

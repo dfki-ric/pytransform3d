@@ -1,3 +1,5 @@
+"""Rotation matrices."""
+
 import warnings
 
 import numpy as np

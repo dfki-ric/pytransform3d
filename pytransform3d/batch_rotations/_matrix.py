@@ -1,3 +1,5 @@
+"""Batch operations for rotation matrices."""
+
 import numpy as np
 
 

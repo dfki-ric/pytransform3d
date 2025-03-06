@@ -1,4 +1,4 @@
-"""Conversions between rotation representations."""
+"""Logarithm of rotation."""
 
 import warnings
 

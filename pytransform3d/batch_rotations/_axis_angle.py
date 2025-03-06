@@ -1,3 +1,5 @@
+"""Batch operations for axis-angle representation."""
+
 import numpy as np
 
 from ..rotations import norm_angle
