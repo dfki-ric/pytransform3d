@@ -71,7 +71,7 @@ from ._rot_log import (
     cross_product_matrix,
     rot_log_from_compact_axis_angle,
 )
-from ._quaternions import (
+from ._quaternion import (
     quaternion_requires_renormalization,
     check_quaternion,
     check_quaternions,
