@@ -1,6 +1,7 @@
 """Basic functionality for geometrical shapes."""
 
 import numpy as np
+
 from .transformations import check_transform
 
 
