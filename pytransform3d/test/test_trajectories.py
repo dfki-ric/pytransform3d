@@ -1,6 +1,16 @@
 import numpy as np
 import pytest
+from numpy.testing import assert_array_almost_equal
+
 import pytransform3d.trajectories as ptr
+import pytransform3d.transformations as pt
+from pytransform3d.batch_rotations import norm_vectors
+from pytransform3d.rotations import (
+    quaternion_from_matrix,
+    assert_quaternion_equal,
+    active_matrix_from_angle,
+    random_quaternion,
+)
 from pytransform3d.trajectories import (
     invert_transforms,
     transforms_from_pqs,
@@ -21,13 +31,6 @@ from pytransform3d.trajectories import (
     dual_quaternions_sclerp,
     concat_dynamic,
 )
-from pytransform3d.rotations import (
-    quaternion_from_matrix,
-    assert_quaternion_equal,
-    active_matrix_from_angle,
-    random_quaternion,
-)
-import pytransform3d.transformations as pt
 from pytransform3d.transformations import (
     exponential_coordinates_from_transform,
     translate_transform,
@@ -43,8 +46,6 @@ from pytransform3d.transformations import (
     dual_quaternion_from_transform,
     screw_parameters_from_dual_quaternion,
 )
-from pytransform3d.batch_rotations import norm_vectors
-from numpy.testing import assert_array_almost_equal
 
 
 def test_invert_transforms_0dims():

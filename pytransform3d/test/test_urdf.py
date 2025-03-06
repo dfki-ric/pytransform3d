@@ -4,20 +4,21 @@ try:
     matplotlib_available = True
 except ImportError:
     matplotlib_available = False
-import os
 import json
-import numpy as np
+import os
 import warnings
+
+import numpy as np
+import pytest
+from numpy.testing import assert_array_almost_equal
+
+from pytransform3d.transformations import transform_from
 from pytransform3d.urdf import (
     UrdfTransformManager,
     UrdfException,
     parse_urdf,
     initialize_urdf_transform_manager,
 )
-from pytransform3d.transformations import transform_from
-from numpy.testing import assert_array_almost_equal
-import pytest
-
 
 COMPI_URDF = """
 <?xml version="1.0"?>

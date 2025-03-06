@@ -1,13 +1,13 @@
 import numpy as np
 
+from ._screws import (
+    dual_quaternions_from_screw_parameters,
+)
 from ..batch_rotations import (
     batch_concatenate_quaternions,
     batch_q_conj,
     axis_angles_from_quaternions,
     matrices_from_quaternions,
-)
-from ._screws import (
-    dual_quaternions_from_screw_parameters,
 )
 
 

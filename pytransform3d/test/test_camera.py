@@ -1,4 +1,6 @@
 import numpy as np
+import pytest
+from numpy.testing import assert_array_almost_equal
 
 from pytransform3d.camera import (
     make_world_line,
@@ -9,8 +11,6 @@ from pytransform3d.camera import (
 )
 from pytransform3d.rotations import active_matrix_from_intrinsic_euler_xyz
 from pytransform3d.transformations import transform_from
-from numpy.testing import assert_array_almost_equal
-import pytest
 
 
 def test_make_world_line():
