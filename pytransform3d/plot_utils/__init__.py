@@ -4,9 +4,18 @@ import warnings
 
 try:
     import matplotlib.pyplot as plt  # noqa: F401
-    from ._artists import Arrow3D, Frame, LabeledFrame, Trajectory, Camera
-    from ._layout import make_3d_axis, remove_frame
-    from ._plot_functions import (
+    from ._artists import (
+        Arrow3D,
+        Frame,
+        LabeledFrame,
+        Trajectory,
+        Camera,
+    )
+    from ._layout import (
+        make_3d_axis,
+        remove_frame,
+    )
+    from ._plot_geometries import (
         plot_box,
         plot_sphere,
         plot_spheres,
@@ -15,6 +24,8 @@ try:
         plot_ellipsoid,
         plot_capsule,
         plot_cone,
+    )
+    from ._plot_helpers import (
         plot_vector,
         plot_length_variable,
     )
