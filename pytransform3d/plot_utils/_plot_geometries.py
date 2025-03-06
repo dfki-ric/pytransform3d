@@ -332,14 +332,14 @@ def plot_cylinder(
     theta = np.linspace(0, 2 * np.pi, n_steps)
     t, theta = np.meshgrid(t, theta)
 
+    X, Y, Z = [
+        axis_start[i]
+        + axis[i] * t
+        + radius * np.sin(theta) * n1[i]
+        + radius * np.cos(theta) * n2[i]
+        for i in range(3)
+    ]
     if thickness > 0.0:
-        X_outer, Y_outer, Z_outer = [
-            axis_start[i]
-            + axis[i] * t
-            + radius * np.sin(theta) * n1[i]
-            + radius * np.cos(theta) * n2[i]
-            for i in range(3)
-        ]
         X_inner, Y_inner, Z_inner = [
             axis_end[i]
             - axis[i] * t
@@ -347,17 +347,9 @@ def plot_cylinder(
             + inner_radius * np.cos(theta) * n2[i]
             for i in range(3)
         ]
-        X = np.hstack((X_outer, X_inner))
-        Y = np.hstack((Y_outer, Y_inner))
-        Z = np.hstack((Z_outer, Z_inner))
-    else:
-        X, Y, Z = [
-            axis_start[i]
-            + axis[i] * t
-            + radius * np.sin(theta) * n1[i]
-            + radius * np.cos(theta) * n2[i]
-            for i in range(3)
-        ]
+        X = np.hstack((X, X_inner))
+        Y = np.hstack((Y, Y_inner))
+        Z = np.hstack((Z, Z_inner))
 
     if wireframe:
         ax.plot_wireframe(
