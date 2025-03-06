@@ -6,11 +6,10 @@ Transformation Editor
 The transformation editor can be used to manipulate transformations.
 """
 
-from pytransform3d.transform_manager import TransformManager
 from pytransform3d.editor import TransformEditor
-from pytransform3d.transformations import transform_from
 from pytransform3d.rotations import active_matrix_from_extrinsic_euler_xyx
-
+from pytransform3d.transform_manager import TransformManager
+from pytransform3d.transformations import transform_from
 
 tm = TransformManager()
 

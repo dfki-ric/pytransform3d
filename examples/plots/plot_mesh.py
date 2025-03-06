@@ -9,11 +9,12 @@ hard-coded path to the STL file.
 """
 
 import os
-import numpy as np
-import matplotlib.pyplot as plt
-from pytransform3d.transformations import plot_transform
-from pytransform3d.plot_utils import plot_mesh
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+from pytransform3d.plot_utils import plot_mesh
+from pytransform3d.transformations import plot_transform
 
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR

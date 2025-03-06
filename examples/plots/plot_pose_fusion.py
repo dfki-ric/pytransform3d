@@ -15,10 +15,11 @@ Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for Use
 in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import pytransform3d.uncertainty as pu
+import numpy as np
+
 import pytransform3d.transformations as pt
+import pytransform3d.uncertainty as pu
 
 
 # %%

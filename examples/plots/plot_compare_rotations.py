@@ -4,10 +4,10 @@ Compare Various Definitions of Rotations
 ========================================
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d import rotations as pr
+import numpy as np
 
+from pytransform3d import rotations as pr
 
 ax = pr.plot_basis(R=np.eye(3), ax_s=2, lw=3)
 axis = 2

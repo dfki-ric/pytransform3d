@@ -11,10 +11,11 @@ results in a non-constant angular velocity. Usually it is a better idea to
 interpolate with slerp.
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import axes3d  # noqa: F401
 import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import axes3d  # noqa: F401
+
 from pytransform3d import rotations as pr
 
 velocity = None

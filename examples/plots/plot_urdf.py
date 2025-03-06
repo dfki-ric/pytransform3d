@@ -8,8 +8,8 @@ angles and display relevant frames.
 """
 
 import matplotlib.pyplot as plt
-from pytransform3d.urdf import UrdfTransformManager
 
+from pytransform3d.urdf import UrdfTransformManager
 
 # %%
 # URDF

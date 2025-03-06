@@ -5,10 +5,10 @@ Plot Box
 """
 
 import numpy as np
-import pytransform3d.visualizer as pv
-from pytransform3d.transformations import transform_from
-from pytransform3d.rotations import random_axis_angle, matrix_from_axis_angle
 
+import pytransform3d.visualizer as pv
+from pytransform3d.rotations import random_axis_angle, matrix_from_axis_angle
+from pytransform3d.transformations import transform_from
 
 rng = np.random.default_rng(42)
 fig = pv.figure()

@@ -6,12 +6,12 @@ Plot Transformed Cylinders
 Plots surfaces of transformed cylindrical shells.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.transformations import transform_from, plot_transform
-from pytransform3d.rotations import random_axis_angle, matrix_from_axis_angle
-from pytransform3d.plot_utils import plot_cylinder, remove_frame
+import numpy as np
 
+from pytransform3d.plot_utils import plot_cylinder, remove_frame
+from pytransform3d.rotations import random_axis_angle, matrix_from_axis_angle
+from pytransform3d.transformations import transform_from, plot_transform
 
 rng = np.random.default_rng(44)
 A2B = transform_from(

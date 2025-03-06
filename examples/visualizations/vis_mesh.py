@@ -10,9 +10,10 @@ help message to stdout.
 """
 
 import os
-import numpy as np
-from pytransform3d import visualizer as pv
 
+import numpy as np
+
+from pytransform3d import visualizer as pv
 
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR

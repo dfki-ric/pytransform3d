@@ -9,14 +9,16 @@ end-effector's pose distribution.
 """
 
 import os
+
 import numpy as np
-from matplotlib import cbook
 import open3d as o3d
-from pytransform3d.urdf import UrdfTransformManager
-import pytransform3d.transformations as pt
+from matplotlib import cbook
+
 import pytransform3d.trajectories as ptr
+import pytransform3d.transformations as pt
 import pytransform3d.uncertainty as pu
 import pytransform3d.visualizer as pv
+from pytransform3d.urdf import UrdfTransformManager
 
 
 # %%

@@ -9,13 +9,13 @@ the camera in the world, we can easily compute the location of the points on
 the image.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
+from pytransform3d.camera import make_world_grid, world2image, plot_camera
 from pytransform3d.plot_utils import make_3d_axis
 from pytransform3d.rotations import active_matrix_from_intrinsic_euler_xyz
 from pytransform3d.transformations import transform_from, plot_transform
-from pytransform3d.camera import make_world_grid, world2image, plot_camera
-
 
 cam2world = transform_from(
     active_matrix_from_intrinsic_euler_xyz([-np.pi + 1, -0.1, 0.3]),

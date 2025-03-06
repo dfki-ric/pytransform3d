@@ -13,10 +13,10 @@ that can be extracted by rearranging the elements of the bivector and
 normalizing the vector.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import pytransform3d.rotations as pr
+import numpy as np
 
+import pytransform3d.rotations as pr
 
 a = np.array([0.6, 0.3, 0.9])
 b = np.array([0.4, 0.8, 0.2])

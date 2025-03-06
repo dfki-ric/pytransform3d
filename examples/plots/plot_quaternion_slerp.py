@@ -10,8 +10,9 @@ linear interpolation and the inner circle uses SLERP. You can play around with
 the value of 'end_angle' in this example.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d.rotations import (
     matrix_from_axis_angle,
     quaternion_from_matrix,

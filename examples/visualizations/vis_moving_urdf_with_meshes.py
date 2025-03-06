@@ -9,9 +9,11 @@ folder because it uses a hard-coded path to the URDF file and the meshes.
 """
 
 import os
+
 import numpy as np
-from pytransform3d.urdf import UrdfTransformManager
+
 import pytransform3d.visualizer as pv
+from pytransform3d.urdf import UrdfTransformManager
 
 
 def animation_callback(step, n_frames, tm, graph):

@@ -9,15 +9,15 @@ normalized vector rejection of b on a, and the z-axis is the cross product of
 the other basis vectors.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
+from pytransform3d.plot_utils import plot_vector
 from pytransform3d.rotations import (
     matrix_from_two_vectors,
     plot_basis,
     random_vector,
 )
-from pytransform3d.plot_utils import plot_vector
-
 
 rng = np.random.default_rng(1)
 a = random_vector(rng, 3) * 0.3

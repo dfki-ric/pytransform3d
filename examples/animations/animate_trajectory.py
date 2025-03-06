@@ -6,10 +6,11 @@ Animate Trajectory
 Animates a trajectory.
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import axes3d  # noqa: F401
 import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import axes3d  # noqa: F401
+
 from pytransform3d.plot_utils import Trajectory
 from pytransform3d.rotations import passive_matrix_from_angle, R_id
 from pytransform3d.transformations import transform_from, concat

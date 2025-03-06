@@ -6,13 +6,13 @@ Animate Camera
 Animate a camera moving along a circular trajectory while looking at a target.
 """
 
-import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import matplotlib.pyplot as plt
 import numpy as np
 
+from pytransform3d.plot_utils import Frame, Camera, make_3d_axis
 from pytransform3d.rotations import matrix_from_euler
 from pytransform3d.transformations import transform_from
-from pytransform3d.plot_utils import Frame, Camera, make_3d_axis
 
 
 def update_camera(step, n_frames, camera):
