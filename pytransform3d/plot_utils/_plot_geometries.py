@@ -429,15 +429,15 @@ def plot_mesh(
     if convex_hull:
         mesh.convex_hull()
 
-    vertices = mesh.vertices * s
+    vertices = np.asarray(mesh.vertices) * s
     vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
     vertices = transform(A2B, vertices)[:, :3]
-    vectors = np.array([vertices[[i, j, k]] for i, j, k in mesh.triangles])
+    faces = vertices[mesh.triangles]
     if wireframe:
-        surface = Line3DCollection(vectors)
+        surface = Line3DCollection(faces)
         surface.set_color(color)
     else:
-        surface = Poly3DCollection(vectors)
+        surface = Poly3DCollection(faces)
         surface.set_facecolor(color)
     surface.set_alpha(alpha)
     ax.add_collection3d(surface)
