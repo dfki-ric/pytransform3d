@@ -9,11 +9,11 @@ there are many points that were converted to the same Cartesian point at the
 poles of the sphere.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 import pytransform3d.coordinates as pc
 from pytransform3d.plot_utils import make_3d_axis
-
 
 thetas, phis = np.meshgrid(
     np.linspace(0, np.pi, 11), np.linspace(-np.pi, np.pi, 21)

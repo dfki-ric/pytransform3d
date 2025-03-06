@@ -8,12 +8,12 @@ rotations, convert them to rotation matrices, and apply these to the basis
 vector (1, 0, 0) to obtain points on the unit sphere.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import pytransform3d.rotations as pr
+import numpy as np
+
 import pytransform3d.batch_rotations as pbr
 import pytransform3d.plot_utils as ppu
-
+import pytransform3d.rotations as pr
 
 rng = np.random.default_rng(1223532)
 n_samples = 2000

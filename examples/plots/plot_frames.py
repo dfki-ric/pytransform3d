@@ -8,12 +8,12 @@ We will add several transforms to the manager and plot all frames in
 two reference frames ('world' and 'A').
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.plot_utils import make_3d_axis
-from pytransform3d.transformations import random_transform
-from pytransform3d.transform_manager import TransformManager
+import numpy as np
 
+from pytransform3d.plot_utils import make_3d_axis
+from pytransform3d.transform_manager import TransformManager
+from pytransform3d.transformations import random_transform
 
 rng = np.random.default_rng(5)
 A2world = random_transform(rng)

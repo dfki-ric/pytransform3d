@@ -16,8 +16,9 @@ arrow shows the direction of the screw axis. The spiral path represents
 a displacement of length theta along the screw axis.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d.rotations import active_matrix_from_extrinsic_roll_pitch_yaw
 from pytransform3d.transformations import (
     plot_transform,
@@ -27,7 +28,6 @@ from pytransform3d.transformations import (
     concat,
     transform_from,
 )
-
 
 # Screw parameters
 q = np.array([-0.2, -0.1, -0.5])

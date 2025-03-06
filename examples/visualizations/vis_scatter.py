@@ -7,8 +7,8 @@ Visualizes a point collection.
 """
 
 import numpy as np
-import pytransform3d.visualizer as pv
 
+import pytransform3d.visualizer as pv
 
 fig = pv.figure()
 rng = np.random.default_rng(41)

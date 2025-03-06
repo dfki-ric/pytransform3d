@@ -7,9 +7,8 @@ This example shows how to load a URDF description of a robot, set some joint
 angles and display relevant frames.
 """
 
-from pytransform3d.urdf import UrdfTransformManager
 import pytransform3d.visualizer as pv
-
+from pytransform3d.urdf import UrdfTransformManager
 
 COMPI_URDF = """
 <?xml version="1.0"?>

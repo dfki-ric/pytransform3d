@@ -6,12 +6,12 @@ Pose Trajectory
 Plotting pose trajectories with pytransform3d is easy.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d.batch_rotations import quaternion_slerp_batch
 from pytransform3d.rotations import q_id
 from pytransform3d.trajectories import plot_trajectory
-
 
 n_steps = 100000
 P = np.empty((n_steps, 7))

@@ -7,6 +7,7 @@ Animates a trajectory.
 """
 
 import numpy as np
+
 import pytransform3d.visualizer as pv
 from pytransform3d.rotations import passive_matrix_from_angle, R_id
 from pytransform3d.transformations import transform_from, concat

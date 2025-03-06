@@ -7,8 +7,8 @@ In this example, given two trajectories of 3D rigid transformations, we will
 interpolate both and use the transform manager for the target timestep.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from pytransform3d import rotations as pr
 from pytransform3d import transformations as pt

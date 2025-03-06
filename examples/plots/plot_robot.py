@@ -7,10 +7,11 @@ We see a 6-DOF robot arm with visuals.
 """
 
 import os
-import numpy as np
-import matplotlib.pyplot as plt
-from pytransform3d.urdf import UrdfTransformManager
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+from pytransform3d.urdf import UrdfTransformManager
 
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR

@@ -5,8 +5,8 @@ Visualize Sphere
 """
 
 import numpy as np
-import pytransform3d.visualizer as pv
 
+import pytransform3d.visualizer as pv
 
 fig = pv.figure()
 fig.plot_sphere(radius=0.5)

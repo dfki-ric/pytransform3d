@@ -5,8 +5,8 @@ Visualize Capsule
 """
 
 import numpy as np
-import pytransform3d.visualizer as pv
 
+import pytransform3d.visualizer as pv
 
 fig = pv.figure()
 fig.plot_capsule(height=0.5, radius=0.1, c=(1, 0, 0))

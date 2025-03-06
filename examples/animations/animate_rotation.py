@@ -8,12 +8,13 @@ Matplotlib's FuncAnimation. The following example will generate a frame
 that will be rotated about the x-axis.
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import axes3d  # noqa: F401
 import matplotlib.animation as animation
-from pytransform3d.plot_utils import Frame
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import axes3d  # noqa: F401
+
 from pytransform3d import rotations as pr
+from pytransform3d.plot_utils import Frame
 
 
 def update_frame(step, n_frames, frame):

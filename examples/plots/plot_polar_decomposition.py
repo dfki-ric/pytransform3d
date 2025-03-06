@@ -13,10 +13,10 @@ through robust polar decomposition. For comparison, we show the unnormalized
 basis with dashed lines in the last two rows.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d import rotations as pr
+import numpy as np
 
+from pytransform3d import rotations as pr
 
 n_cases = 4
 fig, axes = plt.subplots(

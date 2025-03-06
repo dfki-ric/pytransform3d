@@ -9,13 +9,13 @@ The color indicates the pose distribution. Green is the original
 distribution and red is the inverse.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import pytransform3d.uncertainty as pu
-import pytransform3d.rotations as pr
-import pytransform3d.transformations as pt
-import pytransform3d.trajectories as ptr
+import numpy as np
 
+import pytransform3d.rotations as pr
+import pytransform3d.trajectories as ptr
+import pytransform3d.transformations as pt
+import pytransform3d.uncertainty as pu
 
 n_mc_samples = 1000
 rng = np.random.default_rng(1)

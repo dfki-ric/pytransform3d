@@ -14,13 +14,13 @@ This example adapted and modified to 3D from Barfoot and Furgale [1]_.
 The banana distribution was analyzed in detail by Long et al. [2]_.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import pytransform3d.transformations as pt
-import pytransform3d.trajectories as ptr
-import pytransform3d.uncertainty as pu
-import pytransform3d.plot_utils as ppu
+import numpy as np
 
+import pytransform3d.plot_utils as ppu
+import pytransform3d.trajectories as ptr
+import pytransform3d.transformations as pt
+import pytransform3d.uncertainty as pu
 
 # %%
 # We configure the example here. You can change the random seed if you want.

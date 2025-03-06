@@ -7,11 +7,11 @@ Any rotation can be represented by three consecutive rotations about three
 basis vectors. Here we use the extrinsic xyz convention.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d import rotations as pr
 from pytransform3d.plot_utils import remove_frame
-
 
 alpha, beta, gamma = 0.5 * np.pi, 0.5 * np.pi, 0.5 * np.pi
 p = np.array([1, 1, 1])

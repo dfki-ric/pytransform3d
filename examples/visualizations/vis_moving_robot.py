@@ -7,9 +7,11 @@ In this example we animate a 6-DOF robot arm with cylindrical visuals.
 """
 
 import os
+
 import numpy as np
-from pytransform3d.urdf import UrdfTransformManager
+
 import pytransform3d.visualizer as pv
+from pytransform3d.urdf import UrdfTransformManager
 
 
 def animation_callback(step, n_frames, tm, graph, joint_names):

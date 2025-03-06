@@ -9,9 +9,10 @@ hard-coded path to the URDF file and the meshes.
 """
 
 import os
-import matplotlib.pyplot as plt
-from pytransform3d.urdf import UrdfTransformManager
 
+import matplotlib.pyplot as plt
+
+from pytransform3d.urdf import UrdfTransformManager
 
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR

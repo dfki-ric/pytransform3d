@@ -9,11 +9,11 @@ represented by small coordinate frames. On the right side you can see the
 positions over time.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import pytransform3d.transformations as pt
-import pytransform3d.trajectories as ptr
+import numpy as np
 
+import pytransform3d.trajectories as ptr
+import pytransform3d.transformations as pt
 
 # %%
 # We sample three random trajectories.

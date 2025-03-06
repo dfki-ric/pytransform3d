@@ -9,14 +9,15 @@ a colored mesh from a depth camera and an RGB camera.
 """
 
 import os
-import numpy as np
+
 import matplotlib.pyplot as plt
-import pytransform3d.transformations as pt
-import pytransform3d.trajectories as ptr
-import pytransform3d.rotations as pr
-import pytransform3d.camera as pc
+import numpy as np
 from cycler import cycle
 
+import pytransform3d.camera as pc
+import pytransform3d.rotations as pr
+import pytransform3d.trajectories as ptr
+import pytransform3d.transformations as pt
 
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
