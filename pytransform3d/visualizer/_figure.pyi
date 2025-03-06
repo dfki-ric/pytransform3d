@@ -1,4 +1,3 @@
-import numpy.typing as npt
 from typing import Callable, Tuple, Any, Union, List
 
 import numpy.typing as npt

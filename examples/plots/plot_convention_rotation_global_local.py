@@ -7,9 +7,10 @@ We will compare all possible combinations of passive and active
 rotations and extrinsic and intrinsic concatenation of rotations.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.mplot3d import proj3d  # noqa: F401
+
 from pytransform3d.rotations import (
     passive_matrix_from_angle,
     active_matrix_from_angle,

@@ -4,10 +4,10 @@ Sample Transforms
 =================
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-import pytransform3d.transformations as pt
+import numpy as np
 
+import pytransform3d.transformations as pt
 
 mean = pt.transform_from(R=np.eye(3), p=np.array([0.0, 0.0, 0.5]))
 cov = np.diag([0.001, 0.001, 0.5, 0.001, 0.001, 0.001])

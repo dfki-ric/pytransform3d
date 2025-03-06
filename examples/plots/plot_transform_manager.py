@@ -7,12 +7,12 @@ In this example, we will use the TransformManager to infer a transformation
 automatically.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d import rotations as pr
 from pytransform3d import transformations as pt
 from pytransform3d.transform_manager import TransformManager
-
 
 rng = np.random.default_rng(1)
 

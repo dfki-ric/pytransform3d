@@ -9,8 +9,9 @@ to finally compute the new pose of the cylinder.
 """
 
 import numpy as np
-from pytransform3d.transformations import transform_from_exponential_coordinates
+
 import pytransform3d.visualizer as pv
+from pytransform3d.transformations import transform_from_exponential_coordinates
 
 
 def spatial_inertia_of_cylinder(mass, length, radius):

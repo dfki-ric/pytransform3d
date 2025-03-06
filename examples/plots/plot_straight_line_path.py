@@ -8,15 +8,16 @@ coordinates. This is a demonstration of batch conversion from exponential
 coordinates to transformation matrices.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d.plot_utils import Trajectory, make_3d_axis, remove_frame
+from pytransform3d.rotations import active_matrix_from_angle
 from pytransform3d.trajectories import transforms_from_exponential_coordinates
 from pytransform3d.transformations import (
     exponential_coordinates_from_transform,
     transform_from,
 )
-from pytransform3d.rotations import active_matrix_from_angle
 
 
 def time_scaling(t, t_max):

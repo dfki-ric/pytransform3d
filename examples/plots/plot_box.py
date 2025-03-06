@@ -4,15 +4,15 @@ Plot Box
 ========
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d.plot_utils import (
     plot_box,
     plot_length_variable,
     remove_frame,
 )
 from pytransform3d.transformations import plot_transform
-
 
 plt.figure()
 ax = plot_box(size=[1, 1, 1], wireframe=False, alpha=0.1, color="k", ax_s=0.6)

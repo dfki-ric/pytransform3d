@@ -8,11 +8,11 @@ show the camera center, a virtual image plane at a desired distance to the
 camera center, and the top direction of the virtual image plane.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 import pytransform3d.camera as pc
 import pytransform3d.transformations as pt
-
 
 cam2world = pt.transform_from_pq([0, 0, 0, np.sqrt(0.5), -np.sqrt(0.5), 0, 0])
 # default parameters of a camera in Blender

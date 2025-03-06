@@ -5,8 +5,8 @@ Visualize Ellipsoid
 """
 
 import numpy as np
-import pytransform3d.visualizer as pv
 
+import pytransform3d.visualizer as pv
 
 fig = pv.figure()
 fig.plot_ellipsoid(radii=[0.2, 1, 0.5], c=(0.5, 0.5, 0))

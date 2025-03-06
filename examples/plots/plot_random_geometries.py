@@ -6,8 +6,9 @@ Plot Random Geometries
 Plotting of several geometric shapes is directly supported by the library.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from pytransform3d.plot_utils import (
     make_3d_axis,
     plot_box,
@@ -22,7 +23,6 @@ from pytransform3d.transformations import (
     plot_transform,
     translate_transform,
 )
-
 
 rng = np.random.default_rng(2832)
 

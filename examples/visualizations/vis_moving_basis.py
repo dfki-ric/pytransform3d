@@ -7,6 +7,7 @@ Animates a rotation about the x-axis.
 """
 
 import numpy as np
+
 import pytransform3d.visualizer as pv
 from pytransform3d import rotations as pr
 

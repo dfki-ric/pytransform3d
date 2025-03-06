@@ -7,11 +7,12 @@ Benchmarks plotting of multiple spheres at once and compares it to plotting
 each sphere individually.
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-from pytransform3d.plot_utils import plot_sphere, plot_spheres
 import time
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+from pytransform3d.plot_utils import plot_sphere, plot_spheres
 
 n_spheres = 50
 random_state = np.random.default_rng(0)

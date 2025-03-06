@@ -4,10 +4,10 @@ Plot Vector
 ===========
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
-from pytransform3d.plot_utils import plot_vector
+import numpy as np
 
+from pytransform3d.plot_utils import plot_vector
 
 plot_vector(
     # A vector is defined by start, direction, and s (scaling)

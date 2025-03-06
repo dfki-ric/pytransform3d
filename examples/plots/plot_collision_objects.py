@@ -8,8 +8,8 @@ display them.
 """
 
 import matplotlib.pyplot as plt
-from pytransform3d.urdf import UrdfTransformManager
 
+from pytransform3d.urdf import UrdfTransformManager
 
 URDF = """
 <?xml version="1.0"?>
