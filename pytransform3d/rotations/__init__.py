@@ -138,7 +138,11 @@ from ._jacobians import (
     left_jacobian_SO3_inv_series,
 )
 from ._polar_decomp import robust_polar_decomposition
-from ._plot import plot_basis, plot_axis_angle, plot_bivector
+from ._plot import (
+    plot_basis,
+    plot_axis_angle,
+    plot_bivector,
+)
 from ._euler_deprecated import (
     active_matrix_from_extrinsic_euler_xyx,
     active_matrix_from_intrinsic_euler_xyx,
