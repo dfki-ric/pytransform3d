@@ -21,6 +21,11 @@ def active_matrix_from_intrinsic_euler_xzx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, alpha)
@@ -43,6 +48,11 @@ def active_matrix_from_extrinsic_euler_xzx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, gamma)
@@ -65,6 +75,11 @@ def active_matrix_from_intrinsic_euler_xyx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, alpha)
@@ -87,6 +102,11 @@ def active_matrix_from_extrinsic_euler_xyx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, gamma)
@@ -109,6 +129,11 @@ def active_matrix_from_intrinsic_euler_yxy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, alpha)
@@ -131,6 +156,11 @@ def active_matrix_from_extrinsic_euler_yxy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, gamma)
@@ -153,6 +183,11 @@ def active_matrix_from_intrinsic_euler_yzy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, alpha)
@@ -175,6 +210,11 @@ def active_matrix_from_extrinsic_euler_yzy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, gamma)
@@ -197,6 +237,11 @@ def active_matrix_from_intrinsic_euler_zyz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, alpha)
@@ -225,6 +270,11 @@ def active_matrix_from_extrinsic_euler_zyz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, gamma)
@@ -247,6 +297,11 @@ def active_matrix_from_intrinsic_euler_zxz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, alpha)
@@ -275,6 +330,11 @@ def active_matrix_from_extrinsic_euler_zxz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, gamma)
@@ -297,6 +357,11 @@ def active_matrix_from_intrinsic_euler_xzy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, alpha)
@@ -319,6 +384,11 @@ def active_matrix_from_extrinsic_euler_xzy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, gamma)
@@ -341,6 +411,11 @@ def active_matrix_from_intrinsic_euler_xyz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, alpha)
@@ -363,6 +438,11 @@ def active_matrix_from_extrinsic_euler_xyz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, gamma)
@@ -385,6 +465,11 @@ def active_matrix_from_intrinsic_euler_yxz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, alpha)
@@ -407,6 +492,11 @@ def active_matrix_from_extrinsic_euler_yxz(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, gamma)
@@ -429,6 +519,11 @@ def active_matrix_from_intrinsic_euler_yzx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, alpha)
@@ -451,6 +546,11 @@ def active_matrix_from_extrinsic_euler_yzx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, gamma)
@@ -473,6 +573,11 @@ def active_matrix_from_intrinsic_euler_zyx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, alpha)
@@ -495,6 +600,11 @@ def active_matrix_from_extrinsic_euler_zyx(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(0, gamma)
@@ -517,6 +627,11 @@ def active_matrix_from_intrinsic_euler_zxy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(2, alpha)
@@ -539,6 +654,11 @@ def active_matrix_from_extrinsic_euler_zxy(e):
     R : array, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     alpha, beta, gamma = e
     R = (
         active_matrix_from_angle(1, gamma)
@@ -562,6 +682,11 @@ def active_matrix_from_extrinsic_roll_pitch_yaw(rpy):
     R : array-like, shape (3, 3)
         Rotation matrix
     """
+    warnings.warn(
+        "function is deprecated, use matrix_from_euler",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return active_matrix_from_extrinsic_euler_xyz(rpy)
 
 
@@ -582,6 +707,11 @@ def intrinsic_euler_xzx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, z'-, and x''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unitz, unitx, True, strict_check
     )
@@ -604,6 +734,11 @@ def extrinsic_euler_xzx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, z-, and x-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unitz, unitx, True, strict_check
     )[::-1]
@@ -626,6 +761,11 @@ def intrinsic_euler_xyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, y'-, and x''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unity, unitx, True, strict_check
     )
@@ -648,6 +788,11 @@ def extrinsic_euler_xyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, y-, and x-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unity, unitx, True, strict_check
     )[::-1]
@@ -670,6 +815,11 @@ def intrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, x'-, and y''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitx, unity, True, strict_check
     )
@@ -692,6 +842,11 @@ def extrinsic_euler_yxy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, x-, and y-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitx, unity, True, strict_check
     )[::-1]
@@ -714,6 +869,11 @@ def intrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, z'-, and y''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitz, unity, True, strict_check
     )
@@ -736,6 +896,11 @@ def extrinsic_euler_yzy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, z-, and y-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitz, unity, True, strict_check
     )[::-1]
@@ -758,6 +923,11 @@ def intrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y'-, and z''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unity, unitz, True, strict_check
     )
@@ -780,6 +950,11 @@ def extrinsic_euler_zyz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y-, and z-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unity, unitz, True, strict_check
     )[::-1]
@@ -802,6 +977,11 @@ def intrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, x'-, and z''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unitx, unitz, True, strict_check
     )
@@ -824,6 +1004,11 @@ def extrinsic_euler_zxz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, x-, and z-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unitx, unitz, True, strict_check
     )[::-1]
@@ -846,6 +1031,11 @@ def intrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, z'-, and y''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unitz, unity, False, strict_check
     )
@@ -868,6 +1058,11 @@ def extrinsic_euler_xzy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, z-, and y-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitz, unitx, False, strict_check
     )[::-1]
@@ -890,6 +1085,11 @@ def intrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, y'-, and z''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unity, unitz, False, strict_check
     )
@@ -912,6 +1112,11 @@ def extrinsic_euler_xyz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around x-, y-, and z-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unity, unitx, False, strict_check
     )[::-1]
@@ -934,6 +1139,11 @@ def intrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, x'-, and z''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitx, unitz, False, strict_check
     )
@@ -956,6 +1166,11 @@ def extrinsic_euler_yxz_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, x-, and z-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unitx, unity, False, strict_check
     )[::-1]
@@ -978,6 +1193,11 @@ def intrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, z'-, and x''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitz, unitx, False, strict_check
     )
@@ -1000,6 +1220,11 @@ def extrinsic_euler_yzx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around y-, z-, and x-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unitz, unity, False, strict_check
     )[::-1]
@@ -1022,6 +1247,11 @@ def intrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y'-, and x''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unity, unitx, False, strict_check
     )
@@ -1044,6 +1274,11 @@ def extrinsic_euler_zyx_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, y-, and x-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitx, unity, unitz, False, strict_check
     )[::-1]
@@ -1066,6 +1301,11 @@ def intrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, x'-, and y''-axes (intrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unitz, unitx, unity, False, strict_check
     )
@@ -1088,6 +1328,11 @@ def extrinsic_euler_zxy_from_active_matrix(R, strict_check=True):
     e : array, shape (3,)
         Angles for rotation around z-, x-, and y-axes (extrinsic rotations)
     """
+    warnings.warn(
+        "function is deprecated, use euler_from_matrix",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return general_intrinsic_euler_from_active_matrix(
         R, unity, unitx, unitz, False, strict_check
     )[::-1]
