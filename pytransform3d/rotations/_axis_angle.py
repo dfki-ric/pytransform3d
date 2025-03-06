@@ -1,4 +1,4 @@
-"""Conversions from axis-angle to other representations."""
+"""Axis-angle representation."""
 
 import math
 

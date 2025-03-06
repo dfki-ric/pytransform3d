@@ -1,3 +1,5 @@
+"""Batch operations for angles."""
+
 import numpy as np
 
 

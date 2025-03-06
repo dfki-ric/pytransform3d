@@ -1,3 +1,5 @@
+"""Euler angles."""
+
 import numpy as np
 
 from ._angle import active_matrices_from_angles

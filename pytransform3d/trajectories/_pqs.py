@@ -1,3 +1,5 @@
+"""Position+quaternion operations."""
+
 import numpy as np
 
 from ..batch_rotations import (

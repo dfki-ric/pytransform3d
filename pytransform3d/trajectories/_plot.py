@@ -1,3 +1,5 @@
+"""Plotting utilities."""
+
 from ._pqs import transforms_from_pqs
 
 

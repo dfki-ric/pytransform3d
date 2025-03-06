@@ -1,3 +1,5 @@
+"""Transformation matrices."""
+
 import numpy as np
 
 from pytransform3d.batch_rotations import (

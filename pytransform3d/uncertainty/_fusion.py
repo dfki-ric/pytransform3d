@@ -1,3 +1,5 @@
+"""Fusion of poses."""
+
 import numpy as np
 
 from ..transformations import (
