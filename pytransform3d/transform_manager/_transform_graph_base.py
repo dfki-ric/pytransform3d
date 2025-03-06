@@ -1,3 +1,5 @@
+"""Common base class of transformation graphs."""
+
 import abc
 
 import numpy as np

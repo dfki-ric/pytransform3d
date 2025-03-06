@@ -1,3 +1,5 @@
+"""Representations related to screw theory."""
+
 import numpy as np
 
 from ..batch_rotations import (

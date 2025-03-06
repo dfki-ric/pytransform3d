@@ -1,3 +1,5 @@
+"""Batch operations for quaternions."""
+
 import numpy as np
 
 from ._axis_angle import norm_axis_angles

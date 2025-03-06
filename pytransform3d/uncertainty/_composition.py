@@ -1,3 +1,5 @@
+"""Composition of uncertain transformations."""
+
 import numpy as np
 
 from ..transformations import (

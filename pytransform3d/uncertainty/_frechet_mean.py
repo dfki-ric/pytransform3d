@@ -1,3 +1,5 @@
+"""Frechet mean and related functions."""
+
 import numpy as np
 
 from ..batch_rotations import (

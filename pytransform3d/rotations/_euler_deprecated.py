@@ -1,3 +1,5 @@
+"""Deprecated Euler angle functions."""
+
 import warnings
 
 from ._angle import active_matrix_from_angle

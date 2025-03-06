@@ -1,3 +1,5 @@
+"""Dual quaternion operations."""
+
 import numpy as np
 
 from ._screws import (
