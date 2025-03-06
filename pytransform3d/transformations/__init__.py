@@ -55,6 +55,7 @@ from ._pq import check_pq, pq_slerp, transform_from_pq, dual_quaternion_from_pq
 from ._dual_quaternion import (
     dual_quaternion_requires_renormalization,
     norm_dual_quaternion,
+    dual_quaternion_squared_norm,
     check_dual_quaternion,
     assert_unit_dual_quaternion_equal,
     assert_unit_dual_quaternion,
@@ -136,6 +137,7 @@ __all__ = [
     "random_exponential_coordinates",
     "pq_slerp",
     "norm_dual_quaternion",
+    "dual_quaternion_squared_norm",
     "dual_quaternion_double",
     "dq_q_conj",
     "dq_conj",
