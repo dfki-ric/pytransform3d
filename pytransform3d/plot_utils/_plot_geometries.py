@@ -53,45 +53,37 @@ def plot_box(
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    corners = np.array(
-        [
-            [0, 0, 0],
-            [0, 0, 1],
-            [0, 1, 0],
-            [0, 1, 1],
-            [1, 0, 0],
-            [1, 0, 1],
-            [1, 1, 0],
-            [1, 1, 1],
-        ]
-    )
-    corners = (corners - 0.5) * size
-    corners = transform(A2B, np.hstack((corners, np.ones((len(corners), 1)))))[
-        :, :3
+    vertices = [
+        [0, 0, 0],
+        [0, 0, 1],
+        [0, 1, 0],
+        [0, 1, 1],
+        [1, 0, 0],
+        [1, 0, 1],
+        [1, 1, 0],
+        [1, 1, 1],
     ]
+    vertices = (np.array(vertices, dtype=float) - 0.5) * size
+    vertices = np.hstack((vertices, np.ones((len(vertices), 1))))
+    vertices = transform(A2B, vertices)[:, :3]
 
     if wireframe:
-        for i, j in [
-            (0, 1),
-            (0, 2),
-            (1, 3),
-            (2, 3),
-            (4, 5),
-            (4, 6),
-            (5, 7),
-            (6, 7),
-            (0, 4),
-            (1, 5),
-            (2, 6),
-            (3, 7),
-        ]:
-            ax.plot(
-                corners[[i, j], 0],
-                corners[[i, j], 1],
-                corners[[i, j], 2],
-                c=color,
-                alpha=alpha,
-            )
+        connections = [
+            [0, 1],
+            [0, 2],
+            [1, 3],
+            [2, 3],
+            [4, 5],
+            [4, 6],
+            [5, 7],
+            [6, 7],
+            [0, 4],
+            [1, 5],
+            [2, 6],
+            [3, 7],
+        ]
+        surface = Line3DCollection(vertices[connections])
+        surface.set_color(color)
     else:
         faces = [
             [0, 1, 2],
@@ -107,10 +99,10 @@ def plot_box(
             [1, 5, 7],
             [1, 3, 7],
         ]
-        p3c = Poly3DCollection(corners[faces])
-        p3c.set_alpha(alpha)
-        p3c.set_facecolor(color)
-        ax.add_collection3d(p3c)
+        surface = Poly3DCollection(vertices[faces])
+        surface.set_facecolor(color)
+    surface.set_alpha(alpha)
+    ax.add_collection3d(surface)
 
     return ax
 
