@@ -10,7 +10,7 @@ import numpy as np
 from lxml import etree
 
 from .rotations import (
-    active_matrix_from_extrinsic_roll_pitch_yaw,
+    matrix_from_euler,
     matrix_from_axis_angle,
     norm_vector,
 )
@@ -580,9 +580,7 @@ def _parse_origin(entry, strict_check):
             # For more details on how the URDF parser handles the
             # conversion from Euler angles, see this blog post:
             # https://orbitalstation.wordpress.com/tag/quaternion/
-            rotation = active_matrix_from_extrinsic_roll_pitch_yaw(
-                roll_pitch_yaw
-            )
+            rotation = matrix_from_euler(roll_pitch_yaw, 0, 1, 2, True)
     return transform_from(rotation, translation, strict_check=strict_check)
 
 
