@@ -146,7 +146,7 @@ def test_plot_box_wireframe():
     ax = make_3d_axis(1.0)
     try:
         plot_box(ax, wireframe=True)
-        assert len(ax.lines) >= 1
+        assert len(ax.collections) == 1
     finally:
         ax.remove()
 
