@@ -312,41 +312,23 @@ def plot_cylinder(
             "invalid inner radius: %g" % inner_radius
         )
 
-    axis_start = A2B.dot(np.array([0, 0, -0.5 * length, 1]))[:3]
-    axis_end = A2B.dot(np.array([0, 0, 0.5 * length, 1]))[:3]
-    axis = axis_end - axis_start
-    axis /= length
-
-    not_axis = np.array([1, 0, 0])
-    if np.allclose(axis, not_axis) or np.allclose(-axis, not_axis):
-        not_axis = np.array([0, 1, 0])
-
-    n1 = np.cross(axis, not_axis)
-    n1 /= np.linalg.norm(n1)
-    n2 = np.cross(axis, n1)
-
     if wireframe:
         t = np.linspace(0, length, n_steps)
     else:
         t = np.array([0, length])
-    theta = np.linspace(0, 2 * np.pi, n_steps)
-    t, theta = np.meshgrid(t, theta)
+    angles = np.linspace(0, 2 * np.pi, n_steps)
+    t, angles = np.meshgrid(t, angles)
 
-    X, Y, Z = [
-        axis_start[i]
-        + axis[i] * t
-        + radius * np.sin(theta) * n1[i]
-        + radius * np.cos(theta) * n2[i]
-        for i in range(3)
-    ]
+    A2B = np.asarray(A2B)
+    axis_start = np.dot(A2B, [0, 0, -0.5 * length, 1])[:3]
+    X, Y, Z = _elongated_circular_grid(axis_start, A2B, t, radius, angles)
     if thickness > 0.0:
-        X_inner, Y_inner, Z_inner = [
-            axis_end[i]
-            - axis[i] * t
-            + inner_radius * np.sin(theta) * n1[i]
-            + inner_radius * np.cos(theta) * n2[i]
-            for i in range(3)
-        ]
+        A2B_left_hand = np.copy(A2B)
+        A2B_left_hand[:3, 2] *= -1.0
+        axis_end = np.dot(A2B, [0, 0, 0.5 * length, 1])[:3]
+        X_inner, Y_inner, Z_inner = _elongated_circular_grid(
+            axis_end, A2B_left_hand, t, inner_radius, angles
+        )
         X = np.hstack((X, X_inner))
         Y = np.hstack((Y, Y_inner))
         Z = np.hstack((Z, Z_inner))
@@ -630,41 +612,35 @@ def plot_cone(
     if ax is None:
         ax = make_3d_axis(ax_s)
 
-    axis_start = A2B.dot(np.array([0, 0, 0, 1]))[:3]
-    axis_end = A2B.dot(np.array([0, 0, height, 1]))[:3]
-    axis = axis_end - axis_start
-    axis /= height
-
-    not_axis = np.array([1, 0, 0])
-    if np.allclose(axis, not_axis) or np.allclose(-axis, not_axis):
-        not_axis = np.array([0, 1, 0])
-
-    n1 = np.cross(axis, not_axis)
-    n1 /= np.linalg.norm(n1)
-    n2 = np.cross(axis, n1)
-
     if wireframe:
         t = np.linspace(0, height, n_steps)
         radii = np.linspace(radius, 0, n_steps)
     else:
         t = np.array([0, height])
         radii = np.array([radius, 0])
-    theta = np.linspace(0, 2 * np.pi, n_steps)
-    t, theta = np.meshgrid(t, theta)
+    angles = np.linspace(0, 2 * np.pi, n_steps)
+    t, angles = np.meshgrid(t, angles)
 
-    X, Y, Z = [
-        axis_start[i]
-        + axis[i] * t
-        + radii * np.sin(theta) * n1[i]
-        + radii * np.cos(theta) * n2[i]
-        for i in range(3)
-    ]
+    A2B = np.asarray(A2B)
+    X, Y, Z = _elongated_circular_grid(A2B[:3, 3], A2B, t, radii, angles)
 
     if wireframe:
         ax.plot_wireframe(
-            X, Y, Z, rstride=10, cstride=10, alpha=alpha, color=color
+            X, Y, Z, rstride=5, cstride=5, alpha=alpha, color=color
         )
     else:
         ax.plot_surface(X, Y, Z, color=color, alpha=alpha, linewidth=0)
 
     return ax
+
+
+def _elongated_circular_grid(
+    bottom_point, A2B, height_fractions, radii, angles
+):
+    return [
+        bottom_point[i]
+        + radii * np.sin(angles) * A2B[i, 0]
+        + radii * np.cos(angles) * A2B[i, 1]
+        + A2B[i, 2] * height_fractions
+        for i in range(3)
+    ]
