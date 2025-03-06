@@ -395,9 +395,6 @@ def q_prod_vector(q, v):
 def q_conj(q):
     r"""Conjugate of quaternion.
 
-    The conjugate of a unit quaternion inverts the rotation represented by
-    this unit quaternion.
-
     The conjugate of a quaternion :math:`\boldsymbol{q}` is often denoted as
     :math:`\boldsymbol{q}^*`. For a quaternion :math:`\boldsymbol{q} = w
     + x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}` it is defined as
@@ -407,10 +404,13 @@ def q_conj(q):
         \boldsymbol{q}^* = w - x \boldsymbol{i} - y \boldsymbol{j}
         - z \boldsymbol{k}.
 
+    The conjugate of a unit quaternion inverts the rotation represented by
+    this unit quaternion.
+
     Parameters
     ----------
     q : array-like, shape (4,)
-        Unit quaternion to represent rotation: (w, x, y, z)
+        Quaternion: (w, x, y, z)
 
     Returns
     -------
@@ -421,7 +421,7 @@ def q_conj(q):
     --------
     rotor_reverse : Reverse of a rotor, which is the same operation.
     """
-    q = check_quaternion(q)
+    q = check_quaternion(q, unit=False)
     return np.array([q[0], -q[1], -q[2], -q[3]])
 
 

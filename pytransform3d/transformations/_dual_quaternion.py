@@ -75,30 +75,37 @@ def check_dual_quaternion(dq, unit=True):
     return dq
 
 
+def dual_quaternion_squared_norm(dq):
+    """Compute squared norm of dual quaternion.
+
+    Parameters
+    ----------
+    dq : array-like, shape (8)
+        Dual quaternion to represent transform:
+        (pw, px, py, pz, qw, qx, qy, qz)
+
+    Returns
+    -------
+    squared_norm : array, shape (2,)
+        Squared norm of dual quaternion, which is a dual number with a real and
+        a dual part.
+    """
+    dq = np.asarray(dq)
+    prod = concatenate_dual_quaternions(
+        dq, dq_q_conj(dq, unit=False), unit=False
+    )
+    return prod[[0, 4]]
+
+
 def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
     r"""Check if dual quaternion requires renormalization.
 
     Dual quaternions that represent transformations in 3D should have unit
-    norm. Since the real and the dual quaternion are orthogonal, their dot
-    product should be 0. In addition, :math:`\epsilon^2 = 0`. Hence,
+    norm (:math:`1 + 0 \epsilon`), that is the real quaternion must have unit
+    norm and the real and the dual quaternion must be orthogonal (their dot
+    product should be 0).
 
-    .. math::
-
-        ||\boldsymbol{p} + \epsilon \boldsymbol{q}||
-        =
-        \sqrt{(\boldsymbol{p} + \epsilon \boldsymbol{q}) \cdot
-        (\boldsymbol{p} + \epsilon \boldsymbol{q})}
-        =
-        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}
-        + 2\epsilon \boldsymbol{p}\cdot\boldsymbol{q}
-        + \epsilon^2 \boldsymbol{q}\cdot\boldsymbol{q}}
-        =
-        \sqrt{\boldsymbol{p}\cdot\boldsymbol{p}},
-
-    i.e., the norm only depends on the real quaternion.
-
-    This function checks unit norm and orthogonality of the real and dual
-    part.
+    This function checks unit norm and orthogonality of the real and dual part.
 
     Parameters
     ----------
@@ -127,11 +134,11 @@ def dual_quaternion_requires_renormalization(dq, tolerance=1e-6):
     assert_unit_dual_quaternion
         Checks unit norm and orthogonality of real and dual quaternion.
     """
-    real = dq[:4]
-    dual = dq[4:]
-    real_norm = np.linalg.norm(real)
-    real_dual_dot = np.dot(real, dual)
-    return abs(real_norm - 1.0) > tolerance or abs(real_dual_dot) > tolerance
+    squared_norm = dual_quaternion_squared_norm(dq)
+    return (
+        abs(squared_norm[0] - 1.0) > tolerance
+        or abs(squared_norm[1]) > tolerance
+    )
 
 
 def norm_dual_quaternion(dq):
@@ -169,30 +176,12 @@ def norm_dual_quaternion(dq):
     .. [1] enki (2023). Properly normalizing a dual quaternion.
        https://stackoverflow.com/a/76313524
     """
-    dq = check_dual_quaternion(dq, unit=False)
-    dq_prod = concatenate_dual_quaternions(dq, dq_q_conj(dq), unit=False)
-
-    prod_real = dq_prod[:4]
-    prod_dual = dq_prod[4:]
-
-    real = np.copy(dq[:4])
+    # 1. ensure unit norm of real quaternion
+    dq = check_dual_quaternion(dq, unit=True)
+    # 2. ensure orthogonality of real and dual quaternion
+    real = dq[:4]
     dual = dq[4:]
-
-    prod_real_norm = np.linalg.norm(prod_real)
-    if prod_real_norm == 0.0:
-        real = np.array([1.0, 0.0, 0.0, 0.0])
-        prod_real_norm = 1.0
-        valid_dq = np.hstack((real, dual))
-        prod_dual = concatenate_dual_quaternions(
-            valid_dq, dq_q_conj(valid_dq), unit=False
-        )[4:]
-
-    real_inv_sqrt = 1.0 / prod_real_norm
-    dual_inv_sqrt = -0.5 * prod_dual * real_inv_sqrt**3
-
-    real = real_inv_sqrt * real
-    dual = real_inv_sqrt * dual + concatenate_quaternions(dual_inv_sqrt, real)
-
+    dual = dual - np.dot(real, dual) * real
     return np.hstack((real, dual))
 
 
@@ -229,14 +218,9 @@ def assert_unit_dual_quaternion(dq, *args, **kwargs):
         Normalization that enforces unit norm and orthogonality of the real and
         dual quaternion.
     """
-    real = dq[:4]
-    dual = dq[4:]
-
-    real_norm = np.linalg.norm(real)
-    assert_array_almost_equal(real_norm, 1.0, *args, **kwargs)
-
-    real_dual_dot = np.dot(real, dual)
-    assert_array_almost_equal(real_dual_dot, 0.0, *args, **kwargs)
+    real_sq_norm, dual_sq_norm = dual_quaternion_squared_norm(dq)
+    assert_array_almost_equal(real_sq_norm, 1.0, *args, **kwargs)
+    assert_array_almost_equal(dual_sq_norm, 0.0, *args, **kwargs)
 
     # The two previous checks are consequences of the unit norm requirement.
     # The norm of a dual quaternion is defined as the product of a dual
@@ -307,7 +291,7 @@ def dual_quaternion_double(dq):
     return -check_dual_quaternion(dq, unit=True)
 
 
-def dq_conj(dq):
+def dq_conj(dq, unit=True):
     """Conjugate of dual quaternion.
 
     There are three different conjugates for dual quaternions. The one that we
@@ -321,6 +305,12 @@ def dq_conj(dq):
         Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
+    unit : bool, optional (default: True)
+        Normalize the dual quaternion so that it is a unit dual quaternion.
+        A unit dual quaternion has the properties
+        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
+        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
+
     Returns
     -------
     dq_conjugate : array, shape (8,)
@@ -331,11 +321,11 @@ def dq_conj(dq):
     dq_q_conj
         Quaternion conjugate of dual quaternion.
     """
-    dq = check_dual_quaternion(dq)
+    dq = check_dual_quaternion(dq, unit=unit)
     return np.r_[dq[0], -dq[1:5], dq[5:]]
 
 
-def dq_q_conj(dq):
+def dq_q_conj(dq, unit=True):
     """Quaternion conjugate of dual quaternion.
 
     For unit dual quaternions that represent transformations, this function
@@ -352,6 +342,12 @@ def dq_q_conj(dq):
         Unit dual quaternion to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
+    unit : bool, optional (default: True)
+        Normalize the dual quaternion so that it is a unit dual quaternion.
+        A unit dual quaternion has the properties
+        :math:`p_w^2 + p_x^2 + p_y^2 + p_z^2 = 1` and
+        :math:`p_w q_w + p_x q_x + p_y q_y + p_z q_z = 0`.
+
     Returns
     -------
     dq_q_conjugate : array, shape (8,)
@@ -362,7 +358,7 @@ def dq_q_conj(dq):
     dq_conj
         Conjugate of a dual quaternion.
     """
-    dq = check_dual_quaternion(dq)
+    dq = check_dual_quaternion(dq, unit=unit)
     return np.r_[dq[0], -dq[1:4], dq[4], -dq[5:]]
 
 

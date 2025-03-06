@@ -40,18 +40,27 @@ def test_check_dual_quaternion():
 
 def test_normalize_dual_quaternion():
     dq = [1, 0, 0, 0, 0, 0, 0, 0]
+    norm = pt.dual_quaternion_squared_norm(dq)
+    assert_array_almost_equal(norm, [1, 0])
+    assert not pt.dual_quaternion_requires_renormalization(dq)
     dq_norm = pt.check_dual_quaternion(dq)
     pt.assert_unit_dual_quaternion(dq_norm)
     assert_array_almost_equal(dq, dq_norm)
     assert_array_almost_equal(dq, pt.norm_dual_quaternion(dq))
 
     dq = [0, 0, 0, 0, 0, 0, 0, 0]
+    norm = pt.dual_quaternion_squared_norm(dq)
+    assert_array_almost_equal(norm, [0, 0])
+    assert pt.dual_quaternion_requires_renormalization(dq)
     dq_norm = pt.check_dual_quaternion(dq)
     pt.assert_unit_dual_quaternion(dq_norm)
     assert_array_almost_equal([1, 0, 0, 0, 0, 0, 0, 0], dq_norm)
     assert_array_almost_equal(dq_norm, pt.norm_dual_quaternion(dq))
 
     dq = [0, 0, 0, 0, 0.3, 0.5, 0, 0.2]
+    norm = pt.dual_quaternion_squared_norm(dq)
+    assert_array_almost_equal(norm, [0, 0])
+    assert pt.dual_quaternion_requires_renormalization(dq)
     dq_norm = pt.check_dual_quaternion(dq)
     assert pt.dual_quaternion_requires_renormalization(dq_norm)
     assert_array_almost_equal([1, 0, 0, 0, 0.3, 0.5, 0, 0.2], dq_norm)
@@ -60,7 +69,7 @@ def test_normalize_dual_quaternion():
     )
 
     rng = np.random.default_rng(999)
-    for _ in range(5):  # norm != 1
+    for _ in range(5):  # real norm != 1
         A2B = pt.random_transform(rng)
         dq = rng.standard_normal() * pt.dual_quaternion_from_transform(A2B)
         dq_norm = pt.check_dual_quaternion(dq)
@@ -75,8 +84,20 @@ def test_normalize_dual_quaternion():
         assert pt.dual_quaternion_requires_renormalization(dq_roundoff_error)
         dq_norm = pt.norm_dual_quaternion(dq_roundoff_error)
         pt.assert_unit_dual_quaternion(dq_norm)
+        assert_array_almost_equal(
+            pt.dual_quaternion_squared_norm(dq_norm), [1, 0]
+        )
         assert not pt.dual_quaternion_requires_renormalization(dq_norm)
         assert_array_almost_equal(dq, dq_norm, decimal=3)
+
+    for _ in range(50):
+        dq = rng.standard_normal(size=8)
+        dq_norm = pt.norm_dual_quaternion(dq)
+        assert_array_almost_equal(
+            pt.dual_quaternion_squared_norm(dq_norm), [1, 0]
+        )
+        assert not pt.dual_quaternion_requires_renormalization(dq_norm)
+        pt.assert_unit_dual_quaternion(dq_norm)
 
 
 def test_dual_quaternion_double():
