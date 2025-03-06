@@ -1214,3 +1214,35 @@ def test_serialization():
     finally:
         if os.path.exists(filename):
             os.remove(filename)
+
+
+def test_rotation_matrix_conversion():
+    urdf = """
+    <?xml version="1.0"?>
+    <robot name="mmm">
+        <link name="parent"/>
+        <link name="child"/>
+
+        <joint name="joint0" type="revolute">
+            <origin xyz="1.3 -0.5 1.3" rpy="0.52132 -0.2313232 1.3231535"/>
+            <parent link="parent"/>
+            <child link="child"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+    </robot>
+    """
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf)
+
+    parent2child = tm.get_transform("parent", "child")
+    assert_array_almost_equal(
+        parent2child,
+        np.array(
+            [
+                [0.23859, 0.943669, 0.229266, -0.136378],
+                [-0.868696, 0.101862, 0.48476, 0.550047],
+                [0.4341, -0.314821, 0.844065, -1.819024],
+                [0, 0, 0, 1],
+            ]
+        ),
+    )
