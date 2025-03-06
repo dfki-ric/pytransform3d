@@ -4,7 +4,7 @@ import numpy as np
 
 from ._axis_angle import check_axis_angle, matrix_from_compact_axis_angle
 from ._matrix import compact_axis_angle_from_matrix
-from ._quaternions import check_quaternion, pick_closest_quaternion_impl
+from ._quaternion import check_quaternion, pick_closest_quaternion_impl
 from ._rotors import check_rotor
 from ._utils import angle_between_vectors
 
