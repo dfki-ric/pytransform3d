@@ -1,9 +1,9 @@
 import typing
+from typing import List, Union, Any, Dict
 
-import numpy as np
 import numpy.typing as npt
 import open3d as o3d
-from typing import List, Union, Any, Dict
+
 from ..transform_manager import TransformManager
 
 if typing.TYPE_CHECKING:

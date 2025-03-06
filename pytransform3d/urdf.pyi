@@ -1,8 +1,10 @@
 from typing import Dict, Tuple, List, Union, Type, Hashable
+
 import numpy as np
 import numpy.typing as npt
-from mpl_toolkits.mplot3d import Axes3D
 from lxml.etree import _Element as Element
+from mpl_toolkits.mplot3d import Axes3D
+
 from .transform_manager import TransformManager
 
 class UrdfTransformManager(TransformManager):

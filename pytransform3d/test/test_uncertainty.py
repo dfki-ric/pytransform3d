@@ -1,9 +1,10 @@
 import numpy as np
+import pytest
+from numpy.testing import assert_array_almost_equal
+
 import pytransform3d.rotations as pr
 import pytransform3d.transformations as pt
 import pytransform3d.uncertainty as pu
-from numpy.testing import assert_array_almost_equal
-import pytest
 
 
 def test_estimate_gaussian_rotation_matrix_from_samples():

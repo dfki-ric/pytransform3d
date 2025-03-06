@@ -1,8 +1,9 @@
-import numpy as np
+import numpy.typing as npt
+from typing import Callable, Tuple, Any, Union, List
+
 import numpy.typing as npt
 import open3d as o3d
-from typing import Callable, Tuple, Any, Union, List
-from ..transform_manager import TransformManager
+
 from ._artists import (
     Artist,
     Frame,
@@ -18,6 +19,7 @@ from ._artists import (
     Graph,
     Camera,
 )
+from ..transform_manager import TransformManager
 
 class Figure:
     def __init__(

@@ -1,6 +1,7 @@
 import numpy as np
-import pytransform3d.coordinates as pc
 from numpy.testing import assert_array_almost_equal
+
+import pytransform3d.coordinates as pc
 
 
 def test_cylindrical_from_cartesian_edge_cases():

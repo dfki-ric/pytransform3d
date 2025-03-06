@@ -2,10 +2,8 @@ import abc
 
 import numpy as np
 
-from ..batch_rotations import norm_vectors
-
 from ._transform_graph_base import TransformGraphBase
-from ..transformations import check_transform
+from ..batch_rotations import norm_vectors
 from ..trajectories import (
     dual_quaternions_from_pqs,
     pqs_from_dual_quaternions,
@@ -14,6 +12,7 @@ from ..trajectories import (
     concat_dynamic,
     invert_transforms,
 )
+from ..transformations import check_transform
 
 
 class TimeVaryingTransform(abc.ABC):

@@ -1,9 +1,9 @@
 import numpy as np
-
-from pytransform3d import rotations as pr
-from pytransform3d import batch_rotations as pbr
-from numpy.testing import assert_array_almost_equal
 import pytest
+from numpy.testing import assert_array_almost_equal
+
+from pytransform3d import batch_rotations as pbr
+from pytransform3d import rotations as pr
 
 
 def test_norm_vectors_0dims():

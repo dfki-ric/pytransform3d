@@ -1,6 +1,4 @@
-from ._pqs import (
-    transforms_from_pqs,
-)
+from ._pqs import transforms_from_pqs
 
 
 def plot_trajectory(
