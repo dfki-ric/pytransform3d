@@ -29,7 +29,7 @@ axis and the initial and resulting coordinate frame, where the vector 'b'
 and its corresponding frame after the rotation are represented by shorter
 lines.
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-32
+.. GENERATED FROM PYTHON SOURCE LINES 13-36
 
 
 
@@ -44,13 +44,17 @@ lines.
 
 .. code-block:: Python
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from pytransform3d.rotations import (
-        axis_angle_from_two_directions, matrix_from_axis_angle, plot_axis_angle,
-        plot_basis)
-    from pytransform3d.plot_utils import make_3d_axis, plot_vector
 
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    from pytransform3d.plot_utils import make_3d_axis, plot_vector
+    from pytransform3d.rotations import (
+        axis_angle_from_two_directions,
+        matrix_from_axis_angle,
+        plot_axis_angle,
+        plot_basis,
+    )
 
     a = np.array([1.0, 0.0, 0.0])
     b = np.array([0.76958075, -0.49039301, -0.40897453])
@@ -67,7 +71,7 @@ lines.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.067 seconds)
+   **Total running time of the script:** (0 minutes 0.065 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_axis_angle_from_two_vectors.py:

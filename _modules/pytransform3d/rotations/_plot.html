@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._plot &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>pytransform3d.rotations._plot &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_plot';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -357,18 +357,22 @@ document.write(`
                   
   <h1>Source code for pytransform3d.rotations._plot</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Plotting functions.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">check_matrix</span><span class="p">,</span> <span class="n">check_axis_angle</span><span class="p">,</span>
-                     <span class="n">perpendicular_to_vectors</span><span class="p">,</span> <span class="n">angle_between_vectors</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">._rotors</span> <span class="kn">import</span> <span class="n">wedge</span><span class="p">,</span> <span class="n">plane_normal_from_bivector</span>
+
+<span class="kn">from</span> <span class="nn">._axis_angle</span> <span class="kn">import</span> <span class="n">check_axis_angle</span>
 <span class="kn">from</span> <span class="nn">._constants</span> <span class="kn">import</span> <span class="n">a_id</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span>
+<span class="kn">from</span> <span class="nn">._matrix</span> <span class="kn">import</span> <span class="n">check_matrix</span>
+<span class="kn">from</span> <span class="nn">._rotors</span> <span class="kn">import</span> <span class="n">wedge</span><span class="p">,</span> <span class="n">plane_normal_from_bivector</span>
 <span class="kn">from</span> <span class="nn">._slerp</span> <span class="kn">import</span> <span class="n">slerp_weights</span>
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">perpendicular_to_vectors</span><span class="p">,</span> <span class="n">angle_between_vectors</span>
 
 
 <div class="viewcode-block" id="plot_basis">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.plot_basis.html#pytransform3d.rotations.plot_basis">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-               <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_basis</span><span class="p">(</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot basis of a rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -401,6 +405,7 @@ document.write(`
 <span class="sd">        New or old axis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">..plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span><span class="p">,</span> <span class="n">Frame</span>
+
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
@@ -450,23 +455,38 @@ document.write(`
 <span class="sd">        New or old axis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">..plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span><span class="p">,</span> <span class="n">Arrow3D</span>
+
     <span class="n">a</span> <span class="o">=</span> <span class="n">check_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Arrow3D</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-        <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-        <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
-        <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span>
+        <span class="n">Arrow3D</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+            <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">arc</span> <span class="o">=</span> <span class="n">_arc_axis_angle</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">arc</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">arc</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">arc</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">arrow_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">20</span> <span class="o">*</span> <span class="p">(</span><span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">])))</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">Arrow3D</span><span class="p">(</span>
-        <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-        <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span>
+        <span class="n">Arrow3D</span><span class="p">(</span>
+            <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
         <span class="n">arc_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">p</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">s</span> <span class="o">*</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">arc</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
@@ -495,8 +515,11 @@ document.write(`
 <span class="sd">    arc : array, shape (100, 3)</span>
 <span class="sd">        Coordinates of arc</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="n">unitx</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="k">else</span>
-          <span class="n">perpendicular_to_vectors</span><span class="p">(</span><span class="n">unity</span><span class="p">,</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">unitx</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+        <span class="k">else</span> <span class="n">perpendicular_to_vectors</span><span class="p">(</span><span class="n">unity</span><span class="p">,</span> <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+    <span class="p">)</span>
     <span class="n">p2</span> <span class="o">=</span> <span class="n">perpendicular_to_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">p1</span><span class="p">)</span>
     <span class="n">angle_p1p2</span> <span class="o">=</span> <span class="n">angle_between_vectors</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
     <span class="n">arc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -539,6 +562,7 @@ document.write(`
 <span class="sd">        New or old axis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">..plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span><span class="p">,</span> <span class="n">Arrow3D</span><span class="p">,</span> <span class="n">plot_vector</span>
+
     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
@@ -557,8 +581,14 @@ document.write(`
 
     <span class="n">arrow_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">],</span> <span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">arc</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">])))</span><span class="o">.</span><span class="n">T</span>
     <span class="n">angle_arrow</span> <span class="o">=</span> <span class="n">Arrow3D</span><span class="p">(</span>
-        <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-        <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+        <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">arrow_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">angle_arrow</span><span class="p">)</span>
 
     <span class="n">plot_vector</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">normal</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
@@ -619,6 +649,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">..plot_utils</span> <span class="kn">import</span> <span class="n">plot_vector</span>
     <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d.art3d</span> <span class="kn">import</span> <span class="n">Poly3DCollection</span>
+
     <span class="n">plot_vector</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">plot_vector</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">verts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>

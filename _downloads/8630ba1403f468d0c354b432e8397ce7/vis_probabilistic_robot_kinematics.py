@@ -7,15 +7,18 @@ We compute the probabilistic forward kinematics of a robot with flexible
 links or joints and visualize the projected equiprobably ellipsoid of the
 end-effector's pose distribution.
 """
+
 import os
+
 import numpy as np
-from matplotlib import cbook
 import open3d as o3d
-from pytransform3d.urdf import UrdfTransformManager
-import pytransform3d.transformations as pt
+from matplotlib import cbook
+
 import pytransform3d.trajectories as ptr
+import pytransform3d.transformations as pt
 import pytransform3d.uncertainty as pu
 import pytransform3d.visualizer as pv
+from pytransform3d.urdf import UrdfTransformManager
 
 
 # %%
@@ -71,15 +74,24 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         package in which these files (textures, meshes) are located. This
         variable defines to which path this prefix will be resolved.
     """
-    def __init__(self, robot_urdf, ee_frame, base_frame, joint_names,
-                 mesh_path=None, package_dir=None):
+
+    def __init__(
+        self,
+        robot_urdf,
+        ee_frame,
+        base_frame,
+        joint_names,
+        mesh_path=None,
+        package_dir=None,
+    ):
         super(ProbabilisticRobotKinematics, self).__init__(check=False)
-        self.load_urdf(robot_urdf, mesh_path=mesh_path,
-                       package_dir=package_dir)
-        self.ee2base_home, self.screw_axes_home = \
-            self._get_screw_axes(ee_frame, base_frame, joint_names)
-        self.joint_limits = np.array([
-            self.get_joint_limits(jn) for jn in joint_names])
+        self.load_urdf(robot_urdf, mesh_path=mesh_path, package_dir=package_dir)
+        self.ee2base_home, self.screw_axes_home = self._get_screw_axes(
+            ee_frame, base_frame, joint_names
+        )
+        self.joint_limits = np.array(
+            [self.get_joint_limits(jn) for jn in joint_names]
+        )
 
     def _get_screw_axes(self, ee_frame, base_frame, joint_names):
         """Get screw axes of joints in space frame at robot's home position.
@@ -119,7 +131,8 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
                 h = np.inf
             else:
                 raise NotImplementedError(
-                    "Joint type %s not supported." % joint_type)
+                    "Joint type %s not supported." % joint_type
+                )
 
             screw_axis = pt.screw_axis_from_screw_parameters(q, s_axis, h)
             screw_axes_home.append(screw_axis)
@@ -150,17 +163,20 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
         """
         assert len(thetas) == self.screw_axes_home.shape[0]
         thetas = np.clip(
-            thetas, self.joint_limits[:, 0], self.joint_limits[:, 1])
+            thetas, self.joint_limits[:, 0], self.joint_limits[:, 1]
+        )
 
         Sthetas = self.screw_axes_home * thetas[:, np.newaxis]
         joint_displacements = ptr.transforms_from_exponential_coordinates(
-            Sthetas)
+            Sthetas
+        )
 
         T = np.eye(4)
         cov = np.zeros((6, 6))
         for i in range(len(thetas)):
             T, cov = pu.concat_locally_uncertain_transforms(
-                joint_displacements[i], T, covs[i], cov)
+                joint_displacements[i], T, covs[i], cov
+            )
 
         T = T.dot(self.ee2base_home)
         ad = pt.adjoint_from_transform(self.ee2base_home)
@@ -192,6 +208,7 @@ class Surface(pv.Artist):
     c : array-like, shape (3,), optional (default: None)
         Color
     """
+
     def __init__(self, x, y, z, c=None):
         self.c = c
         self.mesh = o3d.geometry.TriangleMesh()
@@ -211,14 +228,15 @@ class Surface(pv.Artist):
         z : array, shape (n_steps, n_steps)
             Coordinates on z-axis of grid on surface.
         """
-        polys = np.stack([cbook._array_patch_perimeters(a, 1, 1)
-                          for a in (x, y, z)], axis=-1)
+        polys = np.stack(
+            [cbook._array_patch_perimeters(a, 1, 1) for a in (x, y, z)], axis=-1
+        )
         vertices = polys.reshape(-1, 3)
         triangles = (
-            [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))] +
-            [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))] +
-            [[4 * i + 0, 4 * i + 3, 4 * i + 2] for i in range(len(polys))] +
-            [[4 * i + 2, 4 * i + 1, 4 * i + 0] for i in range(len(polys))]
+            [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))]
+            + [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))]
+            + [[4 * i + 0, 4 * i + 3, 4 * i + 2] for i in range(len(polys))]
+            + [[4 * i + 2, 4 * i + 1, 4 * i + 0] for i in range(len(polys))]
         )
         self.mesh.vertices = o3d.utility.Vector3dVector(vertices)
         self.mesh.triangles = o3d.utility.Vector3iVector(triangles)
@@ -241,7 +259,8 @@ class Surface(pv.Artist):
 # %%
 # Then we define a callback to animate the visualization.
 def animation_callback(
-        step, n_frames, tm, graph, joint_names, thetas, covs, surface):
+    step, n_frames, tm, graph, joint_names, thetas, covs, surface
+):
     angle = 0.5 * np.cos(2.0 * np.pi * (0.5 + step / n_frames))
     thetas_t = angle * thetas
     for joint_name, value in zip(joint_names, thetas_t):
@@ -262,8 +281,10 @@ def animation_callback(
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
-while (not os.path.exists(data_dir) and
-       os.path.dirname(search_path) != "pytransform3d"):
+while (
+    not os.path.exists(data_dir)
+    and os.path.dirname(search_path) != "pytransform3d"
+):
     search_path = os.path.join(search_path, "..")
     data_dir = os.path.join(search_path, BASE_DIR)
 filename = os.path.join(data_dir, "robot_with_visuals.urdf")
@@ -274,7 +295,8 @@ with open(filename, "r") as f:
 # define the kinematic chain that we are interested in,
 joint_names = ["joint%d" % i for i in range(1, 7)]
 tm = ProbabilisticRobotKinematics(
-    robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
+    robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir
+)
 
 # %%
 # define the joint angles,
@@ -314,9 +336,12 @@ surface.add_artist(fig)
 fig.view_init(elev=5, azim=50)
 n_frames = 200
 if "__file__" in globals():
-    fig.animate(animation_callback, n_frames, loop=True,
-                fargs=(n_frames, tm, graph, joint_names, thetas, covs,
-                       surface))
+    fig.animate(
+        animation_callback,
+        n_frames,
+        loop=True,
+        fargs=(n_frames, tm, graph, joint_names, thetas, covs, surface),
+    )
     fig.show()
 else:
     fig.save_image("__open3d_rendered_image.jpg")

@@ -26,19 +26,22 @@ We compute the probabilistic forward kinematics of a robot with flexible
 links or joints and visualize the projected equiprobably ellipsoid of the
 end-effector's pose distribution.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-21
+.. GENERATED FROM PYTHON SOURCE LINES 10-24
 
 .. code-block:: Python
 
+
     import os
+
     import numpy as np
-    from matplotlib import cbook
     import open3d as o3d
-    from pytransform3d.urdf import UrdfTransformManager
-    import pytransform3d.transformations as pt
+    from matplotlib import cbook
+
     import pytransform3d.trajectories as ptr
+    import pytransform3d.transformations as pt
     import pytransform3d.uncertainty as pu
     import pytransform3d.visualizer as pv
+    from pytransform3d.urdf import UrdfTransformManager
 
 
 
@@ -48,7 +51,7 @@ end-effector's pose distribution.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-47
+.. GENERATED FROM PYTHON SOURCE LINES 25-50
 
 Probabilistic Robot Kinematics
 ------------------------------
@@ -76,7 +79,7 @@ product of exponentials is straightforward:
 3. The PPOE modifies the original product of exponentials by transforming
    and concatenating the covariances of each transformation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-172
+.. GENERATED FROM PYTHON SOURCE LINES 50-188
 
 .. code-block:: Python
 
@@ -107,15 +110,24 @@ product of exponentials is straightforward:
             package in which these files (textures, meshes) are located. This
             variable defines to which path this prefix will be resolved.
         """
-        def __init__(self, robot_urdf, ee_frame, base_frame, joint_names,
-                     mesh_path=None, package_dir=None):
+
+        def __init__(
+            self,
+            robot_urdf,
+            ee_frame,
+            base_frame,
+            joint_names,
+            mesh_path=None,
+            package_dir=None,
+        ):
             super(ProbabilisticRobotKinematics, self).__init__(check=False)
-            self.load_urdf(robot_urdf, mesh_path=mesh_path,
-                           package_dir=package_dir)
-            self.ee2base_home, self.screw_axes_home = \
-                self._get_screw_axes(ee_frame, base_frame, joint_names)
-            self.joint_limits = np.array([
-                self.get_joint_limits(jn) for jn in joint_names])
+            self.load_urdf(robot_urdf, mesh_path=mesh_path, package_dir=package_dir)
+            self.ee2base_home, self.screw_axes_home = self._get_screw_axes(
+                ee_frame, base_frame, joint_names
+            )
+            self.joint_limits = np.array(
+                [self.get_joint_limits(jn) for jn in joint_names]
+            )
 
         def _get_screw_axes(self, ee_frame, base_frame, joint_names):
             """Get screw axes of joints in space frame at robot's home position.
@@ -155,7 +167,8 @@ product of exponentials is straightforward:
                     h = np.inf
                 else:
                     raise NotImplementedError(
-                        "Joint type %s not supported." % joint_type)
+                        "Joint type %s not supported." % joint_type
+                    )
 
                 screw_axis = pt.screw_axis_from_screw_parameters(q, s_axis, h)
                 screw_axes_home.append(screw_axis)
@@ -186,17 +199,20 @@ product of exponentials is straightforward:
             """
             assert len(thetas) == self.screw_axes_home.shape[0]
             thetas = np.clip(
-                thetas, self.joint_limits[:, 0], self.joint_limits[:, 1])
+                thetas, self.joint_limits[:, 0], self.joint_limits[:, 1]
+            )
 
             Sthetas = self.screw_axes_home * thetas[:, np.newaxis]
             joint_displacements = ptr.transforms_from_exponential_coordinates(
-                Sthetas)
+                Sthetas
+            )
 
             T = np.eye(4)
             cov = np.zeros((6, 6))
             for i in range(len(thetas)):
                 T, cov = pu.concat_locally_uncertain_transforms(
-                    joint_displacements[i], T, covs[i], cov)
+                    joint_displacements[i], T, covs[i], cov
+                )
 
             T = T.dot(self.ee2base_home)
             ad = pt.adjoint_from_transform(self.ee2base_home)
@@ -212,7 +228,7 @@ product of exponentials is straightforward:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 173-178
+.. GENERATED FROM PYTHON SOURCE LINES 189-194
 
 Mesh Visualization
 ------------------
@@ -220,7 +236,7 @@ To visualize the 6D covariance in the tangent space of SE(3), we project its
 equiprobable hyper-ellipsoid to 3D and represent it as a mesh. We can then
 visualize the mesh with this class.
 
-.. GENERATED FROM PYTHON SOURCE LINES 178-241
+.. GENERATED FROM PYTHON SOURCE LINES 194-259
 
 .. code-block:: Python
 
@@ -241,6 +257,7 @@ visualize the mesh with this class.
         c : array-like, shape (3,), optional (default: None)
             Color
         """
+
         def __init__(self, x, y, z, c=None):
             self.c = c
             self.mesh = o3d.geometry.TriangleMesh()
@@ -260,14 +277,15 @@ visualize the mesh with this class.
             z : array, shape (n_steps, n_steps)
                 Coordinates on z-axis of grid on surface.
             """
-            polys = np.stack([cbook._array_patch_perimeters(a, 1, 1)
-                              for a in (x, y, z)], axis=-1)
+            polys = np.stack(
+                [cbook._array_patch_perimeters(a, 1, 1) for a in (x, y, z)], axis=-1
+            )
             vertices = polys.reshape(-1, 3)
             triangles = (
-                [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))] +
-                [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))] +
-                [[4 * i + 0, 4 * i + 3, 4 * i + 2] for i in range(len(polys))] +
-                [[4 * i + 2, 4 * i + 1, 4 * i + 0] for i in range(len(polys))]
+                [[4 * i + 0, 4 * i + 1, 4 * i + 2] for i in range(len(polys))]
+                + [[4 * i + 2, 4 * i + 3, 4 * i + 0] for i in range(len(polys))]
+                + [[4 * i + 0, 4 * i + 3, 4 * i + 2] for i in range(len(polys))]
+                + [[4 * i + 2, 4 * i + 1, 4 * i + 0] for i in range(len(polys))]
             )
             self.mesh.vertices = o3d.utility.Vector3dVector(vertices)
             self.mesh.triangles = o3d.utility.Vector3iVector(triangles)
@@ -294,16 +312,17 @@ visualize the mesh with this class.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 242-243
+.. GENERATED FROM PYTHON SOURCE LINES 260-261
 
 Then we define a callback to animate the visualization.
 
-.. GENERATED FROM PYTHON SOURCE LINES 243-258
+.. GENERATED FROM PYTHON SOURCE LINES 261-277
 
 .. code-block:: Python
 
     def animation_callback(
-            step, n_frames, tm, graph, joint_names, thetas, covs, surface):
+        step, n_frames, tm, graph, joint_names, thetas, covs, surface
+    ):
         angle = 0.5 * np.cos(2.0 * np.pi * (0.5 + step / n_frames))
         thetas_t = angle * thetas
         for joint_name, value in zip(joint_names, thetas_t):
@@ -324,21 +343,23 @@ Then we define a callback to animate the visualization.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 259-262
+.. GENERATED FROM PYTHON SOURCE LINES 278-281
 
 Setup
 -----
 We load the URDF file,
 
-.. GENERATED FROM PYTHON SOURCE LINES 262-273
+.. GENERATED FROM PYTHON SOURCE LINES 281-294
 
 .. code-block:: Python
 
     BASE_DIR = "test/test_data/"
     data_dir = BASE_DIR
     search_path = "."
-    while (not os.path.exists(data_dir) and
-           os.path.dirname(search_path) != "pytransform3d"):
+    while (
+        not os.path.exists(data_dir)
+        and os.path.dirname(search_path) != "pytransform3d"
+    ):
         search_path = os.path.join(search_path, "..")
         data_dir = os.path.join(search_path, BASE_DIR)
     filename = os.path.join(data_dir, "robot_with_visuals.urdf")
@@ -352,17 +373,18 @@ We load the URDF file,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 274-275
+.. GENERATED FROM PYTHON SOURCE LINES 295-296
 
 define the kinematic chain that we are interested in,
 
-.. GENERATED FROM PYTHON SOURCE LINES 275-279
+.. GENERATED FROM PYTHON SOURCE LINES 296-301
 
 .. code-block:: Python
 
     joint_names = ["joint%d" % i for i in range(1, 7)]
     tm = ProbabilisticRobotKinematics(
-        robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir)
+        robot_urdf, "tcp", "linkmount", joint_names, mesh_path=data_dir
+    )
 
 
 
@@ -371,11 +393,11 @@ define the kinematic chain that we are interested in,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 280-281
+.. GENERATED FROM PYTHON SOURCE LINES 302-303
 
 define the joint angles,
 
-.. GENERATED FROM PYTHON SOURCE LINES 281-286
+.. GENERATED FROM PYTHON SOURCE LINES 303-308
 
 .. code-block:: Python
 
@@ -391,11 +413,11 @@ define the joint angles,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 287-288
+.. GENERATED FROM PYTHON SOURCE LINES 309-310
 
 and define the covariances of the joints.
 
-.. GENERATED FROM PYTHON SOURCE LINES 288-295
+.. GENERATED FROM PYTHON SOURCE LINES 310-317
 
 .. code-block:: Python
 
@@ -413,7 +435,7 @@ and define the covariances of the joints.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 296-301
+.. GENERATED FROM PYTHON SOURCE LINES 318-323
 
 PPOE and Visualization
 ----------------------
@@ -421,7 +443,7 @@ PPOE and Visualization
 Then we can finally use PPOE to compute the end-effector pose and its
 covariance.
 
-.. GENERATED FROM PYTHON SOURCE LINES 301-303
+.. GENERATED FROM PYTHON SOURCE LINES 323-325
 
 .. code-block:: Python
 
@@ -434,11 +456,11 @@ covariance.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 304-305
+.. GENERATED FROM PYTHON SOURCE LINES 326-327
 
 We compute the 3D projection of the 6D covariance matrix.
 
-.. GENERATED FROM PYTHON SOURCE LINES 305-307
+.. GENERATED FROM PYTHON SOURCE LINES 327-329
 
 .. code-block:: Python
 
@@ -451,11 +473,11 @@ We compute the 3D projection of the 6D covariance matrix.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 308-309
+.. GENERATED FROM PYTHON SOURCE LINES 330-331
 
 The following code visualizes the result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 309-324
+.. GENERATED FROM PYTHON SOURCE LINES 331-349
 
 .. code-block:: Python
 
@@ -467,9 +489,12 @@ The following code visualizes the result.
     fig.view_init(elev=5, azim=50)
     n_frames = 200
     if "__file__" in globals():
-        fig.animate(animation_callback, n_frames, loop=True,
-                    fargs=(n_frames, tm, graph, joint_names, thetas, covs,
-                           surface))
+        fig.animate(
+            animation_callback,
+            n_frames,
+            loop=True,
+            fargs=(n_frames, tm, graph, joint_names, thetas, covs, surface),
+        )
         fig.show()
     else:
         fig.save_image("__open3d_rendered_image.jpg")
@@ -486,7 +511,7 @@ The following code visualizes the result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 325-333
+.. GENERATED FROM PYTHON SOURCE LINES 350-358
 
 References
 ----------
@@ -500,7 +525,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.438 seconds)
+   **Total running time of the script:** (0 minutes 0.507 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_probabilistic_robot_kinematics.py:

@@ -25,7 +25,7 @@ Transformation Manager
 In this example, we will use the TransformManager to infer a transformation
 automatically.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-39
+.. GENERATED FROM PYTHON SOURCE LINES 9-42
 
 
 
@@ -35,28 +35,42 @@ automatically.
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /home/afabisch/Data/Projects/pytransform3d/pytransform3d/examples/plots/plot_transform_manager.py:26: DeprecationWarning: function is deprecated, use matrix_from_euler
+      pr.active_matrix_from_intrinsic_euler_xyz(np.array([0.0, 0.0, -0.5])),
 
 
+
+
+
+
+|
 
 .. code-block:: Python
 
-    import numpy as np
+
     import matplotlib.pyplot as plt
+    import numpy as np
+
     from pytransform3d import rotations as pr
     from pytransform3d import transformations as pt
     from pytransform3d.transform_manager import TransformManager
 
-
     rng = np.random.default_rng(1)
 
     ee2robot = pt.transform_from_pq(
-        np.hstack((np.array([0.4, -0.3, 0.5]),
-                   pr.random_quaternion(rng))))
+        np.hstack((np.array([0.4, -0.3, 0.5]), pr.random_quaternion(rng)))
+    )
     cam2robot = pt.transform_from_pq(
-        np.hstack((np.array([0.0, 0.0, 0.8]), pr.q_id)))
+        np.hstack((np.array([0.0, 0.0, 0.8]), pr.q_id))
+    )
     object2cam = pt.transform_from(
         pr.active_matrix_from_intrinsic_euler_xyz(np.array([0.0, 0.0, -0.5])),
-        np.array([0.5, 0.1, 0.1]))
+        np.array([0.5, 0.1, 0.1]),
+    )
 
     tm = TransformManager()
     tm.add_transform("end-effector", "robot", ee2robot)
@@ -74,7 +88,7 @@ automatically.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.072 seconds)
+   **Total running time of the script:** (0 minutes 0.068 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_transform_manager.py:

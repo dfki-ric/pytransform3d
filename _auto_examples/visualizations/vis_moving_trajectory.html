@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Animate Trajectory &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>Animate Trajectory &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_auto_examples/visualizations/vis_moving_trajectory';</script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="Add and Remove Artist" href="vis_add_remove_artist.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -408,6 +408,7 @@ to download the full example code.</p>
 <span id="sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"></span><h1>Animate Trajectory<a class="headerlink" href="#animate-trajectory" title="Link to this heading">#</a></h1>
 <p>Animates a trajectory.</p>
 <img src="../../_images/sphx_glr_vis_moving_trajectory_001.png" srcset="../../_images/sphx_glr_vis_moving_trajectory_001.png" alt="vis moving trajectory" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="kn">import</span> <span class="nn">pytransform3d.visualizer</span> <span class="k">as</span> <span class="nn">pv</span>
 <span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.rotations.passive_matrix_from_angle.html#pytransform3d.rotations.passive_matrix_from_angle" title="pytransform3d.rotations.passive_matrix_from_angle" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">passive_matrix_from_angle</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">R_id</span></a>
 <span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from" title="pytransform3d.transformations.transform_from" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.transformations.concat.html#pytransform3d.transformations.concat" title="pytransform3d.transformations.concat" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">concat</span></a>
@@ -444,13 +445,14 @@ to download the full example code.</p>
 
 <span class="k">if</span> <span class="s2">&quot;__file__&quot;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
     <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.animate" title="pytransform3d.visualizer.Figure.animate" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">animate</span></a><span class="p">(</span>
-        <span class="n">update_trajectory</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <span class="n">fargs</span><span class="o">=</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory" title="pytransform3d.visualizer.Trajectory" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">trajectory</span></a><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">update_trajectory</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <span class="n">fargs</span><span class="o">=</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_frames</span></a><span class="p">,</span> <a href="../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory" title="pytransform3d.visualizer.Trajectory" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">trajectory</span></a><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
     <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.show" title="pytransform3d.visualizer.Figure.show" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 <span class="k">else</span><span class="p">:</span>
     <a href="../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.save_image" title="pytransform3d.visualizer.Figure.save_image" class="sphx-glr-backref-module-pytransform3d-visualizer sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">save_image</span></a><span class="p">(</span><span class="s2">&quot;__open3d_rendered_image.jpg&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.280 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.381 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-visualizations-vis-moving-trajectory-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a32fddc2efdae6f2ff29656e21aebf2a/vis_moving_trajectory.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">vis_moving_trajectory.ipynb</span></code></a></p>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>8. Graphs of Time-Dependent Transformations &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>8. Graphs of Time-Dependent Transformations &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="7. Organizing Transformations in a Graph" href="transform_manager.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -405,7 +405,11 @@ each other.</p>
 <h2><span class="section-number">8.1. </span>Preparing the Transformation Sequences<a class="headerlink" href="#preparing-the-transformation-sequences" title="Link to this heading">#</a></h2>
 <p>First, you need to prepare the transfomation sequences using the
 <a class="reference internal" href="../_apidoc/pytransform3d.transform_manager.NumpyTimeseriesTransform.html#pytransform3d.transform_manager.NumpyTimeseriesTransform" title="pytransform3d.transform_manager.NumpyTimeseriesTransform"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumpyTimeseriesTransform</span></code></a> class:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create entities A and B together with their transformations from world</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+    <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pqs</span><span class="p">)</span>
+
+
+<span class="c1"># create entities A and B together with their transformations from world</span>
 <span class="n">duration</span> <span class="o">=</span> <span class="mf">10.0</span>  <span class="c1"># [s]</span>
 <span class="n">sample_period</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># [s]</span>
 <span class="n">velocity_x</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># [m/s]</span>
@@ -415,10 +419,6 @@ each other.</p>
 <span class="n">time_B</span><span class="p">,</span> <span class="n">pqs_B</span> <span class="o">=</span> <span class="n">create_sinusoidal_movement</span><span class="p">(</span>
     <span class="n">duration</span><span class="p">,</span> <span class="n">sample_period</span><span class="p">,</span> <span class="n">velocity_x</span><span class="p">,</span> <span class="n">y_start_offset</span><span class="o">=-</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mf">0.35</span>
 <span class="p">)</span>
-
-<span class="c1"># package them into an instance of `TimeVaryingTransform` abstract class</span>
-<span class="n">transform_WA</span> <span class="o">=</span> <span class="n">NumpyTimeseriesTransform</span><span class="p">(</span><span class="n">time_A</span><span class="p">,</span> <span class="n">pqs_A</span><span class="p">)</span>
-<span class="n">transform_WB</span> <span class="o">=</span> <span class="n">NumpyTimeseriesTransform</span><span class="p">(</span><span class="n">time_B</span><span class="p">,</span> <span class="n">pqs_B</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In this example, the screw linear interpolation (ScLERP) will be used
@@ -428,10 +428,10 @@ each other.</p>
 abstract class <a class="reference internal" href="../_apidoc/pytransform3d.transform_manager.TimeVaryingTransform.html#pytransform3d.transform_manager.TimeVaryingTransform" title="pytransform3d.transform_manager.TimeVaryingTransform"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeVaryingTransform</span></code></a>.</p>
 <p>Next, you need to pass the transformations to an instance of
 <a class="reference internal" href="../_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager" title="pytransform3d.transform_manager.TemporalTransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">TemporalTransformManager</span></code></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tm</span> <span class="o">=</span> <span class="n">TemporalTransformManager</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># package them into an instance of `TimeVaryingTransform` abstract class</span>
+<span class="n">transform_WA</span> <span class="o">=</span> <span class="n">NumpyTimeseriesTransform</span><span class="p">(</span><span class="n">time_A</span><span class="p">,</span> <span class="n">pqs_A</span><span class="p">)</span>
+<span class="n">transform_WB</span> <span class="o">=</span> <span class="n">NumpyTimeseriesTransform</span><span class="p">(</span><span class="n">time_B</span><span class="p">,</span> <span class="n">pqs_B</span><span class="p">)</span>
 
-<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="n">transform_WA</span><span class="p">)</span>
-<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="n">transform_WB</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -439,12 +439,12 @@ abstract class <a class="reference internal" href="../_apidoc/pytransform3d.tran
 <h2><span class="section-number">8.2. </span>Transform Between Coordinate Systems<a class="headerlink" href="#transform-between-coordinate-systems" title="Link to this heading">#</a></h2>
 <p>Finally, you can transform between coordinate systems at a particular time
 <span class="math notranslate nohighlight">\(t_q\)</span>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query_time</span> <span class="o">=</span> <span class="mf">4.9</span>  <span class="c1"># [s] or an array of times np.array([4.9, 5.2])</span>
-<span class="n">A2B_at_query_time</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform_at_time</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">query_time</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="n">transform_WA</span><span class="p">)</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="n">transform_WB</span><span class="p">)</span>
 
-<span class="c1"># transform the origin of A in A (x=0, y=0, z=0) to B</span>
-<span class="n">origin_of_A_pos</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">vector_to_point</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">origin_of_A_in_B_xyz</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">A2B_at_query_time</span><span class="p">,</span> <span class="n">origin_of_A_pos</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">query_time</span> <span class="o">=</span> <span class="mf">4.9</span>  <span class="c1"># [s] or an array of times np.array([4.9, 5.2])</span>
+<span class="n">A2B_at_query_time</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform_at_time</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">query_time</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The coordinates of A’s origin (blue diamond) transformed to B are visualized

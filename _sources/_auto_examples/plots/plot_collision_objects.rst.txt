@@ -25,7 +25,7 @@ URDF with Collision Objects
 This example shows how to load a URDF description of collision objects and
 display them.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-45
+.. GENERATED FROM PYTHON SOURCE LINES 9-46
 
 
 
@@ -40,9 +40,10 @@ display them.
 
 .. code-block:: Python
 
-    import matplotlib.pyplot as plt
-    from pytransform3d.urdf import UrdfTransformManager
 
+    import matplotlib.pyplot as plt
+
+    from pytransform3d.urdf import UrdfTransformManager
 
     URDF = """
     <?xml version="1.0"?>
@@ -80,7 +81,7 @@ display them.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.092 seconds)
+   **Total running time of the script:** (0 minutes 0.077 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_collision_objects.py:

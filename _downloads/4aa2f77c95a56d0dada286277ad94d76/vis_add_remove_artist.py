@@ -5,16 +5,19 @@ Add and Remove Artist
 
 A demonstration of how previously added artists can be removed.
 """
-import os
-from pytransform3d.urdf import UrdfTransformManager
-import pytransform3d.visualizer as pv
 
+import os
+
+import pytransform3d.visualizer as pv
+from pytransform3d.urdf import UrdfTransformManager
 
 BASE_DIR = "test/test_data/"
 data_dir = BASE_DIR
 search_path = "."
-while (not os.path.exists(data_dir) and
-       os.path.dirname(search_path) != "pytransform3d"):
+while (
+    not os.path.exists(data_dir)
+    and os.path.dirname(search_path) != "pytransform3d"
+):
     search_path = os.path.join(search_path, "..")
     data_dir = os.path.join(search_path, BASE_DIR)
 
@@ -27,9 +30,15 @@ fig = pv.figure()
 
 # add graph, box, and sphere
 graph = fig.plot_graph(
-    tm, "lower_cone", s=0.1, show_frames=True,
+    tm,
+    "lower_cone",
+    s=0.1,
+    show_frames=True,
     whitelist=["upper_cone", "lower_cone"],
-    show_connections=True, show_visuals=True, show_name=False)
+    show_connections=True,
+    show_visuals=True,
+    show_name=False,
+)
 box = fig.plot_box([1, 1, 1])
 sphere = fig.plot_sphere(2)
 

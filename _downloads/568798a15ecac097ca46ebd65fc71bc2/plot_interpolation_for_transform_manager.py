@@ -6,17 +6,21 @@ Managing Transformations over Time
 In this example, given two trajectories of 3D rigid transformations, we will
 interpolate both and use the transform manager for the target timestep.
 """
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 from pytransform3d import rotations as pr
 from pytransform3d import transformations as pt
-from pytransform3d.transform_manager import (TemporalTransformManager,
-                                             NumpyTimeseriesTransform)
+from pytransform3d.transform_manager import (
+    TemporalTransformManager,
+    NumpyTimeseriesTransform,
+)
 
 
 def create_sinusoidal_movement(
-        duration_sec, sample_period, x_velocity, y_start_offset, start_time):
+    duration_sec, sample_period, x_velocity, y_start_offset, start_time
+):
     """Create a planar (z=0) sinusoidal movement around x-axis."""
     time = np.arange(0, duration_sec, sample_period) + start_time
     n_steps = len(time)
@@ -74,10 +78,8 @@ pq_B = pt.pq_from_transform(transform_WB.as_matrix(query_time))
 plt.figure(figsize=(8, 8))
 plt.plot(pqs_A[:, 0], pqs_A[:, 1], "bo--", label="trajectory $A(t)$")
 plt.plot(pqs_B[:, 0], pqs_B[:, 1], "yo--", label="trajectory $B(t)$")
-plt.scatter(pq_A[0], pq_A[1], color="b", s=120, marker="d",
-            label="$A(t_q)$")
-plt.scatter(pq_B[0], pq_B[1], color="y", s=120, marker="^",
-            label="$B(t_q)$")
+plt.scatter(pq_A[0], pq_A[1], color="b", s=120, marker="d", label="$A(t_q)$")
+plt.scatter(pq_B[0], pq_B[1], color="y", s=120, marker="^", label="$B(t_q)$")
 plt.text(
     pq_A[0] + 0.3,
     pq_A[1] - 0.3,

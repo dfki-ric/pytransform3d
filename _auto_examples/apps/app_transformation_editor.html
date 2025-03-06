@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Transformation Editor &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>Transformation Editor &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_auto_examples/apps/app_transformation_editor';</script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="GUI Applications" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -385,27 +385,26 @@ to download the full example code.</p>
 <section class="sphx-glr-example-title" id="transformation-editor">
 <span id="sphx-glr-auto-examples-apps-app-transformation-editor-py"></span><h1>Transformation Editor<a class="headerlink" href="#transformation-editor" title="Link to this heading">#</a></h1>
 <p>The transformation editor can be used to manipulate transformations.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytransform3d.transform_manager</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TransformManager</span></a>
-<span class="kn">from</span> <span class="nn">pytransform3d.editor</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.editor.TransformEditor.html#pytransform3d.editor.TransformEditor" title="pytransform3d.editor.TransformEditor" class="sphx-glr-backref-module-pytransform3d-editor sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TransformEditor</span></a>
-<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from" title="pytransform3d.transformations.transform_from" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from</span></a>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytransform3d.editor</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.editor.TransformEditor.html#pytransform3d.editor.TransformEditor" title="pytransform3d.editor.TransformEditor" class="sphx-glr-backref-module-pytransform3d-editor sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TransformEditor</span></a>
 <span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">active_matrix_from_extrinsic_euler_xyx</span></a>
-
+<span class="kn">from</span> <span class="nn">pytransform3d.transform_manager</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TransformManager</span></a>
+<span class="kn">from</span> <span class="nn">pytransform3d.transformations</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from" title="pytransform3d.transformations.transform_from" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from</span></a>
 
 <span class="n">tm</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TransformManager</span></a><span class="p">()</span>
 
 <span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span>
-    <span class="s2">&quot;tree&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;world&quot;</span><span class="p">,</span>
     <a href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from" title="pytransform3d.transformations.transform_from" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from</span></a><span class="p">(</span>
-        <a href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">active_matrix_from_extrinsic_euler_xyx</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
-        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
-    <span class="p">)</span>
+        <a href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">active_matrix_from_extrinsic_euler_xyx</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+    <span class="p">),</span>
 <span class="p">)</span>
 <span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span>
-    <span class="s2">&quot;car&quot;</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;car&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;world&quot;</span><span class="p">,</span>
     <a href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from" title="pytransform3d.transformations.transform_from" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">transform_from</span></a><span class="p">(</span>
-        <a href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">active_matrix_from_extrinsic_euler_xyx</span></a><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
-        <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="p">)</span>
+        <a href="../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" title="pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">active_matrix_from_extrinsic_euler_xyx</span></a><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">te</span> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.editor.TransformEditor.html#pytransform3d.editor.TransformEditor" title="pytransform3d.editor.TransformEditor" class="sphx-glr-backref-module-pytransform3d-editor sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">TransformEditor</span></a><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="s2">&quot;world&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>

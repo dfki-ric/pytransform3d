@@ -24,7 +24,7 @@ Quaternion Integration
 
 Integrate angular accelerations to a quaternion sequence and animate it.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-75
+.. GENERATED FROM PYTHON SOURCE LINES 8-80
 
 
 
@@ -42,10 +42,12 @@ Integrate angular accelerations to a quaternion sequence and animate it.
 
 .. code-block:: Python
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import axes3d
+
     import matplotlib.animation as animation
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from mpl_toolkits.mplot3d import axes3d  # noqa: F401
+
     from pytransform3d import rotations as pr
 
 
@@ -75,7 +77,8 @@ Integrate angular accelerations to a quaternion sequence and animate it.
             angular_accelerations[i] = pr.random_compact_axis_angle(rng)
         # Integrate angular accelerations to velocities
         angular_velocities = np.vstack(
-            (np.zeros((1, 3)), np.cumsum(angular_accelerations * dt, axis=0)))
+            (np.zeros((1, 3)), np.cumsum(angular_accelerations * dt, axis=0))
+        )
         # Integrate angular velocities to quaternions
         Q = pr.quaternion_integrate(angular_velocities, q0=start, dt=dt)
 
@@ -95,25 +98,27 @@ Integrate angular accelerations to a quaternion sequence and animate it.
             ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],
             ax.plot([0, 0], [0, 1], [0, 0], c="g", lw=3)[0],
             ax.plot([0, 0], [0, 0], [0, 1], c="b", lw=3)[0],
-
-            ax.plot([0, R[0, 0]], [0, R[1, 0]], [0, R[2, 0]],
-                    c="r", lw=3, alpha=0.3)[0],
-            ax.plot([0, R[0, 1]], [0, R[1, 1]], [0, R[2, 1]],
-                    c="g", lw=3, alpha=0.3)[0],
-            ax.plot([0, R[0, 2]], [0, R[1, 2]], [0, R[2, 2]],
-                    c="b", lw=3, alpha=0.3)[0]
+            ax.plot(
+                [0, R[0, 0]], [0, R[1, 0]], [0, R[2, 0]], c="r", lw=3, alpha=0.3
+            )[0],
+            ax.plot(
+                [0, R[0, 1]], [0, R[1, 1]], [0, R[2, 1]], c="g", lw=3, alpha=0.3
+            )[0],
+            ax.plot(
+                [0, R[0, 2]], [0, R[1, 2]], [0, R[2, 2]], c="b", lw=3, alpha=0.3
+            )[0],
         ]
 
-        anim = animation.FuncAnimation(fig, update_lines, n_frames,
-                                       fargs=(Q, rot),
-                                       interval=10, blit=False)
+        anim = animation.FuncAnimation(
+            fig, update_lines, n_frames, fargs=(Q, rot), interval=10, blit=False
+        )
 
         plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 20.480 seconds)
+   **Total running time of the script:** (1 minutes 20.501 seconds)
 
 
 .. _sphx_glr_download__auto_examples_animations_animate_quaternion_integration.py:

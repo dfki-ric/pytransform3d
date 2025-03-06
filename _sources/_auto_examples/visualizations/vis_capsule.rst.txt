@@ -22,7 +22,7 @@
 Visualize Capsule
 =================
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-18
+.. GENERATED FROM PYTHON SOURCE LINES 6-19
 
 
 
@@ -37,9 +37,10 @@ Visualize Capsule
 
 .. code-block:: Python
 
-    import numpy as np
-    import pytransform3d.visualizer as pv
 
+    import numpy as np
+
+    import pytransform3d.visualizer as pv
 
     fig = pv.figure()
     fig.plot_capsule(height=0.5, radius=0.1, c=(1, 0, 0))
@@ -53,7 +54,7 @@ Visualize Capsule
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.270 seconds)
+   **Total running time of the script:** (0 minutes 0.314 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_capsule.py:

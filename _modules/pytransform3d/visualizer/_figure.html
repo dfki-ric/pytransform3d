@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>pytransform3d.visualizer._figure &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/visualizer/_figure';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -357,14 +357,30 @@ document.write(`
                   
   <h1>Source code for pytransform3d.visualizer._figure</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Figure based on Open3D&#39;s visualizer.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+
+<span class="kn">from</span> <span class="nn">._artists</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Line3D</span><span class="p">,</span>
+    <span class="n">PointCollection3D</span><span class="p">,</span>
+    <span class="n">Vector3D</span><span class="p">,</span>
+    <span class="n">Frame</span><span class="p">,</span>
+    <span class="n">Trajectory</span><span class="p">,</span>
+    <span class="n">Camera</span><span class="p">,</span>
+    <span class="n">Box</span><span class="p">,</span>
+    <span class="n">Sphere</span><span class="p">,</span>
+    <span class="n">Cylinder</span><span class="p">,</span>
+    <span class="n">Mesh</span><span class="p">,</span>
+    <span class="n">Ellipsoid</span><span class="p">,</span>
+    <span class="n">Capsule</span><span class="p">,</span>
+    <span class="n">Cone</span><span class="p">,</span>
+    <span class="n">Plane</span><span class="p">,</span>
+    <span class="n">Graph</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">rotations</span> <span class="k">as</span> <span class="n">pr</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">trajectories</span> <span class="k">as</span> <span class="n">ptr</span>
-<span class="kn">from</span> <span class="nn">._artists</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Line3D</span><span class="p">,</span> <span class="n">PointCollection3D</span><span class="p">,</span> <span class="n">Vector3D</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Trajectory</span><span class="p">,</span>
-                       <span class="n">Camera</span><span class="p">,</span> <span class="n">Box</span><span class="p">,</span> <span class="n">Sphere</span><span class="p">,</span> <span class="n">Cylinder</span><span class="p">,</span> <span class="n">Mesh</span><span class="p">,</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">Capsule</span><span class="p">,</span>
-                       <span class="n">Cone</span><span class="p">,</span> <span class="n">Plane</span><span class="p">,</span> <span class="n">Graph</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
 
 
 <div class="viewcode-block" id="Figure">
@@ -389,16 +405,23 @@ document.write(`
 <span class="sd">        Creates a visualizer that allows to register callbacks</span>
 <span class="sd">        for keys.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="Figure.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
-                 <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
+        <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="k">if</span> <span class="n">with_key_callbacks</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">VisualizerWithKeyCallback</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">Visualizer</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">create_window</span><span class="p">(</span>
-            <span class="n">window_name</span><span class="o">=</span><span class="n">window_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span></div>
+            <span class="n">window_name</span><span class="o">=</span><span class="n">window_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Figure.add_geometry">
@@ -524,7 +547,8 @@ document.write(`
                 <span class="k">if</span> <span class="n">drawn_artists</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                         <span class="s2">&quot;The animation function must return a &quot;</span>
-                        <span class="s2">&quot;sequence of Artist objects.&quot;</span><span class="p">)</span>
+                        <span class="s2">&quot;sequence of Artist objects.&quot;</span>
+                    <span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">drawn_artists</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">drawn_artists</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
@@ -557,22 +581,21 @@ document.write(`
         <span class="n">vc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">visualizer</span><span class="o">.</span><span class="n">get_view_control</span><span class="p">()</span>
         <span class="n">pcp</span> <span class="o">=</span> <span class="n">vc</span><span class="o">.</span><span class="n">convert_to_pinhole_camera_parameters</span><span class="p">()</span>
         <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pcp</span><span class="o">.</span><span class="n">extrinsic</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-        <span class="n">R_azim_elev_0_world2camera</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+        <span class="n">R_azim_elev_0_world2camera</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+        <span class="p">)</span>
         <span class="n">R_azim_elev_0_camera2world</span> <span class="o">=</span> <span class="n">R_azim_elev_0_world2camera</span><span class="o">.</span><span class="n">T</span>
         <span class="c1"># azimuth and elevation are defined in world frame</span>
         <span class="n">R_azim</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">azim</span><span class="p">))</span>
         <span class="n">R_elev</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="n">active_matrix_from_angle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="o">-</span><span class="n">elev</span><span class="p">))</span>
         <span class="n">R_elev_azim_camera2world</span> <span class="o">=</span> <span class="n">R_azim</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_elev</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-            <span class="n">R_azim_elev_0_camera2world</span><span class="p">)</span>
+            <span class="n">R_azim_elev_0_camera2world</span>
+        <span class="p">)</span>
         <span class="n">pcp</span><span class="o">.</span><span class="n">extrinsic</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">transform_from</span><span class="p">(</span>  <span class="c1"># world2camera</span>
-            <span class="n">R</span><span class="o">=</span><span class="n">R_elev_azim_camera2world</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
-            <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="p">])</span>
+            <span class="n">R</span><span class="o">=</span><span class="n">R_elev_azim_camera2world</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">distance</span><span class="p">]</span>
+        <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">vc</span><span class="o">.</span><span class="n">convert_from_pinhole_camera_parameters</span><span class="p">(</span>
-                <span class="n">pcp</span><span class="p">,</span> <span class="n">allow_arbitrary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">vc</span><span class="o">.</span><span class="n">convert_from_pinhole_camera_parameters</span><span class="p">(</span><span class="n">pcp</span><span class="p">,</span> <span class="n">allow_arbitrary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="n">vc</span><span class="o">.</span><span class="n">convert_from_pinhole_camera_parameters</span><span class="p">(</span><span class="n">pcp</span><span class="p">)</span></div>
 
@@ -632,8 +655,9 @@ document.write(`
 
 <div class="viewcode-block" id="Figure.plot_vector">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_vector">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
-                    <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+    <span class="k">def</span> <span class="nf">plot_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -824,8 +848,15 @@ document.write(`
 
 <div class="viewcode-block" id="Figure.plot_cylinder">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cylinder">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_cylinder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
-                      <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_cylinder</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+        <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">split</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot cylinder.</span>
 
 <span class="sd">        Parameters</span>
@@ -890,8 +921,9 @@ document.write(`
 
 <div class="viewcode-block" id="Figure.plot_ellipsoid">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_ellipsoid">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_ellipsoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                       <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_ellipsoid</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot ellipsoid.</span>
 
 <span class="sd">        Parameters</span>
@@ -924,8 +956,9 @@ document.write(`
 
 <div class="viewcode-block" id="Figure.plot_capsule">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_capsule">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_capsule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                     <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_capsule</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot capsule.</span>
 
 <span class="sd">        A capsule is the volume covered by a sphere moving along a line</span>
@@ -965,8 +998,9 @@ document.write(`
 
 <div class="viewcode-block" id="Figure.plot_cone">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_cone">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_cone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                  <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_cone</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot cone.</span>
 
 <span class="sd">        Parameters</span>
@@ -998,8 +1032,14 @@ document.write(`
 
 <div class="viewcode-block" id="Figure.plot_plane">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_plane">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_plane</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+        <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot plane.</span>
 
 <span class="sd">        Parameters</span>
@@ -1032,10 +1072,18 @@ document.write(`
 <div class="viewcode-block" id="Figure.plot_graph">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_graph">[docs]</a>
     <span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">convex_hull_of_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tm</span><span class="p">,</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="n">show_frames</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">show_connections</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">show_visuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">show_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">show_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">convex_hull_of_collision_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot graph of connected frames.</span>
 
 <span class="sd">        Parameters</span>
@@ -1075,17 +1123,32 @@ document.write(`
 <span class="sd">        graph : Graph</span>
 <span class="sd">            New graph.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">graph</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">show_frames</span><span class="p">,</span> <span class="n">show_connections</span><span class="p">,</span>
-                      <span class="n">show_visuals</span><span class="p">,</span> <span class="n">show_collision_objects</span><span class="p">,</span> <span class="n">show_name</span><span class="p">,</span>
-                      <span class="n">whitelist</span><span class="p">,</span> <span class="n">convex_hull_of_collision_objects</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span>
+            <span class="n">tm</span><span class="p">,</span>
+            <span class="n">frame</span><span class="p">,</span>
+            <span class="n">show_frames</span><span class="p">,</span>
+            <span class="n">show_connections</span><span class="p">,</span>
+            <span class="n">show_visuals</span><span class="p">,</span>
+            <span class="n">show_collision_objects</span><span class="p">,</span>
+            <span class="n">show_name</span><span class="p">,</span>
+            <span class="n">whitelist</span><span class="p">,</span>
+            <span class="n">convex_hull_of_collision_objects</span><span class="p">,</span>
+            <span class="n">s</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">graph</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span></div>
 
 
 <div class="viewcode-block" id="Figure.plot_camera">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Figure.html#pytransform3d.visualizer.Figure.plot_camera">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_camera</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">M</span><span class="p">,</span>
+        <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">virtual_image_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sensor_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span>
+        <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot camera in world coordinates.</span>
 
 <span class="sd">        This function is inspired by Blender&#39;s camera visualization. It will</span>
@@ -1125,8 +1188,9 @@ document.write(`
 <span class="sd">        camera : Camera</span>
 <span class="sd">            New camera.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span>
-                        <span class="n">strict_check</span><span class="p">)</span>
+        <span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span>
+            <span class="n">M</span><span class="p">,</span> <span class="n">cam2world</span><span class="p">,</span> <span class="n">virtual_image_distance</span><span class="p">,</span> <span class="n">sensor_size</span><span class="p">,</span> <span class="n">strict_check</span>
+        <span class="p">)</span>
         <span class="n">camera</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">camera</span></div>
 
@@ -1156,8 +1220,9 @@ document.write(`
 
 <div class="viewcode-block" id="figure">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.figure.html#pytransform3d.visualizer.figure">[docs]</a>
-<span class="k">def</span> <span class="nf">figure</span><span class="p">(</span><span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
-           <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">figure</span><span class="p">(</span>
+    <span class="n">window_name</span><span class="o">=</span><span class="s2">&quot;Open3D&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">with_key_callbacks</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new figure.</span>
 
 <span class="sd">    Parameters</span>

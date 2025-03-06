@@ -7,10 +7,12 @@ We can see the camera coordinate frame and a grid of points in the camera
 coordinate system which will be projected to the sensor. From the coordinates
 on the sensor we can compute the corresponding pixels.
 """
-import numpy as np
+
 import matplotlib.pyplot as plt
-from pytransform3d.transformations import plot_transform
+import numpy as np
+
 from pytransform3d.camera import make_world_grid, cam2sensor, sensor2img
+from pytransform3d.transformations import plot_transform
 
 # %%
 # Camera Details

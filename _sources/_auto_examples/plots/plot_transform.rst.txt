@@ -25,7 +25,7 @@ Plot Transformation
 We can display transformations by plotting the basis vectors of the
 corresponding coordinate frame.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-17
+.. GENERATED FROM PYTHON SOURCE LINES 9-19
 
 
 
@@ -40,9 +40,11 @@ corresponding coordinate frame.
 
 .. code-block:: Python
 
+
     import matplotlib.pyplot as plt
-    from pytransform3d.transformations import plot_transform
+
     from pytransform3d.plot_utils import make_3d_axis
+    from pytransform3d.transformations import plot_transform
 
     ax = make_3d_axis(ax_s=1, unit="m", n_ticks=6)
     plot_transform(ax=ax)
@@ -52,7 +54,7 @@ corresponding coordinate frame.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.087 seconds)
+   **Total running time of the script:** (0 minutes 0.084 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_transform.py:

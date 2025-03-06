@@ -10,10 +10,12 @@ velocity between two successive steps. We can see that linear interpolation
 results in a non-constant angular velocity. Usually it is a better idea to
 interpolate with slerp.
 """
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import axes3d
+
 import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import axes3d  # noqa: F401
+
 from pytransform3d import rotations as pr
 
 velocity = None
@@ -55,13 +57,15 @@ def update_lines(step, start, end, n_frames, rot, profile):
     # Update vector in frame
     test = R.dot(np.ones(3) / np.sqrt(3.0))
     rot[3].set_data(
-        np.array([test[0] / 2.0, test[0]]), [test[1] / 2.0, test[1]])
+        np.array([test[0] / 2.0, test[0]]), [test[1] / 2.0, test[1]]
+    )
     rot[3].set_3d_properties([test[2] / 2.0, test[2]])
 
     velocity.append(
-        pr.angle_between_vectors(a[:3], last_a[:3]) + a[3] - last_a[3])
+        pr.angle_between_vectors(a[:3], last_a[:3]) + a[3] - last_a[3]
+    )
     last_a = a
-    profile.set_data(np.linspace(0, 1, n_frames)[:len(velocity)], velocity)
+    profile.set_data(np.linspace(0, 1, n_frames)[: len(velocity)], velocity)
 
     return rot
 
@@ -88,32 +92,58 @@ if __name__ == "__main__":
     Rs = pr.matrix_from_axis_angle(start)
     Re = pr.matrix_from_axis_angle(end)
 
-    rot = [ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],
-           ax.plot([0, 0], [0, 1], [0, 0], c="g", lw=3)[0],
-           ax.plot([0, 0], [0, 0], [0, 1], c="b", lw=3)[0],
-           ax.plot([0, 1], [0, 1], [0, 1], c="gray", lw=3)[0],
-
-           ax.plot([0, Rs[0, 0]], [0, Rs[1, 0]], [0, Rs[2, 0]], c="r", lw=3,
-                   alpha=0.5)[0],
-           ax.plot([0, Rs[0, 1]], [0, Rs[1, 1]], [0, Rs[2, 1]], c="g", lw=3,
-                   alpha=0.5)[0],
-           ax.plot([0, Rs[0, 2]], [0, Rs[1, 2]], [0, Rs[2, 2]], c="b", lw=3,
-                   alpha=0.5)[0],
-
-           ax.plot([0, Re[0, 0]], [0, Re[1, 0]], [0, Re[2, 0]], c="orange",
-                   lw=3, alpha=0.5)[0],
-           ax.plot([0, Re[0, 1]], [0, Re[1, 1]], [0, Re[2, 1]], c="turquoise",
-                   lw=3, alpha=0.5)[0],
-           ax.plot([0, Re[0, 2]], [0, Re[1, 2]], [0, Re[2, 2]], c="violet",
-                   lw=3, alpha=0.5)[0]]
+    rot = [
+        ax.plot([0, 1], [0, 0], [0, 0], c="r", lw=3)[0],
+        ax.plot([0, 0], [0, 1], [0, 0], c="g", lw=3)[0],
+        ax.plot([0, 0], [0, 0], [0, 1], c="b", lw=3)[0],
+        ax.plot([0, 1], [0, 1], [0, 1], c="gray", lw=3)[0],
+        ax.plot(
+            [0, Rs[0, 0]], [0, Rs[1, 0]], [0, Rs[2, 0]], c="r", lw=3, alpha=0.5
+        )[0],
+        ax.plot(
+            [0, Rs[0, 1]], [0, Rs[1, 1]], [0, Rs[2, 1]], c="g", lw=3, alpha=0.5
+        )[0],
+        ax.plot(
+            [0, Rs[0, 2]], [0, Rs[1, 2]], [0, Rs[2, 2]], c="b", lw=3, alpha=0.5
+        )[0],
+        ax.plot(
+            [0, Re[0, 0]],
+            [0, Re[1, 0]],
+            [0, Re[2, 0]],
+            c="orange",
+            lw=3,
+            alpha=0.5,
+        )[0],
+        ax.plot(
+            [0, Re[0, 1]],
+            [0, Re[1, 1]],
+            [0, Re[2, 1]],
+            c="turquoise",
+            lw=3,
+            alpha=0.5,
+        )[0],
+        ax.plot(
+            [0, Re[0, 2]],
+            [0, Re[1, 2]],
+            [0, Re[2, 2]],
+            c="violet",
+            lw=3,
+            alpha=0.5,
+        )[0],
+    ]
 
     ax = fig.add_subplot(122)
     ax.set_xlim((0, 1))
     ax.set_ylim((0, 1))
     profile = ax.plot(0, 0)[0]
 
-    anim = animation.FuncAnimation(fig, update_lines, n_frames,
-                                   fargs=(start, end, n_frames, rot, profile),
-                                   interval=50, blit=False)
+    anim = animation.FuncAnimation(
+        fig,
+        update_lines,
+        n_frames,
+        fargs=(start, end, n_frames, rot, profile),
+        interval=50,
+        blit=False,
+    )
 
     plt.show()

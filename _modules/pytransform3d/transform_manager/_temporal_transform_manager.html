@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transform_manager._temporal_transform_manager &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>pytransform3d.transform_manager._temporal_transform_manager &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transform_manager/_temporal_transform_manager';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -356,22 +356,23 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for pytransform3d.transform_manager._temporal_transform_manager</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">abc</span>
+<span></span><span class="sd">&quot;&quot;&quot;Temporal transform manager.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">..batch_rotations</span> <span class="kn">import</span> <span class="n">norm_vectors</span>
-
 <span class="kn">from</span> <span class="nn">._transform_graph_base</span> <span class="kn">import</span> <span class="n">TransformGraphBase</span>
-<span class="kn">from</span> <span class="nn">..transformations</span> <span class="kn">import</span> <span class="n">check_transform</span>
+<span class="kn">from</span> <span class="nn">..batch_rotations</span> <span class="kn">import</span> <span class="n">norm_vectors</span>
 <span class="kn">from</span> <span class="nn">..trajectories</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">dual_quaternions_from_pqs</span><span class="p">,</span>
     <span class="n">pqs_from_dual_quaternions</span><span class="p">,</span>
     <span class="n">dual_quaternions_sclerp</span><span class="p">,</span>
     <span class="n">transforms_from_pqs</span><span class="p">,</span>
     <span class="n">concat_dynamic</span><span class="p">,</span>
-    <span class="n">invert_transforms</span>
+    <span class="n">invert_transforms</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..transformations</span> <span class="kn">import</span> <span class="n">check_transform</span>
 
 
 <div class="viewcode-block" id="TimeVaryingTransform">
@@ -428,6 +429,7 @@ document.write(`
 <span class="sd">    A2B : array-like, shape (4, 4)</span>
 <span class="sd">        Homogeneous transformation matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="StaticTransform.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.StaticTransform.html#pytransform3d.transform_manager.StaticTransform.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
@@ -473,6 +475,7 @@ document.write(`
 <span class="sd">        range of the time series. If this deactivated, we will raise a</span>
 <span class="sd">        ValueError when the query time is out of range.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="NumpyTimeseriesTransform.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.NumpyTimeseriesTransform.html#pytransform3d.transform_manager.NumpyTimeseriesTransform.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">pqs</span><span class="p">,</span> <span class="n">time_clipping</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -485,7 +488,8 @@ document.write(`
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Number of timesteps does not equal to number of PQ samples&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;Number of timesteps does not equal to number of PQ samples&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">7</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`pqs` matrix shall have 7 columns.&quot;</span><span class="p">)</span>
@@ -525,9 +529,9 @@ document.write(`
 
     <span class="k">def</span> <span class="nf">_interpolate_pq_using_sclerp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_time_arr</span><span class="p">):</span>
         <span class="c1"># identify the index of the preceding sample</span>
-        <span class="n">idxs_timestep_earlier_wrt_query_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">query_time_arr</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
-        <span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">idxs_timestep_earlier_wrt_query_time</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">query_time_arr</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">)</span>
 
         <span class="c1"># deal with first and last timestamp</span>
         <span class="n">before_start</span> <span class="o">=</span> <span class="n">query_time_arr</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_time</span>
@@ -537,23 +541,28 @@ document.write(`
             <span class="n">min_index</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">max_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span>
             <span class="n">idxs_timestep_earlier_wrt_query_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-                <span class="n">idxs_timestep_earlier_wrt_query_time</span><span class="p">,</span> <span class="n">min_index</span><span class="p">,</span> <span class="n">max_index</span><span class="p">)</span>
+                <span class="n">idxs_timestep_earlier_wrt_query_time</span><span class="p">,</span> <span class="n">min_index</span><span class="p">,</span> <span class="n">max_index</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">out_of_range</span><span class="p">):</span>
             <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">out_of_range</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">times</span> <span class="o">=</span> <span class="n">query_time_arr</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Query time at indices </span><span class="si">%s</span><span class="s2">, time(s): </span><span class="si">%s</span><span class="s2"> is/are out of range of &quot;</span>
-                <span class="s2">&quot;time series.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">times</span><span class="p">))</span>
+                <span class="s2">&quot;time series.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span>
+            <span class="p">)</span>
 
-        <span class="n">idxs_timestep_later_wrt_query_time</span> <span class="o">=</span> \
+        <span class="n">idxs_timestep_later_wrt_query_time</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">idxs_timestep_earlier_wrt_query_time</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_clipping</span><span class="p">:</span>
             <span class="n">before_or_eq_start</span> <span class="o">=</span> <span class="n">query_time_arr</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_time</span>
             <span class="n">after_or_eq_end</span> <span class="o">=</span> <span class="n">query_time_arr</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_time</span>
-            <span class="n">idxs_timestep_later_wrt_query_time</span><span class="p">[</span><span class="n">before_or_eq_start</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="n">idxs_timestep_later_wrt_query_time</span><span class="p">[</span><span class="n">before_or_eq_start</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">idxs_timestep_earlier_wrt_query_time</span><span class="p">[</span><span class="n">before_or_eq_start</span><span class="p">]</span>
-            <span class="n">idxs_timestep_earlier_wrt_query_time</span><span class="p">[</span><span class="n">after_or_eq_end</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="p">)</span>
+            <span class="n">idxs_timestep_earlier_wrt_query_time</span><span class="p">[</span><span class="n">after_or_eq_end</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">idxs_timestep_later_wrt_query_time</span><span class="p">[</span><span class="n">after_or_eq_end</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="c1"># dual quaternion from preceding sample</span>
         <span class="n">times_prev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">idxs_timestep_earlier_wrt_query_time</span><span class="p">]</span>
@@ -575,7 +584,8 @@ document.write(`
             <span class="n">query_time_arr</span><span class="p">[</span><span class="n">interpolation_case</span><span class="p">]</span> <span class="o">-</span> <span class="n">times_prev</span><span class="p">[</span><span class="n">interpolation_case</span><span class="p">]</span>
         <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">times_next</span><span class="p">[</span><span class="n">interpolation_case</span><span class="p">]</span> <span class="o">-</span> <span class="n">times_prev</span><span class="p">[</span><span class="n">interpolation_case</span><span class="p">])</span>
         <span class="n">dqs_interpolated</span> <span class="o">=</span> <span class="n">dual_quaternions_sclerp</span><span class="p">(</span>
-            <span class="n">dqs_prev</span><span class="p">,</span> <span class="n">dqs_next</span><span class="p">,</span> <span class="n">rel_times_between_samples</span><span class="p">)</span>
+            <span class="n">dqs_prev</span><span class="p">,</span> <span class="n">dqs_next</span><span class="p">,</span> <span class="n">rel_times_between_samples</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">pqs_from_dual_quaternions</span><span class="p">(</span><span class="n">dqs_interpolated</span><span class="p">)</span></div>
 
 
@@ -620,8 +630,10 @@ document.write(`
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Rigid transformations between nodes.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">transform_key</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_time</span><span class="p">)</span> <span class="k">for</span>
-                <span class="n">transform_key</span><span class="p">,</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">transform_key</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_time</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">transform_key</span><span class="p">,</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
 
 <div class="viewcode-block" id="TemporalTransformManager.get_transform_at_time">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.get_transform_at_time">[docs]</a>
@@ -667,7 +679,7 @@ document.write(`
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TemporalTransformManager.html#pytransform3d.transform_manager.TemporalTransformManager.get_transform">[docs]</a>
     <span class="k">def</span> <span class="nf">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Request a transformation.</span>
-<span class="sd">        </span>
+
 <span class="sd">        The internal current_time will be used for time based transformations.</span>
 <span class="sd">        If the query time is out of bounds, it will be clipped to either the</span>
 <span class="sd">        first or the last available time.</span>
@@ -737,10 +749,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert sequence of node names to rigid transformation.&quot;&quot;&quot;</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-            <span class="n">A2B</span> <span class="o">=</span> <span class="n">concat_dynamic</span><span class="p">(</span>
-                <span class="n">A2B</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="n">A2B</span> <span class="o">=</span> <span class="n">concat_dynamic</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">A2B</span></div>
 
 </pre></div>

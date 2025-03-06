@@ -6,9 +6,10 @@ URDF Joints
 This example shows how to load a URDF description of a robot, set some joint
 angles and display relevant frames.
 """
-import matplotlib.pyplot as plt
-from pytransform3d.urdf import UrdfTransformManager
 
+import matplotlib.pyplot as plt
+
+from pytransform3d.urdf import UrdfTransformManager
 
 # %%
 # URDF
@@ -94,8 +95,12 @@ for name, angle in zip(joint_names, joint_angles):
 # -------------
 # We use matplotlib to visualize the link frames of the URDF and connections
 # between these.
-ax = tm.plot_frames_in("compi", whitelist=["link%d" % d for d in range(1, 7)],
-                       s=0.05, show_name=True)
+ax = tm.plot_frames_in(
+    "compi",
+    whitelist=["link%d" % d for d in range(1, 7)],
+    s=0.05,
+    show_name=True,
+)
 ax = tm.plot_connections_in("compi", ax=ax)
 ax.set_xlim((-0.2, 0.8))
 ax.set_ylim((-0.5, 0.5))

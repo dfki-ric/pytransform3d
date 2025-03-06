@@ -7,11 +7,12 @@ In this example, we have a point p that is defined in a frame C, we know
 the transform C2B and B2A. We can construct a transform C2A to extract the
 position of p in frame A.
 """
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+
 import pytransform3d.rotations as pyrot
 import pytransform3d.transformations as pytr
-
 
 p = np.array([0.0, 0.0, -0.5])
 a = np.array([0.0, 0.0, 1.0, np.pi])

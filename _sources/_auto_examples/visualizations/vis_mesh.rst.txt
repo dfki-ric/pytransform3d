@@ -27,7 +27,7 @@ run from within the main folder because it uses a
 hard-coded path to the STL file. Press 'H' to print the viewer's
 help message to stdout.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-32
+.. GENERATED FROM PYTHON SOURCE LINES 11-36
 
 
 
@@ -42,16 +42,20 @@ help message to stdout.
 
 .. code-block:: Python
 
-    import os
-    import numpy as np
-    from pytransform3d import visualizer as pv
 
+    import os
+
+    import numpy as np
+
+    from pytransform3d import visualizer as pv
 
     BASE_DIR = "test/test_data/"
     data_dir = BASE_DIR
     search_path = "."
-    while (not os.path.exists(data_dir) and
-           os.path.dirname(search_path) != "pytransform3d"):
+    while (
+        not os.path.exists(data_dir)
+        and os.path.dirname(search_path) != "pytransform3d"
+    ):
         search_path = os.path.join(search_path, "..")
         data_dir = os.path.join(search_path, BASE_DIR)
 
@@ -67,7 +71,7 @@ help message to stdout.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.287 seconds)
+   **Total running time of the script:** (0 minutes 0.362 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_mesh.py:

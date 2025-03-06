@@ -24,7 +24,7 @@ Animate Camera
 
 Animate a camera moving along a circular trajectory while looking at a target.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-58
+.. GENERATED FROM PYTHON SOURCE LINES 8-59
 
 
 
@@ -42,13 +42,14 @@ Animate a camera moving along a circular trajectory while looking at a target.
 
 .. code-block:: Python
 
-    import matplotlib.pyplot as plt
+
     import matplotlib.animation as animation
+    import matplotlib.pyplot as plt
     import numpy as np
 
+    from pytransform3d.plot_utils import Frame, Camera, make_3d_axis
     from pytransform3d.rotations import matrix_from_euler
     from pytransform3d.transformations import transform_from
-    from pytransform3d.plot_utils import Frame, Camera, make_3d_axis
 
 
     def update_camera(step, n_frames, camera):
@@ -96,7 +97,7 @@ Animate a camera moving along a circular trajectory while looking at a target.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 4.483 seconds)
+   **Total running time of the script:** (0 minutes 4.518 seconds)
 
 
 .. _sphx_glr_download__auto_examples_animations_animate_camera.py:

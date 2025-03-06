@@ -25,7 +25,7 @@ Plot Multiple Spheres
 Benchmarks plotting of multiple spheres at once and compares it to plotting
 each sphere individually.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-39
+.. GENERATED FROM PYTHON SOURCE LINES 9-41
 
 
 
@@ -40,7 +40,7 @@ each sphere individually.
  .. code-block:: none
 
     n_spheres       single                  multi                   speedup
-    50              0.10562419891357422     0.0750741958618164      1.4069308062651644
+    50              0.0986335277557373      0.07423090934753418     1.3287393165824626
 
 
 
@@ -51,11 +51,13 @@ each sphere individually.
 
 .. code-block:: Python
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from pytransform3d.plot_utils import plot_sphere, plot_spheres
+
     import time
 
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    from pytransform3d.plot_utils import plot_sphere, plot_spheres
 
     n_spheres = 50
     random_state = np.random.default_rng(0)
@@ -85,7 +87,7 @@ each sphere individually.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.167 seconds)
+   **Total running time of the script:** (0 minutes 1.103 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_spheres.py:

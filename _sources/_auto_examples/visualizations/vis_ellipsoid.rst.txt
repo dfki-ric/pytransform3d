@@ -22,7 +22,7 @@
 Visualize Ellipsoid
 ===================
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-17
+.. GENERATED FROM PYTHON SOURCE LINES 6-18
 
 
 
@@ -37,9 +37,10 @@ Visualize Ellipsoid
 
 .. code-block:: Python
 
-    import numpy as np
-    import pytransform3d.visualizer as pv
 
+    import numpy as np
+
+    import pytransform3d.visualizer as pv
 
     fig = pv.figure()
     fig.plot_ellipsoid(radii=[0.2, 1, 0.5], c=(0.5, 0.5, 0))
@@ -52,7 +53,7 @@ Visualize Ellipsoid
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.368 seconds)
+   **Total running time of the script:** (0 minutes 0.314 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_ellipsoid.py:

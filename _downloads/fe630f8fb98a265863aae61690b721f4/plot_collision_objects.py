@@ -6,9 +6,10 @@ URDF with Collision Objects
 This example shows how to load a URDF description of collision objects and
 display them.
 """
-import matplotlib.pyplot as plt
-from pytransform3d.urdf import UrdfTransformManager
 
+import matplotlib.pyplot as plt
+
+from pytransform3d.urdf import UrdfTransformManager
 
 URDF = """
 <?xml version="1.0"?>

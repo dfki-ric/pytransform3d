@@ -26,14 +26,16 @@ We can see the camera coordinate frame and a grid of points in the camera
 coordinate system which will be projected to the sensor. From the coordinates
 on the sensor we can compute the corresponding pixels.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-15
+.. GENERATED FROM PYTHON SOURCE LINES 10-17
 
 .. code-block:: Python
 
-    import numpy as np
+
     import matplotlib.pyplot as plt
-    from pytransform3d.transformations import plot_transform
+    import numpy as np
+
     from pytransform3d.camera import make_world_grid, cam2sensor, sensor2img
+    from pytransform3d.transformations import plot_transform
 
 
 
@@ -42,7 +44,7 @@ on the sensor we can compute the corresponding pixels.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 16-21
+.. GENERATED FROM PYTHON SOURCE LINES 18-23
 
 Camera Details
 --------------
@@ -50,7 +52,7 @@ We have to define the focal length and sensor size of the camera in meters as
 well as the image size in pixels. The sensor size is extraordinarily large so
 that we can see it.
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 23-27
 
 .. code-block:: Python
 
@@ -65,14 +67,14 @@ that we can see it.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-30
+.. GENERATED FROM PYTHON SOURCE LINES 28-32
 
 Grid
 ----
 We define a grid in 3D world coordinates and compute its projection to the
 sensor in 3D.
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-33
+.. GENERATED FROM PYTHON SOURCE LINES 32-35
 
 .. code-block:: Python
 
@@ -86,14 +88,14 @@ sensor in 3D.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-38
+.. GENERATED FROM PYTHON SOURCE LINES 36-40
 
 Projection
 ----------
 First, we project the grid from its original 3D coordinates to its projection
 on the sensor, then we convert it to image coordinates.
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-41
+.. GENERATED FROM PYTHON SOURCE LINES 40-43
 
 .. code-block:: Python
 
@@ -107,14 +109,14 @@ on the sensor, then we convert it to image coordinates.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-46
+.. GENERATED FROM PYTHON SOURCE LINES 44-48
 
 Plotting
 --------
 Now we can plot the grid in 3D, projected to the 3D sensor, and projected to
 the image.
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-67
+.. GENERATED FROM PYTHON SOURCE LINES 48-69
 
 .. code-block:: Python
 
@@ -154,7 +156,7 @@ the image.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.146 seconds)
+   **Total running time of the script:** (0 minutes 0.145 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_camera_projection.py:

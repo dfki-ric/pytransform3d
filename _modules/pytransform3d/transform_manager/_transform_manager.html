@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transform_manager._transform_manager &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>pytransform3d.transform_manager._transform_manager &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transform_manager/_transform_manager';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -356,7 +356,9 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for pytransform3d.transform_manager._transform_manager</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;Transform manager.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
 
 <span class="kn">from</span> <span class="nn">._transform_graph_base</span> <span class="kn">import</span> <span class="n">TransformGraphBase</span>
@@ -364,6 +366,7 @@ document.write(`
 
 <span class="k">try</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="kn">import</span> <span class="nn">pydot</span>
+
     <span class="n">PYDOT_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">PYDOT_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
@@ -419,6 +422,7 @@ document.write(`
 <span class="sd">       Technologies for Practical Robot Applications (TePRA), Woburn, MA, USA,</span>
 <span class="sd">       pp. 1-6, doi: 10.1109/TePRA.2013.6556373.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="TransformManager.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -449,8 +453,16 @@ document.write(`
 
 <div class="viewcode-block" id="TransformManager.plot_frames_in">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.plot_frames_in">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_frames_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">show_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                       <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span> <span class="nf">plot_frames_in</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">show_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot all frames in a given reference frame.</span>
 
 <span class="sd">        Note that frames that cannot be connected to the reference frame are</span>
@@ -499,8 +511,14 @@ document.write(`
                 <span class="n">node2frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="n">node</span> <span class="k">if</span> <span class="n">show_name</span> <span class="k">else</span> <span class="kc">None</span>
                 <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_transform</span><span class="p">(</span>
-                    <span class="n">ax</span><span class="p">,</span> <span class="n">node2frame</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ax_s</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
-                    <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="n">ax</span><span class="p">,</span>
+                    <span class="n">node2frame</span><span class="p">,</span>
+                    <span class="n">s</span><span class="p">,</span>
+                    <span class="n">ax_s</span><span class="p">,</span>
+                    <span class="n">name</span><span class="p">,</span>
+                    <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">pass</span>  <span class="c1"># Frame is not connected to the reference frame</span>
         <span class="k">return</span> <span class="n">ax</span></div>
@@ -508,8 +526,9 @@ document.write(`
 
 <div class="viewcode-block" id="TransformManager.plot_connections_in">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.plot_connections_in">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_connections_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span> <span class="nf">plot_connections_in</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax_s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot direct frame connections in a given reference frame.</span>
 
 <span class="sd">        A line between each pair of frames for which a direct transformation</span>
@@ -552,6 +571,7 @@ document.write(`
 
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">..plot_utils</span> <span class="kn">import</span> <span class="n">make_3d_axis</span>
+
             <span class="n">ax</span> <span class="o">=</span> <span class="n">make_3d_axis</span><span class="p">(</span><span class="n">ax_s</span><span class="p">)</span>
 
         <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_whitelisted_nodes</span><span class="p">(</span><span class="n">whitelist</span><span class="p">)</span>
@@ -569,7 +589,7 @@ document.write(`
                         <span class="p">(</span><span class="n">from2ref</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">to2ref</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
                         <span class="p">(</span><span class="n">from2ref</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">to2ref</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
                         <span class="p">(</span><span class="n">from2ref</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">to2ref</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span>
-                        <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">pass</span>  <span class="c1"># Frame is not connected to the reference frame</span>
@@ -601,8 +621,10 @@ document.write(`
             <span class="n">nodes</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">whitelist</span><span class="p">)</span>
             <span class="n">nonwhitlisted_nodes</span> <span class="o">=</span> <span class="n">whitelist</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">nonwhitlisted_nodes</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Whitelist contains unknown nodes: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
-                               <span class="o">%</span> <span class="n">nonwhitlisted_nodes</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;Whitelist contains unknown nodes: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span>
+                    <span class="o">%</span> <span class="n">nonwhitlisted_nodes</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="n">nodes</span>
 
 <div class="viewcode-block" id="TransformManager.write_png">
@@ -639,17 +661,25 @@ document.write(`
 
         <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-                <span class="n">_dot_display_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">frame</span><span class="p">)),</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
-                <span class="n">fillcolor</span><span class="o">=</span><span class="n">frame_color</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;egg&quot;</span><span class="p">)</span>
+                <span class="n">_dot_display_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">frame</span><span class="p">)),</span>
+                <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
+                <span class="n">fillcolor</span><span class="o">=</span><span class="n">frame_color</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;egg&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">frames</span><span class="p">,</span> <span class="n">A2B</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">frame_a</span><span class="p">,</span> <span class="n">frame_b</span> <span class="o">=</span> <span class="n">frames</span>
             <span class="n">connection_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="n">_dot_display_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">frame_a</span><span class="p">)),</span>
-                <span class="n">_dot_display_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">frame_b</span><span class="p">)),</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+                <span class="n">_dot_display_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">frame_b</span><span class="p">)),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+            <span class="p">)</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-                <span class="n">connection_name</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span> <span class="n">fillcolor</span><span class="o">=</span><span class="n">connection_color</span><span class="p">,</span>
-                <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;note&quot;</span><span class="p">)</span>
+                <span class="n">connection_name</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
+                <span class="n">fillcolor</span><span class="o">=</span><span class="n">connection_color</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;note&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
             <span class="n">a_name</span> <span class="o">=</span> <span class="n">_dot_display_name</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">frame_a</span><span class="p">))</span>
             <span class="n">a_edge</span> <span class="o">=</span> <span class="n">pydot</span><span class="o">.</span><span class="n">Edge</span><span class="p">(</span><span class="n">connection_name</span><span class="p">,</span> <span class="n">a_name</span><span class="p">,</span> <span class="n">penwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
@@ -675,8 +705,9 @@ document.write(`
             <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="s2">&quot;strict_check&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
             <span class="s2">&quot;check&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">,</span>
-            <span class="s2">&quot;transforms&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-                           <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
+            <span class="s2">&quot;transforms&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">],</span>
             <span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span>
             <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span>
             <span class="s2">&quot;j&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">,</span>
@@ -684,10 +715,10 @@ document.write(`
             <span class="s2">&quot;connections&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
                 <span class="s2">&quot;indices&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-                <span class="s2">&quot;indptr&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">indptr</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="s2">&quot;indptr&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">indptr</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
             <span class="p">},</span>
             <span class="s2">&quot;dist&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s2">&quot;predecessors&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="s2">&quot;predecessors&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
         <span class="p">}</span></div>
 
 
@@ -725,17 +756,19 @@ document.write(`
 <span class="sd">            Serializable dict.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">transforms</span> <span class="o">=</span> <span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transforms&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span> <span class="o">=</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-                            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nb">tuple</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">transforms</span>
+        <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nodes&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;j&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transform_to_ij_index&quot;</span><span class="p">))</span>
+            <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transform_to_ij_index&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">connections</span> <span class="o">=</span> <span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;connections&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">((</span>
-            <span class="n">connections</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">connections</span><span class="p">[</span><span class="s2">&quot;indices&quot;</span><span class="p">],</span>
-            <span class="n">connections</span><span class="p">[</span><span class="s2">&quot;indptr&quot;</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">connections</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">connections</span><span class="p">[</span><span class="s2">&quot;indices&quot;</span><span class="p">],</span> <span class="n">connections</span><span class="p">[</span><span class="s2">&quot;indptr&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
         <span class="n">n_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tm_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dist&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n_nodes</span><span class="p">,</span> <span class="n">n_nodes</span><span class="p">)</span>

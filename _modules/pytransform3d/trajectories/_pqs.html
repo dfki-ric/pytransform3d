@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._pq_operations &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>pytransform3d.trajectories._pqs &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -39,15 +39,15 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transformations/_pq_operations';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/trajectories/_pqs';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -355,59 +355,83 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for pytransform3d.transformations._pq_operations</h1><div class="highlight"><pre>
+  <h1>Source code for pytransform3d.trajectories._pqs</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Position+quaternion operations.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">rotations</span>
-<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">check_pq</span>
+
+<span class="kn">from</span> <span class="nn">..batch_rotations</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">matrices_from_quaternions</span><span class="p">,</span>
+    <span class="n">batch_concatenate_quaternions</span><span class="p">,</span>
+<span class="p">)</span>
 
 
-<div class="viewcode-block" id="pq_slerp">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.transformations.pq_slerp.html#pytransform3d.transformations.pq_slerp">[docs]</a>
-<span class="k">def</span> <span class="nf">pq_slerp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spherical linear interpolation of position and quaternion.</span>
-
-<span class="sd">    We will use spherical linear interpolation (SLERP) for the quaternion and</span>
-<span class="sd">    linear interpolation for the position.</span>
+<div class="viewcode-block" id="transforms_from_pqs">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.trajectories.transforms_from_pqs.html#pytransform3d.trajectories.transforms_from_pqs">[docs]</a>
+<span class="k">def</span> <span class="nf">transforms_from_pqs</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">normalize_quaternions</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get sequence of homogeneous matrices from positions and quaternions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    start : array-like, shape (7,)</span>
-<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
+<span class="sd">    P : array-like, shape (..., 7)</span>
+<span class="sd">        Poses represented by positions and quaternions in the</span>
+<span class="sd">        order (x, y, z, qw, qx, qy, qz)</span>
 
-<span class="sd">    end : array-like, shape (7,)</span>
-<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
-
-<span class="sd">    t : float in [0, 1]</span>
-<span class="sd">        Position between start and end</span>
+<span class="sd">    normalize_quaternions : bool, optional (default: True)</span>
+<span class="sd">        Normalize quaternions before conversion</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    pq_t : array-like, shape (7,)</span>
-<span class="sd">        Position and orientation quaternion: (x, y, z, qw, qx, qy, qz)</span>
-
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    dual_quaternion_sclerp :</span>
-<span class="sd">        An alternative approach is screw linear interpolation (ScLERP) with</span>
-<span class="sd">        dual quaternions.</span>
-
-<span class="sd">    pytransform3d.rotations.axis_angle_slerp :</span>
-<span class="sd">        SLERP for axis-angle representation.</span>
-
-<span class="sd">    pytransform3d.rotations.quaternion_slerp :</span>
-<span class="sd">        SLERP for quaternions.</span>
-
-<span class="sd">    pytransform3d.rotations.rotor_slerp :</span>
-<span class="sd">        SLERP for rotors.</span>
+<span class="sd">    A2Bs : array, shape (..., 4, 4)</span>
+<span class="sd">        Poses represented by homogeneous matrices</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="n">check_pq</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
-    <span class="n">end</span> <span class="o">=</span> <span class="n">check_pq</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
-    <span class="n">start_p</span><span class="p">,</span> <span class="n">start_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
-    <span class="n">end_p</span><span class="p">,</span> <span class="n">end_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
-    <span class="n">q_t</span> <span class="o">=</span> <span class="n">rotations</span><span class="o">.</span><span class="n">quaternion_slerp</span><span class="p">(</span><span class="n">start_q</span><span class="p">,</span> <span class="n">end_q</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">shortest_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">p_t</span> <span class="o">=</span> <span class="n">start_p</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">end_p</span> <span class="o">-</span> <span class="n">start_p</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">p_t</span><span class="p">,</span> <span class="n">q_t</span><span class="p">))</span></div>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">A2Bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">instances_shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">matrices_from_quaternions</span><span class="p">(</span>
+        <span class="n">P</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:],</span> <span class="n">normalize_quaternions</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">A2Bs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">A2Bs</span></div>
+
+
+
+<div class="viewcode-block" id="dual_quaternions_from_pqs">
+<a class="viewcode-back" href="../../../_apidoc/pytransform3d.trajectories.dual_quaternions_from_pqs.html#pytransform3d.trajectories.dual_quaternions_from_pqs">[docs]</a>
+<span class="k">def</span> <span class="nf">dual_quaternions_from_pqs</span><span class="p">(</span><span class="n">pqs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get dual quaternions from positions and quaternions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pqs : array-like, shape (..., 7)</span>
+<span class="sd">        Poses represented by positions and quaternions in the</span>
+<span class="sd">        order (x, y, z, qw, qx, qy, qz)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dqs : array, shape (..., 8)</span>
+<span class="sd">        Dual quaternions to represent transforms:</span>
+<span class="sd">        (pw, px, py, pz, qw, qx, qy, qz)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pqs</span><span class="p">)</span>
+    <span class="n">instances_shape</span> <span class="o">=</span> <span class="n">pqs</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">instances_shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span><span class="p">,))</span>
+
+    <span class="c1"># orientation quaternion</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">pqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span>
+
+    <span class="c1"># use memory temporarily to store position</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">5</span><span class="p">:]</span> <span class="o">=</span> <span class="n">pqs</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">batch_concatenate_quaternions</span><span class="p">(</span>
+        <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">4</span><span class="p">:],</span> <span class="n">out</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 
 </pre></div>
 

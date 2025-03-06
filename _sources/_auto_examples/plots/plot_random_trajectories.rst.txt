@@ -27,14 +27,16 @@ different trajectory. On the left side you can see the position and orientation
 represented by small coordinate frames. On the right side you can see the
 positions over time.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-17
+.. GENERATED FROM PYTHON SOURCE LINES 11-18
 
 .. code-block:: Python
 
-    import numpy as np
+
     import matplotlib.pyplot as plt
-    import pytransform3d.transformations as pt
+    import numpy as np
+
     import pytransform3d.trajectories as ptr
+    import pytransform3d.transformations as pt
 
 
 
@@ -43,12 +45,11 @@ positions over time.
 
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 18-19
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 We sample three random trajectories.
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-29
+.. GENERATED FROM PYTHON SOURCE LINES 20-30
 
 .. code-block:: Python
 
@@ -59,7 +60,7 @@ We sample three random trajectories.
         n_steps=1001,
         start=np.eye(4),
         goal=pt.transform_from(R=np.eye(3), p=0.3 * np.ones(3)),
-        scale=[200] * 3 + [50] * 3
+        scale=[200] * 3 + [50] * 3,
     )
 
 
@@ -69,11 +70,11 @@ We sample three random trajectories.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
 
 We plot the trajectory in 3D on the left and in 2D on the right.
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-56
+.. GENERATED FROM PYTHON SOURCE LINES 32-63
 
 .. code-block:: Python
 
@@ -81,13 +82,19 @@ We plot the trajectory in 3D on the left and in 2D on the right.
     for i in range(n_trajectories):
         ax = plt.subplot(n_trajectories, 2, 1 + 2 * i, projection="3d")
         plt.setp(
-            ax, xlim=(-0.1, 0.5), ylim=(-0.1, 0.5), zlim=(-0.1, 0.5),
-            xlabel="X", ylabel="Y")
+            ax,
+            xlim=(-0.1, 0.5),
+            ylim=(-0.1, 0.5),
+            zlim=(-0.1, 0.5),
+            xlabel="X",
+            ylabel="Y",
+        )
         ax.set_xticks(())
         ax.set_yticks(())
         ax.set_zticks(())
         ptr.plot_trajectory(
-            ax=ax, P=ptr.pqs_from_transforms(trajectories[i]), s=0.1)
+            ax=ax, P=ptr.pqs_from_transforms(trajectories[i]), s=0.1
+        )
 
         ax = plt.subplot(n_trajectories, 2, 2 + 2 * i)
         for d in range(3):
@@ -117,7 +124,7 @@ We plot the trajectory in 3D on the left and in 2D on the right.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.655 seconds)
+   **Total running time of the script:** (0 minutes 0.507 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_random_trajectories.py:

@@ -22,7 +22,7 @@
 Visualize Cone
 ==============
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-18
+.. GENERATED FROM PYTHON SOURCE LINES 6-19
 
 
 
@@ -37,9 +37,10 @@ Visualize Cone
 
 .. code-block:: Python
 
-    import numpy as np
-    import pytransform3d.visualizer as pv
 
+    import numpy as np
+
+    import pytransform3d.visualizer as pv
 
     fig = pv.figure()
     fig.plot_cone(height=1.0, radius=0.3, c=(0, 0, 0.5))
@@ -53,7 +54,7 @@ Visualize Cone
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.317 seconds)
+   **Total running time of the script:** (0 minutes 0.329 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_cone.py:

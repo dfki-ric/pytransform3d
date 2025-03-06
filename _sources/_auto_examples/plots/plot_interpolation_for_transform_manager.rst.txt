@@ -25,7 +25,7 @@ Managing Transformations over Time
 In this example, given two trajectories of 3D rigid transformations, we will
 interpolate both and use the transform manager for the target timestep.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-94
+.. GENERATED FROM PYTHON SOURCE LINES 9-96
 
 
 
@@ -35,22 +35,37 @@ interpolate both and use the transform manager for the target timestep.
    :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /home/afabisch/Data/Projects/pytransform3d/pytransform3d/examples/plots/plot_interpolation_for_transform_manager.py:39: DeprecationWarning: function is deprecated, use matrix_from_euler
+      R = pr.active_matrix_from_extrinsic_euler_zyx([yaw[i], 0, 0])
 
 
+
+
+
+
+|
 
 .. code-block:: Python
 
-    import numpy as np
+
     import matplotlib.pyplot as plt
+    import numpy as np
 
     from pytransform3d import rotations as pr
     from pytransform3d import transformations as pt
-    from pytransform3d.transform_manager import (TemporalTransformManager,
-                                                 NumpyTimeseriesTransform)
+    from pytransform3d.transform_manager import (
+        TemporalTransformManager,
+        NumpyTimeseriesTransform,
+    )
 
 
     def create_sinusoidal_movement(
-            duration_sec, sample_period, x_velocity, y_start_offset, start_time):
+        duration_sec, sample_period, x_velocity, y_start_offset, start_time
+    ):
         """Create a planar (z=0) sinusoidal movement around x-axis."""
         time = np.arange(0, duration_sec, sample_period) + start_time
         n_steps = len(time)
@@ -108,10 +123,8 @@ interpolate both and use the transform manager for the target timestep.
     plt.figure(figsize=(8, 8))
     plt.plot(pqs_A[:, 0], pqs_A[:, 1], "bo--", label="trajectory $A(t)$")
     plt.plot(pqs_B[:, 0], pqs_B[:, 1], "yo--", label="trajectory $B(t)$")
-    plt.scatter(pq_A[0], pq_A[1], color="b", s=120, marker="d",
-                label="$A(t_q)$")
-    plt.scatter(pq_B[0], pq_B[1], color="y", s=120, marker="^",
-                label="$B(t_q)$")
+    plt.scatter(pq_A[0], pq_A[1], color="b", s=120, marker="d", label="$A(t_q)$")
+    plt.scatter(pq_B[0], pq_B[1], color="y", s=120, marker="^", label="$B(t_q)$")
     plt.text(
         pq_A[0] + 0.3,
         pq_A[1] - 0.3,
@@ -129,7 +142,7 @@ interpolate both and use the transform manager for the target timestep.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.100 seconds)
+   **Total running time of the script:** (0 minutes 0.102 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_interpolation_for_transform_manager.py:

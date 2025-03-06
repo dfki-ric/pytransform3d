@@ -24,7 +24,7 @@ Quaternion Integration
 
 Integrate angular velocities to a sequence of quaternions.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-25
+.. GENERATED FROM PYTHON SOURCE LINES 8-29
 
 
 
@@ -39,11 +39,15 @@ Integrate angular velocities to a sequence of quaternions.
 
 .. code-block:: Python
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from pytransform3d.rotations import (
-        quaternion_integrate, matrix_from_quaternion, plot_basis)
 
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    from pytransform3d.rotations import (
+        quaternion_integrate,
+        matrix_from_quaternion,
+        plot_basis,
+    )
 
     angular_velocities = np.empty((21, 3))
     angular_velocities[:, :] = np.array([np.sqrt(0.5), np.sqrt(0.5), 0.0])
@@ -60,7 +64,7 @@ Integrate angular velocities to a sequence of quaternions.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.081 seconds)
+   **Total running time of the script:** (0 minutes 0.082 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_quaternion_integrate.py:

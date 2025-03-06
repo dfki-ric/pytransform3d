@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>7. Organizing Transformations in a Graph &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>7. Organizing Transformations in a Graph &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/transform_manager';</script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="6. Modeling Transformations" href="transformation_modeling.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -402,12 +402,12 @@ if required as indicated by the solid red arrow.</p>
 <p>The <a class="reference internal" href="../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformManager</span></code></a> does this for
 you. For the given example, this would be the corresponding code
 (see also: <a class="reference internal" href="../_auto_examples/plots/plot_transform_manager.html#sphx-glr-auto-examples-plots-plot-transform-manager-py"><span class="std std-ref">Transformation Manager</span></a>).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tm</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]),</span>
+<span class="p">)</span>
+
+<span class="n">tm</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="p">()</span>
 <span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;end-effector&quot;</span><span class="p">,</span> <span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">ee2robot</span><span class="p">)</span>
 <span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;camera&quot;</span><span class="p">,</span> <span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="n">cam2robot</span><span class="p">)</span>
-<span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span><span class="p">(</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;camera&quot;</span><span class="p">,</span> <span class="n">object2cam</span><span class="p">)</span>
-
-<span class="n">ee2object</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="s2">&quot;end-effector&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We can also export the underlying graph structure as a PNG with</p>

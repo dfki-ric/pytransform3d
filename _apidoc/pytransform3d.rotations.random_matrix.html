@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.rotations.random_matrix &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>pytransform3d.rotations.random_matrix &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="pytransform3d.rotations.robust_polar_decomposition" href="pytransform3d.rotations.robust_polar_decomposition.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -129,8 +129,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -551,6 +551,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.check_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.check_dual_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_requires_renormalization.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_requires_renormalization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.norm_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.norm_dual_quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_squared_norm.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_squared_norm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.assert_unit_dual_quaternion_equal.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.assert_unit_dual_quaternion_equal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.transformations.dual_quaternion_double.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.transformations</span></code>.dual_quaternion_double</a></li>
@@ -788,7 +789,7 @@ document.write(`
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.rotations" title="pytransform3d.rotations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code></a>.random_matrix<a class="headerlink" href="#pytransform3d-rotations-random-matrix" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.rotations.random_matrix">
-<span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">random_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">rng=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x78F0D2D7C660,</span> <span class="pre">mean=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.]]),</span> <span class="pre">cov=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.]])</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_random.html#random_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.random_matrix" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.rotations.</span></span><span class="sig-name descname"><span class="pre">random_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">rng=Generator(PCG64)</span> <span class="pre">at</span> <span class="pre">0x755CD5D91A80,</span> <span class="pre">mean=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.]]),</span> <span class="pre">cov=array([[1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.]])</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/rotations/_random.html#random_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.rotations.random_matrix" title="Link to this definition">#</a></dt>
 <dd><p>Generate random rotation matrix.</p>
 <p>Generate <span class="math notranslate nohighlight">\(\Delta \boldsymbol{R}_{B_{i+1}{B_i}}
 \boldsymbol{R}_{{B_i}A}\)</span>, with <span class="math notranslate nohighlight">\(\Delta \boldsymbol{R}_{B_{i+1}{B_i}}

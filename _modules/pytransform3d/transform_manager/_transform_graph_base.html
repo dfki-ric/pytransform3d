@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transform_manager._transform_graph_base &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>pytransform3d.transform_manager._transform_graph_base &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transform_manager/_transform_graph_base';</script>
@@ -47,7 +47,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -125,8 +125,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -356,7 +356,9 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for pytransform3d.transform_manager._transform_graph_base</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">abc</span>
+<span></span><span class="sd">&quot;&quot;&quot;Common base class of transformation graphs.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
@@ -381,6 +383,7 @@ document.write(`
 <span class="sd">        Check if transformation matrices are valid and requested nodes exist,</span>
 <span class="sd">        which might significantly slow down some operations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="TransformGraphBase.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.transform_manager.TransformGraphBase.html#pytransform3d.transform_manager.TransformGraphBase.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -419,8 +422,12 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert sequence of node names to rigid transformation.&quot;&quot;&quot;</span>
         <span class="n">A2B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-            <span class="n">A2B</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">A2B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span><span class="p">),</span>
-                         <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">)</span>
+            <span class="n">A2B</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span>
+                <span class="n">A2B</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">from_f</span><span class="p">,</span> <span class="n">to_f</span><span class="p">),</span>
+                <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
+                <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">A2B</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
@@ -508,17 +515,21 @@ document.write(`
     <span class="k">def</span> <span class="nf">_recompute_shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">n_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">)),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">)),</span>
-            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_nodes</span><span class="p">,</span> <span class="n">n_nodes</span><span class="p">))</span>
+            <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">)),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_nodes</span><span class="p">,</span> <span class="n">n_nodes</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span> <span class="o">=</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">,</span> <span class="n">unweighted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">,</span>
-            <span class="n">return_predecessors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">,</span>
+            <span class="n">unweighted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">,</span>
+            <span class="n">return_predecessors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cached_shortest_paths</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_find_connected_transforms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Find all transformations connected to a frame.&quot;&quot;&quot;</span>
         <span class="n">connected_transforms</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">from_frame</span> <span class="o">==</span> <span class="n">frame</span> <span class="ow">or</span> <span class="n">to_frame</span> <span class="o">==</span> <span class="n">frame</span><span class="p">:</span>
                 <span class="n">connected_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">connected_transforms</span>
@@ -547,13 +558,12 @@ document.write(`
         <span class="n">transform_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_available</span><span class="p">(</span><span class="n">transform_key</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_del_transform</span><span class="p">(</span><span class="n">transform_key</span><span class="p">)</span>
-            <span class="n">ij_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="p">[</span><span class="n">transform_key</span><span class="p">]</span>
+            <span class="n">ij_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">transform_key</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">ij_index</span> <span class="k">else</span> <span class="n">v</span> <span class="o">-</span> <span class="mi">1</span>
-                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ij_index</span><span class="p">]</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">[</span><span class="n">ij_index</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ij_index</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">[</span><span class="n">ij_index</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_recompute_shortest_path</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -576,26 +586,26 @@ document.write(`
         <span class="k">if</span> <span class="n">frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Frame &#39;</span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s2">&#39; is not in the graph.&quot;</span><span class="p">)</span>
 
-
         <span class="c1"># Remove all transformations (edges) associated with the frame</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_connected_transforms</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_connected_transforms</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">remove_transform</span><span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span>
 
         <span class="n">frame_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">frame_index</span><span class="p">)</span>
 
         <span class="c1"># Adjust the connection indices in self.i and self.j</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span> <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">frame_index</span> <span class="k">else</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span>
-                  <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span> <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">frame_index</span> <span class="k">else</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span>
-                  <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">index</span> <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">frame_index</span> <span class="k">else</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">i</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">index</span> <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">frame_index</span> <span class="k">else</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">j</span>
+        <span class="p">]</span>
 
         <span class="c1"># Update the transform_to_ij_index dictionary</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">):</span> <span class="n">ij_index</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">),</span> <span class="n">ij_index</span>
-            <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">from_frame</span> <span class="o">!=</span> <span class="n">frame</span> <span class="ow">and</span> <span class="n">to_frame</span> <span class="o">!=</span> <span class="n">frame</span>
+            <span class="n">nodes</span><span class="p">:</span> <span class="n">ij_index</span>
+            <span class="k">for</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">ij_index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to_ij_index</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nodes</span>
         <span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_recompute_shortest_path</span><span class="p">()</span>
@@ -641,14 +651,16 @@ document.write(`
             <span class="k">return</span> <span class="n">invert_transform</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_get_transform</span><span class="p">((</span><span class="n">to_frame</span><span class="p">,</span> <span class="n">from_frame</span><span class="p">)),</span>
                 <span class="n">strict_check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict_check</span><span class="p">,</span>
-                <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span>
+                <span class="n">check</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">from_frame</span><span class="p">)</span>
         <span class="n">j</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">to_frame</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]):</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Cannot compute path from frame &#39;</span><span class="si">%s</span><span class="s2">&#39; to &quot;</span>
-                           <span class="s2">&quot;frame &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot compute path from frame &#39;</span><span class="si">%s</span><span class="s2">&#39; to &quot;</span>
+                <span class="s2">&quot;frame &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">from_frame</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shortest_path</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_transform</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
@@ -681,7 +693,8 @@ document.write(`
 <span class="sd">            Number of connected components.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_labels</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TransformGraphBase.check_consistency">
@@ -707,8 +720,9 @@ document.write(`
                     <span class="n">node1_to_node2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span>
                     <span class="n">node2_to_node1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="n">node1</span><span class="p">)</span>
                     <span class="n">node1_to_node2_inv</span> <span class="o">=</span> <span class="n">invert_transform</span><span class="p">(</span><span class="n">node2_to_node1</span><span class="p">)</span>
-                    <span class="n">consistent</span> <span class="o">=</span> <span class="n">consistent</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">node1_to_node2</span><span class="p">,</span>
-                                                            <span class="n">node1_to_node2_inv</span><span class="p">)</span>
+                    <span class="n">consistent</span> <span class="o">=</span> <span class="n">consistent</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+                        <span class="n">node1_to_node2</span><span class="p">,</span> <span class="n">node1_to_node2_inv</span>
+                    <span class="p">)</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">pass</span>  <span class="c1"># Frames are not connected</span>
         <span class="k">return</span> <span class="n">consistent</span></div>

@@ -24,7 +24,7 @@ Animate Trajectory
 
 Animates a trajectory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-54
+.. GENERATED FROM PYTHON SOURCE LINES 8-61
 
 
 
@@ -42,10 +42,12 @@ Animates a trajectory.
 
 .. code-block:: Python
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import axes3d
+
     import matplotlib.animation as animation
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from mpl_toolkits.mplot3d import axes3d  # noqa: F401
+
     from pytransform3d.plot_utils import Trajectory
     from pytransform3d.rotations import passive_matrix_from_angle, R_id
     from pytransform3d.transformations import transform_from, concat
@@ -84,15 +86,20 @@ Animates a trajectory.
         trajectory.add_trajectory(ax)
 
         anim = animation.FuncAnimation(
-            fig, update_trajectory, n_frames, fargs=(n_frames, trajectory),
-            interval=50, blit=False)
+            fig,
+            update_trajectory,
+            n_frames,
+            fargs=(n_frames, trajectory),
+            interval=50,
+            blit=False,
+        )
 
         plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 35.018 seconds)
+   **Total running time of the script:** (0 minutes 35.685 seconds)
 
 
 .. _sphx_glr_download__auto_examples_animations_animate_trajectory.py:

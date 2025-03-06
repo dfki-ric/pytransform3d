@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Transformation Manager &#8212; pytransform3d 3.13.0 documentation</title>
+    <title>Transformation Manager &#8212; pytransform3d 3.14.0 documentation</title>
   
   
   
@@ -40,17 +40,17 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=6aaf4047"></script>
+    <script src="../../_static/documentation_options.js?v=e4f4b189"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_auto_examples/plots/plot_transform_manager';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Compare Rotation Sampling Methods" href="plot_sample_rotations.html" />
-    <link rel="prev" title="Plot Transformation through Screw Motion" href="plot_screw.html" />
+    <link rel="next" title="Plot Transformation through Screw Motion" href="plot_screw.html" />
+    <link rel="prev" title="Plot Box" href="plot_box.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 07, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
   </head>
   
   
@@ -128,8 +128,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.13.0"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.13.0"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
   
   
 </a></div>
@@ -315,8 +315,8 @@ document.write(`
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Matplotlib Figures</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="plot_transform.html">Plot Transformation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_bivector.html">Plot Bivector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_vector.html">Plot Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_sphere.html">Plot Sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_vector.html">Plot Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_sample_transforms.html">Sample Transforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_matrix_from_two_vectors.html">Construct Rotation Matrix from Two Vectors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_quaternion_integrate.html">Quaternion Integration</a></li>
@@ -324,9 +324,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="plot_transform_concatenation.html">Transform Concatenation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_mesh.html">Plot Mesh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_axis_angle_from_two_vectors.html">Axis-Angle Representation from Two Direction Vectors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_camera_3d.html">Camera Representation in 3D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_spherical_grid.html">Spherical Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_pose_trajectory.html">Pose Trajectory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_camera_3d.html">Camera Representation in 3D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_frames.html">Plot with Respect to Different Reference Frames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_robot.html">Robot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_euler_angles.html">Euler Angles</a></li>
@@ -336,8 +336,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="plot_spheres.html">Plot Multiple Spheres</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_collision_objects.html">URDF with Collision Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_box.html">Plot Box</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_screw.html">Plot Transformation through Screw Motion</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Transformation Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_screw.html">Plot Transformation through Screw Motion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_sample_rotations.html">Compare Rotation Sampling Methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_projection.html">Camera Projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_trajectories.html">Random Trajectories</a></li>
@@ -350,8 +350,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_trajectory.html">Camera Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_geometries.html">Plot Random Geometries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_urdf.html">URDF Joints</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_convention_rotation_global_local.html">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_concatenate_uncertain_transforms.html">Concatenate Uncertain Transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_convention_rotation_global_local.html">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_interpolation_for_transform_manager.html">Managing Transformations over Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_dual_quaternion_interpolation.html">Dual Quaternion Interpolation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_pose_fusion.html">Fuse 3 Poses</a></li>
@@ -427,23 +427,32 @@ to download the full example code.</p>
 <span id="sphx-glr-auto-examples-plots-plot-transform-manager-py"></span><h1>Transformation Manager<a class="headerlink" href="#transformation-manager" title="Link to this heading">#</a></h1>
 <p>In this example, we will use the TransformManager to infer a transformation
 automatically.</p>
-<img src="../../_images/sphx_glr_plot_transform_manager_001.png" srcset="../../_images/sphx_glr_plot_transform_manager_001.png" alt="plot transform manager" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<img src="../../_images/sphx_glr_plot_transform_manager_001.png" srcset="../../_images/sphx_glr_plot_transform_manager_001.png" alt="plot transform manager" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/afabisch/Data/Projects/pytransform3d/pytransform3d/examples/plots/plot_transform_manager.py:26: DeprecationWarning: function is deprecated, use matrix_from_euler
+  pr.active_matrix_from_intrinsic_euler_xyz(np.array([0.0, 0.0, -0.5])),
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="kn">from</span> <span class="nn">pytransform3d</span> <span class="kn">import</span> <span class="n">rotations</span> <span class="k">as</span> <span class="n">pr</span>
 <span class="kn">from</span> <span class="nn">pytransform3d</span> <span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
 <span class="kn">from</span> <span class="nn">pytransform3d.transform_manager</span> <span class="kn">import</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-class"><span class="n">TransformManager</span></a>
 
-
 <a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="numpy.random.Generator" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rng</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.default_rng" title="numpy.random.default_rng" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span></a><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ee2robot</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq" title="pytransform3d.transformations.transform_from_pq" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">pt</span><span class="o">.</span><span class="n">transform_from_pq</span></a><span class="p">(</span>
-    <a href="https://numpy.org/doc/stable/reference/generated/numpy.hstack.html#numpy.hstack" title="numpy.hstack" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">hstack</span></a><span class="p">((</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span>
-               <a href="../../_apidoc/pytransform3d.rotations.random_quaternion.html#pytransform3d.rotations.random_quaternion" title="pytransform3d.rotations.random_quaternion" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">pr</span><span class="o">.</span><span class="n">random_quaternion</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="numpy.random.Generator" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rng</span></a><span class="p">))))</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.hstack.html#numpy.hstack" title="numpy.hstack" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">hstack</span></a><span class="p">((</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <a href="../../_apidoc/pytransform3d.rotations.random_quaternion.html#pytransform3d.rotations.random_quaternion" title="pytransform3d.rotations.random_quaternion" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">pr</span><span class="o">.</span><span class="n">random_quaternion</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="numpy.random.Generator" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rng</span></a><span class="p">)))</span>
+<span class="p">)</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cam2robot</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from_pq.html#pytransform3d.transformations.transform_from_pq" title="pytransform3d.transformations.transform_from_pq" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">pt</span><span class="o">.</span><span class="n">transform_from_pq</span></a><span class="p">(</span>
-    <a href="https://numpy.org/doc/stable/reference/generated/numpy.hstack.html#numpy.hstack" title="numpy.hstack" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">hstack</span></a><span class="p">((</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]),</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pr</span><span class="o">.</span><span class="n">q_id</span></a><span class="p">)))</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.hstack.html#numpy.hstack" title="numpy.hstack" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">hstack</span></a><span class="p">((</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]),</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pr</span><span class="o">.</span><span class="n">q_id</span></a><span class="p">))</span>
+<span class="p">)</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">object2cam</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transformations.transform_from.html#pytransform3d.transformations.transform_from" title="pytransform3d.transformations.transform_from" class="sphx-glr-backref-module-pytransform3d-transformations sphx-glr-backref-type-py-function"><span class="n">pt</span><span class="o">.</span><span class="n">transform_from</span></a><span class="p">(</span>
     <a href="../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz" title="pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">pr</span><span class="o">.</span><span class="n">active_matrix_from_intrinsic_euler_xyz</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">])),</span>
-    <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]))</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]),</span>
+<span class="p">)</span>
 
 <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tm</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager" title="pytransform3d.transform_manager.TransformManager" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-class"><span class="n">TransformManager</span></a><span class="p">()</span>
 <a href="../../_apidoc/pytransform3d.transform_manager.TransformManager.html#pytransform3d.transform_manager.TransformManager.add_transform" title="pytransform3d.transform_manager.TransformManager.add_transform" class="sphx-glr-backref-module-pytransform3d-transform_manager sphx-glr-backref-type-py-method"><span class="n">tm</span><span class="o">.</span><span class="n">add_transform</span></a><span class="p">(</span><span class="s2">&quot;end-effector&quot;</span><span class="p">,</span> <span class="s2">&quot;robot&quot;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ee2robot</span></a><span class="p">)</span>
@@ -459,7 +468,7 @@ automatically.</p>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.072 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.068 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-transform-manager-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/923c399debf96ff8a7255f48bb4ed892/plot_transform_manager.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_transform_manager.ipynb</span></code></a></p>
@@ -485,20 +494,20 @@ automatically.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="plot_screw.html"
+       href="plot_box.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Plot Transformation through Screw Motion</p>
+        <p class="prev-next-title">Plot Box</p>
       </div>
     </a>
     <a class="right-next"
-       href="plot_sample_rotations.html"
+       href="plot_screw.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Compare Rotation Sampling Methods</p>
+        <p class="prev-next-title">Plot Transformation through Screw Motion</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

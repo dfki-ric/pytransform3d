@@ -24,7 +24,7 @@ Pose Trajectory
 
 Plotting pose trajectories with pytransform3d is easy.
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-26
+.. GENERATED FROM PYTHON SOURCE LINES 8-28
 
 
 
@@ -39,12 +39,13 @@ Plotting pose trajectories with pytransform3d is easy.
 
 .. code-block:: Python
 
-    import numpy as np
+
     import matplotlib.pyplot as plt
+    import numpy as np
+
     from pytransform3d.batch_rotations import quaternion_slerp_batch
     from pytransform3d.rotations import q_id
     from pytransform3d.trajectories import plot_trajectory
-
 
     n_steps = 100000
     P = np.empty((n_steps, 7))
@@ -55,13 +56,14 @@ Plotting pose trajectories with pytransform3d is easy.
     P[:, 3:] = quaternion_slerp_batch(q_id, q_end, np.linspace(0, 1, n_steps))
 
     ax = plot_trajectory(
-        P=P, s=0.3, n_frames=100, normalize_quaternions=False, lw=2, c="k")
+        P=P, s=0.3, n_frames=100, normalize_quaternions=False, lw=2, c="k"
+    )
     plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.232 seconds)
+   **Total running time of the script:** (0 minutes 0.231 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_pose_trajectory.py:

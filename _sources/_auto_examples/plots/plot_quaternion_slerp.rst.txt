@@ -28,14 +28,19 @@ significant differences as you can see in this example. The outer circle uses
 linear interpolation and the inner circle uses SLERP. You can play around with
 the value of 'end_angle' in this example.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-18
+.. GENERATED FROM PYTHON SOURCE LINES 12-23
 
 .. code-block:: Python
 
-    import numpy as np
+
     import matplotlib.pyplot as plt
+    import numpy as np
+
     from pytransform3d.rotations import (
-        matrix_from_axis_angle, quaternion_from_matrix, quaternion_slerp)
+        matrix_from_axis_angle,
+        quaternion_from_matrix,
+        quaternion_slerp,
+    )
     from pytransform3d.trajectories import plot_trajectory
 
 
@@ -45,13 +50,13 @@ the value of 'end_angle' in this example.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-22
+.. GENERATED FROM PYTHON SOURCE LINES 24-27
 
 We assume the array T represents something like time.
 The position follows a sigmoid profile on a circular path over time, hence
 velocity is not constant.
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-34
+.. GENERATED FROM PYTHON SOURCE LINES 27-39
 
 .. code-block:: Python
 
@@ -74,12 +79,12 @@ velocity is not constant.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-37
+.. GENERATED FROM PYTHON SOURCE LINES 40-42
 
 The naive linear interpolation method computes a time-weighted average
 between the orientation at the start and the orientation at the end.
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-44
+.. GENERATED FROM PYTHON SOURCE LINES 42-49
 
 .. code-block:: Python
 
@@ -97,11 +102,11 @@ between the orientation at the start and the orientation at the end.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
 
 SLERP is the exact method to interpolate the orientations.
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-52
+.. GENERATED FROM PYTHON SOURCE LINES 51-57
 
 .. code-block:: Python
 
@@ -118,18 +123,18 @@ SLERP is the exact method to interpolate the orientations.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-54
+.. GENERATED FROM PYTHON SOURCE LINES 58-59
 
 The following 3D plot compares the two approaches.
 
-.. GENERATED FROM PYTHON SOURCE LINES 54-62
+.. GENERATED FROM PYTHON SOURCE LINES 59-67
 
 .. code-block:: Python
 
     ax = plot_trajectory(
-        P=lerp, show_direction=False, n_frames=40, s=0.05, ax_s=0.7)
-    ax = plot_trajectory(
-        P=slerp, show_direction=False, n_frames=40, s=0.05, ax=ax)
+        P=lerp, show_direction=False, n_frames=40, s=0.05, ax_s=0.7
+    )
+    ax = plot_trajectory(P=slerp, show_direction=False, n_frames=40, s=0.05, ax=ax)
     ax.text(0.1, 0, 0, "SLERP")
     ax.text(0.4, 0, 0.6, "Naive linear interpolation")
     ax.view_init(elev=10, azim=90)
@@ -149,7 +154,7 @@ The following 3D plot compares the two approaches.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.169 seconds)
+   **Total running time of the script:** (0 minutes 0.170 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_quaternion_slerp.py:

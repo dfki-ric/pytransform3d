@@ -6,9 +6,9 @@ URDF Joints
 This example shows how to load a URDF description of a robot, set some joint
 angles and display relevant frames.
 """
-from pytransform3d.urdf import UrdfTransformManager
-import pytransform3d.visualizer as pv
 
+import pytransform3d.visualizer as pv
+from pytransform3d.urdf import UrdfTransformManager
 
 COMPI_URDF = """
 <?xml version="1.0"?>
@@ -80,8 +80,13 @@ for name, angle in zip(joint_names, joint_angles):
     tm.set_joint(name, angle)
 fig = pv.figure("URDF")
 fig.plot_graph(
-    tm, "compi", show_frames=True, show_connections=True,
-    whitelist=["link%d" % d for d in range(1, 7)], s=0.05)
+    tm,
+    "compi",
+    show_frames=True,
+    show_connections=True,
+    whitelist=["link%d" % d for d in range(1, 7)],
+    s=0.05,
+)
 fig.view_init()
 if "__file__" in globals():
     fig.show()

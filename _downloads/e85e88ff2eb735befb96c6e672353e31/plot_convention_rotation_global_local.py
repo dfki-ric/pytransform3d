@@ -6,11 +6,16 @@ Convention for Rotation: Passive / Active, Extrinsic / Intrinsic
 We will compare all possible combinations of passive and active
 rotations and extrinsic and intrinsic concatenation of rotations.
 """
-import numpy as np
+
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import proj3d
+import numpy as np
+from mpl_toolkits.mplot3d import proj3d  # noqa: F401
+
 from pytransform3d.rotations import (
-    passive_matrix_from_angle, active_matrix_from_angle, plot_basis)
+    passive_matrix_from_angle,
+    active_matrix_from_angle,
+    plot_basis,
+)
 
 # %%
 # Passive Extrinsic Rotations
@@ -18,8 +23,15 @@ from pytransform3d.rotations import (
 plt.figure(figsize=(8, 3))
 axes = [plt.subplot(1, 3, 1 + i, projection="3d") for i in range(3)]
 for ax in axes:
-    plt.setp(ax, xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
-             xlabel="X", ylabel="Y", zlabel="Z")
+    plt.setp(
+        ax,
+        xlim=(-1, 1),
+        ylim=(-1, 1),
+        zlim=(-1, 1),
+        xlabel="X",
+        ylabel="Y",
+        zlabel="Z",
+    )
 
 Rx45 = passive_matrix_from_angle(0, np.deg2rad(45))
 Rz45 = passive_matrix_from_angle(2, np.deg2rad(45))
@@ -39,8 +51,15 @@ plt.tight_layout()
 plt.figure(figsize=(8, 3))
 axes = [plt.subplot(1, 3, 1 + i, projection="3d") for i in range(3)]
 for ax in axes:
-    plt.setp(ax, xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
-             xlabel="X", ylabel="Y", zlabel="Z")
+    plt.setp(
+        ax,
+        xlim=(-1, 1),
+        ylim=(-1, 1),
+        zlim=(-1, 1),
+        xlabel="X",
+        ylabel="Y",
+        zlabel="Z",
+    )
 
 axes[0].set_title("Passive Intrinsic Rotations", y=0.95)
 plot_basis(ax=axes[0], R=np.eye(3))
@@ -57,8 +76,15 @@ plt.tight_layout()
 plt.figure(figsize=(8, 3))
 axes = [plt.subplot(1, 3, 1 + i, projection="3d") for i in range(3)]
 for ax in axes:
-    plt.setp(ax, xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
-             xlabel="X", ylabel="Y", zlabel="Z")
+    plt.setp(
+        ax,
+        xlim=(-1, 1),
+        ylim=(-1, 1),
+        zlim=(-1, 1),
+        xlabel="X",
+        ylabel="Y",
+        zlabel="Z",
+    )
 
 Rx45 = active_matrix_from_angle(0, np.deg2rad(45))
 Rz45 = active_matrix_from_angle(2, np.deg2rad(45))
@@ -78,8 +104,15 @@ plt.tight_layout()
 plt.figure(figsize=(8, 3))
 axes = [plt.subplot(1, 3, 1 + i, projection="3d") for i in range(3)]
 for ax in axes:
-    plt.setp(ax, xlim=(-1, 1), ylim=(-1, 1), zlim=(-1, 1),
-             xlabel="X", ylabel="Y", zlabel="Z")
+    plt.setp(
+        ax,
+        xlim=(-1, 1),
+        ylim=(-1, 1),
+        zlim=(-1, 1),
+        xlabel="X",
+        ylabel="Y",
+        zlabel="Z",
+    )
 
 axes[0].set_title("Active Intrinsic Rotations", y=0.95)
 plot_basis(ax=axes[0], R=np.eye(3))

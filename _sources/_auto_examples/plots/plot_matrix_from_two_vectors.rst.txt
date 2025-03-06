@@ -27,7 +27,7 @@ point in the same direction as the first vector, the y-axis corresponds to the
 normalized vector rejection of b on a, and the z-axis is the cross product of
 the other basis vectors.
 
-.. GENERATED FROM PYTHON SOURCE LINES 11-27
+.. GENERATED FROM PYTHON SOURCE LINES 11-31
 
 
 
@@ -42,12 +42,16 @@ the other basis vectors.
 
 .. code-block:: Python
 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from pytransform3d.rotations import (
-        matrix_from_two_vectors, plot_basis, random_vector)
-    from pytransform3d.plot_utils import plot_vector
 
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    from pytransform3d.plot_utils import plot_vector
+    from pytransform3d.rotations import (
+        matrix_from_two_vectors,
+        plot_basis,
+        random_vector,
+    )
 
     rng = np.random.default_rng(1)
     a = random_vector(rng, 3) * 0.3
@@ -62,7 +66,7 @@ the other basis vectors.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.061 seconds)
+   **Total running time of the script:** (0 minutes 0.059 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_matrix_from_two_vectors.py:

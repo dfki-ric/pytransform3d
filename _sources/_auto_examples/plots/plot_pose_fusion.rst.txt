@@ -33,14 +33,16 @@ This example is from
 Barfoot, Furgale: Associating Uncertainty With Three-Dimensional Poses for Use
 in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
 
-.. GENERATED FROM PYTHON SOURCE LINES 17-23
+.. GENERATED FROM PYTHON SOURCE LINES 17-25
 
 .. code-block:: Python
 
-    import numpy as np
+
     import matplotlib.pyplot as plt
-    import pytransform3d.uncertainty as pu
+    import numpy as np
+
     import pytransform3d.transformations as pt
+    import pytransform3d.uncertainty as pu
 
 
 
@@ -50,13 +52,13 @@ in Estimation Problems, http://ncfrn.mcgill.ca/members/pubs/barfoot_tro14.pdf
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 24-27
+.. GENERATED FROM PYTHON SOURCE LINES 26-29
 
 Helper Functions
 ----------------
 Here you find some helper functions for plotting.
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-95
+.. GENERATED FROM PYTHON SOURCE LINES 29-104
 
 .. code-block:: Python
 
@@ -85,6 +87,7 @@ Here you find some helper functions for plotting.
             Height of the ellipse (semi axis, not diameter).
         """
         from scipy import linalg
+
         vals, vecs = linalg.eigh(cov)
         order = vals.argsort()[::-1]
         vals, vecs = vals[order], vecs[:, order]
@@ -93,8 +96,9 @@ Here you find some helper functions for plotting.
         return angle, width, height
 
 
-    def plot_error_ellipse(ax, mean, cov, color=None, alpha=0.25,
-                           factors=np.linspace(0.25, 2.0, 8)):
+    def plot_error_ellipse(
+        ax, mean, cov, color=None, alpha=0.25, factors=np.linspace(0.25, 2.0, 8)
+    ):
         """Plot error ellipse of MVN.
 
         Parameters
@@ -118,10 +122,15 @@ Here you find some helper functions for plotting.
             Multiples of the standard deviations that should be plotted.
         """
         from matplotlib.patches import Ellipse
+
         for factor in factors:
             angle, width, height = to_ellipse(cov, factor)
-            ell = Ellipse(xy=mean, width=2.0 * width, height=2.0 * height,
-                          angle=np.degrees(angle))
+            ell = Ellipse(
+                xy=mean,
+                width=2.0 * width,
+                height=2.0 * height,
+                angle=np.degrees(angle),
+            )
             ell.set_alpha(alpha)
             if color is not None:
                 ell.set_color(color)
@@ -135,14 +144,14 @@ Here you find some helper functions for plotting.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-100
+.. GENERATED FROM PYTHON SOURCE LINES 105-109
 
 Example Configuration
 ---------------------
 A ground truth pose is known in this example. We sample 3 poses with
 different covariances around the ground truth pose.
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-120
+.. GENERATED FROM PYTHON SOURCE LINES 109-141
 
 .. code-block:: Python
 
@@ -155,12 +164,24 @@ different covariances around the ground truth pose.
 
     rng = np.random.default_rng(0)
 
-    T1 = np.dot(pt.transform_from_exponential_coordinates(
-        pt.random_exponential_coordinates(rng=rng, cov=cov1)), T_true)
-    T2 = np.dot(pt.transform_from_exponential_coordinates(
-        pt.random_exponential_coordinates(rng=rng, cov=cov2)), T_true)
-    T3 = np.dot(pt.transform_from_exponential_coordinates(
-        pt.random_exponential_coordinates(rng=rng, cov=cov3)), T_true)
+    T1 = np.dot(
+        pt.transform_from_exponential_coordinates(
+            pt.random_exponential_coordinates(rng=rng, cov=cov1)
+        ),
+        T_true,
+    )
+    T2 = np.dot(
+        pt.transform_from_exponential_coordinates(
+            pt.random_exponential_coordinates(rng=rng, cov=cov2)
+        ),
+        T_true,
+    )
+    T3 = np.dot(
+        pt.transform_from_exponential_coordinates(
+            pt.random_exponential_coordinates(rng=rng, cov=cov3)
+        ),
+        T_true,
+    )
 
     x1 = pt.exponential_coordinates_from_transform(T1)
     x2 = pt.exponential_coordinates_from_transform(T2)
@@ -173,13 +194,13 @@ different covariances around the ground truth pose.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-124
+.. GENERATED FROM PYTHON SOURCE LINES 142-145
 
 Fusion
 ------
 We can then fuse the 3 sampled poses with their associated covariances.
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-126
+.. GENERATED FROM PYTHON SOURCE LINES 145-147
 
 .. code-block:: Python
 
@@ -192,7 +213,7 @@ We can then fuse the 3 sampled poses with their associated covariances.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 127-134
+.. GENERATED FROM PYTHON SOURCE LINES 148-155
 
 Plotting
 --------
@@ -202,13 +223,14 @@ equiprobable ellipse. The fused pose estimate is also shown with its
 associated covariance as an equiprobable ellipse. For comparison, the ground
 truth pose is shown as a point.
 
-.. GENERATED FROM PYTHON SOURCE LINES 134-161
+.. GENERATED FROM PYTHON SOURCE LINES 155-193
 
 .. code-block:: Python
 
     x_est = pt.exponential_coordinates_from_transform(T_est)
     _, axes = plt.subplots(
-        nrows=6, ncols=6, sharex=True, sharey=True, squeeze=True, figsize=(10, 10))
+        nrows=6, ncols=6, sharex=True, sharey=True, squeeze=True, figsize=(10, 10)
+    )
     factors = [1.0]
     for i in range(6):
         for j in range(6):
@@ -220,12 +242,22 @@ truth pose is shown as a point.
 
             for x, cov, color in zip([x1, x2, x3], [cov1, cov2, cov3], "rgb"):
                 plot_error_ellipse(
-                    ax, x[indices], cov[indices][:, indices],
-                    color=color, alpha=0.4, factors=factors)
+                    ax,
+                    x[indices],
+                    cov[indices][:, indices],
+                    color=color,
+                    alpha=0.4,
+                    factors=factors,
+                )
 
             plot_error_ellipse(
-                ax, x_est[indices], cov_est[indices][:, indices],
-                color="k", alpha=1, factors=factors)
+                ax,
+                x_est[indices],
+                cov_est[indices][:, indices],
+                color="k",
+                alpha=1,
+                factors=factors,
+            )
 
             ax.scatter(x_true[i], x_true[j])
 
@@ -248,7 +280,7 @@ truth pose is shown as a point.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.219 seconds)
+   **Total running time of the script:** (0 minutes 1.152 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_pose_fusion.py:
