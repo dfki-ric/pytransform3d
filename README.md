@@ -39,6 +39,10 @@ The API documentation can be found
 I gave a talk at EuroSciPy 2023 about pytransform3d. Slides are available
 [here](https://github.com/AlexanderFabisch/pytransform3d_euroscipy2023/).
 
+If you need similar features in JAX (on GPU, vectorized, differentiable),
+have a look at the experimental library
+[jaxtransform3d](https://github.com/AlexanderFabisch/jaxtransform3d/).
+
 ## Installation
 
 Use pip to install the package from PyPI:
