@@ -380,7 +380,7 @@ class Figure:
         trajectory : Trajectory
             New trajectory.
         """
-        H = ptr.matrices_from_pos_quat(P)
+        H = ptr.transforms_from_pqs(P)
         trajectory = Trajectory(H, n_frames, s, c)
         trajectory.add_artist(self)
         return trajectory
