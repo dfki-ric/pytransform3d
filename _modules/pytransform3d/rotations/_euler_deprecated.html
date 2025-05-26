@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._euler_deprecated &#8212; pytransform3d 3.14.0 documentation</title>
+    <title>pytransform3d.rotations._euler_deprecated &#8212; pytransform3d 3.14.1 documentation</title>
   
   
   
@@ -15,39 +15,43 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=e4f4b189"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/documentation_options.js?v=408c3590"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_euler_deprecated';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
+  <meta name="docsearch:version" content="3.14.1" />
+    <meta name="docbuild:last-update" content="May 26, 2025"/>
   </head>
   
   
@@ -63,19 +67,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -83,7 +76,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -91,8 +83,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -125,8 +117,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.1"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.1"/>
   
   
 </a></div>
@@ -179,29 +171,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
     </div>
     
@@ -210,15 +194,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -235,7 +215,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -289,15 +270,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
       </div>
     
@@ -305,9 +282,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -325,8 +307,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -338,7 +318,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">pytransform3...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pytransform3d.rotations._euler_deprecated</span></li>
   </ul>
 </nav>
 </div>
@@ -358,17 +338,17 @@ document.write(`
   <h1>Source code for pytransform3d.rotations._euler_deprecated</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Deprecated Euler angle functions.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">._angle</span> <span class="kn">import</span> <span class="n">active_matrix_from_angle</span>
-<span class="kn">from</span> <span class="nn">._constants</span> <span class="kn">import</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span>
-<span class="kn">from</span> <span class="nn">._euler</span> <span class="kn">import</span> <span class="n">general_intrinsic_euler_from_active_matrix</span>
-<span class="kn">from</span> <span class="nn">._matrix</span> <span class="kn">import</span> <span class="n">quaternion_from_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._angle</span><span class="w"> </span><span class="kn">import</span> <span class="n">active_matrix_from_angle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">unitx</span><span class="p">,</span> <span class="n">unity</span><span class="p">,</span> <span class="n">unitz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._euler</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_intrinsic_euler_from_active_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">quaternion_from_matrix</span>
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xzx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_xzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xzx Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -397,8 +377,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xzx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_xzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xzx Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -427,8 +407,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xyx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_xyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xyx Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -457,8 +437,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xyx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_xyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xyx Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -487,8 +467,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yxy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_yxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yxy Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -517,8 +497,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yxy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_yxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yxy Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -547,8 +527,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yzy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_yzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yzy Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -577,8 +557,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yzy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_yzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yzy Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -607,8 +587,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zyz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_zyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zyz Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -637,8 +617,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zyz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_zyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zyz Euler angles.</span>
 
 <span class="sd">    .. warning::</span>
@@ -673,8 +653,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zxz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zxz Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -703,8 +683,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zxz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_zxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zxz Euler angles.</span>
 
 <span class="sd">    .. warning::</span>
@@ -739,8 +719,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xzy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xzy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_xzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xzy Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -769,8 +749,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xzy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xzy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_xzy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xzy Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -799,8 +779,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_xyz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_xyz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic xyz Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -829,8 +809,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_xyz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_xyz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic xyz Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -859,8 +839,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yxz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yxz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_yxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yxz Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -889,8 +869,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yxz">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yxz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_yxz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yxz Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -919,8 +899,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_yzx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_yzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_yzx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_yzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic yzx Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -949,8 +929,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_yzx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_yzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_yzx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_yzx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic yzx Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -979,8 +959,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zyx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zyx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zyx Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -1009,8 +989,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zyx">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zyx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_zyx</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zyx Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -1039,8 +1019,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_intrinsic_euler_zxy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_intrinsic_euler_zxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_intrinsic_euler_zxy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_intrinsic_euler_zxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from intrinsic zxy Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -1069,8 +1049,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_euler_zxy">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_euler_zxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy.html#pytransform3d.rotations.active_matrix_from_extrinsic_euler_zxy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_euler_zxy</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic zxy Cardan angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -1099,8 +1079,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="active_matrix_from_extrinsic_roll_pitch_yaw">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html#pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw">[docs]</a>
-<span class="k">def</span> <span class="nf">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">(</span><span class="n">rpy</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw.html#pytransform3d.rotations.active_matrix_from_extrinsic_roll_pitch_yaw">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">active_matrix_from_extrinsic_roll_pitch_yaw</span><span class="p">(</span><span class="n">rpy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute active rotation matrix from extrinsic roll, pitch, and yaw.</span>
 
 <span class="sd">    Parameters</span>
@@ -1124,8 +1104,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_xzx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_xzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_xzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic xzx Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1154,8 +1134,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_xzx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_xzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_xzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic xzx Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1184,8 +1164,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_xyx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_xyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_xyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic xyx Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1214,8 +1194,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_xyx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_xyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_xyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic xyx Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1244,8 +1224,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_yxy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_yxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_yxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic yxy Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1274,8 +1254,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_yxy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_yxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_yxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic yxy Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1304,8 +1284,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_yzy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_yzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_yzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic yzy Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1334,8 +1314,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_yzy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_yzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_yzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic yzy Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1364,8 +1344,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_zyz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_zyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_zyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic zyz Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1394,8 +1374,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_zyz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_zyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_zyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic zyz Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1424,8 +1404,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_zxz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_zxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_zxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic zxz Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1454,8 +1434,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_zxz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_zxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_zxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic zxz Euler angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1484,8 +1464,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_xzy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_xzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xzy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_xzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic xzy Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1514,8 +1494,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_xzy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_xzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xzy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_xzy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic xzy Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1544,8 +1524,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_xyz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_xyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_xyz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_xyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic xyz Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1574,8 +1554,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_xyz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_xyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_xyz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_xyz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic xyz Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1604,8 +1584,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_yxz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_yxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yxz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_yxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic yxz Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1634,8 +1614,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_yxz_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_yxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yxz_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_yxz_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic yxz Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1664,8 +1644,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_yzx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_yzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_yzx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_yzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic yzx Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1694,8 +1674,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_yzx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_yzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_yzx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_yzx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic yzx Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1724,8 +1704,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_zyx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_zyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zyx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_zyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic zyx Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1754,8 +1734,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_zyx_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_zyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zyx_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_zyx_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic zyx Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1784,8 +1764,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="intrinsic_euler_zxy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">intrinsic_euler_zxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.intrinsic_euler_zxy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">intrinsic_euler_zxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute intrinsic zxy Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1814,8 +1794,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="extrinsic_euler_zxy_from_active_matrix">
-<a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix">[docs]</a>
-<span class="k">def</span> <span class="nf">extrinsic_euler_zxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../user_guide/_apidoc/pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix.html#pytransform3d.rotations.extrinsic_euler_zxy_from_active_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extrinsic_euler_zxy_from_active_matrix</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">strict_check</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute extrinsic zxy Cardan angles from active rotation matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1845,7 +1825,7 @@ document.write(`
 
 <div class="viewcode-block" id="quaternion_from_extrinsic_euler_xyz">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz.html#pytransform3d.rotations.quaternion_from_extrinsic_euler_xyz">[docs]</a>
-<span class="k">def</span> <span class="nf">quaternion_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">quaternion_from_extrinsic_euler_xyz</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute quaternion from extrinsic xyz Euler angles.</span>
 
 <span class="sd">    Parameters</span>
@@ -1896,8 +1876,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1922,7 +1902,8 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.visualizer.figure &#8212; pytransform3d 3.14.0 documentation</title>
+    <title>pytransform3d.visualizer.figure &#8212; pytransform3d 3.14.1 documentation</title>
   
   
   
@@ -16,32 +16,35 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e4f4b189"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/documentation_options.js?v=408c3590"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.visualizer.figure';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -50,7 +53,8 @@
     <link rel="prev" title="pytransform3d.plot_utils.Camera" href="pytransform3d.plot_utils.Camera.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 06, 2025"/>
+  <meta name="docsearch:version" content="3.14.1" />
+    <meta name="docbuild:last-update" content="May 26, 2025"/>
   </head>
   
   
@@ -66,19 +70,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -86,7 +79,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -94,8 +86,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -128,8 +120,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.1"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.1"/>
   
   
 </a></div>
@@ -182,29 +174,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
     </div>
     
@@ -213,15 +197,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -240,7 +220,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -294,15 +275,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
       </div>
     
@@ -734,9 +711,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -754,8 +736,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -767,7 +747,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Documentation</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.visualizer</span></code>.figure</span></li>
   </ul>
 </nav>
 </div>
@@ -815,72 +795,72 @@ for keys.</p>
 
 <section id="examples-using-pytransform3d-visualizer-figure">
 <h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.visualizer.figure</span></code><a class="headerlink" href="#examples-using-pytransform3d-visualizer-figure" title="Link to this heading">#</a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Visualize Sphere"><img alt="" src="../_images/sphx_glr_vis_sphere_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_sphere.html#sphx-glr-auto-examples-visualizations-vis-sphere-py"><span class="std std-ref">Visualize Sphere</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Sphere</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Ellipsoid"><img alt="" src="../_images/sphx_glr_vis_ellipsoid_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_ellipsoid.html#sphx-glr-auto-examples-visualizations-vis-ellipsoid-py"><span class="std std-ref">Visualize Ellipsoid</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Ellipsoid</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Add and Remove Artist</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Coordinate Frame"><img alt="" src="../_images/sphx_glr_vis_basis_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_basis.html#sphx-glr-auto-examples-visualizations-vis-basis-py"><span class="std std-ref">Visualize Coordinate Frame</span></a></p>
   <div class="sphx-glr-thumbnail-title">Visualize Coordinate Frame</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Cone"><img alt="" src="../_images/sphx_glr_vis_cone_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_cone.html#sphx-glr-auto-examples-visualizations-vis-cone-py"><span class="std std-ref">Visualize Cone</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Cone</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Capsule"><img alt="" src="../_images/sphx_glr_vis_capsule_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_capsule.html#sphx-glr-auto-examples-visualizations-vis-capsule-py"><span class="std std-ref">Visualize Capsule</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Capsule</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Vector"><img alt="" src="../_images/sphx_glr_vis_vector_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_vector.html#sphx-glr-auto-examples-visualizations-vis-vector-py"><span class="std std-ref">Visualize Vector</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Vector</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Visualizes a point collection."><img alt="" src="../_images/sphx_glr_vis_scatter_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_scatter.html#sphx-glr-auto-examples-visualizations-vis-scatter-py"><span class="std std-ref">Scatter Plot</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Scatter Plot</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Visualizes one plane in Hesse normal form and one plane defined by point and normal."><img alt="" src="../_images/sphx_glr_vis_plane_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_plane.html#sphx-glr-auto-examples-visualizations-vis-plane-py"><span class="std std-ref">Visualize Plane</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Plane</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><img alt="" src="../_images/sphx_glr_vis_box_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_box.html#sphx-glr-auto-examples-visualizations-vis-box-py"><span class="std std-ref">Plot Box</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Box</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Capsule"><img alt="" src="../_images/sphx_glr_vis_capsule_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_capsule.html#sphx-glr-auto-examples-visualizations-vis-capsule-py"><span class="std std-ref">Visualize Capsule</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Capsule</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Cone"><img alt="" src="../_images/sphx_glr_vis_cone_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_cone.html#sphx-glr-auto-examples-visualizations-vis-cone-py"><span class="std std-ref">Visualize Cone</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Cone</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plots transformed cylinders."><img alt="" src="../_images/sphx_glr_vis_cylinder_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_cylinder.html#sphx-glr-auto-examples-visualizations-vis-cylinder-py"><span class="std std-ref">Visualize Transformed Cylinders</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Transformed Cylinders</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Ellipsoid"><img alt="" src="../_images/sphx_glr_vis_ellipsoid_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_ellipsoid.html#sphx-glr-auto-examples-visualizations-vis-ellipsoid-py"><span class="std std-ref">Visualize Ellipsoid</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Ellipsoid</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folder because it uses a hard-coded path to the STL file. Press &#x27;H&#x27; to print the viewer&#x27;s help message to stdout."><img alt="" src="../_images/sphx_glr_vis_mesh_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_mesh.html#sphx-glr-auto-examples-visualizations-vis-mesh-py"><span class="std std-ref">Visualize Mesh</span></a></p>
   <div class="sphx-glr-thumbnail-title">Visualize Mesh</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Animates a rotation about the x-axis."><img alt="" src="../_images/sphx_glr_vis_moving_basis_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_basis.html#sphx-glr-auto-examples-visualizations-vis-moving-basis-py"><span class="std std-ref">Animate Rotation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Animate Rotation</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Plots transformed cylinders."><img alt="" src="../_images/sphx_glr_vis_cylinder_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_cylinder.html#sphx-glr-auto-examples-visualizations-vis-cylinder-py"><span class="std std-ref">Visualize Transformed Cylinders</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Transformed Cylinders</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a line."><img alt="" src="../_images/sphx_glr_vis_moving_line_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_line.html#sphx-glr-auto-examples-visualizations-vis-moving-line-py"><span class="std std-ref">Animate Line</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Animate Line</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
-  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Animated URDF with Meshes</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Add and Remove Artist</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="" src="../_images/sphx_glr_vis_moving_trajectory_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_trajectory.html#sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Animate Trajectory</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Animated Robot</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="We apply a constant body-fixed wrench to a cylinder and integrate acceleration to twist and exponential coordinates of transformation to finally compute the new pose of the cylinder."><img alt="" src="../_images/sphx_glr_vis_moving_cylinder_with_wrench_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_cylinder_with_wrench.html#sphx-glr-auto-examples-visualizations-vis-moving-cylinder-with-wrench-py"><span class="std std-ref">Visualize Cylinder with Wrench</span></a></p>
   <div class="sphx-glr-thumbnail-title">Visualize Cylinder with Wrench</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_vis_urdf_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
-  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
-<p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
-  <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a line."><img alt="" src="../_images/sphx_glr_vis_moving_line_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_line.html#sphx-glr-auto-examples-visualizations-vis-moving-line-py"><span class="std std-ref">Animate Line</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Line</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated Robot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Animates a trajectory."><img alt="" src="../_images/sphx_glr_vis_moving_trajectory_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_trajectory.html#sphx-glr-auto-examples-visualizations-vis-moving-trajectory-py"><span class="std std-ref">Animate Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animate Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualizes one plane in Hesse normal form and one plane defined by point and normal."><img alt="" src="../_images/sphx_glr_vis_plane_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_plane.html#sphx-glr-auto-examples-visualizations-vis-plane-py"><span class="std std-ref">Visualize Plane</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Plane</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and visualize the projected equiprobably ellipsoid of the end-effector&#x27;s pose distribution."><img alt="" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
 <p><a class="reference internal" href="../_auto_examples/visualizations/vis_probabilistic_robot_kinematics.html#sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">Probabilistic Product of Exponentials</span></a></p>
   <div class="sphx-glr-thumbnail-title">Probabilistic Product of Exponentials</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualizes a point collection."><img alt="" src="../_images/sphx_glr_vis_scatter_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_scatter.html#sphx-glr-auto-examples-visualizations-vis-scatter-py"><span class="std std-ref">Scatter Plot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Scatter Plot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Sphere"><img alt="" src="../_images/sphx_glr_vis_sphere_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_sphere.html#sphx-glr-auto-examples-visualizations-vis-sphere-py"><span class="std std-ref">Visualize Sphere</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Sphere</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_vis_urdf_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Visualize Vector"><img alt="" src="../_images/sphx_glr_vis_vector_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_vector.html#sphx-glr-auto-examples-visualizations-vis-vector-py"><span class="std std-ref">Visualize Vector</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Vector</div>
 </div></div></section>
 </section>
 
@@ -919,7 +899,8 @@ for keys.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -948,8 +929,8 @@ for keys.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -974,7 +955,8 @@ for keys.</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>
