@@ -104,53 +104,14 @@ representations.
 We can use many different representations of rotation and / or translation.
 Here is an overview of the representations that are available in pytransform3d.
 All representations are stored in NumPy arrays, of which the corresponding
-shape is shown in this table. You will find more details on these
+shape is shown in this figure. You will find more details on these
 representations on the following pages.
 
-+----------------------------------------+---------------------+------------------+---------------+
-|                                        |                     | Rigid Transformation - SE(3)     |
-+                                        |                     +------------------+---------------+
-| Representation and Mathematical Symbol | NumPy Array Shape   | Rotation - SO(3) | Translation   |
-+========================================+=====================+==================+===============+
-| Rotation matrix                        | (3, 3)              | X                |               |
-| :math:`\pmb{R}`                        |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Axis-angle                             | (4,)                | X                |               |
-| :math:`(\hat{\pmb{\omega}}, \theta)`   |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Rotation vector                        | (3,)                | X                |               |
-| :math:`\pmb{\omega}`                   |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Logarithm of rotation                  | (3, 3)              | X                |               |
-| :math:`\left[\pmb{\omega}\right]`      |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Quaternion                             | (4,)                | X                |               |
-| :math:`\pmb{q}`                        |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Rotor                                  | (4,)                | X                |               |
-| :math:`R`                              |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Euler angles                           | (3,)                | X                |               |
-| :math:`(\alpha, \beta, \gamma)`        |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Modified Rodrigues parameters          | (3,)                | X                |               |
-| :math:`\pmb{\psi}`                     |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Transformation matrix                  | (4, 4)              | X                | X             |
-| :math:`\pmb{T}`                        |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Exponential coordinates                | (6,)                | X                | X             |
-| :math:`\mathcal{S}\theta`              |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Logarithm of transformation            | (4, 4)              | X                | X             |
-| :math:`\left[\mathcal{S}\right]\theta` |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Position and quaternion                | (7,)                | X                | X             |
-| :math:`(\pmb{p}, \pmb{q})`             |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
-| Dual quaternion                        | (8,)                | X                | X             |
-| :math:`\boldsymbol{\sigma}`            |                     |                  |               |
-+----------------------------------------+---------------------+------------------+---------------+
+
+.. figure:: ../_static/overview.png
+   :alt: Overview of representations for rotations and transformations in 3D.
+   :align: center
+   :width: 100%
 
 ----------
 References
