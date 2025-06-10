@@ -1,0 +1,165 @@
+\documentclass{article}
+\usepackage{amssymb,amsmath}
+\usepackage[pdftex,active,tightpage]{preview}
+\setlength\PreviewBorder{2mm}
+
+% converted to png via
+% pdflatex overview.tex
+% pdftoppm -png overview.pdf > overview.png
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, arrows.meta, positioning}
+
+\begin{document}
+\begin{preview}
+\newcommand{\matx}{10.1}
+\newcommand{\maty}{14.2}
+
+\begin{tikzpicture}
+\node[draw,shape=rectangle,rounded corners,fill=cyan!10] (legendconversionrot) at (7.5,18.7) {\large\texttt{pytransform3d.rotations}};
+
+\node[draw,shape=rectangle,rounded corners,fill=blue!10] (legendconversiontr) at (21.5,18.7) {\large\texttt{pytransform3d.transformations}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=blue!15] (tmat) at (17,15) {\begin{minipage}{4cm}\textbf{transformation matrix}\\[0.3em]
+$\boldsymbol{T} \in SE(3)$\\[0.3em]
+\texttt{transform}\\[0.3em]
+shape (4, 4)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=blue!15] (dquat) at (21.5,15) {\begin{minipage}{4cm}\textbf{(unit) dual quaternion}\\[0.3em]
+$\boldsymbol{\sigma}$\\[0.3em]
+\texttt{dual\_quaternion}\\[0.3em]
+shape (8,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=blue!15] (pq) at (26.5,15) {\begin{minipage}{5cm}\textbf{position and unit quaternion}\\[0.3em]
+$(\boldsymbol{p}, \boldsymbol{q}) \in \mathbb{R}^3 \times S^3$\\[0.3em]
+\texttt{pq}\\[0.3em]
+shape (7,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=blue!15] (logtr) at (17,11) {\begin{minipage}{4.9cm}\textbf{logarithm of transformation}\\[0.3em]
+$\left[\mathcal{S}\right]\theta \in se(3)$\\[0.3em]
+\texttt{transform\_log}\\[0.3em]
+shape (4, 4)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (screwmat) at (22.5,11) {\begin{minipage}{3.8cm}\textbf{screw matrix}\\[0.3em]
+$\left[\mathcal{S}\right] \in se(3)$\\[0.3em]
+\texttt{screw\_matrix}\\[0.3em]
+shape (4, 4)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=blue!15] (expcoord) at (17,7) {\begin{minipage}{7.5cm}\textbf{exponential coordinates of transformation}\\[0.3em]
+$\mathcal{S}\theta \in \mathbb{R}^6$\\[0.3em]
+\texttt{exponential\_coordinates}\\[0.3em]
+shape (6,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (spvel) at (24,7) {\begin{minipage}{4cm}\textbf{twist / spatial velocity}\\[0.3em]
+$\mathcal{S}\dot{\theta} \in \mathbb{R}^6$\\[0.3em]
+shape (6,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (spacc) at (29,7) {\begin{minipage}{3.5cm}\textbf{spatial acceleration}\\[0.3em]
+$\mathcal{S}\ddot{\theta} \in \mathbb{R}^6$\\[0.3em]
+shape (6,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (scrax) at (17,2) {\begin{minipage}{2.2cm}\textbf{screw axis}\\[0.3em]
+$\mathcal{S} \in \mathbb{R}^6$\\[0.3em]
+\texttt{screw\_axis}\\[0.3em]
+shape (6,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (screw) at (22,2) {\begin{minipage}{5.2cm}\textbf{screw parameters}\\[0.3em]
+$(\boldsymbol{q}, \hat{\boldsymbol{s}}, h) \in \mathbb{R}^3 \times S^2 \times \mathbb{R}$\\[0.3em]
+\texttt{screw\_parameters}\\[0.3em]
+tuple[shape (3,), shape (3,), float]
+\end{minipage}};
+
+\draw[<->] (tmat) -- (logtr) node[midway,left] {exp./log. map};
+\draw[->] (expcoord) -- (logtr) node[midway,left] {$\left[\cdot\right]$};
+\draw[->] (expcoord) -- (spvel) node[midway,above] {$\frac{\partial \mathcal{S}\theta}{\partial t}$};
+\draw[->] (spvel) -- (spacc) node[midway,above] {$\frac{\partial \mathcal{S}\dot{\theta}}{\partial t}$};
+\draw[->] (scrax) -- (expcoord) node[midway,left] {$\theta$};
+\draw[->] (screwmat) -- (logtr) node[midway,above] {$\theta$};
+\draw[<->] (screw) -- (scrax) node[midway,above] {};
+
+\draw [thick,rounded corners,fill=cyan!15] (\matx-0.2,\maty-0.5) rectangle (\matx+3.1,\maty+2.2);
+\node[anchor=west] (rotmatname) at (\matx,\maty+1.8) {\textbf{rotation matrix}};
+\node[anchor=west] (rotmatsymbol) at (\matx,\maty+1.2) {$\boldsymbol{R}$};
+\node[anchor=west] (rotmatset) at (\matx+0.4,\maty+1.178) {$\in SO(3)$};
+\node[anchor=west] (rotmatpname) at (\matx,\maty+0.6) {\texttt{matrix}};
+\node[anchor=west] (rotmatarray) at (\matx,\maty) {shape (3, 3)};
+
+\node (legendname) at (\matx-2,\maty+3) {representation};
+\draw[red] (rotmatname) edge (legendname);
+\node (legendsymbol) at (\matx-3,\maty+1.9) {mathematical symbol};
+\draw[red] (rotmatsymbol) edge (legendsymbol);
+\node (legendset) at (\matx+4,\maty+1.2) {set};
+\draw[red] (rotmatset) edge (legendset);
+\node (legendpname) at (\matx-3.3,\maty+0.7) {\begin{minipage}{3.1cm}\centering name in pytransform3d\end{minipage}};
+\draw[red] (rotmatpname) edge (legendpname);
+\node (legendarray) at (\matx-2,\maty-0.5) {NumPy array};
+\draw[red] (rotmatarray) edge (legendarray);
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=cyan!15] (quat) at (1.8,15) {\begin{minipage}{6cm}\textbf{(unit) quaternion / versor / rotor}\\[0.3em]
+$\boldsymbol{q} \in S^3$\\[0.3em]
+\texttt{quaternion}\\[0.3em]
+shape (4,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=cyan!15] (logrot) at (11.2,11) {\begin{minipage}{3.8cm}\textbf{logarithm of rotation}\\[0.3em]
+$\left[\boldsymbol{\omega}\right] \in so(3)$\\[0.3em]
+\texttt{rot\_log}\\[0.3em]
+shape (3, 3)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=cyan!15] (rotvec) at (11.2,7) {\begin{minipage}{3.3cm}\textbf{rotation vector}\\[0.3em]
+$\boldsymbol{\omega} = \hat{\boldsymbol{\omega}}\theta \in \mathbb{R}^3$\\[0.3em]
+\texttt{compact\_axis\_angle}\\[0.3em]
+shape (3,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (angvel) at (6.9,7) {\begin{minipage}{2.8cm}\textbf{angular velocity}\\[0.3em]
+$\dot{\boldsymbol{\omega}} = \hat{\boldsymbol{\omega}}\dot{\theta} \in \mathbb{R}^3$\\[0.3em]
+shape (3,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (angacc) at (2.5,7) {\begin{minipage}{3.6cm}\textbf{angular acceleration}\\[0.3em]
+$\hat{\boldsymbol{\omega}}\ddot{\theta} \in \mathbb{R}^3$\\[0.3em]
+shape (3,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=cyan!15] (axan) at (11.2,3.7) {\begin{minipage}{2.4cm}\textbf{axis-angle}\\[0.3em]
+$(\hat{\boldsymbol{\omega}}, \theta) \in S^2 \times \mathbb{R}$\\[0.3em]
+\texttt{axis\_angle}\\[0.3em]
+shape (4,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners] (rotax) at (11.2,1.5) {\begin{minipage}{3.8cm}\textbf{rotation axis}\\[0.3em]
+$\hat{\boldsymbol{\omega}} \in S^2$
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=cyan!15] (euler) at (3,1) {\begin{minipage}{7.5cm}\textbf{proper Euler / Cardan / Tait-Bryan angles}\\[0.3em]
+$(\alpha, \beta, \gamma) \in \mathbb{R}^3$\\[0.3em]
+\texttt{euler}\\[0.3em]
+shape (3,)
+\end{minipage}};
+
+\node[draw,shape=rectangle,thick,rounded corners,fill=cyan!15] (mrp) at (6,3.7) {\begin{minipage}{5.6cm}\textbf{modified Rodrigues parameters}\\[0.3em]
+$\boldsymbol{\psi} = \hat{\boldsymbol{\omega}} \tan{\frac{\theta}{4}} \in \mathbb{R}^3$\\[0.3em]
+\texttt{mrp}\\[0.3em]
+shape (3,)
+\end{minipage}};
+
+\draw[<->] (rotmatarray) -- (logrot) node[midway,left] {exp./log. map};
+\draw[->] (rotvec) -- (logrot) node[midway,left] {cross product matrix};
+\draw[->] (rotvec) -- (angvel) node[midway,above] {$\frac{\partial \boldsymbol{\omega}}{\partial t}$};
+\draw[->] (angvel) -- (angacc) node[midway,above] {$\frac{\partial \dot{\boldsymbol{\omega}}}{\partial t}$};
+\draw[->] (axan) -- (rotvec) node[midway,left] {product};
+\draw[->] (rotax) -- (axan) node[midway,left] {$\theta$};
+\end{tikzpicture}
+\end{preview}
+\end{document}
