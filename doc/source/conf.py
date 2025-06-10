@@ -68,6 +68,7 @@ html_sidebars = {
     "api": [],
 }
 html_static_path = ['_static']
+html_css_files = ['custom.css']
 html_last_updated_fmt = '%b %d, %Y'
 html_use_smartypants = True
 html_show_sourcelink = False
