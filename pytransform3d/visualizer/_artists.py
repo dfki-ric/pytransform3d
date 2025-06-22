@@ -597,9 +597,10 @@ class Mesh(Artist):
         if convex_hull:
             mesh.convex_hull()
 
+        self.s = s
         self.mesh = mesh.get_open3d_mesh()
         self.mesh.vertices = o3d.utility.Vector3dVector(
-            np.asarray(self.mesh.vertices) * s
+            np.asarray(self.mesh.vertices) * self.s
         )
         self.mesh.compute_vertex_normals()
         if c is not None:
@@ -610,7 +611,7 @@ class Mesh(Artist):
         self.A2B = None
         self.set_data(A2B)
 
-    def set_data(self, A2B):
+    def set_data(self, A2B, s=np.ones(3)):
         """Update data.
 
         Parameters
@@ -618,6 +619,14 @@ class Mesh(Artist):
         A2B : array-like, shape (4, 4)
             Center of the mesh.
         """
+        previous_s = self.s
+        if previous_s is None:
+            previous_s = np.ones(3)
+        self.mesh.vertices = o3d.utility.Vector3dVector(
+            np.asarray(self.mesh.vertices) * 1.0 / previous_s * s
+        )
+        self.s = s
+
         previous_A2B = self.A2B
         if previous_A2B is None:
             previous_A2B = np.eye(4)
