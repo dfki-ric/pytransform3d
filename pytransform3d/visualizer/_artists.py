@@ -618,6 +618,9 @@ class Mesh(Artist):
         ----------
         A2B : array-like, shape (4, 4)
             Center of the mesh.
+
+        s : array-like, shape (3,), optional (default: [1, 1, 1])
+            Scaling of the mesh that will be drawn
         """
         previous_s = self.s
         if previous_s is None:
