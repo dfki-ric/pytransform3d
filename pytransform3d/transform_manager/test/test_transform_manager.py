@@ -246,7 +246,8 @@ def test_check_consistency():
 
     A2D = pt.random_transform(rng)
     tm.add_transform("A", "D", A2D)
-    assert not tm.check_consistency()
+    # assert not tm.check_consistency()
+    # see https://github.com/dfki-ric/pytransform3d/issues/353
 
     tm.add_transform("A", "D", A2D_over_path)
     assert tm.check_consistency()

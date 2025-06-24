@@ -324,6 +324,14 @@ class TransformGraphBase(abc.ABC):
         nodes is directly connected the complexity is :math:`O(n^2)`. In graphs
         that are actually paths, the complexity is :math:`O(n^3)`.
 
+        This procedure currently does not implement the correct solution, as it
+        relies on shortest path calculation, which will consistently return
+        the same path of transformations for a pair of frames. Hence, the
+        shortest path between two frames will overwrite a longer path and the
+        transformations should always be consistent.
+
+        See https://github.com/dfki-ric/pytransform3d/issues/353
+
         Returns
         -------
         consistent : bool
