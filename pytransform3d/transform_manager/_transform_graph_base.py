@@ -1,6 +1,7 @@
 """Common base class of transformation graphs."""
 
 import abc
+import copy
 
 import numpy as np
 import scipy.sparse as sp
@@ -319,35 +320,22 @@ class TransformGraphBase(abc.ABC):
     def check_consistency(self):
         """Check consistency of the known transformations.
 
-        The complexity of this is between :math:`O(n^2)` and :math:`O(n^3)`,
-        where :math:`n` is the number of nodes. In graphs where each pair of
-        nodes is directly connected the complexity is :math:`O(n^2)`. In graphs
-        that are actually paths, the complexity is :math:`O(n^3)`.
-
-        This procedure currently does not implement the correct solution, as it
-        relies on shortest path calculation, which will consistently return
-        the same path of transformations for a pair of frames. Hence, the
-        shortest path between two frames will overwrite a longer path and the
-        transformations should always be consistent.
-
-        See https://github.com/dfki-ric/pytransform3d/issues/353
+        The computational cost of this operation is very high.
 
         Returns
         -------
         consistent : bool
-            Is the graph consistent, i.e. is A2B always the same as the inverse
-            of B2A?
+            Is the graph consistent, i.e., if there are two ways of computing
+            A2B, do they give almost identical results?
         """
-        consistent = True
-        for node1 in self.nodes:
-            for node2 in self.nodes:
-                try:
-                    node1_to_node2 = self.get_transform(node1, node2)
-                    node2_to_node1 = self.get_transform(node2, node1)
-                    node1_to_node2_inv = invert_transform(node2_to_node1)
-                    consistent = consistent and np.allclose(
-                        node1_to_node2, node1_to_node2_inv
-                    )
-                except KeyError:
-                    pass  # Frames are not connected
-        return consistent
+        for (from_frame, to_frame), A2B in self.transforms.items():
+            clone = copy.deepcopy(self)
+            clone.remove_transform(from_frame, to_frame)
+            try:
+                A2B_from_path = clone.get_transform(from_frame, to_frame)
+                if not np.allclose(A2B, A2B_from_path):
+                    return False
+            except KeyError:
+                # A2B cannot be computed in any other way
+                continue
+        return True
