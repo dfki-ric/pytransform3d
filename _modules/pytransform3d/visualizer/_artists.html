@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 3.14.1 documentation</title>
+    <title>pytransform3d.visualizer._artists &#8212; pytransform3d 3.14.2 documentation</title>
   
   
   
@@ -15,43 +15,40 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=957b53fb" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=408c3590"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/documentation_options.js?v=7774bffa"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/visualizer/_artists';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.14.1" />
-    <meta name="docbuild:last-update" content="May 26, 2025"/>
+    <meta name="docbuild:last-update" content="Jun 25, 2025"/>
   </head>
   
   
@@ -67,8 +64,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -76,6 +84,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -83,8 +92,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -117,8 +126,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.1"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.1"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.2"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.14.2"/>`);</script>
   
   
 </a></div>
@@ -171,21 +180,29 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
       
     </div>
     
@@ -194,11 +211,15 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
@@ -215,8 +236,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -270,11 +290,15 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
         
       </div>
     
@@ -282,14 +306,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -307,6 +326,8 @@
       
         <div class="header-article-item">
 
+
+
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -318,7 +339,7 @@
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pytransform3d.visualizer._artists</span></li>
+    <li class="breadcrumb-item active" aria-current="page">pytransform3...</li>
   </ul>
 </nav>
 </div>
@@ -338,26 +359,26 @@
   <h1>Source code for pytransform3d.visualizer._artists</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Visualizer artists.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">open3d</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">o3d</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">rotations</span> <span class="k">as</span> <span class="n">pr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">urdf</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.._mesh_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_mesh</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">rotations</span> <span class="k">as</span> <span class="n">pr</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">transformations</span> <span class="k">as</span> <span class="n">pt</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">urdf</span>
+<span class="kn">from</span> <span class="nn">.._mesh_loader</span> <span class="kn">import</span> <span class="n">load_mesh</span>
 
 
 <div class="viewcode-block" id="Artist">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Artist</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">Artist</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for objects that can be rendered.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Artist.add_artist">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Artist.html#pytransform3d.visualizer.Artist.add_artist">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_artist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add artist to figure.</span>
 
 <span class="sd">        Parameters</span>
@@ -370,7 +391,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -384,7 +405,7 @@
 
 <div class="viewcode-block" id="Line3D">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Line3D</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Line3D</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A line.</span>
 
 <span class="sd">    Parameters</span>
@@ -400,14 +421,14 @@
 
 <div class="viewcode-block" id="Line3D.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">line_set</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">LineSet</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Line3D.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Line3D.html#pytransform3d.visualizer.Line3D.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -442,7 +463,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -456,7 +477,7 @@
 
 <div class="viewcode-block" id="PointCollection3D">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.PointCollection3D.html#pytransform3d.visualizer.PointCollection3D">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">PointCollection3D</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">PointCollection3D</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Collection of points.</span>
 
 <span class="sd">    Parameters</span>
@@ -474,7 +495,7 @@
 
 <div class="viewcode-block" id="PointCollection3D.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.PointCollection3D.html#pytransform3d.visualizer.PointCollection3D.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_points</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
 
@@ -500,7 +521,7 @@
 
 <div class="viewcode-block" id="PointCollection3D.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.PointCollection3D.html#pytransform3d.visualizer.PointCollection3D.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -521,7 +542,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -535,7 +556,7 @@
 
 <div class="viewcode-block" id="Vector3D">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Vector3D.html#pytransform3d.visualizer.Vector3D">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Vector3D</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Vector3D</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A vector.</span>
 
 <span class="sd">    Parameters</span>
@@ -553,7 +574,7 @@
 
 <div class="viewcode-block" id="Vector3D.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Vector3D.html#pytransform3d.visualizer.Vector3D.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vector</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_arrow</span><span class="p">(</span>
@@ -567,7 +588,7 @@
 
 <div class="viewcode-block" id="Vector3D.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Vector3D.html#pytransform3d.visualizer.Vector3D.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -603,7 +624,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -617,7 +638,7 @@
 
 <div class="viewcode-block" id="Frame">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Frame</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Frame</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Coordinate frame.</span>
 
 <span class="sd">    Parameters</span>
@@ -634,7 +655,7 @@
 
 <div class="viewcode-block" id="Frame.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">A2B</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
@@ -648,7 +669,7 @@
 
 <div class="viewcode-block" id="Frame.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Frame.html#pytransform3d.visualizer.Frame.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -677,7 +698,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -691,7 +712,7 @@
 
 <div class="viewcode-block" id="Trajectory">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Trajectory</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Trajectory</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trajectory of poses.</span>
 
 <span class="sd">    Parameters</span>
@@ -712,7 +733,7 @@
 
 <div class="viewcode-block" id="Trajectory.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="n">H</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_frames</span> <span class="o">=</span> <span class="n">n_frames</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span>
@@ -732,7 +753,7 @@
 
 <div class="viewcode-block" id="Trajectory.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Trajectory.html#pytransform3d.visualizer.Trajectory.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -746,7 +767,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -762,7 +783,7 @@
 
 <div class="viewcode-block" id="Sphere">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Sphere.html#pytransform3d.visualizer.Sphere">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Sphere</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sphere.</span>
 
 <span class="sd">    Parameters</span>
@@ -786,7 +807,7 @@
 
 <div class="viewcode-block" id="Sphere.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Sphere.html#pytransform3d.visualizer.Sphere.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sphere</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
             <span class="n">radius</span><span class="p">,</span> <span class="n">resolution</span>
         <span class="p">)</span>
@@ -802,7 +823,7 @@
 
 <div class="viewcode-block" id="Sphere.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Sphere.html#pytransform3d.visualizer.Sphere.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -820,7 +841,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -834,7 +855,7 @@
 
 <div class="viewcode-block" id="Box">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Box.html#pytransform3d.visualizer.Box">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Box</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Box</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Box.</span>
 
 <span class="sd">    Parameters</span>
@@ -851,7 +872,7 @@
 
 <div class="viewcode-block" id="Box.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Box.html#pytransform3d.visualizer.Box.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">half_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_box</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
@@ -867,7 +888,7 @@
 
 <div class="viewcode-block" id="Box.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Box.html#pytransform3d.visualizer.Box.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -888,7 +909,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -902,7 +923,7 @@
 
 <div class="viewcode-block" id="Cylinder">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Cylinder</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Cylinder</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cylinder.</span>
 
 <span class="sd">    A cylinder is the volume covered by a disk moving along a line segment.</span>
@@ -931,7 +952,7 @@
 
 <div class="viewcode-block" id="Cylinder.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">length</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
         <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
@@ -955,7 +976,7 @@
 
 <div class="viewcode-block" id="Cylinder.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cylinder.html#pytransform3d.visualizer.Cylinder.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -973,7 +994,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -987,7 +1008,7 @@
 
 <div class="viewcode-block" id="Mesh">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Mesh</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Mesh</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Mesh.</span>
 
 <span class="sd">    Parameters</span>
@@ -1010,7 +1031,7 @@
 
 <div class="viewcode-block" id="Mesh.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">convex_hull</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
         <span class="n">mesh</span> <span class="o">=</span> <span class="n">load_mesh</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -1033,7 +1054,7 @@
 
 <div class="viewcode-block" id="Mesh.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Mesh.html#pytransform3d.visualizer.Mesh.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -1051,7 +1072,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -1065,7 +1086,7 @@
 
 <div class="viewcode-block" id="Ellipsoid">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Ellipsoid</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Ellipsoid</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Ellipsoid.</span>
 
 <span class="sd">    Parameters</span>
@@ -1089,7 +1110,7 @@
 
 <div class="viewcode-block" id="Ellipsoid.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radii</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
             <span class="mf">1.0</span><span class="p">,</span> <span class="n">resolution</span>
         <span class="p">)</span>
@@ -1108,7 +1129,7 @@
 
 <div class="viewcode-block" id="Ellipsoid.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Ellipsoid.html#pytransform3d.visualizer.Ellipsoid.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -1126,7 +1147,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -1140,7 +1161,7 @@
 
 <div class="viewcode-block" id="Capsule">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Capsule.html#pytransform3d.visualizer.Capsule">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Capsule</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Capsule</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Capsule.</span>
 
 <span class="sd">    A capsule is the volume covered by a sphere moving along a line segment.</span>
@@ -1170,7 +1191,7 @@
 
 <div class="viewcode-block" id="Capsule.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Capsule.html#pytransform3d.visualizer.Capsule.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">capsule</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span>
@@ -1192,7 +1213,7 @@
 
 <div class="viewcode-block" id="Capsule.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Capsule.html#pytransform3d.visualizer.Capsule.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -1210,7 +1231,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -1224,7 +1245,7 @@
 
 <div class="viewcode-block" id="Cone">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Cone</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Cone</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cone.</span>
 
 <span class="sd">    Parameters</span>
@@ -1247,7 +1268,7 @@
 
 <div class="viewcode-block" id="Cone.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">A2B</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cone</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_cone</span><span class="p">(</span>
@@ -1265,7 +1286,7 @@
 
 <div class="viewcode-block" id="Cone.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Cone.html#pytransform3d.visualizer.Cone.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A2B</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -1283,7 +1304,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -1297,7 +1318,7 @@
 
 <div class="viewcode-block" id="Plane">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Plane.html#pytransform3d.visualizer.Plane">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Plane</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Plane</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plane.</span>
 
 <span class="sd">    The plane will be defined either by a normal and a point in the plane or</span>
@@ -1326,7 +1347,7 @@
 
 <div class="viewcode-block" id="Plane.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Plane.html#pytransform3d.visualizer.Plane.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">normal</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
         <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1353,7 +1374,7 @@
 
 <div class="viewcode-block" id="Plane.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Plane.html#pytransform3d.visualizer.Plane.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">point_in_plane</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data.</span>
 
 <span class="sd">        Parameters</span>
@@ -1404,7 +1425,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -1418,7 +1439,7 @@
 
 <div class="viewcode-block" id="Camera">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Camera.html#pytransform3d.visualizer.Camera">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Camera</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Camera.</span>
 
 <span class="sd">    Parameters</span>
@@ -1451,7 +1472,7 @@
 
 <div class="viewcode-block" id="Camera.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Camera.html#pytransform3d.visualizer.Camera.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">M</span><span class="p">,</span>
         <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1475,7 +1496,7 @@
 
 <div class="viewcode-block" id="Camera.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Camera.html#pytransform3d.visualizer.Camera.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">M</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">cam2world</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1576,7 +1597,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -1590,7 +1611,7 @@
 
 <div class="viewcode-block" id="Graph">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Graph</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Graph</span><span class="p">(</span><span class="n">Artist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Graph of connected frames.</span>
 
 <span class="sd">    Parameters</span>
@@ -1628,7 +1649,7 @@
 
 <div class="viewcode-block" id="Graph.__init__">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tm</span><span class="p">,</span>
         <span class="n">frame</span><span class="p">,</span>
@@ -1694,7 +1715,7 @@
 
 <div class="viewcode-block" id="Graph.set_data">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.visualizer.Graph.html#pytransform3d.visualizer.Graph.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Indicate that data has been updated.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_frames</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
@@ -1731,7 +1752,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">geometries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Expose geometries.</span>
 
 <span class="sd">        Returns</span>
@@ -1753,7 +1774,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_objects_to_artists</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">convex_hull</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_objects_to_artists</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">convex_hull</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert geometries from URDF to artists.</span>
 
 <span class="sd">    Parameters</span>
@@ -1821,8 +1842,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1847,8 +1868,7 @@
       
         <div class="footer-item">
 <p class="theme-version">
-  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
 </p></div>
       
     </div>
