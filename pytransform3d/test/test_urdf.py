@@ -191,6 +191,36 @@ def test_missing_child_link_name():
         UrdfTransformManager().load_urdf(urdf)
 
 
+def test_xml_namespace():
+    urdf = """
+    <robot name="robot_name" xmlns="http://www.ros.org">
+    <link name="link0"/>
+    <link name="link1">
+        <visual name="link1_visual">
+            <origin xyz="0 0 1"/>
+            <geometry/>
+        </visual>
+    </link>
+    <joint name="joint0" type="fixed">
+        <parent link="link0"/>
+        <child link="link1"/>
+        <origin xyz="0 1 0"/>
+    </joint>
+    </robot>
+    """
+
+    robot_name, links, joints = parse_urdf(urdf)
+
+    assert robot_name == 'robot_name'
+    assert len(links) == 2
+    assert len(joints) == 1
+
+    for link in links:
+        assert link.name in ['link0', 'link1']
+
+    assert joints[0].joint_name == 'joint0'
+
+
 def test_reference_to_unknown_child():
     urdf = """
     <robot name="robot_name">
