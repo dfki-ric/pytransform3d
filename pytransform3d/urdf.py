@@ -4,6 +4,7 @@ See :doc:`user_guide/transform_manager` for more information.
 """
 
 import os
+import re
 import warnings
 
 import numpy as np
@@ -412,6 +413,13 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
     # URDF XML schema:
     # https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd
 
+    # If there is an XML namespace (xmlns=...) specified, this will break parsing as
+    # the root tag, and the tag of all elements underneath root, will have a {namespace}
+    # prefix. As such, normalize the namespace to the default (i.e. no namespace).
+
+    _normalize_namespace(root)
+
+
     if root.tag != "robot":
         raise UrdfException("Robot tag is missing.")
 
@@ -745,6 +753,15 @@ def _add_joints(tm, joints):
                 (0.0, 0.0),
                 "fixed",
             )
+
+def _normalize_namespace(root):
+    """Normalizes the namespace of the root node and all elements underneath it.
+    """
+
+    root.tag = re.sub(r"\{.*?\}", "", root.tag)
+
+    for element in root.iter():
+        element.tag = re.sub(r"\{.*?\}", "", element.tag)
 
 
 class Link(object):
