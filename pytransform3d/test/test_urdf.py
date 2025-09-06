@@ -211,14 +211,14 @@ def test_xml_namespace():
 
     robot_name, links, joints = parse_urdf(urdf)
 
-    assert robot_name == 'robot_name'
+    assert robot_name == "robot_name"
     assert len(links) == 2
     assert len(joints) == 1
 
     for link in links:
-        assert link.name in ['link0', 'link1']
+        assert link.name in ["link0", "link1"]
 
-    assert joints[0].joint_name == 'joint0'
+    assert joints[0].joint_name == "joint0"
 
 
 def test_reference_to_unknown_child():

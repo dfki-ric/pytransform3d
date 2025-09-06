@@ -413,12 +413,12 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
     # URDF XML schema:
     # https://github.com/ros/urdfdom/blob/master/xsd/urdf.xsd
 
-    # If there is an XML namespace (xmlns=...) specified, this will break parsing as
-    # the root tag, and the tag of all elements underneath root, will have a {namespace}
-    # prefix. As such, normalize the namespace to the default (i.e. no namespace).
+    # If there is an XML namespace (xmlns=...) specified, this will break
+    # parsing as the root tag, and the tag of all elements underneath root,
+    # will have a {namespace} prefix. As such, normalize the namespace to the
+    # default (i.e. no namespace).
 
     _normalize_namespace(root)
-
 
     if root.tag != "robot":
         raise UrdfException("Robot tag is missing.")
@@ -468,6 +468,13 @@ def initialize_urdf_transform_manager(tm, robot_name, links, joints):
     tm.add_transform(links[0].name, robot_name, np.eye(4))
     _add_links(tm, links)
     _add_joints(tm, joints)
+
+
+def _normalize_namespace(root):
+    """Normalizes the namespace of the root node and all elements underneath."""
+    root.tag = re.sub(r"\{.*?\}", "", root.tag)
+    for element in root.iter():
+        element.tag = re.sub(r"\{.*?\}", "", element.tag)
 
 
 def _parse_material(material):
@@ -753,15 +760,6 @@ def _add_joints(tm, joints):
                 (0.0, 0.0),
                 "fixed",
             )
-
-def _normalize_namespace(root):
-    """Normalizes the namespace of the root node and all elements underneath it.
-    """
-
-    root.tag = re.sub(r"\{.*?\}", "", root.tag)
-
-    for element in root.iter():
-        element.tag = re.sub(r"\{.*?\}", "", element.tag)
 
 
 class Link(object):
