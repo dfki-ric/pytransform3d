@@ -1,3 +1,4 @@
+import contextlib
 import os
 import pickle
 import tempfile
@@ -193,10 +194,9 @@ def test_pickle():
             tm2 = pickle.load(f)
     finally:
         if os.path.exists(filename):
-            try:
+            # workaround for permission problem on Windows
+            with contextlib.suppress(OSError):
                 os.remove(filename)
-            except OSError:
-                pass  # workaround for permission problem on Windows
     A2B2 = tm2.get_transform("A", "B")
     assert_array_almost_equal(A2B, A2B2)
 
@@ -293,10 +293,9 @@ def test_png_export():
         pytest.skip("pydot is required for this test")
     finally:
         if os.path.exists(filename):
-            try:
+            # workaround for permission problem on Windows
+            with contextlib.suppress(OSError):
                 os.remove(filename)
-            except OSError:
-                pass  # workaround for permission problem on Windows
 
 
 def test_png_export_without_pydot_fails():
