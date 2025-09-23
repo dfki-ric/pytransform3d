@@ -27,7 +27,7 @@ Now we can use the transformation matrix :math:`\boldsymbol T_{CA}` to transform
 a point :math:`_A\boldsymbol{p}` from frame :math:`A` to frame
 :math:`C` by multiplication :math:`_C\boldsymbol{p} = \boldsymbol{T}_{CA}\,_A\boldsymbol{p}`.
 
-In code this might look differently. Here we should prefer the notation `A2B`
+This might look differently in code. Here we should prefer the notation `A2B`
 for a transformation from frame `A` to frame `B`.
 
 .. code-block::
@@ -47,6 +47,9 @@ a point from `C` to `A` we can now use
     from pytransform3d.transformations import vector_to_point, transform
     p_in_A = vector_to_point(...)  # point in frame A
     p_in_C = transform(A2C, p_in_A)
+
+This notation is particuarly effective when we use it in combination with
+longer, more readable frame names, e.g., ``left_hand_palm`` or ``robot_base``.
 
 For more complex cases the :class:`~pytransform3d.transform_manager.TransformManager`
 can help.
