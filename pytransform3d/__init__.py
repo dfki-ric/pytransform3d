@@ -1,3 +1,3 @@
 """3D transformations for Python."""
 
-__version__ = "3.14.2"
+__version__ = "3.14.3"
