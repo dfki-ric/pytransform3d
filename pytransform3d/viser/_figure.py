@@ -9,7 +9,9 @@ class Figure:
     def __init__(self):
         self.server = viser.ViserServer()
         self.server.scene.configure_default_lights()
-        self.grid_handle = self.server.scene.add_grid(name="grid", width=10, height=10)
+        self.grid_handle = self.server.scene.add_grid(
+            name="grid", width=10, height=10
+        )
         self.object_names = {}
 
     def plot_transform(self, A2B=None, s=1.0, name=None, strict_check=True):

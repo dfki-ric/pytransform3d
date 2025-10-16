@@ -2,7 +2,6 @@ from typing import Any, Union
 import viser
 import numpy.typing as npt
 
-
 class Figure:
     def __init__(self): ...
     def plot_transform(
