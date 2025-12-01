@@ -406,7 +406,7 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
     # declaration. Hence, we have to convert them to bytes first.
     urdf_xml = bytes(urdf_xml.encode("utf-8"))
     try:
-        root = etree.XML(urdf_xml, parser=etree.XMLParser(recover=True))
+        root = etree.XML(urdf_xml, parser=etree.XMLParser(recover=True, remove_comments=True))
     except etree.XMLSyntaxError as e:
         raise UrdfException("Invalid XML.") from e
 
@@ -475,7 +475,6 @@ def _normalize_namespace(root):
     root.tag = re.sub(r"\{.*?\}", "", root.tag)
     for element in root.iter():
         element.tag = re.sub(r"\{.*?\}", "", element.tag)
-
 
 def _parse_material(material):
     """Parse material."""
