@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transform_manager.TransformGraphBase &#8212; pytransform3d 3.14.3 documentation</title>
+    <title>pytransform3d.transform_manager.TransformGraphBase &#8212; pytransform3d 3.14.4 documentation</title>
   
   
   
@@ -31,7 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d30c3be3"></script>
+    <script src="../_static/documentation_options.js?v=1885ab2e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.transform_manager.TransformGraphBase';</script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="pytransform3d.coordinates.spherical_from_cylindrical" href="pytransform3d.coordinates.spherical_from_cylindrical.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.14.3" />
-    <meta name="docbuild:last-update" content="Sep 23, 2025"/>
+  <meta name="docsearch:version" content="3.14.4" />
+    <meta name="docbuild:last-update" content="Dec 02, 2025"/>
   </head>
   
   
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.3"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.3"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.4"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.4"/>
   
   
 </a></div>
@@ -770,7 +770,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="pytransform3d.transform_manager.TransformGraphBase">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytransform3d.transform_manager.</span></span><span class="sig-name descname"><span class="pre">TransformGraphBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strict_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/transform_manager/_transform_graph_base.html#TransformGraphBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.transform_manager.TransformGraphBase" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>Base class for all graphs of rigid transformations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -988,6 +988,51 @@ A2B, do they give almost identical results?</p>
 
 </dd></dl>
 
+<section id="examples-using-pytransform3d-transform-manager-transformgraphbase">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transform_manager.TransformGraphBase</span></code><a class="headerlink" href="#examples-using-pytransform3d-transform-manager-transformgraphbase" title="Link to this heading">#</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of collision objects and display them."><img alt="" src="../_images/sphx_glr_plot_collision_objects_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_collision_objects.html#sphx-glr-auto-examples-plots-plot-collision-objects-py"><span class="std std-ref">URDF with Collision Objects</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Collision Objects</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will demonstrate how to use the TransformManager. We will add several transforms to the manager and plot all frames in two reference frames (&#x27;world&#x27; and &#x27;A&#x27;)."><img alt="" src="../_images/sphx_glr_plot_frames_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_frames.html#sphx-glr-auto-examples-plots-plot-frames-py"><span class="std std-ref">Plot with Respect to Different Reference Frames</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot with Respect to Different Reference Frames</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, given two trajectories of 3D rigid transformations, we will interpolate both and use the transform manager for the target timestep."><img alt="" src="../_images/sphx_glr_plot_interpolation_for_transform_manager_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_interpolation_for_transform_manager.html#sphx-glr-auto-examples-plots-plot-interpolation-for-transform-manager-py"><span class="std std-ref">Managing Transformations over Time</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Managing Transformations over Time</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm with visuals."><img alt="" src="../_images/sphx_glr_plot_robot_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_robot.html#sphx-glr-auto-examples-plots-plot-robot-py"><span class="std std-ref">Robot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Robot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will use the TransformManager to infer a transformation automatically."><img alt="" src="../_images/sphx_glr_plot_transform_manager_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_transform_manager.html#sphx-glr-auto-examples-plots-plot-transform-manager-py"><span class="std std-ref">Transformation Manager</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Transformation Manager</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_plot_urdf_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_urdf.html#sphx-glr-auto-examples-plots-plot-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_plot_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_urdf_with_meshes.html#sphx-glr-auto-examples-plots-plot-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="A demonstration of how previously added artists can be removed."><img alt="" src="../_images/sphx_glr_vis_add_remove_artist_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_add_remove_artist.html#sphx-glr-auto-examples-visualizations-vis-add-remove-artist-py"><span class="std std-ref">Add and Remove Artist</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Add and Remove Artist</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We see a 6-DOF robot arm, and we assume that we have a force/torque sensor that measures the force of a spherical mass (gray sphere) at the tool center point (TCP). We can draw the screw representation of the wrench in the TCP frame as a force along a screw axis from the red sphere to the green sphere. Then we use the adjoint representation of the transformation from the base to the TCP to transform the wrench to the robot&#x27;s base frame. This wrench has a force component and a torque component, which we can also visualize as a screw: the red sphere indicates the point q on the screw axis, the straight black line shows the screw axis, the red line indicates the direction to the initial configuration and the green line indicates the direction to the displaced configuration in which the instantaneous wrench would move the base."><img alt="" src="../_images/sphx_glr_vis_ee_wrench_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_ee_wrench.html#sphx-glr-auto-examples-visualizations-vis-ee-wrench-py"><span class="std std-ref">Visualize Wrench</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Visualize Wrench</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example we animate a 6-DOF robot arm with cylindrical visuals."><img alt="" src="../_images/sphx_glr_vis_moving_robot_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_robot.html#sphx-glr-auto-examples-visualizations-vis-moving-robot-py"><span class="std std-ref">Animated Robot</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated Robot</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes and animate it. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_moving_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_moving_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-moving-urdf-with-meshes-py"><span class="std std-ref">Animated URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Animated URDF with Meshes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We compute the probabilistic forward kinematics of a robot with flexible links or joints and visualize the projected equiprobably ellipsoid of the end-effector&#x27;s pose distribution."><img alt="" src="../_images/sphx_glr_vis_probabilistic_robot_kinematics_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_probabilistic_robot_kinematics.html#sphx-glr-auto-examples-visualizations-vis-probabilistic-robot-kinematics-py"><span class="std std-ref">Probabilistic Product of Exponentials</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Probabilistic Product of Exponentials</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../_images/sphx_glr_vis_urdf_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf.html#sphx-glr-auto-examples-visualizations-vis-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF with STL meshes. This example must be run from within the examples folder or the main folder because it uses a hard-coded path to the URDF file and the meshes."><img alt="" src="../_images/sphx_glr_vis_urdf_with_meshes_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/visualizations/vis_urdf_with_meshes.html#sphx-glr-auto-examples-visualizations-vis-urdf-with-meshes-py"><span class="std std-ref">URDF with Meshes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">URDF with Meshes</div>
+</div></div></section>
 </section>
 
 
@@ -1049,6 +1094,7 @@ A2B, do they give almost identical results?</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transform_manager.TransformGraphBase.check_consistency"><code class="docutils literal notranslate"><span class="pre">TransformGraphBase.check_consistency()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-using-pytransform3d-transform-manager-transformgraphbase">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transform_manager.TransformGraphBase</span></code></a></li>
 </ul>
   </nav></div>
 

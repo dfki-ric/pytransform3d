@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.trajectories.plot_trajectory &#8212; pytransform3d 3.14.3 documentation</title>
+    <title>pytransform3d.trajectories.plot_trajectory &#8212; pytransform3d 3.14.4 documentation</title>
   
   
   
@@ -31,7 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d30c3be3"></script>
+    <script src="../_static/documentation_options.js?v=1885ab2e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.trajectories.plot_trajectory';</script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="pytransform3d.trajectories.transforms_from_dual_quaternions" href="pytransform3d.trajectories.transforms_from_dual_quaternions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.14.3" />
-    <meta name="docbuild:last-update" content="Sep 23, 2025"/>
+  <meta name="docsearch:version" content="3.14.4" />
+    <meta name="docbuild:last-update" content="Dec 02, 2025"/>
   </head>
   
   
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.3"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.3"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.4"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.4"/>
   
   
 </a></div>
@@ -808,6 +808,24 @@ order (x, y, z, w, vx, vy, vz) for each step</p>
 </dl>
 </dd></dl>
 
+<section id="examples-using-pytransform3d-trajectories-plot-trajectory">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.trajectories.plot_trajectory</span></code><a class="headerlink" href="#examples-using-pytransform3d-trajectories-plot-trajectory" title="Link to this heading">#</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometry. This specific trajectory has been used to reconstruct a colored mesh from a depth camera and an RGB camera."><img alt="" src="../_images/sphx_glr_plot_camera_trajectory_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we assume that a robot is moving with constant velocity along the x-axis, however, there is noise in the orientation of the robot that accumulates and leads to different paths when sampling. Uncertainty accumulation leads to the so-called banana distribution, which does not seem Gaussian in Cartesian space, but it is Gaussian in exponential coordinates of SE(3)."><img alt="" src="../_images/sphx_glr_plot_concatenate_uncertain_transforms_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_concatenate_uncertain_transforms.html#sphx-glr-auto-examples-plots-plot-concatenate-uncertain-transforms-py"><span class="std std-ref">Concatenate Uncertain Transforms</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Concatenate Uncertain Transforms</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting pose trajectories with pytransform3d is easy."><img alt="" src="../_images/sphx_glr_plot_pose_trajectory_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_pose_trajectory.html#sphx-glr-auto-examples-plots-plot-pose-trajectory-py"><span class="std std-ref">Pose Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Pose Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="For small rotations, linear interpolation of quaternions gives almost the same results as spherical linear interpolation (SLERP). For larger angles there are significant differences as you can see in this example. The outer circle uses linear interpolation and the inner circle uses SLERP. You can play around with the value of &#x27;end_angle&#x27; in this example."><img alt="" src="../_images/sphx_glr_plot_quaternion_slerp_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_quaternion_slerp.html#sphx-glr-auto-examples-plots-plot-quaternion-slerp-py"><span class="std std-ref">Quaternion SLERP</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Quaternion SLERP</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="These plots show several randomly generated trajectories. Each row shows a different trajectory. On the left side you can see the position and orientation represented by small coordinate frames. On the right side you can see the positions over time."><img alt="" src="../_images/sphx_glr_plot_random_trajectories_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_random_trajectories.html#sphx-glr-auto-examples-plots-plot-random-trajectories-py"><span class="std std-ref">Random Trajectories</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Random Trajectories</div>
+</div></div></section>
 </section>
 
 
@@ -858,6 +876,7 @@ order (x, y, z, w, vx, vy, vz) for each step</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.trajectories.plot_trajectory"><code class="docutils literal notranslate"><span class="pre">plot_trajectory()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-using-pytransform3d-trajectories-plot-trajectory">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.trajectories.plot_trajectory</span></code></a></li>
 </ul>
   </nav></div>
 

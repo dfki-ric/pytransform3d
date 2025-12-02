@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.transformations.plot_transform &#8212; pytransform3d 3.14.3 documentation</title>
+    <title>pytransform3d.transformations.plot_transform &#8212; pytransform3d 3.14.4 documentation</title>
   
   
   
@@ -31,7 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css?v=7f9a90b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d30c3be3"></script>
+    <script src="../_static/documentation_options.js?v=1885ab2e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.transformations.plot_transform';</script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="pytransform3d.transformations.adjoint_from_transform" href="pytransform3d.transformations.adjoint_from_transform.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.14.3" />
-    <meta name="docbuild:last-update" content="Sep 23, 2025"/>
+  <meta name="docsearch:version" content="3.14.4" />
+    <meta name="docbuild:last-update" content="Dec 02, 2025"/>
   </head>
   
   
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.3"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.3"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.4"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.4"/>
   
   
 </a></div>
@@ -801,6 +801,54 @@ warning.</p>
 </dl>
 </dd></dl>
 
+<section id="examples-using-pytransform3d-transformations-plot-transform">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.plot_transform</span></code><a class="headerlink" href="#examples-using-pytransform3d-transformations-plot-transform" title="Link to this heading">#</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Plot Box"><img alt="" src="../_images/sphx_glr_plot_box_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_box.html#sphx-glr-auto-examples-plots-plot-box-py"><span class="std std-ref">Plot Box</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Box</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This visualization is inspired by Blender&#x27;s camera visualization. It will show the camera center, a virtual image plane at a desired distance to the camera center, and the top direction of the virtual image plane."><img alt="" src="../_images/sphx_glr_plot_camera_3d_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_camera_3d.html#sphx-glr-auto-examples-plots-plot-camera-3d-py"><span class="std std-ref">Camera Representation in 3D</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Representation in 3D</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera coordinate frame and a grid of points in the camera coordinate system which will be projected to the sensor. From the coordinates on the sensor we can compute the corresponding pixels."><img alt="" src="../_images/sphx_glr_plot_camera_projection_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_camera_projection.html#sphx-glr-auto-examples-plots-plot-camera-projection-py"><span class="std std-ref">Camera Projection</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Projection</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The following illustration shows a camera&#x27;s trajectory that has has been estimated from odometry. This specific trajectory has been used to reconstruct a colored mesh from a depth camera and an RGB camera."><img alt="" src="../_images/sphx_glr_plot_camera_trajectory_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_camera_trajectory.html#sphx-glr-auto-examples-plots-plot-camera-trajectory-py"><span class="std std-ref">Camera Trajectory</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Trajectory</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can see the camera frame and the world frame. There is a grid of points from which we know the world coordinates. If we know the location and orientation of the camera in the world, we can easily compute the location of the points on the image."><img alt="" src="../_images/sphx_glr_plot_camera_with_image_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_camera_with_image.html#sphx-glr-auto-examples-plots-plot-camera-with-image-py"><span class="std std-ref">Camera Transform</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Camera Transform</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plots surfaces of transformed cylindrical shells."><img alt="" src="../_images/sphx_glr_plot_cylinder_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_cylinder.html#sphx-glr-auto-examples-plots-plot-cylinder-py"><span class="std std-ref">Plot Transformed Cylinders</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Transformed Cylinders</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows interpolated trajectories between two random poses. The red line corresponds to linear interpolation with exponential coordinates, the green line corresponds to linear interpolation with dual quaternions, and the blue line corresponds to screw linear interpolation (ScLERP) with dual quaternions. The true screw motion from pose 1 to pose 2 is shown by a thick, transparent black line in the background of the ScLERP interpolation."><img alt="" src="../_images/sphx_glr_plot_dual_quaternion_interpolation_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_dual_quaternion_interpolation.html#sphx-glr-auto-examples-plots-plot-dual-quaternion-interpolation-py"><span class="std std-ref">Dual Quaternion Interpolation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Dual Quaternion Interpolation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load an STL mesh. This example must be run from within the main folder because it uses a hard-coded path to the STL file."><img alt="" src="../_images/sphx_glr_plot_mesh_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_mesh.html#sphx-glr-auto-examples-plots-plot-mesh-py"><span class="std std-ref">Plot Mesh</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Mesh</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plotting of several geometric shapes is directly supported by the library."><img alt="" src="../_images/sphx_glr_plot_random_geometries_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_random_geometries.html#sphx-glr-auto-examples-plots-plot-random-geometries-py"><span class="std std-ref">Plot Random Geometries</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Random Geometries</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and plot it at several steps during the acceleration."><img alt="" src="../_images/sphx_glr_plot_rotate_cylinder_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_rotate_cylinder.html#sphx-glr-auto-examples-plots-plot-rotate-cylinder-py"><span class="std std-ref">Rotate Cylinder</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Rotate Cylinder</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Sample Transforms"><img alt="" src="../_images/sphx_glr_plot_sample_transforms_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_sample_transforms.html#sphx-glr-auto-examples-plots-plot-sample-transforms-py"><span class="std std-ref">Sample Transforms</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Sample Transforms</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="A screw axis is represented by the parameters (q, s_axis, h). We can represent any transformation with a screw axis and an additional parameter theta that encodes the rotation angle and through h * theta the translation. Here we visualize a screw axis and the transformation generated from a specific theta."><img alt="" src="../_images/sphx_glr_plot_screw_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_screw.html#sphx-glr-auto-examples-plots-plot-screw-py"><span class="std std-ref">Plot Transformation through Screw Motion</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Transformation through Screw Motion</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Plot Sphere"><img alt="" src="../_images/sphx_glr_plot_sphere_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_sphere.html#sphx-glr-auto-examples-plots-plot-sphere-py"><span class="std std-ref">Plot Sphere</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Sphere</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We can display transformations by plotting the basis vectors of the corresponding coordinate frame."><img alt="" src="../_images/sphx_glr_plot_transform_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_transform.html#sphx-glr-auto-examples-plots-plot-transform-py"><span class="std std-ref">Plot Transformation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot Transformation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we have a point p that is defined in a frame C, we know the transform C2B and B2A. We can construct a transform C2A to extract the position of p in frame A."><img alt="" src="../_images/sphx_glr_plot_transform_concatenation_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_transform_concatenation.html#sphx-glr-auto-examples-plots-plot-transform-concatenation-py"><span class="std std-ref">Transform Concatenation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Transform Concatenation</div>
+</div></div></section>
 </section>
 
 
@@ -851,6 +899,7 @@ warning.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.transformations.plot_transform"><code class="docutils literal notranslate"><span class="pre">plot_transform()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-using-pytransform3d-transformations-plot-transform">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.transformations.plot_transform</span></code></a></li>
 </ul>
   </nav></div>
 
