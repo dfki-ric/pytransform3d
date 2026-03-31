@@ -205,15 +205,20 @@ class Trajectory(artist.Artist):
     s : float, optional (default: 1)
         Scaling of the frames that will be drawn
 
+    label : str, optional (default: None)
+        Label of the trajectory
+
     Other arguments are passed onto Line3D.
     """
 
-    def __init__(self, H, show_direction=True, n_frames=10, s=1.0, **kwargs):
+    def __init__(
+        self, H, show_direction=True, n_frames=10, s=1.0, label=None, **kwargs
+    ):
         super(Trajectory, self).__init__()
 
         self.show_direction = show_direction
 
-        self.trajectory = Line3D([], [], [], **kwargs)
+        self.trajectory = Line3D([], [], [], label=label, **kwargs)
         self.key_frames = [
             Frame(np.eye(4), s=s, **kwargs) for _ in range(n_frames)
         ]
