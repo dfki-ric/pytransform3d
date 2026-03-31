@@ -42,7 +42,7 @@ class Trajectory(artist.Artist):
         show_direction: bool = ...,
         n_frames: int = ...,
         s: float = ...,
-        label: str | None = ...,
+        label: Union[str, None] = ...,
         **kwargs,
     ): ...
     def set_data(self, H: npt.ArrayLike): ...
