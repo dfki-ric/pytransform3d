@@ -17,7 +17,7 @@ from pytransform3d.transformations import plot_transform
 plt.figure()
 ax = plot_box(size=[1, 1, 1], wireframe=False, alpha=0.1, color="k", ax_s=0.6)
 plot_transform(ax=ax)
-plot_box(ax=ax, size=[1, 1, 1], wireframe=True, alpha=0.3)
+plot_box(ax=ax, size=[1, 1, 1], wireframe=True, alpha=0.3, linewidth=2)
 plot_length_variable(
     ax=ax,
     start=np.array([-0.5, -0.5, 0.55]),

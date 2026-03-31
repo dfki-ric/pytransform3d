@@ -21,4 +21,5 @@ def plot_projected_ellipsoid(
     n_steps: int = ...,
     color: str = ...,
     alpha: float = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
