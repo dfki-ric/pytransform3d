@@ -10,7 +10,7 @@ def plot_trajectory(
     show_direction: bool = ...,
     n_frames: int = ...,
     s: float = ...,
-    label: str | None = ...,
+    label: Union[str, None] = ...,
     ax_s: float = ...,
     **kwargs,
 ) -> Axes3D: ...
