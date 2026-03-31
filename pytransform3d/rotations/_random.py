@@ -75,7 +75,15 @@ def random_compact_axis_angle(rng=np.random.default_rng(0)):
 
 
 def random_quaternion(rng=np.random.default_rng(0)):
-    """Generate random quaternion.
+    r"""Generate uniform random quaternion.
+
+    This is similar to scipy's implementation of uniform random sampling of
+    rotations. It is based on Shoemake's algorithm [1]_, but we simplify the
+    implementation by sampling a quaternion from a multivariate standard
+    normal distribution and normalize it. In this way, we obtain a uniform
+    distribution over rotation axes and a distribution proportional to
+    :math:`\sin^2(\theta/2)` over the rotation angles, which together
+    constitute the Haar measure on :math:`SO(3)`.
 
     Parameters
     ----------
@@ -86,6 +94,11 @@ def random_quaternion(rng=np.random.default_rng(0)):
     -------
     q : array, shape (4,)
         Unit quaternion to represent rotation: (w, x, y, z)
+
+    References
+    ----------
+    .. [1] Shoemake, K. (1992). Uniform Random Rotations. Graphics Gems III,
+       pages 124-132. Academic, New York.
     """
     return norm_vector(rng.standard_normal(size=4))
 
