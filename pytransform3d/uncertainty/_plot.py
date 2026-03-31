@@ -126,6 +126,7 @@ def plot_projected_ellipsoid(
     n_steps=20,
     color=None,
     alpha=1.0,
+    linewidth=1.0,
 ):  # pragma: no cover
     """Plots projected equiprobable ellipsoid in 3D.
 
@@ -158,6 +159,9 @@ def plot_projected_ellipsoid(
     alpha : float, optional (default: 1.0)
         Alpha value for lines.
 
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot.
+
     Returns
     -------
     ax : axis
@@ -167,7 +171,14 @@ def plot_projected_ellipsoid(
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha
+            x,
+            y,
+            z,
+            rstride=2,
+            cstride=2,
+            color=color,
+            alpha=alpha,
+            linewidth=linewidth,
         )
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)

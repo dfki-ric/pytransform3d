@@ -11,6 +11,7 @@ def plot_box(
     wireframe: bool = ...,
     color: str = ...,
     alpha: float = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
 def plot_sphere(
     ax: Union[None, Axes3D] = ...,
@@ -21,6 +22,7 @@ def plot_sphere(
     n_steps: int = ...,
     alpha: float = ...,
     color: str = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
 def plot_spheres(
     ax: Union[None, Axes3D] = ...,
@@ -31,6 +33,7 @@ def plot_spheres(
     n_steps: int = ...,
     alpha: npt.ArrayLike = ...,
     color: npt.ArrayLike = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
 def plot_cylinder(
     ax: Union[None, Axes3D] = ...,
@@ -43,6 +46,7 @@ def plot_cylinder(
     n_steps: int = ...,
     alpha: float = ...,
     color: str = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
 def plot_mesh(
     ax: Union[None, Axes3D] = ...,
@@ -54,6 +58,7 @@ def plot_mesh(
     convex_hull: bool = ...,
     alpha: float = ...,
     color: str = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
 def plot_ellipsoid(
     ax: Union[None, Axes3D] = ...,
@@ -64,6 +69,7 @@ def plot_ellipsoid(
     n_steps: int = ...,
     alpha: float = ...,
     color: str = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
 def plot_capsule(
     ax: Union[None, Axes3D] = ...,
@@ -75,6 +81,7 @@ def plot_capsule(
     n_steps: int = ...,
     alpha: float = ...,
     color: str = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...
 def plot_cone(
     ax: Union[None, Axes3D] = ...,
@@ -86,4 +93,5 @@ def plot_cone(
     n_steps: int = ...,
     alpha: float = ...,
     color: str = ...,
+    linewidth: float = ...,
 ) -> Axes3D: ...

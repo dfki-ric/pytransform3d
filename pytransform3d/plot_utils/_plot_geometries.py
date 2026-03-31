@@ -19,6 +19,7 @@ def plot_box(
     wireframe=True,
     color="k",
     alpha=1.0,
+    linewidth=1.0,
 ):
     """Plot box.
 
@@ -44,6 +45,9 @@ def plot_box(
 
     alpha : float, optional (default: 1)
         Alpha value of the mesh that will be plotted
+
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
 
     Returns
     -------
@@ -82,7 +86,7 @@ def plot_box(
             [2, 6],
             [3, 7],
         ]
-        surface = Line3DCollection(vertices[connections])
+        surface = Line3DCollection(vertices[connections], linewidth=linewidth)
         surface.set_color(color)
     else:
         faces = [
@@ -116,6 +120,7 @@ def plot_sphere(
     n_steps=20,
     alpha=1.0,
     color="k",
+    linewidth=1.0,
 ):
     """Plot sphere.
 
@@ -145,6 +150,9 @@ def plot_sphere(
     color : str, optional (default: black)
         Color in which the sphere should be plotted
 
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
+
     Returns
     -------
     ax : Matplotlib 3d axis
@@ -160,7 +168,14 @@ def plot_sphere(
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha
+            x,
+            y,
+            z,
+            rstride=2,
+            cstride=2,
+            color=color,
+            alpha=alpha,
+            linewidth=linewidth,
         )
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
@@ -177,6 +192,7 @@ def plot_spheres(
     n_steps=20,
     alpha=np.ones(1),
     color=np.zeros((1, 3)),
+    linewidth=1.0,
 ):
     """Plot multiple spheres.
 
@@ -206,6 +222,9 @@ def plot_spheres(
     color : array-like, shape (n_spheres, 3), optional (default: black)
         Color in which the sphere(s) should be plotted
 
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
+
     Returns
     -------
     ax : Matplotlib 3d axis
@@ -234,7 +253,12 @@ def plot_spheres(
     for verts_i, color_i, alpha_i in zip(verts, colors, alphas):
         if wireframe:
             ax.plot_wireframe(
-                *verts_i, rstride=2, cstride=2, color=color_i, alpha=alpha_i
+                *verts_i,
+                rstride=2,
+                cstride=2,
+                color=color_i,
+                alpha=alpha_i,
+                linewidth=linewidth,
             )
         else:
             ax.plot_surface(*verts_i, color=color_i, alpha=alpha_i, linewidth=0)
@@ -253,6 +277,7 @@ def plot_cylinder(
     n_steps=100,
     alpha=1.0,
     color="k",
+    linewidth=1.0,
 ):
     """Plot cylinder.
 
@@ -291,6 +316,9 @@ def plot_cylinder(
 
     color : str, optional (default: black)
         Color in which the cylinder should be plotted
+
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
 
     Returns
     -------
@@ -335,7 +363,14 @@ def plot_cylinder(
 
     if wireframe:
         ax.plot_wireframe(
-            X, Y, Z, rstride=10, cstride=10, alpha=alpha, color=color
+            X,
+            Y,
+            Z,
+            rstride=10,
+            cstride=10,
+            alpha=alpha,
+            color=color,
+            linewidth=linewidth,
         )
     else:
         ax.plot_surface(X, Y, Z, color=color, alpha=alpha, linewidth=0)
@@ -353,6 +388,7 @@ def plot_mesh(
     convex_hull=False,
     alpha=1.0,
     color="k",
+    linewidth=1.0,
 ):
     """Plot mesh.
 
@@ -389,6 +425,9 @@ def plot_mesh(
     color : str, optional (default: black)
         Color in which the mesh should be plotted
 
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
+
     Returns
     -------
     ax : Matplotlib 3d axis
@@ -416,7 +455,7 @@ def plot_mesh(
     vertices = transform(A2B, vertices)[:, :3]
     faces = vertices[mesh.triangles]
     if wireframe:
-        surface = Line3DCollection(faces)
+        surface = Line3DCollection(faces, linewidth=linewidth)
         surface.set_color(color)
     else:
         surface = Poly3DCollection(faces)
@@ -435,6 +474,7 @@ def plot_ellipsoid(
     n_steps=20,
     alpha=1.0,
     color="k",
+    linewidth=1.0,
 ):
     """Plot ellipsoid.
 
@@ -464,6 +504,9 @@ def plot_ellipsoid(
     color : str, optional (default: black)
         Color in which the ellipsoid should be plotted
 
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
+
     Returns
     -------
     ax : Matplotlib 3d axis
@@ -483,7 +526,14 @@ def plot_ellipsoid(
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha
+            x,
+            y,
+            z,
+            rstride=2,
+            cstride=2,
+            color=color,
+            alpha=alpha,
+            linewidth=linewidth,
         )
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
@@ -501,6 +551,7 @@ def plot_capsule(
     n_steps=20,
     alpha=1.0,
     color="k",
+    linewidth=1.0,
 ):
     """Plot capsule.
 
@@ -535,6 +586,9 @@ def plot_capsule(
     color : str, optional (default: black)
         Color in which the capsule should be plotted
 
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
+
     Returns
     -------
     ax : Matplotlib 3d axis
@@ -554,7 +608,14 @@ def plot_capsule(
 
     if wireframe:
         ax.plot_wireframe(
-            x, y, z, rstride=2, cstride=2, color=color, alpha=alpha
+            x,
+            y,
+            z,
+            rstride=2,
+            cstride=2,
+            color=color,
+            alpha=alpha,
+            linewidth=linewidth,
         )
     else:
         ax.plot_surface(x, y, z, color=color, alpha=alpha, linewidth=0)
@@ -572,6 +633,7 @@ def plot_cone(
     n_steps=20,
     alpha=1.0,
     color="k",
+    linewidth=1.0,
 ):
     """Plot cone.
 
@@ -604,6 +666,9 @@ def plot_cone(
     color : str, optional (default: black)
         Color in which the cone should be plotted
 
+    linewidth : float, optional (default: 1.0)
+        Line width for wireframe plot
+
     Returns
     -------
     ax : Matplotlib 3d axis
@@ -626,7 +691,14 @@ def plot_cone(
 
     if wireframe:
         ax.plot_wireframe(
-            X, Y, Z, rstride=5, cstride=5, alpha=alpha, color=color
+            X,
+            Y,
+            Z,
+            rstride=5,
+            cstride=5,
+            alpha=alpha,
+            color=color,
+            linewidth=linewidth,
         )
     else:
         ax.plot_surface(X, Y, Z, color=color, alpha=alpha, linewidth=0)
