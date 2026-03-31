@@ -99,6 +99,7 @@ def random_quaternion(rng=np.random.default_rng(0)):
     ----------
     .. [1] Shoemake, K. (1992). Uniform Random Rotations. Graphics Gems III,
        pages 124-132. Academic, New York.
+       DOI: 10.1016/B978-0-08-050755-2.50036-1
     """
     return norm_vector(rng.standard_normal(size=4))
 
