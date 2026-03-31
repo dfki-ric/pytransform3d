@@ -10,6 +10,7 @@ def plot_trajectory(
     show_direction=True,
     n_frames=10,
     s=1.0,
+    label=None,
     ax_s=1,
     **kwargs,
 ):  # pragma: no cover
@@ -35,6 +36,9 @@ def plot_trajectory(
 
     s : float, optional (default: 1)
         Scaling of the frames that will be drawn
+
+    label : str, optional (default: None)
+        Label of the trajectory
 
     ax_s : float, optional (default: 1)
         Scaling of the new matplotlib 3d axis
@@ -63,7 +67,7 @@ def plot_trajectory(
     A2Bs = transforms_from_pqs(P, normalize_quaternions)
     from ..plot_utils import Trajectory
 
-    trajectory = Trajectory(A2Bs, show_direction, n_frames, s, **kwargs)
+    trajectory = Trajectory(A2Bs, show_direction, n_frames, s, label, **kwargs)
     trajectory.add_trajectory(ax)
 
     return ax
