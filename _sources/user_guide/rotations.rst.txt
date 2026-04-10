@@ -303,7 +303,7 @@ Quaternions
 -----------
 
 Quaternions are represented by a scalar / real part :math:`w`
-and an vector / imaginary part
+and a vector / imaginary part
 :math:`x \boldsymbol{i} + y \boldsymbol{j} + z \boldsymbol{k}`.
 
 .. math::

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._random &#8212; pytransform3d 3.14.4 documentation</title>
+    <title>pytransform3d.rotations._random &#8212; pytransform3d 3.15.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=1885ab2e"></script>
+    <script src="../../../_static/documentation_options.js?v=9521fbd0"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_random';</script>
@@ -51,8 +51,8 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.14.4" />
-    <meta name="docbuild:last-update" content="Dec 02, 2025"/>
+  <meta name="docsearch:version" content="3.15.0" />
+    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
   </head>
   
   
@@ -118,8 +118,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.14.4"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.14.4"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
   
   
 </a></div>
@@ -425,7 +425,15 @@
 <div class="viewcode-block" id="random_quaternion">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.rotations.random_quaternion.html#pytransform3d.rotations.random_quaternion">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">random_quaternion</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate random quaternion.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate uniform random quaternion.</span>
+
+<span class="sd">    This is similar to scipy&#39;s implementation of uniform random sampling of</span>
+<span class="sd">    rotations. It is based on Shoemake&#39;s algorithm [1]_, but we simplify the</span>
+<span class="sd">    implementation by sampling a quaternion from a multivariate standard</span>
+<span class="sd">    normal distribution and normalize it. In this way, we obtain a uniform</span>
+<span class="sd">    distribution over rotation axes and a distribution proportional to</span>
+<span class="sd">    :math:`\sin^2(\theta/2)` over the rotation angles, which together</span>
+<span class="sd">    constitute the Haar measure on :math:`SO(3)`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -436,6 +444,12 @@
 <span class="sd">    -------</span>
 <span class="sd">    q : array, shape (4,)</span>
 <span class="sd">        Unit quaternion to represent rotation: (w, x, y, z)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Shoemake, K. (1992). Uniform Random Rotations. Graphics Gems III,</span>
+<span class="sd">       pages 124-132. Academic, New York.</span>
+<span class="sd">       DOI: 10.1016/B978-0-08-050755-2.50036-1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">norm_vector</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span></div>
 
@@ -518,7 +532,7 @@
 
   <p class="copyright">
     
-      © Copyright 2014-2025, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
+      © Copyright 2014-2026, Alexander Fabisch, DFKI GmbH, Robotics Innovation Center.
       <br/>
     
   </p>

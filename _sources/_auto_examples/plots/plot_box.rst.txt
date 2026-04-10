@@ -51,7 +51,7 @@ Plot Box
     plt.figure()
     ax = plot_box(size=[1, 1, 1], wireframe=False, alpha=0.1, color="k", ax_s=0.6)
     plot_transform(ax=ax)
-    plot_box(ax=ax, size=[1, 1, 1], wireframe=True, alpha=0.3)
+    plot_box(ax=ax, size=[1, 1, 1], wireframe=True, alpha=0.3, linewidth=2)
     plot_length_variable(
         ax=ax,
         start=np.array([-0.5, -0.5, 0.55]),
@@ -82,7 +82,7 @@ Plot Box
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.053 seconds)
+   **Total running time of the script:** (0 minutes 0.047 seconds)
 
 
 .. _sphx_glr_download__auto_examples_plots_plot_box.py:
