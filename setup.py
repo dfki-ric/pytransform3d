@@ -27,6 +27,7 @@ if __name__ == "__main__":
           install_requires=["numpy", "scipy", "matplotlib", "lxml"],
           extras_require={
               "all": ["pydot", "trimesh", "pycollada", "open3d", "viser"],
+              # playwright also requires: playwright install chromium
               "doc": ["numpydoc", "sphinx", "sphinx-gallery",
                       "pydata-sphinx-theme", "sphinxcontrib.video",
                       "viser", "trimesh", "playwright", "imageio"],
