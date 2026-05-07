@@ -28,7 +28,8 @@ if __name__ == "__main__":
           extras_require={
               "all": ["pydot", "trimesh", "pycollada", "open3d", "viser"],
               "doc": ["numpydoc", "sphinx", "sphinx-gallery",
-                      "pydata-sphinx-theme", "sphinxcontrib.video"],
+                      "pydata-sphinx-theme", "sphinxcontrib.video",
+                      "viser", "trimesh", "playwright", "imageio"],
               "test": ["pytest", "pytest-cov"]
           }
           )

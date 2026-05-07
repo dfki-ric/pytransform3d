@@ -159,3 +159,5 @@ if "__file__" in globals():
         loop=True,
         fargs=(cylinder, body_frame, trail_line, state),
     )
+else:
+    fig.save_image("__viser_rendered_image.jpg")

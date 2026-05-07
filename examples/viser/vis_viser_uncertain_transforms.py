@@ -205,6 +205,8 @@ fig.scene.add_mesh_simple(
 if "__file__" in globals():
     fig.show()
     input("Press Enter to exit...")
+else:
+    fig.save_image("__viser_rendered_image.jpg")
 
 # %%
 # References

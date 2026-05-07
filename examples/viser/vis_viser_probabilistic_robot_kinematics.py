@@ -384,6 +384,8 @@ if "__file__" in globals():
         fargs=(n_frames, tm, graph, joint_names, thetas, covs, surface),
     )
     input("Press Enter to exit...")
+else:
+    fig.save_image("__viser_rendered_image.jpg")
 
 # %%
 # References

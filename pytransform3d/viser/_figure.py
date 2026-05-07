@@ -720,23 +720,78 @@ class Figure:
     def save_image(self, filename):
         """Save rendered image to file.
 
-        Note: this method is not supported by the viser backend. Viser is
-        browser-based and does not provide server-side screenshot capture.
+        Launches a headless Chromium browser via Playwright, connects it to
+        the viser server, waits for the scene to render, and saves the result.
+
+        Requires ``playwright`` and ``imageio``::
+
+            pip install playwright imageio
+            playwright install chromium
 
         Parameters
         ----------
         filename : str
             Path to file in which the rendered image should be stored.
+            The extension determines the format (e.g. ``.jpg``, ``.png``).
 
         Raises
         ------
-        NotImplementedError
-            Always, because viser does not support server-side screenshots.
+        ImportError
+            If ``playwright`` or ``imageio`` are not installed.
+        RuntimeError
+            If no browser client connects within the timeout.
         """
-        raise NotImplementedError(
-            "save_image() is not supported by the viser backend. "
-            "Use your browser's screenshot functionality instead."
-        )
+        try:
+            from playwright.sync_api import sync_playwright
+        except ImportError as exc:
+            raise ImportError(
+                "save_image() requires playwright. "
+                "Install with: pip install playwright "
+                "&& playwright install chromium"
+            ) from exc
+        try:
+            import imageio
+        except ImportError as exc:
+            raise ImportError(
+                "save_image() requires imageio: pip install imageio"
+            ) from exc
+
+        port = self._server.get_port()
+        url = f"http://localhost:{port}"
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
+                    "--use-gl=swiftshader",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                ],
+            )
+            page = browser.new_page(viewport={"width": 1280, "height": 720})
+            page.goto(url)
+
+            # Poll until the browser's WebSocket client registers.
+            timeout = 10.0
+            start = time.time()
+            while not self._server.get_clients():
+                if time.time() - start > timeout:
+                    browser.close()
+                    raise RuntimeError(
+                        "Viser browser client did not connect within "
+                        f"{timeout:.0f} s."
+                    )
+                time.sleep(0.1)
+
+            # Allow extra time for Three.js to process all scene messages.
+            page.wait_for_timeout(3000)
+
+            client = next(iter(self._server.get_clients().values()))
+            image = client.get_render(
+                height=720, width=1280, transport_format="jpeg"
+            )
+            imageio.imwrite(filename, image)
+            browser.close()
 
     def show(self):
         """Print the URL to open in a browser.

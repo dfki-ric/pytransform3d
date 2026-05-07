@@ -1,5 +1,7 @@
 """Tests for the viser visualization backend."""
 
+import os
+
 import numpy as np
 import pytest
 
@@ -190,9 +192,11 @@ def test_figure_show_prints_url(fig, capsys):
     assert "localhost" in captured.out
 
 
-def test_figure_save_image_raises(fig):
-    with pytest.raises(NotImplementedError):
-        fig.save_image("test.png")
+def test_figure_save_image(fig):
+    pytest.importorskip("playwright")
+    pytest.importorskip("imageio")
+    fig.save_image("/tmp/test_viser_save.jpg")
+    assert os.path.exists("/tmp/test_viser_save.jpg")
 
 
 def test_figure_set_line_width_warns(fig):

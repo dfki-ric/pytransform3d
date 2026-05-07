@@ -43,25 +43,27 @@ virtual_image_distance = 0.6
 # ------------
 
 fig = pv.figure()
+# Slightly above and to the side to see the full orbit arc.
+fig.view_init(azim=45, elev=25, distance=4.5)
 
 # World frame at the origin.
 fig.plot_transform(A2B=np.eye(4), s=0.4)
 
-# A few objects to look at.
+# A few objects to look at.  Viser is y-up: [x, height, z].
 fig.plot_box(
-    size=[0.4, 0.6, 0.3],
-    A2B=transform_from(np.eye(3), [0.3, 0.0, 0.15]),
+    size=[0.4, 0.3, 0.6],
+    A2B=transform_from(np.eye(3), [0.3, 0.15, 0.0]),
     c=(0.7, 0.3, 0.2),
 )
 fig.plot_sphere(
     radius=0.18,
-    A2B=transform_from(np.eye(3), [-0.35, 0.25, 0.18]),
+    A2B=transform_from(np.eye(3), [-0.35, 0.18, 0.25]),
     c=(0.2, 0.6, 0.85),
 )
 fig.plot_cylinder(
     length=0.55,
     radius=0.09,
-    A2B=transform_from(np.eye(3), [0.0, -0.4, 0.275]),
+    A2B=transform_from(np.eye(3), [0.0, 0.275, -0.4]),
     c=(0.3, 0.75, 0.3),
 )
 
@@ -74,7 +76,8 @@ def look_at(position, target=np.zeros(3)):
     """Build a cam2world transform that places the camera at *position*
     with its optical axis pointing toward *target*.
 
-    The camera convention used here is z-forward, y-down.
+    The camera convention used here is z-forward, y-down.  Viser uses a
+    y-up world coordinate system, so world-up is +y.
 
     Parameters
     ----------
@@ -91,11 +94,10 @@ def look_at(position, target=np.zeros(3)):
     """
     z_cam = target - position  # forward
     z_cam /= np.linalg.norm(z_cam)
-    # Use global +Z as a guide for the up direction; fall back to +X if
-    # the camera is looking straight up or down.
-    world_up = np.array([0.0, 0.0, 1.0])
+    # Viser is y-up; fall back to +z when looking straight up or down.
+    world_up = np.array([0.0, 1.0, 0.0])
     if abs(np.dot(z_cam, world_up)) > 0.99:
-        world_up = np.array([1.0, 0.0, 0.0])
+        world_up = np.array([0.0, 0.0, 1.0])
     x_cam = np.cross(z_cam, world_up)
     x_cam /= np.linalg.norm(x_cam)
     y_cam = np.cross(z_cam, x_cam)
@@ -111,7 +113,7 @@ orbit_radius = 1.8
 orbit_height = 0.8
 n_frames = 120
 
-initial_cam2world = look_at(np.array([orbit_radius, 0.0, orbit_height]))
+initial_cam2world = look_at(np.array([orbit_radius, orbit_height, 0.0]))
 camera_artist = fig.plot_camera(
     M=M,
     cam2world=initial_cam2world,
@@ -150,8 +152,8 @@ def animation_callback(step, n_frames, camera_artist, camera_frame):
     pos = np.array(
         [
             orbit_radius * np.cos(angle),
-            orbit_radius * np.sin(angle),
             orbit_height,
+            orbit_radius * np.sin(angle),
         ]
     )
     cam2world = look_at(pos)
@@ -168,3 +170,5 @@ if "__file__" in globals():
         loop=True,
         fargs=(n_frames, camera_artist, camera_frame),
     )
+else:
+    fig.save_image("__viser_rendered_image.jpg")
