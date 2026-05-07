@@ -405,6 +405,7 @@ class Frame(Artist):
         self._handle = figure.scene.add_frame(
             name=name,
             axes_length=self.s,
+            axes_radius=self.s / 20.0,
             wxyz=_wxyz_from_matrix(self.A2B),
             position=self.A2B[:3, 3],
         )
