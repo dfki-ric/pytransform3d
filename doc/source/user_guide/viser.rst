@@ -84,10 +84,11 @@ The two backends behave identically except for the following points:
   :func:`~pytransform3d.viser.Figure.show` returns immediately after printing
   the URL; the Open3D version blocks until the window is closed.
 
-* **save_image() is not supported.** The viser backend raises
-  :class:`NotImplementedError` when
-  :func:`~pytransform3d.viser.Figure.save_image` is called. Use your
-  browser's screenshot function instead.
+* **save_image() requires playwright.** The viser backend renders the scene
+  in a headless Chromium browser to produce the image. Install the extra
+  dependencies with ``pip install playwright imageio`` and then run
+  ``playwright install chromium`` before calling
+  :func:`~pytransform3d.viser.Figure.save_image`.
 
 * **set_line_width() has no effect.** viser does not expose a line-width
   setting after the scene is created. The method issues a
@@ -136,7 +137,7 @@ all connected browsers automatically:
 Examples
 --------
 
-The gallery contains five viser examples that cover a range of use cases:
+The gallery contains six viser examples that cover a range of use cases:
 
 * :ref:`sphx_glr__auto_examples_viser_vis_viser_shapes.py` -- all geometric
   primitives in a single static scene.
