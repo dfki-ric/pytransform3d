@@ -373,7 +373,7 @@ fig = pv.figure()
 graph = fig.plot_graph(tm, "robot_arm", show_visuals=True)
 fig.plot_transform(np.eye(4), s=0.3)
 surface = Surface(fig.scene, "/ee_ellipsoid", x, y, z, c=(0, 0.5, 0.5))
-fig.view_init(elev=20, azim=0)
+fig.view_init(elev=30, azim=30)
 n_frames = 200
 if "__file__" in globals():
     fig.show()

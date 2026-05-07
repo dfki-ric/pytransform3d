@@ -44,7 +44,7 @@ virtual_image_distance = 0.6
 
 fig = pv.figure()
 # Slightly above and to the side to see the full orbit arc.
-fig.view_init(azim=45, elev=25, distance=4.5)
+fig.view_init(azim=30, elev=35, distance=4.5)
 
 # World frame at the origin.
 fig.plot_transform(A2B=np.eye(4), s=0.4)

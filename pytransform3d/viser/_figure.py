@@ -163,16 +163,16 @@ class Figure:
         center = np.asarray(center, dtype=float)
         # viser uses a y-up coordinate system. Azimuth rotates around the
         # y-axis (world up); elevation tilts from the x-z ground plane.
+        # Only position and look_at are set; viser derives the camera
+        # orientation from those two using y as world-up.
         R_azim = pr.active_matrix_from_angle(1, np.deg2rad(azim))
         R_elev = pr.active_matrix_from_angle(0, np.deg2rad(-elev))
         R = R_azim.dot(R_elev)
         position = center + R.dot(np.array([0.0, 0.0, distance]))
-        wxyz = pr.quaternion_from_matrix(R, strict_check=False)
 
         @self._server.on_client_connect
         def _set_camera(client):
             client.camera.position = position
-            client.camera.wxyz = wxyz
             client.camera.look_at = center
 
     def plot(self, P, c=(0, 0, 0)):

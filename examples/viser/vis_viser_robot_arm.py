@@ -63,7 +63,7 @@ for joint_name in joint_names:
 # Scene setup
 # -----------
 fig = pv.figure()
-fig.view_init(azim=30, elev=20, center=(0.0, 0.3, 0.0), distance=2.5)
+fig.view_init(azim=30, elev=35, center=(0.0, 0.3, 0.0), distance=2.5)
 graph = fig.plot_graph(
     tm, "robot_arm", s=0.05, show_frames=True, show_visuals=True
 )
