@@ -1309,9 +1309,7 @@ class Camera(Artist):
             (6, 7),
             (7, 5),
         ]
-        return np.array(
-            [[pts[i], pts[j]] for i, j in pairs], dtype=np.float32
-        )
+        return np.array([[pts[i], pts[j]] for i, j in pairs], dtype=np.float32)
 
     def add_artist(self, figure):
         """Add artist to figure.

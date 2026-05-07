@@ -147,3 +147,7 @@ The gallery contains four viser examples that cover a range of use cases:
   position trail.
 * :ref:`sphx_glr__auto_examples_viser_vis_viser_camera_orbit.py` -- pinhole
   camera orbiting a static scene, showing the frustum at each pose.
+* :ref:`sphx_glr__auto_examples_viser_vis_viser_uncertain_transforms.py` --
+  banana distribution from concatenating uncertain transforms: MC-sampled
+  paths, mean trajectory, projected SE(3) hyperellipsoid, and position
+  ellipsoid.

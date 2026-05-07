@@ -135,8 +135,13 @@ class Figure:
                 time.sleep(1.0 / 30.0)
             initialized = True
 
-    def view_init(self, azim=-60, elev=30):
-        """Set the elevation and azimuth of the axes for all connected clients.
+    def view_init(
+        self, azim=-60, elev=30, center=(0.0, 0.0, 0.0), distance=5.0
+    ):
+        """Set the initial camera pose for all current and future clients.
+
+        The callback registered here fires for every new browser connection, so
+        the view is consistent regardless of when the browser is opened.
 
         Parameters
         ----------
@@ -144,17 +149,26 @@ class Figure:
             Azimuth angle in the x,y plane in degrees.
 
         elev : float, optional (default: 30)
-            Elevation angle in the z plane.
+            Elevation angle in the z plane in degrees.
+
+        center : array-like, shape (3,), optional (default: [0, 0, 0])
+            The point the camera looks at.
+
+        distance : float, optional (default: 5)
+            Distance from *center* to the camera.
         """
+        center = np.asarray(center, dtype=float)
         R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
         R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
         R = R_azim.dot(R_elev)
-        distance = 5.0
-        position = R.dot(np.array([0.0, 0.0, distance]))
+        position = center + R.dot(np.array([0.0, 0.0, distance]))
         wxyz = pr.quaternion_from_matrix(R, strict_check=False)
-        for _, client in self._server.get_clients().items():
+
+        @self._server.on_client_connect
+        def _set_camera(client):
             client.camera.position = position
             client.camera.wxyz = wxyz
+            client.camera.look_at = center
 
     def plot(self, P, c=(0, 0, 0)):
         """Plot line.

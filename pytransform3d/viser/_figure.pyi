@@ -38,7 +38,13 @@ class Figure:
         loop: bool = ...,
         fargs: Tuple[Any, ...] = ...,
     ) -> None: ...
-    def view_init(self, azim: float = ..., elev: float = ...) -> None: ...
+    def view_init(
+        self,
+        azim: float = ...,
+        elev: float = ...,
+        center: npt.ArrayLike = ...,
+        distance: float = ...,
+    ) -> None: ...
     def plot(self, P: npt.ArrayLike, c: npt.ArrayLike = ...) -> Line3D: ...
     def scatter(
         self,
