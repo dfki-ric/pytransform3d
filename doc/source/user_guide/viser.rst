@@ -136,7 +136,7 @@ all connected browsers automatically:
 Examples
 --------
 
-The gallery contains four viser examples that cover a range of use cases:
+The gallery contains five viser examples that cover a range of use cases:
 
 * :ref:`sphx_glr__auto_examples_viser_vis_viser_shapes.py` -- all geometric
   primitives in a single static scene.
@@ -151,3 +151,6 @@ The gallery contains four viser examples that cover a range of use cases:
   banana distribution from concatenating uncertain transforms: MC-sampled
   paths, mean trajectory, projected SE(3) hyperellipsoid, and position
   ellipsoid.
+* :ref:`sphx_glr__auto_examples_viser_vis_viser_probabilistic_robot_kinematics.py`
+  -- animated 6-DOF robot with the PPOE end-effector pose uncertainty
+  ellipsoid updating in real time.
