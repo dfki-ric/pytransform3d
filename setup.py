@@ -26,7 +26,7 @@ if __name__ == "__main__":
           packages=find_packages(),
           install_requires=["numpy", "scipy", "matplotlib", "lxml"],
           extras_require={
-              "all": ["pydot", "trimesh", "pycollada", "open3d"],
+              "all": ["pydot", "trimesh", "pycollada", "open3d", "viser"],
               "doc": ["numpydoc", "sphinx", "sphinx-gallery",
                       "pydata-sphinx-theme", "sphinxcontrib.video"],
               "test": ["pytest", "pytest-cov"]
