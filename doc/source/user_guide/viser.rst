@@ -132,5 +132,18 @@ all connected browsers automatically:
 
     fig.animate(update, n_frames, loop=True, fargs=(frame,))
 
-See also the examples in ``examples/visualizations/`` for more complete
-animation examples.
+--------
+Examples
+--------
+
+The gallery contains four viser examples that cover a range of use cases:
+
+* :ref:`sphx_glr__auto_examples_viser_vis_viser_shapes.py` -- all geometric
+  primitives in a single static scene.
+* :ref:`sphx_glr__auto_examples_viser_vis_viser_robot_arm.py` -- animated
+  6-DOF robot arm with real-time TCP trajectory tracing.
+* :ref:`sphx_glr__auto_examples_viser_vis_viser_wrench_dynamics.py` --
+  rigid-body simulation driven by a body-fixed wrench, with a rolling
+  position trail.
+* :ref:`sphx_glr__auto_examples_viser_vis_viser_camera_orbit.py` -- pinhole
+  camera orbiting a static scene, showing the frustum at each pose.

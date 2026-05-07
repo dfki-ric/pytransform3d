@@ -1243,13 +1243,74 @@ class Camera(Artist):
         self.strict_check = strict_check
         self._handle = None
 
-    def _fov_and_aspect(self):
-        fy = self.M[1, 1]
-        h = self.sensor_size[1]
-        w = self.sensor_size[0]
-        fov = 2.0 * np.arctan(h / (2.0 * fy))
-        aspect = float(w) / float(h)
-        return fov, aspect
+    def _compute_segments(self):
+        """Compute the 11 line segments that form the camera wireframe.
+
+        The wireframe consists of four frustum rays from the camera centre to
+        the corners of the virtual image plane, the rectangle connecting those
+        corners, and a small triangle above the top edge that indicates the
+        camera's up direction.
+
+        Returns
+        -------
+        segments : array, shape (11, 2, 3)
+            Line segments in world coordinates.
+        """
+        cam2world = self.cam2world
+        focal_length = float(np.mean([self.M[0, 0], self.M[1, 1]]))
+        w, h = float(self.sensor_size[0]), float(self.sensor_size[1])
+        cx, cy = float(self.M[0, 2]), float(self.M[1, 2])
+
+        corners_in_cam = np.array(
+            [
+                [0.0 - cx, 0.0 - cy, focal_length],
+                [0.0 - cx, h - cy, focal_length],
+                [w - cx, h - cy, focal_length],
+                [w - cx, 0.0 - cy, focal_length],
+            ]
+        )
+        corners_in_world = pt.transform(
+            cam2world, pt.vectors_to_points(corners_in_cam)
+        )[:, :3]
+
+        camera_center = cam2world[:3, 3]
+        virtual_corners = (
+            self.virtual_image_distance
+            / focal_length
+            * (corners_in_world - camera_center[np.newaxis])
+            + camera_center[np.newaxis]
+        )
+
+        up = virtual_corners[0] - virtual_corners[1]
+        pts = np.array(
+            [
+                camera_center,
+                virtual_corners[0],
+                virtual_corners[1],
+                virtual_corners[2],
+                virtual_corners[3],
+                virtual_corners[0] + 0.1 * up,
+                0.5 * (virtual_corners[0] + virtual_corners[3]) + 0.5 * up,
+                virtual_corners[3] + 0.1 * up,
+            ]
+        )
+
+        pairs = [
+            (0, 1),
+            (0, 2),
+            (0, 3),
+            (0, 4),
+            (1, 2),
+            (2, 3),
+            (3, 4),
+            (4, 1),
+            (5, 6),
+            (6, 7),
+            (7, 5),
+        ]
+        return np.array(
+            [[pts[i], pts[j]] for i, j in pairs], dtype=np.float32
+        )
 
     def add_artist(self, figure):
         """Add artist to figure.
@@ -1259,14 +1320,13 @@ class Camera(Artist):
         figure : Figure
             Figure to which the artist will be added.
         """
-        fov, aspect = self._fov_and_aspect()
-        self._handle = figure.scene.add_camera_frustum(
+        segments = self._compute_segments()
+        n = len(segments)
+        colors = np.zeros((n, 1, 3), dtype=np.uint8)
+        self._handle = figure.scene.add_line_segments(
             name=figure._next_name("camera"),
-            fov=fov,
-            aspect=aspect,
-            scale=self.virtual_image_distance,
-            wxyz=_wxyz_from_matrix(self.cam2world),
-            position=self.cam2world[:3, 3],
+            points=segments,
+            colors=colors,
         )
 
     def set_data(
@@ -1313,12 +1373,7 @@ class Camera(Artist):
             self.sensor_size = sensor_size
         if self._handle is None:
             return
-        fov, aspect = self._fov_and_aspect()
-        self._handle.fov = fov
-        self._handle.aspect = aspect
-        self._handle.scale = self.virtual_image_distance
-        self._handle.wxyz = _wxyz_from_matrix(self.cam2world)
-        self._handle.position = self.cam2world[:3, 3]
+        self._handle.points = self._compute_segments()
 
     def remove(self):
         """Remove artist from figure."""
