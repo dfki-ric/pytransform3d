@@ -114,18 +114,30 @@ def check_screw_axis(screw_axis):
             "object with shape %s" % (screw_axis.shape,)
         )
 
+    # _NEAR_ZERO_TOL: practical threshold for "omega was meant to be zero but
+    # has floating-point noise".  10 ULPs is a widely used heuristic.
+    # _NEAR_ONE_TOL: derived from IEEE 754 error analysis.  Computing
+    # np.linalg.norm on a 3-vector with true norm 1 accumulates at most
+    # 5u/2 = 5/4 * eps (u = eps/2 unit roundoff) from 3 squarings, 2
+    # additions, and 1 correctly-rounded sqrt.  2 * eps gives a factor-of-1.6
+    # safety margin over that bound.  Both thresholds must be kept in sync:
+    # using different values for the two "near zero" tests creates a dead zone
+    # where invalid axes are silently accepted.
+    _NEAR_ZERO_TOL = 10.0 * np.finfo(float).eps
+    _NEAR_ONE_TOL = 2.0 * np.finfo(float).eps
+
     omega_norm = np.linalg.norm(screw_axis[:3])
     if (
-        abs(omega_norm - 1.0) > 10.0 * np.finfo(float).eps
-        and abs(omega_norm) > 10.0 * np.finfo(float).eps
+        abs(omega_norm - 1.0) > _NEAR_ONE_TOL
+        and abs(omega_norm) > _NEAR_ZERO_TOL
     ):
         raise ValueError(
             "Norm of rotation axis must either be 0 or 1, but it is %g."
             % omega_norm
         )
-    if abs(omega_norm) < np.finfo(float).eps:
+    if abs(omega_norm) < _NEAR_ZERO_TOL:
         v_norm = np.linalg.norm(screw_axis[3:])
-        if abs(v_norm - 1.0) > np.finfo(float).eps:
+        if abs(v_norm - 1.0) > _NEAR_ONE_TOL:
             raise ValueError(
                 "If the norm of the rotation axis is 0, then the direction "
                 "vector must have norm 1, but it is %g." % v_norm
