@@ -235,3 +235,20 @@ def test_rotor_slerp():
         assert_array_almost_equal(
             pr.rotor_apply(rotor_075, e), pr.q_prod_vector(q_075, e)
         )
+
+
+def test_slerp_weights_antipodal():
+    """slerp_weights must not overflow when angle = pi (antipodal inputs).
+
+    sin(pi) is ~1.22e-16 in float64, below machine epsilon, so dividing by
+    it without the guard produces weights of ~8e15 instead of values in [0,1].
+    """
+    for t in (0.0, 0.25, 0.5, 0.75, 1.0):
+        w1, w2 = pr.slerp_weights(np.pi, t)
+        assert np.isfinite(w1), f"w1 not finite at t={t}"
+        assert np.isfinite(w2), f"w2 not finite at t={t}"
+        assert abs(w1 + w2 - 1.0) < 1e-14, f"weights do not sum to 1 at t={t}"
+        assert 0.0 <= w1 <= 1.0, f"w1 out of [0,1] at t={t}"
+        assert 0.0 <= w2 <= 1.0, f"w2 out of [0,1] at t={t}"
+
+
