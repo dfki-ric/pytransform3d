@@ -49,7 +49,7 @@ def check_transform(A2B, strict_check=True):
     check_matrix(A2B[:3, :3], strict_check=strict_check)
     if not np.allclose(A2B[3], np.array([0.0, 0.0, 0.0, 1.0])):
         error_msg = (
-            "Excpected homogeneous transformation matrix with "
+            "Expected homogeneous transformation matrix with "
             "[0, 0, 0, 1] at the bottom, got %r" % A2B
         )
         if strict_check:

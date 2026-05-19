@@ -158,7 +158,7 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
         n_iter=20,
     )
 
-    cov = np.cov(mean_diffs, rowvar=False, bias=True)
+    cov = np.cov(mean_diffs, rowvar=False, bias=False)
     return mean, cov
 
 
@@ -203,5 +203,5 @@ def estimate_gaussian_transform_from_samples(samples):
         n_iter=20,
     )
 
-    cov = np.cov(mean_diffs, rowvar=False, bias=True)
+    cov = np.cov(mean_diffs, rowvar=False, bias=False)
     return mean, cov

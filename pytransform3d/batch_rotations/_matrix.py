@@ -13,7 +13,7 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     Rs : array-like, shape (..., 3, 3)
         Rotation matrices
 
-    traces : array, shape (..., 3)
+    traces : array, shape (...)
         If the traces of rotation matrices been precomputed, you can pass them
         here.
 
