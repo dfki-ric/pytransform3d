@@ -18,7 +18,7 @@ def norm_axis_angles(a):
     -------
     a : array, shape (..., 4)
         Axis of rotation and rotation angle: (x, y, z, angle). The length
-        of the axis vector is 1 and the angle is in [0, pi). No rotation
+        of the axis vector is 1 and the angle is in [0, pi]. No rotation
         is represented by [1, 0, 0, 0].
     """
     a = np.asarray(a)

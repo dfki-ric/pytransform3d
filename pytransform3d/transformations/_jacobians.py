@@ -64,7 +64,9 @@ def left_jacobian_SE3(Stheta):
     Stheta = check_exponential_coordinates(Stheta)
 
     _, theta = screw_axis_from_exponential_coordinates(Stheta)
-    if theta < np.finfo(float).eps:
+    # Delegates to left_jacobian_SO3, which has catastrophic cancellation
+    # for small theta (see that function).  Mirror the same threshold.
+    if theta < math.sqrt(6.0 * np.finfo(float).eps):
         return left_jacobian_SE3_series(Stheta, 10)
 
     phi = Stheta[:3]
@@ -149,7 +151,7 @@ def left_jacobian_SE3_inv(Stheta):
     Stheta = check_exponential_coordinates(Stheta)
 
     _, theta = screw_axis_from_exponential_coordinates(Stheta)
-    if theta < np.finfo(float).eps:
+    if theta < math.sqrt(6.0 * np.finfo(float).eps):
         return left_jacobian_SE3_inv_series(Stheta, 10)
 
     phi = Stheta[:3]

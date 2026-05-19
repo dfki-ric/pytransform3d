@@ -61,6 +61,22 @@ def test_check_screw_axis():
     assert_array_almost_equal(S, S_both)
 
 
+def test_check_screw_axis_rejects_dead_zone():
+    """Screw axis with omega_norm in (eps, 10*eps) and non-unit v rejection.
+
+    The near-zero guard used abs(omega_norm) < eps, while the preceding check
+    used abs(omega_norm) > 10*eps to define 'not near zero'.  For omega_norm
+    in (eps, 10*eps) the first check passes (omega looks near-zero) but the
+    v-norm check was never entered, so any v was silently accepted.  After
+    aligning both thresholds to 10*eps the dead zone is closed.
+    """
+    eps = np.finfo(float).eps
+    omega = np.array([3.0 * eps, 0.0, 0.0])  # norm in (eps, 10*eps)
+    v = np.array([0.5, 0.0, 0.0])  # non-unit: invalid for pure translation
+    with pytest.raises(ValueError, match="direction vector must have norm 1"):
+        pt.check_screw_axis(np.r_[omega, v])
+
+
 def test_check_exponential_coordinates():
     with pytest.raises(ValueError, match="Expected array-like with shape"):
         pt.check_exponential_coordinates([0])
