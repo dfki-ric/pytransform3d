@@ -436,6 +436,7 @@ class Frame(Artist):
         self._handle.position = self.A2B[:3, 3]
         if self._label_handle is not None:
             self._label_handle.position = self.A2B[:3, 3]
+            self._label_handle.text = self.label
 
     def remove(self):
         """Remove artist from figure."""
@@ -481,8 +482,6 @@ class Trajectory(Artist):
         for key_frame_idx in self.key_frames_indices:
             self.key_frames.append(Frame(self.H[key_frame_idx], s=self.s))
 
-        self.set_data(H)
-
     def add_artist(self, figure):
         """Add artist to figure.
 
@@ -505,6 +504,10 @@ class Trajectory(Artist):
         """
         self.H = np.asarray(H, dtype=float)
         self.line.set_data(self.H[:, :3, 3])
+        if len(self.H) != self.key_frames_indices[-1] + 1:
+            self.key_frames_indices = np.linspace(
+                0, len(self.H) - 1, self.n_frames, dtype=np.int64
+            )
         for i, key_frame_idx in enumerate(self.key_frames_indices):
             self.key_frames[i].set_data(self.H[key_frame_idx])
 
@@ -1099,7 +1102,11 @@ class Plane(Artist):
             raise ValueError(
                 "Either 'd' or 'point_in_plane' has to be defined!"
             )
-        return d * np.asarray(normal, dtype=float)
+        normal = np.asarray(normal, dtype=float)
+        normal_norm = np.linalg.norm(normal)
+        if normal_norm > 0.0:
+            normal = normal / normal_norm
+        return d * normal
 
     def _make_mesh(self):
         point = self._resolve_point(self.normal, self.d, self.point_in_plane)
@@ -1113,9 +1120,7 @@ class Plane(Artist):
             ],
             dtype=np.float32,
         )
-        faces = np.array(
-            [[0, 1, 2], [1, 3, 2], [2, 1, 0], [2, 3, 1]], dtype=np.int32
-        )
+        faces = np.array([[0, 1, 2], [1, 3, 2]], dtype=np.int32)
         return vertices, faces
 
     def add_artist(self, figure):
@@ -1519,12 +1524,18 @@ class Graph(Artist):
                     pass
 
         for frame_name, obj in self.visuals.items():
-            A2B = self.tm.get_transform(frame_name, self.frame)
-            obj.set_data(A2B)
+            try:
+                A2B = self.tm.get_transform(frame_name, self.frame)
+                obj.set_data(A2B)
+            except KeyError:
+                pass
 
         for frame_name, obj in self.collision_objects.items():
-            A2B = self.tm.get_transform(frame_name, self.frame)
-            obj.set_data(A2B)
+            try:
+                A2B = self.tm.get_transform(frame_name, self.frame)
+                obj.set_data(A2B)
+            except KeyError:
+                pass
 
     def remove(self):
         """Remove artist from figure."""
