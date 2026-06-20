@@ -384,6 +384,57 @@ def test_axis_angles_from_matrices_norot():
     )
 
 
+def test_axis_angles_from_matrices_near_pi():
+    """Exact pi rotations about coordinate axes must not produce NaN.
+
+    When R is a 180-degree rotation about a coordinate axis, the
+    skew-symmetric part (R - R^T)/2 is exactly zero, so np.sign
+    returns 0 for every component.  The near-pi branch must fall back
+    to a positive sign to avoid zeroing out the axis before
+    normalisation.
+
+    Regression test for the bug where sign([0,0,0])=[0,0,0] caused
+    a zero-norm axis, a divide-by-zero in the normalisation step, and
+    a NaN result.
+    """
+    # Exact 180-degree rotations about each coordinate axis.
+    Rx = np.diag([1.0, -1.0, -1.0])  # pi about x
+    Ry = np.diag([-1.0, 1.0, -1.0])  # pi about y
+    Rz = np.diag([-1.0, -1.0, 1.0])  # pi about z
+
+    for R, expected_axis in [
+        (Rx, np.array([1.0, 0.0, 0.0])),
+        (Ry, np.array([0.0, 1.0, 0.0])),
+        (Rz, np.array([0.0, 0.0, 1.0])),
+    ]:
+        # 0-dimensional input
+        a = pbr.axis_angles_from_matrices(R)
+        assert np.isfinite(a).all(), f"NaN/Inf for 0-d pi-rotation: {a}"
+        assert abs(a[3] - np.pi) < 1e-6, f"angle should be pi, got {a[3]}"
+        assert_array_almost_equal(np.abs(a[:3]), expected_axis)
+
+        # batched input: mix of pi and non-pi rotations
+        Rs = np.stack([R, np.eye(3), R])
+        A = pbr.axis_angles_from_matrices(Rs)
+        assert np.isfinite(A).all(), f"NaN/Inf in batched pi-rotation: {A}"
+        for i in [0, 2]:
+            assert abs(A[i, 3] - np.pi) < 1e-6
+            assert_array_almost_equal(np.abs(A[i, :3]), expected_axis)
+
+    # Roundtrip: compact axis-angle -> matrix -> axis-angle
+    for axis in [
+        np.array([1.0, 0.0, 0.0]),
+        np.array([0.0, 1.0, 0.0]),
+        np.array([0.0, 0.0, 1.0]),
+    ]:
+        compact_in = axis * np.pi
+        R = pbr.matrices_from_compact_axis_angles(compact_in)
+        a = pbr.axis_angles_from_matrices(R)
+        compact_out = a[:3] * a[3]
+        # compact axis-angle is unique only up to sign of axis*angle
+        assert_array_almost_equal(np.abs(compact_out), np.abs(compact_in))
+
+
 def test_axis_angles_from_quaternions():
     rng = np.random.default_rng(48322)
     n_rotations = 20
