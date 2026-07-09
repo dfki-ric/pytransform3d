@@ -138,6 +138,7 @@ from ._jacobians import (
     left_jacobian_SO3_inv_series,
 )
 from ._polar_decomp import robust_polar_decomposition
+from ._swing_twist import swing_twist_decomposition, swing_twist_composition
 from ._plot import (
     plot_basis,
     plot_axis_angle,
@@ -361,4 +362,6 @@ __all__ = [
     "left_jacobian_SO3_inv",
     "left_jacobian_SO3_inv_series",
     "robust_polar_decomposition",
+    "swing_twist_decomposition",
+    "swing_twist_composition",
 ]
