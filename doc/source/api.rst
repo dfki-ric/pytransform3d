@@ -136,6 +136,8 @@ Quaternion
    ~quaternion_slerp
    ~quaternion_dist
    ~quaternion_diff
+   ~swing_twist_decomposition
+   ~swing_twist_composition
    ~quaternion_gradient
    ~quaternion_integrate
    ~quaternion_from_angle
