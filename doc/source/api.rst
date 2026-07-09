@@ -48,6 +48,9 @@ Rotation Matrix
    ~matrix_from_quaternion
    ~matrix_from_rotor
 
+   ~rotation_6d_from_matrix
+   ~matrix_from_rotation_6d
+
 Euler Angles
 ------------
 
