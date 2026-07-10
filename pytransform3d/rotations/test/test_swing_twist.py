@@ -323,9 +323,7 @@ def test_pi_rotation_orthogonal_singularity(orthogonal_axis):
 def test_near_pi_orthogonal_still_reconstructs():
     # Just short of the singularity the decomposition must remain accurate.
     axis = pr.unitz
-    q = pr.quaternion_from_axis_angle(
-        np.hstack((pr.unitx, [np.pi - 1e-6]))
-    )
+    q = pr.quaternion_from_axis_angle(np.hstack((pr.unitx, [np.pi - 1e-6])))
     swing, twist = pr.swing_twist_decomposition(q, axis)
     assert np.linalg.norm(twist) == pytest.approx(1.0)
     assert pr.quaternion_dist(

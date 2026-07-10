@@ -67,6 +67,23 @@ def swing_twist_decomposition(q, axis, eps=np.finfo(float).eps):
         Reconstructs the original rotation from swing and twist via
         ``concatenate_quaternions(swing, twist)``.
 
+    Notes
+    -----
+    Beyond the algorithm of [1]_, this implementation fixes two conventions
+    for cases the paper leaves open:
+
+    1. **Degenerate twist.** When ``twist_norm < eps``, both the scalar part
+       and the projection of the vector part onto the twist axis vanish. This
+       happens for a rotation by :math:`\pi` about an axis orthogonal to the
+       twist axis, where the twist is undefined. We resolve it by returning the
+       identity as the twist and letting the swing carry the full rotation.
+
+    2. **Canonical hemisphere.** The twist is normalized to a non-negative
+       scalar part (:math:`w \geq 0`). Since :math:`\boldsymbol{q}` and
+       :math:`-\boldsymbol{q}` represent the same rotation, this makes the
+       returned twist unique and keeps the twist angle in
+       :math:`[-\pi, \pi]`.
+
     References
     ----------
     .. [1] Dobrowolski, P. (2015). Swing-twist decomposition in Clifford
