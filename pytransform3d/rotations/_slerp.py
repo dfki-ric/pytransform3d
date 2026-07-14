@@ -227,9 +227,11 @@ def slerp_weights(angle, t):
     w2 : float or array, shape (n_steps,)
         Weights for quaternion 2
     """
-    if angle == 0.0:
-        return np.ones_like(t), np.zeros_like(t)
+    sin_angle = np.sin(angle)
+    if abs(sin_angle) < np.finfo(float).eps:
+        # angle ~= 0 or angle ~= pi (antipodal): fall back to linear blend
+        return (1.0 - t) * np.ones_like(t), t * np.ones_like(t)
     return (
-        np.sin((1.0 - t) * angle) / np.sin(angle),
-        np.sin(t * angle) / np.sin(angle),
+        np.sin((1.0 - t) * angle) / sin_angle,
+        np.sin(t * angle) / sin_angle,
     )

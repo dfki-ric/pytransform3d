@@ -13,7 +13,7 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     Rs : array-like, shape (..., 3, 3)
         Rotation matrices
 
-    traces : array, shape (..., 3)
+    traces : array, shape (...)
         If the traces of rotation matrices been precomputed, you can pass them
         here.
 
@@ -66,9 +66,16 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     else:
         Rs_diag = Rs_diag[0]
 
-    out[angle_close_to_pi, :3] = np.sqrt(
-        0.5 * (Rs_diag[angle_close_to_pi] + 1.0)
-    ) * np.sign(out[angle_close_to_pi, :3])
+    near_pi_signs = np.sign(out[angle_close_to_pi, :3])
+    # When the rotation angle is exactly pi, the skew-symmetric part
+    # (R - R^T)/2 is zero for rotations about a coordinate axis, so
+    # np.sign returns 0 and the axis gets zeroed out. Default to +1 in
+    # that case; the axis direction is recovered from the diagonal.
+    near_pi_signs[near_pi_signs == 0.0] = 1.0
+    out[angle_close_to_pi, :3] = (
+        np.sqrt(np.maximum(0.5 * (Rs_diag[angle_close_to_pi] + 1.0), 0.0))
+        * near_pi_signs
+    )
     out[angle_not_zero, :3] /= np.linalg.norm(out[angle_not_zero, :3], axis=-1)[
         ..., np.newaxis
     ]
