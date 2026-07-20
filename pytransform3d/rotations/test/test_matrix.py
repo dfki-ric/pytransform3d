@@ -228,6 +228,24 @@ def test_compare_axis_angle_from_matrix_to_lynch_park():
     # normal case is omitted here
 
 
+def test_axis_angle_from_matrix_pi_general_axis():
+    """Recover a general (non-coordinate) axis for a rotation of pi.
+
+    At pi the matrix is symmetric, so the skew-symmetric part is zero and the
+    axis signs have to come from the symmetric part. This completes the
+    coordinate-axis case fixed in #364. The axis is unique only up to sign at
+    pi, hence the round-trip comparison.
+    """
+    rng = np.random.default_rng(84)
+    for _ in range(50):
+        axis = pr.norm_vector(rng.standard_normal(3))
+        for angle in [np.pi, np.pi - 1e-6, np.pi - 1e-9, np.pi - 1e-12]:
+            R = pr.matrix_from_axis_angle(np.hstack((axis, (angle,))))
+            a2 = pr.axis_angle_from_matrix(R)
+            assert abs(a2[3] - angle) < 1e-4
+            assert_array_almost_equal(pr.matrix_from_axis_angle(a2), R)
+
+
 def test_conversions_matrix_compact_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
     R = np.eye(3)
