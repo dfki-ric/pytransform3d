@@ -348,18 +348,22 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         # https://github.com/dfki-ric/pytransform3d/issues/43
         # The standard formula becomes numerically unstable, however,
         # Rodrigues' formula reduces to R = I + 2 (ee^T - I), with the
-        # rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the
-        # squared values of the rotation axis on the diagonal of this matrix.
-        # We can still use the original formula to reconstruct the signs of
-        # the rotation axis correctly.
-
-        # In case of floating point inaccuracies:
-        R_diag = np.clip(np.diag(R), -1.0, 1.0)
-
-        eeT_diag = 0.5 * (R_diag + 1.0)
-        signs = np.sign(axis_unnormalized)
-        signs[signs == 0.0] = 1.0
+        # rotation axis e, that is, ee^T = 0.5 * (R + I), whose diagonal
+        # holds the squared axis components. At exactly pi the skew part
+        # R - R^T is numerically zero, so its sign cannot recover the axis
+        # for a general axis (only a coordinate axis, whose off-diagonal
+        # components are zero, was handled before). We take the relative
+        # signs from the dominant row of ee^T instead. The symmetric part
+        # keeps this accurate just below pi, where the skew part then fixes
+        # the overall sign of the axis.
+        R_sym = 0.5 * (R + R.T)
+        eeT_diag = np.clip(0.5 * (np.diag(R_sym) + 1.0), 0.0, 1.0)
+        k = np.argmax(eeT_diag)
+        signs = np.sign(R_sym[k])
+        signs[k] = 1.0
         a[:3] = np.sqrt(eeT_diag) * signs
+        if angle < np.pi and np.dot(a[:3], axis_unnormalized) < 0.0:
+            a[:3] = -a[:3]
     else:
         a[:3] = axis_unnormalized
         # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we

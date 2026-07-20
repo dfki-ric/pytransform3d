@@ -50,32 +50,35 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
 
     # The threshold is a result from this discussion:
     # https://github.com/dfki-ric/pytransform3d/issues/43
-    # The standard formula becomes numerically unstable, however,
-    # Rodrigues' formula reduces to R = I + 2 (ee^T - I), with the
-    # rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the
-    # squared values of the rotation axis on the diagonal of this matrix.
-    # We can still use the original formula to reconstruct the signs of
-    # the rotation axis correctly.
+    # The standard formula becomes numerically unstable near pi.
     angle_close_to_pi = np.abs(angles - np.pi) < 1e-4
     angle_zero = angles == 0.0
     angle_not_zero = np.logical_not(angle_zero)
 
-    Rs_diag = np.einsum("nii->ni", Rs.reshape(-1, 3, 3))
-    if instances_shape:
-        Rs_diag = Rs_diag.reshape(*(instances_shape + (3,)))
-    else:
-        Rs_diag = Rs_diag[0]
+    if np.any(angle_close_to_pi):
+        # ee^T = 0.5 * (R + I) has the squared axis components on its
+        # diagonal. At exactly pi the skew part R - R^T (out[..., :3]) is
+        # numerically zero, so its sign cannot recover the axis for a general
+        # (non-coordinate) axis. We take the relative signs from the dominant
+        # row of ee^T instead, using the symmetric part of R to stay accurate
+        # just below pi, where the skew part then fixes the overall axis sign.
+        Rs_pi = Rs[angle_close_to_pi]
+        Rs_pi_sym = 0.5 * (Rs_pi + np.swapaxes(Rs_pi, -1, -2))
+        eeT_diag = np.clip(
+            0.5 * (np.diagonal(Rs_pi_sym, axis1=-2, axis2=-1) + 1.0), 0.0, 1.0
+        )
+        rows = np.arange(len(eeT_diag))
+        k = np.argmax(eeT_diag, axis=-1)  # dominant component per instance
+        signs = np.sign(Rs_pi_sym[rows, k])
+        signs[rows, k] = 1.0
+        axes = np.sqrt(eeT_diag) * signs
+        # just below pi the skew part gives the overall sign of the axis
+        skew = out[angle_close_to_pi, :3]
+        determined = angles[angle_close_to_pi] < np.pi
+        flip = determined & (np.sum(axes * skew, axis=-1) < 0.0)
+        axes[flip] = -axes[flip]
+        out[angle_close_to_pi, :3] = axes
 
-    near_pi_signs = np.sign(out[angle_close_to_pi, :3])
-    # When the rotation angle is exactly pi, the skew-symmetric part
-    # (R - R^T)/2 is zero for rotations about a coordinate axis, so
-    # np.sign returns 0 and the axis gets zeroed out. Default to +1 in
-    # that case; the axis direction is recovered from the diagonal.
-    near_pi_signs[near_pi_signs == 0.0] = 1.0
-    out[angle_close_to_pi, :3] = (
-        np.sqrt(np.maximum(0.5 * (Rs_diag[angle_close_to_pi] + 1.0), 0.0))
-        * near_pi_signs
-    )
     out[angle_not_zero, :3] /= np.linalg.norm(out[angle_not_zero, :3], axis=-1)[
         ..., np.newaxis
     ]

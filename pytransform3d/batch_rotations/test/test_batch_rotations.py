@@ -435,6 +435,28 @@ def test_axis_angles_from_matrices_near_pi():
         assert_array_almost_equal(np.abs(compact_out), np.abs(compact_in))
 
 
+def test_axis_angles_from_matrices_pi_general_axis():
+    """Recover general (non-coordinate) axes for pi rotations in a batch.
+
+    test_axis_angles_from_matrices_near_pi only covers coordinate axes (#364),
+    for which the off-diagonal axis components are zero. For a general axis the
+    signs matter and must be taken from the symmetric part of the matrix.
+    """
+    rng = np.random.default_rng(84)
+    axes = pbr.norm_vectors(rng.standard_normal((20, 3)))
+    for angle in [np.pi, np.pi - 1e-6, np.pi - 1e-9]:
+        A = axes * angle
+        Rs = pbr.matrices_from_compact_axis_angles(A)
+        A2 = pbr.axis_angles_from_matrices(Rs)
+        Rs2 = pbr.matrices_from_compact_axis_angles(A2[..., :3] * A2[..., 3:])
+        assert_array_almost_equal(Rs2, Rs)
+        # the batch result agrees with the single-matrix implementation
+        for R in Rs:
+            assert_array_almost_equal(
+                pbr.axis_angles_from_matrices(R), pr.axis_angle_from_matrix(R)
+            )
+
+
 def test_axis_angles_from_quaternions():
     rng = np.random.default_rng(48322)
     n_rotations = 20
