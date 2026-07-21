@@ -399,7 +399,7 @@ with the quaternion product (:func:`~pytransform3d.rotations.q_prod_vector`).
 * Ambiguities: double cover.
 
 Swing-Twist Decomposition
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Any rotation can be split into a *twist* about a chosen axis
 :math:`\boldsymbol{e}` and a *swing* that carries the remaining orientation,
@@ -407,15 +407,15 @@ such that
 
 .. math::
 
-    \boldsymbol{q} = \boldsymbol{q}_{swing} \boldsymbol{q}_{twist},
+    \boldsymbol{q} = \boldsymbol{q}_\text{swing} \boldsymbol{q}_\text{twist},
 
 where the twist is applied first. The twist
-:math:`\boldsymbol{q}_{twist}` is a rotation about :math:`\boldsymbol{e}`
-and the swing :math:`\boldsymbol{q}_{swing}` is a rotation about an axis that
+:math:`\boldsymbol{q}_\text{twist}` is a rotation about :math:`\boldsymbol{e}`
+and the swing :math:`\boldsymbol{q}_\text{swing}` is a rotation about an axis that
 is orthogonal to :math:`\boldsymbol{e}` [9]_. The twist is obtained by
 projecting the vector part of the quaternion onto the twist axis and
 renormalizing; the swing is then recovered as
-:math:`\boldsymbol{q}_{swing} = \boldsymbol{q} \boldsymbol{q}_{twist}^{-1}`.
+:math:`\boldsymbol{q}_\text{swing} = \boldsymbol{q} \boldsymbol{q}_\text{twist}^{-1}`.
 
 This is useful to separate the roll about a link axis from the rest of an
 orientation, to enforce joint limits, or to isolate the rotation about a
@@ -429,8 +429,11 @@ the original rotation from swing and twist.
 
     import numpy as np
     from pytransform3d.rotations import (
-        swing_twist_decomposition, quaternion_from_axis_angle,
-        matrix_from_quaternion, plot_basis)
+        swing_twist_decomposition,
+        quaternion_from_axis_angle,
+        matrix_from_quaternion,
+        plot_basis,
+    )
 
     axis = np.array([0.0, 0.0, 1.0])
     q = quaternion_from_axis_angle([0.3, 0.7, 0.2, 1.2])

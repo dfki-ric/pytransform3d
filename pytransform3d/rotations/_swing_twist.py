@@ -15,17 +15,19 @@ def swing_twist_decomposition(q, axis, eps=np.finfo(float).eps):
 
     .. math::
 
-        \boldsymbol{q} = \boldsymbol{q}_{swing} \boldsymbol{q}_{twist},
+        \boldsymbol{q} =
+        \boldsymbol{q}_\text{swing} \boldsymbol{q}_\text{twist},
 
     where the twist is applied first. The twist
-    :math:`\boldsymbol{q}_{twist}` is a rotation about :math:`\boldsymbol{e}`
-    and the swing :math:`\boldsymbol{q}_{swing}` is a rotation about an axis
-    that is orthogonal to :math:`\boldsymbol{e}` [1]_.
+    :math:`\boldsymbol{q}_\text{twist}` is a rotation about
+    :math:`\boldsymbol{e}` and the swing :math:`\boldsymbol{q}_\text{swing}`
+    is a rotation about an axis that is orthogonal to :math:`\boldsymbol{e}`
+    [1]_.
 
     The twist is obtained by projecting the vector part of the quaternion
     onto the twist axis and renormalizing; the swing is then recovered as
-    :math:`\boldsymbol{q}_{swing} = \boldsymbol{q}
-    \boldsymbol{q}_{twist}^{-1}`.
+    :math:`\boldsymbol{q}_\text{swing} = \boldsymbol{q}
+    \boldsymbol{q}_\text{twist}^{-1}`.
 
     This decomposition is useful, for example, to enforce joint limits, to
     separate the roll about a link axis from the remaining orientation, or to
