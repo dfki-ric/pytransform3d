@@ -1,7 +1,7 @@
 """
-==========================
+=========================
 Swing-Twist Decomposition
-==========================
+=========================
 
 Any rotation can be split into a *twist* about a chosen axis and a *swing*
 that rotates the axis itself, such that ``q = swing * twist`` (the twist is

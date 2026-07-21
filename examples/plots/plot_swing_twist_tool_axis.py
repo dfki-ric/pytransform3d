@@ -1,7 +1,7 @@
 """
-=========================================
+========================================
 Tool-Axis Redundancy via Swing and Twist
-=========================================
+========================================
 
 Many robot tasks only constrain the *direction* a tool points, not the roll
 about the tool's own axis. Drilling, deburring, spraying, or spot welding all
