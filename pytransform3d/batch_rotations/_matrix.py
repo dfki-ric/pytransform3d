@@ -48,20 +48,24 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     out[..., 1] = Rs[..., 0, 2] - Rs[..., 2, 0]
     out[..., 2] = Rs[..., 1, 0] - Rs[..., 0, 1]
 
-    # The threshold is a result from this discussion:
-    # https://github.com/dfki-ric/pytransform3d/issues/43
-    # The standard formula becomes numerically unstable near pi.
     angle_close_to_pi = np.abs(angles - np.pi) < 1e-4
     angle_zero = angles == 0.0
     angle_not_zero = np.logical_not(angle_zero)
 
     if np.any(angle_close_to_pi):
-        # ee^T = 0.5 * (R + I) has the squared axis components on its
-        # diagonal. At exactly pi the skew part R - R^T (out[..., :3]) is
-        # numerically zero, so its sign cannot recover the axis for a general
-        # (non-coordinate) axis. We take the relative signs from the dominant
-        # row of ee^T instead, using the symmetric part of R to stay accurate
-        # just below pi, where the skew part then fixes the overall axis sign.
+        # Near pi the standard formula is numerically unstable. The 1e-4
+        # threshold comes from
+        # https://github.com/dfki-ric/pytransform3d/issues/43.
+        #
+        # At pi, R is symmetric, so the skew part R - R^T is zero and its
+        # sign cannot recover a general axis. From Rodrigues' formula
+        # R = 2 ee^T - I at pi, i.e. ee^T = 0.5 * (R + I), whose diagonal
+        # holds the squared axis components e_i^2. We read the magnitudes
+        # |e_i| off that diagonal and the relative signs off the dominant
+        # row k = argmax(e_i^2) of the symmetric part, where
+        # R_sym[k, j] gives sign(e_k) * sign(e_j). Using the symmetric part
+        # (not R) keeps this accurate just below pi, where the skew part then
+        # fixes the overall sign of the axis.
         Rs_pi = Rs[angle_close_to_pi]
         Rs_pi_sym = 0.5 * (Rs_pi + np.swapaxes(Rs_pi, -1, -2))
         eeT_diag = np.clip(
