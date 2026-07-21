@@ -110,7 +110,7 @@ class _Trimesh(MeshBase):
             else:
                 raise e
         self.mesh = trimesh.load_mesh(self.filename)
-        if isinstance(self.mesh, trimesh.Scene):
+        if isinstance(self.mesh, trimesh.Scene):  # pragma: no cover
             open3d_mesh = self._scene_to_open3d_mesh(self.mesh)
             self.mesh = self._open3d_mesh_to_trimesh(open3d_mesh)
         return True

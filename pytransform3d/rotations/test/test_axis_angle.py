@@ -99,6 +99,30 @@ def test_compact_axis_angle_near_pi():
     )
 
 
+def test_assert_axis_angle_equal():
+    """Test assertion for axis-angle equality."""
+    pr.assert_axis_angle_equal(
+        np.array([1.0, 0.0, 0.0, np.pi]), np.array([-1.0, 0.0, 0.0, np.pi])
+    )
+    with pytest.raises(AssertionError):
+        pr.assert_axis_angle_equal(
+            np.array([1.0, 0.0, 0.0, 0.5 * np.pi]),
+            np.array([0.0, 1.0, 0.0, 0.5 * np.pi]),
+        )
+
+
+def test_assert_compact_axis_angle_equal():
+    """Test assertion for compact axis-angle equality."""
+    pr.assert_compact_axis_angle_equal(
+        np.array([np.pi, 0.0, 0.0]), np.array([-np.pi, 0.0, 0.0])
+    )
+    with pytest.raises(AssertionError):
+        pr.assert_compact_axis_angle_equal(
+            np.array([0.5 * np.pi, 0.0, 0.0]),
+            np.array([0.0, 0.5 * np.pi, 0.0]),
+        )
+
+
 def test_norm_compact_axis_angle():
     """Test normalization of compact angle-axis representation."""
     a = np.array([np.pi, 0.0, 0.0])
@@ -176,6 +200,17 @@ def test_axis_angle_from_compact_axis_angle():
         a = pr.axis_angle_from_compact_axis_angle(ca)
         assert pytest.approx(np.linalg.norm(ca)) == a[3]
         assert_array_almost_equal(ca[:3] / np.linalg.norm(ca), a[:3])
+
+
+def test_matrix_from_compact_axis_angle():
+    """Test conversion from compact axis-angle to rotation matrix."""
+    rng = np.random.default_rng(84)
+    for _ in range(5):
+        ca = pr.random_compact_axis_angle(rng)
+        a = pr.axis_angle_from_compact_axis_angle(ca)
+        assert_array_almost_equal(
+            pr.matrix_from_compact_axis_angle(ca), pr.matrix_from_axis_angle(a)
+        )
 
 
 def test_compact_axis_angle():
