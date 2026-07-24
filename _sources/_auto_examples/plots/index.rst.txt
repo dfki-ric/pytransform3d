@@ -507,6 +507,23 @@ Matplotlib Figures
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be split into a twist about a chosen axis and a swing that rotates the axis itself, such that q = swing * twist (the twist is applied first). The twist is a rotation about the given axis and the swing is a rotation about an axis orthogonal to it. This is convenient, for example, to separate the roll about a link axis from the remaining orientation.">
+
+.. only:: html
+
+  .. image:: /_auto_examples/plots/images/thumb/sphx_glr_plot_swing_twist_thumb.png
+    :alt:
+
+  :ref:`sphx_glr__auto_examples_plots_plot_swing_twist.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Swing-Twist Decomposition</div>
+    </div>
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Robust polar decomposition orthonormalizes basis vectors (i.e., rotation matrices). It is more expensive than standard Gram-Schmidt orthonormalization, but it spreads the error more evenly over all basis vectors. The top row of these plots shows the unnormalized bases that were obtained by randomly rotating one of the columns of the identity matrix. The middle row shows Gram-Schmidt orthonormalization and the bottom row shows orthonormalization through robust polar decomposition. For comparison, we show the unnormalized basis with dashed lines in the last two rows.">
 
 .. only:: html
@@ -643,6 +660,23 @@ Matplotlib Figures
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Many robot tasks only constrain the direction a tool points, not the roll about the tool&#x27;s own axis. Drilling, deburring, spraying, or spot welding all leave the rotation about the tool axis free, because the tool is symmetric about it. Swing-twist decomposition isolates exactly this redundant degree of freedom.">
+
+.. only:: html
+
+  .. image:: /_auto_examples/plots/images/thumb/sphx_glr_plot_swing_twist_tool_axis_thumb.png
+    :alt:
+
+  :ref:`sphx_glr__auto_examples_plots_plot_swing_twist_tool_axis.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Tool-Axis Redundancy via Swing and Twist</div>
+    </div>
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="In this example, we assume that a robot is moving with constant velocity along the x-axis, however, there is noise in the orientation of the robot that accumulates and leads to different paths when sampling. Uncertainty accumulation leads to the so-called banana distribution, which does not seem Gaussian in Cartesian space, but it is Gaussian in exponential coordinates of SE(3).">
 
 .. only:: html
@@ -765,6 +799,7 @@ Matplotlib Figures
    /_auto_examples/plots/plot_camera_projection
    /_auto_examples/plots/plot_random_trajectories
    /_auto_examples/plots/plot_rotate_cylinder
+   /_auto_examples/plots/plot_swing_twist
    /_auto_examples/plots/plot_polar_decomposition
    /_auto_examples/plots/plot_quaternion_slerp
    /_auto_examples/plots/plot_camera_with_image
@@ -773,6 +808,7 @@ Matplotlib Figures
    /_auto_examples/plots/plot_camera_trajectory
    /_auto_examples/plots/plot_random_geometries
    /_auto_examples/plots/plot_urdf
+   /_auto_examples/plots/plot_swing_twist_tool_axis
    /_auto_examples/plots/plot_concatenate_uncertain_transforms
    /_auto_examples/plots/plot_convention_rotation_global_local
    /_auto_examples/plots/plot_interpolation_for_transform_manager

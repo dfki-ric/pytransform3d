@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Matplotlib Figures &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>Matplotlib Figures &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_auto_examples/plots/index';</script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Transformation Editor" href="../apps/app_transformation_editor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -320,6 +320,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_projection.html">Camera Projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_trajectories.html">Random Trajectories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_rotate_cylinder.html">Rotate Cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_swing_twist.html">Swing-Twist Decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_polar_decomposition.html">Plot Polar Decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_quaternion_slerp.html">Quaternion SLERP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_with_image.html">Camera Transform</a></li>
@@ -328,6 +329,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_trajectory.html">Camera Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_geometries.html">Plot Random Geometries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_urdf.html">URDF Joints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_swing_twist_tool_axis.html">Tool-Axis Redundancy via Swing and Twist</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_concatenate_uncertain_transforms.html">Concatenate Uncertain Transforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_convention_rotation_global_local.html">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_interpolation_for_transform_manager.html">Managing Transformations over Time</a></li>
@@ -485,6 +487,9 @@
 </div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we apply a constant torque (tau) to a cylinder at its center of gravity and plot it at several steps during the acceleration."><img alt="" src="../../_images/sphx_glr_plot_rotate_cylinder_thumb.png" />
 <p><a class="reference internal" href="plot_rotate_cylinder.html#sphx-glr-auto-examples-plots-plot-rotate-cylinder-py"><span class="std std-ref">Rotate Cylinder</span></a></p>
   <div class="sphx-glr-thumbnail-title">Rotate Cylinder</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be split into a twist about a chosen axis and a swing that rotates the axis itself, such that q = swing * twist (the twist is applied first). The twist is a rotation about the given axis and the swing is a rotation about an axis orthogonal to it. This is convenient, for example, to separate the roll about a link axis from the remaining orientation."><img alt="" src="../../_images/sphx_glr_plot_swing_twist_thumb.png" />
+<p><a class="reference internal" href="plot_swing_twist.html#sphx-glr-auto-examples-plots-plot-swing-twist-py"><span class="std std-ref">Swing-Twist Decomposition</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Swing-Twist Decomposition</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Robust polar decomposition orthonormalizes basis vectors (i.e., rotation matrices). It is more expensive than standard Gram-Schmidt orthonormalization, but it spreads the error more evenly over all basis vectors. The top row of these plots shows the unnormalized bases that were obtained by randomly rotating one of the columns of the identity matrix. The middle row shows Gram-Schmidt orthonormalization and the bottom row shows orthonormalization through robust polar decomposition. For comparison, we show the unnormalized basis with dashed lines in the last two rows."><img alt="" src="../../_images/sphx_glr_plot_polar_decomposition_thumb.png" />
 <p><a class="reference internal" href="plot_polar_decomposition.html#sphx-glr-auto-examples-plots-plot-polar-decomposition-py"><span class="std std-ref">Plot Polar Decomposition</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot Polar Decomposition</div>
@@ -509,6 +514,9 @@
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to load a URDF description of a robot, set some joint angles and display relevant frames."><img alt="" src="../../_images/sphx_glr_plot_urdf_thumb.png" />
 <p><a class="reference internal" href="plot_urdf.html#sphx-glr-auto-examples-plots-plot-urdf-py"><span class="std std-ref">URDF Joints</span></a></p>
   <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Many robot tasks only constrain the direction a tool points, not the roll about the tool&#x27;s own axis. Drilling, deburring, spraying, or spot welding all leave the rotation about the tool axis free, because the tool is symmetric about it. Swing-twist decomposition isolates exactly this redundant degree of freedom."><img alt="" src="../../_images/sphx_glr_plot_swing_twist_tool_axis_thumb.png" />
+<p><a class="reference internal" href="plot_swing_twist_tool_axis.html#sphx-glr-auto-examples-plots-plot-swing-twist-tool-axis-py"><span class="std std-ref">Tool-Axis Redundancy via Swing and Twist</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Tool-Axis Redundancy via Swing and Twist</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we assume that a robot is moving with constant velocity along the x-axis, however, there is noise in the orientation of the robot that accumulates and leads to different paths when sampling. Uncertainty accumulation leads to the so-called banana distribution, which does not seem Gaussian in Cartesian space, but it is Gaussian in exponential coordinates of SE(3)."><img alt="" src="../../_images/sphx_glr_plot_concatenate_uncertain_transforms_thumb.png" />
 <p><a class="reference internal" href="plot_concatenate_uncertain_transforms.html#sphx-glr-auto-examples-plots-plot-concatenate-uncertain-transforms-py"><span class="std std-ref">Concatenate Uncertain Transforms</span></a></p>
   <div class="sphx-glr-thumbnail-title">Concatenate Uncertain Transforms</div>

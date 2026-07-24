@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.transformations._screws &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>pytransform3d.transformations._screws &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/transformations/_screws';</script>
@@ -51,8 +51,8 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -118,8 +118,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -458,18 +458,30 @@
             <span class="s2">&quot;object with shape </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">screw_axis</span><span class="o">.</span><span class="n">shape</span><span class="p">,)</span>
         <span class="p">)</span>
 
+    <span class="c1"># _NEAR_ZERO_TOL: practical threshold for &quot;omega was meant to be zero but</span>
+    <span class="c1"># has floating-point noise&quot;.  10 ULPs is a widely used heuristic.</span>
+    <span class="c1"># _NEAR_ONE_TOL: derived from IEEE 754 error analysis.  Computing</span>
+    <span class="c1"># np.linalg.norm on a 3-vector with true norm 1 accumulates at most</span>
+    <span class="c1"># 5u/2 = 5/4 * eps (u = eps/2 unit roundoff) from 3 squarings, 2</span>
+    <span class="c1"># additions, and 1 correctly-rounded sqrt.  2 * eps gives a factor-of-1.6</span>
+    <span class="c1"># safety margin over that bound.  Both thresholds must be kept in sync:</span>
+    <span class="c1"># using different values for the two &quot;near zero&quot; tests creates a dead zone</span>
+    <span class="c1"># where invalid axes are silently accepted.</span>
+    <span class="n">_NEAR_ZERO_TOL</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    <span class="n">_NEAR_ONE_TOL</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+
     <span class="n">omega_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
     <span class="k">if</span> <span class="p">(</span>
-        <span class="nb">abs</span><span class="p">(</span><span class="n">omega_norm</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
-        <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">omega_norm</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+        <span class="nb">abs</span><span class="p">(</span><span class="n">omega_norm</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">_NEAR_ONE_TOL</span>
+        <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">omega_norm</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">_NEAR_ZERO_TOL</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;Norm of rotation axis must either be 0 or 1, but it is </span><span class="si">%g</span><span class="s2">.&quot;</span>
             <span class="o">%</span> <span class="n">omega_norm</span>
         <span class="p">)</span>
-    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">omega_norm</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">omega_norm</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">_NEAR_ZERO_TOL</span><span class="p">:</span>
         <span class="n">v_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">screw_axis</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_norm</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v_norm</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">_NEAR_ONE_TOL</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;If the norm of the rotation axis is 0, then the direction &quot;</span>
                 <span class="s2">&quot;vector must have norm 1, but it is </span><span class="si">%g</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">v_norm</span>

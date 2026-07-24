@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._jacobians &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>pytransform3d.rotations._jacobians &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_jacobians';</script>
@@ -51,8 +51,8 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -118,8 +118,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -381,7 +381,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">theta</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+    <span class="c1"># The closed-form terms (1 - cos(t))/t and 1 - sin(t)/t involve</span>
+    <span class="c1"># subtracting a value near 1 from 1.  The leading correction is O(t)</span>
+    <span class="c1"># and O(t^2) respectively.  When that correction is smaller than half</span>
+    <span class="c1"># a ULP (unit in the last place, i.e. the spacing between adjacent</span>
+    <span class="c1"># floats) of 1.0, the subtraction result is exactly 0 and all</span>
+    <span class="c1"># significant bits are lost.  ULP(1.0) = eps = 2^-52 ~= 2.2e-16 for</span>
+    <span class="c1"># float64.  The tighter condition, 1 - sin(t)/t ~= t^2/6 &lt; eps/2,</span>
+    <span class="c1"># gives t &lt; sqrt(3*eps).  We use sqrt(6*eps) (~3.65e-8) as a</span>
+    <span class="c1"># slightly conservative threshold that also covers the inverse.</span>
+    <span class="k">if</span> <span class="n">theta</span> <span class="o">&lt;</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">6.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">left_jacobian_SO3_series</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">omega_unit</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">/</span> <span class="n">theta</span>
     <span class="n">omega_matrix</span> <span class="o">=</span> <span class="n">cross_product_matrix</span><span class="p">(</span><span class="n">omega_unit</span><span class="p">)</span>
@@ -459,7 +468,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">theta</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+    <span class="c1"># 1 - t/(2*tan(t/2)) ~= t^2/12 for small t.  This falls below half a</span>
+    <span class="c1"># ULP (unit in the last place) of 1.0 for t &lt; sqrt(6*eps), so the</span>
+    <span class="c1"># subtraction yields exactly 0 in float64.  Use the series instead.</span>
+    <span class="k">if</span> <span class="n">theta</span> <span class="o">&lt;</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">6.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">left_jacobian_SO3_inv_series</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">omega_unit</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">/</span> <span class="n">theta</span>
     <span class="n">omega_matrix</span> <span class="o">=</span> <span class="n">cross_product_matrix</span><span class="p">(</span><span class="n">omega_unit</span><span class="p">)</span>

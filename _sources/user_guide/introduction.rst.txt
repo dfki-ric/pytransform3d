@@ -123,9 +123,8 @@ References
 
 .. [2] Furgale, P. (2014). Representing Robot Pose: The good, the bad, and the
    ugly (slides). In What Sucks in Robotics and How to Fix It: Lessons Learned
-   from Building Complex Systems (ICRA workshop). Note: these slides seem to be
-   lost, but the blog below conveys the same message.
-   http://static.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
+   from Building Complex Systems (ICRA workshop).
+   https://web.archive.org/web/20150318020847/http://static1.squarespace.com/static/523c5c56e4b0abc2df5e163e/t/53957839e4b05045ad65021d/1402304569659/Workshop+-+Rotations_v102.key.pdf
 
 .. [3] Furgale, P. (2014). Representing Robot Pose: The good, the bad, and the
    ugly (blog).

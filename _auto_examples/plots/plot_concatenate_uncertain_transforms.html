@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Concatenate Uncertain Transforms &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>Concatenate Uncertain Transforms &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -52,11 +52,11 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Convention for Rotation: Passive / Active, Extrinsic / Intrinsic" href="plot_convention_rotation_global_local.html" />
-    <link rel="prev" title="URDF Joints" href="plot_urdf.html" />
+    <link rel="prev" title="Tool-Axis Redundancy via Swing and Twist" href="plot_swing_twist_tool_axis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -325,6 +325,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_projection.html">Camera Projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_trajectories.html">Random Trajectories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_rotate_cylinder.html">Rotate Cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_swing_twist.html">Swing-Twist Decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_polar_decomposition.html">Plot Polar Decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_quaternion_slerp.html">Quaternion SLERP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_with_image.html">Camera Transform</a></li>
@@ -333,6 +334,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_trajectory.html">Camera Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_geometries.html">Plot Random Geometries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_urdf.html">URDF Joints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_swing_twist_tool_axis.html">Tool-Axis Redundancy via Swing and Twist</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Concatenate Uncertain Transforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_convention_rotation_global_local.html">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_interpolation_for_transform_manager.html">Managing Transformations over Time</a></li>
@@ -471,7 +473,7 @@ This implementation is vectorized with NumPy.</p>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mc_path</span></a><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a>
 <span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">t</span></a> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_steps</span></a><span class="p">):</span>
     <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">noise_samples</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.trajectories.transforms_from_exponential_coordinates.html#pytransform3d.trajectories.transforms_from_exponential_coordinates" title="pytransform3d.trajectories.transforms_from_exponential_coordinates" class="sphx-glr-backref-module-pytransform3d-trajectories sphx-glr-backref-type-py-function"><span class="n">ptr</span><span class="o">.</span><span class="n">transforms_from_exponential_coordinates</span></a><span class="p">(</span>
-        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov_pose_chol</span></a><span class="o">.</span><span class="n">dot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.standard_normal.html#numpy.random.Generator.standard_normal" title="numpy.random.Generator.standard_normal" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-method"><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span></a><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_mc_samples</span></a><span class="p">)))</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cov_pose_chol</span></a><span class="o">.</span><span class="n">dot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="numpy.random.Generator" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rng</span></a><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_mc_samples</span></a><span class="p">)))</span><span class="o">.</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T</span></a>
     <span class="p">)</span>
     <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">step_samples</span></a> <span class="o">=</span> <a href="../../_apidoc/pytransform3d.trajectories.concat_many_to_one.html#pytransform3d.trajectories.concat_many_to_one" title="pytransform3d.trajectories.concat_many_to_one" class="sphx-glr-backref-module-pytransform3d-trajectories sphx-glr-backref-type-py-function"><span class="n">ptr</span><span class="o">.</span><span class="n">concat_many_to_one</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">noise_samples</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">T_vel</span></a><span class="p">)</span>
     <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mc_path</span></a><span class="p">[</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">t</span></a> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.einsum.html#numpy.einsum" title="numpy.einsum" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">einsum</span></a><span class="p">(</span><span class="s2">&quot;nij,njk-&gt;nik&quot;</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">step_samples</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mc_path</span></a><span class="p">[</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">t</span></a><span class="p">])</span>
@@ -554,7 +556,7 @@ Coordinates. In Robotics: Science and Systems VIII, pp. 265-272.
 <a class="reference external" href="http://www.roboticsproceedings.org/rss08/p34.pdf">http://www.roboticsproceedings.org/rss08/p34.pdf</a></p>
 </aside>
 </aside>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.854 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.863 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-concatenate-uncertain-transforms-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/24fa5bb29b08ee66e8bfe0e133c0c825/plot_concatenate_uncertain_transforms.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_concatenate_uncertain_transforms.ipynb</span></code></a></p>
@@ -581,12 +583,12 @@ Coordinates. In Robotics: Science and Systems VIII, pp. 265-272.
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="plot_urdf.html"
+       href="plot_swing_twist_tool_axis.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">URDF Joints</p>
+        <p class="prev-next-title">Tool-Axis Redundancy via Swing and Twist</p>
       </div>
     </a>
     <a class="right-next"

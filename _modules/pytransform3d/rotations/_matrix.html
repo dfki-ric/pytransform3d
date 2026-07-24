@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._matrix &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>pytransform3d.rotations._matrix &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_matrix';</script>
@@ -51,8 +51,8 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -118,8 +118,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -703,22 +703,27 @@
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">angle</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">:</span>  <span class="c1"># np.trace(R) close to -1</span>
-        <span class="c1"># The threshold 1e-4 is a result from this discussion:</span>
-        <span class="c1"># https://github.com/dfki-ric/pytransform3d/issues/43</span>
-        <span class="c1"># The standard formula becomes numerically unstable, however,</span>
-        <span class="c1"># Rodrigues&#39; formula reduces to R = I + 2 (ee^T - I), with the</span>
-        <span class="c1"># rotation axis e, that is, ee^T = 0.5 * (R + I) and we can find the</span>
-        <span class="c1"># squared values of the rotation axis on the diagonal of this matrix.</span>
-        <span class="c1"># We can still use the original formula to reconstruct the signs of</span>
-        <span class="c1"># the rotation axis correctly.</span>
-
-        <span class="c1"># In case of floating point inaccuracies:</span>
-        <span class="n">R_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">R</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-
-        <span class="n">eeT_diag</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">R_diag</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
-        <span class="n">signs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">axis_unnormalized</span><span class="p">)</span>
-        <span class="n">signs</span><span class="p">[</span><span class="n">signs</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="c1"># Near pi the standard formula is numerically unstable. The 1e-4</span>
+        <span class="c1"># threshold comes from</span>
+        <span class="c1"># https://github.com/dfki-ric/pytransform3d/issues/43.</span>
+        <span class="c1">#</span>
+        <span class="c1"># At pi, R is symmetric, so the skew part R - R^T is zero and its</span>
+        <span class="c1"># sign cannot recover a general axis. From Rodrigues&#39; formula</span>
+        <span class="c1"># R = 2 ee^T - I at pi, i.e. ee^T = 0.5 * (R + I), whose diagonal</span>
+        <span class="c1"># holds the squared axis components e_i^2. We read the magnitudes</span>
+        <span class="c1"># |e_i| off that diagonal and the relative signs off the dominant</span>
+        <span class="c1"># row k = argmax(e_i^2) of the symmetric part, where</span>
+        <span class="c1"># R_sym[k, j] gives sign(e_k) * sign(e_j). Using the symmetric part</span>
+        <span class="c1"># (not R) keeps this accurate just below pi, where the skew part then</span>
+        <span class="c1"># fixes the overall sign of the axis.</span>
+        <span class="n">R_sym</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">R</span> <span class="o">+</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">eeT_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">R_sym</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">eeT_diag</span><span class="p">)</span>
+        <span class="n">signs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">R_sym</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="n">signs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">eeT_diag</span><span class="p">)</span> <span class="o">*</span> <span class="n">signs</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis_unnormalized</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">axis_unnormalized</span>
         <span class="c1"># The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we</span>

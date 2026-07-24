@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.rotations.axis_angle_from_quaternion &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>pytransform3d.rotations.axis_angle_from_quaternion &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../_static/documentation_options.js?v=075e253b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.rotations.axis_angle_from_quaternion';</script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="pytransform3d.rotations.axis_angle_from_matrix" href="pytransform3d.rotations.axis_angle_from_matrix.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -358,6 +358,8 @@
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_slerp.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_slerp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_dist.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_dist</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_diff.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.swing_twist_decomposition.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.swing_twist_decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.swing_twist_composition.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.swing_twist_composition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_gradient.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_gradient</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_integrate.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_integrate</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pytransform3d.rotations.quaternion_from_angle.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.rotations</span></code>.quaternion_from_angle</a></li>
@@ -790,6 +792,12 @@ constrained to [0, pi) so that the mapping is unique.</p>
 </dl>
 </dd></dl>
 
+<section id="examples-using-pytransform3d-rotations-axis-angle-from-quaternion">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.rotations.axis_angle_from_quaternion</span></code><a class="headerlink" href="#examples-using-pytransform3d-rotations-axis-angle-from-quaternion" title="Link to this heading">#</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be split into a twist about a chosen axis and a swing that rotates the axis itself, such that q = swing * twist (the twist is applied first). The twist is a rotation about the given axis and the swing is a rotation about an axis orthogonal to it. This is convenient, for example, to separate the roll about a link axis from the remaining orientation."><img alt="" src="../_images/sphx_glr_plot_swing_twist_thumb.png" />
+<p><a class="reference internal" href="../_auto_examples/plots/plot_swing_twist.html#sphx-glr-auto-examples-plots-plot-swing-twist-py"><span class="std std-ref">Swing-Twist Decomposition</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Swing-Twist Decomposition</div>
+</div></div></section>
 </section>
 
 
@@ -840,6 +848,7 @@ constrained to [0, pi) so that the mapping is unique.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytransform3d.rotations.axis_angle_from_quaternion"><code class="docutils literal notranslate"><span class="pre">axis_angle_from_quaternion()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-using-pytransform3d-rotations-axis-angle-from-quaternion">Examples using <code class="docutils literal notranslate"><span class="pre">pytransform3d.rotations.axis_angle_from_quaternion</span></code></a></li>
 </ul>
   </nav></div>
 

@@ -398,6 +398,62 @@ with the quaternion product (:func:`~pytransform3d.rotations.q_prod_vector`).
 * Interpretation: not straightforward.
 * Ambiguities: double cover.
 
+Swing-Twist Decomposition
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Any rotation can be split into a *twist* about a chosen axis
+:math:`\boldsymbol{e}` and a *swing* that carries the remaining orientation,
+such that
+
+.. math::
+
+    \boldsymbol{q} = \boldsymbol{q}_\text{swing} \boldsymbol{q}_\text{twist},
+
+where the twist is applied first. The twist
+:math:`\boldsymbol{q}_\text{twist}` is a rotation about :math:`\boldsymbol{e}`
+and the swing :math:`\boldsymbol{q}_\text{swing}` is a rotation about an axis that
+is orthogonal to :math:`\boldsymbol{e}` [9]_. The twist is obtained by
+projecting the vector part of the quaternion onto the twist axis and
+renormalizing; the swing is then recovered as
+:math:`\boldsymbol{q}_\text{swing} = \boldsymbol{q} \boldsymbol{q}_\text{twist}^{-1}`.
+
+This is useful to separate the roll about a link axis from the rest of an
+orientation, to enforce joint limits, or to isolate the rotation about a
+symmetry axis. pytransform3d provides
+:func:`~pytransform3d.rotations.swing_twist_decomposition` and the inverse
+:func:`~pytransform3d.rotations.swing_twist_composition`, which reconstructs
+the original rotation from swing and twist.
+
+.. plot::
+    :include-source:
+
+    import numpy as np
+    from pytransform3d.rotations import (
+        swing_twist_decomposition,
+        quaternion_from_axis_angle,
+        matrix_from_quaternion,
+        plot_basis,
+    )
+
+    axis = np.array([0.0, 0.0, 1.0])
+    q = quaternion_from_axis_angle([0.3, 0.7, 0.2, 1.2])
+    swing, twist = swing_twist_decomposition(q, axis)
+
+    ax = plot_basis(R=matrix_from_quaternion(q), p=[0, 0, 0])
+    plot_basis(ax=ax, R=matrix_from_quaternion(twist), p=[3, 0, 0])
+    plot_basis(ax=ax, R=matrix_from_quaternion(swing), p=[6, 0, 0])
+
+The left frame shows the full rotation, the middle frame the twist (a pure
+rotation about the z-axis), and the right frame the swing.
+
+.. warning::
+
+    The twist is undefined for a rotation by :math:`\pi` about an axis
+    orthogonal to the twist axis: both the scalar part and the projection onto
+    the twist axis vanish. In this degenerate case
+    :func:`~pytransform3d.rotations.swing_twist_decomposition` returns the
+    identity as the twist and lets the swing carry the full rotation.
+
 ------------
 Euler Angles
 ------------
@@ -565,3 +621,5 @@ References
 .. [8] Shuster, M. D. (1993). A Survey of Attitude Representations.
    Journal of the Astronautical Sciences, 41, 439-517.
    http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf
+.. [9] Dobrowolski, P. (2015). Swing-twist decomposition in Clifford algebra.
+   https://arxiv.org/abs/1506.05481

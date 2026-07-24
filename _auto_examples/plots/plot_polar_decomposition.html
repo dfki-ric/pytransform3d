@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plot Polar Decomposition &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>Plot Polar Decomposition &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -44,18 +44,18 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_auto_examples/plots/plot_polar_decomposition';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Quaternion SLERP" href="plot_quaternion_slerp.html" />
-    <link rel="prev" title="Rotate Cylinder" href="plot_rotate_cylinder.html" />
+    <link rel="prev" title="Swing-Twist Decomposition" href="plot_swing_twist.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -320,6 +320,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_projection.html">Camera Projection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_trajectories.html">Random Trajectories</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_rotate_cylinder.html">Rotate Cylinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_swing_twist.html">Swing-Twist Decomposition</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Plot Polar Decomposition</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_quaternion_slerp.html">Quaternion SLERP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_with_image.html">Camera Transform</a></li>
@@ -328,6 +329,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plot_camera_trajectory.html">Camera Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_geometries.html">Plot Random Geometries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_urdf.html">URDF Joints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_swing_twist_tool_axis.html">Tool-Axis Redundancy via Swing and Twist</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_concatenate_uncertain_transforms.html">Concatenate Uncertain Transforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_convention_rotation_global_local.html">Convention for Rotation: Passive / Active, Extrinsic / Intrinsic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_interpolation_for_transform_manager.html">Managing Transformations over Time</a></li>
@@ -460,7 +462,7 @@ basis with dashed lines in the last two rows.</p>
 
 <a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="numpy.random.Generator" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rng</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.default_rng" title="numpy.random.default_rng" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span></a><span class="p">(</span><span class="mi">46</span><span class="p">)</span>
 <span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">i</span></a> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_cases</span></a><span class="p">):</span>
-    <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">random_axis</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.integers.html#numpy.random.Generator.integers" title="numpy.random.Generator.integers" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-method"><span class="n">rng</span><span class="o">.</span><span class="n">integers</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">random_axis</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="numpy.random.Generator" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rng</span></a><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">R_unnormalized</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.eye.html#numpy.eye" title="numpy.eye" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">eye</span></a><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
     <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">R_unnormalized</span></a><span class="p">[:,</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">random_axis</span></a><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.dot.html#numpy.dot" title="numpy.dot" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">dot</span></a><span class="p">(</span>
         <a href="../../_apidoc/pytransform3d.rotations.random_matrix.html#pytransform3d.rotations.random_matrix" title="pytransform3d.rotations.random_matrix" class="sphx-glr-backref-module-pytransform3d-rotations sphx-glr-backref-type-py-function"><span class="n">pr</span><span class="o">.</span><span class="n">random_matrix</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="numpy.random.Generator" class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rng</span></a><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.eye.html#numpy.eye" title="numpy.eye" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">eye</span></a><span class="p">(</span><span class="mi">3</span><span class="p">)),</span>
@@ -484,7 +486,7 @@ basis with dashed lines in the last two rows.</p>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.236 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.256 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plots-plot-polar-decomposition-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/40b10bed0ba3b7cd4184305a47a2fdab/plot_polar_decomposition.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_polar_decomposition.ipynb</span></code></a></p>
@@ -510,12 +512,12 @@ basis with dashed lines in the last two rows.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="plot_rotate_cylinder.html"
+       href="plot_swing_twist.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Rotate Cylinder</p>
+        <p class="prev-next-title">Swing-Twist Decomposition</p>
       </div>
     </a>
     <a class="right-next"

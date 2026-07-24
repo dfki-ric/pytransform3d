@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API Documentation &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>API Documentation &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="_static/documentation_options.js?v=075e253b"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="10. Camera" href="user_guide/camera.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -121,8 +121,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -556,6 +556,12 @@ You can also search for specific modules, classes, or functions in the
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_diff.html#pytransform3d.rotations.quaternion_diff" title="pytransform3d.rotations.quaternion_diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_diff</span></code></a>(q1, q2)</p></td>
 <td><p>Compute the rotation in angle-axis format that rotates q2 into q1.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.swing_twist_decomposition.html#pytransform3d.rotations.swing_twist_decomposition" title="pytransform3d.rotations.swing_twist_decomposition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swing_twist_decomposition</span></code></a>(q, axis[, eps])</p></td>
+<td><p>Decompose quaternion into swing and twist about an axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.swing_twist_composition.html#pytransform3d.rotations.swing_twist_composition" title="pytransform3d.rotations.swing_twist_composition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swing_twist_composition</span></code></a>(swing, twist)</p></td>
+<td><p>Recompose a rotation from its swing and twist components.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_apidoc/pytransform3d.rotations.quaternion_gradient.html#pytransform3d.rotations.quaternion_gradient" title="pytransform3d.rotations.quaternion_gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quaternion_gradient</span></code></a>(Q[, dt])</p></td>
 <td><p>Time-derivatives of a sequence of quaternions.</p></td>

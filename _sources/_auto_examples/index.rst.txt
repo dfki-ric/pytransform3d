@@ -676,6 +676,23 @@ Matplotlib Figures
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Any rotation can be split into a twist about a chosen axis and a swing that rotates the axis itself, such that q = swing * twist (the twist is applied first). The twist is a rotation about the given axis and the swing is a rotation about an axis orthogonal to it. This is convenient, for example, to separate the roll about a link axis from the remaining orientation.">
+
+.. only:: html
+
+  .. image:: /_auto_examples/plots/images/thumb/sphx_glr_plot_swing_twist_thumb.png
+    :alt:
+
+  :ref:`sphx_glr__auto_examples_plots_plot_swing_twist.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Swing-Twist Decomposition</div>
+    </div>
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Robust polar decomposition orthonormalizes basis vectors (i.e., rotation matrices). It is more expensive than standard Gram-Schmidt orthonormalization, but it spreads the error more evenly over all basis vectors. The top row of these plots shows the unnormalized bases that were obtained by randomly rotating one of the columns of the identity matrix. The middle row shows Gram-Schmidt orthonormalization and the bottom row shows orthonormalization through robust polar decomposition. For comparison, we show the unnormalized basis with dashed lines in the last two rows.">
 
 .. only:: html
@@ -807,6 +824,23 @@ Matplotlib Figures
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">URDF Joints</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Many robot tasks only constrain the direction a tool points, not the roll about the tool&#x27;s own axis. Drilling, deburring, spraying, or spot welding all leave the rotation about the tool axis free, because the tool is symmetric about it. Swing-twist decomposition isolates exactly this redundant degree of freedom.">
+
+.. only:: html
+
+  .. image:: /_auto_examples/plots/images/thumb/sphx_glr_plot_swing_twist_tool_axis_thumb.png
+    :alt:
+
+  :ref:`sphx_glr__auto_examples_plots_plot_swing_twist_tool_axis.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Tool-Axis Redundancy via Swing and Twist</div>
     </div>
 
 

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.rotations._slerp &#8212; pytransform3d 3.15.0 documentation</title>
+    <title>pytransform3d.rotations._slerp &#8212; pytransform3d 3.16.0 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=9521fbd0"></script>
+    <script src="../../../_static/documentation_options.js?v=075e253b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/rotations/_slerp';</script>
@@ -51,8 +51,8 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.15.0" />
-    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
+  <meta name="docsearch:version" content="3.16.0" />
+    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
   </head>
   
   
@@ -118,8 +118,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.15.0"/>
-    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.15.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
   
   
 </a></div>
@@ -581,11 +581,13 @@
 <span class="sd">    w2 : float or array, shape (n_steps,)</span>
 <span class="sd">        Weights for quaternion 2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">sin_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin_angle</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+        <span class="c1"># angle ~= 0 or angle ~= pi (antipodal): fall back to linear blend</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">sin_angle</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span> <span class="o">/</span> <span class="n">sin_angle</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 
