@@ -154,12 +154,19 @@ $\boldsymbol{\psi} = \hat{\boldsymbol{\omega}} \tan{\frac{\theta}{4}} \in \mathb
 shape (3,)
 \end{minipage}};
 
+\node[draw,shape=rectangle,thick,rounded corners,fill=cyan!15] (sixd) at (3.3,10.9) {\begin{minipage}{4.6cm}\textbf{6D representation}\\[0.3em]
+$(\boldsymbol{a}_1, \boldsymbol{a}_2) \in \mathbb{R}^6$\\[0.3em]
+\texttt{rotation\_6d}\\[0.3em]
+shape (6,)
+\end{minipage}};
+
 \draw[<->] (rotmatarray) -- (logrot) node[midway,left] {exp./log. map};
 \draw[->] (rotvec) -- (logrot) node[midway,left] {cross product matrix};
 \draw[->] (rotvec) -- (angvel) node[midway,above] {$\frac{\partial \boldsymbol{\omega}}{\partial t}$};
 \draw[->] (angvel) -- (angacc) node[midway,above] {$\frac{\partial \dot{\boldsymbol{\omega}}}{\partial t}$};
 \draw[->] (axan) -- (rotvec) node[midway,left] {product};
 \draw[->] (rotax) -- (axan) node[midway,left] {$\theta$};
+\draw[<->] (sixd) -- (rotmatarray) node[midway,sloped,above] {Gram-Schmidt};
 \end{tikzpicture}
 \end{preview}
 \end{document}
