@@ -1,7 +1,10 @@
-"""Figure based on Open3D's visualizer."""
+"""Figure based on viser."""
+
+import time
+import warnings
 
 import numpy as np
-import open3d as o3d
+import viser
 
 from ._artists import (
     Line3D,
@@ -28,109 +31,69 @@ from .. import transformations as pt
 class Figure:
     """The top level container for all the plot elements.
 
-    You can close the visualizer with the keys `escape` or `q`.
+    The figure starts a local web server. Open the printed URL in a browser
+    to view the scene. Call :func:`show` to print the URL.
 
     Parameters
     ----------
-    window_name : str, optional (default: Open3D)
-        Window title name.
+    window_name : str, optional (default: pytransform3d)
+        Label shown at the top of the GUI panel in the browser.
 
-    width : int, optional (default: 1920)
-        Width of the window.
-
-    height : int, optional (default: 1080)
-        Height of the window.
-
-    with_key_callbacks : bool, optional (default: False)
-        Creates a visualizer that allows to register callbacks
-        for keys.
+    port : int, optional (default: 8080)
+        Port used by the viser web server.
     """
 
-    def __init__(
-        self,
-        window_name="Open3D",
-        width=1920,
-        height=1080,
-        with_key_callbacks=False,
-    ):
-        if with_key_callbacks:
-            self.visualizer = o3d.visualization.VisualizerWithKeyCallback()
-        else:
-            self.visualizer = o3d.visualization.Visualizer()
-        self.visualizer.create_window(
-            window_name=window_name, width=width, height=height
-        )
+    def __init__(self, window_name="pytransform3d", port=8080):
+        self._server = viser.ViserServer(label=window_name, port=port)
+        self.scene = self._server.scene
+        self.scene.configure_default_lights()
+        self.scene.add_grid(name="/_grid", width=10, height=10)
+        self._object_count = 0
 
-    def add_geometry(self, geometry):
-        """Add geometry to visualizer.
-
-        Parameters
-        ----------
-        geometry : Geometry
-            Open3D geometry.
-        """
-        self.visualizer.add_geometry(geometry)
-
-    def _remove_geometry(self, geometry):
-        """Remove geometry to visualizer.
-
-        .. warning::
-
-            This function is not public because the interface of the
-            underlying visualizer might change in the future causing the
-            signature of this function to change as well.
-
-        Parameters
-        ----------
-        geometry : Geometry
-            Open3D geometry.
-        """
-        self.visualizer.remove_geometry(geometry)
-
-    def update_geometry(self, geometry):
-        """Indicate that geometry has been updated.
-
-        Parameters
-        ----------
-        geometry : Geometry
-            Open3D geometry.
-        """
-        self.visualizer.update_geometry(geometry)
+    def _next_name(self, prefix):
+        name = "/%s/%05d" % (prefix, self._object_count)
+        self._object_count += 1
+        return name
 
     def remove_artist(self, artist):
-        """Remove artist from visualizer.
+        """Remove artist from the scene.
 
         Parameters
         ----------
         artist : Artist
             Artist that should be removed from this figure.
         """
-        for g in artist.geometries:
-            self._remove_geometry(g)
+        artist.remove()
 
     def set_line_width(self, line_width):
         """Set render option line width.
 
-        Note: this feature does not work in Open3D's visualizer at the
-        moment.
+        Note: this setting is not effective after line segments have been
+        added to the scene.
 
         Parameters
         ----------
         line_width : float
             Line width.
         """
-        self.visualizer.get_render_option().line_width = line_width
-        self.visualizer.update_renderer()
+        warnings.warn(
+            "set_line_width() has no effect in the viser backend. Pass "
+            "line_width when creating the artist.",
+            UserWarning,
+            stacklevel=2,
+        )
 
     def set_zoom(self, zoom):
-        """Set zoom.
+        """Set zoom for all connected clients.
 
         Parameters
         ----------
         zoom : float
-            Zoom of the visualizer.
+            Zoom factor. Values greater than 1 zoom in, less than 1 zoom out.
         """
-        self.visualizer.get_view_control().set_zoom(zoom)
+        for _, client in self._server.get_clients().items():
+            pos = np.asarray(client.camera.position)
+            client.camera.position = pos / zoom
 
     def animate(self, callback, n_frames, loop=False, fargs=()):
         """Make animation with callback.
@@ -156,11 +119,10 @@ class Figure:
         Raises
         ------
         RuntimeError
-            When callback does not return any artists
+            When callback does not return any artists.
         """
         initialized = False
-        window_open = True
-        while window_open and (loop or not initialized):
+        while loop or not initialized:
             for i in range(n_frames):
                 drawn_artists = callback(i, *fargs)
 
@@ -169,52 +131,49 @@ class Figure:
                         "The animation function must return a "
                         "sequence of Artist objects."
                     )
-                try:
-                    drawn_artists = [a for a in drawn_artists]
-                except TypeError:
-                    drawn_artists = [drawn_artists]
 
-                for a in drawn_artists:
-                    for geometry in a.geometries:
-                        self.update_geometry(geometry)
-
-                window_open = self.visualizer.poll_events()
-                if not window_open:
-                    break
-                self.visualizer.update_renderer()
+                time.sleep(1.0 / 30.0)
             initialized = True
 
-    def view_init(self, azim=-60, elev=30):
-        """Set the elevation and azimuth of the axes.
+    def view_init(
+        self, azim=-60, elev=30, center=(0.0, 0.0, 0.0), distance=5.0
+    ):
+        """Set the initial camera pose for all current and future clients.
+
+        The callback registered here fires for every new browser connection, so
+        the view is consistent regardless of when the browser is opened.
 
         Parameters
         ----------
         azim : float, optional (default: -60)
-            Azimuth angle in the x,y plane in degrees.
+            Azimuth angle around the world-up axis (y) in degrees. 0 places
+            the camera on the +z side of *center*; 90 places it on the +x
+            side.
 
         elev : float, optional (default: 30)
-            Elevation angle in the z plane.
+            Elevation angle above the ground plane (x-z) in degrees. 0 is
+            level; 90 is directly above *center*.
+
+        center : array-like, shape (3,), optional (default: [0, 0, 0])
+            The point the camera looks at.
+
+        distance : float, optional (default: 5)
+            Distance from *center* to the camera.
         """
-        vc = self.visualizer.get_view_control()
-        pcp = vc.convert_to_pinhole_camera_parameters()
-        distance = np.linalg.norm(pcp.extrinsic[:3, 3])
-        R_azim_elev_0_world2camera = np.array(
-            [[0, 1, 0], [0, 0, -1], [-1, 0, 0]]
-        )
-        R_azim_elev_0_camera2world = R_azim_elev_0_world2camera.T
-        # azimuth and elevation are defined in world frame
-        R_azim = pr.active_matrix_from_angle(2, np.deg2rad(azim))
-        R_elev = pr.active_matrix_from_angle(1, np.deg2rad(-elev))
-        R_elev_azim_camera2world = R_azim.dot(R_elev).dot(
-            R_azim_elev_0_camera2world
-        )
-        pcp.extrinsic = pt.transform_from(  # world2camera
-            R=R_elev_azim_camera2world.T, p=[0, 0, distance]
-        )
-        try:
-            vc.convert_from_pinhole_camera_parameters(pcp, allow_arbitrary=True)
-        except TypeError:
-            vc.convert_from_pinhole_camera_parameters(pcp)
+        center = np.asarray(center, dtype=float)
+        # viser uses a y-up coordinate system. Azimuth rotates around the
+        # y-axis (world up); elevation tilts from the x-z ground plane.
+        # Only position and look_at are set; viser derives the camera
+        # orientation from those two using y as world-up.
+        R_azim = pr.active_matrix_from_angle(1, np.deg2rad(azim))
+        R_elev = pr.active_matrix_from_angle(0, np.deg2rad(-elev))
+        R = R_azim.dot(R_elev)
+        position = center + R.dot(np.array([0.0, 0.0, distance]))
+
+        @self._server.on_client_connect
+        def _set_camera(client):
+            client.camera.position = position
+            client.camera.look_at = center
 
     def plot(self, P, c=(0, 0, 0)):
         """Plot line.
@@ -225,11 +184,10 @@ class Figure:
             Points of which the line consists.
 
         c : array-like, shape (n_points - 1, 3) or (3,), optional
-                (default: black)
-            Color can be given as individual colors per line segment or
-            as one color for each segment. A color is represented by 3
-            values between 0 and 1 indicate representing red, green, and
-            blue respectively.
+            (default: black). Color can be given as individual colors per
+            line segment or as one color for each segment. A color is
+            represented by 3 values between 0 and 1 indicating red, green,
+            and blue respectively.
 
         Returns
         -------
@@ -249,11 +207,11 @@ class Figure:
             Points
 
         s : float, optional (default: 0.05)
-            Scaling of the spheres that will be drawn.
+            Scaling of the points that will be drawn.
 
         c : array-like, shape (3,) or (n_points, 3), optional (default: black)
-            A color is represented by 3 values between 0 and 1 indicate
-            representing red, green, and blue respectively.
+            A color is represented by 3 values between 0 and 1 indicating
+            red, green, and blue respectively.
 
         Returns
         -------
@@ -278,8 +236,8 @@ class Figure:
             Direction of the vector
 
         c : array-like, shape (3,), optional (default: black)
-            A color is represented by 3 values between 0 and 1 indicate
-            representing red, green, and blue respectively.
+            A color is represented by 3 values between 0 and 1 indicating
+            red, green, and blue respectively.
 
         Returns
         -------
@@ -311,7 +269,7 @@ class Figure:
 
         Returns
         -------
-        Frame : frame
+        frame : Frame
             New frame.
         """
         if R is None:
@@ -320,7 +278,6 @@ class Figure:
 
         frame = Frame(pt.transform_from(R=R, p=p), s=s)
         frame.add_artist(self)
-
         return frame
 
     def plot_transform(self, A2B=None, s=1.0, name=None, strict_check=True):
@@ -344,7 +301,7 @@ class Figure:
 
         Returns
         -------
-        Frame : frame
+        frame : Frame
             New frame.
         """
         if A2B is None:
@@ -353,7 +310,6 @@ class Figure:
 
         frame = Frame(A2B, name, s)
         frame.add_artist(self)
-
         return frame
 
     def plot_trajectory(self, P, n_frames=10, s=1.0, c=(0, 0, 0)):
@@ -373,8 +329,8 @@ class Figure:
             Scaling of the frames that will be drawn
 
         c : array-like, shape (3,), optional (default: black)
-            A color is represented by 3 values between 0 and 1 indicate
-            representing red, green, and blue respectively.
+            A color is represented by 3 values between 0 and 1 indicating
+            red, green, and blue respectively.
 
         Returns
         -------
@@ -466,7 +422,8 @@ class Figure:
             The circle will be split into resolution segments
 
         split : int, optional (default: 4)
-            The height will be split into split segments
+            This parameter is ignored. It is accepted for API compatibility
+            with the Open3D backend.
 
         c : array-like, shape (3,), optional (default: None)
             Color
@@ -721,10 +678,6 @@ class Figure:
     ):
         """Plot camera in world coordinates.
 
-        This function is inspired by Blender's camera visualization. It will
-        show the camera center, a virtual image plane, and the top of the
-        virtual image plane.
-
         Parameters
         ----------
         M : array-like, shape (3, 3)
@@ -767,42 +720,103 @@ class Figure:
     def save_image(self, filename):
         """Save rendered image to file.
 
+        Launches a headless Chromium browser via Playwright, connects it to
+        the viser server, waits for the scene to render, and saves the result.
+
+        Requires ``playwright`` and ``imageio``::
+
+            pip install playwright imageio
+            playwright install chromium
+
         Parameters
         ----------
         filename : str
-            Path to file in which the rendered image should be stored
+            Path to file in which the rendered image should be stored.
+            The extension determines the format (e.g. ``.jpg``, ``.png``).
+
+        Raises
+        ------
+        ImportError
+            If ``playwright`` or ``imageio`` are not installed.
+        RuntimeError
+            If no browser client connects within the timeout.
         """
-        self.visualizer.capture_screen_image(filename, True)
+        try:
+            from playwright.sync_api import sync_playwright
+        except ImportError as exc:
+            raise ImportError(
+                "save_image() requires playwright. "
+                "Install with: pip install playwright "
+                "&& playwright install chromium"
+            ) from exc
+        try:
+            import imageio
+        except ImportError as exc:
+            raise ImportError(
+                "save_image() requires imageio: pip install imageio"
+            ) from exc
+
+        port = self._server.get_port()
+        url = f"http://localhost:{port}"
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
+                    "--use-gl=swiftshader",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                ],
+            )
+            page = browser.new_page(viewport={"width": 1280, "height": 720})
+            page.goto(url)
+
+            # Poll until the browser's WebSocket client registers.
+            timeout = 10.0
+            start = time.time()
+            while not self._server.get_clients():
+                if time.time() - start > timeout:
+                    browser.close()
+                    raise RuntimeError(
+                        "Viser browser client did not connect within "
+                        f"{timeout:.0f} s."
+                    )
+                time.sleep(0.1)
+
+            # Allow extra time for Three.js to process all scene messages.
+            page.wait_for_timeout(3000)
+
+            client = next(iter(self._server.get_clients().values()))
+            image = client.get_render(
+                height=720, width=1280, transport_format="jpeg"
+            )
+            imageio.imwrite(filename, image)
+            browser.close()
 
     def show(self):
-        """Display the figure window."""
-        self.visualizer.run()
-        self.visualizer.destroy_window()
+        """Print the URL to open in a browser.
+
+        The viser server runs in a background thread and stays alive until
+        the Python process ends or :attr:`_server` is stopped manually.
+        """
+        port = self._server.get_port()
+        print("Open in browser: http://localhost:%d" % port)
 
 
-def figure(
-    window_name="Open3D", width=1920, height=1080, with_key_callbacks=False
-):
+def figure(window_name="pytransform3d", port=8080):
     """Create a new figure.
 
     Parameters
     ----------
-    window_name : str, optional (default: Open3D)
-        Window title name.
+    window_name : str, optional (default: pytransform3d)
+        Label shown at the top of the GUI panel in the browser.
 
-    width : int, optional (default: 1920)
-        Width of the window.
-
-    height : int, optional (default: 1080)
-        Height of the window.
-
-    with_key_callbacks : bool, optional (default: False)
-        Creates a visualizer that allows to register callbacks
-        for keys.
+    port : int, optional (default: 8080)
+        Port used by the viser web server.
 
     Returns
     -------
     figure : Figure
         New figure.
     """
-    return Figure(window_name, width, height, with_key_callbacks)
+    return Figure(window_name, port)
