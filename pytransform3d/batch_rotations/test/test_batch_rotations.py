@@ -659,3 +659,18 @@ def test_smooth_quaternion_trajectory_empty():
         ValueError, match=r"At least one quaternion is expected"
     ):
         pbr.smooth_quaternion_trajectory(np.zeros((0, 4)))
+
+
+def test_norm_axis_angle_180_degrees_deterministic_batch():
+    A = np.array([
+        [-1.0, 0.0, 0.0, np.pi],
+        [0.0, -1.0, 0.0, np.pi],
+        [0.0, 0.0, -1.0, np.pi]
+    ])
+    res_batch = pbr.norm_axis_angles(A)
+    expected = np.array([
+        [1.0, 0.0, 0.0, np.pi],
+        [0.0, 1.0, 0.0, np.pi],
+        [0.0, 0.0, 1.0, np.pi]
+    ])
+    np.testing.assert_array_almost_equal(res_batch, expected)

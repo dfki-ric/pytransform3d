@@ -284,3 +284,15 @@ def test_mrp_from_axis_angle():
     assert_array_almost_equal(
         [1.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, np.pi])
     )
+
+
+def test_norm_axis_angle_180_degrees_deterministic():
+    a1 = np.array([-1.0, 0.0, 0.0, np.pi])
+    res1 = pr.norm_axis_angle(a1)
+    np.testing.assert_array_almost_equal(res1[:3], [1.0, 0.0, 0.0])
+    a2 = np.array([0.0, -1.0, 0.0, np.pi])
+    res2 = pr.norm_axis_angle(a2)
+    np.testing.assert_array_almost_equal(res2[:3], [0.0, 1.0, 0.0])
+    a3 = np.array([0.0, 0.0, -1.0, np.pi])
+    res3 = pr.norm_axis_angle(a3)
+    np.testing.assert_array_almost_equal(res3[:3], [0.0, 0.0, 1.0])

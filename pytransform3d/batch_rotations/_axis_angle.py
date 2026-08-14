@@ -45,6 +45,19 @@ def norm_axis_angles(a):
 
     res[rot_mask, 3] = angle_normalized[rot_mask]
 
+    # Issue #366: Make axis deterministic for 180 degree rotations
+    # the first non-zero component of axis should be positive.
+    pi_mask = np.isclose(res[..., 3], np.pi) & rot_mask
+    if np.any(pi_mask):
+        axes = res[pi_mask, :3]
+        is_zero = np.isclose(axes, 0.0)
+        first_non_zero_idx = np.argmax(~is_zero, axis=1)
+        row_indices = np.arange(len(axes))
+        first_non_zero_vals = axes[row_indices, first_non_zero_idx]
+        flip_mask = first_non_zero_vals < 0.0
+        axes[flip_mask] *= -1.0
+        res[pi_mask, :3] = axes
+
     if only_one:
         res = res[0]
     return res
