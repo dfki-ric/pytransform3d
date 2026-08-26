@@ -287,26 +287,42 @@ def test_mrp_from_axis_angle():
 
 
 def test_norm_axis_angle_180_degrees_deterministic():
-    a1 = np.array([-1.0, 0.0, 0.0, np.pi])
-    res1 = pr.norm_axis_angle(a1)
-    assert_array_almost_equal(res1[:3], [1.0, 0.0, 0.0])
-    a2 = np.array([0.0, -1.0, 0.0, np.pi])
-    res2 = pr.norm_axis_angle(a2)
-    assert_array_almost_equal(res2[:3], [0.0, 1.0, 0.0])
-    a3 = np.array([0.0, 0.0, -1.0, np.pi])
-    res3 = pr.norm_axis_angle(a3)
-    assert_array_almost_equal(res3[:3], [0.0, 0.0, 1.0])
-    a4 = np.array([0.0, 0.0, 0.0, np.pi])
-    res4 = pr.norm_axis_angle(a4)
-    assert_array_almost_equal(res4[:3], [1.0, 0.0, 0.0])
-    a5 = np.array([0.0004, -0.0007, 0.0005, np.pi])
-    res5 = pr.norm_axis_angle(a5)
-    assert_array_almost_equal(res5[:3], [0.42163702, -0.73786479, 0.52704628])
-    a6 = np.array([0.00, -0.003, 0.01, np.pi])
-    res6 = pr.norm_axis_angle(a6)
-    assert_array_almost_equal(res6[:3], [0.0, 0.28734789, -0.95782629])
-    a7 = np.array([0.00, 0.00, 0.0003, np.pi])
-    res7 = pr.norm_axis_angle(a7)
-    assert_array_almost_equal(res7[:3], [0.0, 0.0, 1])
-    res8 = pr.norm_axis_angle(-a7)
-    assert_array_almost_equal(res8[:3], [0.0, 0.0, 1])
+    """Test normalization of axis-angle representation at 180 degrees."""
+    a = np.array([-1.0, 0.0, 0.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([1.0, 0.0, 0.0, np.pi]))
+
+    a = np.array([0.0, -1.0, 0.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([0.0, 1.0, 0.0, np.pi]))
+
+    a = np.array([0.0, 0.0, -1.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([0.0, 0.0, 1.0, np.pi]))
+
+    a = np.array([0.0, 0.0, 0.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([1.0, 0.0, 0.0, 0.0]))
+
+    a = np.array([0.0, 0.0, 0.0003, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([0.0, 0.0, 1.0, np.pi]))
+    n = pr.norm_axis_angle(-a)
+    assert_array_almost_equal(n, np.array([0.0, 0.0, 1.0, np.pi]))
+
+    rng = np.random.default_rng(364)
+    for _ in range(5):
+        a = pr.random_axis_angle(rng)
+        a[3] = np.pi
+        n = pr.norm_axis_angle(a)
+        assert pytest.approx(np.linalg.norm(n[:3])) == 1.0
+        assert pytest.approx(n[3]) == np.pi
+        assert n[0] > 0
+
+        a[0] = 0
+        n = pr.norm_axis_angle(a)
+        assert n[1] > 0
+
+        a[1] = 0
+        n = pr.norm_axis_angle(a)
+        assert n[2] > 0

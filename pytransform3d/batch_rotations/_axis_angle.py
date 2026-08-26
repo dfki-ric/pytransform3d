@@ -6,13 +6,16 @@ from ..rotations import norm_angle
 from ._utils import norm_vectors
 
 
-def norm_axis_angles(a):
+def norm_axis_angles(a, tolerance=1e-6):
     """Normalize axis-angle representation.
 
     Parameters
     ----------
     a : array-like, shape (..., 4)
         Axis of rotation and rotation angle: (x, y, z, angle)
+
+    tolerance : float
+        Tolerance of this flipping.
 
     Returns
     -------
@@ -47,16 +50,15 @@ def norm_axis_angles(a):
 
     # Issue #366: Make axis deterministic for 180 degree rotations
     # the first non-zero component of axis should be positive.
-    pi_mask = np.isclose(res[..., 3], np.pi) & rot_mask
+    pi_mask = (np.abs(res[..., 3] - np.pi) < tolerance) & rot_mask
     if np.any(pi_mask):
-        axes = res[pi_mask, :3]
-        is_zero = np.isclose(axes, 0.0)
-        first_non_zero_idx = np.argmax(~is_zero, axis=1)
-        row_indices = np.arange(len(axes))
-        first_non_zero_vals = axes[row_indices, first_non_zero_idx]
-        flip_mask = first_non_zero_vals < 0.0
-        axes[flip_mask] *= -1.0
-        res[pi_mask, :3] = axes
+        axes_with_pi_rotation = res[pi_mask, :3]
+        is_zero = np.abs(axes_with_pi_rotation - 0.0) < tolerance
+        first_non_zero_idx_per_entry = np.argmax(~is_zero, axis=-1)
+        row_indices = np.arange(len(axes_with_pi_rotation))
+        first_non_zero_axis_components = axes_with_pi_rotation[row_indices, first_non_zero_idx_per_entry]
+        axes_with_pi_rotation[first_non_zero_axis_components < 0.0] *= -1.0
+        res[pi_mask, :3] = axes_with_pi_rotation
 
     if only_one:
         res = res[0]
