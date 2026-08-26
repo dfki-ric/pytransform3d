@@ -662,55 +662,42 @@ def test_smooth_quaternion_trajectory_empty():
 
 
 def test_norm_axis_angle_180_degrees_deterministic_batch():
+    # (4,)
+    a_single = np.array([-1.0, 0.0, 0.0, np.pi])
+    res_single = pbr.norm_axis_angles(a_single)
+    assert_array_almost_equal(res_single, pr.norm_axis_angle(a_single))
+
+    # (N, 4)
     A = np.array([
         [-1.0, 0.0, 0.0, np.pi],
         [0.0, -1.0, 0.0, np.pi],
         [0.0, 0.0, -1.0, np.pi]
     ])
     res_batch = pbr.norm_axis_angles(A)
-    expected = np.array([
-        [1.0, 0.0, 0.0, np.pi],
-        [0.0, 1.0, 0.0, np.pi],
-        [0.0, 0.0, 1.0, np.pi]
-    ])
-    np.testing.assert_array_almost_equal(res_batch, expected)
+    expected = np.array([pr.norm_axis_angle(a) for a in A])
+    assert_array_almost_equal(res_batch, expected)
 
-    # shape (4,) - single instance, no batch dimension
-    a_single = np.array([-1.0, 0.0, 0.0, np.pi])
-    res_single = pbr.norm_axis_angles(a_single)
-    expected_single = np.array([1.0, 0.0, 0.0, np.pi])
-    assert res_single.shape == (4,)
-    np.testing.assert_array_almost_equal(res_single, expected_single)
-
-    # shape (N, M, 4) - nested batch dimensions
+    # (N, M, 4)
     A_nested = np.array([
         [[-1.0, 0.0, 0.0, np.pi], [0.0, -1.0, 0.0, np.pi]],
         [[0.0, 0.0, -1.0, np.pi], [-1.0, 0.0, 0.0, np.pi]],
     ])
     res_nested = pbr.norm_axis_angles(A_nested)
-    expected_nested = np.array([
-        [[1.0, 0.0, 0.0, np.pi], [0.0, 1.0, 0.0, np.pi]],
-        [[0.0, 0.0, 1.0, np.pi], [1.0, 0.0, 0.0, np.pi]],
-    ])
     assert res_nested.shape == A_nested.shape
-    np.testing.assert_array_almost_equal(res_nested, expected_nested)
+    for a, r in zip(
+        A_nested.reshape(-1, 4), res_nested.reshape(-1, 4)
+    ):
+        assert_array_almost_equal(r, pr.norm_axis_angle(a))
 
-    # random cases
+    # random 
     rng = np.random.default_rng(39232)
-    for _ in range(10):
-        axis = pr.norm_vector(pr.random_vector(rng, 3))
-        angle = np.pi
-        a_random = np.hstack((axis, [angle]))
+    axes = pbr.norm_vectors(rng.standard_normal(size=(10, 3)))
+    for axis in axes:
+        a_random = np.hstack((axis, [np.pi]))
         res_random = pbr.norm_axis_angles(a_random)
+        assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
 
-        assert np.isclose(np.linalg.norm(res_random[:3]), 1.0)
-        assert 0.0 <= res_random[3] <= np.pi + 1e-10
-        R_original = pr.matrix_from_axis_angle(a_random)
-        R_normalized = pr.matrix_from_axis_angle(res_random)
-        np.testing.assert_array_almost_equal(R_original, R_normalized)
-
-    # [0, 0, 0]
+    # [0, 0, 0] 
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
     res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
-    expected_zero_axis = np.array([1.0, 0.0, 0.0, 0.0])
-    np.testing.assert_array_almost_equal(res_zero_axis, expected_zero_axis)
+    assert_array_almost_equal(res_zero_axis, pr.norm_axis_angle(a_zero_axis))
