@@ -73,7 +73,9 @@ def norm_axis_angle(a, tolerance=1e-6):
         Axis of rotation and rotation angle: (x, y, z, angle)
 
     tolerance : float
-        Tolerance of this check.
+        Tolerance for checking if the angle is close to pi and if
+        components of the axis are close to zero, used to make the axis
+        deterministic for 180 degree rotations.
 
     Returns
     -------
@@ -81,6 +83,9 @@ def norm_axis_angle(a, tolerance=1e-6):
         Axis of rotation and rotation angle: (x, y, z, angle). The length
         of the axis vector is 1 and the angle is in [0, pi). No rotation
         is represented by [1, 0, 0, 0].
+        For 180 degree rotations, the
+        sign of the axis is chosen such that its first non-zero
+        component is positive.
     """
     angle = a[3]
     norm = np.linalg.norm(a[:3])
