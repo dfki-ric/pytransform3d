@@ -696,6 +696,9 @@ def test_norm_axis_angle_180_degrees_deterministic_batch():
         a_random = np.hstack((axis, [np.pi]))
         res_random = pbr.norm_axis_angles(a_random)
         assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
+        a_random = np.hstack((-axis, [np.pi]))
+        res_random = pbr.norm_axis_angles(a_random)
+        assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
 
     # [0, 0, 0] 
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
