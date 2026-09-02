@@ -81,7 +81,7 @@ def norm_axis_angle(a, tolerance=1e-6):
     -------
     a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The length
-        of the axis vector is 1 and the angle is in [0, pi). No rotation
+        of the axis vector is 1 and the angle is in [0, pi]. No rotation
         is represented by [1, 0, 0, 0].
         For 180 degree rotations, the
         sign of the axis is chosen such that its first non-zero
