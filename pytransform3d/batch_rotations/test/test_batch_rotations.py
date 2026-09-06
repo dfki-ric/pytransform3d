@@ -659,3 +659,53 @@ def test_smooth_quaternion_trajectory_empty():
         ValueError, match=r"At least one quaternion is expected"
     ):
         pbr.smooth_quaternion_trajectory(np.zeros((0, 4)))
+
+
+def test_norm_axis_angle_180_degrees_deterministic_batch():
+    # (4,)
+    a_single = np.array([-1.0, 0.0, 0.0, np.pi])
+    res_single = pbr.norm_axis_angles(a_single)
+    assert_array_almost_equal(res_single, np.array([1.0, 0.0, 0.0, np.pi]))
+
+    # (N, 4)
+    A = np.array([
+        [-1.0, 0.0, 0.0, np.pi],
+        [0.0, -1.0, 0.0, np.pi],
+        [0.0, 0.0, -1.0, np.pi],
+    ])
+    expected = np.array([
+        [1.0, 0.0, 0.0, np.pi],
+        [0.0, 1.0, 0.0, np.pi],
+        [0.0, 0.0, 1.0, np.pi],
+    ])
+    assert_array_almost_equal(pbr.norm_axis_angles(A), expected)
+
+    # (N, M, 4)
+    A_nested = np.array([
+        [[-1.0, 0.0, 0.0, np.pi], [0.0, -1.0, 0.0, np.pi]],
+        [[0.0, 0.0, -1.0, np.pi], [-1.0, 0.0, 0.0, np.pi]],
+    ])
+    expected_nested = np.array([
+        [[1.0, 0.0, 0.0, np.pi], [0.0, 1.0, 0.0, np.pi]],
+        [[0.0, 0.0, 1.0, np.pi], [1.0, 0.0, 0.0, np.pi]],
+    ])
+    res_nested = pbr.norm_axis_angles(A_nested)
+    assert res_nested.shape == A_nested.shape
+    assert_array_almost_equal(res_nested, expected_nested)
+
+    # random 
+    rng = np.random.default_rng(39232)
+    axes = pbr.norm_vectors(rng.standard_normal(size=(10, 3)))
+    for axis in axes:
+        a_random = np.hstack((axis, [np.pi]))
+        res_random = pbr.norm_axis_angles(a_random)
+        assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
+        a_random = np.hstack((-axis, [np.pi]))
+        res_random = pbr.norm_axis_angles(a_random)
+        assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
+
+    # [0, 0, 0] 
+    a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
+    res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
+    assert_array_almost_equal(res_zero_axis, pr.norm_axis_angle([1.0, 0.0, 0.0, 0.0]))
+
