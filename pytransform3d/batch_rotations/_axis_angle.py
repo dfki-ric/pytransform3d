@@ -59,9 +59,9 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
 
     Parameters
     ----------
-    A : array-like, shape (..., 3)
+    A : array-like, shape (..., 3), optional (default: None)
         Axes of rotation and rotation angles in compact representation:
-        angle * (x, y, z)
+        angle * (x, y, z). If omitted, both axes and angles must be provided.
 
     axes : array, shape (..., 3)
         If the unit axes of rotation have been precomputed, you can pass them
@@ -105,7 +105,9 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
     ciuyuz = ciuy * uz
 
     if out is None:
-        out = np.empty(A.shape[:-1] + (3, 3))
+        # Without A, use the broadcast shape of the axes and angles.
+        shape = np.shape(A)[:-1] if A is not None else uxs.shape
+        out = np.empty(shape + (3, 3))
 
     out[..., 0, 0] = ciux * ux + c
     out[..., 0, 1] = ciuxuy - uzs
