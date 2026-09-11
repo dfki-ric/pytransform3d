@@ -63,11 +63,11 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
         Axes of rotation and rotation angles in compact representation:
         angle * (x, y, z). If omitted, both axes and angles must be provided.
 
-    axes : array, shape (..., 3)
+    axes : array, shape (..., 3), optional (default: None)
         If the unit axes of rotation have been precomputed, you can pass them
         here.
 
-    angles : array, shape (...)
+    angles : array, shape (...), optional (default: None)
         If the angles have been precomputed, you can pass them here.
 
     out : array, shape (..., 3, 3), optional (default: new array)
@@ -77,13 +77,24 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
     -------
     Rs : array, shape (..., 3, 3)
         Rotation matrices
+
+    Raises
+    ------
+    ValueError
+        If A is omitted and axes or angles are not provided.
     """
+    if A is None and (axes is None or angles is None):
+        raise ValueError("Either A or both axes and angles must be provided.")
+
     if angles is None:
         thetas = np.linalg.norm(A, axis=-1)
     else:
         thetas = np.asarray(angles)
 
     if axes is None:
+        A = np.asarray(A)
+        if A.dtype.kind in "biu":
+            A = A.astype(float)
         omega_unit = norm_vectors(A)
     else:
         omega_unit = axes
@@ -105,9 +116,7 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
     ciuyuz = ciuy * uz
 
     if out is None:
-        # Without A, use the broadcast shape of the axes and angles.
-        shape = np.shape(A)[:-1] if A is not None else uxs.shape
-        out = np.empty(shape + (3, 3))
+        out = np.empty(uxs.shape + (3, 3))
 
     out[..., 0, 0] = ciux * ux + c
     out[..., 0, 1] = ciuxuy - uzs
