@@ -363,6 +363,24 @@ def test_matrices_from_compact_axis_angle_lists(shape):
         assert_array_almost_equal(Rs[index], expected)
 
 
+@pytest.mark.parametrize("a", [[0, 0, 1], [0, 1, 1], [0, 0, 0]])
+def test_matrices_from_compact_axis_angle_integer_lists(a):
+    Rs = pbr.matrices_from_compact_axis_angles([a])
+
+    assert Rs.shape == (1, 3, 3)
+    assert_array_almost_equal(Rs[0], pr.matrix_from_compact_axis_angle(a))
+
+
+@pytest.mark.parametrize(
+    "kwargs", [{}, {"axes": np.array([0.0, 0.0, 1.0])}, {"angles": 0.5}]
+)
+def test_matrices_from_compact_axis_angles_missing_parameters(kwargs):
+    with pytest.raises(
+        ValueError, match="Either A or both axes and angles must be provided"
+    ):
+        pbr.matrices_from_compact_axis_angles(**kwargs)
+
+
 @pytest.mark.parametrize("angles", [0.5, [0.5]])
 def test_matrices_from_compact_axis_angles_broadcast_angles(angles):
     A = np.array([[0.0, 0.0, 0.2], [0.0, 0.3, 0.0]])
@@ -385,9 +403,9 @@ def test_matrices_from_precomputed_axis_angles_with_compact_batch():
         A, axes=np.array([0.0, 0.0, 1.0]), angles=0.5
     )
 
-    assert Rs.shape == (2, 3, 3)
+    assert Rs.shape == (3, 3)
     expected = pr.matrix_from_axis_angle([0.0, 0.0, 1.0, 0.5])
-    assert_array_almost_equal(Rs, [expected, expected])
+    assert_array_almost_equal(Rs, expected)
 
 
 def test_axis_angles_from_matrices_0dims():
