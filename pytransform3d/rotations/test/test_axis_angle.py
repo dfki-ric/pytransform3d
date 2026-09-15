@@ -284,3 +284,45 @@ def test_mrp_from_axis_angle():
     assert_array_almost_equal(
         [1.0, 0.0, 0.0], pr.mrp_from_axis_angle([1.0, 0.0, 0.0, np.pi])
     )
+
+
+def test_norm_axis_angle_180_degrees_deterministic():
+    """Test normalization of axis-angle representation at 180 degrees."""
+    a = np.array([-1.0, 0.0, 0.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([1.0, 0.0, 0.0, np.pi]))
+
+    a = np.array([0.0, -1.0, 0.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([0.0, 1.0, 0.0, np.pi]))
+
+    a = np.array([0.0, 0.0, -1.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([0.0, 0.0, 1.0, np.pi]))
+
+    a = np.array([0.0, 0.0, 0.0, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([1.0, 0.0, 0.0, 0.0]))
+
+    a = np.array([0.0, 0.0, 0.0003, np.pi])
+    n = pr.norm_axis_angle(a)
+    assert_array_almost_equal(n, np.array([0.0, 0.0, 1.0, np.pi]))
+    n = pr.norm_axis_angle(-a)
+    assert_array_almost_equal(n, np.array([0.0, 0.0, 1.0, np.pi]))
+
+    rng = np.random.default_rng(364)
+    for _ in range(5):
+        a = pr.random_axis_angle(rng)
+        a[3] = np.pi
+        n = pr.norm_axis_angle(a)
+        assert pytest.approx(np.linalg.norm(n[:3])) == 1.0
+        assert pytest.approx(n[3]) == np.pi
+        assert n[0] > 0
+
+        a[0] = 0
+        n = pr.norm_axis_angle(a)
+        assert n[1] > 0
+
+        a[1] = 0
+        n = pr.norm_axis_angle(a)
+        assert n[2] > 0
