@@ -697,12 +697,17 @@ def test_norm_axis_angle_180_degrees_deterministic_batch():
     rng = np.random.default_rng(39232)
     axes = pbr.norm_vectors(rng.standard_normal(size=(10, 3)))
     for axis in axes:
-        a_random = np.hstack((axis, [np.pi]))
-        res_random = pbr.norm_axis_angles(a_random)
-        assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
-        a_random = np.hstack((-axis, [np.pi]))
-        res_random = pbr.norm_axis_angles(a_random)
-        assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
+        for sign in [1.0, -1.0]:
+            a_random = np.hstack((sign * axis, [np.pi]))
+            res_random = pbr.norm_axis_angles(a_random)
+
+            # scalar vs batch consistency check
+            assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
+
+            # non-circular check
+            R_in = pr.matrix_from_axis_angle(a_random)
+            R_out = pr.matrix_from_axis_angle(res_random)
+            assert_array_almost_equal(R_in, R_out)
 
     # [0, 0, 0] 
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
