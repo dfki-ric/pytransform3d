@@ -146,6 +146,75 @@ def test_matrix_from_two_vectors():
         )
 
 
+def test_rotation_6d_from_matrix():
+    # The 6D representation is the first two columns of the rotation matrix.
+    R = pr.active_matrix_from_intrinsic_euler_xyz([0.3, -0.7, 1.1])
+    rotation_6d = pr.rotation_6d_from_matrix(R)
+    assert rotation_6d.shape == (6,)
+    assert_array_almost_equal(rotation_6d[:3], R[:, 0])
+    assert_array_almost_equal(rotation_6d[3:], R[:, 1])
+
+    # Non-rotation matrices are rejected (unless strict_check is disabled).
+    A = np.eye(3)
+    A[0, 0] = 2.0
+    with pytest.raises(ValueError, match="rotation matrix"):
+        pr.rotation_6d_from_matrix(A)
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        pr.rotation_6d_from_matrix(A, strict_check=False)
+        assert len(w) == 1
+
+
+def test_matrix_from_rotation_6d():
+    # Decoding always produces a valid rotation matrix, even from two
+    # arbitrary (non-orthonormal) vectors.
+    rng = np.random.default_rng(84)
+    for _ in range(20):
+        rotation_6d = rng.normal(size=6)
+        R = pr.matrix_from_rotation_6d(rotation_6d)
+        pr.assert_rotation_matrix(R)
+        # First column is the normalized first vector.
+        assert_array_almost_equal(R[:, 0], pr.norm_vector(rotation_6d[:3]))
+
+    # Wrong shape is rejected.
+    with pytest.raises(ValueError, match="Expected 6D rotation representation"):
+        pr.matrix_from_rotation_6d(np.zeros(5))
+
+    # Degenerate encodings cannot be decoded.
+    with pytest.raises(ValueError, match="must not be the zero vector"):
+        pr.matrix_from_rotation_6d(np.zeros(6))
+    with pytest.raises(ValueError, match="must not be parallel"):
+        pr.matrix_from_rotation_6d(np.array([1.0, 0.0, 0.0, 2.0, 0.0, 0.0]))
+
+
+def test_rotation_6d_matrix_roundtrip():
+    # matrix -> 6D -> matrix recovers the original rotation exactly.
+    rng = np.random.default_rng(28)
+    for _ in range(20):
+        R = pr.matrix_from_axis_angle(pr.random_axis_angle(rng))
+        R2 = pr.matrix_from_rotation_6d(pr.rotation_6d_from_matrix(R))
+        assert_array_almost_equal(R, R2)
+
+    # Encoding is invariant to positive scaling of the underlying columns,
+    # so the 6D -> matrix -> 6D direction is a projection, not the identity:
+    # rescaling the input still yields the same rotation matrix.
+    rotation_6d = rng.normal(size=6)
+    R = pr.matrix_from_rotation_6d(rotation_6d)
+    R_scaled = pr.matrix_from_rotation_6d(3.0 * rotation_6d)
+    assert_array_almost_equal(R, R_scaled)
+
+
+def test_matrix_from_rotation_6d_matches_gram_schmidt():
+    # Decoding is defined as Gram-Schmidt on the two encoded vectors, which is
+    # exactly matrix_from_two_vectors.
+    rng = np.random.default_rng(11)
+    for _ in range(20):
+        rotation_6d = rng.normal(size=6)
+        R = pr.matrix_from_rotation_6d(rotation_6d)
+        R_ref = pr.matrix_from_two_vectors(rotation_6d[:3], rotation_6d[3:])
+        assert_array_almost_equal(R, R_ref)
+
+
 def test_conversions_matrix_axis_angle():
     """Test conversions between rotation matrix and axis-angle."""
     R = np.eye(3)

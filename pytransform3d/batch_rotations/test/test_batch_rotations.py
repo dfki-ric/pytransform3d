@@ -329,6 +329,85 @@ def test_quaternions_from_matrices_4d():
         pr.assert_quaternion_equal(q, q2[1, 1])
 
 
+@pytest.mark.parametrize("shape", [(), (3,), (2, 3), (0,), (2, 0)])
+@pytest.mark.parametrize("use_out", [False, True])
+def test_matrices_from_precomputed_axis_angles(shape, use_out):
+    rng = np.random.default_rng(84)
+    axes = rng.standard_normal(size=shape + (3,))
+    axes /= np.linalg.norm(axes, axis=-1)[..., np.newaxis]
+    angles = rng.uniform(-np.pi, np.pi, size=shape)
+    out = np.empty(shape + (3, 3)) if use_out else None
+
+    Rs = pbr.matrices_from_compact_axis_angles(
+        axes=axes, angles=angles, out=out
+    )
+
+    assert Rs.shape == shape + (3, 3)
+    if use_out:
+        assert Rs is out
+    for index in np.ndindex(shape):
+        expected = pr.matrix_from_axis_angle(np.r_[axes[index], angles[index]])
+        assert_array_almost_equal(Rs[index], expected)
+
+
+@pytest.mark.parametrize("shape", [(), (3,), (2, 3)])
+def test_matrices_from_compact_axis_angle_lists(shape):
+    rng = np.random.default_rng(85)
+    A = rng.standard_normal(size=shape + (3,))
+
+    Rs = pbr.matrices_from_compact_axis_angles(A.tolist())
+
+    assert Rs.shape == shape + (3, 3)
+    for index in np.ndindex(shape):
+        expected = pr.matrix_from_compact_axis_angle(A[index])
+        assert_array_almost_equal(Rs[index], expected)
+
+
+@pytest.mark.parametrize("a", [[0, 0, 1], [0, 1, 1], [0, 0, 0]])
+def test_matrices_from_compact_axis_angle_integer_lists(a):
+    Rs = pbr.matrices_from_compact_axis_angles([a])
+
+    assert Rs.shape == (1, 3, 3)
+    assert_array_almost_equal(Rs[0], pr.matrix_from_compact_axis_angle(a))
+
+
+@pytest.mark.parametrize(
+    "kwargs", [{}, {"axes": np.array([0.0, 0.0, 1.0])}, {"angles": 0.5}]
+)
+def test_matrices_from_compact_axis_angles_missing_parameters(kwargs):
+    with pytest.raises(
+        ValueError, match="Either A or both axes and angles must be provided"
+    ):
+        pbr.matrices_from_compact_axis_angles(**kwargs)
+
+
+@pytest.mark.parametrize("angles", [0.5, [0.5]])
+def test_matrices_from_compact_axis_angles_broadcast_angles(angles):
+    A = np.array([[0.0, 0.0, 0.2], [0.0, 0.3, 0.0]])
+
+    Rs = pbr.matrices_from_compact_axis_angles(A, angles=angles)
+
+    assert Rs.shape == (2, 3, 3)
+    assert_array_almost_equal(
+        Rs[0], pr.matrix_from_axis_angle([0.0, 0.0, 1.0, 0.5])
+    )
+    assert_array_almost_equal(
+        Rs[1], pr.matrix_from_axis_angle([0.0, 1.0, 0.0, 0.5])
+    )
+
+
+def test_matrices_from_precomputed_axis_angles_with_compact_batch():
+    A = np.tile([0.0, 0.0, 0.5], (2, 1))
+
+    Rs = pbr.matrices_from_compact_axis_angles(
+        A, axes=np.array([0.0, 0.0, 1.0]), angles=0.5
+    )
+
+    assert Rs.shape == (3, 3)
+    expected = pr.matrix_from_axis_angle([0.0, 0.0, 1.0, 0.5])
+    assert_array_almost_equal(Rs, expected)
+
+
 def test_axis_angles_from_matrices_0dims():
     rng = np.random.default_rng(84)
     A = rng.standard_normal(size=3)
