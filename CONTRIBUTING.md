@@ -64,6 +64,25 @@ command will be:
 (If any of the above seems like magic to you, then look up the
 [Git documentation](http://git-scm.com/documentation) on the web.)
 
+## Building the Documentation
+
+Install the documentation dependencies and a headless Chromium browser (used
+to render viser gallery images):
+
+```bash
+pip install -e .[doc]
+playwright install chromium
+```
+
+Then build the HTML docs from the `doc/` directory:
+
+```bash
+cd doc
+make html
+```
+
+The built documentation will be in `doc/build/html/`.
+
 ## Requirements for New Features
 
 Adding a new feature to pytransform3d requires a few other changes:

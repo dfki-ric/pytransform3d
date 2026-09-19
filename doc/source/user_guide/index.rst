@@ -16,3 +16,4 @@ User Guide
    transformation_over_time
    uncertainty
    camera
+   viser
