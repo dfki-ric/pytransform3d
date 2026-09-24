@@ -64,18 +64,13 @@ def check_compact_axis_angle(a):
     return norm_compact_axis_angle(a)
 
 
-def norm_axis_angle(a, tolerance=1e-6):
+def norm_axis_angle(a):
     """Normalize axis-angle representation.
 
     Parameters
     ----------
     a : array-like, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle)
-
-    tolerance : float
-        Tolerance for checking if the angle is close to pi and if
-        components of the axis are close to zero, used to make the axis
-        deterministic for 180 degree rotations.
 
     Returns
     -------
@@ -102,8 +97,8 @@ def norm_axis_angle(a, tolerance=1e-6):
 
     # Issue #366: Make axis deterministic for 180 degree rotations
     # the first non-zero component of axis should be positive.
-    if np.abs(angle - np.pi) < tolerance:
-        is_zero = np.abs(res[:3] - 0.0) < tolerance
+    if angle == np.pi:
+        is_zero = res[:3] == 0.0
         non_zero_indices = np.where(~is_zero)[0]
         
         if len(non_zero_indices) > 0:
