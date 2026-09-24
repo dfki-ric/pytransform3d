@@ -6,18 +6,13 @@ from ..rotations import norm_angle
 from ._utils import norm_vectors
 
 
-def norm_axis_angles(a, tolerance=1e-6):
+def norm_axis_angles(a):
     """Normalize axis-angle representation.
 
     Parameters
     ----------
     a : array-like, shape (..., 4)
         Axis of rotation and rotation angle: (x, y, z, angle)
-
-    tolerance : float
-        Tolerance for checking if the angle is close to pi and if
-        components of the axis are close to zero, used to make the axis
-        deterministic for 180 degree rotations.
 
     Returns
     -------
@@ -56,10 +51,10 @@ def norm_axis_angles(a, tolerance=1e-6):
 
     # Issue #366: Make axis deterministic for 180 degree rotations
     # the first non-zero component of axis should be positive.
-    pi_mask = (np.abs(res[..., 3] - np.pi) < tolerance) & rot_mask
+    pi_mask = (res[..., 3] == np.pi) & rot_mask
     if np.any(pi_mask):
         axes_with_pi_rotation = res[pi_mask, :3]
-        is_zero = np.abs(axes_with_pi_rotation - 0.0) < tolerance
+        is_zero = axes_with_pi_rotation == 0.0
         first_non_zero_idx_per_entry = np.argmax(~is_zero, axis=-1)
         row_indices = np.arange(len(axes_with_pi_rotation))
         first_non_zero_axis_components = axes_with_pi_rotation[row_indices, first_non_zero_idx_per_entry]
