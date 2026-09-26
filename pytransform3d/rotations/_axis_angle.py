@@ -98,8 +98,8 @@ def norm_axis_angle(a):
     # Issue #366: Make axis deterministic for 180 degree rotations
     # the first non-zero component of axis should be positive.
     if angle == np.pi:
-        is_zero = res[:3] == 0.0
-        non_zero_indices = np.where(~is_zero)[0]
+        nonzero_axis_components = res[:3] != 0.0
+        non_zero_indices = np.where(nonzero_axis_components)[0]
         
         if len(non_zero_indices) > 0:
             first_non_zero_val = res[non_zero_indices[0]]
