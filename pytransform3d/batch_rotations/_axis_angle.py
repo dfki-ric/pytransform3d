@@ -54,10 +54,13 @@ def norm_axis_angles(a):
     pi_mask = (res[..., 3] == np.pi) & rot_mask
     if np.any(pi_mask):
         axes_with_pi_rotation = res[pi_mask, :3]
-        is_zero = axes_with_pi_rotation == 0.0
-        first_non_zero_idx_per_entry = np.argmax(~is_zero, axis=-1)
-        row_indices = np.arange(len(axes_with_pi_rotation))
-        first_non_zero_axis_components = axes_with_pi_rotation[row_indices, first_non_zero_idx_per_entry]
+        nonzero_axis_components = axes_with_pi_rotation != 0.0
+        first_non_zero_idx_per_entry = np.argmax(nonzero_axis_components, axis=-1)
+        first_non_zero_axis_components = np.take_along_axis(
+            axes_with_pi_rotation,
+            first_non_zero_idx_per_entry[:, np.newaxis],
+            axis=-1,
+        ).squeeze(axis=-1)
         axes_with_pi_rotation[first_non_zero_axis_components < 0.0] *= -1.0
         res[pi_mask, :3] = axes_with_pi_rotation
 
