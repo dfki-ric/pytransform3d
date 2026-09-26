@@ -100,7 +100,7 @@ def norm_axis_angle(a):
     if angle == np.pi:
         nonzero_axis_components = res[:3] != 0.0
         non_zero_indices = np.where(nonzero_axis_components)[0]
-        
+
         if len(non_zero_indices) > 0:
             first_non_zero_val = res[non_zero_indices[0]]
             if first_non_zero_val < 0.0:
