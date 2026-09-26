@@ -55,7 +55,9 @@ def norm_axis_angles(a):
     if np.any(pi_mask):
         axes_with_pi_rotation = res[pi_mask, :3]
         nonzero_axis_components = axes_with_pi_rotation != 0.0
-        first_non_zero_idx_per_entry = np.argmax(nonzero_axis_components, axis=-1)
+        first_non_zero_idx_per_entry = np.argmax(
+            nonzero_axis_components, axis=-1
+        )
         first_non_zero_axis_components = np.take_along_axis(
             axes_with_pi_rotation,
             first_non_zero_idx_per_entry[:, np.newaxis],

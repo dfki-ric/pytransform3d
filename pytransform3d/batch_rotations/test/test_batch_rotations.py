@@ -970,32 +970,40 @@ def test_norm_axis_angle_180_degrees_deterministic_batch():
     assert_array_almost_equal(res_single, np.array([1.0, 0.0, 0.0, np.pi]))
 
     # (N, 4)
-    A = np.array([
-        [-1.0, 0.0, 0.0, np.pi],
-        [0.0, -1.0, 0.0, np.pi],
-        [0.0, 0.0, -1.0, np.pi],
-    ])
-    expected = np.array([
-        [1.0, 0.0, 0.0, np.pi],
-        [0.0, 1.0, 0.0, np.pi],
-        [0.0, 0.0, 1.0, np.pi],
-    ])
+    A = np.array(
+        [
+            [-1.0, 0.0, 0.0, np.pi],
+            [0.0, -1.0, 0.0, np.pi],
+            [0.0, 0.0, -1.0, np.pi],
+        ]
+    )
+    expected = np.array(
+        [
+            [1.0, 0.0, 0.0, np.pi],
+            [0.0, 1.0, 0.0, np.pi],
+            [0.0, 0.0, 1.0, np.pi],
+        ]
+    )
     assert_array_almost_equal(pbr.norm_axis_angles(A), expected)
 
     # (N, M, 4)
-    A_nested = np.array([
-        [[-1.0, 0.0, 0.0, np.pi], [0.0, -1.0, 0.0, np.pi]],
-        [[0.0, 0.0, -1.0, np.pi], [-1.0, 0.0, 0.0, np.pi]],
-    ])
-    expected_nested = np.array([
-        [[1.0, 0.0, 0.0, np.pi], [0.0, 1.0, 0.0, np.pi]],
-        [[0.0, 0.0, 1.0, np.pi], [1.0, 0.0, 0.0, np.pi]],
-    ])
+    A_nested = np.array(
+        [
+            [[-1.0, 0.0, 0.0, np.pi], [0.0, -1.0, 0.0, np.pi]],
+            [[0.0, 0.0, -1.0, np.pi], [-1.0, 0.0, 0.0, np.pi]],
+        ]
+    )
+    expected_nested = np.array(
+        [
+            [[1.0, 0.0, 0.0, np.pi], [0.0, 1.0, 0.0, np.pi]],
+            [[0.0, 0.0, 1.0, np.pi], [1.0, 0.0, 0.0, np.pi]],
+        ]
+    )
     res_nested = pbr.norm_axis_angles(A_nested)
     assert res_nested.shape == A_nested.shape
     assert_array_almost_equal(res_nested, expected_nested)
 
-    # random 
+    # random
     rng = np.random.default_rng(39232)
     axes = pbr.norm_vectors(rng.standard_normal(size=(10, 3)))
     for axis in axes:
@@ -1011,8 +1019,9 @@ def test_norm_axis_angle_180_degrees_deterministic_batch():
             R_out = pr.matrix_from_axis_angle(res_random)
             assert_array_almost_equal(R_in, R_out)
 
-    # [0, 0, 0] 
+    # [0, 0, 0]
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
     res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
-    assert_array_almost_equal(res_zero_axis, pr.norm_axis_angle([1.0, 0.0, 0.0, 0.0]))
-
+    assert_array_almost_equal(
+        res_zero_axis, pr.norm_axis_angle([1.0, 0.0, 0.0, 0.0])
+    )
