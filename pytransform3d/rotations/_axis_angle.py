@@ -76,8 +76,11 @@ def norm_axis_angle(a):
     -------
     a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The length
-        of the axis vector is 1 and the angle is in [0, pi). No rotation
+        of the axis vector is 1 and the angle is in [0, pi]. No rotation
         is represented by [1, 0, 0, 0].
+        For 180 degree rotations, the
+        sign of the axis is chosen such that its first non-zero
+        component is positive.
     """
     angle = a[3]
     norm = np.linalg.norm(a[:3])
@@ -93,6 +96,17 @@ def norm_axis_angle(a):
         res[:3] *= -1.0
 
     res[3] = angle
+
+    # Issue #366: Make axis deterministic for 180 degree rotations
+    # the first non-zero component of axis should be positive.
+    if angle == np.pi:
+        nonzero_axis_components = res[:3] != 0.0
+        non_zero_indices = np.where(nonzero_axis_components)[0]
+
+        if len(non_zero_indices) > 0:
+            first_non_zero_val = res[non_zero_indices[0]]
+            if first_non_zero_val < 0.0:
+                res[:3] *= -1.0
 
     return res
 
