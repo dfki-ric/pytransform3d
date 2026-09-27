@@ -137,7 +137,20 @@ def test_transform_log_from_almost_identity_transform():
         ]
     )
     transform_log = pt.transform_log_from_transform(A2B)
-    assert_array_almost_equal(np.zeros((4, 4)), transform_log)
+    assert_array_almost_equal(np.zeros((3, 3)), transform_log[:3, :3])
+    assert_array_almost_equal(A2B[:3, 3], transform_log[:3, 3])
+    assert_array_almost_equal(np.zeros(4), transform_log[3])
+
+
+def test_transform_log_keeps_translation_of_tiny_rotation():
+    A2B = pt.transform_from(
+        pr.matrix_from_axis_angle([0.0, 0.0, 1.0, 1e-8]), [1.0, 2.0, 3.0]
+    )
+    transform_log = pt.transform_log_from_transform(A2B)
+    assert_array_almost_equal([1.0, 2.0, 3.0], transform_log[:3, 3])
+    assert_array_almost_equal(
+        A2B, pt.transform_from_transform_log(transform_log)
+    )
 
 
 def test_conversions_between_dual_quaternion_and_transform():
