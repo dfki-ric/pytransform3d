@@ -297,10 +297,6 @@ def transform_log_from_transform(A2B, strict_check=True):
         return transform_log
 
     omega_theta = compact_axis_angle_from_matrix(R)
-    theta = np.linalg.norm(omega_theta)
-
-    if theta == 0:
-        return transform_log
 
     J_inv = left_jacobian_SO3_inv(omega_theta)
     v_theta = np.dot(J_inv, p)
