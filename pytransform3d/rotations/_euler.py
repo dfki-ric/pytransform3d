@@ -242,8 +242,10 @@ def general_intrinsic_euler_from_active_matrix(
     # - Equation 10a
     beta = lmbda + np.arccos(O_22)
 
-    safe1 = abs(beta - lmbda) >= np.finfo(float).eps
-    safe2 = abs(beta - lmbda - np.pi) >= np.finfo(float).eps
+    # arccos amplifies rounding errors of O_22 near +-1 to about sqrt(eps),
+    # so gimbal lock needs a tolerance well above machine precision.
+    safe1 = abs(beta - lmbda) >= eps
+    safe2 = abs(beta - lmbda - np.pi) >= eps
     if safe1 and safe2:  # Default case, no gimbal lock
         # Step 5
         # - Equation 10b
