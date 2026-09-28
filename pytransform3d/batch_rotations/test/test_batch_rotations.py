@@ -43,6 +43,16 @@ def test_norm_vectors_zero():
 
 
 def test_norm_axis_angles():
+    assert_array_almost_equal(
+        pbr.norm_axis_angles([0.0, 0.0, 0.0, 1.0]),
+        [1.0, 0.0, 0.0, 0.0]
+    )
+
+    assert_array_almost_equal(
+        pbr.norm_axis_angles([0.0, 0.0, 0.0, -1.0]),
+        [1.0, 0.0, 0.0, 0.0]
+    )
+
     rng = np.random.default_rng(843)
     # create a batch of unnormalized axis-angle instances
     n_rotations = 10
