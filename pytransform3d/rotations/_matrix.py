@@ -454,13 +454,6 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     """
     if check:
         R = check_matrix(R, strict_check=strict_check)
-    cos_angle = (np.trace(R) - 1.0) / 2.0
-    angle = np.arccos(min(max(-1.0, cos_angle), 1.0))
-
-    if angle == 0.0:  # R == np.eye(3)
-        return np.array([1.0, 0.0, 0.0, 0.0])
-
-    a = np.empty(4)
 
     # We can usually determine the rotation axis by inverting Rodrigues'
     # formula. Subtracting opposing off-diagonal elements gives us
@@ -469,6 +462,16 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     axis_unnormalized = np.array(
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]]
     )
+
+    sin_angle = 0.5 * np.linalg.norm(axis_unnormalized)
+    cos_angle = (np.trace(R) - 1.0) / 2.0
+    # arctan2 gives more numerically correct results near 0 and pi
+    angle = np.arctan2(sin_angle, cos_angle)
+
+    if angle == 0.0:  # R == np.eye(3)
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    a = np.empty(4)
 
     if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
         # Near pi the standard formula is numerically unstable. The 1e-4
