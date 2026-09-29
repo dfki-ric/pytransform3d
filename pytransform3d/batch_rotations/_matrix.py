@@ -39,14 +39,19 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
             # out[False, n] = value will not assign value to out[n]
             traces = traces[0]
 
-    angles = np.arccos(np.clip((traces - 1.0) / 2.0, -1.0, 1.0))
-
     if out is None:
         out = np.empty(instances_shape + (4,))
 
     out[..., 0] = Rs[..., 2, 1] - Rs[..., 1, 2]
     out[..., 1] = Rs[..., 0, 2] - Rs[..., 2, 0]
     out[..., 2] = Rs[..., 1, 0] - Rs[..., 0, 1]
+
+    # The trace loses the angle near zero because cos(angle) rounds to 1.
+    # The norm of the skew part is 2 * sin(angle), which remains accurate.
+    angles = np.arctan2(
+        0.5 * np.linalg.norm(out[..., :3], axis=-1),
+        np.clip((traces - 1.0) / 2.0, -1.0, 1.0),
+    )
 
     angle_close_to_pi = np.abs(angles - np.pi) < 1e-4
     angle_zero = angles == 0.0

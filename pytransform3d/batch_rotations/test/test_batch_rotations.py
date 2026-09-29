@@ -473,6 +473,61 @@ def test_axis_angles_from_matrices_norot():
     )
 
 
+def test_axis_angles_from_matrices_small_angles():
+    axis = np.array([1.0, 2.0, -3.0])
+    axis /= np.linalg.norm(axis)
+    angles = np.array([[0.0, 1e-12], [1e-8, 1e-4]])
+    compact_axis_angles = angles[..., np.newaxis] * axis
+    Rs = pbr.matrices_from_compact_axis_angles(compact_axis_angles)
+    traces = np.trace(Rs, axis1=-2, axis2=-1)
+
+    for kwargs in ({}, {"traces": traces}):
+        out = np.empty(angles.shape + (4,))
+        actual = pbr.axis_angles_from_matrices(Rs, out=out, **kwargs)
+        assert actual is out
+        np.testing.assert_allclose(
+            actual[..., 3], angles, rtol=1e-6, atol=1e-14
+        )
+        np.testing.assert_allclose(actual[0, 0, :3], [1.0, 0.0, 0.0])
+        np.testing.assert_allclose(
+            actual[angles > 0.0, :3],
+            np.broadcast_to(axis, (3, 3)),
+            rtol=1e-6,
+            atol=1e-12,
+        )
+
+    single = pbr.axis_angles_from_matrices(Rs[1, 0], traces=traces[1, 0])
+    np.testing.assert_allclose(single[:3], axis, rtol=1e-6, atol=1e-12)
+    np.testing.assert_allclose(single[3], angles[1, 0], rtol=1e-6)
+
+
+def test_axis_angles_from_matrices_small_angles_varied_axes():
+    rng = np.random.default_rng(377)
+    axes = pbr.norm_vectors(rng.standard_normal((10, 3)))
+    angles = np.array([1e-12, 1e-9, 1e-6, 1e-3])
+    signs = np.array([-1.0, 1.0])
+    compact_axis_angles = (
+        signs[:, np.newaxis, np.newaxis, np.newaxis]
+        * angles[np.newaxis, :, np.newaxis, np.newaxis]
+        * axes[np.newaxis, np.newaxis]
+    )
+
+    Rs = pbr.matrices_from_compact_axis_angles(compact_axis_angles)
+    actual = pbr.axis_angles_from_matrices(Rs)
+    expected_angles = np.broadcast_to(
+        angles[np.newaxis, :, np.newaxis], (2, 4, 10)
+    )
+    expected_axes = np.broadcast_to(
+        signs[:, np.newaxis, np.newaxis, np.newaxis]
+        * axes[np.newaxis, np.newaxis],
+        (2, 4, 10, 3),
+    )
+    np.testing.assert_allclose(
+        actual[..., 3], expected_angles, rtol=1e-6, atol=1e-14
+    )
+    np.testing.assert_allclose(actual[..., :3], expected_axes, atol=1e-11)
+
+
 def test_axis_angles_from_matrices_near_pi():
     """Exact pi rotations about coordinate axes must not produce NaN.
 
@@ -538,12 +593,8 @@ def test_axis_angles_from_matrices_pi_general_axis():
         Rs = pbr.matrices_from_compact_axis_angles(A)
         A2 = pbr.axis_angles_from_matrices(Rs)
         Rs2 = pbr.matrices_from_compact_axis_angles(A2[..., :3] * A2[..., 3:])
-        assert_array_almost_equal(Rs2, Rs)
-        # the batch result agrees with the single-matrix implementation
-        for R in Rs:
-            assert_array_almost_equal(
-                pbr.axis_angles_from_matrices(R), pr.axis_angle_from_matrix(R)
-            )
+        np.testing.assert_allclose(Rs2, Rs, atol=1e-11)
+        np.testing.assert_allclose(A2[..., 3], angle, rtol=0.0, atol=1e-12)
 
 
 def test_axis_angles_from_quaternions():
