@@ -231,18 +231,9 @@ def exponential_coordinates_from_transforms(A2Bs):
     Rs = A2Bs[..., :3, :3]
     ps = A2Bs[..., :3, 3]
 
-    traces = np.einsum("nii", Rs.reshape(-1, 3, 3))
-    if instances_shape:  # noqa: SIM108
-        traces = traces.reshape(*instances_shape)
-    else:
-        # this works because indX will be a single boolean and
-        # out[True, n] = value will assign value to out[n], while
-        # out[False, n] = value will not assign value to out[n]
-        traces = traces[0]
-
     Sthetas = np.empty(instances_shape + (6,))
 
-    omega_thetas = axis_angles_from_matrices(Rs, traces=traces)
+    omega_thetas = axis_angles_from_matrices(Rs)
     Sthetas[..., :3] = omega_thetas[..., :3]
     thetas = omega_thetas[..., 3]
 
