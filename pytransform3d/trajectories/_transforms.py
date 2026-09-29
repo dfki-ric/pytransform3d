@@ -299,7 +299,9 @@ def exponential_coordinates_from_transforms(A2Bs):
 
     Sthetas *= thetas[..., np.newaxis]
 
-    ind_only_translation = traces >= 3.0 - np.finfo(float).eps
+    # The trace loses the angle near zero because cos(angle) rounds to 1,
+    # hence, we use the angle computed by axis_angles_from_matrices.
+    ind_only_translation = omega_thetas[..., 3] == 0.0
     Sthetas[ind_only_translation, :3] = 0.0
     Sthetas[ind_only_translation, 3:] = ps[ind_only_translation]
 

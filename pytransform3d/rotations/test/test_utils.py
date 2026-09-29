@@ -101,6 +101,7 @@ def test_angle_between_vectors():
     R = pr.matrix_from_axis_angle(a)
     vR = np.dot(R, v)
     assert pytest.approx(pr.angle_between_vectors(vR, v)) == a[-1]
+    assert pytest.approx(pr.angle_between_vectors(vR, v, fast=True)) == a[-1]
     v = np.array([0, 1, 0])
     a = np.array([1, 0, 0, np.pi / 2])
     R = pr.matrix_from_axis_angle(a)
@@ -122,6 +123,27 @@ def test_angle_between_close_vectors():
     b = np.array([0.9689124217106448, 0.247403959254523, 0.0, 0.0])
     angle = pr.angle_between_vectors(a, b)
     assert pytest.approx(angle) == 0.0
+
+
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+    ],
+)
+def test_angle_between_vectors_small_angle(angle):
+    # 3D
+    a = np.array([1.0, 0.0, 0.0])
+    b = pr.matrix_from_axis_angle([0.0, 0.0, 1.0, angle]).dot(a)
+    assert pytest.approx(pr.angle_between_vectors(a, b), rel=1e-12) == angle
+
+    # 4D, e.g., quaternions
+    q1 = pr.q_id
+    q2 = pr.quaternion_from_axis_angle([1.0, 0.0, 0.0, 2.0 * angle])
+    assert pytest.approx(pr.angle_between_vectors(q1, q2), rel=1e-12) == angle
 
 
 def test_angle_to_zero_vector_is_nan():
