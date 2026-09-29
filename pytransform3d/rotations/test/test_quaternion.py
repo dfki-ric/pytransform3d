@@ -330,3 +330,24 @@ def test_quaternion_conventions():
     assert q_xyzw_random[3] == q_wxyz_random[0]
     q_wxyz_random2 = pr.quaternion_wxyz_from_xyzw(q_xyzw_random)
     assert_array_equal(q_wxyz_random, q_wxyz_random2)
+
+
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+    ],
+)
+def test_axis_angle_from_quaternion_small_angle(angle):
+    axis = np.array([1.0, 2.0, 3.0])
+    axis /= np.linalg.norm(axis)
+    q = pr.quaternion_from_axis_angle(np.r_[axis, angle])
+    result = pr.axis_angle_from_quaternion(q)
+    np.testing.assert_allclose(
+        result, np.r_[axis, angle], rtol=1e-12, atol=1e-15
+    )
+    result = pr.compact_axis_angle_from_quaternion(q)
+    np.testing.assert_allclose(result, axis * angle, rtol=1e-12, atol=1e-15)
