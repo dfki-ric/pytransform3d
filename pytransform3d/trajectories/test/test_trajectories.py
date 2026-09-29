@@ -225,6 +225,8 @@ def test_exponential_coordinates_from_transforms_2dims():
         1e-6,
         1e-8,
         1e-10,
+        1e-16,
+        1e-100,
     ],
 )
 def test_exponential_coordinates_from_transforms_small_angle(angle):
@@ -244,6 +246,15 @@ def test_exponential_coordinates_from_transforms_small_angle(angle):
     Sthetas = ptr.exponential_coordinates_from_transforms(np.array([A2B, A2B]))
     np.testing.assert_allclose(
         Sthetas, [expected, expected], rtol=1e-12, atol=1e-15
+    )
+
+
+def test_exponential_coordinates_from_transforms_no_rotation():
+    A2Bs = np.array([np.eye(4), pt.transform_from(np.eye(3), [1.0, 2.0, 3.0])])
+    with np.errstate(all="raise"):
+        Sthetas = ptr.exponential_coordinates_from_transforms(A2Bs)
+    assert_array_almost_equal(
+        Sthetas, [[0.0] * 6, [0.0, 0.0, 0.0, 1.0, 2.0, 3.0]]
     )
 
 

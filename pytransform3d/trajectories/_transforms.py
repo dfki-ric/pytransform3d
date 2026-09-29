@@ -257,7 +257,9 @@ def exponential_coordinates_from_transforms(A2Bs):
     #     + p2*(-o0**2*(-0.5/tan(0.5*t) + 1/t)
     #           - o1**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)
 
-    thetas = np.maximum(thetas, np.finfo(float).tiny)
+    ind_only_translation = thetas == 0.0
+    # avoid division by 0, we will overwrite the result for pure translations
+    thetas = np.where(ind_only_translation, 1.0, thetas)
     ti = 1.0 / thetas
     tan_term = -0.5 / np.tan(thetas / 2.0) + ti
     o0 = omega_thetas[..., 0]
@@ -292,7 +294,6 @@ def exponential_coordinates_from_transforms(A2Bs):
 
     # The trace loses the angle near zero because cos(angle) rounds to 1,
     # hence, we use the angle computed by axis_angles_from_matrices.
-    ind_only_translation = omega_thetas[..., 3] == 0.0
     Sthetas[ind_only_translation, :3] = 0.0
     Sthetas[ind_only_translation, 3:] = ps[ind_only_translation]
 
