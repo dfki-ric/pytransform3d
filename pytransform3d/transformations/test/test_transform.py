@@ -153,6 +153,33 @@ def test_transform_log_keeps_translation_of_tiny_rotation():
     )
 
 
+def test_exponential_coordinates_of_tiny_rotation():
+    """Rotations smaller than machine precision are not dropped."""
+    axis = np.array([1.0, 2.0, 3.0])
+    axis /= np.linalg.norm(axis)
+    for angle in [1e-16, 1e-20, 1e-100]:
+        A2B = pt.transform_from(
+            pr.matrix_from_axis_angle(np.r_[axis, angle]), [1.0, 2.0, 3.0]
+        )
+        Stheta = pt.exponential_coordinates_from_transform(A2B)
+        np.testing.assert_allclose(Stheta[:3], axis * angle, rtol=1e-12)
+        np.testing.assert_allclose(Stheta[3:], [1.0, 2.0, 3.0], rtol=1e-12)
+        transform_log = pt.transform_log_from_transform(A2B)
+        assert_array_almost_equal(
+            Stheta, pt.exponential_coordinates_from_transform_log(transform_log)
+        )
+
+
+def test_exponential_coordinates_of_pure_translation():
+    A2B = pt.transform_from(np.eye(3), [1.0, 2.0, 3.0])
+    with np.errstate(all="raise"):
+        Stheta = pt.exponential_coordinates_from_transform(A2B)
+        transform_log = pt.transform_log_from_transform(A2B)
+    assert_array_almost_equal(Stheta, [0.0, 0.0, 0.0, 1.0, 2.0, 3.0])
+    assert_array_almost_equal(transform_log[:3, :3], np.zeros((3, 3)))
+    assert_array_almost_equal(transform_log[:3, 3], [1.0, 2.0, 3.0])
+
+
 def test_conversions_between_dual_quaternion_and_transform():
     rng = np.random.default_rng(1000)
     for _ in range(5):
