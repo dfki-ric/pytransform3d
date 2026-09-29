@@ -145,6 +145,29 @@ def test_angles_between_vectors_small_angle(angle):
     np.testing.assert_allclose(angles, angle, rtol=1e-12)
 
 
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+    ],
+)
+def test_angles_between_vectors_small_angle_4d(angle):
+    Q1 = np.array([pr.q_id, pr.q_id])
+    Q2 = np.array(
+        [
+            pr.quaternion_from_axis_angle([1.0, 0.0, 0.0, 2.0 * angle]),
+            pr.quaternion_from_axis_angle([0.0, 1.0, 0.0, 2.0 * angle]),
+        ]
+    )
+    angles = pbr.angles_between_vectors(Q1, Q2)
+    np.testing.assert_allclose(angles, [angle, angle], rtol=1e-12)
+    angles = pbr.angles_between_vectors(Q1[0], Q2[0])
+    np.testing.assert_allclose(angles, angle, rtol=1e-12)
+
+
 def test_active_matrices_from_angles_0dims():
     R = pbr.active_matrices_from_angles(0, 0.4)
     assert_array_almost_equal(R, pr.active_matrix_from_angle(0, 0.4))
