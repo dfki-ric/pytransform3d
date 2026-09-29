@@ -225,8 +225,8 @@ def axis_angles_from_quaternions(qs):
         / qvec_norm[non_zero_mask, np.newaxis]
     )
 
-    w_clamped = np.clip(qs[non_zero_mask, 0], -1.0, 1.0)
-    angles = 2.0 * np.arccos(w_clamped)
+    # arctan2 gives more numerically correct results near 0 and pi
+    angles = 2.0 * np.arctan2(qvec_norm[non_zero_mask], qs[non_zero_mask, 0])
 
     result = np.empty_like(qs)
     result[non_zero_mask] = norm_axis_angles(

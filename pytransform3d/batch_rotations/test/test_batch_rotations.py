@@ -124,6 +124,29 @@ def test_angles_between_vectors_3dims():
     assert_array_almost_equal(angles, angles2)
 
 
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+    ],
+)
+def test_angles_between_vectors_small_angle(angle):
+    A = np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]])
+    B = np.array(
+        [
+            pr.matrix_from_axis_angle([0.0, 0.0, 1.0, angle]).dot(A[0]),
+            pr.matrix_from_axis_angle([1.0, 0.0, 0.0, angle]).dot(A[1]),
+        ]
+    )
+    angles = pbr.angles_between_vectors(A, B)
+    np.testing.assert_allclose(angles, [angle, angle], rtol=1e-12)
+    angles = pbr.angles_between_vectors(A[0], B[0])
+    np.testing.assert_allclose(angles, angle, rtol=1e-12)
+
+
 def test_active_matrices_from_angles_0dims():
     R = pbr.active_matrices_from_angles(0, 0.4)
     assert_array_almost_equal(R, pr.active_matrix_from_angle(0, 0.4))
@@ -618,6 +641,32 @@ def test_axis_angles_from_quaternions():
     A3D = pbr.axis_angles_from_quaternions(Q3D)
     for a, q in zip(A3D.reshape(n_rotations, 4), Q3D.reshape(n_rotations, 4)):
         pr.assert_quaternion_equal(a, pr.axis_angle_from_quaternion(q))
+
+
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+    ],
+)
+def test_axis_angles_from_quaternions_small_angle(angle):
+    axis = np.array([1.0, 2.0, 3.0])
+    axis /= np.linalg.norm(axis)
+    q = pr.quaternion_from_axis_angle(np.r_[axis, angle])
+    expected = np.r_[axis, angle]
+
+    # 1D
+    result = pbr.axis_angles_from_quaternions(q)
+    np.testing.assert_allclose(result, expected, rtol=1e-12, atol=1e-15)
+
+    # 2D
+    result = pbr.axis_angles_from_quaternions(np.array([q, q]))
+    np.testing.assert_allclose(
+        result, [expected, expected], rtol=1e-12, atol=1e-15
+    )
 
 
 def test_quaternion_slerp_batch_zero_angle():

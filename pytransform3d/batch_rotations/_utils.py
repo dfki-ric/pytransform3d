@@ -54,6 +54,10 @@ def angles_between_vectors(A, B):
     AdotB = np.einsum(
         "ni,ni->n", A.reshape(-1, n_dims), B.reshape(-1, n_dims)
     ).reshape(A.shape[:-1])
+    if n_dims == 3:
+        # arctan2 gives more numerically correct results near 0 and pi
+        AcrossB_norms = np.linalg.norm(np.cross(A, B), axis=-1)
+        return np.arctan2(AcrossB_norms, AdotB)
     return np.arccos(np.clip(AdotB / (A_norms * B_norms), -1.0, 1.0))
 
 
