@@ -31,7 +31,23 @@ def norm_vectors(V, out=None):
 
 
 def angles_between_vectors(A, B):
-    """Compute angle between two vectors.
+    r"""Compute angle between two vectors.
+
+    .. math::
+
+        \theta =
+        2 \operatorname{atan2}
+        \left(
+            \left\|
+                \|b\| a - \|a\| b
+            \right\|,
+            \left\|
+                \|b\| a + \|a\| b
+            \right\|
+        \right)
+
+    See [1]_, page 47. To simplify the implementation, we normalize both
+    vectors first such that norms of 1 cancel.
 
     Parameters
     ----------
@@ -45,20 +61,22 @@ def angles_between_vectors(A, B):
     -------
     angles : array, shape (...)
         Angles between pairs of vectors from A and B
+
+    References
+    ----------
+    .. [1] Kahan, W. (2006).
+       How Futile are Mindless Assessments of Roundoff in Floating-Point
+       Computation?
+       https://people.eecs.berkeley.edu/~wkahan/Mindless.pdf
     """
     A = np.asarray(A)
     B = np.asarray(B)
-    n_dims = A.shape[-1]
-    A_norms = np.linalg.norm(A, axis=-1)
-    B_norms = np.linalg.norm(B, axis=-1)
-    AdotB = np.einsum(
-        "ni,ni->n", A.reshape(-1, n_dims), B.reshape(-1, n_dims)
-    ).reshape(A.shape[:-1])
-    if n_dims == 3:
-        # arctan2 gives more numerically correct results near 0 and pi
-        AcrossB_norms = np.linalg.norm(np.cross(A, B), axis=-1)
-        return np.arctan2(AcrossB_norms, AdotB)
-    return np.arccos(np.clip(AdotB / (A_norms * B_norms), -1.0, 1.0))
+    A = A / np.linalg.norm(A, axis=-1, keepdims=True)
+    B = B / np.linalg.norm(B, axis=-1, keepdims=True)
+    return 2.0 * np.arctan2(
+        np.linalg.norm(A - B, axis=-1),
+        np.linalg.norm(A + B, axis=-1),
+    )
 
 
 def cross_product_matrices(V):
