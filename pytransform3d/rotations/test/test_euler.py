@@ -145,6 +145,29 @@ def test_euler_from_matrix_rotation_about_single_axis():
                     )
 
 
+def test_euler_from_matrix_gimbal_lock_with_noisy_matrix():
+    """Gimbal lock is detected in matrices that are not exactly orthonormal."""
+    rng = np.random.default_rng(375)
+    for axis in np.vstack((np.eye(3), -np.eye(3))):
+        R = pr.matrix_from_axis_angle(np.r_[axis, 1.5])
+        R += 1e-10 * rng.standard_normal((3, 3))
+        for i, j, k in [
+            [0, 1, 0],
+            [0, 2, 0],
+            [1, 0, 1],
+            [1, 2, 1],
+            [2, 0, 2],
+            [2, 1, 2],
+        ]:
+            for extrinsic in [False, True]:
+                e = pr.euler_from_matrix(
+                    R, i, j, k, extrinsic, strict_check=False
+                )
+                assert_array_almost_equal(
+                    R, pr.matrix_from_euler(e, i, j, k, extrinsic)
+                )
+
+
 def test_from_quaternion():
     """Test conversion from quaternion to Euler angles."""
     with pytest.raises(
