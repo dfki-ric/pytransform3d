@@ -358,20 +358,21 @@ def test_conversions_matrix_compact_axis_angle():
         pr.assert_rotation_matrix(R2)
 
 
-@pytest.mark.parametrize("angle", [
-    1e-4,
-    1e-6,
-    1e-8,
-    1e-10,
-])
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+    ],
+)
 def test_compact_axis_angle_from_matrix_small_angle(angle):
     axis = np.array([1.0, 2.0, 3.0])
     axis /= np.linalg.norm(axis)
     R = pr.matrix_from_axis_angle(np.r_[axis, angle])
     result = pr.compact_axis_angle_from_matrix(R)
-    np.testing.assert_allclose(
-        result, axis * angle, rtol=1e-12, atol=1e-15
-    )
+    np.testing.assert_allclose(result, axis * angle, rtol=1e-12, atol=1e-15)
 
 
 def test_issue43():
