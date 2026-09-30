@@ -463,7 +463,8 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]]
     )
 
-    sin_angle = 0.5 * np.linalg.norm(axis_unnormalized)
+    axis_norm = np.linalg.norm(axis_unnormalized)
+    sin_angle = 0.5 * axis_norm
     cos_angle = (np.trace(R) - 1.0) / 2.0
     # arctan2 gives more numerically correct results near 0 and pi
     angle = np.arctan2(sin_angle, cos_angle)
@@ -495,12 +496,13 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         a[:3] = np.sqrt(eeT_diag) * signs
         if angle < np.pi and np.dot(a[:3], axis_unnormalized) < 0.0:
             a[:3] = -a[:3]
+        axis_norm = np.linalg.norm(a[:3])
     else:
         a[:3] = axis_unnormalized
         # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we
         # could normalize with a[:3] = a[:3] / (2.0 * np.sin(angle)),
-        # but the following is much more precise for angles close to 0 or pi:
-    a[:3] /= np.linalg.norm(a[:3])
+        # but the following is more precise for angles close to 0 or pi:
+    a[:3] /= axis_norm
 
     a[3] = angle
     return a
