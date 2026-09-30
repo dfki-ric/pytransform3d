@@ -22,7 +22,8 @@ def norm_vectors(V, out=None):
     V = np.asarray(V)
     norms = np.linalg.norm(V, axis=-1)
     if out is None:
-        out = np.empty_like(V)
+        # Integer inputs require floating-point output; retain floating dtypes.
+        out = np.empty_like(V, dtype=np.result_type(V.dtype, norms.dtype))
     # Avoid division by zero with np.maximum(..., smallest positive float).
     # The norm is zero only when the vector is zero so this case does not
     # require further processing.
