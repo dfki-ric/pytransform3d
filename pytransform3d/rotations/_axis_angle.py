@@ -88,11 +88,10 @@ def norm_axis_angle(a):
     res[:3] = a[:3] / norm
 
     angle = norm_angle(angle)
-    if angle < 0.0:
-        angle *= -1.0
-        res[:3] *= -1.0
-
     res[3] = angle
+
+    if angle < 0.0:
+        res *= -1.0
 
     return res
 
