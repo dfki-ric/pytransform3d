@@ -474,8 +474,8 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
 
     a = np.empty(4)
 
-    if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
-        # Near pi the standard formula is numerically unstable. The 1e-4
+    if abs(angle - np.pi) < 1e-6:  # np.trace(R) close to -1
+        # Near pi the standard formula is numerically unstable. The 1e-6
         # threshold comes from
         # https://github.com/dfki-ric/pytransform3d/issues/43.
         #
@@ -491,11 +491,7 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         R_sym = 0.5 * (R + R.T)
         eeT_diag = np.clip(0.5 * (np.diag(R_sym) + 1.0), 0.0, 1.0)
         k = np.argmax(eeT_diag)
-        # np.sign returns 0 for input 0. However, I did not find this to be
-        # a problem in any case with a real rotation matrix. If there is
-        # any real use case, in which it is important that 0 is not returned,
-        # we can change it to np.where(R_sym[k] >= 0, 1, -1).
-        signs = np.sign(R_sym[k])
+        signs = np.where(R_sym[k] >= 0, 1, -1)
         signs[k] = 1.0
         a[:3] = np.sqrt(eeT_diag) * signs
         if angle < np.pi and np.dot(a[:3], axis_unnormalized) < 0.0:
