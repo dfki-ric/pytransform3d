@@ -37,13 +37,11 @@ def norm_axis_angles(a):
     res[rot_mask, :3] = a[rot_mask, :3] / norm[rot_mask, np.newaxis]
 
     angle_normalized = norm_angle(angles)
+    res[rot_mask, 3] = angle_normalized[rot_mask]
 
     # Flip the sign of non-zero rotations that have a negative angle
     negative_angle_mask = rot_mask & (angle_normalized < 0.0)
-    res[negative_angle_mask, :3] *= -1.0
-    angle_normalized[negative_angle_mask] *= -1.0
-
-    res[rot_mask, 3] = angle_normalized[rot_mask]
+    res[negative_angle_mask] *= -1.0
 
     res[no_rot_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
 
