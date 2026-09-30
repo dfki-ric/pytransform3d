@@ -42,6 +42,55 @@ def test_norm_vectors_zero():
     assert_array_almost_equal(V_unit, V)
 
 
+@pytest.mark.parametrize(
+    "dtype", [bool, np.int8, np.uint8, np.int64, np.uint64]
+)
+@pytest.mark.parametrize("shape", [(3,), (3, 3), (2, 3, 3)])
+def test_norm_vectors_integer_inputs(dtype, shape):
+    V = np.broadcast_to(np.array([3, 4, 0], dtype=dtype), shape).copy()
+    if V.ndim > 1:
+        V.reshape(-1, 3)[0] = 0
+    original = V.copy()
+    expected = np.array([pr.norm_vector(v) for v in V.reshape(-1, 3)])
+
+    V_unit = pbr.norm_vectors(V)
+
+    assert V_unit.shape == V.shape
+    assert_array_almost_equal(V_unit, expected.reshape(shape))
+    assert V_unit.dtype == np.float64
+    np.testing.assert_array_equal(V, original)
+
+
+def test_norm_vectors_integer_list():
+    assert_array_almost_equal(
+        pbr.norm_vectors([[3, 4, 0], [-4, 0, 3], [0, 0, 0]]),
+        [[0.6, 0.8, 0.0], [-0.8, 0.0, 0.6], [0.0, 0.0, 0.0]],
+    )
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+def test_norm_vectors_preserves_float_dtype_and_inplace_output(dtype):
+    V = np.array([[3, 4, 0], [-4, 0, 3]], dtype=dtype)
+    expected = [[0.6, 0.8, 0.0], [-0.8, 0.0, 0.6]]
+
+    V_unit = pbr.norm_vectors(V)
+    assert V_unit.dtype == dtype
+    assert_array_almost_equal(V_unit, expected)
+
+    assert pbr.norm_vectors(V, out=V) is V
+    assert_array_almost_equal(V, expected)
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+def test_norm_vectors_integer_inputs_with_output(dtype):
+    V = np.array([[3, 4, 0], [0, 0, 0]])
+    out = np.empty(V.shape, dtype=dtype)
+
+    assert pbr.norm_vectors(V, out=out) is out
+    assert_array_almost_equal(out, [[0.6, 0.8, 0.0], [0.0, 0.0, 0.0]])
+    np.testing.assert_array_equal(V, [[3, 4, 0], [0, 0, 0]])
+
+
 def test_norm_axis_angles():
     assert_array_almost_equal(
         pbr.norm_axis_angles([0.0, 0.0, 0.0, 1.0]), [1.0, 0.0, 0.0, 0.0]
