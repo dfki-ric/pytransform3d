@@ -29,26 +29,26 @@ def _random_quaternions(n, seed):
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("q", _random_quaternions(30, seed=42))
 @pytest.mark.parametrize("axis", AXES)
-def test_reconstruction(q, axis):
-    swing, twist = pr.swing_twist_decomposition(q, axis)
-    # q == swing * twist (up to sign, which represents the same rotation)
-    assert pr.quaternion_dist(
-        pr.concatenate_quaternions(swing, twist), q
-    ) == pytest.approx(0.0, abs=1e-10)
+def test_reconstruction(axis):
+    for q in _random_quaternions(30, seed=42):
+        swing, twist = pr.swing_twist_decomposition(q, axis)
+        # q == swing * twist (up to sign, which represents the same rotation)
+        assert pr.quaternion_dist(
+            pr.concatenate_quaternions(swing, twist), q
+        ) == pytest.approx(0.0, abs=1e-10)
 
 
-@pytest.mark.parametrize("q", _random_quaternions(30, seed=42))
 @pytest.mark.parametrize("axis", AXES)
-def test_composition_roundtrip(q, axis):
-    # swing_twist_composition is the inverse of swing_twist_decomposition;
-    # it recovers the original rotation (up to sign).
-    swing, twist = pr.swing_twist_decomposition(q, axis)
-    q_reconstructed = pr.swing_twist_composition(swing, twist)
-    assert pr.quaternion_dist(q_reconstructed, q) == pytest.approx(
-        0.0, abs=1e-10
-    )
+def test_composition_roundtrip(axis):
+    for q in _random_quaternions(30, seed=43):
+        # swing_twist_composition is the inverse of swing_twist_decomposition;
+        # it recovers the original rotation (up to sign).
+        swing, twist = pr.swing_twist_decomposition(q, axis)
+        q_reconstructed = pr.swing_twist_composition(swing, twist)
+        assert pr.quaternion_dist(q_reconstructed, q) == pytest.approx(
+            0.0, abs=1e-10
+        )
 
 
 def test_composition_matches_concatenation():
@@ -62,24 +62,24 @@ def test_composition_matches_concatenation():
     )
 
 
-@pytest.mark.parametrize("q", _random_quaternions(10, seed=101))
 @pytest.mark.parametrize("axis", AXES)
-def test_reconstruction_as_matrix_product(q, axis):
-    # The decomposition must also hold for the equivalent rotation matrices:
-    # R = R_swing @ R_twist.
-    swing, twist = pr.swing_twist_decomposition(q, axis)
-    R = pr.matrix_from_quaternion(q)
-    R_swing = pr.matrix_from_quaternion(swing)
-    R_twist = pr.matrix_from_quaternion(twist)
-    assert_array_almost_equal(R, R_swing.dot(R_twist))
+def test_reconstruction_as_matrix_product(axis):
+    for q in _random_quaternions(10, seed=101):
+        # The decomposition must also hold for the equivalent rotation
+        # matrices: R = R_swing @ R_twist.
+        swing, twist = pr.swing_twist_decomposition(q, axis)
+        R = pr.matrix_from_quaternion(q)
+        R_swing = pr.matrix_from_quaternion(swing)
+        R_twist = pr.matrix_from_quaternion(twist)
+        assert_array_almost_equal(R, R_swing.dot(R_twist))
 
 
-@pytest.mark.parametrize("q", _random_quaternions(30, seed=7))
 @pytest.mark.parametrize("axis", AXES)
-def test_outputs_are_unit_quaternions(q, axis):
-    swing, twist = pr.swing_twist_decomposition(q, axis)
-    assert np.linalg.norm(swing) == pytest.approx(1.0)
-    assert np.linalg.norm(twist) == pytest.approx(1.0)
+def test_outputs_are_unit_quaternions(axis):
+    for q in _random_quaternions(30, seed=7):
+        swing, twist = pr.swing_twist_decomposition(q, axis)
+        assert np.linalg.norm(swing) == pytest.approx(1.0)
+        assert np.linalg.norm(twist) == pytest.approx(1.0)
 
 
 # ---------------------------------------------------------------------------
@@ -87,45 +87,46 @@ def test_outputs_are_unit_quaternions(q, axis):
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("q", _random_quaternions(30, seed=3))
 @pytest.mark.parametrize("axis", AXES)
-def test_twist_axis_parallel_to_given_axis(q, axis):
-    _, twist = pr.swing_twist_decomposition(q, axis)
-    # the vector part of the twist is parallel to the (normalized) twist axis
-    assert_array_almost_equal(
-        np.cross(twist[1:], pr.norm_vector(axis)), np.zeros(3)
+def test_twist_axis_parallel_to_given_axis(axis):
+    for q in _random_quaternions(30, seed=3):
+        _, twist = pr.swing_twist_decomposition(q, axis)
+        # the vector part of the twist is parallel to the (normalized) twist
+        # axis
+        assert_array_almost_equal(
+            np.cross(twist[1:], pr.norm_vector(axis)), np.zeros(3)
     )
 
 
-@pytest.mark.parametrize("q", _random_quaternions(30, seed=5))
 @pytest.mark.parametrize("axis", AXES)
-def test_swing_axis_orthogonal_to_given_axis(q, axis):
-    swing, _ = pr.swing_twist_decomposition(q, axis)
-    # the rotation axis of the swing is orthogonal to the twist axis
-    assert np.dot(swing[1:], pr.norm_vector(axis)) == pytest.approx(
-        0.0, abs=1e-10
-    )
+def test_swing_axis_orthogonal_to_given_axis(axis):
+    for q in _random_quaternions(30, seed=5):
+        swing, _ = pr.swing_twist_decomposition(q, axis)
+        # the rotation axis of the swing is orthogonal to the twist axis
+        assert np.dot(swing[1:], pr.norm_vector(axis)) == pytest.approx(
+            0.0, abs=1e-10
+        )
 
 
-@pytest.mark.parametrize("q", _random_quaternions(30, seed=9))
 @pytest.mark.parametrize("axis", AXES)
-def test_twist_leaves_axis_invariant(q, axis):
-    # A rotation about the axis does not move the axis itself.
-    _, twist = pr.swing_twist_decomposition(q, axis)
-    axis = pr.norm_vector(axis)
-    assert_array_almost_equal(pr.q_prod_vector(twist, axis), axis)
+def test_twist_leaves_axis_invariant(axis):
+    for q in _random_quaternions(30, seed=9):
+        # A rotation about the axis does not move the axis itself.
+        _, twist = pr.swing_twist_decomposition(q, axis)
+        axis = pr.norm_vector(axis)
+        assert_array_almost_equal(pr.q_prod_vector(twist, axis), axis)
 
 
-@pytest.mark.parametrize("q", _random_quaternions(30, seed=11))
 @pytest.mark.parametrize("axis", AXES)
-def test_swing_maps_axis_like_full_rotation(q, axis):
-    # Because the twist fixes the axis, the swing must move the axis exactly
-    # like the full rotation does.
-    swing, _ = pr.swing_twist_decomposition(q, axis)
-    axis = pr.norm_vector(axis)
-    assert_array_almost_equal(
-        pr.q_prod_vector(swing, axis), pr.q_prod_vector(q, axis)
-    )
+def test_swing_maps_axis_like_full_rotation(axis):
+    for q in _random_quaternions(30, seed=11):
+        # Because the twist fixes the axis, the swing must move the axis
+        # exactly like the full rotation does.
+        swing, _ = pr.swing_twist_decomposition(q, axis)
+        axis = pr.norm_vector(axis)
+        assert_array_almost_equal(
+            pr.q_prod_vector(swing, axis), pr.q_prod_vector(q, axis)
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -187,15 +188,15 @@ def test_recover_known_components(twist_angle, swing_angle):
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("q", _random_quaternions(15, seed=13))
 @pytest.mark.parametrize("axis", AXES)
-def test_decomposing_twist_again_is_stable(q, axis):
-    # Decomposing the twist about the same axis returns the twist unchanged
-    # and an identity swing.
-    _, twist = pr.swing_twist_decomposition(q, axis)
-    swing2, twist2 = pr.swing_twist_decomposition(twist, axis)
-    pr.assert_quaternion_equal(swing2, pr.q_id)
-    pr.assert_quaternion_equal(twist2, twist)
+def test_decomposing_twist_again_is_stable(axis):
+    for q in _random_quaternions(15, seed=13):
+        # Decomposing the twist about the same axis returns the twist unchanged
+        # and an identity swing.
+        _, twist = pr.swing_twist_decomposition(q, axis)
+        swing2, twist2 = pr.swing_twist_decomposition(twist, axis)
+        pr.assert_quaternion_equal(swing2, pr.q_id)
+        pr.assert_quaternion_equal(twist2, twist)
 
 
 @pytest.mark.parametrize("q", _random_quaternions(15, seed=17))
@@ -214,14 +215,18 @@ def test_swing_has_no_twist_component(q, axis):
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("q", _random_quaternions(15, seed=19))
 @pytest.mark.parametrize("axis", AXES)
-def test_double_cover(q, axis):
-    swing, twist = pr.swing_twist_decomposition(q, axis)
-    swing_neg, twist_neg = pr.swing_twist_decomposition(-q, axis)
-    # -q is the same rotation, so both components describe the same rotations
-    assert pr.quaternion_dist(swing_neg, swing) == pytest.approx(0.0, abs=1e-10)
-    assert pr.quaternion_dist(twist_neg, twist) == pytest.approx(0.0, abs=1e-10)
+def test_double_cover(axis):
+    for q in _random_quaternions(15, seed=19):
+        swing, twist = pr.swing_twist_decomposition(q, axis)
+        swing_neg, twist_neg = pr.swing_twist_decomposition(-q, axis)
+        # -q is the same rotation, so both components describe the same rotations
+        assert (
+           pr.quaternion_dist(swing_neg, swing) == pytest.approx(0.0, abs=1e-10)
+        )
+        assert (
+            pr.quaternion_dist(twist_neg, twist) == pytest.approx(0.0, abs=1e-10)
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -234,22 +239,23 @@ def test_double_cover(q, axis):
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("q", _random_quaternions(50, seed=23))
 @pytest.mark.parametrize("axis", AXES)
-def test_twist_is_in_canonical_hemisphere(q, axis):
-    # The scalar part of the twist must be non-negative.
-    _, twist = pr.swing_twist_decomposition(q, axis)
-    assert twist[0] >= 0.0
+def test_twist_is_in_canonical_hemisphere(axis):
+    for q in _random_quaternions(50, seed=23):
+        # The scalar part of the twist must be non-negative.
+        _, twist = pr.swing_twist_decomposition(q, axis)
+        assert twist[0] >= 0.0
 
 
-@pytest.mark.parametrize("q", _random_quaternions(50, seed=31))
 @pytest.mark.parametrize("axis", AXES)
-def test_twist_is_identical_for_q_and_negated_q(q, axis):
-    # Thanks to the canonicalization, the twist is not just the same rotation
-    # for q and -q, it is the exact same quaternion (no sign ambiguity).
-    _, twist = pr.swing_twist_decomposition(q, axis)
-    _, twist_neg = pr.swing_twist_decomposition(-q, axis)
-    assert_array_almost_equal(twist, twist_neg)
+def test_twist_is_identical_for_q_and_negated_q(axis):
+    for q in _random_quaternions(50, seed=31):
+        # Thanks to the canonicalization, the twist is not just the same
+        # rotation for q and -q, it is the exact same quaternion (no sign
+        # ambiguity).
+        _, twist = pr.swing_twist_decomposition(q, axis)
+        _, twist_neg = pr.swing_twist_decomposition(-q, axis)
+        assert_array_almost_equal(twist, twist_neg)
 
 
 def test_negative_scalar_input_triggers_flip():
