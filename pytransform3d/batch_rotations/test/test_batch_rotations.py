@@ -141,6 +141,49 @@ def test_norm_axis_angles():
         assert_array_almost_equal(a_norm, pr.norm_axis_angle(a_unnormalized))
 
 
+@pytest.mark.parametrize(
+    "dtype", [bool, np.int8, np.uint8, np.int64, np.uint64]
+)
+@pytest.mark.parametrize("shape", [(4,), (4, 4), (2, 4, 4)])
+def test_norm_axis_angles_integer_inputs(dtype, shape):
+    a = np.array(
+        [[3, 4, 0, 1], [0, 0, 0, 1], [3, 4, 0, 0], [3, 4, 0, 4]],
+        dtype=dtype,
+    )
+    if len(shape) == 1:
+        a = a[0]
+    else:
+        a = np.broadcast_to(a, shape)
+    original = a.copy()
+    expected = np.array([pr.norm_axis_angle(row) for row in a.reshape(-1, 4)])
+
+    normalized = pbr.norm_axis_angles(a)
+
+    assert normalized.shape == a.shape
+    assert normalized.dtype == np.float64
+    assert_array_almost_equal(normalized, expected.reshape(shape))
+    np.testing.assert_array_equal(a, original)
+
+
+@pytest.mark.parametrize("angle", [-4, -1, 0, 1, 4])
+def test_norm_axis_angles_integer_list(angle):
+    a = [3, -4, 0, angle]
+    assert_array_almost_equal(pbr.norm_axis_angles(a), pr.norm_axis_angle(a))
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+def test_norm_axis_angles_preserves_float_dtype(dtype):
+    a = np.array([[3, 4, 0, -1], [0, 0, 0, 1], [3, 4, 0, 4]], dtype=dtype)
+    original = a.copy()
+    expected = np.array([pr.norm_axis_angle(row) for row in a])
+
+    normalized = pbr.norm_axis_angles(a)
+
+    assert normalized.dtype == dtype
+    assert_array_almost_equal(normalized, expected)
+    np.testing.assert_array_equal(a, original)
+
+
 def test_angles_between_vectors_0dims():
     rng = np.random.default_rng(228)
     A = rng.standard_normal(size=3)
