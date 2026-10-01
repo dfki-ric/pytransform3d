@@ -4,10 +4,7 @@ import math
 
 import numpy as np
 
-from ._screws import (
-    check_exponential_coordinates,
-    screw_axis_from_exponential_coordinates,
-)
+from ._screws import check_exponential_coordinates
 from ..rotations import (
     cross_product_matrix,
     left_jacobian_SO3,
@@ -63,9 +60,9 @@ def left_jacobian_SE3(Stheta):
     """
     Stheta = check_exponential_coordinates(Stheta)
 
-    _, theta = screw_axis_from_exponential_coordinates(Stheta)
-    # Delegates to left_jacobian_SO3, which has catastrophic cancellation
-    # for small theta (see that function).  Mirror the same threshold.
+    # The series depends on the rotation angle, not the screw parameter,
+    # which is the translation magnitude for pure translations.
+    theta = np.linalg.norm(Stheta[:3])
     if theta < math.sqrt(6.0 * np.finfo(float).eps):
         return left_jacobian_SE3_series(Stheta, 10)
 
@@ -150,7 +147,7 @@ def left_jacobian_SE3_inv(Stheta):
     """
     Stheta = check_exponential_coordinates(Stheta)
 
-    _, theta = screw_axis_from_exponential_coordinates(Stheta)
+    theta = np.linalg.norm(Stheta[:3])
     if theta < math.sqrt(6.0 * np.finfo(float).eps):
         return left_jacobian_SE3_inv_series(Stheta, 10)
 
@@ -173,26 +170,64 @@ def _Q(Stheta):
     rx = cross_product_matrix(rho)
 
     ph2 = ph * ph
-    ph3 = ph2 * ph
-    ph4 = ph3 * ph
-    ph5 = ph4 * ph
-
-    cph = math.cos(ph)
-    sph = math.sin(ph)
+    if ph < 0.5:
+        # Taylor expansions of the scalar coefficients avoid cancellation
+        # in the differences of sin/cos terms, including at pure translation.
+        # At ph = 0.5, the first omitted term of m2 is ph**12 / 15! < eps;
+        # those of m3 and m4 are smaller still.
+        m2 = 1.0 / 6.0 - ph2 * (
+            1.0 / 120.0
+            - ph2
+            * (
+                1.0 / 5040.0
+                - ph2
+                * (
+                    1.0 / 362880.0
+                    - ph2 * (1.0 / 39916800.0 - ph2 / 6227020800.0)
+                )
+            )
+        )
+        m3 = -1.0 / 24.0 + ph2 * (
+            1.0 / 720.0
+            - ph2
+            * (
+                1.0 / 40320.0
+                - ph2
+                * (
+                    1.0 / 3628800.0
+                    - ph2 * (1.0 / 479001600.0 - ph2 / 87178291200.0)
+                )
+            )
+        )
+        m4 = -1.0 / 120.0 + ph2 * (
+            1.0 / 2520.0
+            - ph2
+            * (
+                1.0 / 120960.0
+                - ph2
+                * (
+                    1.0 / 9979200.0
+                    - ph2 * (1.0 / 1245404160.0 - ph2 / 217945728000.0)
+                )
+            )
+        )
+    else:
+        ph3 = ph2 * ph
+        ph4 = ph3 * ph
+        ph5 = ph4 * ph
+        cph = math.cos(ph)
+        sph = math.sin(ph)
+        m2 = (ph - sph) / ph3
+        m3 = (1.0 - 0.5 * ph2 - cph) / ph4
+        m4 = 0.5 * (m3 - 3.0 * (ph - sph - ph3 / 6.0) / ph5)
 
     t1 = 0.5 * rx
-    t2 = (
-        (ph - sph)
-        / ph3
-        * (np.dot(px, rx) + np.dot(rx, px) + np.dot(px, np.dot(rx, px)))
-    )
-    m3 = (1.0 - 0.5 * ph * ph - cph) / ph4
+    t2 = m2 * (np.dot(px, rx) + np.dot(rx, px) + np.dot(px, np.dot(rx, px)))
     t3 = -m3 * (
         np.dot(px, np.dot(px, rx))
         + np.dot(rx, np.dot(px, px))
         - 3 * np.dot(px, np.dot(rx, px))
     )
-    m4 = 0.5 * (m3 - 3.0 * (ph - sph - ph3 / 6.0) / ph5)
     t4 = -m4 * (
         np.dot(px, np.dot(rx, np.dot(px, px)))
         + np.dot(px, np.dot(px, np.dot(rx, px)))
