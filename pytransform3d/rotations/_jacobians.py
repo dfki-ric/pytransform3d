@@ -40,22 +40,18 @@ def left_jacobian_SO3(omega):
     """
     omega = np.asarray(omega)
     theta = np.linalg.norm(omega)
-    # The closed-form terms (1 - cos(t))/t and 1 - sin(t)/t involve
-    # subtracting a value near 1 from 1.  The leading correction is O(t)
-    # and O(t^2) respectively.  When that correction is smaller than half
-    # a ULP (unit in the last place, i.e. the spacing between adjacent
-    # floats) of 1.0, the subtraction result is exactly 0 and all
-    # significant bits are lost.  ULP(1.0) = eps = 2^-52 ~= 2.2e-16 for
-    # float64.  The tighter condition, 1 - sin(t)/t ~= t^2/6 < eps/2,
-    # gives t < sqrt(3*eps).  We use sqrt(6*eps) (~3.65e-8) as a
-    # slightly conservative threshold that also covers the inverse.
+    # 1 - sin(t)/t ~= t^2/6 falls below half a ULP of 1.0 for
+    # t < sqrt(3*eps). Mirror the slightly more conservative threshold
+    # used by the inverse Jacobian.
     if theta < math.sqrt(6.0 * np.finfo(float).eps):
         return left_jacobian_SO3_series(omega, 10)
     omega_unit = omega / theta
     omega_matrix = cross_product_matrix(omega_unit)
     return (
         np.eye(3)
-        + (1.0 - math.cos(theta)) / theta * omega_matrix
+        # The half-angle identity avoids cancellation in 1 - cos(theta),
+        # which also loses precision above the series threshold.
+        + 2.0 * math.sin(0.5 * theta) ** 2 / theta * omega_matrix
         + (1.0 - math.sin(theta) / theta) * np.dot(omega_matrix, omega_matrix)
     )
 
