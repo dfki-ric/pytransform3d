@@ -33,7 +33,8 @@ def norm_axis_angles(a):
     no_rot_mask = (angles == 0.0) | (norm == 0.0)
     rot_mask = ~no_rot_mask
 
-    res = np.empty_like(a)
+    # Normalization requires floating-point output for integer inputs.
+    res = np.empty_like(a, dtype=np.result_type(a.dtype, norm.dtype))
     res[rot_mask, :3] = a[rot_mask, :3] / norm[rot_mask, np.newaxis]
 
     angle_normalized = norm_angle(angles)
