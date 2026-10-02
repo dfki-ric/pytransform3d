@@ -2,7 +2,11 @@ import warnings
 
 import numpy as np
 import pytest
-from numpy.testing import assert_array_almost_equal
+from numpy.testing import (
+    assert_allclose,
+    assert_array_almost_equal,
+    assert_array_equal,
+)
 
 import pytransform3d.rotations as pr
 
@@ -20,6 +24,69 @@ def test_norm_zero_vector():
     """Test normalization of zero vector."""
     normalized = pr.norm_vector(np.zeros(3))
     assert np.isfinite(np.linalg.norm(normalized))
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize(
+    "magnitude", ["subnormal", "tiny", "small", "ordinary", "large", "maximum"]
+)
+def test_norm_vector_extreme_magnitudes(dtype, magnitude):
+    finfo = np.finfo(dtype)
+    scale = {
+        "subnormal": finfo.smallest_subnormal,
+        "tiny": finfo.tiny / dtype(8),
+        "small": np.sqrt(finfo.tiny) / dtype(10),
+        "ordinary": dtype(1),
+        "large": np.sqrt(finfo.max) * dtype(2),
+        "maximum": finfo.max / dtype(4),
+    }[magnitude]
+    v = np.array([4, -2, 1], dtype=dtype) * scale
+    original = v.copy()
+    expected = np.array([4.0, -2.0, 1.0]) / np.sqrt(21.0)
+
+    with np.errstate(over="raise", invalid="raise", divide="raise"):
+        normalized = pr.norm_vector(v)
+
+    assert normalized.dtype == dtype
+    assert_allclose(normalized, expected, rtol=4 * finfo.eps, atol=0)
+    assert_allclose(np.linalg.norm(normalized), 1, rtol=4 * finfo.eps)
+    assert_array_equal(v, original)
+
+
+@pytest.mark.parametrize("scale", [1e-200, 1e200])
+def test_norm_vector_extreme_lists(scale):
+    normalized = pr.norm_vector([4 * scale, -2 * scale, scale])
+    assert_allclose(normalized, np.array([4, -2, 1]) / np.sqrt(21.0))
+
+
+@pytest.mark.parametrize("v", [[], [0, 0, 0], np.zeros(3)])
+def test_norm_vector_keeps_zero_input(v):
+    assert pr.norm_vector(v) is v
+
+
+@pytest.mark.parametrize(
+    "v, expected",
+    [
+        ([3, 4, 0], [0.6, 0.8, 0]),
+        (np.array([np.iinfo(np.int64).min, 0, 0]), [-1, 0, 0]),
+        (np.array([True, True, False]), [1 / np.sqrt(2), 1 / np.sqrt(2), 0]),
+    ],
+)
+def test_norm_vector_integer_inputs(v, expected):
+    assert_allclose(pr.norm_vector(v), expected)
+
+
+def test_norm_vector_complex_input():
+    v = np.array([3j, 4])
+    assert_allclose(pr.norm_vector(v), [0.6j, 0.8])
+
+
+@pytest.mark.parametrize("v", [[np.inf, 1], [-np.inf, 1], [np.nan, 1]])
+def test_norm_vector_nonfinite_input(v):
+    with np.errstate(invalid="ignore"):
+        expected = np.asarray(v) / np.linalg.norm(v)
+        actual = pr.norm_vector(v)
+    assert_array_equal(actual, expected)
 
 
 def test_perpendicular_to_vectors():

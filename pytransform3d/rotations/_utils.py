@@ -40,11 +40,23 @@ def norm_vector(v):
     u : array, shape (n,)
         nd unit vector with norm 1 or the zero vector
     """
-    norm = np.linalg.norm(v)
-    if norm == 0.0:
-        return v
+    v_array = np.asarray(v)
+    if v_array.dtype.kind in "biu":
+        # Match the floating-point promotion in np.linalg.norm, including
+        # signed integers whose absolute value cannot fit in their dtype.
+        v_array = v_array.astype(float)
 
-    return np.asarray(v) / norm
+    scale = np.max(np.abs(v_array), initial=0.0)
+    if scale == 0.0:
+        return v
+    if not np.isfinite(scale):
+        return v_array / np.linalg.norm(v_array)
+
+    # Scaling before squaring avoids overflow and underflow in the norm.
+    # Normalize the scaled vector directly: its original norm need not be
+    # representable, even when all input components are finite.
+    scaled = v_array / scale
+    return scaled / np.linalg.norm(scaled)
 
 
 def perpendicular_to_vectors(a, b):

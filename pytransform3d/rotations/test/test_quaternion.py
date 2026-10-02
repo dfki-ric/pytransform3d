@@ -1,8 +1,24 @@
 import numpy as np
 import pytest
-from numpy.testing import assert_array_almost_equal, assert_array_equal
+from numpy.testing import (
+    assert_allclose,
+    assert_array_almost_equal,
+    assert_array_equal,
+)
 
 import pytransform3d.rotations as pr
+
+
+@pytest.mark.parametrize("scale", [1e-200, 1e200])
+def test_matrix_from_quaternion_extreme_magnitudes(scale):
+    q = np.array([2.0, -3.0, 4.0, 1.0]) * scale
+    # The unit quaternion [2, -3, 4, 1] / sqrt(30) gives this rotation.
+    expected = np.array([[-2, -14, 5], [-10, 5, 10], [-11, -2, -10]]) / 15.0
+
+    with np.errstate(over="raise", invalid="raise", divide="raise"):
+        actual = pr.matrix_from_quaternion(q)
+
+    assert_allclose(actual, expected, rtol=1e-14, atol=1e-14)
 
 
 def test_check_quaternion():
