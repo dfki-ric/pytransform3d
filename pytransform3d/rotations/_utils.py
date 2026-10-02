@@ -94,7 +94,23 @@ def perpendicular_to_vector(a):
 
 
 def angle_between_vectors(a, b, fast=False):
-    """Compute angle between two vectors.
+    r"""Compute angle between two vectors.
+
+    .. math::
+
+        \theta =
+        2 \operatorname{atan2}
+        \left(
+            \left\|
+                \|b\| a - \|a\| b
+            \right\|,
+            \left\|
+                \|b\| a + \|a\| b
+            \right\|
+        \right)
+
+    See [1]_, page 47. To simplify the implementation, we normalize both
+    vectors first such that norms of 1 cancel.
 
     Parameters
     ----------
@@ -111,8 +127,15 @@ def angle_between_vectors(a, b, fast=False):
     -------
     angle : float
         Angle between a and b
+
+    References
+    ----------
+    .. [1] Kahan, W. (2006).
+       How Futile are Mindless Assessments of Roundoff in Floating-Point
+       Computation?
+       https://people.eecs.berkeley.edu/~wkahan/Mindless.pdf
     """
-    if len(a) != 3 or fast:
+    if fast:
         return np.arccos(
             np.clip(
                 np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)),
@@ -120,7 +143,10 @@ def angle_between_vectors(a, b, fast=False):
                 1.0,
             )
         )
-    return np.arctan2(np.linalg.norm(np.cross(a, b)), np.dot(a, b))
+
+    a = np.asarray(a) / np.linalg.norm(a)
+    b = np.asarray(b) / np.linalg.norm(b)
+    return 2.0 * np.arctan2(np.linalg.norm(a - b), np.linalg.norm(a + b))
 
 
 def vector_projection(a, b):

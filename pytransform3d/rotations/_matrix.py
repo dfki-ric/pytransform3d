@@ -241,6 +241,133 @@ def matrix_from_two_vectors(a, b):
     return np.column_stack((a, b, c))
 
 
+def rotation_6d_from_matrix(R, strict_check=True):
+    r"""Compute 6D rotation representation from rotation matrix.
+
+    The 6D representation of Zhou et al. [1]_ is a continuous representation of
+    rotations that is well suited as regression target of neural networks,
+    unlike quaternions, axis-angle, or Euler angles, whose mappings from
+    :math:`SO(3)` are discontinuous. It is obtained by dropping the last column
+    of the rotation matrix
+
+    .. math::
+
+        \boldsymbol{R}
+        = \left( \begin{array}{ccc}
+            r_{11} & r_{12} & r_{13}\\
+            r_{21} & r_{22} & r_{23}\\
+            r_{31} & r_{32} & r_{33}
+        \end{array} \right)
+        \in SO(3)
+
+    and stacking its first two columns
+
+    .. math::
+
+        \left(
+            r_{11}, r_{21}, r_{31}, r_{12}, r_{22}, r_{32}
+        \right)^T.
+
+    The dropped column is redundant: it can be recovered from the other two
+    through the cross product (see :func:`matrix_from_rotation_6d`), which is
+    why it does not have to be stored.
+
+    Parameters
+    ----------
+    R : array-like, shape (3, 3)
+        Rotation matrix.
+
+    strict_check : bool, optional (default: True)
+        Raise a ValueError if the rotation matrix is not numerically close
+        enough to a real rotation matrix. Otherwise we print a warning.
+
+    Returns
+    -------
+    rotation_6d : array, shape (6,)
+        6D rotation representation: the first two columns of the rotation
+        matrix, stacked one after the other.
+
+    See Also
+    --------
+    matrix_from_rotation_6d
+        Compute rotation matrix from 6D rotation representation.
+
+    References
+    ----------
+    .. [1] Zhou, Y., Barnes, C., Lu, J., Yang, J., Li, H. (2019). On the
+       Continuity of Rotation Representations in Neural Networks. In IEEE
+       Conference on Computer Vision and Pattern Recognition (CVPR), pp.
+       5745-5753. https://arxiv.org/abs/1812.07035
+    """
+    R = check_matrix(R, strict_check=strict_check)
+    return np.hstack((R[:, 0], R[:, 1]))
+
+
+def matrix_from_rotation_6d(rotation_6d):
+    r"""Compute rotation matrix from 6D rotation representation.
+
+    Recovers a rotation matrix from the continuous 6D representation of Zhou
+    et al. [1]_ (see :func:`rotation_6d_from_matrix`). The representation stores
+    two 3D vectors :math:`\boldsymbol{a}_1, \boldsymbol{a}_2` that are in
+    general neither of unit length nor orthogonal, for instance because they
+    are the raw output of a neural network. The columns
+    :math:`\boldsymbol{b}_1, \boldsymbol{b}_2, \boldsymbol{b}_3` of the rotation
+    matrix are reconstructed by Gram-Schmidt orthonormalization
+
+    .. math::
+
+        \begin{aligned}
+        \boldsymbol{b}_1 &= N(\boldsymbol{a}_1)\\
+        \boldsymbol{b}_2 &= N(\boldsymbol{a}_2
+            - (\boldsymbol{b}_1 \cdot \boldsymbol{a}_2) \boldsymbol{b}_1)\\
+        \boldsymbol{b}_3 &= \boldsymbol{b}_1 \times \boldsymbol{b}_2
+        \end{aligned}
+
+    where :math:`N(\cdot)` normalizes a vector to unit length. This maps any
+    pair of non-parallel, nonzero vectors to :math:`SO(3)`.
+
+    Parameters
+    ----------
+    rotation_6d : array-like, shape (6,)
+        6D rotation representation: two stacked 3D vectors
+        :math:`(\boldsymbol{a}_1, \boldsymbol{a}_2)` from which the first two
+        columns of the rotation matrix are computed.
+
+    Returns
+    -------
+    R : array, shape (3, 3)
+        Rotation matrix.
+
+    Raises
+    ------
+    ValueError
+        If the two encoded vectors are zero or parallel, in which case no valid
+        rotation matrix can be recovered.
+
+    See Also
+    --------
+    rotation_6d_from_matrix
+        Compute 6D rotation representation from rotation matrix.
+    matrix_from_two_vectors
+        Compute rotation matrix from two vectors, used to orthonormalize the
+        6D representation.
+
+    References
+    ----------
+    .. [1] Zhou, Y., Barnes, C., Lu, J., Yang, J., Li, H. (2019). On the
+       Continuity of Rotation Representations in Neural Networks. In IEEE
+       Conference on Computer Vision and Pattern Recognition (CVPR), pp.
+       5745-5753. https://arxiv.org/abs/1812.07035
+    """
+    rotation_6d = np.asarray(rotation_6d, dtype=float)
+    if rotation_6d.shape != (6,):
+        raise ValueError(
+            "Expected 6D rotation representation with shape (6,), got "
+            "array-like object with shape %s" % (rotation_6d.shape,)
+        )
+    return matrix_from_two_vectors(rotation_6d[:3], rotation_6d[3:])
+
+
 def quaternion_from_matrix(R, strict_check=True):
     """Compute quaternion from rotation matrix.
 
@@ -327,13 +454,6 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
     """
     if check:
         R = check_matrix(R, strict_check=strict_check)
-    cos_angle = (np.trace(R) - 1.0) / 2.0
-    angle = np.arccos(min(max(-1.0, cos_angle), 1.0))
-
-    if angle == 0.0:  # R == np.eye(3)
-        return np.array([1.0, 0.0, 0.0, 0.0])
-
-    a = np.empty(4)
 
     # We can usually determine the rotation axis by inverting Rodrigues'
     # formula. Subtracting opposing off-diagonal elements gives us
@@ -343,8 +463,19 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         [R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]]
     )
 
-    if abs(angle - np.pi) < 1e-4:  # np.trace(R) close to -1
-        # Near pi the standard formula is numerically unstable. The 1e-4
+    axis_norm = np.linalg.norm(axis_unnormalized)
+    sin_angle = 0.5 * axis_norm
+    cos_angle = (np.trace(R) - 1.0) / 2.0
+    # arctan2 gives more numerically correct results near 0 and pi
+    angle = np.arctan2(sin_angle, cos_angle)
+
+    if angle == 0.0:  # R == np.eye(3)
+        return np.array([1.0, 0.0, 0.0, 0.0])
+
+    a = np.empty(4)
+
+    if abs(angle - np.pi) < 1e-6:  # np.trace(R) close to -1
+        # Near pi the standard formula is numerically unstable. The 1e-6
         # threshold comes from
         # https://github.com/dfki-ric/pytransform3d/issues/43.
         #
@@ -360,17 +491,18 @@ def axis_angle_from_matrix(R, strict_check=True, check=True):
         R_sym = 0.5 * (R + R.T)
         eeT_diag = np.clip(0.5 * (np.diag(R_sym) + 1.0), 0.0, 1.0)
         k = np.argmax(eeT_diag)
-        signs = np.sign(R_sym[k])
+        signs = np.where(R_sym[k] >= 0, 1, -1)
         signs[k] = 1.0
         a[:3] = np.sqrt(eeT_diag) * signs
         if angle < np.pi and np.dot(a[:3], axis_unnormalized) < 0.0:
             a[:3] = -a[:3]
+        axis_norm = np.linalg.norm(a[:3])
     else:
         a[:3] = axis_unnormalized
         # The norm of axis_unnormalized is 2.0 * np.sin(angle), that is, we
         # could normalize with a[:3] = a[:3] / (2.0 * np.sin(angle)),
-        # but the following is much more precise for angles close to 0 or pi:
-    a[:3] /= np.linalg.norm(a[:3])
+        # but the following is more precise for angles close to 0 or pi:
+    a[:3] /= axis_norm
 
     a[3] = angle
     return a

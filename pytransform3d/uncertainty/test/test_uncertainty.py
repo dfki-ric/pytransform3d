@@ -119,6 +119,17 @@ def test_same_fuse_poses():
     assert pytest.approx(V, abs=1e-4) == 4.6537
 
 
+def test_fuse_identical_translated_poses():
+    mean = pt.transform_from(np.eye(3), [1.0, 2.0, 3.0])
+    cov = np.diag([0.1, 0.2, 0.3, 1.0, 2.0, 3.0])
+
+    mean_est, cov_est, V = pu.pose_fusion([mean, mean], [cov, cov])
+
+    assert_array_almost_equal(mean_est, mean)
+    assert_array_almost_equal(cov_est, 0.5 * cov)
+    assert V == pytest.approx(0.0, abs=1e-15)
+
+
 def test_invert_pose():
     rng = np.random.default_rng(2)
 

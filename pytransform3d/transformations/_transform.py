@@ -292,15 +292,7 @@ def transform_log_from_transform(A2B, strict_check=True):
 
     transform_log = np.zeros((4, 4))
 
-    if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
-        transform_log[:3, 3] = p
-        return transform_log
-
     omega_theta = compact_axis_angle_from_matrix(R)
-    theta = np.linalg.norm(omega_theta)
-
-    if theta == 0:
-        return transform_log
 
     J_inv = left_jacobian_SO3_inv(omega_theta)
     v_theta = np.dot(J_inv, p)
@@ -378,9 +370,6 @@ def exponential_coordinates_from_transform(A2B, strict_check=True, check=True):
 
     R = A2B[:3, :3]
     p = A2B[:3, 3]
-
-    if np.linalg.norm(np.eye(3) - R) < np.finfo(float).eps:
-        return np.r_[0.0, 0.0, 0.0, p]
 
     omega_theta = compact_axis_angle_from_matrix(R, check=check)
     theta = np.linalg.norm(omega_theta)

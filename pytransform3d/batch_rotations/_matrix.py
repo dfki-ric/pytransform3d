@@ -39,8 +39,6 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
             # out[False, n] = value will not assign value to out[n]
             traces = traces[0]
 
-    angles = np.arccos(np.clip((traces - 1.0) / 2.0, -1.0, 1.0))
-
     if out is None:
         out = np.empty(instances_shape + (4,))
 
@@ -48,15 +46,20 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
     out[..., 1] = Rs[..., 0, 2] - Rs[..., 2, 0]
     out[..., 2] = Rs[..., 1, 0] - Rs[..., 0, 1]
 
-    angle_close_to_pi = np.abs(angles - np.pi) < 1e-4
+    # The trace loses the angle near zero because cos(angle) rounds to 1.
+    # The norm of the skew part is 2 * sin(angle), which remains accurate.
+    angles = np.arctan2(
+        0.5 * np.linalg.norm(out[..., :3], axis=-1),
+        np.clip((traces - 1.0) / 2.0, -1.0, 1.0),
+    )
+
+    # Near pi the standard formula is numerically unstable. The 1e-6
+    # threshold comes from https://github.com/dfki-ric/pytransform3d/issues/43.
+    angle_close_to_pi = np.abs(angles - np.pi) < 1e-6
     angle_zero = angles == 0.0
     angle_not_zero = np.logical_not(angle_zero)
 
     if np.any(angle_close_to_pi):
-        # Near pi the standard formula is numerically unstable. The 1e-4
-        # threshold comes from
-        # https://github.com/dfki-ric/pytransform3d/issues/43.
-        #
         # At pi, R is symmetric, so the skew part R - R^T is zero and its
         # sign cannot recover a general axis. From Rodrigues' formula
         # R = 2 ee^T - I at pi, i.e. ee^T = 0.5 * (R + I), whose diagonal
@@ -73,7 +76,7 @@ def axis_angles_from_matrices(Rs, traces=None, out=None):
         )
         rows = np.arange(len(eeT_diag))
         k = np.argmax(eeT_diag, axis=-1)  # dominant component per instance
-        signs = np.sign(Rs_pi_sym[rows, k])
+        signs = np.where(Rs_pi_sym[rows, k] >= 0, 1, -1)
         signs[rows, k] = 1.0
         axes = np.sqrt(eeT_diag) * signs
         # just below pi the skew part gives the overall sign of the axis

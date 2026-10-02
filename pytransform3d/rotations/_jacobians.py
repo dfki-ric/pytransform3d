@@ -40,22 +40,29 @@ def left_jacobian_SO3(omega):
     """
     omega = np.asarray(omega)
     theta = np.linalg.norm(omega)
-    # The closed-form terms (1 - cos(t))/t and 1 - sin(t)/t involve
-    # subtracting a value near 1 from 1.  The leading correction is O(t)
-    # and O(t^2) respectively.  When that correction is smaller than half
-    # a ULP (unit in the last place, i.e. the spacing between adjacent
-    # floats) of 1.0, the subtraction result is exactly 0 and all
-    # significant bits are lost.  ULP(1.0) = eps = 2^-52 ~= 2.2e-16 for
-    # float64.  The tighter condition, 1 - sin(t)/t ~= t^2/6 < eps/2,
-    # gives t < sqrt(3*eps).  We use sqrt(6*eps) (~3.65e-8) as a
-    # slightly conservative threshold that also covers the inverse.
+    # theta is the rotation angle in radians. Float64 machine epsilon
+    # eps = np.finfo(float).eps is one ULP above 1.0 (unit in the last
+    # place, i.e. the spacing between adjacent floats).
+    # The coefficient 1 - sin(theta)/theta = theta**2/6 + O(theta**4)
+    # subtracts values near 1.0, losing relative precision as theta**2
+    # approaches eps. The inverse coefficient starts with theta**2/12;
+    # its conservative sqrt(6*eps) cutoff puts that leading term at eps/2.
+    # Mirror this cutoff so both Jacobians use their series, avoiding
+    # these scalar subtractions in the same tiny-angle range.
     if theta < math.sqrt(6.0 * np.finfo(float).eps):
         return left_jacobian_SO3_series(omega, 10)
     omega_unit = omega / theta
     omega_matrix = cross_product_matrix(omega_unit)
     return (
         np.eye(3)
-        + (1.0 - math.cos(theta)) / theta * omega_matrix
+        # This coefficient is (1 - cos(theta))/theta. The half-angle
+        # identity 1 - cos(theta) = 2*sin(theta/2)**2 avoids subtracting
+        # two values near 1.0. For theta << 1 rad, the difference is about
+        # theta**2/2, so O(eps) rounding in cos causes O(eps/theta**2)
+        # relative error, even above the series cutoff; around sqrt(eps)
+        # it can round to zero. sin(theta/2) is instead about theta/2 and
+        # preserves the small value without this subtraction.
+        + 2.0 * math.sin(0.5 * theta) ** 2 / theta * omega_matrix
         + (1.0 - math.sin(theta) / theta) * np.dot(omega_matrix, omega_matrix)
     )
 
@@ -121,9 +128,12 @@ def left_jacobian_SO3_inv(omega):
     """
     omega = np.asarray(omega)
     theta = np.linalg.norm(omega)
-    # 1 - t/(2*tan(t/2)) ~= t^2/12 for small t.  This falls below half a
-    # ULP (unit in the last place) of 1.0 for t < sqrt(6*eps), so the
-    # subtraction yields exactly 0 in float64.  Use the series instead.
+    # theta is the rotation angle in radians; eps is float64 machine
+    # epsilon. The coefficient 1 - theta/(2*tan(theta/2)) starts with
+    # theta**2/12. At theta = sqrt(6*eps), this leading correction is
+    # eps/2, comparable to roundoff in the values near 1.0 being subtracted.
+    # The difference can lose relative precision or round to zero.
+    # Use the series below this conservative cutoff.
     if theta < math.sqrt(6.0 * np.finfo(float).eps):
         return left_jacobian_SO3_inv_series(omega, 10)
     omega_unit = omega / theta
