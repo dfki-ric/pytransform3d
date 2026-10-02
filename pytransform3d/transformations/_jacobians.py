@@ -171,10 +171,19 @@ def _Q(Stheta):
 
     ph2 = ph * ph
     if ph < 0.5:
-        # Taylor expansions of the scalar coefficients avoid cancellation
-        # in the differences of sin/cos terms, including at pure translation.
-        # At ph = 0.5, the first omitted term of m2 is ph**12 / 15! < eps;
-        # those of m3 and m4 are smaller still.
+        # ph is the rotation angle in radians. Expand the closed forms
+        # below about ph = 0:
+        # m2 = (ph - sin(ph))/ph**3 = 1/6 - ph**2/120 + ...
+        # m3 = (1 - ph**2/2 - cos(ph))/ph**4 = -1/24 + ph**2/720 + ...
+        # m4 = (m3 - 3*(ph - sin(ph) - ph**3/6)/ph**5)/2
+        #    = -1/120 + ph**2/2520 + ...
+        # Horner evaluation through ph**10 avoids cancellation in the
+        # small sin/cos remainders before division by powers of ph.
+        # On 0 <= ph <= 0.5, these alternating series decrease in magnitude,
+        # so the first omitted terms bound the absolute truncation errors:
+        # ph**12/15!, ph**12/16!, and 7*ph**12/17!, respectively. At 0.5,
+        # they are 1.87e-16, 1.17e-17, and 4.80e-18, all below float64
+        # machine epsilon (2.22e-16). This motivates the 0.5 cutoff.
         m2 = 1.0 / 6.0 - ph2 * (
             1.0 / 120.0
             - ph2
