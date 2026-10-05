@@ -316,3 +316,103 @@ def test_temporal_transform_manager_out_of_bounds():
         match=r"Query time at indices \[0 1\], time\(s\): \[ 9.7 10. \]",
     ):
         tm.get_transform_at_time("A", "B", [9.7, 10.0])
+
+
+@pytest.mark.parametrize("time_clipping", [False, True])
+@pytest.mark.parametrize(
+    "query_time", [2.0, np.array(2.0), [2.0, 0.0, 2.0], np.arange(3.0)]
+)
+def test_timeseries_final_sample(query_time, time_clipping):
+    pqs = np.array(
+        [
+            [1, 2, 3, 1, 0, 0, 0],
+            [4, 5, 6, np.sqrt(0.5), np.sqrt(0.5), 0, 0],
+            [-1, 3, 2, 0.5, 0.5, 0.5, 0.5],
+        ],
+        dtype=float,
+    )
+    transform = NumpyTimeseriesTransform(np.arange(3.0), pqs, time_clipping)
+    actual = transform.as_matrix(query_time)
+    indices = np.atleast_1d(query_time).astype(int)
+    expected = np.array(
+        [
+            pt.transform_from(pr.matrix_from_quaternion(pqs[i, 3:]), pqs[i, :3])
+            for i in indices
+        ]
+    ).reshape(np.shape(query_time) + (4, 4))
+    assert_array_almost_equal(actual, expected)
+
+
+@pytest.mark.parametrize("time_clipping", [False, True])
+def test_timeseries_interpolation_including_final_sample(time_clipping):
+    times = np.arange(3.0)
+    pqs = np.zeros((3, 7))
+    pqs[:, 2] = 2.0 * times
+    pqs[:, 3] = np.cos(times * np.pi / 8.0)
+    pqs[:, 6] = np.sin(times * np.pi / 8.0)
+    transform = NumpyTimeseriesTransform(times, pqs, time_clipping)
+    queries = np.array([0.0, 0.5, 1.0, 1.5, np.nextafter(2.0, 0.0), 2.0])
+    expected = np.array(
+        [
+            pt.transform_from(
+                pr.matrix_from_axis_angle([0, 0, 1, t * np.pi / 4.0]),
+                [0, 0, 2.0 * t],
+            )
+            for t in queries
+        ]
+    )
+    assert_array_almost_equal(transform.as_matrix(queries), expected)
+
+
+@pytest.mark.parametrize("time_clipping", [False, True])
+@pytest.mark.parametrize("query_time", [7.0, [7.0, 7.0]])
+def test_timeseries_single_sample(query_time, time_clipping):
+    pq = np.array([1, 2, 3, 0.5, 0.5, 0.5, 0.5])
+    transform = NumpyTimeseriesTransform([7.0], pq[np.newaxis], time_clipping)
+    expected = pt.transform_from(pr.matrix_from_quaternion(pq[3:]), pq[:3])
+    expected = np.broadcast_to(expected, np.shape(query_time) + (4, 4))
+    assert_array_almost_equal(transform.as_matrix(query_time), expected)
+
+
+@pytest.mark.parametrize(
+    "query_time",
+    [
+        np.nextafter(0.0, -np.inf),
+        np.nextafter(2.0, np.inf),
+        [2.0, 3.0],
+        [-1.0, 2.0],
+    ],
+)
+def test_timeseries_still_rejects_out_of_range(query_time):
+    pqs = np.tile([0, 0, 0, 1, 0, 0, 0], (3, 1))
+    transform = NumpyTimeseriesTransform(np.arange(3.0), pqs)
+    with pytest.raises(ValueError, match="out of range of time series"):
+        transform.as_matrix(query_time)
+
+
+@pytest.mark.parametrize(
+    "from_frame,to_frame",
+    [("sensor", "world"), ("world", "sensor"), ("sensor", "map")],
+)
+def test_temporal_manager_final_sample(from_frame, to_frame):
+    pqs = np.array([[0, 0, 0, 1, 0, 0, 0], [1, 2, 3, 0.5, 0.5, 0.5, 0.5]])
+    manager = TemporalTransformManager()
+    manager.add_transform(
+        "sensor", "world", NumpyTimeseriesTransform([0.0, 2.0], pqs)
+    )
+    world2map = pt.transform_from(np.eye(3), [4, -2, 1])
+    manager.add_transform("world", "map", StaticTransform(world2map))
+    sensor2world = pt.transform_from(
+        pr.matrix_from_quaternion(pqs[-1, 3:]), pqs[-1, :3]
+    )
+    if from_frame == "world":
+        expected = pt.invert_transform(sensor2world)
+    elif to_frame == "map":
+        expected = world2map.dot(sensor2world)
+    else:
+        expected = sensor2world
+    manager.current_time = 0.5
+    assert_array_almost_equal(
+        manager.get_transform_at_time(from_frame, to_frame, 2.0), expected
+    )
+    assert manager.current_time == 0.5
