@@ -882,6 +882,65 @@ def test_batch_concatenate_quaternions_1d():
     assert_array_almost_equal(q12, pr.concatenate_quaternions(q1, q2))
 
 
+@pytest.mark.parametrize("shape", [(), (4,), (2, 3)])
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize("output", ["first", "second", "both", "separate"])
+def test_batch_concatenate_quaternions_output_alias(shape, dtype, output):
+    rng = np.random.default_rng(423)
+    Q1 = rng.standard_normal(shape + (4,)).astype(dtype)
+    Q2 = rng.standard_normal(shape + (4,)).astype(dtype)
+    if output == "both":
+        Q2 = Q1
+    original_Q1 = Q1.copy()
+    original_Q2 = Q2.copy()
+    expected = np.array(
+        [
+            pr.concatenate_quaternions(q1, q2)
+            for q1, q2 in zip(Q1.reshape(-1, 4), Q2.reshape(-1, 4))
+        ]
+    ).reshape(shape + (4,))
+    out = (
+        Q1
+        if output in ("first", "both")
+        else Q2 if output == "second" else np.empty_like(Q1)
+    )
+
+    result = pbr.batch_concatenate_quaternions(Q1, Q2, out=out)
+
+    assert result is out
+    tolerance = 8 * np.finfo(dtype).eps
+    np.testing.assert_allclose(result, expected, rtol=tolerance, atol=tolerance)
+    if output == "separate":
+        np.testing.assert_array_equal(Q1, original_Q1)
+        np.testing.assert_array_equal(Q2, original_Q2)
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize("strided", [False, True])
+def test_batch_concatenate_quaternions_overlapping_views(dtype, strided):
+    rng = np.random.default_rng(424)
+    storage = rng.standard_normal((3, 16)).astype(dtype)
+    if strided:
+        Q1 = storage[:, :8:2]
+        Q2 = storage[:, 8:16:2]
+        out = storage[:, 4:12:2]
+    else:
+        Q1 = storage[:, :4]
+        Q2 = storage[:, 4:8]
+        out = storage[:, 2:6]
+    assert np.shares_memory(out, Q1)
+    assert np.shares_memory(out, Q2)
+    expected = np.array(
+        [pr.concatenate_quaternions(q1, q2) for q1, q2 in zip(Q1, Q2)]
+    )
+
+    result = pbr.batch_concatenate_quaternions(Q1, Q2, out=out)
+
+    assert result is out
+    tolerance = 8 * np.finfo(dtype).eps
+    np.testing.assert_allclose(result, expected, rtol=tolerance, atol=tolerance)
+
+
 def test_batch_q_conj_1d():
     rng = np.random.default_rng(230)
     q = pr.random_quaternion(rng)
