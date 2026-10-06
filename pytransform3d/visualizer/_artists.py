@@ -64,7 +64,8 @@ class Line3D(Artist):
         P : array-like, shape (n_points, 3)
             Points of which the line consists.
 
-        c : array-like, shape (n_points - 1, 3) or (3,), optional (default: black)
+        c : array-like, shape (n_points - 1, 3) or (3,), optional
+                (default: black)
             Color can be given as individual colors per line segment or
             as one color for each segment. A color is represented by 3
             values between 0 and 1 indicate representing red, green, and
