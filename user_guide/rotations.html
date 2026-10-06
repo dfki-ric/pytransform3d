@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.16.0 documentation</title>
+    <title>2. SO(3): 3D Rotations &#8212; pytransform3d 3.17.0 documentation</title>
   
   
   
@@ -16,21 +16,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -38,14 +36,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=957b53fb" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=075e253b"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/documentation_options.js?v=768b6f62"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/rotations';</script>
@@ -55,8 +52,7 @@
     <link rel="prev" title="1. Introduction to 3D Rigid Transformations" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="3.16.0" />
-    <meta name="docbuild:last-update" content="Jul 24, 2026"/>
+    <meta name="docbuild:last-update" content="Oct 06, 2026"/>
   </head>
   
   
@@ -72,8 +68,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -81,6 +88,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -88,8 +96,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -122,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.16.0"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="pytransform3d 3.16.0"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.17.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.17.0"/>`);</script>
   
   
 </a></div>
@@ -176,21 +184,29 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
       
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
       
     </div>
     
@@ -199,11 +215,15 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
     </div>
   
 
@@ -222,8 +242,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -277,11 +296,15 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
         
       </div>
     
@@ -310,14 +333,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -335,6 +353,8 @@
       
         <div class="header-article-item">
 
+
+
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -346,7 +366,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><span class="section-number">2. </span>SO(3): 3D Rotations</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span...</li>
   </ul>
 </nav>
 </div>
@@ -367,15 +387,15 @@
 <h1><span class="section-number">2. </span>SO(3): 3D Rotations<a class="headerlink" href="#so-3-3d-rotations" title="Link to this heading">#</a></h1>
 <p>The group of all rotations in the 3D Cartesian space is called <span class="math notranslate nohighlight">\(SO(3)\)</span>
 (SO: special orthogonal group). It is typically represented by 3D rotation
-matrices <a class="footnote-reference brackets" href="#id17" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. The minimum number of components that are required to describe
+matrices <a class="footnote-reference brackets" href="#id18" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a>. The minimum number of components that are required to describe
 any rotation from <span class="math notranslate nohighlight">\(SO(3)\)</span> is 3. However, there is no representation that
 is non-redundant, continuous, and free of singularities.</p>
-<figure class="align-center" id="id20">
+<figure class="align-center" id="id22">
 <a class="reference internal image-reference" href="../_images/rotations.png"><img alt="Rotations" src="../_images/rotations.png" style="width: 50%;" />
 </a>
 <figcaption>
 <p><span class="caption-text">Overview of the representations and the conversions between them that are
-available in pytransform3d.</span><a class="headerlink" href="#id20" title="Link to this image">#</a></p>
+available in pytransform3d.</span><a class="headerlink" href="#id22" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Not all representations support all operations directly without conversion to
@@ -455,6 +475,14 @@ is not implemented in pytransform3d then it is shown in brackets.</p>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 <td><p>Not required</p></td>
+</tr>
+<tr class="row-even"><td><p>6D representation
+<span class="math notranslate nohighlight">\((\pmb{a}_1, \pmb{a}_2)\)</span></p></td>
+<td><p>(Transpose)</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Not necessary</p></td>
 </tr>
 </tbody>
 </table>
@@ -540,7 +568,7 @@ represented by the rotation matrix</p>
     0 &amp; 1 &amp; 0\\
     0 &amp; 0 &amp; 1\\
 \end{array} \right).\end{split}\]</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pytransform3d.rotations</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_basis</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="n">plot_basis</span>
 <span class="n">plot_basis</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -612,14 +640,14 @@ representation to avoid this singularity.</p>
 <section id="rotation-vector">
 <h2><span class="section-number">2.3. </span>Rotation Vector<a class="headerlink" href="#rotation-vector" title="Link to this heading">#</a></h2>
 <p>Since <span class="math notranslate nohighlight">\(||\hat{\boldsymbol{\omega}}|| = 1\)</span>, it is possible to write this
-in a more compact way as a rotation vector <a class="footnote-reference brackets" href="#id12" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
+in a more compact way as a rotation vector <a class="footnote-reference brackets" href="#id13" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{\omega} = \hat{\boldsymbol{\omega}} \theta \in \mathbb{R}^3.\]</div>
 <p>In code, we call this the compact axis-angle representation.
 pytransform3d uses a numpy array of shape (3,) for the compact axis-angle
 representation of a rotation and typically it uses the variable name a.</p>
 <p>We can also refer to this representation as <strong>exponential coordinates of
-rotation</strong> <a class="footnote-reference brackets" href="#id15" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>. We can represent angular velocity as
+rotation</strong> <a class="footnote-reference brackets" href="#id16" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>. We can represent angular velocity as
 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \dot{\theta}\)</span>
 and angular acceleration as
 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\omega}} \ddot{\theta}\)</span> so that we can easily do
@@ -675,7 +703,7 @@ and a vector / imaginary part
 <p class="admonition-title">Warning</p>
 <p>There are two different quaternion conventions: Hamilton’s convention
 defines <span class="math notranslate nohighlight">\(ijk = -1\)</span> and the Shuster or JPL convention (from NASA’s
-Jet Propulsion Laboratory, JPL) defines <span class="math notranslate nohighlight">\(ijk = 1\)</span> <a class="footnote-reference brackets" href="#id11" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
+Jet Propulsion Laboratory, JPL) defines <span class="math notranslate nohighlight">\(ijk = 1\)</span> <a class="footnote-reference brackets" href="#id12" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
 These two conventions result in different multiplication operations and
 conversions to other representations. We use Hamilton’s convention.</p>
 </div>
@@ -759,7 +787,7 @@ such that</p>
 <p>where the twist is applied first. The twist
 <span class="math notranslate nohighlight">\(\boldsymbol{q}_\text{twist}\)</span> is a rotation about <span class="math notranslate nohighlight">\(\boldsymbol{e}\)</span>
 and the swing <span class="math notranslate nohighlight">\(\boldsymbol{q}_\text{swing}\)</span> is a rotation about an axis that
-is orthogonal to <span class="math notranslate nohighlight">\(\boldsymbol{e}\)</span> <a class="footnote-reference brackets" href="#id19" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a>. The twist is obtained by
+is orthogonal to <span class="math notranslate nohighlight">\(\boldsymbol{e}\)</span> <a class="footnote-reference brackets" href="#id20" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a>. The twist is obtained by
 projecting the vector part of the quaternion onto the twist axis and
 renormalizing; the swing is then recovered as
 <span class="math notranslate nohighlight">\(\boldsymbol{q}_\text{swing} = \boldsymbol{q} \boldsymbol{q}_\text{twist}^{-1}\)</span>.</p>
@@ -769,8 +797,8 @@ symmetry axis. pytransform3d provides
 <a class="reference internal" href="../_apidoc/pytransform3d.rotations.swing_twist_decomposition.html#pytransform3d.rotations.swing_twist_decomposition" title="pytransform3d.rotations.swing_twist_decomposition"><code class="xref py py-func docutils literal notranslate"><span class="pre">swing_twist_decomposition()</span></code></a> and the inverse
 <a class="reference internal" href="../_apidoc/pytransform3d.rotations.swing_twist_composition.html#pytransform3d.rotations.swing_twist_composition" title="pytransform3d.rotations.swing_twist_composition"><code class="xref py py-func docutils literal notranslate"><span class="pre">swing_twist_composition()</span></code></a>, which reconstructs
 the original rotation from swing and twist.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pytransform3d.rotations</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pytransform3d.rotations</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">swing_twist_decomposition</span><span class="p">,</span>
     <span class="n">quaternion_from_axis_angle</span><span class="p">,</span>
     <span class="n">matrix_from_quaternion</span><span class="p">,</span>
@@ -838,7 +866,7 @@ representation.</p></li>
 </a>
 </figure>
 <p>Rotors and quaternions are very similar concepts in 3D. However, rotors are
-more general as they can be extended to more dimensions <a class="footnote-reference brackets" href="#id13" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id14" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>.</p>
+more general as they can be extended to more dimensions <a class="footnote-reference brackets" href="#id14" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id15" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>.</p>
 <p>The concept of a quaternion builds on the axis-angle representation, in
 which we rotate by an angle about a rotation axis (see black arrow in the
 illustration above). The axis can be computed from the cross product of two
@@ -877,7 +905,7 @@ same representation in 3D.</p>
 <section id="modified-rodrigues-parameters">
 <h2><span class="section-number">2.8. </span>Modified Rodrigues Parameters<a class="headerlink" href="#modified-rodrigues-parameters" title="Link to this heading">#</a></h2>
 <p>Another minimal representation of rotation are modified Rodrigues parameters
-(MRP) <a class="footnote-reference brackets" href="#id16" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id18" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p>
+(MRP) <a class="footnote-reference brackets" href="#id17" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id19" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{\psi} = \tan \left(\frac{\theta}{4}\right)
 \hat{\boldsymbol{\omega}}\]</div>
@@ -904,7 +932,7 @@ by ensuring the angle of rotation does not exceed <span class="math notranslate 
 <p>MRPs have two representations for the same rotation:
 <span class="math notranslate nohighlight">\(\boldsymbol{\psi}\)</span> and <span class="math notranslate nohighlight">\(-\frac{1}{||\boldsymbol{\psi}||^2}
 \boldsymbol{\psi}\)</span> (<a class="reference internal" href="../_apidoc/pytransform3d.rotations.mrp_double.html#pytransform3d.rotations.mrp_double" title="pytransform3d.rotations.mrp_double"><code class="xref py py-func docutils literal notranslate"><span class="pre">mrp_double()</span></code></a>) represent
-the same rotation and correspond to two antipodal unit quaternions <a class="footnote-reference brackets" href="#id18" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>.</p>
+the same rotation and correspond to two antipodal unit quaternions <a class="footnote-reference brackets" href="#id19" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a>.</p>
 </div>
 <p><strong>Pros</strong></p>
 <ul class="simple">
@@ -919,62 +947,137 @@ the same rotation and correspond to two antipodal unit quaternions <a class="foo
 another representation.</p></li>
 </ul>
 </section>
+<section id="d-representation">
+<h2><span class="section-number">2.9. </span>6D Representation<a class="headerlink" href="#d-representation" title="Link to this heading">#</a></h2>
+<p>All representations above are either discontinuous as a function of the
+rotation (Euler angles, axis-angle, quaternions, …) or non-minimal. For
+gradient-based learning it is desirable to have a representation whose mapping
+from <span class="math notranslate nohighlight">\(SO(3)\)</span> is <em>continuous</em>, so that neural networks can regress it
+without having to model jumps. Zhou et al. <a class="footnote-reference brackets" href="#id21" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a> show that no continuous
+representation of <span class="math notranslate nohighlight">\(SO(3)\)</span> exists with fewer than five dimensions and
+propose a practical continuous representation with six dimensions.</p>
+<p>The 6D representation is simply the first two columns of the rotation matrix,
+stacked into a single vector</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\boldsymbol{R} =
+\left( \begin{array}{ccc}
+    r_{11} &amp; r_{12} &amp; r_{13}\\
+    r_{21} &amp; r_{22} &amp; r_{23}\\
+    r_{31} &amp; r_{32} &amp; r_{33}\\
+\end{array} \right)
+\in SO(3)
+\quad\mapsto\quad
+\left( r_{11}, r_{21}, r_{31}, r_{12}, r_{22}, r_{32} \right)^T\end{split}\]</div>
+<p>(<a class="reference internal" href="../_apidoc/pytransform3d.rotations.rotation_6d_from_matrix.html#pytransform3d.rotations.rotation_6d_from_matrix" title="pytransform3d.rotations.rotation_6d_from_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">rotation_6d_from_matrix()</span></code></a>). The third column is
+redundant and can be recovered from the other two through the cross product, so
+it does not have to be stored.</p>
+<p>To reconstruct a rotation matrix from two arbitrary 3D vectors
+<span class="math notranslate nohighlight">\(\boldsymbol{a}_1, \boldsymbol{a}_2\)</span> (e.g., the raw output of a network),
+which are in general neither of unit length nor orthogonal, the columns are
+orthonormalized with a Gram-Schmidt process
+(<a class="reference internal" href="../_apidoc/pytransform3d.rotations.matrix_from_rotation_6d.html#pytransform3d.rotations.matrix_from_rotation_6d" title="pytransform3d.rotations.matrix_from_rotation_6d"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_rotation_6d()</span></code></a>, which internally uses
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.matrix_from_two_vectors.html#pytransform3d.rotations.matrix_from_two_vectors" title="pytransform3d.rotations.matrix_from_two_vectors"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_two_vectors()</span></code></a>)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\boldsymbol{b}_1 &amp;= N(\boldsymbol{a}_1)\\
+\boldsymbol{b}_2 &amp;= N(\boldsymbol{a}_2
+    - (\boldsymbol{b}_1 \cdot \boldsymbol{a}_2) \boldsymbol{b}_1)\\
+\boldsymbol{b}_3 &amp;= \boldsymbol{b}_1 \times \boldsymbol{b}_2
+\end{aligned}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(N(\cdot)\)</span> normalizes a vector to unit length. This maps any pair
+of non-parallel, nonzero vectors to <span class="math notranslate nohighlight">\(SO(3)\)</span>, which is why the
+representation does not require an explicit renormalization step.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the same underlying geometry as
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.matrix_from_two_vectors.html#pytransform3d.rotations.matrix_from_two_vectors" title="pytransform3d.rotations.matrix_from_two_vectors"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_two_vectors()</span></code></a>, but the two serve
+different purposes.
+<a class="reference internal" href="../_apidoc/pytransform3d.rotations.matrix_from_two_vectors.html#pytransform3d.rotations.matrix_from_two_vectors" title="pytransform3d.rotations.matrix_from_two_vectors"><code class="xref py py-func docutils literal notranslate"><span class="pre">matrix_from_two_vectors()</span></code></a> is a geometric
+constructor: you provide two <em>meaningful</em> direction vectors and obtain a
+frame in which the first basis vector points along the first input. The 6D
+representation instead treats the two vectors as an opaque, learnable
+encoding of a rotation; the intermediate vectors usually carry no
+interpretable meaning on their own.</p>
+</div>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>Continuity: continuous mapping from <span class="math notranslate nohighlight">\(SO(3)\)</span>, unlike quaternions,
+axis-angle, or Euler angles. This makes it a good regression target for
+neural networks.</p></li>
+<li><p>Renormalization: not necessary; decoding always yields a valid rotation
+matrix.</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>Representation: 6 values for 3 degrees of freedom.</p></li>
+<li><p>Interpretation: the two stored vectors are not straightforward to interpret.</p></li>
+<li><p>Supported operations: all operations require conversion to another
+representation.</p></li>
+</ul>
+</section>
 <section id="references">
-<h2><span class="section-number">2.9. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.10. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="id11" role="doc-footnote">
+<aside class="footnote brackets" id="id12" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">1</a><span class="fn-bracket">]</span></span>
 <p>Sommer, H., Gilitschenski, I., Bloesch, M., Weiss, S., Siegwart, R., Nieto,
 J. (2018). Why and How to Avoid the Flipped Quaternion Multiplication.
 Aerospace, 5(3), pp. 2226-4310, doi: 10.3390/aerospace5030072.
 <a class="reference external" href="https://arxiv.org/pdf/1801.07478.pdf">https://arxiv.org/pdf/1801.07478.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id12" role="doc-footnote">
+<aside class="footnote brackets" id="id13" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>Gehring, C., Bellicoso, C. D., Bloesch, M., Sommer, H., Fankhauser, P.,
 Hutter, M., Siegwart, R. (2024). Kindr cheat sheet.
 <a class="github reference external" href="https://github.com/ANYbotics/kindr/blob/master/doc/cheatsheet/cheatsheet_latest.pdf">ANYbotics/kindr</a></p>
 </aside>
-<aside class="footnote brackets" id="id13" role="doc-footnote">
+<aside class="footnote brackets" id="id14" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">3</a><span class="fn-bracket">]</span></span>
 <p>ten Bosch, M. (2020). Let’s remove Quaternions from every 3D Engine.
 <a class="reference external" href="https://marctenbosch.com/quaternions/">https://marctenbosch.com/quaternions/</a></p>
 </aside>
-<aside class="footnote brackets" id="id14" role="doc-footnote">
+<aside class="footnote brackets" id="id15" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">4</a><span class="fn-bracket">]</span></span>
 <p>Doran, C. (2015). Applications of Geometric Algebra.
 <a class="reference external" href="http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf">http://geometry.mrao.cam.ac.uk/wp-content/uploads/2015/02/01ApplicationsI.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id15" role="doc-footnote">
+<aside class="footnote brackets" id="id16" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">5</a><span class="fn-bracket">]</span></span>
 <p>Dai, J. S. (2015). Euler–Rodrigues formula variations, quaternion
 conjugation and intrinsic connections, Mechanism and Machine Theory, 92,
 pp. 144-152, doi: 10.1016/j.mechmachtheory.2015.03.004.
 <a class="reference external" href="https://doi.org/10.1016/j.mechmachtheory.2015.03.004">https://doi.org/10.1016/j.mechmachtheory.2015.03.004</a></p>
 </aside>
-<aside class="footnote brackets" id="id16" role="doc-footnote">
+<aside class="footnote brackets" id="id17" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">6</a><span class="fn-bracket">]</span></span>
 <p>Terzakis, G., Lourakis, M., Ait-Boudaoud, D. (2017). Modified Rodrigues
 Parameters: An Efficient Representation of Orientation in 3D Vision and
 Graphics. J Math Imaging Vis, 60, pp. 422-442,
 doi: 10.1007/s10851-017-0765-x.</p>
 </aside>
-<aside class="footnote brackets" id="id17" role="doc-footnote">
+<aside class="footnote brackets" id="id18" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">7</a><span class="fn-bracket">]</span></span>
 <p>Hauser, K.: Robotic Systems (draft),
 <a class="reference external" href="http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html">http://motion.pratt.duke.edu/RoboticSystems/3DRotations.html</a></p>
 </aside>
-<aside class="footnote brackets" id="id18" role="doc-footnote">
+<aside class="footnote brackets" id="id19" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id9">1</a>,<a role="doc-backlink" href="#id10">2</a>)</span>
 <p>Shuster, M. D. (1993). A Survey of Attitude Representations.
 Journal of the Astronautical Sciences, 41, 439-517.
 <a class="reference external" href="http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf">http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf</a></p>
 </aside>
-<aside class="footnote brackets" id="id19" role="doc-footnote">
+<aside class="footnote brackets" id="id20" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">9</a><span class="fn-bracket">]</span></span>
 <p>Dobrowolski, P. (2015). Swing-twist decomposition in Clifford algebra.
 <a class="reference external" href="https://arxiv.org/abs/1506.05481">https://arxiv.org/abs/1506.05481</a></p>
+</aside>
+<aside class="footnote brackets" id="id21" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id11">10</a><span class="fn-bracket">]</span></span>
+<p>Zhou, Y., Barnes, C., Lu, J., Yang, J., Li, H. (2019). On the Continuity
+of Rotation Representations in Neural Networks. In IEEE Conference on
+Computer Vision and Pattern Recognition (CVPR), pp. 5745-5753.
+<a class="reference external" href="https://arxiv.org/abs/1812.07035">https://arxiv.org/abs/1812.07035</a></p>
 </aside>
 </aside>
 </section>
@@ -1015,8 +1118,7 @@ Journal of the Astronautical Sciences, 41, 439-517.
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1038,7 +1140,8 @@ Journal of the Astronautical Sciences, 41, 439-517.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#euler-angles">2.6. Euler Angles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotors">2.7. Rotors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-rodrigues-parameters">2.8. Modified Rodrigues Parameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.9. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#d-representation">2.9. 6D Representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.10. References</a></li>
 </ul>
   </nav></div>
 
@@ -1055,8 +1158,8 @@ Journal of the Astronautical Sciences, 41, 439-517.
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1081,8 +1184,7 @@ Journal of the Astronautical Sciences, 41, 439-517.
       
         <div class="footer-item">
 <p class="theme-version">
-  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
 </p></div>
       
     </div>

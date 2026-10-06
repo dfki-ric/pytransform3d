@@ -47,6 +47,9 @@ is not implemented in pytransform3d then it is shown in brackets.
 | Modified Rodrigues parameters          | Negative      | No                 | Yes           | No                    | Not required    |
 | :math:`\pmb{\psi}`                     |               |                    |               |                       |                 |
 +----------------------------------------+---------------+--------------------+---------------+-----------------------+-----------------+
+| 6D representation                      | (Transpose)   | No                 | No            | No                    | Not necessary   |
+| :math:`(\pmb{a}_1, \pmb{a}_2)`         |               |                    |               |                       |                 |
++----------------------------------------+---------------+--------------------+---------------+-----------------------+-----------------+
 
 Footnotes:
 
@@ -593,6 +596,84 @@ parameters.
 * Supported operations: transformation of vectors requires conversion to
   another representation.
 
+------------------
+6D Representation
+------------------
+
+All representations above are either discontinuous as a function of the
+rotation (Euler angles, axis-angle, quaternions, ...) or non-minimal. For
+gradient-based learning it is desirable to have a representation whose mapping
+from :math:`SO(3)` is *continuous*, so that neural networks can regress it
+without having to model jumps. Zhou et al. [10]_ show that no continuous
+representation of :math:`SO(3)` exists with fewer than five dimensions and
+propose a practical continuous representation with six dimensions.
+
+The 6D representation is simply the first two columns of the rotation matrix,
+stacked into a single vector
+
+.. math::
+
+    \boldsymbol{R} =
+    \left( \begin{array}{ccc}
+        r_{11} & r_{12} & r_{13}\\
+        r_{21} & r_{22} & r_{23}\\
+        r_{31} & r_{32} & r_{33}\\
+    \end{array} \right)
+    \in SO(3)
+    \quad\mapsto\quad
+    \left( r_{11}, r_{21}, r_{31}, r_{12}, r_{22}, r_{32} \right)^T
+
+(:func:`~pytransform3d.rotations.rotation_6d_from_matrix`). The third column is
+redundant and can be recovered from the other two through the cross product, so
+it does not have to be stored.
+
+To reconstruct a rotation matrix from two arbitrary 3D vectors
+:math:`\boldsymbol{a}_1, \boldsymbol{a}_2` (e.g., the raw output of a network),
+which are in general neither of unit length nor orthogonal, the columns are
+orthonormalized with a Gram-Schmidt process
+(:func:`~pytransform3d.rotations.matrix_from_rotation_6d`, which internally uses
+:func:`~pytransform3d.rotations.matrix_from_two_vectors`)
+
+.. math::
+
+    \begin{aligned}
+    \boldsymbol{b}_1 &= N(\boldsymbol{a}_1)\\
+    \boldsymbol{b}_2 &= N(\boldsymbol{a}_2
+        - (\boldsymbol{b}_1 \cdot \boldsymbol{a}_2) \boldsymbol{b}_1)\\
+    \boldsymbol{b}_3 &= \boldsymbol{b}_1 \times \boldsymbol{b}_2
+    \end{aligned}
+
+where :math:`N(\cdot)` normalizes a vector to unit length. This maps any pair
+of non-parallel, nonzero vectors to :math:`SO(3)`, which is why the
+representation does not require an explicit renormalization step.
+
+.. note::
+
+    This is the same underlying geometry as
+    :func:`~pytransform3d.rotations.matrix_from_two_vectors`, but the two serve
+    different purposes.
+    :func:`~pytransform3d.rotations.matrix_from_two_vectors` is a geometric
+    constructor: you provide two *meaningful* direction vectors and obtain a
+    frame in which the first basis vector points along the first input. The 6D
+    representation instead treats the two vectors as an opaque, learnable
+    encoding of a rotation; the intermediate vectors usually carry no
+    interpretable meaning on their own.
+
+**Pros**
+
+* Continuity: continuous mapping from :math:`SO(3)`, unlike quaternions,
+  axis-angle, or Euler angles. This makes it a good regression target for
+  neural networks.
+* Renormalization: not necessary; decoding always yields a valid rotation
+  matrix.
+
+**Cons**
+
+* Representation: 6 values for 3 degrees of freedom.
+* Interpretation: the two stored vectors are not straightforward to interpret.
+* Supported operations: all operations require conversion to another
+  representation.
+
 ----------
 References
 ----------
@@ -623,3 +704,8 @@ References
    http://malcolmdshuster.com/Pub_1993h_J_Repsurv_scan.pdf
 .. [9] Dobrowolski, P. (2015). Swing-twist decomposition in Clifford algebra.
    https://arxiv.org/abs/1506.05481
+.. [10] Zhou, Y., Barnes, C., Lu, J., Yang, J., Li, H. (2019). On the Continuity
+   of Rotation Representations in Neural Networks. In IEEE Conference on
+   Computer Vision and Pattern Recognition (CVPR), pp. 5745-5753.
+   https://arxiv.org/abs/1812.07035
+

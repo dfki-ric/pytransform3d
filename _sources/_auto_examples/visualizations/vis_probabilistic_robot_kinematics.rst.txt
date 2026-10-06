@@ -172,7 +172,7 @@ product of exponentials is straightforward:
 
                 screw_axis = pt.screw_axis_from_screw_parameters(q, s_axis, h)
                 screw_axes_home.append(screw_axis)
-            screw_axes_home = np.row_stack(screw_axes_home)
+            screw_axes_home = np.vstack(screw_axes_home)
             return ee2base_home, screw_axes_home
 
         def probabilistic_forward_kinematics(self, thetas, covs):
@@ -525,7 +525,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.282 seconds)
+   **Total running time of the script:** (0 minutes 0.455 seconds)
 
 
 .. _sphx_glr_download__auto_examples_visualizations_vis_probabilistic_robot_kinematics.py:
