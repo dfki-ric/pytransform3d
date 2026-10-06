@@ -270,11 +270,11 @@ class TemporalTransformManager(TransformGraphBase):
         previous_time = self.current_time
         self.current_time = time
 
-        A2B = self.get_transform(from_frame, to_frame)
-
-        # revert internal state
-        self.current_time = previous_time
-        return A2B
+        try:
+            return self.get_transform(from_frame, to_frame)
+        finally:
+            # Revert internal state even if evaluating the transform fails.
+            self.current_time = previous_time
 
     def get_transform(self, from_frame, to_frame):
         """Request a transformation.
