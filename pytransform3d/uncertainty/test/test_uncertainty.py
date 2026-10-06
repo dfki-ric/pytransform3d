@@ -127,7 +127,7 @@ def test_fuse_identical_translated_poses():
 
     assert_array_almost_equal(mean_est, mean)
     assert_array_almost_equal(cov_est, 0.5 * cov)
-    assert V == pytest.approx(0.0, abs=1e-15)
+    assert pytest.approx(0.0, abs=1e-15) == V
 
 
 def test_invert_pose():

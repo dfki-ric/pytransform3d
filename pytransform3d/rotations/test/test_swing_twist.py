@@ -95,7 +95,7 @@ def test_twist_axis_parallel_to_given_axis(axis):
         # axis
         assert_array_almost_equal(
             np.cross(twist[1:], pr.norm_vector(axis)), np.zeros(3)
-    )
+        )
 
 
 @pytest.mark.parametrize("axis", AXES)
@@ -220,12 +220,13 @@ def test_double_cover(axis):
     for q in _random_quaternions(15, seed=19):
         swing, twist = pr.swing_twist_decomposition(q, axis)
         swing_neg, twist_neg = pr.swing_twist_decomposition(-q, axis)
-        # -q is the same rotation, so both components describe the same rotations
-        assert (
-           pr.quaternion_dist(swing_neg, swing) == pytest.approx(0.0, abs=1e-10)
+        # -q is the same rotation, so both components describe the same
+        # rotations
+        assert pr.quaternion_dist(swing_neg, swing) == pytest.approx(
+            0.0, abs=1e-10
         )
-        assert (
-            pr.quaternion_dist(twist_neg, twist) == pytest.approx(0.0, abs=1e-10)
+        assert pr.quaternion_dist(twist_neg, twist) == pytest.approx(
+            0.0, abs=1e-10
         )
 
 
