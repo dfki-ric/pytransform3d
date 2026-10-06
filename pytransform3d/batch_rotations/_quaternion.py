@@ -301,7 +301,7 @@ def batch_quaternion_wxyz_from_xyzw(Q_xyzw, out=None):
         Quaternions with scalar part after vector part
 
     out : array, shape (..., 4), optional (default: new array)
-        Output array to which we write the result
+        Output array to which we write the result. May overlap the input.
 
     Returns
     -------
@@ -311,6 +311,8 @@ def batch_quaternion_wxyz_from_xyzw(Q_xyzw, out=None):
     Q_xyzw = np.asarray(Q_xyzw)
     if out is None:
         out = np.empty_like(Q_xyzw)
+    if np.may_share_memory(Q_xyzw, out):
+        Q_xyzw = Q_xyzw.copy()
     out[..., 0] = Q_xyzw[..., 3]
     out[..., 1] = Q_xyzw[..., 0]
     out[..., 2] = Q_xyzw[..., 1]
@@ -327,7 +329,7 @@ def batch_quaternion_xyzw_from_wxyz(Q_wxyz, out=None):
         Quaternions with scalar part before vector part
 
     out : array, shape (..., 4), optional (default: new array)
-        Output array to which we write the result
+        Output array to which we write the result. May overlap the input.
 
     Returns
     -------
@@ -337,6 +339,8 @@ def batch_quaternion_xyzw_from_wxyz(Q_wxyz, out=None):
     Q_wxyz = np.asarray(Q_wxyz)
     if out is None:
         out = np.empty_like(Q_wxyz)
+    if np.may_share_memory(Q_wxyz, out):
+        Q_wxyz = Q_wxyz.copy()
     out[..., 0] = Q_wxyz[..., 1]
     out[..., 1] = Q_wxyz[..., 2]
     out[..., 2] = Q_wxyz[..., 3]

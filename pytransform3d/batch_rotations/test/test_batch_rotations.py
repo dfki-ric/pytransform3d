@@ -925,6 +925,82 @@ def test_batch_convert_quaternion_conventions():
     assert_array_almost_equal(q_wxyz_random, q_wxyz_random2)
 
 
+@pytest.fixture(params=["xyzw-to-wxyz", "wxyz-to-xyzw"])
+def quaternion_conversion(request):
+    if request.param == "xyzw-to-wxyz":
+        return pbr.batch_quaternion_wxyz_from_xyzw, [3, 0, 1, 2]
+    return pbr.batch_quaternion_xyzw_from_wxyz, [1, 2, 3, 0]
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64, np.int64])
+@pytest.mark.parametrize("batch_shape", [(), (4,), (2, 3)])
+@pytest.mark.parametrize("output", ["inplace", "separate", "default"])
+def test_batch_convert_quaternion_output(
+    quaternion_conversion, dtype, batch_shape, output
+):
+    convert, indices = quaternion_conversion
+    shape = batch_shape + (4,)
+    Q = np.arange(np.prod(shape), dtype=dtype).reshape(shape)
+    original = Q.copy()
+    expected = original[..., indices]
+    if output == "inplace":
+        out = Q
+    else:
+        Q.flags.writeable = False
+        out = np.empty_like(Q) if output == "separate" else None
+
+    result = convert(Q, out=out)
+
+    np.testing.assert_array_equal(result, expected)
+    assert result.shape == shape
+    assert result.dtype == dtype
+    if out is not None:
+        assert result is out
+    if output != "inplace":
+        np.testing.assert_array_equal(Q, original)
+        assert not np.shares_memory(result, Q)
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64, np.int64])
+@pytest.mark.parametrize("strided", [False, True])
+def test_batch_convert_quaternion_overlapping_views(
+    quaternion_conversion, dtype, strided
+):
+    convert, indices = quaternion_conversion
+    storage = np.arange(30, dtype=dtype).reshape(3, 10)
+    if strided:
+        Q, out = storage[:, :8:2], storage[:, 2:10:2]
+    else:
+        Q, out = storage[:, :4], storage[:, 1:5]
+    expected = Q.copy()[..., indices]
+    assert np.shares_memory(Q, out)
+
+    result = convert(Q, out=out)
+
+    assert result is out
+    np.testing.assert_array_equal(result, expected)
+    assert result.dtype == dtype
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64, np.int64])
+def test_batch_convert_quaternion_empty_inplace(quaternion_conversion, dtype):
+    convert, _ = quaternion_conversion
+    Q = np.empty((0, 4), dtype=dtype)
+    assert convert(Q, out=Q) is Q
+    assert Q.shape == (0, 4)
+    assert Q.dtype == dtype
+
+
+def test_batch_convert_quaternion_identity_inplace(quaternion_conversion):
+    convert, indices = quaternion_conversion
+    Q = np.zeros(4)
+    scalar_index = 3 if indices[0] == 3 else 0
+    Q[scalar_index] = 1.0
+    expected = Q[indices].copy()
+    assert convert(Q, out=Q) is Q
+    np.testing.assert_array_equal(Q, expected)
+
+
 def test_smooth_quaternion_trajectory():
     rng = np.random.default_rng(232)
     q_start = pr.random_quaternion(rng)
