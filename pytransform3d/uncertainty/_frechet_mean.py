@@ -12,6 +12,7 @@ from ..trajectories import (
     transforms_from_exponential_coordinates,
 )
 from ..transformations import (
+    adjoint_from_transform,
     concat,
     invert_transform,
 )
@@ -38,10 +39,10 @@ def frechet_mean(
 
        a. Computing the distance of each sample to the current estimate of the
           mean in tangent space with
-          :math:`d_{i,k} \leftarrow \log (x_i \cdot \bar{x}_k^{-1})`.
+          :math:`d_{i,k} \leftarrow \log (\bar{x}_k^{-1} \cdot x_i)`.
        b. Updating the estimate of the mean with
           :math:`\bar{x}_{k+1} \leftarrow
-          \exp(\frac{1}{N}\sum_i d_{i,k}) \cdot \bar{x}_k`.
+          \bar{x}_k \cdot \exp(\frac{1}{N}\sum_i d_{i,k})`.
 
     3. Return :math:`\bar{x}_K`.
 
@@ -63,11 +64,13 @@ def frechet_mean(
         Computes the inverse of an element on the manifold.
 
     concat_one_to_one : callable
-        Concatenates elements on the manifold.
+        Concatenates elements on the manifold. For transformation matrices,
+        the second argument is left-multiplied to the first.
 
     concat_many_to_one : callable
         Concatenates multiple elements on the manifold to one element on the
-        manifold.
+        manifold. For transformation matrices, the second argument is
+        left-multiplied to each sample.
 
     n_iter : int, optional (default: 20)
         Number of iterations of the optimization algorithm.
@@ -78,8 +81,9 @@ def frechet_mean(
         Fréchet mean on the manifold.
 
     mean_diffs : array, shape (n_samples, n_tangent_space_components)
-        Differences between the mean and the samples in the tangent space.
-        These can be used to compute the covariance. They are returned to
+        Body-frame tangent residuals at the returned mean, corresponding to
+        the logarithm of inverse mean times sample. These can be used to
+        compute the covariance in that frame. They are returned to
         avoid recomputing them.
 
     See Also
@@ -108,7 +112,9 @@ def frechet_mean(
     for _ in range(n_iter):
         mean_diffs = log(concat_many_to_one(samples, inv(mean)))
         avg_mean_diff = np.mean(mean_diffs, axis=0)
-        mean = concat_one_to_one(mean, exp(avg_mean_diff))
+        mean = concat_one_to_one(exp(avg_mean_diff), mean)
+    # The last update changes the base point of the returned body residuals.
+    mean_diffs = log(concat_many_to_one(samples, inv(mean)))
     return mean, mean_diffs
 
 
@@ -130,7 +136,8 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
         Mean of the Gaussian distribution as rotation matrix.
 
     cov : array, shape (3, 3)
-        Covariance of the Gaussian distribution in exponential coordinates.
+        Covariance of the Gaussian distribution in global-frame exponential
+        coordinates, matching the convention of random_matrix.
 
     See Also
     --------
@@ -159,6 +166,7 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
     )
 
     cov = np.cov(mean_diffs, rowvar=False, bias=False)
+    cov = mean @ cov @ mean.T
     return mean, cov
 
 
@@ -180,7 +188,8 @@ def estimate_gaussian_transform_from_samples(samples):
         Mean as homogeneous transformation matrix.
 
     cov : array, shape (6, 6)
-        Covariance of distribution in exponential coordinate space.
+        Covariance of distribution in global-frame exponential coordinates,
+        matching the convention of random_transform.
 
     See Also
     --------
@@ -204,4 +213,6 @@ def estimate_gaussian_transform_from_samples(samples):
     )
 
     cov = np.cov(mean_diffs, rowvar=False, bias=False)
+    adjoint = adjoint_from_transform(mean)
+    cov = adjoint @ cov @ adjoint.T
     return mean, cov
