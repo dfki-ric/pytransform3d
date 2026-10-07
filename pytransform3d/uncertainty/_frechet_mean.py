@@ -7,7 +7,7 @@ from ..batch_rotations import (
     matrices_from_compact_axis_angles,
 )
 from ..trajectories import (
-    concat_many_to_one,
+    concat_one_to_many,
     exponential_coordinates_from_transforms,
     transforms_from_exponential_coordinates,
 )
@@ -24,12 +24,13 @@ def frechet_mean(
     log,
     inv,
     concat_one_to_one,
-    concat_many_to_one,
+    concat_one_to_many,
     n_iter=20,
 ):
     r"""Compute the Fréchet mean of samples on a smooth Riemannian manifold.
 
-    The mean is computed with an iterative optimization algorithm [1]_ [2]_:
+    The mean is computed with an iterative optimization algorithm [1]_ [2]_
+    as described by Eade [3]_ (Section 8.5, Eqs. 237-240):
 
     1. For a set of samples :math:`\{x_1, \ldots, x_n\}`, we initialize
        the estimated mean :math:`\bar{x}_0`, e.g., as :math:`x_1`.
@@ -44,6 +45,12 @@ def frechet_mean(
           \exp(\frac{1}{N}\sum_i d_{i,k}) \cdot \bar{x}_k`.
 
     3. Return :math:`\bar{x}_K`.
+
+    The differences :math:`d_{i,k}` are expressed in the global frame (they
+    are left-multiplied to the mean). This corresponds to Gaussian
+    distributions that are defined by :math:`x = \exp(\delta) \cdot \bar{x}`
+    with :math:`\delta \sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})`
+    (see Eade [3]_, Eq. 224).
 
     Parameters
     ----------
@@ -65,9 +72,12 @@ def frechet_mean(
     concat_one_to_one : callable
         Concatenates elements on the manifold.
 
-    concat_many_to_one : callable
-        Concatenates multiple elements on the manifold to one element on the
-        manifold.
+    concat_one_to_many : callable
+        Concatenates one element on the manifold to multiple elements on the
+        manifold. For transformation matrices, the element y is
+        right-multiplied to each sample :math:`x_i`, i.e.,
+        ``concat_one_to_many(y, samples)`` computes :math:`x_i \cdot y`
+        (see :func:`~pytransform3d.trajectories.concat_one_to_many`).
 
     n_iter : int, optional (default: 20)
         Number of iterations of the optimization algorithm.
@@ -78,9 +88,10 @@ def frechet_mean(
         Fréchet mean on the manifold.
 
     mean_diffs : array, shape (n_samples, n_tangent_space_components)
-        Differences between the mean and the samples in the tangent space.
-        These can be used to compute the covariance. They are returned to
-        avoid recomputing them.
+        Differences :math:`d_{i,K-1}` between the samples and the mean of the
+        last iteration in the tangent space (global frame). These can be used
+        to compute the covariance (see Eade [3]_, Eq. 239). They are returned
+        to avoid recomputing them.
 
     See Also
     --------
@@ -101,23 +112,26 @@ def frechet_mean(
     .. [2] Pennec, X. (2006). Intrinsic Statistics on Riemannian Manifolds:
        Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
        https://doi.org/10.1007/s10851-006-6228-4
+
+    .. [3] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
+       https://ethaneade.com/lie.pdf
     """
     assert len(samples) > 0
     samples = np.asarray(samples)
     mean = np.copy(mean0)
     for _ in range(n_iter):
-        mean_diffs = log(concat_many_to_one(samples, inv(mean)))
+        mean_diffs = log(concat_one_to_many(inv(mean), samples))
         avg_mean_diff = np.mean(mean_diffs, axis=0)
         mean = concat_one_to_one(mean, exp(avg_mean_diff))
     return mean, mean_diffs
 
 
 def estimate_gaussian_rotation_matrix_from_samples(samples):
-    """Estimate Gaussian distribution over rotations from samples.
+    r"""Estimate Gaussian distribution over rotations from samples.
 
     Computes the Fréchet mean of the samples and the covariance in tangent
     space (exponential coordinates of rotation / rotation vectors) using an
-    unbiased estimator as outlines by Eade [1]_.
+    unbiased estimator as outlined by Eade [1]_ (Section 8.5).
 
     Parameters
     ----------
@@ -131,6 +145,12 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
 
     cov : array, shape (3, 3)
         Covariance of the Gaussian distribution in exponential coordinates.
+        The noise is defined in the global frame, i.e., samples are
+        :math:`\boldsymbol{R} = \exp(\boldsymbol{\delta})
+        \cdot \bar{\boldsymbol{R}}` with
+        :math:`\boldsymbol{\delta} \sim
+        \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})` as in
+        :func:`~pytransform3d.rotations.random_matrix`.
 
     See Also
     --------
@@ -154,7 +174,7 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
         log=compact_axis_angles_from_matrices,
         inv=lambda R: R.T,
         concat_one_to_one=lambda R1, R2: np.dot(R2, R1),
-        concat_many_to_one=concat_many_to_one,
+        concat_one_to_many=concat_one_to_many,
         n_iter=20,
     )
 
@@ -163,7 +183,7 @@ def estimate_gaussian_rotation_matrix_from_samples(samples):
 
 
 def estimate_gaussian_transform_from_samples(samples):
-    """Estimate Gaussian distribution over transformations from samples.
+    r"""Estimate Gaussian distribution over transformations from samples.
 
     Computes the Fréchet mean of the samples and the covariance in tangent
     space (exponential coordinates of transformation) using an unbiased
@@ -180,7 +200,13 @@ def estimate_gaussian_transform_from_samples(samples):
         Mean as homogeneous transformation matrix.
 
     cov : array, shape (6, 6)
-        Covariance of distribution in exponential coordinate space.
+        Covariance of distribution in exponential coordinate space. The noise
+        is defined in the global frame, i.e., samples are
+        :math:`\boldsymbol{T} = \exp(\boldsymbol{\delta})
+        \cdot \bar{\boldsymbol{T}}` with
+        :math:`\boldsymbol{\delta} \sim
+        \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})` as in
+        :func:`~pytransform3d.transformations.random_transform`.
 
     See Also
     --------
@@ -199,7 +225,7 @@ def estimate_gaussian_transform_from_samples(samples):
         log=exponential_coordinates_from_transforms,
         inv=invert_transform,
         concat_one_to_one=concat,
-        concat_many_to_one=concat_many_to_one,
+        concat_one_to_many=concat_one_to_many,
         n_iter=20,
     )
 
