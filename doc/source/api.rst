@@ -660,6 +660,7 @@ Dual Quaternions
    ~TimeVaryingTransform
    ~StaticTransform
    ~NumpyTimeseriesTransform
+   ~BufferedTimeseriesTransform
 
 
 :mod:`pytransform3d.editor`

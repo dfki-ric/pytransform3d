@@ -22,8 +22,9 @@ class TimeVaryingTransform(abc.ABC):
 
     You have to inherit from this abstract base class to use the
     TemporalTransformManager. Two implementations of the interface that
-    are already available are :class:`StaticTransform` and
-    :class:`NumpyTimeseriesTransform`.
+    are already available are :class:`StaticTransform`,
+    :class:`NumpyTimeseriesTransform`, and
+    :class:`BufferedTimeseriesTransform`.
     """
 
     @abc.abstractmethod
