@@ -721,5 +721,5 @@ def test_norm_axis_angles_180_degrees_deterministic_batch():
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
     res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
     assert_array_almost_equal(
-        res_zero_axis, pr.norm_axis_angle([1.0, 0.0, 0.0, 0.0])
+        res_zero_axis, [1.0, 0.0, 0.0, 0.0]
     )
