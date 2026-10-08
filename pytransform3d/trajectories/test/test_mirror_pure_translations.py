@@ -5,7 +5,7 @@ from scipy.linalg import expm
 import pytransform3d.trajectories as ptr
 
 
-def generator(coordinates):
+def se3_generator_matrix(coordinates):
     wx, wy, wz, vx, vy, vz = coordinates
     return np.array(
         [[0, -wz, wy, vx], [wz, 0, -wx, vy], [-wy, wx, 0, vz], [0, 0, 0, 0]],
@@ -22,8 +22,8 @@ def test_mirror_preserves_straight_translation_trajectory():
     assert_array_equal(coordinates, saved)
     for original, transformed in zip(coordinates, mirrored):
         assert_allclose(
-            expm(generator(transformed)),
-            expm(generator(original)),
+            expm(se3_generator_matrix(transformed)),
+            expm(se3_generator_matrix(original)),
             rtol=1e-14,
             atol=1e-14,
         )
@@ -43,8 +43,8 @@ def test_mixed_stationary_translation_and_rotation_segments():
     assert np.isfinite(mirrored).all()
     for original, transformed in zip(coordinates, mirrored):
         assert_allclose(
-            expm(generator(transformed)),
-            expm(generator(original)),
+            expm(se3_generator_matrix(transformed)),
+            expm(se3_generator_matrix(original)),
             rtol=1e-13,
             atol=1e-13,
         )
@@ -81,7 +81,10 @@ def test_mirror_preserves_rotations_below_screw_axis_threshold():
     assert_array_equal(mirrored, coordinates)
     assert_array_equal(coordinates, saved)
     for original, transformed in zip(coordinates, mirrored):
-        assert_allclose(expm(generator(transformed)), expm(generator(original)))
+        assert_allclose(
+            expm(se3_generator_matrix(transformed)),
+            expm(se3_generator_matrix(original)),
+        )
 
 
 def test_mirror_rotates_at_and_above_screw_axis_threshold():
@@ -96,8 +99,8 @@ def test_mirror_rotates_at_and_above_screw_axis_threshold():
     assert_allclose(np.linalg.norm(mirrored[:, :3], axis=1), 2 * np.pi - angles)
     for original, transformed in zip(coordinates, mirrored):
         assert_allclose(
-            expm(generator(transformed)),
-            expm(generator(original)),
+            expm(se3_generator_matrix(transformed)),
+            expm(se3_generator_matrix(original)),
             rtol=1e-13,
             atol=1e-13,
         )
