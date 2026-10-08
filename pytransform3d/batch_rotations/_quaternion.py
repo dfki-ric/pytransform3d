@@ -125,7 +125,7 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
         )
 
     if out is None:
-        out = np.empty_like(Q1)
+        out = np.empty(Q1.shape, dtype=np.result_type(Q1, Q2))
 
     vector_inner_products = np.sum(Q1[..., 1:] * Q2[..., 1:], axis=-1)
     out[..., 0] = Q1[..., 0] * Q2[..., 0] - vector_inner_products

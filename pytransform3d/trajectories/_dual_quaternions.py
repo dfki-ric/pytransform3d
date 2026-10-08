@@ -97,7 +97,7 @@ def batch_concatenate_dual_quaternions(dqs1, dqs2):
     dqs1 = np.asarray(dqs1)
     dqs2 = np.asarray(dqs2)
 
-    out = np.empty_like(dqs1)
+    out = np.empty(dqs1.shape, dtype=np.result_type(dqs1, dqs2))
     out[..., :4] = batch_concatenate_quaternions(dqs1[..., :4], dqs2[..., :4])
     out[..., 4:] = batch_concatenate_quaternions(
         dqs1[..., :4], dqs2[..., 4:]
