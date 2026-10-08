@@ -661,7 +661,7 @@ def test_smooth_quaternion_trajectory_empty():
         pbr.smooth_quaternion_trajectory(np.zeros((0, 4)))
 
 
-def test_norm_axis_angle_180_degrees_deterministic_batch():
+def test_norm_axis_angles_180_degrees_deterministic_batch():
     # (4,)
     a_single = np.array([-1.0, 0.0, 0.0, np.pi])
     res_single = pbr.norm_axis_angles(a_single)
