@@ -36,17 +36,18 @@ def norm_axis_angles(a):
     no_rot_mask = (angles == 0.0) | (norm == 0.0)
     rot_mask = ~no_rot_mask
 
-    res = np.empty_like(a)
-    res[no_rot_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
+    # Normalization requires floating-point output for integer inputs.
+    res = np.empty_like(a, dtype=np.result_type(a.dtype, norm.dtype))
     res[rot_mask, :3] = a[rot_mask, :3] / norm[rot_mask, np.newaxis]
 
     angle_normalized = norm_angle(angles)
-
-    negative_angle_mask = angle_normalized < 0.0
-    res[negative_angle_mask, :3] *= -1.0
-    angle_normalized[negative_angle_mask] *= -1.0
-
     res[rot_mask, 3] = angle_normalized[rot_mask]
+
+    # Flip the sign of non-zero rotations that have a negative angle
+    negative_angle_mask = rot_mask & (angle_normalized < 0.0)
+    res[negative_angle_mask] *= -1.0
+
+    res[no_rot_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
 
     pi_mask = res[..., 3] == np.pi
     axes = res[pi_mask, :3]
@@ -67,15 +68,15 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
 
     Parameters
     ----------
-    A : array-like, shape (..., 3)
+    A : array-like, shape (..., 3), optional (default: None)
         Axes of rotation and rotation angles in compact representation:
-        angle * (x, y, z)
+        angle * (x, y, z). If omitted, both axes and angles must be provided.
 
-    axes : array, shape (..., 3)
+    axes : array, shape (..., 3), optional (default: None)
         If the unit axes of rotation have been precomputed, you can pass them
         here.
 
-    angles : array, shape (...)
+    angles : array, shape (...), optional (default: None)
         If the angles have been precomputed, you can pass them here.
 
     out : array, shape (..., 3, 3), optional (default: new array)
@@ -85,13 +86,24 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
     -------
     Rs : array, shape (..., 3, 3)
         Rotation matrices
+
+    Raises
+    ------
+    ValueError
+        If A is omitted and axes or angles are not provided.
     """
+    if A is None and (axes is None or angles is None):
+        raise ValueError("Either A or both axes and angles must be provided.")
+
     if angles is None:
         thetas = np.linalg.norm(A, axis=-1)
     else:
         thetas = np.asarray(angles)
 
     if axes is None:
+        A = np.asarray(A)
+        if A.dtype.kind in "biu":
+            A = A.astype(float)
         omega_unit = norm_vectors(A)
     else:
         omega_unit = axes
@@ -113,7 +125,7 @@ def matrices_from_compact_axis_angles(A=None, axes=None, angles=None, out=None):
     ciuyuz = ciuy * uz
 
     if out is None:
-        out = np.empty(A.shape[:-1] + (3, 3))
+        out = np.empty(uxs.shape + (3, 3))
 
     out[..., 0, 0] = ciux * ux + c
     out[..., 0, 1] = ciuxuy - uzs

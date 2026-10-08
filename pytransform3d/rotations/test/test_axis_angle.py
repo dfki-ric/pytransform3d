@@ -188,6 +188,24 @@ def test_axis_angle_from_two_direction_vectors():
         assert_array_almost_equal(v2, pr.matrix_from_axis_angle(a).dot(v1))
 
 
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+    ],
+)
+def test_axis_angle_from_two_directions_small_angle(angle):
+    a = np.array([1.0, 0.0, 0.0])
+    b = pr.matrix_from_axis_angle([0.0, 0.0, 1.0, angle]).dot(a)
+    result = pr.axis_angle_from_two_directions(a, b)
+    np.testing.assert_allclose(
+        result, [0.0, 0.0, 1.0, angle], rtol=1e-12, atol=1e-15
+    )
+
+
 def test_axis_angle_from_compact_axis_angle():
     """Test conversion from compact axis-angle representation."""
     ca = [0.0, 0.0, 0.0]

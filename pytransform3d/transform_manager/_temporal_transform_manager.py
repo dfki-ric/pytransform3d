@@ -161,8 +161,9 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
                 "time series." % (indices, times)
             )
 
-        idxs_timestep_later_wrt_query_time = (
-            idxs_timestep_earlier_wrt_query_time + 1
+        # At the final timestamp, both samples refer to the final pose.
+        idxs_timestep_later_wrt_query_time = np.minimum(
+            idxs_timestep_earlier_wrt_query_time + 1, self.time.shape[0] - 1
         )
         if self.time_clipping:
             before_or_eq_start = query_time_arr <= self._min_time
@@ -270,11 +271,11 @@ class TemporalTransformManager(TransformGraphBase):
         previous_time = self.current_time
         self.current_time = time
 
-        A2B = self.get_transform(from_frame, to_frame)
-
-        # revert internal state
-        self.current_time = previous_time
-        return A2B
+        try:
+            return self.get_transform(from_frame, to_frame)
+        finally:
+            # Revert internal state even if evaluating the transform fails.
+            self.current_time = previous_time
 
     def get_transform(self, from_frame, to_frame):
         """Request a transformation.

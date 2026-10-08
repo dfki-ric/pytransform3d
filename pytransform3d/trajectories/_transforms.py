@@ -231,18 +231,9 @@ def exponential_coordinates_from_transforms(A2Bs):
     Rs = A2Bs[..., :3, :3]
     ps = A2Bs[..., :3, 3]
 
-    traces = np.einsum("nii", Rs.reshape(-1, 3, 3))
-    if instances_shape:  # noqa: SIM108
-        traces = traces.reshape(*instances_shape)
-    else:
-        # this works because indX will be a single boolean and
-        # out[True, n] = value will assign value to out[n], while
-        # out[False, n] = value will not assign value to out[n]
-        traces = traces[0]
-
     Sthetas = np.empty(instances_shape + (6,))
 
-    omega_thetas = axis_angles_from_matrices(Rs, traces=traces)
+    omega_thetas = axis_angles_from_matrices(Rs)
     Sthetas[..., :3] = omega_thetas[..., :3]
     thetas = omega_thetas[..., 3]
 
@@ -266,7 +257,9 @@ def exponential_coordinates_from_transforms(A2Bs):
     #     + p2*(-o0**2*(-0.5/tan(0.5*t) + 1/t)
     #           - o1**2*(-0.5/tan(0.5*t) + 1/t) + 1/t)
 
-    thetas = np.maximum(thetas, np.finfo(float).tiny)
+    ind_only_translation = thetas == 0.0
+    # avoid division by 0, we will overwrite the result for pure translations
+    thetas = np.where(ind_only_translation, 1.0, thetas)
     ti = 1.0 / thetas
     tan_term = -0.5 / np.tan(thetas / 2.0) + ti
     o0 = omega_thetas[..., 0]
@@ -299,7 +292,8 @@ def exponential_coordinates_from_transforms(A2Bs):
 
     Sthetas *= thetas[..., np.newaxis]
 
-    ind_only_translation = traces >= 3.0 - np.finfo(float).eps
+    # The trace loses the angle near zero because cos(angle) rounds to 1,
+    # hence, we use the angle computed by axis_angles_from_matrices.
     Sthetas[ind_only_translation, :3] = 0.0
     Sthetas[ind_only_translation, 3:] = ps[ind_only_translation]
 

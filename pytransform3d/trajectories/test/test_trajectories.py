@@ -218,6 +218,46 @@ def test_exponential_coordinates_from_transforms_2dims():
     assert_array_almost_equal(H, H2)
 
 
+@pytest.mark.parametrize(
+    "angle",
+    [
+        1e-4,
+        1e-6,
+        1e-8,
+        1e-10,
+        1e-16,
+        1e-100,
+    ],
+)
+def test_exponential_coordinates_from_transforms_small_angle(angle):
+    axis = np.array([1.0, 2.0, 3.0])
+    axis /= np.linalg.norm(axis)
+    A2B = pt.transform_from(
+        pr.matrix_from_axis_angle(np.r_[axis, angle]), [1.0, 2.0, 3.0]
+    )
+    expected = pt.exponential_coordinates_from_transform(A2B)
+    np.testing.assert_allclose(expected[:3], axis * angle, rtol=1e-12)
+
+    # 0D
+    Stheta = ptr.exponential_coordinates_from_transforms(A2B)
+    np.testing.assert_allclose(Stheta, expected, rtol=1e-12, atol=1e-15)
+
+    # 1D
+    Sthetas = ptr.exponential_coordinates_from_transforms(np.array([A2B, A2B]))
+    np.testing.assert_allclose(
+        Sthetas, [expected, expected], rtol=1e-12, atol=1e-15
+    )
+
+
+def test_exponential_coordinates_from_transforms_no_rotation():
+    A2Bs = np.array([np.eye(4), pt.transform_from(np.eye(3), [1.0, 2.0, 3.0])])
+    with np.errstate(all="raise"):
+        Sthetas = ptr.exponential_coordinates_from_transforms(A2Bs)
+    assert_array_almost_equal(
+        Sthetas, [[0.0] * 6, [0.0, 0.0, 0.0, 1.0, 2.0, 3.0]]
+    )
+
+
 def test_dual_quaternions_from_pqs_0dims():
     rng = np.random.default_rng(844)
     pq = rng.standard_normal(size=7)

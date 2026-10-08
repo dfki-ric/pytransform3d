@@ -136,7 +136,7 @@ class ProbabilisticRobotKinematics(UrdfTransformManager):
 
             screw_axis = pt.screw_axis_from_screw_parameters(q, s_axis, h)
             screw_axes_home.append(screw_axis)
-        screw_axes_home = np.row_stack(screw_axes_home)
+        screw_axes_home = np.vstack(screw_axes_home)
         return ee2base_home, screw_axes_home
 
     def probabilistic_forward_kinematics(self, thetas, covs):

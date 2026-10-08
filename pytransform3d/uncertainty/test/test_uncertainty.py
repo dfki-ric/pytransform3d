@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from numpy.testing import assert_array_almost_equal
+from numpy.testing import assert_allclose, assert_array_almost_equal
 
 import pytransform3d.rotations as pr
 import pytransform3d.transformations as pt
@@ -17,6 +17,51 @@ def test_estimate_gaussian_rotation_matrix_from_samples():
     )
     assert_array_almost_equal(mean, mean_est, decimal=2)
     assert_array_almost_equal(cov, cov_est, decimal=2)
+
+
+def global_rotation_samples(mean, amplitudes):
+    """Samples exp(+/- a_i e_i) * mean that are symmetric about the mean."""
+    rotation_vectors = np.vstack((np.diag(amplitudes), -np.diag(amplitudes)))
+    return np.array(
+        [pr.matrix_from_compact_axis_angle(a) @ mean for a in rotation_vectors]
+    )
+
+
+def test_frechet_mean_global_residuals():
+    mean = pr.active_matrix_from_angle(2, 0.8 * np.pi)
+    amplitudes = np.array([0.1, 0.2, 0.3])
+    samples = global_rotation_samples(mean, amplitudes)
+    mean_est, mean_diffs = pu.frechet_mean(
+        samples,
+        samples[0],
+        exp=pr.matrix_from_compact_axis_angle,
+        log=lambda Rs: np.array(
+            [pr.compact_axis_angle_from_matrix(R) for R in Rs]
+        ),
+        inv=lambda R: R.T,
+        concat_one_to_one=lambda R1, R2: R2 @ R1,
+        concat_one_to_many=lambda R, Rs: Rs @ R,
+    )
+    assert_allclose(mean_est, mean, atol=1e-10)
+    # residuals are log(x_i * mean^-1), i.e., expressed in the global frame
+    assert_allclose(
+        mean_diffs,
+        np.vstack((np.diag(amplitudes), -np.diag(amplitudes))),
+        atol=1e-10,
+    )
+
+
+@pytest.mark.parametrize("angle", [0.5 * np.pi, 0.8 * np.pi])
+def test_estimate_gaussian_rotation_matrix_far_from_identity(angle):
+    mean = pr.active_matrix_from_angle(2, angle)
+    amplitudes = np.array([0.1, 0.2, 0.3])
+    samples = global_rotation_samples(mean, amplitudes)
+    mean_est, cov_est = pu.estimate_gaussian_rotation_matrix_from_samples(
+        samples
+    )
+    assert_allclose(mean_est, mean, atol=1e-10)
+    expected_cov = 2.0 / (len(samples) - 1) * np.diag(amplitudes**2)
+    assert_allclose(cov_est, expected_cov, atol=1e-10)
 
 
 def test_same_fuse_poses():
@@ -119,6 +164,17 @@ def test_same_fuse_poses():
     assert pytest.approx(V, abs=1e-4) == 4.6537
 
 
+def test_fuse_identical_translated_poses():
+    mean = pt.transform_from(np.eye(3), [1.0, 2.0, 3.0])
+    cov = np.diag([0.1, 0.2, 0.3, 1.0, 2.0, 3.0])
+
+    mean_est, cov_est, V = pu.pose_fusion([mean, mean], [cov, cov])
+
+    assert_array_almost_equal(mean_est, mean)
+    assert_array_almost_equal(cov_est, 0.5 * cov)
+    assert pytest.approx(0.0, abs=1e-15) == V
+
+
 def test_invert_pose():
     rng = np.random.default_rng(2)
 
@@ -144,6 +200,27 @@ def test_sample_estimate_gaussian():
     mean_est, cov_est = pu.estimate_gaussian_transform_from_samples(samples)
     assert_array_almost_equal(mean, mean_est, decimal=2)
     assert_array_almost_equal(cov, cov_est, decimal=2)
+
+
+@pytest.mark.parametrize("angle", [0.5 * np.pi, 0.8 * np.pi])
+def test_estimate_gaussian_transform_far_from_identity(angle):
+    mean = pt.transform_from(
+        R=pr.active_matrix_from_angle(2, angle), p=np.array([0.2, -0.4, 0.3])
+    )
+    amplitudes = np.array([0.1, 0.2, 0.3])
+    # global translational noise: exp((0, v)) * mean shifts translation by v
+    translations = np.vstack((np.diag(amplitudes), -np.diag(amplitudes)))
+    samples = np.array(
+        [
+            pt.transform_from(R=mean[:3, :3], p=mean[:3, 3] + t)
+            for t in translations
+        ]
+    )
+    mean_est, cov_est = pu.estimate_gaussian_transform_from_samples(samples)
+    assert_allclose(mean_est, mean, atol=1e-10)
+    expected_cov = np.zeros((6, 6))
+    expected_cov[3:, 3:] = 2.0 / (len(samples) - 1) * np.diag(amplitudes**2)
+    assert_allclose(cov_est, expected_cov, atol=1e-10)
 
 
 def test_concat_globally_uncertain_transforms():

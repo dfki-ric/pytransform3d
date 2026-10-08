@@ -115,6 +115,59 @@ def test_general_matrix_euler_conversions():
                 assert_array_almost_equal(R_R, R_q)
 
 
+def test_euler_from_matrix_rotation_about_single_axis():
+    """Gimbal lock is detected despite rounding errors in the matrix."""
+    euler_axes = [
+        [0, 2, 0],
+        [0, 1, 0],
+        [1, 0, 1],
+        [1, 2, 1],
+        [2, 1, 2],
+        [2, 0, 2],
+        [0, 2, 1],
+        [0, 1, 2],
+        [1, 0, 2],
+        [1, 2, 0],
+        [2, 1, 0],
+        [2, 0, 1],
+    ]
+    for axis in np.vstack((np.eye(3), -np.eye(3))):
+        for angle in [0.5, 1.5, 2.5, 3.0]:
+            R = pr.matrix_from_axis_angle(np.r_[axis, angle])
+            for ea in euler_axes:
+                for extrinsic in [False, True]:
+                    e = pr.euler_from_matrix(R, *ea, extrinsic)
+                    assert_array_almost_equal(
+                        R,
+                        pr.matrix_from_euler(e, *ea, extrinsic),
+                        err_msg=f"axes: {ea}, extrinsic: {extrinsic}, "
+                        f"rotation: {axis} {angle}",
+                    )
+
+
+def test_euler_from_matrix_gimbal_lock_with_noisy_matrix():
+    """Gimbal lock is detected in matrices that are not exactly orthonormal."""
+    rng = np.random.default_rng(375)
+    for axis in np.vstack((np.eye(3), -np.eye(3))):
+        R = pr.matrix_from_axis_angle(np.r_[axis, 1.5])
+        R += 1e-10 * rng.standard_normal((3, 3))
+        for i, j, k in [
+            [0, 1, 0],
+            [0, 2, 0],
+            [1, 0, 1],
+            [1, 2, 1],
+            [2, 0, 2],
+            [2, 1, 2],
+        ]:
+            for extrinsic in [False, True]:
+                e = pr.euler_from_matrix(
+                    R, i, j, k, extrinsic, strict_check=False
+                )
+                assert_array_almost_equal(
+                    R, pr.matrix_from_euler(e, i, j, k, extrinsic)
+                )
+
+
 def test_from_quaternion():
     """Test conversion from quaternion to Euler angles."""
     with pytest.raises(

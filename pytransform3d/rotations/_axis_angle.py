@@ -91,16 +91,16 @@ def norm_axis_angle(a):
     res[:3] = a[:3] / norm
 
     angle = norm_angle(angle)
-    if angle < 0.0:
-        angle *= -1.0
-        res[:3] *= -1.0
-
     res[3] = angle
 
-# The axis of a 180 degree rotation is ambiguous. We make it unique by
-# enforcing a positive first non-zero component.
-if angle == np.pi and res[np.argmax(res[:3] != 0.0)] < 0.0:
-    res[:3] *= -1.0
+    if angle < 0.0:
+        res *= -1.0
+
+    # The axis of a 180 degree rotation is ambiguous. We make it unique by
+    # enforcing a positive first non-zero component.
+    if angle == np.pi and res[np.argmax(res[:3] != 0.0)] < 0.0:
+        res[:3] *= -1.0
+
     return res
 
 
@@ -244,16 +244,17 @@ def axis_angle_from_two_directions(a, b):
     """
     a = norm_vector(a)
     b = norm_vector(b)
+    axis = np.cross(a, b)
+    sin_angle = np.linalg.norm(axis)
     cos_angle = a.dot(b)
     if abs(-1.0 - cos_angle) < eps:
         # For 180 degree rotations we have an infinite number of solutions,
         # but we have to pick one axis.
         axis = perpendicular_to_vector(a)
-    else:
-        axis = np.cross(a, b)
     aa = np.empty(4)
     aa[:3] = norm_vector(axis)
-    aa[3] = np.arccos(max(min(cos_angle, 1.0), -1.0))
+    # arctan2 gives more numerically correct results near 0 and pi
+    aa[3] = np.arctan2(sin_angle, cos_angle)
     return norm_axis_angle(aa)
 
 

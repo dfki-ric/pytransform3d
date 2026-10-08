@@ -237,13 +237,12 @@ def general_intrinsic_euler_from_active_matrix(
     O = np.dot(CDCT, active_matrix_from_angle(0, lmbda).T)
 
     # Step 4
-    # Fix numerical issue if O_22 is slightly out of range of arccos
-    O_22 = max(min(O[2, 2], 1.0), -1.0)
-    # - Equation 10a
-    beta = lmbda + np.arccos(O_22)
+    # - Equation 10a, arctan2 is numerically more robust than arccos close to
+    #   gimbal lock
+    beta = lmbda + np.arctan2(np.hypot(O[0, 2], O[1, 2]), O[2, 2])
 
-    safe1 = abs(beta - lmbda) >= np.finfo(float).eps
-    safe2 = abs(beta - lmbda - np.pi) >= np.finfo(float).eps
+    safe1 = abs(beta - lmbda) >= eps
+    safe2 = abs(beta - lmbda - np.pi) >= eps
     if safe1 and safe2:  # Default case, no gimbal lock
         # Step 5
         # - Equation 10b

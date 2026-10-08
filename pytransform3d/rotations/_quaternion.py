@@ -589,9 +589,9 @@ def axis_angle_from_quaternion(q):
         return np.array([1.0, 0.0, 0.0, 0.0])
 
     axis = p / p_norm
-    w_clamped = max(min(q[0], 1.0), -1.0)
-    angle = (2.0 * np.arccos(w_clamped),)
-    return norm_axis_angle(np.hstack((axis, angle)))
+    # arctan2 gives more numerically correct results near 0 and pi
+    angle = 2.0 * np.arctan2(p_norm, q[0])
+    return norm_axis_angle(np.hstack((axis, (angle,))))
 
 
 def compact_axis_angle_from_quaternion(q):
