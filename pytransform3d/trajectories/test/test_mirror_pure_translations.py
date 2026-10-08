@@ -59,3 +59,45 @@ def test_empty_and_readonly_translation_inputs():
     assert_array_equal(actual, coordinates)
     actual[0, 3] = 0.8
     assert coordinates[0, 3] == 0.2
+
+
+def test_mirror_preserves_rotations_below_screw_axis_threshold():
+    eps = np.finfo(float).eps
+    rotations = np.array(
+        [
+            [0.0, 0.0, 0.0],
+            [0.5 * eps, 0.0, 0.0],
+            [-0.5 * eps, 0.0, 0.0],
+            [0.0, np.nextafter(eps, 0.0), 0.0],
+            [0.5 * eps, -0.5 * eps, 0.5 * eps],
+        ]
+    )
+    coordinates = np.column_stack(
+        (rotations, np.tile([0.2, -0.3, 0.1], (len(rotations), 1)))
+    )
+    saved = coordinates.copy()
+    with np.errstate(all="raise"):
+        mirrored = ptr.mirror_screw_axis_direction(coordinates)
+    assert_array_equal(mirrored, coordinates)
+    assert_array_equal(coordinates, saved)
+    for original, transformed in zip(coordinates, mirrored):
+        assert_allclose(expm(generator(transformed)), expm(generator(original)))
+
+
+def test_mirror_rotates_at_and_above_screw_axis_threshold():
+    eps = np.finfo(float).eps
+    rotations = np.array(
+        [[eps, 0.0, 0.0], [0.0, -2.0 * eps, 0.0], [0.75 * eps] * 3]
+    )
+    coordinates = np.column_stack((rotations, np.zeros_like(rotations)))
+    with np.errstate(all="raise"):
+        mirrored = ptr.mirror_screw_axis_direction(coordinates)
+    angles = np.linalg.norm(rotations, axis=1)
+    assert_allclose(np.linalg.norm(mirrored[:, :3], axis=1), 2 * np.pi - angles)
+    for original, transformed in zip(coordinates, mirrored):
+        assert_allclose(
+            expm(generator(transformed)),
+            expm(generator(original)),
+            rtol=1e-13,
+            atol=1e-13,
+        )
