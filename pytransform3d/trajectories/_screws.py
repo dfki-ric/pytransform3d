@@ -108,7 +108,12 @@ def transforms_from_exponential_coordinates(Sthetas):
         #     - v_z*(o0**2*(t - sin(t)) + o1**2*(t - sin(t)) - t)
 
         tms = t - np.sin(t)
-        cm1 = np.cos(t) - 1.0
+        small_angles = t < 1e-3
+        small_t = t[small_angles]
+        tms[small_angles] = small_t**3 * (
+            1.0 / 6.0 - small_t**2 / 120.0 + small_t**4 / 5040.0
+        )
+        cm1 = -2.0 * np.sin(0.5 * t) ** 2
         o0 = screw_axes[..., 0]
         o1 = screw_axes[..., 1]
         o2 = screw_axes[..., 2]
