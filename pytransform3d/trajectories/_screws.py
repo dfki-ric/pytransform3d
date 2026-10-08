@@ -36,7 +36,6 @@ def mirror_screw_axis_direction(Sthetas):
     """
     Sthetas_new = np.empty((len(Sthetas), 6))
     for i, Stheta in enumerate(Sthetas):
-        # Match the pure-translation threshold of screw-axis conversion.
         if np.linalg.norm(Stheta[:3]) < np.finfo(float).eps:
             Sthetas_new[i] = Stheta
             continue
