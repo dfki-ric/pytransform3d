@@ -1006,22 +1006,26 @@ def test_norm_axis_angles_180_degrees_deterministic_batch():
     # random
     rng = np.random.default_rng(39232)
     axes = pbr.norm_vectors(rng.standard_normal(size=(10, 3)))
-    for axis in axes:
-        for sign in [1.0, -1.0]:
-            a_random = np.hstack((sign * axis, [np.pi]))
-            res_random = pbr.norm_axis_angles(a_random)
+    axes = np.vstack((axes, -axes))
+    A_random = np.hstack((axes, np.full((len(axes), 1), np.pi)))
+    res_random = pbr.norm_axis_angles(A_random)
 
-            # scalar vs batch consistency check
-            assert_array_almost_equal(res_random, pr.norm_axis_angle(a_random))
+    # scalar vs batch consistency
+    assert_array_almost_equal(
+        res_random, np.array([pr.norm_axis_angle(a) for a in A_random])
+    )
 
-            # non-circular check
-            R_in = pr.matrix_from_axis_angle(a_random)
-            R_out = pr.matrix_from_axis_angle(res_random)
-            assert_array_almost_equal(R_in, R_out)
+    # non-circular check: same rotation matrices
+    assert_array_almost_equal(
+        pbr.matrices_from_compact_axis_angles(
+            A_random[:, :3] * A_random[:, 3:]
+        ),
+        pbr.matrices_from_compact_axis_angles(
+            res_random[:, :3] * res_random[:, 3:]
+        ),
+    )
 
     # [0, 0, 0]
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
     res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
-    assert_array_almost_equal(
-        res_zero_axis, [1.0, 0.0, 0.0, 0.0]
-    )
+    assert_array_almost_equal(res_zero_axis, [1.0, 0.0, 0.0, 0.0])
