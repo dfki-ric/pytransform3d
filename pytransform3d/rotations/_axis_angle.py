@@ -95,10 +95,10 @@ def norm_axis_angle(a):
     if angle < 0.0:
         res *= -1.0
 
-# The axis of a 180 degree rotation is ambiguous. We make it unique by
-# enforcing a positive first non-zero component.
-if angle == np.pi and res[np.argmax(res[:3] != 0.0)] < 0.0:
-    res[:3] *= -1.0
+    # The axis of a 180 degree rotation is ambiguous. We make it unique by
+    # enforcing a positive first non-zero component.
+    if angle == np.pi and res[np.argmax(res[:3] != 0.0)] < 0.0:
+        res[:3] *= -1.0
     return res
 
 
