@@ -70,7 +70,8 @@ def transform_requires_renormalization(A2B, tolerance=1e-6):
         be orthonormal.
 
     tolerance : float, optional (default: 1e-6)
-        Tolerance for check.
+        Maximum absolute deviation of any element of :math:`R R^T` from the
+        identity matrix, where :math:`R` is the rotation block of `A2B`.
 
     Returns
     -------

@@ -95,7 +95,8 @@ def matrix_requires_renormalization(R, tolerance=1e-6):
         Rotation matrix that should be orthonormal.
 
     tolerance : float, optional (default: 1e-6)
-        Tolerance for check.
+        Maximum absolute deviation of any element of :math:`R R^T` from the
+        identity matrix.
 
     Returns
     -------
@@ -111,7 +112,7 @@ def matrix_requires_renormalization(R, tolerance=1e-6):
     """
     R = np.asarray(R, dtype=float)
     RRT = np.dot(R, R.T)
-    return not np.allclose(RRT, np.eye(3), atol=tolerance)
+    return not np.allclose(RRT, np.eye(3), atol=tolerance, rtol=0.0)
 
 
 def norm_matrix(R):

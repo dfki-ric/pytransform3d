@@ -59,6 +59,16 @@ def test_transform_requires_renormalization():
     assert not pt.transform_requires_renormalization(np.eye(4))
 
 
+@pytest.mark.parametrize("tolerance", [1e-6, 1e-8])
+def test_transform_requires_renormalization_diagonal_tolerance(tolerance):
+    A2B = np.eye(4)
+    A2B[:3, 3] = [1e12, -1e12, 1e12]
+    A2B[0, 0] = np.sqrt(1.0 + 0.5 * tolerance)
+    assert not pt.transform_requires_renormalization(A2B, tolerance)
+    A2B[0, 0] = np.sqrt(1.0 + 2.0 * tolerance)
+    assert pt.transform_requires_renormalization(A2B, tolerance)
+
+
 def test_translate_transform_with_check():
     A2B_broken = np.zeros((4, 4))
     with pytest.raises(ValueError, match="rotation matrix"):
