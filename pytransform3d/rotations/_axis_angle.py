@@ -76,8 +76,11 @@ def norm_axis_angle(a):
     -------
     a : array, shape (4,)
         Axis of rotation and rotation angle: (x, y, z, angle). The length
-        of the axis vector is 1 and the angle is in [0, pi). No rotation
+        of the axis vector is 1 and the angle is in [0, pi]. No rotation
         is represented by [1, 0, 0, 0].
+        For 180 degree rotations, the
+        sign of the axis is chosen such that its first non-zero
+        component is positive.
     """
     angle = a[3]
     norm = np.linalg.norm(a[:3])
@@ -89,10 +92,13 @@ def norm_axis_angle(a):
 
     angle = norm_angle(angle)
     res[3] = angle
-
     if angle < 0.0:
         res *= -1.0
 
+    # The axis of a 180 degree rotation is ambiguous. We make it unique by
+    # enforcing a positive first non-zero component.
+    if angle == np.pi and res[np.argmax(res[:3] != 0.0)] < 0.0:
+        res[:3] *= -1.0
     return res
 
 

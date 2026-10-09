@@ -19,7 +19,9 @@ def norm_axis_angles(a):
     a : array, shape (..., 4)
         Axis of rotation and rotation angle: (x, y, z, angle). The length
         of the axis vector is 1 and the angle is in [0, pi]. No rotation
-        is represented by [1, 0, 0, 0].
+        is represented by [1, 0, 0, 0]. For 180 degree rotations, the sign
+        of the axis is chosen such that its first non-zero component is
+        positive.
     """
     a = np.asarray(a)
 
@@ -45,6 +47,12 @@ def norm_axis_angles(a):
     res[negative_angle_mask] *= -1.0
 
     res[no_rot_mask, :] = np.array([1.0, 0.0, 0.0, 0.0])
+
+    pi_mask = res[..., 3] == np.pi
+    axes = res[pi_mask, :3]
+    first_non_zero_idx = np.argmax(axes != 0.0, axis=-1)[:, np.newaxis]
+    first_non_zero = np.take_along_axis(axes, first_non_zero_idx, axis=-1)
+    res[pi_mask, :3] = np.where(first_non_zero < 0.0, -axes, axes)
 
     if only_one:
         res = res[0]
