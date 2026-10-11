@@ -792,3 +792,39 @@ Dual Quaternions
    ~Plane
    ~Graph
    ~Camera
+
+
+:mod:`pytransform3d.viser`
+==========================
+
+.. automodule:: pytransform3d.viser
+    :no-members:
+    :no-inherited-members:
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: function.rst
+
+   ~figure
+
+.. autosummary::
+   :toctree: _apidoc/
+   :template: class.rst
+
+   ~Figure
+   ~Artist
+   ~Line3D
+   ~PointCollection3D
+   ~Vector3D
+   ~Frame
+   ~Trajectory
+   ~Sphere
+   ~Box
+   ~Cylinder
+   ~Mesh
+   ~Ellipsoid
+   ~Capsule
+   ~Cone
+   ~Plane
+   ~Graph
+   ~Camera

@@ -125,6 +125,55 @@ class Open3DScraper:
         return figure_rst(image_names, gallery_conf["src_dir"])
 
 
+class ViserScraper:
+    def __repr__(self):
+        return f"<{type(self).__name__} object>"
+
+    def __call__(self, block, block_vars, gallery_conf, **kwargs):
+        """Scrape viser images saved by Figure.save_image().
+
+        Parameters
+        ----------
+        block : tuple
+            A tuple containing the (label, content, line_number) of the block.
+        block_vars : dict
+            Dict of block variables.
+        gallery_conf : dict
+            Contains the configuration of Sphinx-Gallery
+        **kwargs : dict
+            Additional keyword arguments (unused).
+
+        Returns
+        -------
+        rst : str
+            The ReSTructuredText that will be rendered to HTML containing
+            the images.
+        """
+        path_current_example = os.path.dirname(block_vars['src_file'])
+        imgs = sorted(glob.glob(os.path.join(
+            path_current_example, "__viser_rendered_image.jpg")))
+
+        image_names = list()
+        image_path_iterator = block_vars["image_path_iterator"]
+        for img in imgs:
+            this_image_path = image_path_iterator.next()
+            image_names.append(this_image_path)
+            shutil.move(img, this_image_path)
+        return figure_rst(image_names, gallery_conf["src_dir"])
+
+
+class CombinedScraper:
+    """Handles both Open3D and viser rendered images."""
+
+    def __repr__(self):
+        return f"<{type(self).__name__} object>"
+
+    def __call__(self, block, block_vars, gallery_conf, **kwargs):
+        rst = Open3DScraper()(block, block_vars, gallery_conf, **kwargs)
+        rst += ViserScraper()(block, block_vars, gallery_conf, **kwargs)
+        return rst
+
+
 def _get_sg_image_scraper():
     """Return the callable scraper to be used by Sphinx-Gallery.
 
@@ -139,7 +188,7 @@ def _get_sg_image_scraper():
 
     .. _sphinx-gallery/sphinx-gallery/494: https://github.com/sphinx-gallery/sphinx-gallery/pull/494
     """
-    return Open3DScraper()
+    return CombinedScraper()
 
 
 # monkeypatching pytransform3d to make the config pickable
