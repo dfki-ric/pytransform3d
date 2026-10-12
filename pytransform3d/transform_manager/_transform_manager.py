@@ -386,10 +386,15 @@ class TransformManager(TransformGraphBase):
             (tuple(k), v) for k, v in tm_dict.get("transform_to_ij_index")
         )
         connections = tm_dict.get("connections")
-        self.connections = sp.csr_matrix(
-            (connections["data"], connections["indices"], connections["indptr"])
-        )
         n_nodes = len(self.nodes)
+        self.connections = sp.csr_matrix(
+            (
+                connections["data"],
+                connections["indices"],
+                connections["indptr"],
+            ),
+            shape=(n_nodes, n_nodes),
+        )
         dist = np.array(tm_dict.get("dist"))
         self.dist = dist.reshape(n_nodes, n_nodes)
         predecessors = np.array(tm_dict.get("predecessors"), dtype=np.int32)

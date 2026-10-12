@@ -35,3 +35,28 @@ def test_restored_state_discards_cached_paths(json_roundtrip, same_frames):
     current.set_transform_manager_state(state)
     assert_allclose(current.get_transform("a", "c"), translation(9))
     assert_allclose(current.get_transform("c", "a"), translation(-9))
+
+
+@pytest.mark.parametrize(
+    "graph_kind", ["source_last", "isolated_tail", "all_isolated"]
+)
+@pytest.mark.parametrize("json_roundtrip", [False, True])
+def test_restore_preserves_sparse_graph_shape(graph_kind, json_roundtrip):
+    graph = TransformManager()
+    graph.add_transform("a", "b", translation(1))
+    if graph_kind == "source_last":
+        graph.add_transform("c", "a", translation(2))
+        expected_components = 1
+    elif graph_kind == "isolated_tail":
+        graph.add_transform("a", "c", translation(2))
+        graph.remove_transform("a", "c")
+        expected_components = 2
+    else:
+        graph.remove_transform("a", "b")
+        expected_components = 2
+    state = graph.to_dict()
+    if json_roundtrip:
+        state = json.loads(json.dumps(state))
+    restored = TransformManager.from_dict(state)
+    assert restored.connections.shape == graph.connections.shape
+    assert restored.connected_components() == expected_components
