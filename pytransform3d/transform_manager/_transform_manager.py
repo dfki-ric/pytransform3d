@@ -394,6 +394,7 @@ class TransformManager(TransformGraphBase):
         self.dist = dist.reshape(n_nodes, n_nodes)
         predecessors = np.array(tm_dict.get("predecessors"), dtype=np.int32)
         self.predecessors = predecessors.reshape(n_nodes, n_nodes)
+        self._cached_shortest_paths.clear()
 
 
 def _dot_display_name(name):  # pragma: no cover
